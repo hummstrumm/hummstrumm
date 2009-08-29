@@ -1,0 +1,141 @@
+Humm and Strumm README file
+***************************
+Copyright (C) 2008-2009, the people listed in the AUTHORS file.  This file is
+licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License.
+
+Overview
+========
+
+Humm and Strumm is a free 3D adventure game for PCs.
+
+For more information, please see the FAQ file.
+
+Features
+========
+
+  * Object/Type system
+  * Memory Manager
+  * Smart Pointers
+
+License
+=======
+
+The source code and other content are licensed under different licenses, both
+with copyleft-style terms.  In addition, other libraries in the "lib" folder
+may include separate licensing terms.
+
+Code License
+------------
+This code is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This code is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this code.  If not, see <http://www.gnu.org/licenses/>.
+
+Content License
+---------------
+The other content is licensed under a Creative Commons Attribution-ShareAlike
+Unported License 3.0, available at
+<http://creativecommons.org/licenses/by-sa/3.0/>.
+
+Library Licenses
+----------------
+There are none yet.
+
+System Requirements
+===================
+
+The following are the system requirements for each platform.
+
+Windows
+-------
+Operating System
+  * Win32
+  * Win64 (AMD64)
+
+Minimum Hardware
+  * Intel-compatible processor (x86 or AMD64 compatible)
+  * Some ammount of RAM that I'll figure out later...
+  * An undisclosed amount of disk space (it's a secret!)
+
+GNU/Linux
+---------
+Software Requirements
+*** NOTE: GNU/Linux distributors may provide packages for your distribution
+    which have different requirements. ***
+  * Linux kernel - (a version) with the following libraries or packages minimums:
+    - some packages
+
+Minimum Hardware
+  * Intel-compatible processor (x86 or AMD64 compatible)
+  * Some ammount of RAM that I'll figure out later...
+  * An undisclosed amount of disk space (it's a secret!)
+
+*** NOTE: Macintosh computers are not officially supported. ***
+
+Directory Structure
+===================
+
+  * engine - The game engine
+    - src - C++ source files
+    - include - C++ header files
+    - scripts - Scheme script files
+    - doc - Doxygen documentation
+    - test - Test source files
+  * game - The actual game
+    - src - C++ source files
+    - include - C++ header files
+    - scripts - Scheme script files
+    - doc - Doxygen documentation
+    - test - Test source files
+  * lib - Included libraries
+  * res - The game resources
+
+Installation
+============
+
+Please see the file INSTALL for instructions on how to install the software.
+
+Release Notes
+=============
+
+The file NEWS contains important changes that may affect the user of the
+software.  The ChangeLog file contains all changes to the project, which may be
+of use to developers.
+
+Credits
+=======
+
+Please see the files AUTHORS and THANKS for all the people that have helped
+make the Humm and Strumm game possible.
+
+Bug Reports
+===========
+
+The Humm and Strumm game uses the Google Code issue tracking system.  You can
+find this issue tracker at <http://code.google.com/p/hummstrumm/issues/list>.
+You can sort the list by clicking on the column headers at the top of the list.
+
+If you find a bug in the Humm and Strumm game, be sure to search through the
+existing bugs to see if the problem you are seeing has already been entered in
+to the bug database.  If you find that an entry already exists for the bug you
+are seeing, then do not enter it again.
+
+To enter in a new bug you will also be required to have a Google account.
+Fill out the template, and be sure to tag the issue appropriately using the
+input boxes below the main entry box.
+
+Feature Requests
+================
+
+The Google Code issue tracker is also used for new feature requests.  Use the
+above guidelines for bugs (i.e. look for already existing requests).  The only
+difference between a bug report and a feature request is that a feature request
+has a value of "Type-Enhancement" in the tag fields.

@@ -1,0 +1,73 @@
+Humm and Strumm README file
+***************************
+Copyright (C) 2008-2009, the people listed in the AUTHORS file.  This file is
+licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License.
+
+Here are some of the Frequenly Asked Questions relating to the Humm and Strumm
+game and software project.
+
+Q: What is Humm and Strumm?
+A: Humm and Strumm is a free 3D adventure game for PCs.  It uses it's own game
+   engine, which runs on OpenGL, OpenAL, and several other FOSS libraries.  You
+   play as Humm and Strumm, our two heros who must stop Dr. Geoff from taking
+   over the world.
+
+Q: Where can I find Humm and Strumm?
+A: I'd suggest you look at our main website for information.  We are hosted by
+   Google Code, and you can find us at <http://code.google.com/p/hummstrumm/>.
+   There you will find links to the Google Groups, Blog, Deadline Calendar,
+   Issue Tracker, Wiki, and more.
+
+Q: How can I use Humm and Strumm?
+A: Humm and Strumm is distributed under two licenses -- that is, one for the
+   source code, and one for the other content (documentation, resources, et
+   cetera).  The source code is distributed under the GNU GPL version 3 (or, at
+   your option, later).  The content is distributed under a Creative Commons
+   Attribution-ShareAlike Unported License 3.0.  You can use the software in
+   any way you choose, as long as you do not break the terms of these licenses.
+
+Q: What platforms does Humm and Strumm support?
+A: Right now, it supports Win32, Win64, and GNU/Linux archetectures.
+   See the minimum requirements in the README file for more information.
+
+Q: Does that mean it won't work on my Mac (or other platform)?
+A: It has never been tested on a Mac, but may work.  If the system is
+   compatible with GNU/Linux, such as another UNIX variant with GNU tools, then
+   it probably will work.  We do not gaurrantee this, however.  Please do not
+   submit a bug about the game not running on unsupported platforms.
+
+Q: Who Can Contribute?
+A: The game is written by those listed in the AUTHORS file, and only they can
+   commit to the Subversion repository.  Anyone can contribute by emailing one
+   of the authors a change.  In doing this, you transfer all copyright of this
+   change to the authors.  Please see
+   <http://code.google.com/p/hummstrumm/wiki/Copyright> for more details.
+
+Q: Does that mean I don't have access to the code?
+A: No!  That would be violating the GPL!  Source code releases are available,
+   and you can also anonymously check out the latest project source code using
+   Subversion.
+
+Q: The game doesn't seem to have many features yet.  Are more planned?
+A: Yes.  Planned features can be found in our issue tracker and in the Roadmap.
+
+Q: The game does not have very good graphics or music yet.  Are they planned?
+A: Yes.  Better resources are one of the last things planned, however.  You
+   will be able to enjoy full CGI cutscenes, though!
+
+Q: Are there plans for a sequel?
+A: One step at a time!  Yes, though, once the game engine is complete, it will
+   be used for a sequel, too (perhaps a Go-Kart game?).
+
+Q: Why play Humm and Strumm?
+A: That's a good question...
+
+Q: Can I be in the game?
+A: No.
+
+Q: Why'd you build your country store on a desert island?
+A: Well, that's an easy one!  Because of the tourist traffic!  Except, there
+   are no tourists... (Play through the game to understand the joke.)
+
+If you have anymore questions, you can post it on our users group, by sending
+an email message to <hummstrumm-user@googlegroups.com>.

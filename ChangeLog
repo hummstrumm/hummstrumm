@@ -1,0 +1,19 @@
+Humm and Strumm ChangeLog file
+******************************
+Copyright (C) 2008-2009, the people listed in the AUTHORS file.  This file is
+licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License.
+
+This file lists every modification in the project.  Be sure to keep it
+up-to-date as you make changes.  For user-oriented changes, see the NEWS file.
+
+2009-08-29 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+    * type.hpp (Type): Started documenting.
+    
+    * README: Added user documentation.
+    
+    * COPYING: Added note to say only code is licensed under GPL.
+    
+    * FAQ: Added FAQs.
+    
+    * INSTALL: Added preliminary instructions, which need to be expanded upon.
