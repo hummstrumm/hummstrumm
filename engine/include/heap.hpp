@@ -37,9 +37,9 @@ namespace core
 /**
  * Manages all heap memory used in by Object objects.  Together with the
  * overloaded new and delete methods in the Object class, this allows
- * Objects and their subclasses to be allocated and freed.  The Objects are
- * also able to tell if they are on the heap at runtime, allowing them to
- * know whether to delete themselves.
+ * Object objects and their subclasses to be allocated and freed.  The Object
+ * objects are also able to tell if they are on the heap at runtime, allowing
+ * them to know whether to delete themselves.
  *
  * You can get information about the heap, such as the current number of
  * allocated object, the size of the heap, and the amount of free space
@@ -48,11 +48,11 @@ namespace core
  * The heap can dynamically expand itself, from the base size specified at
  * construction, by a certain amount specified at construction.  These
  * amounts are able to be configured via flags in the compileconfig.hpp
- * file, GAMEENGINE_HEAP_SIZE, GAMEENGINE_HEAP_EXPAND.
+ * file, HUMMSTRUMM_HEAP_SIZE, HUMMSTRUMM_HEAP_EXPAND.
  *
  * There are two memory management models: first fit and best fit, which
  * can be chosen through flags in compileconfig.hpp, called
- * GAMEENGINE_HEAP_FIRSTFIT and GAMEENGINE_HEAP_BESTFIT.  The first fit
+ * HUMMSTRUMM_HEAP_FIRSTFIT and HUMMSTRUMM_HEAP_BESTFIT.  The first fit
  * model finds the first openning large enough for the size to allocation,
  * going linearly through the heap memory.  The best fit model finds the
  * smallest free openning that will fit the object.  If two or more free
@@ -61,14 +61,11 @@ namespace core
  * memory models.  You can also override this class to create a new memory
  * management model.
  *
- * \version 1.0.0.0.
  * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * \date 2009-07-20
- * \since 1.0.0.0
+ * \since 0.0
  *
  * \todo Actually implement this class!
- * \todo Finish documenting everything (maybe I can get someone else to do
- *       this for me.)
  * \todo Implement Best-fit Method (should be fun)
  *
  * \note This will be reworked when the multithreaded support is done (not for
@@ -84,13 +81,12 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
-     * \param sizeAtStart The amount of memory, in C++ bytes, allocate at
-     *                    construction.
-     * \param sizeToExpandBy (ARG!!! Ending on a preposition!!!) The amount
-     *                       of memory by which to expand each time the
-     *                       heap runs out of space.
+     * \param sizeAtStart [in] The amount of memory, in C++ bytes, allocate at
+     *                         construction.
+     * \param sizeToExpandBy [in] The amount of memory by which to expand each
+                                  time the heap runs out of space.
      *
      * \todo Implement
      *
@@ -106,7 +102,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \todo Implement
      */
@@ -130,12 +126,13 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
-     * \param memory A pointer to a pointer which will point to the new
-     *               object's memory.
+     * \param memory [out] A pointer to a pointer which will point to the new
+     *                     object's memory.
      *
      * \todo Implement
+     * \todo Throw exception after failed allocation.
      *
      * \see Free ()
      */
@@ -158,9 +155,9 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
-     * \param memory A pointer to the memory which will be freed.
+     * \param memory [in, out] A pointer to the memory which will be freed.
      *
      * \todo Implement
      * \todo Throw exception (after Exception class is created)
@@ -180,9 +177,9 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
-     * \param memory A pointer to the memory which will be checked.
+     * \param memory [in] A pointer to the memory which will be checked.
      *
      * \returns Whether the pointer is valid, allocated heap memory.
      *
@@ -194,7 +191,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns The number of allocated blocks of memory, the number of
      *          times the Allocate method has been called.
@@ -207,7 +204,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns The size of the heap.
      *
@@ -219,7 +216,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns The amount of free space left.
      *
@@ -231,7 +228,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns The amount of allocated space used.
      *
@@ -243,7 +240,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns The size of the largest free block in the heap.
      *
@@ -256,7 +253,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns The size by which to expand the heap on expansion.
      */
@@ -270,7 +267,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \todo Implement
      *
@@ -285,13 +282,13 @@ class Heap
      * a null pointer if none can be found.
      *
      * This method is overridden in two subclasses to create the two
-     * standard memory management models: GAMEENGINE_HEAP_FIRSTFIT and
-     * GAMEENGINE_HEAP_BESTFIT.  You can also create a subclass for custom
+     * standard memory management models: HUMMSTRUMM_HEAP_FIRSTFIT and
+     * HUMMSTRUMM_HEAP_BESTFIT.  You can also create a subclass for custom
      * behaviour in finding a block of free space.
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \see Allocate ()
      */
@@ -302,7 +299,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns An array of free memory locations in the heap.
      *
@@ -317,7 +314,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns An array of free memory block sizes in the heap.
      *
@@ -331,7 +328,7 @@ class Heap
      *
      * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * \date 2009-07-24
-     * \since 1.0.0.0
+     * \since 0.0
      *
      * \returns The pointer to the base of the heap.
      */
@@ -346,9 +343,12 @@ class Heap
     void **allocatedMemoryLocations_;
     /// An array of allocated memory sizes.
     size_t *allocatedMemorySizes_;
+    /// The number of allocated memory pointers.
+    unsigned int allocatedMemoryCount_;
     /// The size by which to expand when the heap is too small.
     size_t sizeToExpandBy_;
 };
+
 }
 }
 }

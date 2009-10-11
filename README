@@ -86,13 +86,13 @@ Directory Structure
   * engine - The game engine
     - src - C++ source files
     - include - C++ header files
-    - scripts - Scheme script files
+    - scripts - Python script files
     - doc - Doxygen documentation
     - test - Test source files
   * game - The actual game
     - src - C++ source files
     - include - C++ header files
-    - scripts - Scheme script files
+    - scripts - Python script files
     - doc - Doxygen documentation
     - test - Test source files
   * lib - Included libraries
