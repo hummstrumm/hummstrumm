@@ -1,13 +1,17 @@
 Humm and Strumm NEWS file
 *************************
-Copyright (C) 2008-2009, the people listed in the AUTHORS file.  This file is
-licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License.
+Copyright (C) 2008-2010, the people listed in the AUTHORS file.
+This file is licensed under a Creative Commons Attribution-Share
+Alike 3.0 Unported License.
 
-For each release of Humm and Strumm, several user-visible changes are made.
-This file lists these major changes for each release, starting with the most
-recent release.  For more a in-depth, developer-centric change file, see the
-ChangeLog file.
+For each release of Humm and Strumm, several user-visible changes
+are made.  This file lists these major changes for each release,
+starting with the most recent release.  For more a in-depth,
+developer-centric change file, see the ChangeLog file.
 
 Humm and Strumm, version 0.1
 ============================
-  * Some changes...
+  * Object-Type System created.
+  * Heap memory manager created.
+  * Pointer template class created.
+  * CMake build system incorporated.

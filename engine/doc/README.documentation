@@ -1,6 +1,5 @@
 To save space, the Subversion repository SHOULD NOT contain the doxygen
 documentation.  Do not commit the documentation to the repository!
 
-If you want to view the documentation, please run generate-documentation.bat
-or generate-documentation.bash in the trunk directory depending on your system.
-You will need doxygen installed to do this.
+If you want to view the documentation, please run make doc in the trunk
+directory.  You will need doxygen installed to do this.

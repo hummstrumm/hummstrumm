@@ -1,5 +1,5 @@
 # Humm and Strumm Video Game
-# Copyright (C) 2008-2009, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,6 +14,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-set (hummstrummengine_SRCS )
-include_directories (include)
+set (hummstrummengine_SRCS
+  src/error/error.cpp
+  src/error/outofmemory.cpp
+  src/core/type.cpp
+  src/core/object.cpp
+  src/core/pointer.cpp)
+set (hummstrummengine_INCLUDE include/)
+set (CMAKE_C_FLAGS_DEBUG "-Wall")
+
+include_directories (${hummstrummengine_INCLUDE})
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
+# Add documentation generation
+include (UseDoxygen OPTIONAL)
+add_dependencies (hummstrummengine doc)
+# Install library and header files
+install (TARGETS hummstrummengine 
+         ARCHIVE DESTINATION lib)
+install (FILES doc/latex/refman.pdf
+         DESTINATION share/doc/hummstrummengine)
+install (FILES include/hummstrummengine.hpp
+         DESTINATION include)
+install (DIRECTORY ${hummstrummengine_INCLUDE}
+         DESTINATION include/hummstrummengine
+         FILES_MATCHING PATTERN "*.h"
+                       PATTERN "*.hpp"
+                       PATTERN "*.inl"
+                       PATTERN "hummstrummengine.hpp" EXCLUDE
+                       REGEX "/*[.]svn" EXCLUDE)

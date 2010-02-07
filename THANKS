@@ -1,28 +1,31 @@
 Humm and Strumm THANKS file
 ***************************
-Copyright (C) 2008-2009, the people listed in the AUTHORS file.  This file is
-licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License.
+Copyright (C) 2008-2010, the people listed in the AUTHORS file.
+This file is licensed under a Creative Commons Attribution-Share
+Alike 3.0 Unported License.
 
-Humm and Strumm was written those listed in the AUTHORS file. Many people
-further contributed to Humm and Strumm by reporting problems, suggesting
-various improvements or submitting actual code. Here is a list of these people.
+Humm and Strumm was written those listed in the AUTHORS file. Many
+people further contributed to Humm and Strumm by reporting problems,
+suggesting various improvements or submitting actual code. Here is a
+list of these people.
 
 Contribution description...
   * Person name <Person email>
 
-In addition to the above people who made direct contributions to the Humm and
-Strumm source code, we would like to thank the developers and contributors of
-the libraries we use.  Without their free software, we would not be able to
-complete this game.  You can find a list of the libraries in the lib/
-subdirectory.
+In addition to the above people who made direct contributions to the
+Humm and Strumm source code, we would like to thank the developers
+and contributors of the libraries we use.  Without their free
+software, we would not be able to complete this game.  You can find
+a list of the libraries in the lib/ subdirectory.
 
-We would also like to thank Google for so generously providing the following
-services free of charge for us to use:
+We would also like to thank Google for so generously providing the
+following services free of charge for us to use:
 
   * Google Code
   * Google Groups
   * Google Calendar
   * Google Picasa Webs
   * Blogger
+  * Google Sites
 
 Without these services from Google, Humm and Strumm would not exist.

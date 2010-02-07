@@ -1,19 +1,80 @@
-Humm and Strumm ChangeLog file
-******************************
-Copyright (C) 2008-2009, the people listed in the AUTHORS file.  This file is
-licensed under a Creative Commons Attribution-Share Alike 3.0 Unported License.
+2010-02-06 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
 
-This file lists every modification in the project.  Be sure to keep it
-up-to-date as you make changes.  For user-oriented changes, see the NEWS file.
+	* All files: Changed copyright years to 2008-2010.
+	
+	* generate-documentation.sh: Removed, functionality moved
+	  to CMake.
+	
+	* generate-documentation.bat: Removed, functionality moved
+	  to CMake.
+
+2010-02-05 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* heap.hpp: Heap class documentation completed.
+	
+	* object.cpp: Object class working with Heap.
+
+2009-11-28 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* ChangeLog: Moved copyright notice and information to the
+	  end of file, for compatiblity with GNU/Emacs default
+	  behavior in change-log-mode.  Reformatted to end the text
+	  before column 70.
+	
+	* AUTHORS: Reformatted to end the text before column 70.
+	
+	* FAQ: Reformatted to end the text before column 70.
+	
+	* INSTALL: Reformatted to end the text before column 70.
+	
+	* NEWS: Reformatted to end the text before column 70.
+	
+	* README: Reformatted to end the text before column 70.
+	
+	* THANKS: Reformatted to end the text before column 70.
+
+2009-11-25 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* type.cpp: Type class implemented, can compile.  Added
+	  macro for template classes implementing the Object/Type
+	  system.
+	
+	* object.cpp: Object class implemented, can compile.
+	
+	* pointer.cpp: Pointer<T> class implemented.  Added various
+	  typedefs to the class.  Removed non-const versions of
+	  GetObject and GetPointer, because returning another
+	  pointer or the dereferenced Object will in no way affect
+	  the original Pointer<T>.
+	
+	* CMakeLists.txt: Added source files and install
+	  information.
 
 2009-08-29 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
 
-    * type.hpp (Type): Started documenting.
-    
-    * README: Added user documentation.
-    
-    * COPYING: Added note to say only code is licensed under GPL.
-    
-    * FAQ: Added FAQs.
-    
-    * INSTALL: Added preliminary instructions, which need to be expanded upon.
+	* type.hpp: Started documenting Type.
+
+	* README: Added user documentation.
+
+	* COPYING: Added note to say only code is licensed under
+	  GPL.
+
+	* FAQ: Added FAQs.
+
+	* INSTALL: Added preliminary instructions, which need to be
+	  expanded upon.
+
+-----
+
+Copyright (C) 2008-2010, the people listed in the AUTHORS file.
+This file is licensed under a Creative Commons Attribution-Share
+Alike 3.0 Unported License.
+
+This file lists every modification in the project.  Be sure to keep
+it up-to-date as you make changes.  For user-oriented changes, see
+the NEWS file.
+
+Please follow the style of this ChangeLog.  Indent with tabs, wrap
+before column 70 (assuming eight character tab width), and don't add
+a symbol name in parentheses (as is standard GNU style).  When in
+doubt, refer to the first few entries for the style.

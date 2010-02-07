@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2009, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,21 +17,24 @@
  */
 
 /**
- * \file hummstrummengine.hpp
- *
  * Includes the files needed by the engine and documents the namespaces of the
- * engine.
+ * engine.  This is the header file included PUBLICLY, no by the source code of
+ * the engine.
+  * 
+ * @file   hummstrummengine.hpp
+ * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-01-03
  */
 
 #ifndef HUMMSTRUMM_ENGINE
 #define HUMMSTRUMM_ENGINE
 
 /**
- * \mainpage
- * \author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * \date 2009-08-30
+ * @mainpage
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date 2010-02-06
  *
- * \section Overview
+ * @section Overview
  *
  * The Humm and Strumm Game Engine is the game engine for the Humm and Strumm
  * Video Game.
@@ -45,8 +48,8 @@
  * The API reference contains the entire specification for the classes and the
  * methods of those classes for use in development.  If you want a higher level
  * description of the game engine, please see the
- * <a href="http://code.google.com/p/hummstrumm/wiki/EngineDesignDoc">game
- * engine design document</a>.
+ * <a href="http://sites.google.com/site/hummstrummdoc/home/humm-and-strumm-engine">
+ * game engine design document</a>.
  *
  * We do not recommend you try to start learning how to use the engine by
  * reading this API documentation.  A better way to learn would be to look at
@@ -83,7 +86,6 @@ namespace hummstrumm
       class Object;
       class Type;
       class Heap;
-      class Pointer;
     }
     /**
      * The namespace for the basic type classes of the game engine.  This
@@ -115,9 +117,12 @@ namespace hummstrumm
   }
 }
 
-#include <heap.hpp>
-#include <type.hpp>
-#include <pointer.hpp>
-#include <object.hpp>
+#include "hummstrummengine/config.h"
+#include "hummstrummengine/error/error.hpp"
+#include "hummstrummengine/error/outofmemory.hpp"
+#include "hummstrummengine/core/heap.hpp"
+#include "hummstrummengine/core/type.hpp"
+#include "hummstrummengine/core/pointer.hpp"
+#include "hummstrummengine/core/object.hpp"
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

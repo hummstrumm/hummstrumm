@@ -1,0 +1,258 @@
+// -*- c++ -*-
+/* Humm and Strumm Video Game
+ * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Defines the Pointer class.
+ *
+ * @file   pointer.hpp
+ * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-01-03
+ * @see    Pointer
+ */
+
+#ifndef HUMMSTRUMM_ENGINE_CORE_POINTER
+#define HUMMSTRUMM_ENGINE_CORE_POINTER
+
+#include "type.hpp"
+#include "object.hpp"
+
+namespace hummstrumm
+{
+namespace engine
+{
+namespace core
+{
+
+/**
+ * A reference to an Object object.  This class is essentially a pointer
+ * wrapper, integrating the C++ pointer derived type with the Object reference
+ * count system.  This effectively eliminates memory leaks in the game engine.
+ *
+ * Internally, the game engine may use raw pointers if necessary.  Between
+ * systems, however, Pointer objects are passed.  Almost all direct user
+ * interface methods use Pointer objects as opposed to raw pointers.  We
+ * suggest you use these objects, too, in an effort to minimize memory leaks.
+ *
+ * All memory operations using Pointer objects are checked for validity.
+ * Whenever a Pointer object with a null reference is detected, an error is
+ * reported.
+ *
+ * Only use this class with members of the Object/Type system!  This class
+ * affects the reference count of its Object, so it requires the interface
+ * ensured by the Object/Type system.  Pointer itself implements the
+ * Object/Type system, so you can have a Pointer to a Pointer to an Object.
+ *
+ * @version 0.1
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date 2009-07-20
+ * @since 0.1
+ *
+ * @note This class does not entirely implement the Object-Type System, to
+ * avoid infinite recursion with templates.  You cannot get a Pointer to this
+ * pointer or create a new Pointer object dynamically from a Type.
+ * 
+ * @todo Make thread safe?
+ */
+template <typename T>
+class Pointer : public Object
+{
+  private:
+    static hummstrumm::engine::core::Type _type_;
+  public:
+    static hummstrumm::engine::core::Type *GetType (void) throw ();
+  
+  public:
+    /// The type of object this Pointer can point to.
+    typedef T Type;
+    /// The type returned by dereferencing the Pointer.
+    typedef T& DereferenceType; // T&, not T&, for legibility
+    /// The type of pointer this Pointer is equivalent to.
+    typedef T* PointerType;     // T*, not T *, for legibility
+    /**
+     * Constructs a null Pointer object.  This Pointer does not point to any
+     * Object.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     */
+    Pointer<Type> (void);
+    /**
+     * Constructs a Pointer object that references an Object.  This Object must
+     * exist.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @param object [in, out] The Object to point to.  Its reference count is
+     * changed.
+     */
+    Pointer<Type> (PointerType object);
+    /**
+     * Destructs a Pointer object.  If the Pointer is valid, it will decrease
+     * the reference count of its Object.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     */
+    ~Pointer<Type> (void);
+    
+    /**
+     * Returns a raw pointer to the Pointer object's Object, or a null pointer
+     * if the Pointer is null.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @return The raw pointer of the Pointer.
+     */
+    PointerType GetObjectPointer (void) const throw ();
+    /**
+     * Returns a raw pointer to the Pointer object's Object, or a null pointer
+     * if the Pointer is null.  This allows the user to access the members of
+     * the Pointer object's Object as if it were a raw pointer.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @return The raw pointer of the Pointer.
+     */
+    PointerType operator-> (void) const throw ();
+    
+    /**
+     * Returns a refence to the Pointer object's Object.  If the pointer is not
+     * valid, an exception will be thrown.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @return A reference to the Pointer object's Object.
+     *
+     * @todo Throw exception.
+     */
+    DereferenceType GetObject (void) const;
+    /**
+     * Returns a refence to the Pointer object's Object.  This allows the user
+     * to dereference the Pointer as if it were a raw pointer.  If the pointer
+     * is not valid, an exception will be thrown.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @return A reference to the Pointer object's Object.
+     *
+     * @todo Throw exception.
+     */
+    DereferenceType operator* (void) const;
+    
+    /**
+     * Returns a refence to the Pointer object's Object.  If the pointer is not
+     * valid, and exception will be thrown.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     */
+    bool IsValid (void) const throw ();
+    
+    /**
+     * Converts the Pointer of a certain type to another type in a valid
+     * conversion.  The new type and the old type must be compatible; you
+     * you cannot cast a StringPtr to a FloatPtr, for instance.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     */
+    template <typename NewType>
+    operator Pointer<NewType> (void) const throw ();
+
+    /**
+     * Changes the Pointer object's Object to that of another Pointer object.
+     * If the current Pointer is valid, the current Object will be
+     * dereferenced, and the new Object will be referenced.  If the current
+     * Pointer is not valid, the new Object will just be referenced.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @param pointer [in, out] The new Pointer which references the Object you
+     *  want to reference.
+     *
+     * @return The new Pointer (useful in chaining = statements)
+     */
+    const Pointer<Type> &operator= (const Pointer<Type> &pointer) throw ();
+    /**
+     * Changes the Pointer object's Object to that of another Pointer object.
+     * If the current Pointer is valid, the current Object will be
+     * dereferenced, and the new Object will be referenced.  If the current
+     * Pointer is not valid, the new Object will just be referenced.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @param pointer [in] The new Pointer which references the Object you
+     * want to reference.
+     */
+    void Set (const Pointer<Type> pointer) throw ();
+    
+    /**
+     * Checks whether two Pointer objects reference the same Object.  The
+     * two Pointer objects must point to the same memory to be the same.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @param pointer [in] The Pointer object to compare with.
+     *
+     * @return Whether the two Pointer objects reference the same Object.
+     */
+    bool operator== (const Pointer<Type> &pointer) const throw ();
+    /**
+     * Checks whether two Pointer objects reference the same Object.  The
+     * two Pointer objects must point to the same memory to be the same.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2009-10-11
+     * @since 0.1
+     *
+     * @param pointer [in] The Pointer object to compare with.
+     *
+     * @return Whether the two Pointer objects reference the same Object.
+     */
+    bool IsEqualTo (const Pointer<Type> &pointer) const throw ();
+    
+  private:
+    /// The raw pointer to an Object.
+    PointerType pointer_;
+};
+
+}
+}
+}
+
+#endif // #ifndef HUMMSTRUMM_ENGINE_CORE_POINTER
