@@ -61,9 +61,11 @@
  * Code with the label "Component-Docs."  If you wish, you can also add a
  * request on the <a href="mailto:hummstrumm-user@googlegroups.com">
  * hummstrumm-user</a> mailing list.
- */
+ **/
 
 // The extensive namespace hierarchy in the game engine.
+
+#include <string>
 
 /**
  * The namespace for all of the Humm and Strumm project.  This namespace
@@ -71,58 +73,69 @@
  */
 namespace hummstrumm
 {
-  /**
-   * The namespace for the game engine.  This namespace contains the subsystems
-   * that the engine needs.
-   */
-  namespace engine
-  {
-    /**
-     * The namespace for the core of the game engine.  This namespace contains
-     * the memory manager, the Object/Type system, and the smart pointer.
-     */
-    namespace core
-    {
-      class Object;
-      class Type;
-      class Heap;
-    }
-    /**
-     * The namespace for the basic type classes of the game engine.  This
-     * namespace contains type wrapper classes to integrate basic C++ types
-     * with the Object/Type system, extended types based on the basic types,
-     * and measure types, that support units.
-     */
-    namespace types
-    {
-//      class String;
-      typedef std::wstring String;
-      /**
-       * The namespace for the measure types.  This namespace contains classes
-       * that represent items that can be measured in units and the Unit class.
-       */
-      namespace measure;
-    }
-    /**
-     * The namespace for container types.  This namespace contains STL-style
-     * data structure classes, iterator types, concept maps for the data
-     * structures, and generic algorithms that work on data structures.
-     */
-    namespace containers;
-    /**
-     * The namespace for input/output streams.  This namespace contains memory,
-     * terminal, file, string, and null streams buffers and stream classes.
-     */
-    namespace streams;
-  }
+
+/**
+ * The namespace for the game engine.  This namespace contains the subsystems
+ * that the engine needs.
+ */
+namespace engine
+{
+
+/**
+ * The namespace for the core of the game engine.  This namespace contains
+ * the memory manager, the Object/Type system, and the smart pointer.
+ */
+namespace core
+{
+class Object;
+class Type;
+class Heap;
+}
+
+/**
+ * The namespace for the basic type classes of the game engine.  This
+ * namespace contains type wrapper classes to integrate basic C++ types
+ * with the Object/Type system, extended types based on the basic types,
+ * and measure types, that support units.
+ */
+namespace types
+{
+// class String
+class Character;
+typedef std::wstring String;
+
+/**
+ * The namespace for the measure types.  This namespace contains classes
+ * that represent items that can be measured in units and the Unit class.
+ */
+namespace measure {}
+}
+
+/**
+ * The namespace for container types.  This namespace contains STL-style
+ * data structure classes, iterator types, concept maps for the data
+ * structures, and generic algorithms that work on data structures.
+ */
+namespace containers {}
+
+/**
+ * The namespace for input/output streams.  This namespace contains memory,
+ * terminal, file, string, and null streams buffers and stream classes.
+ */
+namespace streams {}
+
+}
+
 }
 
 #include "hummstrummengine/config.h"
+#include "hummstrummengine/debug/log.hpp"
 #include "hummstrummengine/error/error.hpp"
 #include "hummstrummengine/error/outofmemory.hpp"
 #include "hummstrummengine/core/heap.hpp"
 #include "hummstrummengine/core/type.hpp"
 #include "hummstrummengine/core/pointer.hpp"
 #include "hummstrummengine/core/object.hpp"
+#include "hummstrummengine/types/character.hpp"
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

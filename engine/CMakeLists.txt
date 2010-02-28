@@ -14,7 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+add_subdirectory (tests/)
+
 set (hummstrummengine_SRCS
+  src/debug/log.cpp
   src/error/error.cpp
   src/error/outofmemory.cpp
   src/core/type.cpp
@@ -29,6 +32,21 @@ add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 include (UseDoxygen OPTIONAL)
 add_dependencies (hummstrummengine doc)
 # Install library and header files
+if (WIN32)
+  install (TARGETS hummstrummengine 
+           ARCHIVE DESTINATION lib)
+  install (FILES doc/latex/refman.pdf
+           DESTINATION share/doc/)
+  install (FILES include/hummstrummengine.hpp
+           DESTINATION include)
+  install (DIRECTORY ${hummstrummengine_INCLUDE}
+           DESTINATION include/hummstrummengine
+           FILES_MATCHING PATTERN "*.h"
+                          PATTERN "*.hpp"
+                          PATTERN "*.inl"
+                          PATTERN "hummstrummengine.hpp" EXCLUDE
+                          REGEX "/*[.]svn" EXCLUDE)
+
 install (TARGETS hummstrummengine 
          ARCHIVE DESTINATION lib)
 install (FILES doc/latex/refman.pdf

@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/test_engine_log.dir/log.cpp.o  -o test_engine_log -rdynamic ../libhummstrummengine.a 

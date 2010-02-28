@@ -17,6 +17,8 @@
 project (hummstrumm)
 cmake_minimum_required (VERSION 2.6)
 
+enable_testing ()
+
 include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
     "The Humm and Strumm Free Adventure Video Game")
@@ -50,8 +52,6 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "Humm and Strumm")
 #endif(UNIX and not WIN32)
 set(CPACK_PACKAGE_EXECUTABLES "hummstrumm" "Humm and Strumm")
 include(CPack)
-
-enable_testing()
 
 set (HUMMSTRUMM_VERSION "Humm and Strumm, version 0.1")
 set (HUMMSTRUMM_VERSION_NUMBER "0.1")

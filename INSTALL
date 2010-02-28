@@ -1,57 +1,63 @@
-Humm and Strumm INSTALL file
-****************************
-Copyright (C) 2008-2010, the people listed in the AUTHORS file.
-This file is licensed under a Creative Commons Attribution-Share
-Alike 3.0 Unported License.
+= Humm and Strumm INSTALL file =
 
-Basic Installation
-==================
+Copyright (C) 2008-2010, the people  listed in the AUTHORS file.  This
+file is licensed under  a Creative Commons Attribution-Share Alike 3.0
+Unported License.
 
-The most basic way to install the Humm and Strumm video game is to use the
-packages available for download on our website.  We provide a Windows
-installer, and both Debian and RedHat packages.
 
-Windows Installer
------------------
-To install on Windows, download the latest installer from the downloads page.
-This installer will connect to the internet to download additional resources,
-and will alert you when it does.
+== Basic Installation ==
+
+The most basic way to install the Humm and Strumm video game is to use
+the  packages  available  for  download  on our  website.  We  provide
+a Windows installer, and both Debian and RedHat packages.
+
+=== Windows Installer ===
+
+To  install  on  Windows,  download  the  latest  installer  from  the
+downloads  page.   This installer  will  connect  to  the internet  to
+download additional resources, and will alert you when it does.
+
 *** TODO: Add specific installation instructions. ***
 
-GNU/Linux Packages
-------------------
-The website also has Debian and RedHat packages for GNU/Linux users.  You will
-need to install both the main package and the resource package(s) to have the
-complete game.
+=== GNU/Linux Packages ===
+
+The website also  has Debian and RedHat packages  for GNU/Linux users.
+You  will need  to  install both  the  main package  and the  resource
+package(s) to have the complete game.
+
 *** TODO: Add specific installation instructions. ***
 
-Advanced Installation
-=====================
+== Advanced Installation ==
 
-If you are more of the hacker type, you can compile the game yourself.  We
-provide compressed archives of the source code and the resources.
+If you are more of the hacker type, you can compile the game yourself.
+We provide compressed archives of the source code and the resources.
 
-To compile, you will need CMake, available for free at <http://www.cmake.org/>.
+To   compile,   you  will   need   CMake,   available   for  free   at
+<http://www.cmake.org/>.
 
 The basic installation commands for GNU systems are:
 
 $ cmake -G "UNIX Makefiles"
+
 $ sudo make install
 
-For Windows systems, the sequence varies depending on what you use to compile
-programs.  If you have Microsoft NMake, you can use the following command:
+For Windows systems, the sequence  varies depending on what you use to
+compile  programs.  If  you  have  Microsoft NMake,  you  can use  the
+following command:
 
 $ cmake -G "NMake Makefiles"
+
 $ nmake install
 
-To find out what CMake generators you can use, run the following command:
+To  find out  what CMake  generators you  can use,  run  the following
+command:
 
 $ cmake --help
 
-Running the installation command will generate the engine library and doxygen
-documentation files, and then it will install them onto your system.  On GNU
-systems, this is by default in the ``/usr/local/'' directory, and on Windows
-systems, it is in the ``Program Files'' directory.  You can change this by
-using the following command:
+Running the installation command  will generate the engine library and
+doxygen documentation files,  and then it will install  them onto your
+system.  On  GNU systems,  this is by  default in  the ``/usr/local/''
+directory,  and on  Windows systems,  it is  in the  ``Program Files''
+directory.  You can change this by using the following command:
 
 $ sudo make install DESTDIR="/some/absolute/path"

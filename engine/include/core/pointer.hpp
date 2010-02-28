@@ -17,7 +17,7 @@
  */
 
 /**
- * Defines the Pointer class.
+ * Defines and implements the Pointer class.
  *
  * @file   pointer.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
@@ -72,9 +72,9 @@ template <typename T>
 class Pointer : public Object
 {
   private:
-    static hummstrumm::engine::core::Type _type_;
+    static Type _type_;
   public:
-    static hummstrumm::engine::core::Type *GetType (void) throw ();
+    static Type *GetType (void) throw ();
   
   public:
     /// The type of object this Pointer can point to.
@@ -250,6 +250,149 @@ class Pointer : public Object
     /// The raw pointer to an Object.
     PointerType pointer_;
 };
+
+// And now the implementation!
+
+template <typename T>
+Type
+Pointer<T>::_type_
+  ("hummstrumm::engine::core::Pointer<T>",
+   sizeof (Pointer<T>),
+   Object::GetType (), 0);
+
+template <typename T>
+Type *
+Pointer<T>::GetType (void) throw ()
+{
+  return &_type_;
+}
+
+
+template <typename T>
+Pointer<T>::Pointer (void)
+  : pointer_ (0),
+    Object ()
+{}
+
+
+template <typename T>
+Pointer<T>::Pointer (T *object)
+  : pointer_ (object),
+    Object ()
+{
+  pointer_->AddReference ();
+}
+
+
+template <typename T>
+Pointer<T>::~Pointer (void)
+{
+  if (pointer_ != 0)
+    {
+      pointer_->DropReference ();
+    }
+}
+
+
+template <typename T>
+T *
+Pointer<T>::GetObjectPointer (void) const throw ()
+{
+  return pointer_;
+}
+
+
+template <typename T>
+T *
+Pointer<T>::operator-> (void) const throw ()
+{
+  return GetObjectPointer ();
+}
+
+
+template <typename T>
+T &
+Pointer<T>::GetObject (void) const
+{
+  if (!IsValid ())
+    {
+      throw 1;  // TODO: Change once Exception class is added.
+    }
+  else
+    {
+      return *pointer_;
+    }
+}
+
+
+template <typename T>
+T &
+Pointer<T>::operator* (void) const
+{
+  return GetObject ();
+}
+
+
+template <typename T>
+bool
+Pointer<T>::IsValid (void) const throw ()
+{
+  return (pointer_ != 0);
+}
+
+
+template <typename T>
+template <typename NewType>
+Pointer<T>::operator Pointer<NewType> (void) const throw ()
+{
+  return Pointer<NewType>(pointer_);
+}
+
+
+template <typename T>
+const Pointer<T> &
+Pointer<T>::operator= (const Pointer<T> &pointer) throw ()
+{
+  Set (pointer);
+  
+  // For = chaining.
+  return *this;
+}
+
+
+template <typename T>
+void
+Pointer<T>::Set (const Pointer<T> pointer) throw ()
+{
+  // If I'm pointing to something already, the the Object I am pointing to that
+  // it has lost a reference.
+  if (IsValid ())
+    {
+      pointer_->DropReference ();
+    }
+  
+  // Set my pointer.
+  pointer_ = pointer->GetPointer ();
+  
+  // Tell the Object I now point to that it has gotten another reference.
+  pointer_->AddReference ();
+}
+
+    
+template <typename T>
+bool
+Pointer<T>::operator== (const Pointer<T> &pointer) const throw ()
+{
+  return IsEqualTo (pointer);
+}
+
+
+template <typename T>
+bool
+Pointer<T>::IsEqualTo (const Pointer<T> &pointer) const throw ()
+{
+  return (pointer_ == pointer->GetPointer ());
+}
 
 }
 }

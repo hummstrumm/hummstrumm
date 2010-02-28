@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pniedzielski/Projects/hummstrumm/src/engine/tests/log.cpp
+iostream
+-
+config.h
+/home/pniedzielski/Projects/hummstrumm/src/engine/tests/config.h
+debug/log.hpp
+/home/pniedzielski/Projects/hummstrumm/src/engine/tests/debug/log.hpp
+
+engine/tests/../include/config.h
+
+engine/tests/../include/debug/log.hpp
+
