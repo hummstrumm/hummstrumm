@@ -21,10 +21,9 @@ set (hummstrummengine_SRCS
   src/error/error.cpp
   src/error/outofmemory.cpp
   src/core/type.cpp
-  src/core/object.cpp
-  src/core/pointer.cpp)
+  src/core/object.cpp)
 set (hummstrummengine_INCLUDE include/)
-set (CMAKE_C_FLAGS_DEBUG "-Wall")
+set (CMAKE_C_FLAGS_DEBUG "-Wall -g")
 
 include_directories (${hummstrummengine_INCLUDE})
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
@@ -46,17 +45,18 @@ if (WIN32)
                           PATTERN "*.inl"
                           PATTERN "hummstrummengine.hpp" EXCLUDE
                           REGEX "/*[.]svn" EXCLUDE)
-
-install (TARGETS hummstrummengine 
-         ARCHIVE DESTINATION lib)
-install (FILES doc/latex/refman.pdf
-         DESTINATION share/doc/hummstrummengine)
-install (FILES include/hummstrummengine.hpp
-         DESTINATION include)
-install (DIRECTORY ${hummstrummengine_INCLUDE}
-         DESTINATION include/hummstrummengine
-         FILES_MATCHING PATTERN "*.h"
-                       PATTERN "*.hpp"
-                       PATTERN "*.inl"
-                       PATTERN "hummstrummengine.hpp" EXCLUDE
-                       REGEX "/*[.]svn" EXCLUDE)
+else()
+  install (TARGETS hummstrummengine 
+           ARCHIVE DESTINATION lib)
+  install (FILES doc/latex/refman.pdf
+           DESTINATION share/doc/hummstrummengine)
+  install (FILES include/hummstrummengine.hpp
+           DESTINATION include)
+  install (DIRECTORY ${hummstrummengine_INCLUDE}
+           DESTINATION include/hummstrummengine
+           FILES_MATCHING PATTERN "*.h"
+                          PATTERN "*.hpp"
+                          PATTERN "*.inl"
+                          PATTERN "hummstrummengine.hpp" EXCLUDE
+                          REGEX "/*[.]svn" EXCLUDE)
+endif()

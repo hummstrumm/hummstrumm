@@ -181,7 +181,6 @@ class Object
      * @since 0.1
      *
      * @returns The reference count of the Object.
-
      */
     unsigned int GetReferenceCount (void)
       const throw ();

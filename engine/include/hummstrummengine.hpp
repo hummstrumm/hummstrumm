@@ -23,7 +23,7 @@
   * 
  * @file   hummstrummengine.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-01-03
+ * @date   2010-03-03
  */
 
 #ifndef HUMMSTRUMM_ENGINE
@@ -82,6 +82,15 @@ namespace engine
 {
 
 /**
+ * The namespace for the classes which aid in the debugging of the
+ * game.  This namespace contains the logging class.
+ */
+namespace debug
+{
+class Log;
+}
+
+/**
  * The namespace for the core of the game engine.  This namespace contains
  * the memory manager, the Object/Type system, and the smart pointer.
  */
@@ -129,6 +138,7 @@ namespace streams {}
 }
 
 #include "hummstrummengine/config.h"
+#include "hummstrummengine/debug/utils.hpp"
 #include "hummstrummengine/debug/log.hpp"
 #include "hummstrummengine/error/error.hpp"
 #include "hummstrummengine/error/outofmemory.hpp"
@@ -137,5 +147,6 @@ namespace streams {}
 #include "hummstrummengine/core/pointer.hpp"
 #include "hummstrummengine/core/object.hpp"
 #include "hummstrummengine/types/character.hpp"
+
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

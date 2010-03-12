@@ -78,7 +78,7 @@ class Pointer : public Object
   
   public:
     /// The type of object this Pointer can point to.
-    typedef T Type;
+    typedef T DataType;
     /// The type returned by dereferencing the Pointer.
     typedef T& DereferenceType; // T&, not T&, for legibility
     /// The type of pointer this Pointer is equivalent to.
@@ -91,7 +91,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    Pointer<Type> (void);
+    Pointer<DataType> (void);
     /**
      * Constructs a Pointer object that references an Object.  This Object must
      * exist.
@@ -103,7 +103,7 @@ class Pointer : public Object
      * @param object [in, out] The Object to point to.  Its reference count is
      * changed.
      */
-    Pointer<Type> (PointerType object);
+    Pointer<DataType> (PointerType object);
     /**
      * Destructs a Pointer object.  If the Pointer is valid, it will decrease
      * the reference count of its Object.
@@ -112,7 +112,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    ~Pointer<Type> (void);
+    ~Pointer<DataType> (void);
     
     /**
      * Returns a raw pointer to the Pointer object's Object, or a null pointer
@@ -203,7 +203,8 @@ class Pointer : public Object
      *
      * @return The new Pointer (useful in chaining = statements)
      */
-    const Pointer<Type> &operator= (const Pointer<Type> &pointer) throw ();
+    const Pointer<DataType> &operator= (const Pointer<DataType> &pointer)
+      throw ();
     /**
      * Changes the Pointer object's Object to that of another Pointer object.
      * If the current Pointer is valid, the current Object will be
@@ -217,7 +218,7 @@ class Pointer : public Object
      * @param pointer [in] The new Pointer which references the Object you
      * want to reference.
      */
-    void Set (const Pointer<Type> pointer) throw ();
+    void Set (const Pointer<DataType> pointer) throw ();
     
     /**
      * Checks whether two Pointer objects reference the same Object.  The
@@ -231,7 +232,7 @@ class Pointer : public Object
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
-    bool operator== (const Pointer<Type> &pointer) const throw ();
+    bool operator== (const Pointer<DataType> &pointer) const throw ();
     /**
      * Checks whether two Pointer objects reference the same Object.  The
      * two Pointer objects must point to the same memory to be the same.
@@ -244,7 +245,7 @@ class Pointer : public Object
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
-    bool IsEqualTo (const Pointer<Type> &pointer) const throw ();
+    bool IsEqualTo (const Pointer<DataType> &pointer) const throw ();
     
   private:
     /// The raw pointer to an Object.
@@ -314,14 +315,9 @@ template <typename T>
 T &
 Pointer<T>::GetObject (void) const
 {
-  if (!IsValid ())
-    {
-      throw 1;  // TODO: Change once Exception class is added.
-    }
-  else
-    {
-      return *pointer_;
-    }
+  ASSERT (IsValid ());
+  
+  return *pointer_;
 }
 
 
