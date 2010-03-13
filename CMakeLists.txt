@@ -53,8 +53,8 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "Humm and Strumm")
 set(CPACK_PACKAGE_EXECUTABLES "hummstrumm" "Humm and Strumm")
 include(CPack)
 
-set (HUMMSTRUMM_VERSION "Humm and Strumm, version 0.1")
-set (HUMMSTRUMM_VERSION_NUMBER "0.1")
+set (HUMMSTRUMM_VERSION "Humm and Strumm, version 0.2")
+set (HUMMSTRUMM_VERSION_NUMBER "0.2")
 
 if (WIN32)
   set (HUMMSTRUMM_PLATFORM_WINDOWS ON)
@@ -82,15 +82,36 @@ else (WIN32)
   endif (UNIX)
 endif (WIN32)
 
-option (HUMMSTRUMM_HEAP_SIZE "The game engine starting heap size." 65536)
-option (HUMMSTRUMM_HEAP_EXPAND "The size by which to expand the heap." 4096)
+# Log Options
+if (HUMMSTRUMM_PLATFORM_GNULINUX)
+  set (HUMMSTRUMM_LOG_FILENAME  /var/log/hummstrumm CACHE STRING
+       "The file name of the log.")
+else (HUMMSTRUMM_PLATFORM_GNULINUX)
+  set (HUMMSTRUMM_LOG_FILENAME %APPDATA%\hummstrumm\log.txt CACHE STRING
+       "The file name of the log.")
+endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+set (HUMMSTRUMM_LOG_XMLMODE  ON      CACHE BOOL "Whether to log in XML.")
+set (HUMMSTRUMM_LOG_LOGLEVEL MESSAGE CACHE STRING "The minimum level of messages.")
 
-option (HUMMSTRUMM_HEAP_BESTFIT "Enable best fit heap mode (DEFAULT=ON)." ON)
-option (HUMMSTRUMM_MATH_PRECISE "Enable precise math mode (DEFAULT=ON)." ON)
 
-option (COMPILE_ZLIB "Use the included zlib distribution (DEFAULT=ON)." ON)
+set (HUMMSTRUMM_HEAP_SIZE   65536 CACHE STRING
+     "The game engine starting heap size.")
+set (HUMMSTRUMM_HEAP_EXPAND 4096  CACHE STRING
+     "The size by which to expand the heap.")
+
+set (HUMMSTRUMM_MATH_PRECISE ON CACHE BOOL "Enable precise math mode.")
+
+set (COMPILE_ZLIB ON CACHE BOOL "Use the included zlib distribution (DEFAULT=ON).")
 
 set (CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+# Add debug definitions.
+# Use -DCMAKE_BUILD_TYPE=Debug with the cmake command to use them.
+if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR
+    CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+set (HUMMSTRUMM_DEBUG ON)
+endif(CMAKE_BUILD_TYPE STREQUAL "Debug" OR
+      CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
 
 configure_file (${CMAKE_SOURCE_DIR}/config.h.in
                 ${CMAKE_SOURCE_DIR}/engine/include/config.h @ONLY)

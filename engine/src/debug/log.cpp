@@ -37,6 +37,15 @@ Log::Log (std::string fileName, bool isXmlMode, Level minimumLevel)
     minimumLevel (minimumLevel),
     logFile (0)
 {
+  if (this->minimumLevel != Log::MESSAGE ||
+      this->minimumLevel != Log::SUCCESS ||
+      this->minimumLevel != Log::WARNING ||
+      this->minimumLevel != Log::ERROR)
+    {
+      std::wcerr << L"An invalid log level was provided.\n";
+      return;
+    }
+  
   this->logFile = std::fopen (fileName.c_str (), "w");
   if (!this->logFile)
     {
@@ -75,7 +84,9 @@ Log &
 Log::GetLog (void)
   throw ()
 {
-  static Log log ("engine.log", true, Log::MESSAGE);
+  static Log log (HUMMSTRUMM_LOG_FILENAME,
+                  HUMMSTRUMM_LOG_XMLMODE,
+                  Log::HUMMSTRUMM_LOG_LOGLEVEL);
 
   return log;
 }
