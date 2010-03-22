@@ -21,7 +21,8 @@ set (hummstrummengine_SRCS
   src/error/error.cpp
   src/error/outofmemory.cpp
   src/core/type.cpp
-  src/core/object.cpp)
+  src/core/object.cpp
+  src/types/time.cpp)
 set (hummstrummengine_INCLUDE include/)
 set (CMAKE_C_FLAGS_DEBUG "-Wall -g")
 

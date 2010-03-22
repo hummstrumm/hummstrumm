@@ -142,7 +142,7 @@
  * This is only available in a debug build.
  *
  * @def    ASSERT(mustBeTrue)
- * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
  */
@@ -157,7 +157,7 @@
 
 #else // #ifdef HUMMSTRUMM_DEBUG
 
-#debug ASSERT(mustBeTrue)
+#define ASSERT(mustBeTrue)
 
 #endif // #ifdef HUMMSTRUMM_DEBUG
 

@@ -109,6 +109,7 @@ class Heap;
  */
 namespace types
 {
+class Time;
 // class String
 class Character;
 typedef std::wstring String;
@@ -138,6 +139,7 @@ namespace streams {}
 }
 
 #include "hummstrummengine/config.h"
+#include "hummstrummengine/types/inttypes.hpp"
 #include "hummstrummengine/debug/utils.hpp"
 #include "hummstrummengine/debug/log.hpp"
 #include "hummstrummengine/error/error.hpp"
@@ -147,6 +149,7 @@ namespace streams {}
 #include "hummstrummengine/core/pointer.hpp"
 #include "hummstrummengine/core/object.hpp"
 #include "hummstrummengine/types/character.hpp"
+#include "hummstrummengine/types/time.hpp"
 
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

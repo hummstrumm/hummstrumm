@@ -19,13 +19,16 @@
 #include <cstdlib>
 #include <memory>
 #include <new>
-#include <utmpx.h>
 
 #include <config.h>
 #include <core/type.hpp>
 #include <core/pointer.hpp>
 #include <core/object.hpp>
 #include <core/heap.hpp>
+
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#include <utmpx.h>
+#endif 
 
 namespace hummstrumm
 {
@@ -41,7 +44,7 @@ const unsigned int
 GetCurrentProcessor_hidden_ (void)
   throw ()
 {
-#if defined (WINDOWS)
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   _asm { mov eax, 1 }
   _asm { cpuid }
   _asm { shr ebx, 24 }
