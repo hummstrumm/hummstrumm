@@ -49,8 +49,8 @@ if (WIN32)
 else()
   install (TARGETS hummstrummengine 
            ARCHIVE DESTINATION lib)
-  install (FILES doc/latex/refman.pdf
-           DESTINATION share/doc/hummstrummengine)
+  #install (FILES doc/latex/refman.pdf
+  #         DESTINATION share/doc/hummstrummengine)
   install (FILES include/hummstrummengine.hpp
            DESTINATION include)
   install (DIRECTORY ${hummstrummengine_INCLUDE}
