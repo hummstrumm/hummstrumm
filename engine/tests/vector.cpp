@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <vector>
 
 #include "math/vector.hpp"
 
@@ -29,7 +30,7 @@
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
-// @todo Finish the rest of the test cases for Vec2D,3D and 4D.
+// @todo Finish the rest of the test cases for Vec2D, 3D and 4D.
 // @todo Finish the testOrthonormalize
 
 using namespace hummstrumm::engine::math;
@@ -55,7 +56,6 @@ class VectorTest : public CppUnit::TestFixture
   CPPUNIT_TEST_SUITE_END ();
 
   public:
-
 
     void setUp () {}
 
@@ -200,28 +200,72 @@ class VectorTest : public CppUnit::TestFixture
 
     void testOrthonormalize ()
     {
-      Vector3D <float> v3_0 (2.0f,-1.0f,0.0f);
-      Vector3D <float> v3_1 (1.0f,0.0f,-1.0f);
-      Vector3D <float> v3_2 (3.0f,7.0f,-1.0f);
+      std::vector <Vector4D<float> > v4;
+      std::vector <Vector3D<float> > v3;
+      std::vector <Vector2D<float> > v2;
 
-      Orthonormalize3D ( v3_0, v3_1, v3_2 );
- 
-      /* 
-      std::cout << v3_0.x << std::endl;
-      std::cout << v3_0.y << std::endl;
-      std::cout << v3_0.z << std::endl;
+      Vector2D <float> v2_0 ( 1.0f, 3.0f );
+      Vector2D <float> v2_1 ( 0.0f, 2.0f );
 
-      std::cout << v3_1.x << std::endl;
-      std::cout << v3_1.y << std::endl;
-      std::cout << v3_1.z << std::endl;
+      Vector3D <float> v3_0 ( 2.0f, -1.0f, 0.0f );
+      Vector3D <float> v3_1 ( 1.0f, 0.0f, -1.0f );
+      Vector3D <float> v3_2 ( 3.0f, 7.0f, -1.0f );
 
-      std::cout << v3_2.x << std::endl;
-      std::cout << v3_2.y << std::endl;
-      std::cout << v3_2.z << std::endl;
-      */
+      Vector4D <float> v4_0 ( 2.0f, -1.0f, 0.0f, 1.0f );
+      Vector4D <float> v4_1 ( 1.0f, 0.0f, -1.0f, 5.0f );
+      Vector4D <float> v4_2 ( 3.0f, 7.0f, -1.0f, 9.0f );
+      Vector4D <float> v4_3 ( 3.0f, 7.0f, -1.0f, 2.0f );
 
-      //CPPUNIT_ASSERT_DOUBLES_EQUAL ( );
-      //CPPUNIT_ASSERT_DOUBLES_EQUAL ( );
+      v2.push_back(v2_0);
+      v2.push_back(v2_1);
+
+      Orthonormalize2D ( v2 );
+
+      v2_1 = v2.back();
+      v2.pop_back();
+      v2_0 = v2.back();
+      v2.pop_back();
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v2_0.dot(v2_1), 0.01);
+
+      v3.push_back(v3_0);
+      v3.push_back(v3_1);
+      v3.push_back(v3_2);
+
+      Orthonormalize3D ( v3 );
+
+      v3_2 = v3.back();
+      v3.pop_back();
+      v3_1 = v3.back();
+      v3.pop_back();
+      v3_0 = v3.back();
+      v3.pop_back();
+
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v3_0.dot(v3_1), 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v3_0.dot(v3_2), 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v3_1.dot(v3_2), 0.01);
+
+      v4.push_back(v4_0);
+      v4.push_back(v4_1);
+      v4.push_back(v4_2);
+      v4.push_back(v4_3);
+
+      Orthonormalize4D ( v4 );
+
+      v4_3 = v4.back();
+      v4.pop_back();
+      v4_2 = v4.back();
+      v4.pop_back();
+      v4_1 = v4.back();
+      v4.pop_back();
+      v4_0 = v4.back();
+      v4.pop_back();
+
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v4_0.dot(v4_1), 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v4_0.dot(v4_2), 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v4_0.dot(v4_2), 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v4_1.dot(v4_2), 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, v4_2.dot(v4_3), 0.01);
+
     }
 
 
@@ -260,7 +304,6 @@ main (int argc, char **argv)
 
   output.printFailures ();
   output.printStatistics ();
-
-  return result.wasSuccessful() ? 0 : 1;
-  
+ 
+  return result.wasSuccessful() ? 0 : 1;  
 }
