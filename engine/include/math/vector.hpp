@@ -20,19 +20,19 @@
  * Defines and implements classes for vector in 2,3,and 4 dimensions.
  *
  * @file    vector.hpp
- * @author  Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  * @see     Vector2D
  * @see     Vector3D
  * @see     Vector4D
  *
- * @todo Finish the Gram-Schmidt Orthonormalization and associated 
- * Projection methods.
  */
 
 #ifndef HUMMSTRUMM_ENGINE_MATH_VECTORS
 #define HUMMSTRUMM_ENGINE_MATH_VECTORS
 
+#include <vector>
+#include <algorithm>
 #include <cmath>
 
 namespace hummstrumm
@@ -51,17 +51,17 @@ class Vector2D
     /**
      * Constructs a null Vector2D object.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    Vector2D ();
+    Vector2D () : x(0), y(0) {}
 
     /** 
      * Construct a Vector2D object. It will assign coordinates vx, 
      * and vy to x and y respectively.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      * 
@@ -69,33 +69,33 @@ class Vector2D
      * @param vy Y coordinate.
      *
      */
-    Vector2D (T vx, T vy);
+    Vector2D (const T &vx, const T &vy) : x(vx), y(vy) {}
 
     /** 
      * Copy constructor for Vector2D class.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      * 
      * @param v Constant reference to a Vector2D object.
      *
      */ 
-    Vector2D (const Vector2D<T>  &v); 
+    Vector2D (const Vector2D<T>  &v) : x(v.x), y(v.y) {}
 
     /** 
      * Destructs a Vector2D object.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    ~Vector2D ();
+    ~Vector2D () {}
 
     /** 
      * Assignment operator for Vector2D class. 
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
@@ -104,7 +104,7 @@ class Vector2D
     /** 
      * Equality operator. Check if two Vector2D are equal.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -117,7 +117,7 @@ class Vector2D
     /** 
      * Inequality operator. Check if two Vector2D are not equal.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -130,7 +130,7 @@ class Vector2D
     /** 
      * Unary minus. Negate coordinates of Vector2D.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -141,7 +141,7 @@ class Vector2D
     /** 
      * Sum two Vector2D objects. 
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -154,7 +154,7 @@ class Vector2D
     /** 
      * Subtract two Vector2D objects.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -167,7 +167,7 @@ class Vector2D
     /** 
      * Multiplication of a Vector2D object by a scalar.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -180,7 +180,7 @@ class Vector2D
     /** 
      * Division of a Vector2D object by a scalar.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -195,7 +195,7 @@ class Vector2D
     /** 
      * Combined add assigment operator.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -208,7 +208,7 @@ class Vector2D
     /** 
      * Combined subtract assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -221,7 +221,7 @@ class Vector2D
     /** 
      * Combined multiplication assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -234,7 +234,7 @@ class Vector2D
     /** 
      * Combined division assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -247,7 +247,7 @@ class Vector2D
     /** 
      * Normalize the vector.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */
@@ -256,7 +256,7 @@ class Vector2D
     /** 
      * Compute the dot product.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -269,7 +269,7 @@ class Vector2D
     /** 
      * Computes a perpendicular vector.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -280,26 +280,13 @@ class Vector2D
     /** 
      * Computes a perpendicular vector of unit length.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      * 
      * @return A perpendicular vector of unit length.
      */
     Vector2D<T> UnitPerpendicular () const;
-
-    /** 
-     * Gram-Schmidt Orthogonalization.
-     *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     * @param v A reference to a Vector2D object.
-     * @param w Another reference to a Vector2D object.
-     
-    void Orthonormalize (Vector2D<T> &v, Vector2D<T> &w);
-    */
 
   private:
 
@@ -316,17 +303,17 @@ class Vector3D
     /**
      * Constructs a null Vector3D object.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    Vector3D ();
+    Vector3D () : x(0), y(0), z(0) {}
 
     /** 
      * Construct a Vector3D object. It will assign coordinates vx, 
      * vy, and vz to x, y, and z respectively.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      * 
@@ -335,33 +322,35 @@ class Vector3D
      * @param vz Z coordinate.
      *
      */
-    Vector3D (T vx, T vy, T vz);
+    Vector3D (const T &vx, const T &vy, const T &vz) 
+             : x(vx), y(vy), z(vz) {}
 
     /** 
      * Copy constructor for Vector3D class.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      * 
      * @param v Constant reference to a Vector3D object.
      *
      */ 
-    Vector3D (const Vector3D<T>  &v); 
+    Vector3D (const Vector3D<T>  &v)
+             : x(v.x), y(v.y), z(v.z) {}
 
     /** 
      * Destructs a Vector3D object.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    ~Vector3D ();
+    ~Vector3D () {}
 
     /** 
      * Assignment operator for Vector3D class. 
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
@@ -370,7 +359,7 @@ class Vector3D
     /** 
      * Equality operator. Check if two Vector3D are equal.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -383,7 +372,7 @@ class Vector3D
     /** 
      * Inequality operator. Check if two Vector3D are not equal.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -396,7 +385,7 @@ class Vector3D
     /** 
      * Unary minus. Negate coordinates of Vector3D.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -407,7 +396,7 @@ class Vector3D
     /** 
      * Sum two Vector3D objects. 
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -420,7 +409,7 @@ class Vector3D
     /** 
      * Subtract two Vector3D objects.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -433,7 +422,7 @@ class Vector3D
     /** 
      * Multiplication of a Vector3D object by a scalar.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -446,7 +435,7 @@ class Vector3D
     /** 
      * Division of a Vector3D object by a scalar.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -461,7 +450,7 @@ class Vector3D
     /** 
      * Combined add assigment operator.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -474,7 +463,7 @@ class Vector3D
     /** 
      * Combined subtract assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -487,7 +476,7 @@ class Vector3D
     /** 
      * Combined multiplication assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -500,7 +489,7 @@ class Vector3D
     /** 
      * Combined division assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -513,7 +502,7 @@ class Vector3D
     /** 
      * Normalize the vector.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */
@@ -522,7 +511,7 @@ class Vector3D
     /** 
      * Compute the dot product.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -535,7 +524,7 @@ class Vector3D
     /** 
      * Computes a perpendicular vector.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -546,7 +535,7 @@ class Vector3D
     /** 
      * Computes perpendicular vector of unit length.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -569,17 +558,17 @@ class Vector4D
     /**
      * Constructs a null Vector4D object.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    Vector4D ();
+    Vector4D () : x(0), y(0), z(0), w(0) {}
 
     /** 
      * Construct a Vector4D object. It will assign coordinates vx, 
      * vy,vz, and vw to x,y,z, and w respectively.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      * 
@@ -589,33 +578,35 @@ class Vector4D
      * @param vz W coordinate.
      *
      */
-    Vector4D (T vx, T vy, T vz, T vw);
+    Vector4D (const T &vx, const T &vy, const T &vz, const T &vw)
+             : x(vx), y(vy), z(vz), w(vw) {}
 
     /** 
      * Copy constructor for Vector4D class.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      * 
      * @param v Constant reference to a Vector4D object.
      *
      */ 
-    Vector4D (const Vector4D<T>  &v); 
+    Vector4D (const Vector4D<T>  &v)
+             : x(v.x), y(v.y), z(v.z), w(v.w) {} 
 
     /** 
      * Destructs a Vector4D object.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    ~Vector4D ();
+    ~Vector4D () {}
 
     /** 
      * Assignment operator for Vector4D class. 
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
@@ -624,7 +615,7 @@ class Vector4D
     /** 
      * Equality operator. Check if two Vector4D are equal.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -637,7 +628,7 @@ class Vector4D
     /** 
      * Inequality operator. Check if two Vector4D are not equal.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -650,7 +641,7 @@ class Vector4D
     /** 
      * Unary minus. Negate coordinates of Vector4D.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -661,7 +652,7 @@ class Vector4D
     /** 
      * Sum two Vector4D objects. 
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -674,7 +665,7 @@ class Vector4D
     /** 
      * Subtract two Vector4D objects.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -687,7 +678,7 @@ class Vector4D
     /** 
      * Multiplication of a Vector4D object by a scalar.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -700,7 +691,7 @@ class Vector4D
     /** 
      * Division of a Vector4D object by a scalar.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -715,7 +706,7 @@ class Vector4D
     /** 
      * Combined add assigment operator.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -728,7 +719,7 @@ class Vector4D
     /** 
      * Combined subtract assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -741,7 +732,7 @@ class Vector4D
     /** 
      * Combined multiplication assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -754,7 +745,7 @@ class Vector4D
     /** 
      * Combined division assignment operator.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -767,7 +758,7 @@ class Vector4D
     /** 
      * Normalize the vector.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */
@@ -776,7 +767,7 @@ class Vector4D
     /** 
      * Compute the dot product.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -789,7 +780,7 @@ class Vector4D
     /** 
      * Computes a perpendicular vector.
      *
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
@@ -800,7 +791,7 @@ class Vector4D
     /** 
      * Computes perpendicular vector of unit length.
      * 
-     * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+     * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
 
@@ -819,7 +810,7 @@ class Vector4D
 /** 
  * Magnitude of a Vector2D.
  *
- * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-03-28
  * @since 0.2
  *
@@ -832,9 +823,9 @@ T
 Vec2DMagnitude (const Vector2D<T> &v);
 
 /** 
- * @brief Distance between two vectors of type Vector2D. 
+ * Distance between two vectors of type Vector2D. 
  *
- * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-03-28
  * @since 0.2
  *
@@ -842,19 +833,64 @@ Vec2DMagnitude (const Vector2D<T> &v);
  * @param w Another Constant reference to a Vector2D object.
  * 
  * @return The distance between the vectors.
-*/
+ */
 template <typename T>
 T 
 Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w);
 
+/** 
+ * Projection of v onto n.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A two dimension vector.
+ * @param n Another two dimension vector.
+ * 
+ * @return The projection of v onto n.
+*/
 template <typename T>
-void 
-Orthonormalize2D (Vector2D<T> &u, Vector2D<T> &v, Vector2D<T> &w);
+Vector2D<T>
+Vec2DProjection (const Vector2D<T> &v , const Vector2D<T> &n);
 
 /** 
- * @brief Magnitude of a Vector3D.
+ * Vector Orthonormalization using the biased 
+ * Gram-Schmidt algorithm.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
  *
- * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @param u A two dimension vector.
+ * @param v A two dimension vector.
+ * @param n A two dimension vector.
+ *
+ * @notes Unexpected behavior when size of v > 2.
+ */
+template <typename T>
+void 
+Orthonormalize2D (std::vector<Vector2D<T> > &v);
+
+/** 
+ * Scalar on the left multiplication, for symmetry.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A two dimension vector.
+ * 
+ * @return The vector that resulted from the multiplication.
+ */
+template <typename T>
+Vector2D<T>
+operator * (T k, const Vector2D<T> &v);
+
+/** 
+ * Magnitude of a Vector3D.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-03-28
  * @since 0.2
  *
@@ -867,9 +903,9 @@ T
 Vec3DMagnitude (const Vector3D<T> &v);
 
 /** 
- * @brief Vector3D cross product.
+ * Vector3D cross product.
  *
- * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-03-28
  * @since 0.2
  *
@@ -883,9 +919,9 @@ Vector3D<T>
 Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w);
 
 /** 
- * @brief Distance between two vectors of type Vector3D. 
+ * Distance between two vectors of type Vector3D. 
  * 
- * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-03-28
  * @since 0.2
  *
@@ -893,19 +929,65 @@ Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w);
  * @param w Another constant reference to a Vector3D object.
  * 
  * @return The distance between the vectors.
-*/
+ */
 template <typename T>
 T 
 Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w);
 
+/** 
+ * Projection of v onto n.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A three dimension vector.
+ * @param n Another three dimension vector.
+ * 
+ * @return The projection of v onto n.
+ */
 template <typename T>
-void 
-Orthonormalize3D (Vector3D<T> &u, Vector3D<T> &v, Vector3D<T> &w);
+Vector3D<T>
+Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
 
 /** 
- * @brief Vector4D magnitude.
+ * Vector Orthonormalization using the biased 
+ * Gram-Schmidt algorithm.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
  *
- * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @param u A three dimension vector.
+ * @param v A three dimension vector.
+ * @param n A three dimension vector.
+ *
+ * @notes Unexpected behavior when size of v > 3.
+ */
+template <typename T>
+void 
+Orthonormalize3D (std::vector<Vector3D<T> > &v);
+
+
+/** 
+ * Scalar on the left multiplication, for symmetry.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A three dimension vector.
+ * 
+ * @return The vector that resulted from the multiplication.
+ */
+template <typename T>
+Vector3D<T>
+operator * (T k, const Vector3D<T> &v);
+
+/** 
+ * Vector4D magnitude.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-03-28
  * @since 0.2
  *
@@ -918,9 +1000,9 @@ T
 Vec4DMagnitude (const Vector4D<T> &v);
 
 /** 
- * @brief Distance between two vectors of type Vector4D. 
+ * Distance between two vectors of type Vector4D. 
  *
- * @author Ricardo Tiago <Ricardo.Tiago.Mendes@gmail.com>
+ * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-03-28
  * @since 0.2
  *
@@ -928,39 +1010,62 @@ Vec4DMagnitude (const Vector4D<T> &v);
  * @param w Another constant reference to a Vector4D object.
  * 
  * @return The distance between the vectors.
-*/
+ */
 template <typename T>
 T 
 Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k);
 
+/** 
+ * Projection of v onto n.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A four dimension vector.
+ * @param n Another four dimension vector.
+ * 
+ * @return The projection of v onto n.
+ */
+template <typename T>
+Vector4D<T>
+Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
+
+/** 
+ * Vector Orthonormalization using the biased 
+ * Gram-Schmidt algorithm.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param u A four dimension vector.
+ * @param v A four dimension vector.
+ * @param n A four dimension vector.
+ *
+ * @notes Unexpected behavior when size of v > 4.
+ * 
+ */
+template <typename T>
+void 
+Orthonormalize4D (std::vector<Vector4D<T> > &v);
+
+/** 
+ * Scalar on the left multiplication, for symmetry.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A four dimension vector.
+ * 
+ * @return The vector that resulted from the multiplication.
+ */
+template <typename T>
+Vector4D<T>
+operator * (T k, const Vector4D<T> &v);
 
 // Implementation of Vector2D,3D,4D
-
-template <typename T>
-Vector2D<T>::Vector2D ()
-{
-  x = 0;
-  y = 0;
-}
-
-template <typename T>
-Vector2D<T>::Vector2D (const T vx,const T vy)
-{
-  x = vx;
-  y = vy;
-}
-
-template <typename T>
-Vector2D<T>::Vector2D (const Vector2D<T>  &v)
-{
-  x = v.x;
-  y = v.y;
-}
-
-template <typename T>
-Vector2D<T>::~Vector2D ()
-{
-}
 
 template <typename T>
 Vector2D<T> &
@@ -1089,35 +1194,6 @@ Vector2D<T>::UnitPerpendicular () const
 }
 
 template <typename T>
-Vector3D<T>::Vector3D ()
-{
-  x = 0;
-  y = 0;
-  z = 0;
-}
-
-template <typename T>
-Vector3D<T>::Vector3D (const T vx, const T vy, const T vz)
-{
-  x = vx;
-  y = vy;
-  z = vz;
-}
-
-template <typename T>
-Vector3D<T>::Vector3D (const Vector3D<T>  &v)
-{
-  x = v.x;
-  y = v.y;
-  z = v.z;
-}
-
-template <typename T>
-Vector3D<T>::~Vector3D ()
-{
-}
-
-template <typename T>
 Vector3D<T> &
 Vector3D<T>::operator = (const Vector3D<T> &v)
 {
@@ -1229,39 +1305,6 @@ T
 Vector3D<T>::dot (const Vector3D<T> &v) const
 {
   return x*v.x + y*v.y + z*v.z;
-}
-
-
-template <typename T>
-Vector4D<T>::Vector4D ()
-{
-  x = 0;
-  y = 0;
-  z = 0;
-  w = 0;
-}
-
-template <typename T>
-Vector4D<T>::Vector4D (const T vx, const T vy, const T vz, const T vw)
-{
-  x = vx;
-  y = vy;
-  z = vz;
-  w = vw;
-}
-
-template <typename T>
-Vector4D<T>::Vector4D (const Vector4D<T>  &v)
-{
-  x = v.x;
-  y = v.y;
-  z = v.z;
-  w = v.w;
-}
-
-template <typename T>
-Vector4D<T>::~Vector4D ()
-{
 }
 
 template <typename T>
@@ -1402,22 +1445,37 @@ Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w)
 }
 
 template <typename T>
-void 
-Orthonormalize2D (Vector2D<T> &u, Vector2D<T> &v, Vector2D<T> &w)
+Vector2D<T>
+Vec2DProjection (const Vector2D<T> &v, const Vector2D<T> &n)
 {
-/*
-  Vector2D<T> tmp_u, tmp_v, tmp_w;
-  tmp_u = u;
-  tmp_v = v - ((tmp_u.dot(v)/pow(Vec2DMagnitude(tmp_u),2))*tmp_u);
-  tmp_w = w - ((tmp_u.dot(w)/pow(Vec2DMagnitude(tmp_u),2))*tmp_u)
-          -  ((tmp_v.dot(w)/pow(Vec2DMagnitude(tmp_v),2))*tmp_v);
-
-  u = tmp_u/Vec2DMagnitude(u);
-  v = tmp_v/Vec2DMagnitude(v);
-  w = tmp_w/Vec2DMagnitude(w);
-*/
+  return n * (v.dot(n)/n.dot(n)); 
 }
 
+template <typename T>
+void 
+Orthonormalize2D (std::vector<Vector2D<T> > &v)
+{
+
+  typename std::vector<Vector2D<T> >::iterator itForward;
+  typename std::vector<Vector2D<T> >::iterator itReverse;
+
+  for (itForward = v.begin(); itForward != v.end(); itForward++)
+  {
+    for (itReverse = itForward; itReverse >= v.begin(); itReverse--)
+    {
+      if (itReverse != itForward)
+        *itForward -= Vec2DProjection(*itForward,*itReverse);
+    }
+    *itForward = *itForward/Vec2DMagnitude(*itForward);
+  }
+}
+
+template <typename T>
+Vector2D<T>
+operator * (T k, const Vector2D<T> &v)
+{
+  return Vector2D<T>::Vector2D(k*v.x,k*v.y);
+}
 
 template<typename T> 
 T 
@@ -1446,25 +1504,36 @@ Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w)
 }
 
 template <typename T>
-void 
-Orthonormalize3D (Vector3D<T> &u, Vector3D<T> &v, Vector3D<T> &w)
+Vector3D<T>
+Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n)
 {
-  Vector3D<T> tmp_u, tmp_v, tmp_w;
-  tmp_u = u;
-
-  tmp_v = v - (tmp_u*(tmp_u.dot(v)/tmp_u.dot(tmp_u)));
-
-  tmp_w = w - (tmp_u*(tmp_u.dot(w)/tmp_u.dot(tmp_u)))
-          -  (tmp_v*(tmp_v.dot(w)/tmp_v.dot(tmp_v)));
-
-  //u = tmp_u/Vec3DMagnitude(tmp_u);
-  //v = tmp_v/Vec3DMagnitude(tmp_v);
-  //w = tmp_w/Vec3DMagnitude(tmp_w);
-  u = tmp_u;
-  v = tmp_v;
-  w = tmp_w;
+  return n * (v.dot(n)/n.dot(n));   
 }
 
+template <typename T>
+void 
+Orthonormalize3D (std::vector<Vector3D<T> > &v)
+{
+  typename std::vector<Vector3D<T> >::iterator itForward;
+  typename std::vector<Vector3D<T> >::iterator itReverse;
+
+  for (itForward = v.begin(); itForward != v.end(); itForward++)
+  {
+    for (itReverse = itForward; itReverse >= v.begin(); itReverse--)
+    {
+      if (itReverse != itForward)
+        *itForward -= Vec3DProjection(*itForward,*itReverse);
+    }
+    *itForward = *itForward/Vec3DMagnitude(*itForward);
+  }
+}
+
+template <typename T>
+Vector3D<T>
+operator * (T k, const Vector3D<T> &v)
+{
+  return Vector3D<T>::Vector3D(k*v.x,k*v.y,k*v.z);
+}
 
 template<typename T> 
 T 
@@ -1482,6 +1551,38 @@ Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k)
   T dz = v.z - k.z;
   T dw = v.w - k.w;
   return sqrt (dx*dx + dy*dy + dw*dw);
+}
+
+template <typename T>
+Vector4D<T>
+Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n)
+{
+  return n * (v.dot(n)/n.dot(n)); 
+}
+
+template <typename T>
+void 
+Orthonormalize4D (std::vector<Vector4D<T> > &v)
+{
+  typename std::vector<Vector4D<T> >::iterator itForward;
+  typename std::vector<Vector4D<T> >::iterator itReverse;
+
+  for (itForward = v.begin(); itForward != v.end(); itForward++)
+  {
+    for (itReverse = itForward; itReverse >= v.begin(); itReverse--)
+    {
+      if (itReverse != itForward)
+        *itForward -= Vec4DProjection(*itForward,*itReverse);
+    }
+    *itForward = *itForward/Vec4DMagnitude(*itForward);
+  }
+}
+
+template <typename T>
+Vector4D<T>
+operator * (T k, const Vector4D<T> &v)
+{
+  return Vector4D<T>::Vector4D(k*v.x,k*v.y,k*v.z,k*v.w);
 }
 
 }
