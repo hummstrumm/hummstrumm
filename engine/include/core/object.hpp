@@ -68,8 +68,8 @@ typedef Pointer<const Object> ConstObjectPtr;
  * Type::Create method.
  *
  * Any allocation of the Object will occur on the Heap, using overloaded new,
- * new[], delete, and delete[] operators.  The user can find out whether an
- * Object is on the Heap using its Object::IsHeapMemory method.
+ * new[], delete, and delete[] operators for the Heap.  The user can find out
+ * whether an Object is on the Heap using its Object::IsHeapMemory method.
  *
  * Object also overloads the & (address) operator to return a Pointer<T> to the
  * Object.  You can also access this through the Object::GetPointer method.  By
@@ -119,7 +119,7 @@ typedef Pointer<const Object> ConstObjectPtr;
  * A class implementing the Object/Type system will integrate completely with
  * the other classes of the engine.
  *
- * @version 0.1
+ * @version 0.2
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date 2009-07-20
  * @since 0.1
@@ -186,120 +186,6 @@ class Object
       const throw ();
 
     /**
-     * Allocates a new Object on the Heap.  This is the version which throws
-     * an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-09-02
-     * @since 0.1
-     *
-     * @param objectSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the Object due to padding).
-     *
-     * @returns A pointer to the new memory for the Object.
-     *
-     * @todo Throw exception after failed allocation.
-     */
-    static void *operator new (std::size_t objectSize);
-    /**
-     * Allocates a new Object on the Heap.  This is the version which does not
-     * throw an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-09-02
-     * @since 0.1
-     *
-     * @param objectSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the Object due to padding).
-     *
-     * @param dontThrowException [in] The flag that differentiates the nothrow
-     * version of new from the throwing version.
-     *
-     * @returns A pointer to the new memory for the Object, or a null pointer
-     * if the memory could not be allocated.
-     */
-    static void *operator new (std::size_t objectSize,
-                               std::nothrow_t dontThrowException)
-      throw ();
-    /**
-     * Allocates a new Object array on the Heap.  This is the version which
-     * throws an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-09-02
-     * @since 0.1
-     *
-     * @param objectsSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the
-     * Object objects due to padding).
-     *
-     * @returns A pointer to the new memory for the Object objects.
-     *
-     * @todo Throw exception after failed allocation.
-     */
-    static void *operator new[] (std::size_t objectsSize);
-    /**
-     * Allocates a new Object array on the Heap.  This is the version which
-     * does not throw an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-09-02
-     * @since 0.1
-     *
-     * @param objectsSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the Object objects due to
-     * padding).
-     *
-     * @param dontThrowException [in] The flag that differentiates the nothrow
-     * version of new from the throwing version.
-     *
-     * @returns A pointer to the new memory for the Objects, or a null pointer
-     * if the memory could not be allocated.
-     */
-    static void *operator new[] (std::size_t objectsSize,
-                                 std::nothrow_t dontThrowException)
-      throw ();
-    /**
-     * Unallocates an Object from the Heap.  This function will fail and return
-     * if called on an Object that is not on the Heap.
-     *
-     * Internally, this method calls Heap::Free.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-09-02
-     * @since 0.1
-     *
-     * @param object [in, out] The Object which will be freed from the Heap.
-     * This pointer to the Object will no longer be valid after this operation.
-     */
-    static void operator delete (void *object)
-      throw ();
-    /**
-     * Unallocates an Object array from the Heap.  This function will fail and
-     * return if called on an Object array that is not on the Heap.
-     *
-     * Internally, this method calls Heap::Free.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-09-02
-     * @since 0.1
-     *
-     * @param objects [in, out] The Object objectss which will be freed from
-     * the Heap.  This pointer to the Object objects will no longer be valid
-     * after this operation.
-     */
-    static void operator delete[] (void *objects)
-      throw ();
-
-    /**
      * Returns the Type of the Object.  This Type contains runtime type
      * information for the class.
      *
@@ -346,7 +232,7 @@ class Object
      *
      * @see operator&
      */
-    virtual Pointer<const Object> GetPointer (void)
+    Pointer<const Object> GetPointer (void)
       const throw ();
     /**
      * Returns a Pointer<const Object> to this Object.  There are two versions
@@ -366,7 +252,7 @@ class Object
      *
      * @see GetPointer
      */
-     virtual ConstObjectPtr operator& (void)
+     ConstObjectPtr operator& (void)
        const throw ();
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
@@ -381,7 +267,7 @@ class Object
      *
      * @see operator&
      */
-    virtual ObjectPtr GetPointer (void)
+    ObjectPtr GetPointer (void)
       throw ();
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
@@ -401,7 +287,7 @@ class Object
      *
      * @see GetPointer
      */
-    virtual ObjectPtr operator& (void)
+    ObjectPtr operator& (void)
       throw ();
     
 /*  =AFTER STREAM CLASSES CREATED=

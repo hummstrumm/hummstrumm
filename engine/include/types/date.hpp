@@ -17,16 +17,16 @@
  */
 
 /**
- * Defines the Time class.
+ * Defines the Date class.
  *
- * @file   time.hpp
+ * @file   date.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-13
- * @see    Time
+ * @see    Date
  */
 
-#ifndef HUMMSTRUMM_ENGINE_TYPES_TIME
-#define HUMMSTRUMM_ENGINE_TYPES_TIME
+#ifndef HUMMSTRUMM_ENGINE_TYPES_DATE
+#define HUMMSTRUMM_ENGINE_TYPES_DATE
 
 #include "inttypes.hpp"
 
@@ -49,7 +49,7 @@ namespace types
  * @todo This class will eventually be a time class, storing information about
  * a moment in time.
  */
-class Time
+class Date
 {
   public:
     /**
@@ -92,7 +92,7 @@ class Time
       throw ();
 
   private:
-    Time (void) {} // SO NOTHING IS CREATED
+    Date (void) {} // SO NOTHING IS CREATED
 };
 
 }

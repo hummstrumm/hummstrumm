@@ -20,7 +20,7 @@
 #include <debug/log.hpp>
 #include <debug/profiler.hpp>
 #include <types/inttypes.hpp>
-#include <types/time.hpp>
+#include <types/date.hpp>
 
 #include <string>
 #include <sstream>
@@ -40,22 +40,22 @@ namespace debug
 
 
 Profiler::Profiler (hummstrumm::engine::types::String debugName)
-  : startTime (hummstrumm::engine::types::Time::GetHighResolutionCount ()),
+  : startTime (hummstrumm::engine::types::Date::GetHighResolutionCount ()),
     debugName (debugName)
 {
   // Construct log message.
-  hummstrumm::engine::types::String message ("Profiler ``");
+  hummstrumm::engine::types::String message (L"Profiler ``");
   message += this->debugName;
-  message += "'' started.";
+  message += L"'' started.";
 
   // Log it.
-  LOG (message, hummstrumm::engine::debug::Log::MESSAGE);
+  LOG (message, MESSAGE);
 }
 
 Profiler::~Profiler (void)
 {
   // Get the time and calculate how long it has been since the start.
-  hummstrumm::engine::types::int64 endTime (hummstrumm::engine::types::Time::
+  hummstrumm::engine::types::int64 endTime (hummstrumm::engine::types::Date::
                                             GetHighResolutionCount ());
   
   hummstrumm::engine::types::int64 difference;
@@ -66,10 +66,10 @@ Profiler::~Profiler (void)
       // constants from our <types/inttypes.hpp> header file.  Hopefully we
       // won't go through two of these, or something is really wrong.
       hummstrumm::engine::types::int64 endTimeOverflowAmount =
-        endTime - hummstrumm::engine::types::INT64_MIN;
+        endTime - INT64_MIN;
       
       hummstrumm::engine::types::int64 startTimeOverflowAmount =
-        hummstrumm::engine::types::INT64_MIN - this->startTime;
+        INT64_MIN - this->startTime;
 
       // The difference is their sum.
       difference = startTimeOverflowAmount + endTimeOverflowAmount;
@@ -80,7 +80,7 @@ Profiler::~Profiler (void)
     }
 
   // Get the timer frequency.
-  hummstrumm::engine::types::int64 frequency (hummstrumm::engine::types::Time::
+  hummstrumm::engine::types::int64 frequency (hummstrumm::engine::types::Date::
                    GetHighResolutionFrequency ());
 
   // Calculate the actual time, using tick counts and the frequency.
@@ -88,18 +88,18 @@ Profiler::~Profiler (void)
   long   timeInMicroSeconds (std::ceil (timeInSeconds / 1000000));
 
   // Convert it to a string.
-  std::stringstream intToStringStream;
+  std::wstringstream intToStringStream;
   intToStringStream << timeInMicroSeconds;
 
   // Constuct a log message.
-  hummstrumm::engine::types::String message ("Profiler ``");
+  hummstrumm::engine::types::String message (L"Profiler ``");
   message += this->debugName;
-  message += "'' ended in ";
+  message += L"'' ended in ";
   message += intToStringStream.str ();
-  message += " µsec.";
+  message += L" µsec.";
 
   // Write it out.
-  LOG (message, hummmstrumm::engine::debug::Log::MESSAGE);
+  LOG (message, MESSAGE);
 }
 
 

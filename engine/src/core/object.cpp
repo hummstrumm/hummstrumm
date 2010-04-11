@@ -37,23 +37,6 @@ namespace engine
 namespace core
 {
 
-const unsigned int GetProcessorCount_hidden_ (void) throw ();
-    // Thanks to Jeremy Jones for this code for Windows.
-    // <https://www.cs.tcd.ie/Jeremy.Jones/GetCurrentProcessorNumberXP.htm>
-const unsigned int
-GetCurrentProcessor_hidden_ (void)
-  throw ()
-{
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-  _asm { mov eax, 1 }
-  _asm { cpuid }
-  _asm { shr ebx, 24 }
-  _asm { mov eax, ebx }
-#else
-  return sched_getcpu ();
-#endif
-}
-
 Type type_HIDDEN_
   ("hummstrumm::engine::core::Object",
    sizeof (Object),
@@ -83,84 +66,6 @@ unsigned int
 Object::GetReferenceCount (void) const throw ()
 {
   return referenceCount_;
-}
-
-
-void *
-Object::operator new (std::size_t objectSize)
-{
-  char *memory = 0;
-  
-  masterHeap_HIDDEN_.GetHeap (GetCurrentProcessor_hidden_ ())->
-    Allocate (&memory, objectSize);
-  
-  return memory;
-}
-
-
-void *
-Object::operator new (std::size_t objectSize,
-                      std::nothrow_t dontThrowException) throw ()
-{
-  char *memory = 0;
-  
-  try
-    {
-      masterHeap_HIDDEN_.GetHeap (GetCurrentProcessor_hidden_ ())->
-        Allocate (&memory, objectSize);
-    }
-  catch (...)
-    {
-      return 0;
-    }
-  
-  return memory;
-}
-
-
-void *
-Object::operator new[] (size_t objectsSize)
-{
-  char *memory = 0;
-  
-  masterHeap_HIDDEN_.GetHeap (GetCurrentProcessor_hidden_ ())->
-    Allocate (&memory, objectsSize);
-  
-  return memory;
-}
-
-
-void *
-Object::operator new[] (std::size_t objectsSize,
-                        std::nothrow_t dontThrowException) throw ()
-{
-  char *memory = 0;
-  
-  try
-    {
-      masterHeap_HIDDEN_.GetHeap (GetCurrentProcessor_hidden_ ())->
-        Allocate (&memory, objectsSize);
-    }
-  catch (...)
-    {
-      return 0;
-    }
-  
-  return memory;
-}
-
-
-void
-Object::operator delete (void *object) throw ()
-{
-  Heap::FreeHelper (reinterpret_cast<char **> (&object));
-}
-
-
-void
-Object::operator delete[] (void *objects) throw ()
-{
-  Heap::FreeHelper (reinterpret_cast<char **> (&objects));
 }
 
 

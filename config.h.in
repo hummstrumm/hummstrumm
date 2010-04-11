@@ -32,7 +32,7 @@
 #cmakedefine HUMMSTRUMM_WINDOWSYSYEM_X11
 
 // File name of the log.
-#cmakedefine HUMMSTRUMM_LOG_FILENAME "@HUMMSTRUMM_LOG_FILENAME@"
+#cmakedefine HUMMSTRUMM_LOG_FILENAME L"@HUMMSTRUMM_LOG_FILENAME@"
 // Is the log in XML mode?
 // NOTE: This uses a relatively unknown feature that will evaluate
 // boolean values to 0 or 1 before inserting them into the header
@@ -41,14 +41,9 @@
 // Minimum level of log messages to output.
 #cmakedefine HUMMSTRUMM_LOG_LOGLEVEL @HUMMSTRUMM_LOG_LOGLEVEL@
 
-
-// Stating heap size
-#cmakedefine HUMMSTRUMM_HEAP_SIZE @HUMMSTRUMM_HEAP_SIZE@
-// Size by which to expand the heap each time it expands
-#cmakedefine HUMMSTRUMM_HEAP_EXPAND @HUMMSTRUMM_HEAP_EXPAND@
-
-// Method of math calculations
-#cmakedefine HUMMSTRUMM_MATH_PRECISE
+// Endianness of system.
+#cmakedefine HUMMSTRUMM_ENDIAN_BIG
+#cmakedefine HUMMSTRUMM_ENDIAN_LITTLE
 
 // Debug mode?
 #cmakedefine HUMMSTRUMM_DEBUG

@@ -31,6 +31,8 @@
 #  include <inttypes.h>
 #endif
 
+#include "../config.h"
+
 namespace hummstrumm
 {
 namespace engine
@@ -139,7 +141,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT32_MIN  (-2147483648);
+#define INT32_MIN  (-2147483648l);
 /**
  * The maximum value of an int32.
  *
@@ -147,7 +149,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT32_MAX  (+2147483647);
+#define INT32_MAX  (+2147483647l);
 /**
  * The maximum value of an uint32.
  *
@@ -155,7 +157,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define UINT32_MAX (+4294967295u);
+#define UINT32_MAX (+4294967295ul);
 /**
  * The minimum value of an int64.
  *
@@ -163,7 +165,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT64_MIN  (-9223372036854775808);
+#define INT64_MIN  (-9223372036854775808ll);
 /**
  * The maximum value of an int64.
  *
@@ -171,7 +173,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT64_MAX  (+9223372036854775807);
+#define INT64_MAX  (+9223372036854775807ll);
 /**
  * The maximum value of an uint64.
  *
@@ -179,7 +181,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define UINT64_MAX (+18446744073709551615u);
+#define UINT64_MAX (+18446744073709551615ull);
 
 
 }

@@ -82,6 +82,8 @@ else (WIN32)
   endif (UNIX)
 endif (WIN32)
 
+set (HUMMSTRUMM_BUILD_DOCS ON CACHE BOOL "Build documentation of the engine?")
+
 # Log Options
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
   set (HUMMSTRUMM_LOG_FILENAME  /var/log/hummstrumm CACHE STRING
@@ -93,15 +95,12 @@ endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 set (HUMMSTRUMM_LOG_XMLMODE  ON      CACHE BOOL "Whether to log in XML.")
 set (HUMMSTRUMM_LOG_LOGLEVEL MESSAGE CACHE STRING "The minimum level of messages.")
 
-
-set (HUMMSTRUMM_HEAP_SIZE   65536 CACHE STRING
-     "The game engine starting heap size.")
-set (HUMMSTRUMM_HEAP_EXPAND 4096  CACHE STRING
-     "The size by which to expand the heap.")
-
-set (HUMMSTRUMM_MATH_PRECISE ON CACHE BOOL "Enable precise math mode.")
-
-set (COMPILE_ZLIB ON CACHE BOOL "Use the included zlib distribution (DEFAULT=ON).")
+# System Aspects
+include (TestBigEndian)
+test_big_endian(HUMMSTRUMM_ENDIAN_BIG)
+if (NOT HUMMSTRUMM_ENDIAN_BIG)
+  set (HUMMSTRUMM_ENDIAN_LITTLE ON)
+endif (NOT HUMMSTRUMM_ENDIAN_BIG)
 
 set (CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 

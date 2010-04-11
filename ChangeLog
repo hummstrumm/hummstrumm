@@ -1,17 +1,72 @@
+2010-04-10 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* log.cpp: Made all strings wide.
+
+	* rawdata.cpp: Created, finished.
+
+	* type.hpp: Some minor fixes now that we've a real class implementing
+	  the Object/Type System.
+	  
+2010-03-27 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* endian.cpp: Test case created.
+
+	* log.cpp: Stupid mistake in class logic caused test to fail.  Fixed.
+
+	* CMakeLists.txt: Made documentation generation based on flag in cache.
+
+	* hummstrummengine.hpp: Added documentation for two namespaces that
+	  hadn't any.
+
+2010-03-26 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* rawdata.hpp: Created.
+
+	* endian.hpp: Created and documented.
+
+	* endian.cpp: Created.
+
+2010-03-25 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* lib/: Removed, it's kind of not cross platform enough and
+	  doesn't integrate with CMake that well.  Also, its polluting
+	  the repo.
+
+	* INSTALL: Added instructions for cache flags.
+
+	* CMakeLists.txt: Removed old cache flags that we won't be using.
+
+	* config.h.in: Removed old cache flags that we won't be using.
+
+2010-03-24 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* heap.hpp: Made MasterHeap a singleton.
+
+	* heap.cpp: Moved the new/delete routines here so all data types
+	  can use the custom Heap.
+
+	* object.hpp: Removed the new/delete methods...now in heap.hpp.
+
+	* rawdata.hpp: Created.
+
+	* time.hpp: Renamed to date.hpp to match the new type name.
+
+	* time.cpp: Renamed to date.cpp to match the new type name.
+
 2010-02-06 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
 
 	* All files: Changed copyright years to 2008-2010.
-	
+
 	* generate-documentation.sh: Removed, functionality moved
 	  to CMake.
-	
+
 	* generate-documentation.bat: Removed, functionality moved
 	  to CMake.
 
 2010-02-05 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
 
 	* heap.hpp: Heap class documentation completed.
-	
+
 	* object.cpp: Object class working with Heap.
 
 2009-11-28 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
@@ -20,17 +75,17 @@
 	  end of file, for compatiblity with GNU/Emacs default
 	  behavior in change-log-mode.  Reformatted to end the text
 	  before column 70.
-	
+
 	* AUTHORS: Reformatted to end the text before column 70.
-	
+
 	* FAQ: Reformatted to end the text before column 70.
-	
+
 	* INSTALL: Reformatted to end the text before column 70.
-	
+
 	* NEWS: Reformatted to end the text before column 70.
-	
+
 	* README: Reformatted to end the text before column 70.
-	
+
 	* THANKS: Reformatted to end the text before column 70.
 
 2009-11-25 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
@@ -38,15 +93,15 @@
 	* type.cpp: Type class implemented, can compile.  Added
 	  macro for template classes implementing the Object/Type
 	  system.
-	
+
 	* object.cpp: Object class implemented, can compile.
-	
+
 	* pointer.cpp: Pointer<T> class implemented.  Added various
 	  typedefs to the class.  Removed non-const versions of
 	  GetObject and GetPointer, because returning another
 	  pointer or the dereferenced Object will in no way affect
 	  the original Pointer<T>.
-	
+
 	* CMakeLists.txt: Added source files and install
 	  information.
 
@@ -56,7 +111,7 @@
 
 	* README: Added user documentation.
 
-	* COPYING: Added note to say only code is licensed under
+	* COPYING: Added note to say only code is licensed unde
 	  GPL.
 
 	* FAQ: Added FAQs.
