@@ -30,10 +30,38 @@
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
-// @todo Finish the rest of the test cases for Vec2D, 3D and 4D.
-// @todo Finish the testOrthonormalize
 
 using namespace hummstrumm::engine::math;
+
+class MatricesTest : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE ( MatricesTest );
+  CPPUNIT_TEST ( testConstructor );
+  CPPUNIT_TEST ( testCopyConstructor );
+  CPPUNIT_TEST ( testAssignment );
+  CPPUNIT_TEST_SUITE_END ();
+
+  public:
+
+    void setUp () {}
+
+    void tearDown () {}
+
+    void testConstructor ()
+    {
+    }
+
+    void testCopyConstructor ()
+    {
+    }
+
+    void testAssignment ()
+    {
+    }
+
+  private:
+
+};
 
 class VectorTest : public CppUnit::TestFixture
 {
@@ -282,6 +310,7 @@ class VectorTest : public CppUnit::TestFixture
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION ( VectorTest );
+CPPUNIT_TEST_SUITE_REGISTRATION ( MatricesTest );
 
 int
 main (int argc, char **argv)
