@@ -75,8 +75,17 @@ RawData::~RawData (void)
 }
 
 
+unsigned char
+RawData::operator[] (int byteNumber)
+  const throw ()
+{
+  return reinterpret_cast<char *> (this->buffer)[byteNumber];
+}
+
+
 void
-RawData::SwapByteOrder (void) throw ()
+RawData::SwapByteOrder (void)
+  throw ()
 {
   for (std::size_t i = 0; i < this->bufferSize / 2; i++)
     {
@@ -86,7 +95,8 @@ RawData::SwapByteOrder (void) throw ()
 }
 
 void
-RawData::ToBigEndian (void) throw ()
+RawData::ToBigEndian (void)
+  throw ()
 {
   if (this->GetByteOrder () == hummstrumm::engine::system::Endian::Big)
     {
@@ -99,7 +109,8 @@ RawData::ToBigEndian (void) throw ()
 }
 
 void
-RawData::ToLittleEndian (void) throw ()
+RawData::ToLittleEndian (void)
+  throw ()
 {
   if (this->GetByteOrder () == hummstrumm::engine::system::Endian::Little)
     {
@@ -113,7 +124,8 @@ RawData::ToLittleEndian (void) throw ()
 
 
 void
-RawData::ToSystemEndian (void) throw ()
+RawData::ToSystemEndian (void)
+  throw ()
 {
   if (this->GetByteOrder () ==
       hummstrumm::engine::system::Endian::GetSystemByteOrder ())
@@ -128,21 +140,24 @@ RawData::ToSystemEndian (void) throw ()
 
 
 const void *
-RawData::GetBytes (void) const throw ()
+RawData::GetBytes (void)
+  const throw ()
 {
   return this->buffer;
 }
 
 
 std::size_t
-RawData::GetSize (void) const throw ()
+RawData::GetSize (void)
+  const throw ()
 {
   return this->bufferSize;
 }
 
 
 const hummstrumm::engine::system::Endian
-RawData::GetByteOrder (void) const throw ()
+RawData::GetByteOrder (void)
+  const throw ()
 {
   return this->byteOrder;
 }
