@@ -24,7 +24,7 @@ set (hummstrummengine_SRCS
   src/core/object.cpp
   src/types/time.cpp)
 set (hummstrummengine_INCLUDE include/)
-set (CMAKE_C_FLAGS_DEBUG "-Wall -g")
+set (CMAKE_C_FLAGS_DEBUG "-Wall -g -ggdb")
 
 include_directories (${hummstrummengine_INCLUDE})
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
@@ -49,8 +49,8 @@ if (WIN32)
 else()
   install (TARGETS hummstrummengine 
            ARCHIVE DESTINATION lib)
-  #install (FILES doc/latex/refman.pdf
-  #         DESTINATION share/doc/hummstrummengine)
+  install (FILES doc/latex/refman.pdf
+           DESTINATION share/doc/hummstrummengine)
   install (FILES include/hummstrummengine.hpp
            DESTINATION include)
   install (DIRECTORY ${hummstrummengine_INCLUDE}

@@ -17,7 +17,7 @@
  */
 
 /** 
- * Defines and implements classes for vector in 2,3,and 4 dimensions.
+ * Defines and implements classes for vectors in 2,3,and 4 dimensions.
  *
  * @file    vector.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
@@ -1108,7 +1108,7 @@ template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator - () const 
 {
-  return Vector2D<T> (-x,-y); 
+  return Vector2D<T> (-x, -y); 
 }
 
 template <typename T>
@@ -1350,7 +1350,7 @@ template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator - () const 
 {
- return Vector4D<T> (-x,-y, -z, -w); 
+ return Vector4D<T> (-x, -y, -z, -w); 
 }
 
 template <typename T>
@@ -1474,7 +1474,7 @@ template <typename T>
 Vector2D<T>
 operator * (T k, const Vector2D<T> &v)
 {
-  return Vector2D<T>::Vector2D(k*v.x,k*v.y);
+  return typename Vector2D<T>::Vector2D(k*v.x,k*v.y);
 }
 
 template<typename T> 
@@ -1488,9 +1488,9 @@ template<typename T>
 Vector3D<T> 
 Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w)
 {
-  return Vector3D<T>::Vector3D (v.y*w.z - v.z*w.y,
-                                v.z*w.x - v.x*w.z,
-                                v.x*w.y - v.y*w.x);
+  return typename Vector3D<T>::Vector3D (v.y*w.z - v.z*w.y,
+                                         v.z*w.x - v.x*w.z,
+                                         v.x*w.y - v.y*w.x);
 }
 
 template<typename T>
@@ -1532,7 +1532,7 @@ template <typename T>
 Vector3D<T>
 operator * (T k, const Vector3D<T> &v)
 {
-  return Vector3D<T>::Vector3D(k*v.x,k*v.y,k*v.z);
+  return typename Vector3D<T>::Vector3D(k*v.x,k*v.y,k*v.z);
 }
 
 template<typename T> 
@@ -1582,7 +1582,7 @@ template <typename T>
 Vector4D<T>
 operator * (T k, const Vector4D<T> &v)
 {
-  return Vector4D<T>::Vector4D(k*v.x,k*v.y,k*v.z,k*v.w);
+  return typename Vector4D<T>::Vector4D(k*v.x,k*v.y,k*v.z,k*v.w);
 }
 
 }
