@@ -91,6 +91,20 @@ class Log;
 }
 
 /**
+ * The namespace for the math classes of the game engine.  This namespace 
+ * contains the vector and matrices classes.
+ */
+namespace math
+{
+class Vector2D;
+class Vector3D;
+class Vector4D;
+class Matrix2D;
+class Matrix3D;
+class Matrix4D;
+}
+
+/**
  * The namespace for the core of the game engine.  This namespace contains
  * the memory manager, the Object/Type system, and the smart pointer.
  */

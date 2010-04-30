@@ -24,13 +24,15 @@ set (hummstrummengine_SRCS
   src/core/object.cpp
   src/types/time.cpp)
 set (hummstrummengine_INCLUDE include/)
-set (CMAKE_C_FLAGS_DEBUG "-Wall -g")
+set (CMAKE_C_FLAGS_DEBUG "-Wall -g -ggdb")
 
 include_directories (${hummstrummengine_INCLUDE})
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 # Add documentation generation
 include (UseDoxygen OPTIONAL)
-add_dependencies (hummstrummengine doc)
+if (CMAKE_BUILD_TYPE MATCHES Release)
+  add_dependencies (hummstrummengine doc)
+endif (CMAKE_BUILD_TYPE MATCHES Release)
 # Install library and header files
 if (WIN32)
   install (TARGETS hummstrummengine 
