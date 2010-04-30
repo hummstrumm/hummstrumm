@@ -245,7 +245,7 @@ class Vector2D
     Vector2D<T> &operator /= (T s);
 
     /** 
-     * Normalize the vector.
+     * Normalize this vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -500,7 +500,7 @@ class Vector3D
     Vector3D<T> &operator /= (T s);
 
     /** 
-     * Normalize the vector.
+     * Normalize this vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -756,7 +756,7 @@ class Vector4D
     Vector4D<T> &operator /= (T s);
 
     /** 
-     * Normalize the vector.
+     * Normalize this vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28

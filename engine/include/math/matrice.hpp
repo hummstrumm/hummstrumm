@@ -300,6 +300,35 @@ class Matrix2D
      */
     Matrix2D<T> &operator /= (const T s);
 
+    /** 
+     * Set this matrix to the identity matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    void Identity ();
+
+    /** 
+     * Calculate the determinant of this matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    T Determinant () const;
+
+    /** 
+     * Inverse of this matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    void Inverse ();
 
   private:
 
@@ -583,6 +612,35 @@ class Matrix3D
      */
     Matrix3D<T> &operator /= (const T s);
 
+    /** 
+     * Set this matrix to the identity matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    void Identity ();
+
+    /** 
+     * Calculate the determinant of this matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    T Determinant () const;
+
+    /** 
+     * Inverse of this matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    void Inverse ();
 
   private:
 
@@ -880,6 +938,35 @@ class Matrix4D
      */
     Matrix4D<T> &operator /= (const T s);
 
+    /** 
+     * Set this matrix to the identity matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    void Identity ();
+
+    /** 
+     * Calculate the determinant of this matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    T Determinant () const;
+
+    /** 
+     * Inverse of this matrix.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     */
+    void Inverse ();
 
   private:
 
@@ -993,6 +1080,30 @@ Matrix2D<T>::operator /= (const T s)
   return *this;
 }
 
+template <typename T>
+void
+Matrix2D<T>::Identity ()
+{
+  mat2[0].x = mat2[1].y = 1;
+  mat2[0].y = 0;
+  mat2[1].x = 0;
+}
+
+template <typename T>
+T
+Matrix2D<T>::Determinant () const
+{
+  return mat2[0].x * mat2[1].y - mat2[0].y * mat2[1].x;
+}
+
+template <typename T>
+void
+Matrix2D<T>::Inverse ()
+{
+  *this = Matrix2D(mat2[1].y, -mat2[0].y, -mat2[1].x, mat2[0].x)
+          /Determinant();
+}
+
 // Matrix 3D
 template <typename T>
 Matrix3D<T> &
@@ -1100,6 +1211,40 @@ Matrix3D<T>::operator /= (const T s)
   mat3[2] *= oneOverS;
   return *this;
 }
+
+template <typename T>
+void
+Matrix3D<T>::Identity ()
+{
+  mat3[0].x = mat3[1].y = mat3[2].z = 1;
+  mat3[0].y = mat3[0].z = 0;
+  mat3[1].x = mat3[1].z = 0;
+  mat3[2].x = mat3[2].y = 0;
+}
+
+template <typename T>
+T
+Matrix3D<T>::Determinant () const
+{
+  return mat3[2].dot(Vec3DCross(mat3[0],mat3[1]));
+}
+
+template <typename T>
+void
+Matrix3D<T>::Inverse ()
+{
+  *this = Matrix3D(mat3[1].y*mat3[2].z - mat3[1].z*mat3[2].y, 
+                   mat3[0].z*mat3[2].y - mat3[0].y*mat3[2].z,
+                   mat3[0].y*mat3[1].z - mat3[0].z*mat3[1].y,
+                   mat3[1].z*mat3[2].x - mat3[1].x*mat3[2].z,
+                   mat3[0].x*mat3[2].z - mat3[0].z*mat3[2].x,
+                   mat3[0].z*mat3[1].x - mat3[0].x*mat3[1].z,
+                   mat3[1].x*mat3[2].y - mat3[1].y*mat3[2].x,
+                   mat3[0].y*mat3[2].x - mat3[0].x*mat3[2].y,
+                   mat3[0].x*mat3[1].y - mat3[0].y*mat3[1].x)
+                   /Determinant();
+}
+
 
 // Matrix 4D
 template <typename T>
@@ -1222,6 +1367,112 @@ Matrix4D<T>::operator /= (const T s)
   mat4[2] *= oneOverS;
   mat4[3] *= oneOverS;
   return *this;
+}
+
+template <typename T>
+void
+Matrix4D<T>::Identity ()
+{
+  mat4[0].x = mat4[1].y = mat4[2].z = mat4[3].w = 1;
+  mat4[0].y = mat4[0].z = mat4[0].w = 0;
+  mat4[1].x = mat4[1].z = mat4[1].w = 0;
+  mat4[2].x = mat4[2].y = mat4[2].w = 0;
+  mat4[3].x = mat4[3].y = mat4[3].z = 0;
+}
+
+template <typename T>
+T
+Matrix4D<T>::Determinant () const
+{
+  return mat4[0].x*(mat4[1].y*(mat4[2].z*mat4[3].w - mat4[2].w*mat4[3].z)
+         + mat4[1].z*(mat4[2].w*mat4[3].y - mat4[2].y*mat4[3].w)
+         + mat4[1].w*(mat4[2].y*mat4[3].z - mat4[2].z*mat4[3].y))
+
+         - mat4[0].y*(mat4[1].x*(mat4[2].z*mat4[3].w - mat4[2].w*mat4[3].z)
+         + mat4[1].z*(mat4[2].w*mat4[3].x - mat4[2].x*mat4[3].w)
+         + mat4[1].w*(mat4[2].x*mat4[3].z - mat4[2].z*mat4[3].x))
+
+         + mat4[0].z*(mat4[1].x*(mat4[2].y*mat4[3].w - mat4[2].w*mat4[3].y)
+         + mat4[1].y*(mat4[2].w*mat4[3].x - mat4[2].x*mat4[3].w)
+         + mat4[1].w*(mat4[2].x*mat4[3].y - mat4[2].y*mat4[3].x))
+
+         - mat4[0].w*(mat4[1].x*(mat4[2].y*mat4[3].z - mat4[2].z*mat4[3].y)
+         + mat4[1].y*(mat4[2].z*mat4[3].x - mat4[2].x*mat4[3].z)
+         + mat4[1].z*(mat4[2].x*mat4[3].y - mat4[2].y*mat4[3].x));
+}
+
+
+template <typename T>
+void
+Matrix4D<T>::Inverse ()
+{ 
+  *this = Matrix4D(mat4[1].y*mat4[2].z*mat4[3].w + mat4[1].z*mat4[2].w*mat4[3].y 
+                   + mat4[1].w*mat4[2].y*mat4[3].z
+                   - mat4[1].y*mat4[2].w*mat4[3].z - mat4[1].z*mat4[2].y*mat4[3].w 
+                   - mat4[1].w*mat4[2].z*mat4[3].y, 
+                   mat4[0].y*mat4[2].w*mat4[3].z + mat4[0].z*mat4[2].y*mat4[3].w 
+                   + mat4[0].w*mat4[2].z*mat4[3].y
+                   - mat4[0].y*mat4[2].z*mat4[3].w - mat4[0].z*mat4[2].w*mat4[3].y 
+                   - mat4[0].w*mat4[2].y*mat4[3].z,
+                   mat4[0].y*mat4[1].z*mat4[3].w + mat4[0].z*mat4[1].w*mat4[3].y 
+                   +  mat4[0].w*mat4[1].y*mat4[3].z
+                   - mat4[0].y*mat4[1].w*mat4[3].z - mat4[0].z*mat4[1].y*mat4[3].w 
+                   - mat4[0].w*mat4[1].z*mat4[3].y,
+                   mat4[0].y*mat4[1].w*mat4[2].z + mat4[0].z*mat4[1].y*mat4[2].w 
+                   + mat4[0].w*mat4[1].z*mat4[2].y 
+                   - mat4[0].y*mat4[1].z*mat4[2].y - mat4[0].z*mat4[1].w*mat4[2].y 
+                   - mat4[0].w*mat4[1].y*mat4[2].z,
+
+                   mat4[1].x*mat4[2].w*mat4[3].z + mat4[1].z*mat4[2].x*mat4[3].w 
+                   + mat4[1].w*mat4[2].z*mat4[3].x
+                   - mat4[1].x*mat4[2].z*mat4[3].w - mat4[1].z*mat4[2].w*mat4[3].x 
+                   - mat4[1].w*mat4[2].x*mat4[3].z,
+                   mat4[0].x*mat4[2].z*mat4[3].w + mat4[0].z*mat4[2].w*mat4[3].x 
+                   + mat4[0].w*mat4[2].x*mat4[3].z
+                   - mat4[0].x*mat4[2].w*mat4[3].z - mat4[0].z*mat4[2].x*mat4[3].w 
+                   - mat4[0].w*mat4[2].z*mat4[3].x,
+                   mat4[0].x*mat4[1].w*mat4[3].z + mat4[0].z*mat4[1].x*mat4[3].w 
+                   + mat4[0].w*mat4[1].z*mat4[3].x
+                   - mat4[0].x*mat4[1].z*mat4[3].w - mat4[0].z*mat4[1].w*mat4[3].x 
+                   - mat4[0].w*mat4[1].x*mat4[3].z,
+                   mat4[0].x*mat4[1].z*mat4[2].w + mat4[0].z*mat4[1].w*mat4[2].x 
+                   + mat4[0].w*mat4[1].x*mat4[2].z
+                   - mat4[0].x*mat4[1].w*mat4[2].z - mat4[0].z*mat4[1].x*mat4[2].w 
+                   - mat4[0].w*mat4[1].z*mat4[2].x,
+
+                   mat4[1].x*mat4[2].y*mat4[3].w + mat4[1].y*mat4[2].w*mat4[3].x 
+                   + mat4[1].w*mat4[2].x*mat4[3].y
+                   - mat4[1].x*mat4[2].w*mat4[3].y - mat4[1].y*mat4[2].x*mat4[3].w 
+                   - mat4[1].w*mat4[2].y*mat4[3].x,
+                   mat4[0].x*mat4[2].w*mat4[3].y + mat4[0].y*mat4[2].x*mat4[3].w 
+                   + mat4[0].w*mat4[2].y*mat4[3].x
+                   - mat4[0].x*mat4[2].y*mat4[3].w - mat4[0].y*mat4[2].w*mat4[3].x 
+                   - mat4[0].w*mat4[2].x*mat4[3].y,
+                   mat4[0].x*mat4[1].y*mat4[3].w + mat4[0].y*mat4[1].w*mat4[3].x 
+                   + mat4[0].w*mat4[1].x*mat4[3].y
+                   - mat4[0].x*mat4[1].w*mat4[3].y - mat4[0].y*mat4[1].x*mat4[3].w 
+                   - mat4[0].w*mat4[1].y*mat4[3].x,
+                   mat4[0].x*mat4[1].w*mat4[2].y + mat4[0].y*mat4[1].x*mat4[2].w 
+                   + mat4[0].w*mat4[1].y*mat4[2].x
+                   - mat4[0].x*mat4[1].y*mat4[2].w - mat4[0].y*mat4[1].w*mat4[2].x 
+                   - mat4[0].w*mat4[1].x*mat4[2].y,
+
+                   mat4[1].x*mat4[2].z*mat4[3].y + mat4[1].y*mat4[2].x*mat4[3].z 
+                   + mat4[1].z*mat4[2].y*mat4[3].x
+                   - mat4[1].x*mat4[2].y*mat4[3].z - mat4[1].y*mat4[2].z*mat4[3].x 
+                   - mat4[1].z*mat4[2].x*mat4[3].y,
+                   mat4[0].x*mat4[2].y*mat4[3].y + mat4[0].y*mat4[2].z*mat4[3].x 
+                   + mat4[0].z*mat4[2].x*mat4[3].y
+                   - mat4[0].x*mat4[2].z*mat4[3].y - mat4[0].y*mat4[2].x*mat4[3].z 
+                   - mat4[0].z*mat4[2].y*mat4[3].x,
+                   mat4[0].x*mat4[1].z*mat4[3].y + mat4[0].y*mat4[1].x*mat4[3].z 
+                   + mat4[0].z*mat4[1].y*mat4[3].x
+                   - mat4[0].x*mat4[1].y*mat4[3].z - mat4[0].y*mat4[1].z*mat4[3].x 
+                   - mat4[0].z*mat4[1].x*mat4[3].y,
+                   mat4[0].x*mat4[1].y*mat4[2].z + mat4[0].y*mat4[1].z*mat4[2].x 
+                   + mat4[0].z*mat4[1].x*mat4[2].y
+                   - mat4[0].x*mat4[1].z*mat4[2].y - mat4[0].y*mat4[1].x*mat4[2].z 
+                   - mat4[0].z*mat4[1].y*mat4[2].x)/Determinant(); 
 }
 
 // non member functions
