@@ -18,27 +18,35 @@ add_subdirectory (tests/)
 
 set (hummstrummengine_SRCS
   src/debug/log.cpp
+  src/debug/profiler.cpp
   src/error/error.cpp
   src/error/outofmemory.cpp
   src/core/type.cpp
   src/core/object.cpp
-  src/types/time.cpp)
+  src/types/date.cpp
+  src/types/rawdata.cpp
+  src/system/endian.cpp)
 set (hummstrummengine_INCLUDE include/)
 set (CMAKE_C_FLAGS_DEBUG "-Wall -g -ggdb")
 
 include_directories (${hummstrummengine_INCLUDE})
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
+
 # Add documentation generation
 include (UseDoxygen OPTIONAL)
-if (CMAKE_BUILD_TYPE MATCHES Release)
+
+if (HUMMSTRUMM_BUILD_DOCS)
   add_dependencies (hummstrummengine doc)
-endif (CMAKE_BUILD_TYPE MATCHES Release)
+endif (HUMMSTRUMM_BUILD_DOCS)
+
 # Install library and header files
 if (WIN32)
   install (TARGETS hummstrummengine 
            ARCHIVE DESTINATION lib)
-  install (FILES doc/latex/refman.pdf
-           DESTINATION share/doc/)
+  if (HUMMSTRUMM_BUILD_DOCS)
+    install (FILES doc/latex/refman.pdf
+             DESTINATION share/doc/)
+  endif (HUMMSTRUMM_BUILD_DOCS)
   install (FILES include/hummstrummengine.hpp
            DESTINATION include)
   install (DIRECTORY ${hummstrummengine_INCLUDE}
@@ -51,8 +59,10 @@ if (WIN32)
 else()
   install (TARGETS hummstrummengine 
            ARCHIVE DESTINATION lib)
-  install (FILES doc/latex/refman.pdf
-           DESTINATION share/doc/hummstrummengine)
+  if (HUMMSTRUMM_BUILD_DOCS)
+    install (FILES doc/latex/refman.pdf
+             DESTINATION share/doc/hummstrummengine)
+  endif (HUMMSTRUMM_BUILD_DOCS)
   install (FILES include/hummstrummengine.hpp
            DESTINATION include)
   install (DIRECTORY ${hummstrummengine_INCLUDE}

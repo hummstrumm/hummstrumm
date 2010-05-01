@@ -66,6 +66,8 @@
 // The extensive namespace hierarchy in the game engine.
 
 #include <string>
+#include <utility>
+using namespace std::rel_ops;
 
 /**
  * The namespace for all of the Humm and Strumm project.  This namespace
@@ -88,6 +90,7 @@ namespace engine
 namespace debug
 {
 class Log;
+class Profiler;
 }
 
 /**
@@ -113,6 +116,27 @@ namespace core
 class Object;
 class Type;
 class Heap;
+template <typename T>
+class Pointer<T>;
+}
+
+/**
+ * The namespace for throwable exceptions.  These classes work together with
+ * those of the debug namespace to help produce robust code,
+ */
+namespace error
+{
+class Error;
+class OutOfMemory;
+}
+
+/**
+ * The namespace for any direct wrapper of a system concept that does not fit
+ * elsewhere in the engine.
+ */
+namespace system
+{
+class Endian
 }
 
 /**
@@ -123,16 +147,12 @@ class Heap;
  */
 namespace types
 {
-class Time;
+class Date;
 // class String
 class Character;
-typedef std::wstring String;
+typedef std::wstring String
 
-/**
- * The namespace for the measure types.  This namespace contains classes
- * that represent items that can be measured in units and the Unit class.
- */
-namespace measure {}
+class RawData;
 }
 
 /**
@@ -162,8 +182,10 @@ namespace streams {}
 #include "hummstrummengine/core/type.hpp"
 #include "hummstrummengine/core/pointer.hpp"
 #include "hummstrummengine/core/object.hpp"
+#include "hummstrummengine/system/endian.hpp"
 #include "hummstrummengine/types/character.hpp"
 #include "hummstrummengine/types/time.hpp"
+#include "hummstrummengine/types/number.hpp"
 
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

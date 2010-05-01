@@ -32,7 +32,7 @@ package(s) to have the complete game.
 If you are more of the hacker type, you can compile the game yourself.
 We provide compressed archives of the source code and the resources.
 
-To   compile,   you  will   need   CMake,   available   for  free   at
+To   compile,  you   will   need   CMake,  available   for   free   at
 <http://www.cmake.org/>.
 
 The basic installation commands for GNU systems are:
@@ -61,3 +61,21 @@ directory,  and on  Windows systems,  it is  in the  ``Program Files''
 directory.  You can change this by using the following command:
 
 $ sudo make install DESTDIR="/some/absolute/path"
+
+If you want to customise the  package before you build it, you can use
+the CMake cache, which contains  build variables.  CMake comes with an
+interactive  mode, which  allows   you to  configure  these  variables
+yourself.  Run interactive mode with the following command:
+
+$ cmake -i -G <GENERATOR>
+
+You may also have the ncurses interface to CMake.
+
+$ ccmake -G <GENERATOR>
+
+Or the GUI interface to CMake.
+
+$ cmake-gui -G <GENERATOR>
+
+These will  allow you  to  change the  variables.  After this, you can
+continue through the build platform.

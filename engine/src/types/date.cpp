@@ -27,7 +27,7 @@
 
 #include <ctime>
 
-#include <types/time.hpp>
+#include <types/date.hpp>
 #include <types/inttypes.hpp>
 
 namespace hummstrumm
@@ -41,7 +41,7 @@ namespace types
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 int64
-Time::GetHighResolutionCount (void)
+Date::GetHighResolutionCount (void)
   throw ()
 {
   LARGE_INTEGER time;
@@ -53,7 +53,7 @@ Time::GetHighResolutionCount (void)
 }
 
 int64
-Time::GetHighResolutionFrequency (void)
+Date::GetHighResolutionFrequency (void)
   throw ()
 {
   LARGE_INTEGER frequency;
@@ -68,7 +68,7 @@ Time::GetHighResolutionFrequency (void)
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 
 int64
-Time::GetHighResolutionCount (void)
+Date::GetHighResolutionCount (void)
   throw ()
 {
   timespec ts;
@@ -81,7 +81,7 @@ Time::GetHighResolutionCount (void)
 }
 
 int64
-Time::GetHighResolutionFrequency (void)
+Date::GetHighResolutionFrequency (void)
   throw ()
 {
   return static_cast<int64> (1000000000);

@@ -29,7 +29,6 @@
 #ifndef HUMMSTRUMM_ENGINE_CORE_HEAP
 #define HUMMSTRUMM_ENGINE_CORE_HEAP
 
-#include <error/error.hpp>
 #include <error/outofmemory.hpp>
 
 namespace hummstrumm
@@ -56,10 +55,10 @@ class Segment;
  * This class is theoretically portable to all system archetectures, 32-bit or
  * 64-bit.
  *
- * @version 1.0.0.0 
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-03
- * @since 1.0.0.0
+ * @version 0.1
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2010-01-03
+ * @since   0.1
  *
  * @note All members of this class are equal in size to the natural size of the
  * system.  Because this means it will be aligned properly no matter what,
@@ -80,8 +79,8 @@ class Block
      * Constructs a new Block.  Zeros the new Block's memory.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param previous The Block before this one in the Segment.
      * @param next The Block after this one in the Segment.
@@ -96,8 +95,8 @@ class Block
      * Destructs a Block.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      */
     ~Block (void);
 
@@ -105,10 +104,10 @@ class Block
      * Returns the previous Block in the Segment.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      *
-     * @returns The previous Block in the Segment.
+     * @return The previous Block in the Segment.
      */
     Block *GetPrevious (void)
       throw ();
@@ -116,10 +115,10 @@ class Block
      * Returns the next Block in the Segment.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      *
-     * @returns The next Block in the Segment.
+     * @return The next Block in the Segment.
      */
     Block *GetNext     (void)
       throw ();
@@ -127,10 +126,10 @@ class Block
      * Returns the memory of the Block.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      *
-     * @returns The memory of the Block.
+     * @return The memory of the Block.
      */
     char *GetMemory   (void)
       throw ();
@@ -140,10 +139,10 @@ class Block
      * equal to the sizeof the Block.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
-     * @returns The offset of the memory from the Block start.
+     * @return The offset of the memory from the Block start.
      */
     static std::ptrdiff_t GetMemoryOffset (void)
       throw ();
@@ -176,10 +175,10 @@ class Block
  * the location of the Block.  It then takes deletes the Block and resets the
  * linked list accordingly.
  *
- * @version 1.0.0.0
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-03
- * @since 1.0.0.0
+ * @version 0.1
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2010-01-03
+ * @since   0.1
  *
  * @todo Make the Segment size changable in the configuration.
  *
@@ -194,8 +193,8 @@ class Segment
      * Constructs a new Segment to put at the end of the Heap.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param previous The last Segment allocated in the Heap.
      */
@@ -205,8 +204,8 @@ class Segment
      * program, when the Segment is freed from the Heap.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      */
     ~Segment (void);
 
@@ -215,13 +214,13 @@ class Segment
      * Block's actual memory.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param newMemory A pointer to a pointer to the new memory.
      * @param size The size to allocate.
      * 
-     * @returns Whether or not the allocation succeeded.
+     * @return Whether or not the allocation succeeded.
      * @retval true The allocation succeeded.
      * @retval false The allocation failed.
      *
@@ -235,12 +234,12 @@ class Segment
      * Frees a Segment of allocateed memory.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param oldMemory A pointer to a pointer to old memory to free.
      * 
-     * @returns Whether the old memory was successfully freed from the segment.
+     * @return Whether the old memory was successfully freed from the segment.
      * @retval true The old block was freed.
      * @retval false The old block was not freed.  It was either not in this
      * Segment or could not be freed.
@@ -259,12 +258,12 @@ class Segment
      * boundaries.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param block A pointer to the Block of memory to check.
      * 
-     * @returns Whether the memory is with Segment boundaries.
+     * @return Whether the memory is with Segment boundaries.
      * @retval true The Block is within the Segment boundaries.
      * @retval false The Block is not within Segment boundaries.
      *
@@ -278,10 +277,10 @@ class Segment
      * Returns the previous Segment in the linked list of the Heap.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
-     * @returns The previous Segment in the Heap.
+     * @return The previous Segment in the Heap.
      */
     Segment *GetPrevious    (void)
       throw ();
@@ -289,10 +288,10 @@ class Segment
      * Returns the next Segment in the linked list of Heap.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
-     * @returns The next Segment in the Heap.
+     * @return The next Segment in the Heap.
      */
     Segment *GetNext        (void)
       throw ();
@@ -300,10 +299,10 @@ class Segment
      * Returns a pointer to the beginning of the Segment's memory.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
-     * @returns A pointer to the beginning of the Segment's memory.
+     * @return A pointer to the beginning of the Segment's memory.
      */
     char    *GetMemoryStart (void)
       throw ();
@@ -311,10 +310,10 @@ class Segment
      * Returns the first Block in the Segment.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
-     * @returns The first Block in the Segment.
+     * @return The first Block in the Segment.
      */
     Block   *GetFirstBlock  (void)
       throw ();
@@ -323,8 +322,8 @@ class Segment
      * Sets the next Segment for this one.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param next The new next Segment.
      *
@@ -365,10 +364,10 @@ class Segment
  * the system, allowing only one processor to be locked during a memory
  * allocation attempt.
  *
- * @version 1.0.0.0
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-24
- * @since 1.0.0.0
+ * @version 0.1
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2010-01-24
+ * @since   0.1
  *
  * @note This class should never be seen by the user.  The Object::new method
  * and Object::delete method provide the user level interface.
@@ -385,8 +384,8 @@ class Heap
      * MasterHeap that created the Heap.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param head The first Segment from which to construct the Heap.  This is
      * Allocated by MasterHeap::AllocateSegment.
@@ -397,8 +396,8 @@ class Heap
      * objects are valid for the lifespan of the program.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      */
     ~Heap (void);
 
@@ -406,10 +405,10 @@ class Heap
      * Returns the first Segment in the Heap object's linked list.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
-     * @returns The head Segment of the Heap.
+     * @return The head Segment of the Heap.
      */
     Segment *GetHeadSegment (void)
       throw ();
@@ -420,14 +419,14 @@ class Heap
      * Heap looking for an open space of the right size to return.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param newMemory [out] A pointer to the pointer to newly allocated
      * memory, to be set.
      * @param size [in] The size of the block of memory to allocate.
      * 
-     * @throws OutOfMemory If the memory requested was too large for any
+     * @throw OutOfMemory If the memory requested was too large for any
      * Segment to hold.
      */
     void Allocate (char **newMemory, std::size_t size)
@@ -440,8 +439,8 @@ class Heap
      * allocations.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param oldMemory [in, out] A pointer to the pointer to already allocated
      * memory to be freed.
@@ -453,12 +452,12 @@ class Heap
      * Returns whether a chuck of allocated memory exists on this Heap.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param memory [in] Memory to check whether is on the Heap.
      *
-     * @returns Whether the memory passed in is on the Heap.
+     * @return Whether the memory passed in is on the Heap.
      */
     bool IsHeapMemory (const void *const memory)
       throw ();
@@ -468,8 +467,8 @@ class Heap
      * call that Heap::Free method.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      * 
      * @param oldMemory [in, out] A pointer to the pointer to already allocated
      * memory to be freed.
@@ -491,10 +490,10 @@ class Heap
  * time with no issues.  An allocated Object will then remember which Heap it
  * was allocated on, and then free itself from the correct Heap.
  *
- * @version 1.0.0.0
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-24
- * @since 1.0.0.0
+ * @version 0.2
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2010-01-24
+ * @since   0.1
  *
  * @note This class should never be seen by the user.  It is a helper class to
  * Heap.
@@ -509,30 +508,42 @@ class MasterHeap
      * One Heap will be allocated per processor.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      */
     MasterHeap (void);
     /** 
      * Destructs the MasterHeap and all of its Heap objects.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      */
     ~MasterHeap (void);
+
+    /**
+     * Returns the MasterHeap of the program.  Only one should be created.
+     *
+     * @author Patrick M. Niedzielski
+     * @date   2010-03-24
+     * @since  0.2
+     *
+     * @return The singleton MasterHeap object.
+     */
+    static MasterHeap &GetMasterHeap (void)
+      throw ();
 
     /** 
      * Returns a Heap object based on the processor with which it is
      * associated.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      *
      * @param processor [in] The processor of the Heap to return.
      *
-     * @returns The Heap associated with the processor passed in.
+     * @return The Heap associated with the processor passed in.
      */
     Heap *GetHeap (unsigned int processor)
       throw ();
@@ -542,12 +553,12 @@ class MasterHeap
      * checks all allocated Heaps until it finds one that contains the memory.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      *
      * @param memory [in] Memory to check whether is on any Heap.
      *
-     * @returns Whether the memory is dynamically allocated through a Heap.
+     * @return Whether the memory is dynamically allocated through a Heap.
      */ 
     bool IsHeapMemory (char *memory)
       throw ();
@@ -560,12 +571,12 @@ class MasterHeap
      * FreeSegment() method.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      *
      * @param previous [in] The Segment before this one on the Heap.
      *
-     * @returns The newly-allocated Segment.
+     * @return The newly-allocated Segment.
      */ 
     static Segment *AllocateSegment (Segment *previous)
       throw ();
@@ -576,8 +587,8 @@ class MasterHeap
      * AllocateSegment() method.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-02-06
-     * @since 0.1
+     * @date   2010-02-06
+     * @since  0.1
      *
      * @param segment [in] The Segment to free.
      */ 
@@ -590,5 +601,118 @@ class MasterHeap
 }
 }
 }
+
+/**
+ * Allocates a new data buffer on the Heap.  This is the version which throws
+ * an exception.
+ *
+ * Internally, this method calls Heap::Allocate.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-03-25
+ * @since  0.2
+ *
+ * @param objectSize [in] The size of the memory to allocate on the Heap
+ * (which may be different than the size of the buffer due to padding).
+ *
+ * @returns A pointer to the new memory for the buffer.
+ *
+ * @todo Throw exception after failed allocation.
+ */
+void *operator new (std::size_t objectSize);
+/**
+ * Allocates a new data buffer on the Heap.  This is the version which does not
+ * throw an exception.
+ *
+ * Internally, this method calls Heap::Allocate.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-03-25
+ * @since  0.2
+ *
+ * @param objectSize [in] The size of the memory to allocate on the Heap
+ * (which may be different than the size of the buffer due to padding).
+ *
+ * @param dontThrowException [in] The flag that differentiates the nothrow
+ * version of new from the throwing version.
+ *
+ * @returns A pointer to the new memory for the buffer, or a null pointer
+ * if the memory could not be allocated.
+ */
+void *operator new (std::size_t objectSize,
+                    std::nothrow_t dontThrowException)
+  throw ();
+/**
+ * Allocates a new data array on the Heap.  This is the version which
+ * throws an exception.
+ *
+ * Internally, this method calls Heap::Allocate.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-03-25
+ * @since  0.2
+ *
+ * @param objectsSize [in] The size of the memory to allocate on the Heap
+ * (which may be different than the size of the buffer due to padding).
+ *
+ * @returns A pointer to the new memory for the buffer.
+ *
+ * @todo Throw exception after failed allocation.
+ */
+void *operator new[] (std::size_t objectsSize);
+/**
+ * Allocates a new data array on the Heap.  This is the version which
+ * does not throw an exception.
+ *
+ * Internally, this method calls Heap::Allocate.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-03-25
+ * @since  0.2
+ *
+ * @param objectsSize [in] The size of the memory to allocate on the Heap
+ * (which may be different than the size of the buffer due to
+ * padding).
+ *
+ * @param dontThrowException [in] The flag that differentiates the nothrow
+ * version of new from the throwing version.
+ *
+ * @returns A pointer to the new memory for the buffer, or a null pointer
+ * if the memory could not be allocated.
+ */
+void *operator new[] (std::size_t objectsSize,
+                      std::nothrow_t dontThrowException)
+  throw ();
+/**
+ * Unallocates a data buffer from the Heap.  This function will fail and return
+ * if called on a buffer that is not on the Heap.
+ *
+ * Internally, this method calls Heap::Free.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-03-25
+ * @since  0.2
+ *
+ * @param object [in, out] The buffer which will be freed from the Heap.
+ * This pointer to the buffer will no longer be valid after this operation.
+ */
+void operator delete (void *object)
+  throw ();
+/**
+ * Unallocates a data array from the Heap.  This function will fail and
+ * return if called on an array that is not on the Heap.
+ *
+ * Internally, this method calls Heap::Free.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-03-25
+ * @since  0.2
+ *
+ * @param objects [in, out] The data array which will be freed from
+ * the Heap.  This pointer to the data array will no longer be valid
+ * after this operation.
+ */
+void operator delete[] (void *objects)
+  throw ();
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_CORE_HEAP

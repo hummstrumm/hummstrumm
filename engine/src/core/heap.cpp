@@ -58,6 +58,22 @@ GetProcessorCount_hidden_ (void)
 }
 #endif
 
+    // Thanks to Jeremy Jones for this code for Windows.
+    // <https://www.cs.tcd.ie/Jeremy.Jones/GetCurrentProcessorNumberXP.htm>
+const unsigned int
+GetCurrentProcessor_hidden_ (void)
+  throw ()
+{
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  _asm { mov eax, 1 }
+  _asm { cpuid }
+  _asm { shr ebx, 24 }
+  _asm { mov eax, ebx }
+#else
+  return sched_getcpu ();
+#endif
+}
+
 Block::Block (Block *previous, Block *next, std::size_t size, Heap *heap)
 {
       // Fill in all our header values.
@@ -514,11 +530,28 @@ MasterHeap::~MasterHeap (void)
   delete [] heaps;
 }
 
+MasterHeap &
+MasterHeap::GetMasterHeap (void)
+  throw ()
+{
+  static MasterHeap masterToAll ();
+
+  return masterTaAll;
+}
+
 Heap *
 MasterHeap::GetHeap (unsigned int processor)
   throw ()
 {
-  return heaps[processor];
+  if (processor > GetProcessorCount_hidden_ ())
+    {
+      // TODO: ERROR THROW~
+      return 0;
+    }
+  else
+    {
+      return heaps[processor];
+    }
 }
 
 bool
@@ -564,6 +597,84 @@ MasterHeap::FreeSegment (Segment *segment)
   
   delete segment;
 }
+
+void *
+operator new (std::size_t objectSize)
+{
+  char *memory = 0;
+  
+  MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+    Allocate (&memory, objectSize);
+  
+  return memory;
+}
+
+
+void *
+operator new (std::size_t objectSize,
+              std::nothrow_t dontThrowException)
+  throw ()
+{
+  char *memory = 0;
+  
+  try
+    {
+      MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+        Allocate (&memory, objectSize);
+    }
+  catch (...)
+    {
+      return 0;
+    }
+  
+  return memory;
+}
+
+
+void *
+operator new[] (std::size_t objectsSize)
+{
+  char *memory = 0;
+  
+  MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+    Allocate (&memory, objectsSize);
+  
+  return memory;
+}
+
+
+void *
+operator new[] (std::size_t objectsSize,
+                        std::nothrow_t dontThrowException) throw ()
+{
+  char *memory = 0;
+  
+  try
+    {
+      MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+        Allocate (&memory, objectsSize);
+    }
+  catch (...)
+    {
+      return 0;
+    }
+  
+  return memory;
+}
+
+
+void
+operator delete (void *object) throw ()
+{
+  Heap::FreeHelper (reinterpret_cast<char **> (&object));
+}
+
+
+void
+operator delete[] (void *objects) throw ()
+{
+  Heap::FreeHelper (reinterpret_cast<char **> (&objects));
+} 
 
 
 }

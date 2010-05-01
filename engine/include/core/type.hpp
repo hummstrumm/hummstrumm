@@ -341,12 +341,16 @@ class Type
     static hummstrumm::engine::core::Type _type_; \
   public: \
     static hummstrumm::engine::core::Type *GetType (void) throw (); \
-    static hummstrumm::engine::core::Pointer<className> \
+    static hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object> \
       CreateNew (void); \
-    virtual Pointer<const className> GetPointer (void) const throw (); \
-    virtual Pointer<const className> operator&  (void) const throw (); \
-    virtual Pointer<className>       GetPointer (void) throw (); \
-    virtual Pointer<className>       operator&  (void) throw ();
+    hummstrumm::engine::core::Pointer<const className> \
+      GetPointer (void) const throw (); \
+    hummstrumm::engine::core::Pointer<const className> \
+      operator&  (void) const throw (); \
+    hummstrumm::engine::core::Pointer<className> \
+      GetPointer (void) throw (); \
+    hummstrumm::engine::core::Pointer<className> \
+      operator&  (void) throw ();
 
 /**
  * Adds support for the engine's Object/Type system to an Object.  Place this

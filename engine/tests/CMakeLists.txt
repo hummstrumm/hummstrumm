@@ -20,6 +20,7 @@ set (hummstrummengine_INCLUDE ../include/)
 set (CMAKE_C_FLAGS_DEBUG "-Wall -ggdb")
 
 include_directories (${hummstrummengine_INCLUDE})
+
 add_executable(test_engine_log log.cpp)
 target_link_libraries(test_engine_log hummstrummengine)
 
@@ -29,3 +30,8 @@ add_executable(test_engine_math math.cpp)
 target_link_libraries(test_engine_math hummstrummengine cppunit dl)
 
 add_test (NAME test_engine_math COMMAND test_engine_math)
+
+add_executable(test_engine_endian endian.cpp)
+target_link_libraries(test_engine_endian hummstrummengine)
+
+add_test (NAME test_engine_endian COMMAND test_engine_endian)

@@ -28,10 +28,16 @@
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOG
 #define HUMMSTRUMM_ENGINE_DEBUG_LOG
 
+#include <string>
+
 namespace hummstrumm
 {
 namespace engine
 {
+namespace types
+{
+typedef std::wstring String;
+}
 namespace debug
 {
 
@@ -105,7 +111,7 @@ class Log
      *
      * @return The file name of the log output.
      */
-    std::string GetFileName (void)
+    hummstrumm::engine::types::String GetFileName (void)
       const throw ();
 
     /**
@@ -145,7 +151,7 @@ class Log
      * @todo Add timestamp.
      * @todo Make thread-safe.
      */
-    void Write (std::string text, Level level) throw ();
+    void Write (hummstrumm::engine::types::String text, Level level) throw ();
 
   private:
     /**
@@ -161,7 +167,8 @@ class Log
      * @param isXmlMode    Whether to write the log as an XML file.
      * @param minimumLevel The minimum level of log messages.
      */
-    Log (std::string fileName, bool isXmlMode, Level minimumLevel);
+    Log (hummstrumm::engine::types::String fileName, bool isXmlMode,
+         Level minimumLevel);
     /**
      * Destructs a Log.  The log file is closed.
      *
@@ -171,16 +178,17 @@ class Log
      */
     virtual ~Log (void);
 
-    std::string fileName;     ///< The name of the log file.
+    hummstrumm::engine::types::String fileName; ///< The name of the log file.
     bool        isXmlMode;    ///< Whether the log is in XML mode.
     FILE       *logFile;      ///< The actual file handle.
     Level       minimumLevel; ///< The minimum level of log messages.
 };
 
-#define LOG(message, level)                     \
-  do {                                          \
-    Log::GetLog ()->Write ((message), (level)); \
-  } while (false);
+#define LOG(message, level)                                     \
+  do {                                                          \
+    hummstrumm::engine::debug::Log::GetLog ().Write ((message), \
+      hummstrumm::engine::debug::Log::level);                 \
+  } while (false)
 
 }
 }
