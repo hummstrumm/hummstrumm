@@ -31,22 +31,26 @@ namespace debug
 {
 
 
-Log::Log (std::string fileName, bool isXmlMode, Level minimumLevel)
+Log::Log (hummstrumm::engine::types::String fileName, bool isXmlMode,
+          Level minimumLevel)
   : fileName (fileName),
     isXmlMode (isXmlMode),
     minimumLevel (minimumLevel),
     logFile (0)
 {
-  if (this->minimumLevel != Log::MESSAGE ||
-      this->minimumLevel != Log::SUCCESS ||
-      this->minimumLevel != Log::WARNING ||
+  if (this->minimumLevel != Log::MESSAGE &&
+      this->minimumLevel != Log::SUCCESS &&
+      this->minimumLevel != Log::WARNING &&
       this->minimumLevel != Log::ERROR)
     {
       std::wcerr << L"An invalid log level was provided.\n";
       return;
     }
+
+  std::string s (fileName.begin (), fileName.end ());
+  s.assign (fileName.begin (), fileName.end ());
   
-  this->logFile = std::fopen (fileName.c_str (), "w");
+  this->logFile = std::fopen (s.c_str (), "w");
   if (!this->logFile)
     {
       std::wcerr << L"The log file could not be opened.\n";
@@ -87,7 +91,7 @@ Log::GetLog (void)
   static Log log (HUMMSTRUMM_LOG_FILENAME,
                   HUMMSTRUMM_LOG_XMLMODE,
                   Log::HUMMSTRUMM_LOG_LOGLEVEL);
-
+  
   return log;
 }
 
@@ -98,7 +102,7 @@ Log::IsXmlMode (void)
   return this->isXmlMode;
 }
 
-std::string
+hummstrumm::engine::types::String
 Log::GetFileName (void)
   const throw ()
 {
@@ -113,7 +117,8 @@ Log::GetMinimumLevel (void)
 }
 
 void
-Log::Write (std::string text, Log::Level level = Log::MESSAGE)
+Log::Write (hummstrumm::engine::types::String text,
+            Log::Level level = Log::MESSAGE)
   throw ()
 {
   if (!logFile)
@@ -150,6 +155,9 @@ Log::Write (std::string text, Log::Level level = Log::MESSAGE)
     default:
       break;
     }
+
+  std::string s (text.begin (), text.end ());
+  s.assign (text.begin (), text.end ());
       
   if (!this->IsXmlMode ())
     {
@@ -173,7 +181,7 @@ Log::Write (std::string text, Log::Level level = Log::MESSAGE)
           return;
         }
       
-      std::fprintf (this->logFile, "[%s]\t%s\n", mode.c_str (), text.c_str ());
+      std::fprintf (this->logFile, "[%s]\t%s\n", mode.c_str (), s.c_str ());
     }
   else
     {
@@ -198,7 +206,7 @@ Log::Write (std::string text, Log::Level level = Log::MESSAGE)
         }
 
       std::fprintf (this->logFile, "<item level=\"%s\">%s</item>\n",
-                    mode.c_str (), text.c_str ());
+                    mode.c_str (), s.c_str ());
     }
 }
 

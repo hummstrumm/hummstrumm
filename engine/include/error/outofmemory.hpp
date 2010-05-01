@@ -29,6 +29,7 @@
 #define HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
 
 #include <string>
+#include "error.hpp"
 
 namespace hummstrumm
 {
