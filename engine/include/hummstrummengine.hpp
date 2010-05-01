@@ -66,6 +66,8 @@
 // The extensive namespace hierarchy in the game engine.
 
 #include <string>
+#include <utility>
+using namespace std::rel_ops;
 
 /**
  * The namespace for all of the Humm and Strumm project.  This namespace
@@ -169,6 +171,7 @@ namespace streams {}
 #include "hummstrummengine/system/endian.hpp"
 #include "hummstrummengine/types/character.hpp"
 #include "hummstrummengine/types/time.hpp"
+#include "hummstrummengine/types/number.hpp"
 
 
 #endif // #ifndef HUMMSTRUMM_ENGINE
