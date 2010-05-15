@@ -40,7 +40,7 @@ add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 include (UseDoxygen OPTIONAL)
 
 if (HUMMSTRUMM_BUILD_DOCS)
-#  add_dependencies (hummstrummengine doc)
+  add_dependencies (hummstrummengine doc)
 endif (HUMMSTRUMM_BUILD_DOCS)
 
 # Install library and header files
