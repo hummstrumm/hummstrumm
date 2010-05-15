@@ -34,10 +34,6 @@ namespace hummstrumm
 {
 namespace engine
 {
-namespace types
-{
-typedef std::wstring String;
-}
 namespace debug
 {
 

@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
+
+#include "hummstrummengine.hpp"
 
 #include <string>
 #include <cstdio>
 #include <iostream>
-
-#include <config.h>
-#include <debug/log.hpp>
 
 namespace hummstrumm
 {
@@ -46,11 +46,8 @@ Log::Log (hummstrumm::engine::types::String fileName, bool isXmlMode,
       std::wcerr << L"An invalid log level was provided.\n";
       return;
     }
-
-  std::string s (fileName.begin (), fileName.end ());
-  s.assign (fileName.begin (), fileName.end ());
   
-  this->logFile = std::fopen (s.c_str (), "w");
+  this->logFile = std::fopen (fileName.ToAscii (), "w");
   if (!this->logFile)
     {
       std::wcerr << L"The log file could not be opened.\n";
@@ -156,12 +153,10 @@ Log::Write (hummstrumm::engine::types::String text,
       break;
     }
 
-  std::string s (text.begin (), text.end ());
-  s.assign (text.begin (), text.end ());
       
   if (!this->IsXmlMode ())
     {
-      std::string mode;
+      hummstrumm::engine::types::String mode;
       switch (level)
         {
         case Log::MESSAGE:
@@ -169,11 +164,15 @@ Log::Write (hummstrumm::engine::types::String text,
           break;
 
         case Log::ERROR:
-          mode = "Error";
+          mode = " Error ";
           break;
 
         case Log::WARNING:
           mode = "Warning";
+          break;
+
+        case Log::SUCCESS:
+          mode = "Success";
           break;
 
         default:
@@ -181,11 +180,11 @@ Log::Write (hummstrumm::engine::types::String text,
           return;
         }
       
-      std::fprintf (this->logFile, "[%s]\t%s\n", mode.c_str (), s.c_str ());
+      std::fprintf (this->logFile, "[%s]\t%s\n", mode.ToAscii (), text.ToAscii ());
     }
   else
     {
-      std::string mode;
+      hummstrumm::engine::types::String mode;
       switch (level)
         {
         case Log::MESSAGE:
@@ -200,13 +199,17 @@ Log::Write (hummstrumm::engine::types::String text,
           mode = "warning";
           break;
 
+        case Log::SUCCESS:
+          mode = "success";
+          break;
+
         default:
           std::wcerr << L"The log level wan invalid.";
           return;
         }
 
       std::fprintf (this->logFile, "<item level=\"%s\">%s</item>\n",
-                    mode.c_str (), s.c_str ());
+                    mode.ToAscii (), text.ToAscii ());
     }
 }
 

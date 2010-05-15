@@ -296,6 +296,119 @@ class Object
     template <typename T>
     void Serialize (const StreamIn<T> &streamIn) throw ();
 */
+
+    /**
+     * Allocates a new data buffer on the Heap.  This is the version which
+     * throws an exception.
+     *
+     * Internally, this method calls Heap::Allocate.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-03-25
+     * @since  0.2
+     *
+     * @param objectSize [in] The size of the memory to allocate on the Heap
+     * (which may be different than the size of the buffer due to padding).
+     *
+     * @returns A pointer to the new memory for the buffer.
+     *
+     * @todo Throw exception after failed allocation.
+     */
+//    static void *operator new (std::size_t objectSize);
+    /**
+     * Allocates a new data buffer on the Heap.  This is the version which does
+     * not throw an exception.
+     *
+     * Internally, this method calls Heap::Allocate.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-03-25
+     * @since  0.2
+     *
+     * @param objectSize [in] The size of the memory to allocate on the Heap
+     * (which may be different than the size of the buffer due to padding).
+     *
+     * @param dontThrowException [in] The flag that differentiates the nothrow
+     * version of new from the throwing version.
+     *
+     * @returns A pointer to the new memory for the buffer, or a null pointer
+     * if the memory could not be allocated.
+     */
+//    static void *operator new (std::size_t objectSize,
+//                               std::nothrow_t dontThrowException)
+//      throw ();
+    /**
+     * Allocates a new data array on the Heap.  This is the version which
+     * throws an exception.
+     *
+     * Internally, this method calls Heap::Allocate.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-03-25
+     * @since  0.2
+     *
+     * @param objectsSize [in] The size of the memory to allocate on the Heap
+     * (which may be different than the size of the buffer due to padding).
+     *
+     * @returns A pointer to the new memory for the buffer.
+     *
+     * @todo Throw exception after failed allocation.
+     */
+//    static void *operator new[] (std::size_t objectsSize);
+    /**
+     * Allocates a new data array on the Heap.  This is the version which
+     * does not throw an exception.
+     *
+     * Internally, this method calls Heap::Allocate.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-03-25
+     * @since  0.2
+     *
+     * @param objectsSize [in] The size of the memory to allocate on the Heap
+     * (which may be different than the size of the buffer due to
+     * padding).
+     *
+     * @param dontThrowException [in] The flag that differentiates the nothrow
+     * version of new from the throwing version.
+     *
+     * @returns A pointer to the new memory for the buffer, or a null pointer
+     * if the memory could not be allocated.
+     */
+//    static void *operator new[] (std::size_t objectsSize,
+//                                 std::nothrow_t dontThrowException)
+//      throw ();
+    /**
+     * Unallocates a data buffer from the Heap.  This function will fail and
+     * return if called on a buffer that is not on the Heap.
+     *
+     * Internally, this method calls Heap::Free.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-03-25
+     * @since  0.2
+     *
+     * @param object [in, out] The buffer which will be freed from the Heap.
+     * This pointer to the buffer will no longer be valid after this operation.
+     */
+//    static void operator delete (void *object)
+//      throw ();
+    /**
+     * Unallocates a data array from the Heap.  This function will fail and
+     * return if called on an array that is not on the Heap.
+     *
+     * Internally, this method calls Heap::Free.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-03-25
+     * @since  0.2
+     *
+     * @param objects [in, out] The data array which will be freed from
+     * the Heap.  This pointer to the data array will no longer be valid
+     * after this operation.
+     */
+//    static void operator delete[] (void *objects)
+//      throw ();
  
   private:
     /**
@@ -325,8 +438,7 @@ class Object
       const throw ();
     
     mutable unsigned int referenceCount_; /**< The Object's reference count. */
-    static Type type_HIDDEN_;             /**< The Type for this Object. */
-    static MasterHeap masterHeap_HIDDEN_; /**< The MasterHeap for allocation.*/
+    static Type type_HIDDEN_;             /**< The Type for this Object.*/
 };
 
 }

@@ -15,14 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
 
 #include <cstring>
-#include <string> // HACK: Until String class is made
 
-#include <config.h>
-#include <core/type.hpp>
-#include <core/pointer.hpp>
-#include <core/object.hpp>
+#include "hummstrummengine.hpp"
 
 namespace hummstrumm
 {
@@ -31,17 +28,17 @@ namespace engine
 namespace core
 {
 
-Type::Type (const std::string name,
+Type::Type (const hummstrumm::engine::types::String name,
             std::size_t size,
             const Type *parent,
             hummstrumm::engine::core::ObjectPtr (*createFunction) (void))
-  : name_ (new char [name.length ()+1]),
+  : name_ (new char [name.GetLength ().ToInteger () + 1]),
     size_ (size),
     parent_ (parent),
     createFunction_ (createFunction)
 {
-  std::strcpy (name_, name.c_str ());
-  name_[name.length ()] = '\0';
+  std::strcpy (name_, name.ToAscii ());
+  name_[name.GetLength ().ToInteger ()] = '\0';
 }
 
 
@@ -51,10 +48,10 @@ Type::~Type (void)
 }
     
 
-const std::string
+const hummstrumm::engine::types::String
 Type::GetName (void) const throw ()
 {
-  return std::string (name_);
+  return hummstrumm::engine::types::String (name_);
 }
 
 
@@ -134,7 +131,7 @@ Type::IsEqualTo (const Type &type) const throw ()
 
 
 bool
-Type::IsEqualTo (const std::string name) const throw ()
+Type::IsEqualTo (const hummstrumm::engine::types::String name) const throw ()
 {
   // Maybe if we have a type registry then I could check everything
   return (GetName () == name);
@@ -149,7 +146,7 @@ Type::operator== (const Type &type) const throw ()
 
 
 bool
-Type::operator== (const std::string name) const throw ()
+Type::operator== (const hummstrumm::engine::types::String name) const throw ()
 {
   return IsEqualTo (name);
 }

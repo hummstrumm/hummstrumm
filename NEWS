@@ -9,6 +9,15 @@ are made.  This file lists these major changes for each release,
 starting with the most recent release.  For more a in-depth,
 developer-centric change file, see the ChangeLog file.
 
+Humm and Strumm, version 0.2
+============================
+  * Further integration with systems.
+  * Migrating to CppUnit tests.
+  * Type wrappers created.
+  * Debug System created.
+  * Math System created.
+  * Endianness support added.
+
 Humm and Strumm, version 0.1
 ============================
   * Object-Type System created.

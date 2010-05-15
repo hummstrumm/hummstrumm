@@ -22,18 +22,17 @@
  * @file    vector.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
- * @see     Vector2D
- * @see     Vector3D
- * @see     Vector4D
- *
  */
 
-#ifndef HUMMSTRUMM_ENGINE_MATH_VECTORS
-#define HUMMSTRUMM_ENGINE_MATH_VECTORS
+#ifndef HUMMSTRUMM_ENGINE_MATH_VECTOR
+#define HUMMSTRUMM_ENGINE_MATH_VECTOR
 
 #include <vector>
 #include <algorithm>
 #include <cmath>
+
+#include <error/outofrange.hpp>
+#include <error/divisionbyzero.hpp>
 
 namespace hummstrumm
 {
@@ -78,7 +77,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v Constant reference to a Vector2D object.
+     * @param v A 2d vector.
      *
      */ 
     Vector2D (const Vector2D<T>  &v) : x(v.x), y(v.y) {}
@@ -93,79 +92,83 @@ class Vector2D
     ~Vector2D () {}
 
     /** 
-     * Assignment operator for Vector2D class. 
+     * Assignment operator. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
+     *
+     * @param v A 2d vector.
+     *
+     * @return This vector.
      */ 
     Vector2D<T> &operator = (const Vector2D<T> &v);
 
     /** 
-     * Equality operator. Check if two Vector2D are equal.
+     * Equality operator.
      * 
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector2D object.
+     * @param v A 2d vector.
      * 
      * @return Whether the vectors are equal.
      */
     bool operator == (const Vector2D<T> &v) const;
 
     /** 
-     * Inequality operator. Check if two Vector2D are not equal.
+     * Inequality operator.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector2D object.
+     * @param v A 2d vector.
      * 
      * @return Whether the vectors are different.
      */
     bool operator != (const Vector2D<T> &v) const;
     
     /** 
-     * Unary minus. Negate coordinates of Vector2D.
+     * Unary minus. Negate this vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @return The negation of a Vector2D.
+     * @return A 2d vector.
      */
     Vector2D<T> operator - () const;
    
     /** 
-     * Sum two Vector2D objects. 
+     * Sum this vector with another 2d vector. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector2D object.
+     * @param v A 2d vector.
      * 
-     * @return The result of the sum.
+     * @return A 2d vector.
      */
     Vector2D<T> operator + (const Vector2D<T> &v) const;
 
     /** 
-     * Subtract two Vector2D objects.
+     * Subtract this vector with antoher 2d vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector2D object.
+     * @param v A 2d vector.
      * 
-     * @return The result of the subtraction.
+     * @return A 2d vector.
      */
     Vector2D<T> operator - (const Vector2D<T> &v) const;
 
     /** 
-     * Multiplication of a Vector2D object by a scalar.
+     * Multiplication of this vector with a scalar.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -173,12 +176,12 @@ class Vector2D
      *
      * @param s scalar.
      * 
-     * @return The result of the multiplication.
+     * @return A 2d vector.
      */
     Vector2D<T> operator * (T s) const;
 
     /** 
-     * Division of a Vector2D object by a scalar.
+     * Division of this vector with a scalar.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -186,9 +189,7 @@ class Vector2D
      *
      * @param s scalar.
      * 
-     * @return The result of the division.
-     *
-     * @note Does not check for division by zero.
+     * @return A 2d vector.
      */
     Vector2D<T> operator / (T s) const;
 
@@ -199,9 +200,9 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector2D object.
+     * @param v A 2d vector.
      * 
-     * @return The result of the addition.
+     * @return This vector.
      */
     Vector2D<T> &operator += (const Vector2D<T> &v);
 
@@ -212,9 +213,9 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector2D object.
+     * @param v A 2d vector.
      * 
-     * @return The result of the subtraction.
+     * @return This vector.
      */
     Vector2D<T> &operator -= (const Vector2D<T> &v);
 
@@ -227,7 +228,7 @@ class Vector2D
      *
      * @param s scalar.
      * 
-     * @return The result of the multiplication.
+     * @return This vector.
      */
     Vector2D<T> &operator *= (T s);
 
@@ -240,7 +241,7 @@ class Vector2D
      *
      * @param s scalar.
      * 
-     * @return The result of the division.
+     * @return This vector.
      */
     Vector2D<T> &operator /= (T s);
 
@@ -251,42 +252,16 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      */
-    void normalize ();
+    void Normalize ();
 
     /** 
-     * Compute the dot product.
-     * 
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     * @param v Constante reference to a Vector2D object.
-     * 
-     * @return The result of the dot product.
-     */
-    T dot (const Vector2D<T> &v) const;
-
-    /** 
-     * Computes a perpendicular vector.
+     * Set this vector to zero.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
-     *
-     * @return A perpendicular vector.
      */
-    Vector2D<T> Perpendicular () const;
-
-    /** 
-     * Computes a perpendicular vector of unit length.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     * 
-     * @return A perpendicular vector of unit length.
-     */
-    Vector2D<T> UnitPerpendicular () const;
+    void Zero ();
 
   private:
 
@@ -332,7 +307,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v Constant reference to a Vector3D object.
+     * @param v A 3d vector.
      *
      */ 
     Vector3D (const Vector3D<T>  &v)
@@ -348,79 +323,83 @@ class Vector3D
     ~Vector3D () {}
 
     /** 
-     * Assignment operator for Vector3D class. 
+     * Assignment operator. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
+     *
+     * @param v A 3d vector.
+     *
+     * @return This vector.
      */ 
     Vector3D<T> &operator = (const Vector3D<T> &v);
 
     /** 
-     * Equality operator. Check if two Vector3D are equal.
+     * Equality operator.
      * 
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector3D object.
+     * @param v A 3d vector.
      * 
      * @return Whether the vectors are equal.
      */
     bool operator == (const Vector3D<T> &v) const;
 
     /** 
-     * Inequality operator. Check if two Vector3D are not equal.
+     * Inequality operator.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector3D object.
+     * @param v A 3d vector.
      * 
      * @return Whether the vectors are different.
      */
     bool operator != (const Vector3D<T> &v) const;
     
     /** 
-     * Unary minus. Negate coordinates of Vector3D.
+     * Unary minus. Negate this vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @return The negation of a Vector3D.
+     * @return A 3d vector.
      */
     Vector3D<T> operator - () const;
    
     /** 
-     * Sum two Vector3D objects. 
+     * Sum this vector with another 3d vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector3D object.
+     * @param v A 3d vector.
      * 
-     * @return The result of the sum.
+     * @return A 3d vector.
      */
     Vector3D<T> operator + (const Vector3D<T> &v) const;
 
     /** 
-     * Subtract two Vector3D objects.
+     * Subtract this vector with antoher 3d vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector3D object.
+     * @param v A 3d vector.
      * 
-     * @return The result of the subtraction.
+     * @return A 3d vector.
      */
     Vector3D<T> operator - (const Vector3D<T> &v) const;
 
     /** 
-     * Multiplication of a Vector3D object by a scalar.
+     * Multiplication of this vector by a scalar.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -428,12 +407,12 @@ class Vector3D
      *
      * @param s scalar.
      * 
-     * @return The result of the multiplication.
+     * @return A 3d vector.
      */
     Vector3D<T> operator * (T s) const;
 
     /** 
-     * Division of a Vector3D object by a scalar.
+     * Division of this vector by a scalar.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -441,9 +420,7 @@ class Vector3D
      *
      * @param s scalar.
      * 
-     * @return The result of the division.
-     *
-     * @note Does not check for division by zero.
+     * @return A 3d vector.
      */
     Vector3D<T> operator / (T s) const;
 
@@ -454,9 +431,9 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector3D object.
+     * @param v A 3d vector.
      * 
-     * @return The result of the addition.
+     * @return This vector.
      */
     Vector3D<T> &operator += (const Vector3D<T> &v);
 
@@ -467,9 +444,9 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector3D object.
+     * @param v A 3d vector.
      * 
-     * @return The result of the subtraction.
+     * @return This vector.
      */
     Vector3D<T> &operator -= (const Vector3D<T> &v);
 
@@ -482,7 +459,7 @@ class Vector3D
      *
      * @param s scalar.
      * 
-     * @return The result of the multiplication.
+     * @return This vector.
      */
     Vector3D<T> &operator *= (T s);
 
@@ -495,7 +472,7 @@ class Vector3D
      *
      * @param s scalar.
      * 
-     * @return The result of the division.
+     * @return This vector.
      */
     Vector3D<T> &operator /= (T s);
 
@@ -506,42 +483,16 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      */
-    void normalize ();
+    void Normalize ();
 
     /** 
-     * Compute the dot product.
-     * 
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     * @param v Constante reference to a Vector3D object.
-     * 
-     * @return The result of the dot product.
-     */
-    T dot (const Vector3D<T> &v) const;
-
-    /** 
-     * Computes a perpendicular vector.
+     * Set this vector to zero.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
-     *
-     * @return A perpendicular vector.
      */
-    Vector3D<T> Perpendicular () const;
-
-    /** 
-     * Computes perpendicular vector of unit length.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     * @return A perpendicular vector of unit length.
-     */
-    Vector3D<T> UnitPerpendicular () const;
+    void Zero ();
 
   private:
 
@@ -575,7 +526,7 @@ class Vector4D
      * @param vx X coordinate.
      * @param vy Y coordinate.
      * @param vz Z coordinate.
-     * @param vz W coordinate.
+     * @param vw W coordinate.
      *
      */
     Vector4D (const T &vx, const T &vy, const T &vz, const T &vw)
@@ -588,7 +539,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v Constant reference to a Vector4D object.
+     * @param v A 4d vector.
      *
      */ 
     Vector4D (const Vector4D<T>  &v)
@@ -604,79 +555,83 @@ class Vector4D
     ~Vector4D () {}
 
     /** 
-     * Assignment operator for Vector4D class. 
+     * Assignment operator. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
+     *
+     * @param v A 3d vector.
+     *
+     * @return This vector.
      */ 
     Vector4D<T> &operator = (const Vector4D<T> &v);
 
     /** 
-     * Equality operator. Check if two Vector4D are equal.
+     * Equality operator.
      * 
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector4D object.
+     * @param v A 4d vector.
      * 
      * @return Whether the vectors are equal.
      */
     bool operator == (const Vector4D<T> &v) const;
 
     /** 
-     * Inequality operator. Check if two Vector4D are not equal.
+     * Inequality operator.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector4D object.
+     * @param v A 4d vector.
      * 
      * @return Whether the vectors are different.
      */
     bool operator != (const Vector4D<T> &v) const;
     
     /** 
-     * Unary minus. Negate coordinates of Vector4D.
+     * Unary minus. Negate this vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @return The negation of a Vector4D.
+     * @return A 4d vector.
      */
     Vector4D<T> operator - () const;
    
     /** 
-     * Sum two Vector4D objects. 
+     * Sum this vector with another 4d vector. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector4D object.
+     * @param v A 4d vector.
      * 
-     * @return The result of the sum.
+     * @return A 4d vector.
      */
     Vector4D<T> operator + (const Vector4D<T> &v) const;
 
     /** 
-     * Subtract two Vector4D objects.
+     * Subtract this vector with another 4d vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector4D object.
+     * @param v A 4d vector.
      * 
-     * @return The result of the subtraction.
+     * @return A 4d vector.
      */
     Vector4D<T> operator - (const Vector4D<T> &v) const;
 
     /** 
-     * Multiplication of a Vector4D object by a scalar.
+     * Multiplication of scalar with this vector.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -684,7 +639,7 @@ class Vector4D
      *
      * @param s scalar.
      * 
-     * @return The result of the multiplication.
+     * @return A 4d vector.
      */
     Vector4D<T> operator * (T s) const;
 
@@ -697,9 +652,8 @@ class Vector4D
      *
      * @param s scalar.
      * 
-     * @return The result of the division.
+     * @return A 4d vector.
      *
-     * @note Does not check for division by zero.
      */
     Vector4D<T> operator / (T s) const;
 
@@ -710,9 +664,9 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector4D object.
+     * @param v A 4d vector.
      * 
-     * @return The result of the addition.
+     * @return This vector.
      */
     Vector4D<T> &operator += (const Vector4D<T> &v);
 
@@ -723,9 +677,9 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v Constant reference to a Vector4D object.
+     * @param v A 4d vector.
      * 
-     * @return The result of the subtraction.
+     * @return This vector.
      */
     Vector4D<T> &operator -= (const Vector4D<T> &v);
 
@@ -738,7 +692,7 @@ class Vector4D
      *
      * @param s scalar.
      * 
-     * @return The result of the multiplication.
+     * @return This vector.
      */
     Vector4D<T> &operator *= (T s);
 
@@ -751,7 +705,7 @@ class Vector4D
      *
      * @param s scalar.
      * 
-     * @return The result of the division.
+     * @return This vector.
      */
     Vector4D<T> &operator /= (T s);
 
@@ -762,308 +716,22 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      */
-    void normalize ();
+    void Normalize ();
 
     /** 
-     * Compute the dot product.
-     * 
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     * @param v Constante reference to a Vector4D object.
-     * 
-     * @return The result of the dot product.
-     */
-    T dot (const Vector4D<T> &v) const;
-
-    /** 
-     * Computes a perpendicular vector.
+     * Set this vector to zero.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
-     *
-     * @return A perpendicular vector.
      */
-    Vector4D<T> Perpendicular () const;
-
-    /** 
-     * Computes perpendicular vector of unit length.
-     * 
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-
-     * @return A perpendicular vector of unit length.
-     */
-    Vector4D<T> UnitPerpendicular () const;
+    void Zero ();
 
   private:
 
   protected:
 
 };
-
-// Non-member functions
-
-/** 
- * Magnitude of a Vector2D.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v Constant reference to a Vector2D.
- * 
- * @return The magnitude of vector.
- */
-template <typename T> 
-T 
-Vec2DMagnitude (const Vector2D<T> &v);
-
-/** 
- * Distance between two vectors of type Vector2D. 
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v Constant reference to a Vector2D object.
- * @param w Another Constant reference to a Vector2D object.
- * 
- * @return The distance between the vectors.
- */
-template <typename T>
-T 
-Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w);
-
-/** 
- * Projection of v onto n.
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v A two dimension vector.
- * @param n Another two dimension vector.
- * 
- * @return The projection of v onto n.
-*/
-template <typename T>
-Vector2D<T>
-Vec2DProjection (const Vector2D<T> &v , const Vector2D<T> &n);
-
-/** 
- * Vector Orthonormalization using the biased 
- * Gram-Schmidt algorithm.
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param u A two dimension vector.
- * @param v A two dimension vector.
- * @param n A two dimension vector.
- *
- * @notes Unexpected behavior when size of v > 2.
- */
-template <typename T>
-void 
-Orthonormalize2D (std::vector<Vector2D<T> > &v);
-
-/** 
- * Scalar on the left multiplication, for symmetry.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v A two dimension vector.
- * 
- * @return The vector that resulted from the multiplication.
- */
-template <typename T>
-Vector2D<T>
-operator * (T k, const Vector2D<T> &v);
-
-/** 
- * Magnitude of a Vector3D.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v Constant reference to a Vector3D.
- * 
- * @return The magnitude of vector.
- */
-template <typename T> 
-T 
-Vec3DMagnitude (const Vector3D<T> &v);
-
-/** 
- * Vector3D cross product.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v Constant reference to a Vector3D.
- * @param w	Another constant reference to a Vector3D.
- * 
- * @return Cross product result.
- */
-template <typename T>
-Vector3D<T> 
-Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w);
-
-/** 
- * Distance between two vectors of type Vector3D. 
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v Constant reference to a Vector3D object.
- * @param w Another constant reference to a Vector3D object.
- * 
- * @return The distance between the vectors.
- */
-template <typename T>
-T 
-Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w);
-
-/** 
- * Projection of v onto n.
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v A three dimension vector.
- * @param n Another three dimension vector.
- * 
- * @return The projection of v onto n.
- */
-template <typename T>
-Vector3D<T>
-Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
-
-/** 
- * Vector Orthonormalization using the biased 
- * Gram-Schmidt algorithm.
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param u A three dimension vector.
- * @param v A three dimension vector.
- * @param n A three dimension vector.
- *
- * @notes Unexpected behavior when size of v > 3.
- */
-template <typename T>
-void 
-Orthonormalize3D (std::vector<Vector3D<T> > &v);
-
-
-/** 
- * Scalar on the left multiplication, for symmetry.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v A three dimension vector.
- * 
- * @return The vector that resulted from the multiplication.
- */
-template <typename T>
-Vector3D<T>
-operator * (T k, const Vector3D<T> &v);
-
-/** 
- * Vector4D magnitude.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v Constant reference to a Vector4D.
- * 
- * @return The magnitude of vector.
- */
-template <typename T> 
-T 
-Vec4DMagnitude (const Vector4D<T> &v);
-
-/** 
- * Distance between two vectors of type Vector4D. 
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v Constant reference to a Vector4D object.
- * @param w Another constant reference to a Vector4D object.
- * 
- * @return The distance between the vectors.
- */
-template <typename T>
-T 
-Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k);
-
-/** 
- * Projection of v onto n.
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v A four dimension vector.
- * @param n Another four dimension vector.
- * 
- * @return The projection of v onto n.
- */
-template <typename T>
-Vector4D<T>
-Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
-
-/** 
- * Vector Orthonormalization using the biased 
- * Gram-Schmidt algorithm.
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param u A four dimension vector.
- * @param v A four dimension vector.
- * @param n A four dimension vector.
- *
- * @notes Unexpected behavior when size of v > 4.
- * 
- */
-template <typename T>
-void 
-Orthonormalize4D (std::vector<Vector4D<T> > &v);
-
-/** 
- * Scalar on the left multiplication, for symmetry.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-03-28
- * @since 0.2
- *
- * @param v A four dimension vector.
- * 
- * @return The vector that resulted from the multiplication.
- */
-template <typename T>
-Vector4D<T>
-operator * (T k, const Vector4D<T> &v);
 
 // Implementation of Vector2D,3D,4D
 
@@ -1094,14 +762,14 @@ template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator + (const Vector2D<T> &v) const
 {
-  return Vector2D<T>::Vector2D<T> (x + v.x, y + v.y);
+  return Vector2D<T> (x + v.x, y + v.y);
 }
 
 template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator - (const Vector2D<T> &v) const
 {
-  return Vector2D<T>::Vector2D<T> (x - v.x, y - v.y);
+  return Vector2D<T> (x - v.x, y - v.y);
 }
 
 template <typename T>
@@ -1122,8 +790,11 @@ template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator / (T s) const
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
   T oneOverS = 1/s;
-	return Vector2D<T> (x*oneOverS, y*oneOverS);
+  return Vector2D<T> (x*oneOverS, y*oneOverS);
 }
 
 template <typename T>
@@ -1131,7 +802,7 @@ Vector2D<T> &
 Vector2D<T>::operator += (const Vector2D<T> &v)
 {
   x += v.x; y +=v.y;
-	return *this;
+  return *this;
 }
 
 template <typename T>
@@ -1139,7 +810,7 @@ Vector2D<T> &
 Vector2D<T>::operator -= (const Vector2D<T> &v)
 {
   x -= v.x; y -=v.y;
-	return *this;
+  return *this;
 }
 
 template <typename T>
@@ -1147,50 +818,40 @@ Vector2D<T> &
 Vector2D<T>::operator *= (T s)
 {
   x *= s; y *= s;
-	return *this;
+  return *this;
 }
 
 template <typename T>
 Vector2D<T> &
 Vector2D<T>::operator /= (T s)
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
   T oneOverS = 1/s;
-	x *= oneOverS; y *= oneOverS;
-	return *this;
+  x *= oneOverS; y *= oneOverS;
+  return *this;
 }
 
 template <typename T>
 void 
-Vector2D<T>::normalize ()
+Vector2D<T>::Normalize ()
 {
-  T magSq = x*x + y*y;
-	if (magSq > 0)
-	{
-	  T oneOverMag = 1/sqrt (magSq);
-		x *= oneOverMag;
-		y *= oneOverMag;
-	}
+  T magSq = Vec2DMagnitude(*this); 
+  if (magSq == 0)
+    THROW (DivisionByZero,"Vector magnitude is zero.");
+
+  T oneOverMag = 1/magSq;
+  x *= oneOverMag;
+  y *= oneOverMag;
 }
 
 template <typename T>
-T 
-Vector2D<T>::dot (const Vector2D<T> &v) const
+void 
+Vector2D<T>::Zero ()
 {
-  return x*v.x + y*v.y;
-}
-
-template <typename T>
-Vector2D<T> 
-Vector2D<T>::Perpendicular () const
-{
-  return Vector2D (y,-x);
-}
-
-template <typename T>
-Vector2D<T> 
-Vector2D<T>::UnitPerpendicular () const
-{
-  return Vector2D<T>::Perpendicular ()/Vec2DMagnitude (*this);
+  x = 0;
+  y = 0;
 }
 
 template <typename T>
@@ -1221,21 +882,21 @@ template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator + (const Vector3D<T> &v) const
 {
-  return Vector3D<T>::Vector3D<T> (x + v.x, y + v.y, z + v.z);
+  return Vector3D<T> (x + v.x, y + v.y, z + v.z);
 }
 
 template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator - (const Vector3D<T> &v) const
 {
-  return Vector3D<T>::Vector3D<T> (x - v.x, y - v.y, z - v.z);
+  return Vector3D<T> (x - v.x, y - v.y, z - v.z);
 }
 
 template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator - () const 
 {
- return Vector3D<T> (-x,-y, -z); 
+  return Vector3D<T> (-x,-y, -z); 
 }
 
 template <typename T>
@@ -1249,8 +910,11 @@ template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator / (T s) const
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
   T oneOverS = 1/s;
-	return Vector3D<T> (x*oneOverS, y*oneOverS, z*oneOverS);
+  return Vector3D<T> (x*oneOverS, y*oneOverS, z*oneOverS);
 }
 
 template <typename T>
@@ -1258,7 +922,7 @@ Vector3D<T> &
 Vector3D<T>::operator += (const Vector3D<T> &v)
 {
   x += v.x; y +=v.y; z +=v.z;
-	return *this;
+  return *this;
 }
 
 template <typename T>
@@ -1266,7 +930,7 @@ Vector3D<T> &
 Vector3D<T>::operator -= (const Vector3D<T> &v)
 {
   x -= v.x; y -=v.y; z -=v.z;
-	return *this;
+  return *this;
 }
 
 template <typename T>
@@ -1274,37 +938,42 @@ Vector3D<T> &
 Vector3D<T>::operator *= (T s)
 {
   x *= s; y *= s; z *=s;
-	return *this;
+  return *this;
 }
 
 template <typename T>
 Vector3D<T> &
 Vector3D<T>::operator /= (T s)
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
   T oneOverS = 1/s;
-	x *= oneOverS; y *= oneOverS; z *= oneOverS;
-	return *this;
+  x *= oneOverS; y *= oneOverS; z *= oneOverS;
+  return *this;
 }
 
 template <typename T>
 void 
-Vector3D<T>::normalize ()
+Vector3D<T>::Normalize ()
 {
-  T magSq = x*x + y*y + z*z;
-	if (magSq > 0)
-	{
-	  T oneOverMag = 1/sqrt (magSq);
-		x *= oneOverMag;
-		y *= oneOverMag;
-    z *= oneOverMag;
-	}
+  T magSq = Vec3DMagnitude(*this); 
+  if (magSq == 0)
+    THROW (DivisionByZero,"Vector magnitude is zero.");
+
+  T oneOverMag = 1/magSq;
+  x *= oneOverMag;
+  y *= oneOverMag;
+  z *= oneOverMag;
 }
 
 template <typename T>
-T 
-Vector3D<T>::dot (const Vector3D<T> &v) const
+void 
+Vector3D<T>::Zero ()
 {
-  return x*v.x + y*v.y + z*v.z;
+  x = 0;
+  y = 0;
+  z = 0;
 }
 
 template <typename T>
@@ -1336,21 +1005,21 @@ template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator + (const Vector4D<T> &v) const
 {
-  return Vector4D<T>::Vector4D<T> (x + v.x, y + v.y, z + v.z, w + v.w);
+  return Vector4D<T> (x + v.x, y + v.y, z + v.z, w + v.w);
 }
 
 template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator - (const Vector4D<T> &v) const
 {
-  return Vector4D<T>::Vector4D<T> (x - v.x, y - v.y, z - v.z, w - v.w);
+  return Vector4D<T> (x - v.x, y - v.y, z - v.z, w - v.w);
 }
 
 template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator - () const 
 {
- return Vector4D<T> (-x, -y, -z, -w); 
+  return Vector4D<T> (-x, -y, -z, -w); 
 }
 
 template <typename T>
@@ -1364,8 +1033,11 @@ template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator / (T s) const
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
   T oneOverS = 1/s;
-	return Vector4D<T> (x*oneOverS, 
+  return Vector4D<T> (x*oneOverS, 
                       y*oneOverS, 
                       z*oneOverS, 
                       w*oneOverS);
@@ -1376,7 +1048,7 @@ Vector4D<T> &
 Vector4D<T>::operator += (const Vector4D<T> &v)
 {
   x += v.x; y +=v.y; z +=v.z; w +=v.w;
-	return *this;
+  return *this;
 }
 
 template <typename T>
@@ -1384,7 +1056,7 @@ Vector4D<T> &
 Vector4D<T>::operator -= (const Vector4D<T> &v)
 {
   x -= v.x; y -=v.y; z -=v.z; w -=v.w;
-	return *this;
+  return *this;
 }
 
 template <typename T>
@@ -1392,47 +1064,383 @@ Vector4D<T> &
 Vector4D<T>::operator *= (T s)
 {
   x *= s; y *= s; z *=s; w *=s;
-	return *this;
+  return *this;
 }
 
 template <typename T>
 Vector4D<T> &
 Vector4D<T>::operator /= (T s)
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
   T oneOverS = 1/s;
-	x *= oneOverS; y *= oneOverS; z *= oneOverS; w *= oneOverS;
-	return *this;
+  x *= oneOverS; y *= oneOverS; z *= oneOverS; w *= oneOverS;
+  return *this;
 }
 
 template <typename T>
 void 
-Vector4D<T>::normalize ()
+Vector4D<T>::Normalize ()
 {
-  T magSq = x*x + y*y + z*z + w*w;
-	if (magSq > 0)
-	{
-	  T oneOverMag = 1/sqrt (magSq);
-		x *= oneOverMag;
-		y *= oneOverMag;
-    z *= oneOverMag;
-    w *= oneOverMag;
-	}
+  T magSq = Vec4DMagnitude(*this); 
+  if (magSq == 0)
+    THROW (DivisionByZero,"Vector magnitude is zero.");
+
+  T oneOverMag = 1/magSq;
+  x *= oneOverMag;
+  y *= oneOverMag;
+  z *= oneOverMag;
+  w *= oneOverMag;
 }
 
 template <typename T>
-T 
-Vector4D<T>::dot (const Vector4D<T> &v) const
+void 
+Vector4D<T>::Zero ()
 {
-  return x*v.x + y*v.y + z*v.z + w*v.w;
+  x = 0;
+  y = 0;
+  z = 0;
+  w = 0;
 }
 
-// Non-member implementation
+
+// Non-member functions declarations
+
+/** 
+ * Magnitude of a vector.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 2d vector.
+ * 
+ * @return The magnitude of vector v.
+ */
+template <typename T> 
+T 
+Vec2DMagnitude (const Vector2D<T> &v);
+
+/** 
+ * Distance between two vectors. 
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 2d vector.
+ * @param w Another 2d vector.
+ * 
+ * @return The distance between the vectors.
+ */
+template <typename T>
+T 
+Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w);
+
+/** 
+ * Dot product between two 2d vectors.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 2d vector.
+ * @param w Another 2d vector.
+ * 
+ * @return The result of the dot product between v and w.
+ */
+template <typename T>
+T 
+Vec2DDot (const Vector2D<T> &v, const Vector2D<T> &w);
+
+/** 
+ * Projection of v onto n.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 2d vector.
+ * @param n Another 2d vector.
+ * 
+ * @return The projection of v onto n.
+*/
+template <typename T>
+Vector2D<T>
+Vec2DProjection (const Vector2D<T> &v , const Vector2D<T> &n);
+
+/** 
+ * Gets a perpendicular vector to v.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param A 2d vector.
+ *
+ * @return A perpendicular vector.
+ */
+template <typename T>
+Vector2D<T> 
+Vec2DPerpendicular (const Vector2D<T> &v);
+
+/** 
+ * Gets a perpendicular vector to v of unit length.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ * 
+ * @param A 2d vector
+ *
+ * @return A perpendicular vector of unit length.
+ */
+template <typename T>
+Vector2D<T> 
+Vec2DUnitPerpendicular (const Vector2D<T> &v);
+
+/** 
+ * Vector Orthonormalization using the biased 
+ * Gram-Schmidt algorithm.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 2d vector.
+ *
+ */
+template <typename T>
+void 
+Orthonormalize2D (std::vector<Vector2D<T> > &v);
+
+/** 
+ * Scalar on the left multiplication, for symmetry.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param k scalar.
+ * @param v A 2d vector.
+ * 
+ * @return A 2d vector.
+ */
+template <typename T>
+Vector2D<T>
+operator * (T k, const Vector2D<T> &v);
+
+/** 
+ * Magnitude of a vector.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ * 
+ * @return The magnitude of v.
+ */
+template <typename T> 
+T 
+Vec3DMagnitude (const Vector3D<T> &v);
+
+/** 
+ * Cross product.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ * @param w Another 3d vector.
+ * 
+ * @return Cross product result.
+ */
+template <typename T>
+Vector3D<T> 
+Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w);
+
+/** 
+ * Distance between two 3d vectors. 
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ * @param w Another 3d vector.
+ * 
+ * @return The distance between the vectors v and w.
+ */
+template <typename T>
+T 
+Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w);
+
+/** 
+ * Dot product between two 3d vectors.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ * @param w Another 3d vector.
+ * 
+ * @return The result of the dot product between v and w.
+ */
+template <typename T>
+T 
+Vec3DDot (const Vector3D<T> &v, const Vector3D<T> &w);
+
+/** 
+ * Projection of v onto n.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ * @param n Another three dimension vector.
+ * 
+ * @return The projection of v onto n.
+ */
+template <typename T>
+Vector3D<T>
+Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
+
+/** 
+ * Vector Orthonormalization using the biased 
+ * Gram-Schmidt algorithm.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ *
+ */
+template <typename T>
+void 
+Orthonormalize3D (std::vector<Vector3D<T> > &v);
+
+/** 
+ * Scalar on the left multiplication, for symmetry.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param k scalar.
+ * @param v A 3d vector.
+ * 
+ * @return A 3d vector.
+ */
+template <typename T>
+Vector3D<T>
+operator * (T k, const Vector3D<T> &v);
+
+/** 
+ * Magnitude of a 4d vector.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 4d vector.
+ * 
+ * @return The magnitude of vector v.
+ */
+template <typename T> 
+T 
+Vec4DMagnitude (const Vector4D<T> &v);
+
+/** 
+ * Distance between two 4d vectors. 
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 4d vector.
+ * @param k Another 4d vector.
+ * 
+ * @return The distance between the vectors.
+ */
+template <typename T>
+T 
+Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k);
+
+/** 
+ * Dot product between two 4d vectors.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 4d vector.
+ * @param w Another 4d vector.
+ * 
+ * @return The result of the dot product between v and w.
+ */
+template <typename T>
+T 
+Vec4DDot (const Vector4D<T> &v, const Vector4D<T> &w);
+
+/** 
+ * Projection of v onto n.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 4d vector.
+ * @param n Another four dimension vector.
+ * 
+ * @return The projection of v onto n.
+ */
+template <typename T>
+Vector4D<T>
+Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
+
+/** 
+ * Vector Orthonormalization using the biased 
+ * Gram-Schmidt algorithm.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 4d vector.
+ */
+template <typename T>
+void 
+Orthonormalize4D (std::vector<Vector4D<T> > &v);
+
+/** 
+ * Scalar on the left multiplication, for symmetry.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param k scalar.
+ * @param v A 4d vector.
+ * 
+ * @return A 4d vector.
+ */
+template <typename T>
+Vector4D<T>
+operator * (T k, const Vector4D<T> &v);
+
+// Non-member implementations
 
 template<typename T> 
 T 
 Vec2DMagnitude (const Vector2D<T> &v)
 {
-  return sqrt (v.x*v.x + v.y*v.y);
+  return std::sqrt (v.x*v.x + v.y*v.y);
 }
 
 template<typename T>
@@ -1441,20 +1449,52 @@ Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w)
 {
   T dx = v.x - w.x;
   T dy = v.y - w.y;
-  return sqrt (dx*dx + dy*dy);
+  return std::sqrt (dx*dx + dy*dy);
+}
+
+template <typename T>
+T 
+Vec2DDot (const Vector2D<T> &v, const Vector2D<T> &w)
+{
+  return v.x*w.x + v.y*w.y;
 }
 
 template <typename T>
 Vector2D<T>
 Vec2DProjection (const Vector2D<T> &v, const Vector2D<T> &n)
 {
-  return n * (v.dot(n)/n.dot(n)); 
+  T nDotProd = Vec2DDot(n,n);
+  if (nDotProd == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
+  return n * (Vec2DDot(v,n)/nDotProd); 
 }
+
+template <typename T>
+Vector2D<T> 
+Vec2DPerpendicular (const Vector2D<T> &v)
+{
+  return Vector2D<T> (v.y,-v.x);
+}
+
+template <typename T>
+Vector2D<T> 
+Vec2DUnitPerpendicular (const Vector2D<T> &v)
+{
+  T vMag = Vec2DMagnitude(v);
+  if (vMag == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
+  return Vec2DPerpendicular(v)/vMag;
+}
+
 
 template <typename T>
 void 
 Orthonormalize2D (std::vector<Vector2D<T> > &v)
 {
+  if (v.size() > 2)
+    THROW (OutOfRange,"Cannot Orthonormalize more than 2 vectors");
 
   typename std::vector<Vector2D<T> >::iterator itForward;
   typename std::vector<Vector2D<T> >::iterator itReverse;
@@ -1474,23 +1514,23 @@ template <typename T>
 Vector2D<T>
 operator * (T k, const Vector2D<T> &v)
 {
-  return typename Vector2D<T>::Vector2D(k*v.x,k*v.y);
+  return Vector2D<T> (k*v.x,k*v.y);
 }
 
 template<typename T> 
 T 
 Vec3DMagnitude (const Vector3D<T> &v)
 {
-  return sqrt (v.x*v.x  + v.y*v.y + v.z*v.z);
+  return std::sqrt (v.x*v.x  + v.y*v.y + v.z*v.z);
 }
 
 template<typename T>
 Vector3D<T> 
 Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w)
 {
-  return typename Vector3D<T>::Vector3D (v.y*w.z - v.z*w.y,
-                                         v.z*w.x - v.x*w.z,
-                                         v.x*w.y - v.y*w.x);
+  return Vector3D<T> (v.y*w.z - v.z*w.y,
+                      v.z*w.x - v.x*w.z,
+                      v.x*w.y - v.y*w.x);
 }
 
 template<typename T>
@@ -1500,20 +1540,34 @@ Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w)
   T dx = v.x - w.x;
   T dy = v.y - w.y;
   T dz = v.z - w.z;
-  return sqrt (dx*dx + dy*dy + dz*dz);
+  return std::sqrt (dx*dx + dy*dy + dz*dz);
+}
+
+template <typename T>
+T 
+Vec3DDot (const Vector3D<T> &v, const Vector3D<T> &w)
+{
+  return v.x*w.x + v.y*w.y + v.z*w.z;
 }
 
 template <typename T>
 Vector3D<T>
 Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n)
 {
-  return n * (v.dot(n)/n.dot(n));   
+  T nDotProd = Vec3DDot(n,n);
+  if (nDotProd == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
+  return n * (Vec3DDot(v,n)/nDotProd);   
 }
 
 template <typename T>
 void 
 Orthonormalize3D (std::vector<Vector3D<T> > &v)
 {
+  if (v.size() > 3)
+    THROW (OutOfRange,"Cannot Orthonormalize more than 3 vectors");
+
   typename std::vector<Vector3D<T> >::iterator itForward;
   typename std::vector<Vector3D<T> >::iterator itReverse;
 
@@ -1532,14 +1586,14 @@ template <typename T>
 Vector3D<T>
 operator * (T k, const Vector3D<T> &v)
 {
-  return typename Vector3D<T>::Vector3D(k*v.x,k*v.y,k*v.z);
+  return Vector3D<T> (k*v.x,k*v.y,k*v.z);
 }
 
 template<typename T> 
 T 
 Vec4DMagnitude (const Vector4D<T> &v)
 {
-  return sqrt (v.x*v.x + v.y*v.y + v.z*v.z + v.w*v.w);
+  return std::sqrt (v.x*v.x + v.y*v.y + v.z*v.z + v.w*v.w);
 }
 
 template<typename T>
@@ -1550,20 +1604,35 @@ Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k)
   T dy = v.y - k.y;
   T dz = v.z - k.z;
   T dw = v.w - k.w;
-  return sqrt (dx*dx + dy*dy + dw*dw);
+  return std::sqrt (dx*dx + dy*dy + dw*dw);
 }
+
+template <typename T>
+T 
+Vec4DDot (const Vector4D<T> &v, const Vector4D<T> &w)
+{
+  return v.x*w.x + v.y*w.y + v.z*w.z + v.w*w.w;
+}
+
 
 template <typename T>
 Vector4D<T>
 Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n)
 {
-  return n * (v.dot(n)/n.dot(n)); 
+  T nDotProd = Vec4DDot(n,n);
+  if (nDotProd == 0)
+    THROW (DivisionByZero,"Vector division by zero.");
+
+  return n * (Vec4DDot(v,n)/nDotProd); 
 }
 
 template <typename T>
 void 
 Orthonormalize4D (std::vector<Vector4D<T> > &v)
 {
+  if (v.size() > 4)
+    THROW (OutOfRange,"Cannot Orthonormalize more than 4 vectors");
+
   typename std::vector<Vector4D<T> >::iterator itForward;
   typename std::vector<Vector4D<T> >::iterator itReverse;
 
@@ -1582,7 +1651,7 @@ template <typename T>
 Vector4D<T>
 operator * (T k, const Vector4D<T> &v)
 {
-  return typename Vector4D<T>::Vector4D(k*v.x,k*v.y,k*v.z,k*v.w);
+  return Vector4D<T> (k*v.x,k*v.y,k*v.z,k*v.w);
 }
 
 }

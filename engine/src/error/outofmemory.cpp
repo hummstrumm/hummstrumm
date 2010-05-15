@@ -15,13 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
+
+#include "hummstrummengine.hpp"
 
 #include <string>
 #include <sstream>
-
-#include <config.h>
-#include <error/error.hpp>
-#include <error/outofmemory.hpp>
 
 namespace hummstrumm
 {

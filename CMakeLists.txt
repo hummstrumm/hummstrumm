@@ -29,7 +29,7 @@ set(CPACK_PACKAGE_DESCRIPTION_FILE
 set(CPACK_RESOURCE_FILE_LICENSE
     "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
-set(CPACK_PACKAGE_VERSION_MINOR "1")
+set(CPACK_PACKAGE_VERSION_MINOR "2")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "Humm and Strumm")
 #if(WIN32 and not UNIX)
 #  # There is a bug in NSI that does not handle full unix paths properly. Make
@@ -42,14 +42,14 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "Humm and Strumm")
 #  set(CPACK_NSIS_CONTACT "me@my-personal-home-page.com")
 #  set(CPACK_NSIS_MODIFY_PATH ON)
 #endif(WIN32 and not UNIX)
-#if(UNIX and not WIN32)
-#  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Patrick Niedzielski <PatrickNiedzielski@gmail.com>")
-#  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Humm and Strumm Free Adventure Video Game")
-#  set(CPACK_PACKAGE_DESCRIPTION "In a world where logic is frowned upon, two (sometimes three) heroes rise from the back alley way of a news paper corporation...\nHumm and Strumm\n...Saving the world (well, sort of) one hamburger at a time.\nJoin them as they travel throughout a psychedelic world of music, excitement, fire, junk food, stick figures, coconuts, and disco.\nThis game is fully three-dimensional, with a breath-taking musical soundtrack.\nBut, they don't have to brave it alone...usually. Also play as a fun loving bubble blower at times during their quest(s).\nThis game is completely open-source, released under the GNU GPL 3.0, which means that you can freely download, edit, and use this game however you want.")
-#  set(CPACK_DEBIAN_PACKAGE_DEPENDS	"libc6 (>= 2.7-18)")
-#  set(CPACK_DEBIAN_PACKAGE_SECTION	"Games")
-#  set(CPACK_DEBIAN_PACKAGE_VERSION 0.1)
-#endif(UNIX and not WIN32)
+if(UNIX)
+  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Patrick Niedzielski <PatrickNiedzielski@gmail.com>")
+  set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Humm and Strumm Free Adventure Video Game")
+  set(CPACK_PACKAGE_DESCRIPTION "In a world where logic is frowned upon, two (sometimes three) heroes rise from the back alley way of a news paper corporation...\nHumm and Strumm\n...Saving the world (well, sort of) one hamburger at a time.\nJoin them as they travel throughout a psychedelic world of music, excitement, fire, junk food, stick figures, coconuts, and disco.\nThis game is fully three-dimensional, with a breath-taking musical soundtrack.\nBut, they don't have to brave it alone...usually. Also play as a fun loving bubble blower at times during their quest(s).\nThis game is completely open-source, released under the GNU GPL 3.0, which means that you can freely download, edit, and use this game however you want.")
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS	"libc6 (>= 2.7-18)")
+  set(CPACK_DEBIAN_PACKAGE_SECTION	"Games")
+  set(CPACK_DEBIAN_PACKAGE_VERSION 0.1)
+endif(UNIX)
 set(CPACK_PACKAGE_EXECUTABLES "hummstrumm" "Humm and Strumm")
 include(CPack)
 
@@ -62,6 +62,9 @@ if (WIN32)
   
   set (HUMMSTRUMM_WINDOWSYSYEM_WINDOWS ON)
   set (HUMMSTRUMM_WINDOWSYSYEM_X11 OFF)
+
+  set (HUMMSTRUMM_DOXYGEN_MACROS "HUMMSTRUMM_PLATFORM_WINDOWS=" CACHE STRING
+       "The predefined macro string for Doxygen.")
   
   if (CMAKE_SIZEOF_VOID_P MATCHES "4")
     set (HUMMSTRUMM_PLATFORM_WIN32 ON)
@@ -79,6 +82,9 @@ else (WIN32)
     
     set (HUMMSTRUMM_WINDOWSYSYEM_WINDOWS OFF)
     set (HUMMSTRUMM_WINDOWSYSYEM_X11 ON)
+
+    set (HUMMSTRUMM_DOXYGEN_MACROS "HUMMSTRUMM_PLATFORM_GNULINUX=" CACHE STRING
+         "The predefined macro string for Doxygen.")
   endif (UNIX)
 endif (WIN32)
 

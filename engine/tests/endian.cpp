@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
 
 #include <iostream>
 
-#include "config.h"
-#include "system/endian.hpp"
+#include "hummstrummengine.hpp"
 
 int
 main (int argc, char **argv)

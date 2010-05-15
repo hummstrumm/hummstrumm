@@ -1,3 +1,24 @@
+2010-05-12 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* hummstrummengine.hpp: Took out #include <utilites> for rel_ops.  Also
+	  added String header file.
+	
+	* CMakeLists.txt: Going to try CPack Debian Package maker thing soon.
+	
+	* number.hpp: Added all the relational operators.  No longer using those
+	  in std::rel_ops.  Also made operator= and so forth return a
+	  non-constant Number, so (a = b) = c will work.  Only for language
+	  consistency; this code should never be written.  Ever.
+	
+	* number.cpp: Implemented above changes.
+
+2010-05-08 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+
+	* hummstrummengine.hpp: Conditional compilation for includes based on a
+	  flag.
+
+	* types.cpp: Test cases created.
+
 2010-04-10 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
 
 	* log.cpp: Made all strings wide.
@@ -6,7 +27,7 @@
 
 	* type.hpp: Some minor fixes now that we've a real class implementing
 	  the Object/Type System.
-	  
+
 2010-03-27 Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
 
 	* endian.cpp: Test case created.

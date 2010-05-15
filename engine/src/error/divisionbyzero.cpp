@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2010, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #define HUMMSTRUMM_ENGINE_SOURCE
+
+#include <string>
+#include <sstream>
+
+#include "config.h"
+#include "error/error.hpp"
+#include "error/divisionbyzero.hpp"
 
 #include "hummstrummengine.hpp"
 
@@ -23,53 +31,15 @@ namespace hummstrumm
 {
 namespace engine
 {
-namespace system
+namespace error
 {
 
-
-Endian Endian::Big    (Endian::BIG);
-Endian Endian::Little (Endian::LITTLE);
-
-
-Endian::Endian (const Endian &byteOrder)
-  : byteOrder (byteOrder.byteOrder)
+DivisionByZero::DivisionByZero (std::string fileName, unsigned int lineNumber,
+                          std::string text)
+  : Error (fileName, lineNumber, "The program encountered a division by zero.  " + text)
 {}
 
-
-Endian::~Endian (void)
-{}
-
-
-bool
-Endian::operator== (const Endian &endian) const throw ()
-{
-  return (endian.byteOrder == this->byteOrder);
-} 
-
-
-#if defined (HUMMSTRUMM_ENDIAN_BIG)
-
-Endian &
-Endian::GetSystemByteOrder (void) throw ()
-{
-  return Endian::Big;
-}
-
-#else // #if defined (HUMMSTRUMM_ENDIAN_BIG)
-
-Endian &
-Endian::GetSystemByteOrder (void) throw ()
-{
-  return Endian::Little;
-}
-
-#endif // #if defined (HUMMSTRUMM_ENDIAN_BIG)
-
-
-Endian::Endian (Endian::Order byteOrder)
-  : byteOrder ((byteOrder == Endian::BIG) ? 0 : 1)
-{}
-
+DivisionByZero::~DivisionByZero (void) {}
 
 }
 }

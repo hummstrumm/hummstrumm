@@ -28,8 +28,9 @@
 #ifndef HUMMSTRUMM_ENGINE_CORE_POINTER
 #define HUMMSTRUMM_ENGINE_CORE_POINTER
 
-#include "type.hpp"
-#include "object.hpp"
+#include <debug/utils.hpp>
+#include <core/type.hpp>
+#include <core/object.hpp>
 
 namespace hummstrumm
 {

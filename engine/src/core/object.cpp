@@ -15,20 +15,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
 
 #include <cstdlib>
 #include <memory>
 #include <new>
 
-#include <config.h>
-#include <core/type.hpp>
-#include <core/pointer.hpp>
-#include <core/object.hpp>
-#include <core/heap.hpp>
+#include "hummstrummengine.hpp"
 
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #include <utmpx.h>
-#endif 
+#endif
+
+    // Thanks to Jeremy Jones for this code for Windows.
+    // <https://www.cs.tcd.ie/Jeremy.Jones/GetCurrentProcessorNumberXP.htm>
+const unsigned int
+GetCurrentProcessor_hidden_ (void)
+  throw ()
+{
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  _asm { mov eax, 1 }
+  _asm { cpuid }
+  _asm { shr ebx, 24 }
+  _asm { mov eax, ebx }
+#else
+  return sched_getcpu ();
+#endif
+}
 
 namespace hummstrumm
 {
@@ -37,7 +50,8 @@ namespace engine
 namespace core
 {
 
-Type type_HIDDEN_
+Type
+Object::type_HIDDEN_
   ("hummstrumm::engine::core::Object",
    sizeof (Object),
    0,
@@ -45,7 +59,7 @@ Type type_HIDDEN_
 
 
 Object::Object (void)
-  : referenceCount_ (!masterHeap_HIDDEN_.IsHeapMemory
+  : referenceCount_ (!MasterHeap::GetMasterHeap ().IsHeapMemory
       (reinterpret_cast<char *> (this)))
 {}
 
@@ -57,7 +71,7 @@ Object::~Object (void)
 bool
 Object::IsHeapMemory (void) const throw ()
 {
-  return masterHeap_HIDDEN_.IsHeapMemory (reinterpret_cast<char *>
+  return MasterHeap::GetMasterHeap ().IsHeapMemory (reinterpret_cast<char *>
     (const_cast<Object *> (this)));
 }
 
@@ -131,7 +145,85 @@ Object::DropReference (void) const throw ()
     }
 }
 
+}
+}
+}
 
+
+void *
+operator new (std::size_t objectSize)
+{
+  char *memory = 0;
+  
+  hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+    Allocate (&memory, objectSize);
+  
+  return memory;
 }
+
+
+void *
+operator new (std::size_t objectSize,
+                      std::nothrow_t dontThrowException)
+  throw ()
+{
+  char *memory = 0;
+  
+  try
+    {
+      hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+        Allocate (&memory, objectSize);
+    }
+  catch (...)
+    {
+      return 0;
+    }
+  
+  return memory;
 }
+
+
+void *
+operator new[] (std::size_t objectsSize)
+{
+  char *memory = 0;
+  
+  hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+    Allocate (&memory, objectsSize);
+  
+  return memory;
+}
+
+
+void *
+operator new[] (std::size_t objectsSize,
+                        std::nothrow_t dontThrowException) throw ()
+{
+  char *memory = 0;
+  
+  try
+    {
+      hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
+        Allocate (&memory, objectsSize);
+    }
+  catch (...)
+    {
+      return 0;
+    }
+  
+  return memory;
+}
+
+
+void
+operator delete (void *object) throw ()
+{
+  hummstrumm::engine::core::Heap::FreeHelper (reinterpret_cast<char **> (&object));
+}
+
+
+void
+operator delete[] (void *objects) throw ()
+{
+  hummstrumm::engine::core::Heap::FreeHelper (reinterpret_cast<char **> (&objects));
 }

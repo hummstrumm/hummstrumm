@@ -22,16 +22,18 @@
  * @file    matrice.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
- * @see     Matrix2D
- * @see     Matrix3D
- * @see     Matrix4D
+ * @see     Vector2D
+ * @see     Vector3D
+ * @see     Vector4D
  *
+ * @note This code uses column vectors.
  */
 
-#ifndef HUMMSTRUMM_ENGINE_MATH_MATRICES
-#define HUMMSTRUMM_ENGINE_MATH_MATRICES
+#ifndef HUMMSTRUMM_ENGINE_MATH_MATRICE
+#define HUMMSTRUMM_ENGINE_MATH_MATRICE
 
-#include <math/vector.hpp>
+#include <error/outofrange.hpp>
+#include <error/divisionbyzero.hpp>
 
 namespace hummstrumm
 {
@@ -39,6 +41,14 @@ namespace engine
 {
 namespace math
 {
+
+template <typename>
+class Vector2D;
+template <typename>
+class Vector3D;
+template <typename>
+class Vector4D;
+
 
 template <typename T>
 class Matrix2D
@@ -64,7 +74,7 @@ class Matrix2D
      * @since 0.2
      * 
      * @param v1 First row of matrix
-     * @param v1 Second row of matrix.
+     * @param v2 Second row of matrix.
      *
      */
     Matrix2D (const Vector2D<T> &v1, const Vector2D<T> &v2)
@@ -102,7 +112,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v A 2x2 matrice.
+     * @param m A 2x2 matrice.
      *
      */ 
     Matrix2D (const Matrix2D<T>  &m)
@@ -121,8 +131,7 @@ class Matrix2D
     ~Matrix2D () {}
 
     /** 
-     * Assignment operator. Assings a 2x2 matrice to another 2x2
-     * matrice. 
+     * Assignment operator. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -130,7 +139,7 @@ class Matrix2D
      *
      * @param m A 2x2 matrice.
      *
-     * @return A matrice equal to m.
+     * @return This matrice.
      */ 
     Matrix2D<T> &operator = (const Matrix2D<T> &m);
 
@@ -148,7 +157,7 @@ class Matrix2D
     bool operator == (const Matrix2D<T> &m) const;
 
     /** 
-     * Inequality operator. Check if two matrices are not equal.
+     * Inequality operator. Check if two matrices are different.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -214,6 +223,32 @@ class Matrix2D
     Matrix2D<T> operator * (const T s) const;
 
     /** 
+     * Multiply this matrice with another 2x2 matrice.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param m A 2x2 matrice.
+     *
+     * @return The multiplication of this matrice with m.
+     */
+     Matrix2D<T> operator * (const Matrix2D<T> &m);
+
+    /** 
+     * Multiply this matrice with a vector.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param v A 2d vector.
+     *
+     * @return The multiplication of this matrice with v.
+     */
+     Vector2D<T> operator * (const Vector2D<T> &v);
+
+    /** 
      * Division of a 2x2 matrice by a scalar.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
@@ -225,7 +260,6 @@ class Matrix2D
      * @return A 2x2 matrice containing the division of the scalar
      * with the matrice.
      *
-     * @note Does not check for division by zero.
      */
     Matrix2D<T> operator / (const T s) const;
 
@@ -252,7 +286,7 @@ class Matrix2D
      *
      * @param m A 2x2 matrice.
      * 
-     * @return A 2x2 matrice containing the sum of the two matrices.
+     * @return This matrice added with m.
      */
     Matrix2D<T> &operator += (const Matrix2D<T> &m);
 
@@ -265,8 +299,7 @@ class Matrix2D
      *
      * @param m A 2x2 matrice.
      * 
-     * @return A 2x2 matrice containing the substraction of the two
-     * matrices.
+     * @return This matrice subtracted by m.
      */
     Matrix2D<T> &operator -= (const Matrix2D<T> &m);
 
@@ -277,10 +310,22 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
+     * @param m A 2x2 matrix.
+     *
+     * @return This matrice multiplied by m.
+     */
+    Matrix2D<T> &operator *= (const Matrix2D<T> &m);
+
+    /** 
+     * Combined multiplication assignment operator.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
      * @param s scalar.
      *
-     * @return A 2x2 matrice containing the multiplication of the
-     * scalar with the matrice.
+     * @return This matrice multiplied by s.
      */
     Matrix2D<T> &operator *= (const T s);
 
@@ -293,15 +338,13 @@ class Matrix2D
      *
      * @param s scalar.
      * 
-     * @return A 2x2 matrice containing the division of the scalar
-     * with the matrice.
+     * @return This matrice divided by s.
      *
-     * @note Does not check for division by zero.
      */
     Matrix2D<T> &operator /= (const T s);
 
     /** 
-     * Set this matrix to the identity matrix.
+     * Set this matrix to the identity matrice.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -311,24 +354,15 @@ class Matrix2D
     void Identity ();
 
     /** 
-     * Calculate the determinant of this matrix.
+     * Calculate the determinant of this matrice.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
+     * @return The determinant of this.
      */
     T Determinant () const;
-
-    /** 
-     * Inverse of this matrix.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     */
-    void Inverse ();
 
   private:
 
@@ -360,7 +394,7 @@ class Matrix3D
      * @since 0.2
      * 
      * @param v1 First row of matrix
-     * @param v1 Second row of matrix.
+     * @param v2 Second row of matrix.
      * @param v3 Third row of matrix.
      *
      */
@@ -382,10 +416,13 @@ class Matrix3D
      * 
      * @param x1 First row X coordinate.
      * @param y1 First row Y coordinate.
+     * @param z1 First row Z coordinate.
      * @param x2 Second row X coordinate
      * @param y2 Second row Y coordinate
+     * @param z2 Second row Z coordinate
      * @param x3 Third row X coordinate
      * @param y3 Third row Y coordinate
+     * @param z3 Third row Z coordinate
      *
      */
     Matrix3D (const T &x1, const T &y1, const T &z1,
@@ -413,7 +450,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v A 3x3 matrice.
+     * @param m A 3x3 matrice.
      *
      */ 
     Matrix3D (const Matrix3D<T>  &m)
@@ -433,8 +470,7 @@ class Matrix3D
     ~Matrix3D () {}
 
     /** 
-     * Assignment operator. Assings a 3x3 matrice to another 3x3
-     * matrice. 
+     * Assignment operator. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -442,7 +478,7 @@ class Matrix3D
      *
      * @param m A 3x3 matrice.
      *
-     * @return A matrice equal to m.
+     * @return This matrice.
      */ 
     Matrix3D<T> &operator = (const Matrix3D<T> &m);
 
@@ -460,7 +496,7 @@ class Matrix3D
     bool operator == (const Matrix3D<T> &m) const;
 
     /** 
-     * Inequality operator. Check if two matrices are not equal.
+     * Inequality operator. Check if two matrices are different.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -526,6 +562,34 @@ class Matrix3D
     Matrix3D<T> operator * (const T s) const;
 
     /** 
+     * Multiply this matrice with another 3x3 matrice.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param m A 3x3 matrice.
+     *
+     * @return A 3x3 matrice containing the multiplication of this 
+     * matrice with m.
+     */
+    Matrix3D<T> operator * (const Matrix3D<T> &m);
+
+    /** 
+     * Multiply this matrice with a vector.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param v A 3d vector.
+     *
+     * @return A 3x3 matrice containing the multiplication of 
+     * this matrice with v.
+     */
+     Vector3D<T> operator * (const Vector3D<T> &v);
+
+    /** 
      * Division of a 3x3 matrice by a scalar.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
@@ -534,10 +598,9 @@ class Matrix3D
      *
      * @param s scalar.
      * 
-     * @return A 3x3 matrice containing the division of the scalar
-     * with the matrice.
+     * @return A 3x3 matrice containing the division of the s
+     * with this matrice.
      *
-     * @note Does not check for division by zero.
      */
     Matrix3D<T> operator / (const T s) const;
 
@@ -550,7 +613,7 @@ class Matrix3D
      *
      * @param r line to get.
      * 
-     * @return Line of the matrice.
+     * @return This matrice line r.
      *
      */
     Vector3D<T> operator [] (const unsigned short r) const;
@@ -564,7 +627,7 @@ class Matrix3D
      *
      * @param m A 3x3 matrice.
      * 
-     * @return A 3x3 matrice containing the sum of the two matrices.
+     * @return This matrice containing the sum of this with m.
      */
     Matrix3D<T> &operator += (const Matrix3D<T> &m);
 
@@ -577,8 +640,7 @@ class Matrix3D
      *
      * @param m A 3x3 matrice.
      * 
-     * @return A 3x3 matrice containing the substraction of the two
-     * matrices.
+     * @return This matrice subtracted by m.
      */
     Matrix3D<T> &operator -= (const Matrix3D<T> &m);
 
@@ -591,10 +653,22 @@ class Matrix3D
      *
      * @param s scalar.
      *
-     * @return A 3x3 matrice containing the multiplication of the
-     * scalar with the matrice.
+     * @return This matrice multiplied by s.
      */
     Matrix3D<T> &operator *= (const T s);
+
+    /** 
+     * Combined multiplication assignment operator.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param m A 3x3 matrice.
+     *
+     * @return This matrice multiplied by m.
+     */
+    Matrix3D<T> &operator *= (const Matrix3D<T> &m);
 
     /** 
      * Combined division assignment operator.
@@ -605,15 +679,13 @@ class Matrix3D
      *
      * @param s scalar.
      * 
-     * @return A 3x3 matrice containing the division of the scalar
-     * with the matrice.
+     * @return This matrice divided s.
      *
-     * @note Does not check for division by zero.
      */
     Matrix3D<T> &operator /= (const T s);
 
     /** 
-     * Set this matrix to the identity matrix.
+     * Set this matrix to the identity matrice.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -623,24 +695,15 @@ class Matrix3D
     void Identity ();
 
     /** 
-     * Calculate the determinant of this matrix.
+     * Calculate the determinant of this matrice.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      *
+     * @return This matrice determinant.
      */
     T Determinant () const;
-
-    /** 
-     * Inverse of this matrix.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     */
-    void Inverse ();
 
   private:
 
@@ -672,8 +735,9 @@ class Matrix4D
      * @since 0.2
      * 
      * @param v1 First row of matrix
-     * @param v1 Second row of matrix.
+     * @param v2 Second row of matrix.
      * @param v3 Third row of matrix.
+     * @param v4 Fourth row of matrix.
      *
      */
     Matrix4D (const Vector4D<T> &v1, 
@@ -696,12 +760,20 @@ class Matrix4D
      * 
      * @param x1 First row X coordinate.
      * @param y1 First row Y coordinate.
+     * @param z1 First row Z coordinate.
+     * @param w1 First row W coordinate.
      * @param x2 Second row X coordinate.
      * @param y2 Second row Y coordinate.
+     * @param z2 Second row Z coordinate.
+     * @param w2 Second row W coordinate.
      * @param x3 Third row X coordinate.
      * @param y3 Third row Y coordinate.
+     * @param z3 Third row Z coordinate.
+     * @param w3 Third row W coordinate.
      * @param x4 Fourth row X coordinate.
      * @param y4 Fourth row Y coordinate.
+     * @param z4 Fourth row Z coordinate.
+     * @param w4 Fourth row W coordinate.
      *
      */
     Matrix4D (const T &x1, const T &y1, const T &z1, const T &w1, 
@@ -738,7 +810,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v A 4x4 matrice.
+     * @param m A 4x4 matrice.
      *
      */ 
     Matrix4D (const Matrix4D<T>  &m)
@@ -759,8 +831,7 @@ class Matrix4D
     ~Matrix4D () {}
 
     /** 
-     * Assignment operator. Assings a 4x4 matrice to another 4x4
-     * matrice. 
+     * Assignment operator. 
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -768,7 +839,7 @@ class Matrix4D
      *
      * @param m A 4x4 matrice.
      *
-     * @return A matrice equal to m.
+     * @return This matrice.
      */ 
     Matrix4D<T> &operator = (const Matrix4D<T> &m);
 
@@ -786,7 +857,7 @@ class Matrix4D
     bool operator == (const Matrix4D<T> &m) const;
 
     /** 
-     * Inequality operator. Check if two matrices are not equal.
+     * Inequality operator. Check if two matrices are different.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
@@ -819,7 +890,7 @@ class Matrix4D
      *
      * @param m A 4x4 matrice.
      * 
-     * @return A 4x4 matrice containing the sum of the two matrices.
+     * @return A 4x4 matrice containing the sum of this with m.
      */
     Matrix4D<T> operator + (const Matrix4D<T> &m) const;
 
@@ -832,8 +903,7 @@ class Matrix4D
      *
      * @param m A 4x4 matrice.
      * 
-     * @return A 4x4 matrice containing the substraction of the two
-     * matrices.
+     * @return A 4x4 matrice containing the substraction of this with m.
      */
     Matrix4D<T> operator - (const Matrix4D<T> &m) const;
 
@@ -846,10 +916,35 @@ class Matrix4D
      *
      * @param s scalar.
      * 
-     * @return A 4x4 matrice containing the multiplication of the
-     * scalar with the matrice.
+     * @return A 4x4 matrice containing the multiplication of this with s.
      */
     Matrix4D<T> operator * (const T s) const;
+
+    /** 
+     * Multiply this matrice with another 4x4 matrice.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param m A 4x4 matrice.
+     *
+     * @return The multiplication of this matrice with m.
+     */
+     Matrix4D<T> operator * (const Matrix4D<T> &m);
+
+    /** 
+     * Multiply this matrice with a vector.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param v A 4d vector.
+     *
+     * @return The multiplication of this matrice with v.
+     */
+     Vector4D<T> operator * (const Vector4D<T> &v);
 
     /** 
      * Division of a 4x4 matrice by a scalar.
@@ -860,10 +955,8 @@ class Matrix4D
      *
      * @param s scalar.
      * 
-     * @return A 4x4 matrice containing the division of the scalar
-     * with the matrice.
+     * @return A 4x4 matrice containing the division this with s..
      *
-     * @note Does not check for division by zero.
      */
     Matrix4D<T> operator / (const T s) const;
 
@@ -876,7 +969,7 @@ class Matrix4D
      *
      * @param r line to get.
      * 
-     * @return Line of the matrice.
+     * @return matrice line.
      *
      */
     Vector4D<T> operator [] (const unsigned short r) const;
@@ -890,7 +983,7 @@ class Matrix4D
      *
      * @param m A 4x4 matrice.
      * 
-     * @return A 4x4 matrice containing the sum of the two matrices.
+     * @return This matrice added with m.
      */
     Matrix4D<T> &operator += (const Matrix4D<T> &m);
 
@@ -903,8 +996,7 @@ class Matrix4D
      *
      * @param m A 4x4 matrice.
      * 
-     * @return A 4x4 matrice containing the substraction of the two
-     * matrices.
+     * @return This matrice subtracted with m.
      */
     Matrix4D<T> &operator -= (const Matrix4D<T> &m);
 
@@ -915,10 +1007,22 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
+     * @param m A 4x4 matrix.
+     *
+     * @return This matrix multiplied by m.
+     */
+    Matrix4D<T> &operator *= (const Matrix4D<T> &m);
+
+    /** 
+     * Combined multiplication assignment operator.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
      * @param s scalar.
      *
-     * @return A 4x4 matrice containing the multiplication of the
-     * scalar with the matrice.
+     * @return This matrice multiplied by s.
      */
     Matrix4D<T> &operator *= (const T s);
 
@@ -931,10 +1035,8 @@ class Matrix4D
      *
      * @param s scalar.
      * 
-     * @return A 4x4 matrice containing the division of the scalar
-     * with the matrice.
+     * @return This matrice divided by s.
      *
-     * @note Does not check for division by zero.
      */
     Matrix4D<T> &operator /= (const T s);
 
@@ -955,18 +1057,9 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
+     * @return The determinant.
      */
     T Determinant () const;
-
-    /** 
-     * Inverse of this matrix.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-03-28
-     * @since 0.2
-     *
-     */
-    void Inverse ();
 
   private:
 
@@ -984,6 +1077,7 @@ Matrix2D<T>::operator = (const Matrix2D<T> &m)
 {
   mat2[0] = m[0];
   mat2[1] = m[1];
+  return *this;
 }
 
 template <typename T>
@@ -1029,9 +1123,29 @@ Matrix2D<T>::operator * (const T s) const
 }
 
 template <typename T>
+Matrix2D<T>
+Matrix2D<T>::operator * (const Matrix2D<T> &m)
+{
+  return Matrix2D<T> (mat2[0].x*m[0].x + mat2[0].y*m[1].x,
+                      mat2[0].x*m[0].y + mat2[0].y*m[1].y,
+                      mat2[1].x*m[0].x + mat2[1].y*m[1].x,
+                      mat2[1].x*m[0].y + mat2[1].y*m[1].y);
+}
+
+template <typename T>
+Vector2D<T>
+Matrix2D<T>::operator * (const Vector2D<T> &v)
+{
+  return Vector2D<T> (mat2[0].x*v.x + mat2[0].y*v.y,
+                      mat2[1].x*v.x + mat2[1].y*v.y);
+}
+
+template <typename T>
 Matrix2D<T> 
 Matrix2D<T>::operator / (const T s) const
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Matrice division by zero.");
   T oneOverS = 1/s;
   return Matrix2D<T> (mat2[0]*oneOverS, mat2[1]*oneOverS);
 }
@@ -1040,6 +1154,9 @@ template <typename T>
 Vector2D<T> 
 Matrix2D<T>::operator [] (const unsigned short r) const
 {
+  if ( r >= 2 )
+    THROW (OutOfRange,"Invalid matrice line.");
+
   return mat2[r];
 }
 
@@ -1072,8 +1189,23 @@ Matrix2D<T>::operator *= (const T s)
 
 template <typename T>
 Matrix2D<T> &
+Matrix2D<T>::operator *= (const Matrix2D<T> &m)
+{
+  Matrix2D tmp (*this);
+  mat2[0].x = tmp[0].x*m[0].x + tmp[0].y*m[1].x;
+  mat2[0].y = tmp[0].x*m[0].y + tmp[0].y*m[1].y;
+  mat2[1].x = tmp[1].x*m[0].x + tmp[1].y*m[1].x;
+  mat2[1].y = tmp[1].x*m[0].y + tmp[1].y*m[1].y;
+  return *this;
+}
+
+template <typename T>
+Matrix2D<T> &
 Matrix2D<T>::operator /= (const T s)
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Matrice division by zero.");
+
   T oneOverS = 1/s; 
   mat2[0] *= oneOverS;
   mat2[1] *= oneOverS;
@@ -1096,14 +1228,6 @@ Matrix2D<T>::Determinant () const
   return mat2[0].x * mat2[1].y - mat2[0].y * mat2[1].x;
 }
 
-template <typename T>
-void
-Matrix2D<T>::Inverse ()
-{
-  *this = Matrix2D(mat2[1].y, -mat2[0].y, -mat2[1].x, mat2[0].x)
-          /Determinant();
-}
-
 // Matrix 3D
 template <typename T>
 Matrix3D<T> &
@@ -1112,6 +1236,7 @@ Matrix3D<T>::operator = (const Matrix3D<T> &m)
   mat3[0] = m[0];
   mat3[1] = m[1];
   mat3[2] = m[2];
+  return *this;
 }
 
 template <typename T>
@@ -1157,9 +1282,36 @@ Matrix3D<T>::operator * (const T s) const
 }
 
 template <typename T>
+Matrix3D<T>
+Matrix3D<T>::operator * (const Matrix3D<T> &m)
+{
+  return Matrix3D<T> ( mat3[0].x*m[0].x + mat3[0].y*m[1].x + mat3[0].z*m[2].x,
+                       mat3[0].x*m[0].y + mat3[0].y*m[1].y + mat3[0].z*m[2].y,
+                       mat3[0].x*m[0].z + mat3[0].y*m[1].z + mat3[0].z*m[2].z,
+                       mat3[1].x*m[0].x + mat3[1].y*m[1].x + mat3[1].z*m[2].x,
+                       mat3[1].x*m[0].y + mat3[1].y*m[1].y + mat3[1].z*m[2].y,
+                       mat3[1].x*m[0].z + mat3[1].y*m[1].z + mat3[1].z*m[2].z,
+                       mat3[2].x*m[0].x + mat3[2].y*m[1].x + mat3[2].z*m[2].x,
+                       mat3[2].x*m[0].y + mat3[2].y*m[1].y + mat3[2].z*m[2].y,
+                       mat3[2].x*m[0].z + mat3[2].y*m[1].z + mat3[2].z*m[2].z);
+}
+
+template <typename T>
+Vector3D<T>
+Matrix3D<T>::operator * (const Vector3D<T> &v)
+{
+  return Vector3D<T> (mat3[0].x*v.x + mat3[0].y*v.y + mat3[0].z*v.z,
+                      mat3[1].x*v.x + mat3[1].y*v.y + mat3[1].z*v.z,
+                      mat3[2].x*v.x + mat3[2].y*v.y + mat3[2].z*v.z);
+}
+
+template <typename T>
 Matrix3D<T> 
 Matrix3D<T>::operator / (const T s) const
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Matrice division by zero.");
+
   T oneOverS = 1/s;
   return Matrix3D<T> (mat3[0]*oneOverS, mat3[1]*oneOverS, mat3[2]*oneOverS);
 }
@@ -1168,6 +1320,9 @@ template <typename T>
 Vector3D<T> 
 Matrix3D<T>::operator [] (const unsigned short r) const
 {
+  if ( r >= 3 )
+    THROW (OutOfRange,"Invalid matrix line.");
+
   return mat3[r];
 }
 
@@ -1203,8 +1358,29 @@ Matrix3D<T>::operator *= (const T s)
 
 template <typename T>
 Matrix3D<T> &
+Matrix3D<T>::operator *= (const Matrix3D<T> &m)
+{
+  Matrix3D tmp(*this);
+  mat3[0].x = tmp[0].x*m[0].x + tmp[0].y*m[1].x + tmp[0].z*m[2].x;
+  mat3[0].y = tmp[0].x*m[0].y + tmp[0].y*m[1].y + tmp[0].z*m[2].y;
+  mat3[0].z = tmp[0].x*m[0].z + tmp[0].y*m[1].z + tmp[0].z*m[2].z;
+  mat3[1].x = tmp[1].x*m[0].x + tmp[1].y*m[1].x + tmp[1].z*m[2].x;
+  mat3[1].y = tmp[1].x*m[0].y + tmp[1].y*m[1].y + tmp[1].z*m[2].y;
+  mat3[1].z = tmp[1].x*m[0].z + tmp[1].y*m[1].z + tmp[1].z*m[2].z;
+  mat3[2].x = tmp[2].x*m[0].x + tmp[2].y*m[1].x + tmp[2].z*m[2].x;
+  mat3[2].y = tmp[2].x*m[0].y + tmp[2].y*m[1].y + tmp[2].z*m[2].y;
+  mat3[2].z = tmp[2].x*m[0].z + tmp[2].y*m[1].z + tmp[2].z*m[2].z;
+  return *this;
+}
+
+
+template <typename T>
+Matrix3D<T> &
 Matrix3D<T>::operator /= (const T s)
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Matrice division by zero.");
+
   T oneOverS = 1/s; 
   mat3[0] *= oneOverS;
   mat3[1] *= oneOverS;
@@ -1226,25 +1402,8 @@ template <typename T>
 T
 Matrix3D<T>::Determinant () const
 {
-  return mat3[2].dot(Vec3DCross(mat3[0],mat3[1]));
+  return Vec3DDot(mat3[2],Vec3DCross(mat3[0],mat3[1]));
 }
-
-template <typename T>
-void
-Matrix3D<T>::Inverse ()
-{
-  *this = Matrix3D(mat3[1].y*mat3[2].z - mat3[1].z*mat3[2].y, 
-                   mat3[0].z*mat3[2].y - mat3[0].y*mat3[2].z,
-                   mat3[0].y*mat3[1].z - mat3[0].z*mat3[1].y,
-                   mat3[1].z*mat3[2].x - mat3[1].x*mat3[2].z,
-                   mat3[0].x*mat3[2].z - mat3[0].z*mat3[2].x,
-                   mat3[0].z*mat3[1].x - mat3[0].x*mat3[1].z,
-                   mat3[1].x*mat3[2].y - mat3[1].y*mat3[2].x,
-                   mat3[0].y*mat3[2].x - mat3[0].x*mat3[2].y,
-                   mat3[0].x*mat3[1].y - mat3[0].y*mat3[1].x)
-                   /Determinant();
-}
-
 
 // Matrix 4D
 template <typename T>
@@ -1309,9 +1468,60 @@ Matrix4D<T>::operator * (const T s) const
 }
 
 template <typename T>
+Matrix4D<T>
+Matrix4D<T>::operator * (const Matrix4D<T> &m)
+{
+  return Matrix4D<T> ( mat4[0].x*m[0].x + mat4[0].y*m[1].x + mat4[0].z*m[2].x 
+                       + mat4[0].w*m[3].x,
+                       mat4[0].x*m[0].y + mat4[0].y*m[1].y + mat4[0].z*m[2].y 
+                       + mat4[0].w*m[3].y,
+                       mat4[0].x*m[0].z + mat4[0].y*m[1].z + mat4[0].z*m[2].z 
+                       + mat4[0].w*m[3].z,
+                       mat4[0].x*m[0].w + mat4[0].y*m[1].w + mat4[0].z*m[2].w 
+                       + mat4[0].w*m[3].w, 
+                       mat4[1].x*m[0].x + mat4[1].y*m[1].x + mat4[1].z*m[2].x 
+                       + mat4[1].w*m[3].x,
+                       mat4[1].x*m[0].y + mat4[1].y*m[1].y + mat4[1].z*m[2].y 
+                       + mat4[1].w*m[3].y,
+                       mat4[1].x*m[0].z + mat4[1].y*m[1].z + mat4[1].z*m[2].z 
+                       + mat4[1].w*m[3].z,
+                       mat4[1].x*m[0].w + mat4[1].y*m[1].w + mat4[1].z*m[2].w 
+                       + mat4[1].w*m[3].w,
+                       mat4[2].x*m[0].x + mat4[2].y*m[1].x + mat4[2].z*m[2].x 
+                       + mat4[2].w*m[3].x,
+                       mat4[2].x*m[0].y + mat4[2].y*m[1].y + mat4[2].z*m[2].y 
+                       + mat4[2].w*m[3].y,
+                       mat4[2].x*m[0].z + mat4[2].y*m[1].z + mat4[2].z*m[2].z 
+                       + mat4[2].w*m[3].z,
+                       mat4[2].x*m[0].w + mat4[2].y*m[1].w + mat4[2].z*m[2].w 
+                       + mat4[2].w*m[3].w,
+                       mat4[3].x*m[0].x + mat4[3].y*m[1].x + mat4[3].z*m[2].x 
+                       + mat4[3].w*m[3].x,
+                       mat4[3].x*m[0].y + mat4[3].y*m[1].y + mat4[3].z*m[2].y 
+                       + mat4[3].w*m[3].y,
+                       mat4[3].x*m[0].z + mat4[3].y*m[1].z + mat4[3].z*m[2].z 
+                       + mat4[3].w*m[3].z,
+                       mat4[3].x*m[0].w + mat4[3].y*m[1].w + mat4[3].z*m[2].w 
+                       + mat4[3].w*m[3].w);
+}
+
+template <typename T>
+Vector4D<T>
+Matrix4D<T>::operator * (const Vector4D<T> &v)
+{
+  return Vector4D<T> (mat4[0].x*v.x + mat4[0].y*v.y + mat4[0].z*v.z + mat4[0].w*v.w,
+                      mat4[1].x*v.x + mat4[1].y*v.y + mat4[1].z*v.z + mat4[1].w*v.w,
+                      mat4[2].x*v.x + mat4[2].y*v.y + mat4[2].z*v.z + mat4[2].w*v.w,
+                      mat4[3].x*v.x + mat4[3].y*v.y + mat4[3].z*v.z + mat4[3].w*v.w);
+}
+
+template <typename T>
 Matrix4D<T> 
 Matrix4D<T>::operator / (const T s) const
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Matrice division by zero.");
+
   T oneOverS = 1/s;
   return Matrix4D<T> (mat4[0]*oneOverS, mat4[1]*oneOverS,
                       mat4[2]*oneOverS, mat4[3]*oneOverS);
@@ -1321,6 +1531,9 @@ template <typename T>
 Vector4D<T> 
 Matrix4D<T>::operator [] (const unsigned short r) const
 {
+  if ( r >= 4 )
+    THROW (OutOfRange,"Invalid matrix line.");
+
   return mat4[r];
 }
 
@@ -1348,6 +1561,47 @@ Matrix4D<T>::operator += (const Matrix4D<T> &m)
 
 template <typename T>
 Matrix4D<T> &
+Matrix4D<T>::operator *= (const Matrix4D<T> &m)
+{
+  Matrix4D tmp(*this);
+  mat4[0].x = tmp[0].x*m[0].x + tmp[0].y*m[1].x + tmp[0].z*m[2].x 
+              + tmp[0].w*m[3].x;
+  mat4[0].y = tmp[0].x*m[0].y + tmp[0].y*m[1].y + tmp[0].z*m[2].y 
+              + tmp[0].w*m[3].y;
+  mat4[0].z = tmp[0].x*m[0].z + tmp[0].y*m[1].z + tmp[0].z*m[2].z 
+              + tmp[0].w*m[3].z;
+  mat4[0].w = tmp[0].x*m[0].w + tmp[0].y*m[1].w + tmp[0].z*m[2].w 
+              + tmp[0].w*m[3].w; 
+  mat4[1].x = tmp[1].x*m[0].x + tmp[1].y*m[1].x + tmp[1].z*m[2].x 
+              + tmp[1].w*m[3].x;
+  mat4[1].y = tmp[1].x*m[0].y + tmp[1].y*m[1].y + tmp[1].z*m[2].y 
+              + tmp[1].w*m[3].y;
+  mat4[1].z = tmp[1].x*m[0].z + tmp[1].y*m[1].z + tmp[1].z*m[2].z 
+              + tmp[1].w*m[3].z;
+  mat4[1].w = tmp[1].x*m[0].w + tmp[1].y*m[1].w + tmp[1].z*m[2].w 
+              + tmp[1].w*m[3].w;
+  mat4[2].x = tmp[2].x*m[0].x + tmp[2].y*m[1].x + tmp[2].z*m[2].x 
+              + tmp[2].w*m[3].x;
+  mat4[2].y = tmp[2].x*m[0].y + tmp[2].y*m[1].y + tmp[2].z*m[2].y 
+              + tmp[2].w*m[3].y;
+  mat4[2].z = tmp[2].x*m[0].z + tmp[2].y*m[1].z + tmp[2].z*m[2].z 
+              + tmp[2].w*m[3].z;
+  mat4[2].w = tmp[2].x*m[0].w + tmp[2].y*m[1].w + tmp[2].z*m[2].w 
+              + tmp[2].w*m[3].w;
+  mat4[3].x = tmp[3].x*m[0].x + tmp[3].y*m[1].x + tmp[3].z*m[2].x 
+              + tmp[3].w*m[3].x;
+  mat4[3].y = tmp[3].x*m[0].y + tmp[3].y*m[1].y + tmp[3].z*m[2].y 
+              + tmp[3].w*m[3].y;
+  mat4[3].z = tmp[3].x*m[0].z + tmp[3].y*m[1].z + tmp[3].z*m[2].z 
+              + tmp[3].w*m[3].z;
+  mat4[3].w = tmp[3].x*m[0].w + tmp[3].y*m[1].w + tmp[3].z*m[2].w 
+              + tmp[3].w*m[3].w;
+  return *this;
+}
+
+
+template <typename T>
+Matrix4D<T> &
 Matrix4D<T>::operator *= (const T s)
 {
   mat4[0] *= s;
@@ -1361,6 +1615,9 @@ template <typename T>
 Matrix4D<T> &
 Matrix4D<T>::operator /= (const T s)
 {
+  if (s == 0)
+    THROW (DivisionByZero,"Matrice division by zero.");
+
   T oneOverS = 1/s; 
   mat4[0] *= oneOverS;
   mat4[1] *= oneOverS;
@@ -1401,104 +1658,294 @@ Matrix4D<T>::Determinant () const
          + mat4[1].z*(mat4[2].x*mat4[3].y - mat4[2].y*mat4[3].x));
 }
 
+// non member functions declarations
 
+/** 
+ * Multiply a 2x2 matrice with a scalar on the left side.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 2x2 matrice.
+ * @param s Scalar
+ *
+ * @return The multiplication of m with s.
+ */
 template <typename T>
-void
-Matrix4D<T>::Inverse ()
-{ 
-  *this = Matrix4D(mat4[1].y*mat4[2].z*mat4[3].w + mat4[1].z*mat4[2].w*mat4[3].y 
-                   + mat4[1].w*mat4[2].y*mat4[3].z
-                   - mat4[1].y*mat4[2].w*mat4[3].z - mat4[1].z*mat4[2].y*mat4[3].w 
-                   - mat4[1].w*mat4[2].z*mat4[3].y, 
-                   mat4[0].y*mat4[2].w*mat4[3].z + mat4[0].z*mat4[2].y*mat4[3].w 
-                   + mat4[0].w*mat4[2].z*mat4[3].y
-                   - mat4[0].y*mat4[2].z*mat4[3].w - mat4[0].z*mat4[2].w*mat4[3].y 
-                   - mat4[0].w*mat4[2].y*mat4[3].z,
-                   mat4[0].y*mat4[1].z*mat4[3].w + mat4[0].z*mat4[1].w*mat4[3].y 
-                   +  mat4[0].w*mat4[1].y*mat4[3].z
-                   - mat4[0].y*mat4[1].w*mat4[3].z - mat4[0].z*mat4[1].y*mat4[3].w 
-                   - mat4[0].w*mat4[1].z*mat4[3].y,
-                   mat4[0].y*mat4[1].w*mat4[2].z + mat4[0].z*mat4[1].y*mat4[2].w 
-                   + mat4[0].w*mat4[1].z*mat4[2].y 
-                   - mat4[0].y*mat4[1].z*mat4[2].y - mat4[0].z*mat4[1].w*mat4[2].y 
-                   - mat4[0].w*mat4[1].y*mat4[2].z,
+Matrix2D<T> operator * (const T s, const Matrix2D<T> &m);
 
-                   mat4[1].x*mat4[2].w*mat4[3].z + mat4[1].z*mat4[2].x*mat4[3].w 
-                   + mat4[1].w*mat4[2].z*mat4[3].x
-                   - mat4[1].x*mat4[2].z*mat4[3].w - mat4[1].z*mat4[2].w*mat4[3].x 
-                   - mat4[1].w*mat4[2].x*mat4[3].z,
-                   mat4[0].x*mat4[2].z*mat4[3].w + mat4[0].z*mat4[2].w*mat4[3].x 
-                   + mat4[0].w*mat4[2].x*mat4[3].z
-                   - mat4[0].x*mat4[2].w*mat4[3].z - mat4[0].z*mat4[2].x*mat4[3].w 
-                   - mat4[0].w*mat4[2].z*mat4[3].x,
-                   mat4[0].x*mat4[1].w*mat4[3].z + mat4[0].z*mat4[1].x*mat4[3].w 
-                   + mat4[0].w*mat4[1].z*mat4[3].x
-                   - mat4[0].x*mat4[1].z*mat4[3].w - mat4[0].z*mat4[1].w*mat4[3].x 
-                   - mat4[0].w*mat4[1].x*mat4[3].z,
-                   mat4[0].x*mat4[1].z*mat4[2].w + mat4[0].z*mat4[1].w*mat4[2].x 
-                   + mat4[0].w*mat4[1].x*mat4[2].z
-                   - mat4[0].x*mat4[1].w*mat4[2].z - mat4[0].z*mat4[1].x*mat4[2].w 
-                   - mat4[0].w*mat4[1].z*mat4[2].x,
+/** 
+ * Inverse of a 2x2 matrice.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 2x2 matrice.
+ * 
+ * @return The inverse of m.
+ */
+template <typename T>
+Matrix2D<T> Mat2DInverse (const Matrix2D<T> &m);
 
-                   mat4[1].x*mat4[2].y*mat4[3].w + mat4[1].y*mat4[2].w*mat4[3].x 
-                   + mat4[1].w*mat4[2].x*mat4[3].y
-                   - mat4[1].x*mat4[2].w*mat4[3].y - mat4[1].y*mat4[2].x*mat4[3].w 
-                   - mat4[1].w*mat4[2].y*mat4[3].x,
-                   mat4[0].x*mat4[2].w*mat4[3].y + mat4[0].y*mat4[2].x*mat4[3].w 
-                   + mat4[0].w*mat4[2].y*mat4[3].x
-                   - mat4[0].x*mat4[2].y*mat4[3].w - mat4[0].y*mat4[2].w*mat4[3].x 
-                   - mat4[0].w*mat4[2].x*mat4[3].y,
-                   mat4[0].x*mat4[1].y*mat4[3].w + mat4[0].y*mat4[1].w*mat4[3].x 
-                   + mat4[0].w*mat4[1].x*mat4[3].y
-                   - mat4[0].x*mat4[1].w*mat4[3].y - mat4[0].y*mat4[1].x*mat4[3].w 
-                   - mat4[0].w*mat4[1].y*mat4[3].x,
-                   mat4[0].x*mat4[1].w*mat4[2].y + mat4[0].y*mat4[1].x*mat4[2].w 
-                   + mat4[0].w*mat4[1].y*mat4[2].x
-                   - mat4[0].x*mat4[1].y*mat4[2].w - mat4[0].y*mat4[1].w*mat4[2].x 
-                   - mat4[0].w*mat4[1].x*mat4[2].y,
+/** 
+ * Transpose of a 2x2 matrice.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 2x2 matrice.
+ *
+ * @return The transpose of m.
+ */
+template <typename T>
+Matrix2D<T> Mat2DTranspose (const Matrix2D<T> &m);
 
-                   mat4[1].x*mat4[2].z*mat4[3].y + mat4[1].y*mat4[2].x*mat4[3].z 
-                   + mat4[1].z*mat4[2].y*mat4[3].x
-                   - mat4[1].x*mat4[2].y*mat4[3].z - mat4[1].y*mat4[2].z*mat4[3].x 
-                   - mat4[1].z*mat4[2].x*mat4[3].y,
-                   mat4[0].x*mat4[2].y*mat4[3].y + mat4[0].y*mat4[2].z*mat4[3].x 
-                   + mat4[0].z*mat4[2].x*mat4[3].y
-                   - mat4[0].x*mat4[2].z*mat4[3].y - mat4[0].y*mat4[2].x*mat4[3].z 
-                   - mat4[0].z*mat4[2].y*mat4[3].x,
-                   mat4[0].x*mat4[1].z*mat4[3].y + mat4[0].y*mat4[1].x*mat4[3].z 
-                   + mat4[0].z*mat4[1].y*mat4[3].x
-                   - mat4[0].x*mat4[1].y*mat4[3].z - mat4[0].y*mat4[1].z*mat4[3].x 
-                   - mat4[0].z*mat4[1].x*mat4[3].y,
-                   mat4[0].x*mat4[1].y*mat4[2].z + mat4[0].y*mat4[1].z*mat4[2].x 
-                   + mat4[0].z*mat4[1].x*mat4[2].y
-                   - mat4[0].x*mat4[1].z*mat4[2].y - mat4[0].y*mat4[1].x*mat4[2].z 
-                   - mat4[0].z*mat4[1].y*mat4[2].x)/Determinant(); 
-}
+/** 
+ * Multiply a 3x3 matrice with a scalar on the left side.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 3x3 matrice.
+ * @param s Scalar
+ *
+ * @return The multiplication of m with s.
+ */
+template <typename T>
+Matrix3D<T> operator * (const T s, const Matrix3D<T> &m);
 
-// non member functions
+/** 
+ * Inverse of a 3x3 matrice.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 3x3 matrice.
+ * 
+ * @return The inverse of m.
+ */
+template <typename T>
+Matrix3D<T> Mat3DInverse (const Matrix3D<T> &m);
+
+/** 
+ * Transpose of a 3x3 matrice.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 3x3 matrice.
+ *
+ * @return The transpose of m.
+ */
+template <typename T>
+Matrix3D<T> Mat3DTranspose (const Matrix3D<T> &m);
+
+/** 
+ * Multiply a 4x4 matrice with a scalar on the left side.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 4x4 matrice.
+ * @param s Scalar
+ *
+ * @return The multiplication of m with s.
+ */
+template <typename T>
+Matrix4D<T> operator * (const T s, const Matrix4D<T> &m);
+
+/** 
+ * Inverse of a 4x4 matrice.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 4x4 matrice.
+ * 
+ * @return The inverse of m.
+ */
+template <typename T>
+Matrix4D<T> Mat4DInverse (const Matrix4D<T> &m);
+
+/** 
+ * Transpose of a 4x4 matrice.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param m A 4x4 matrice.
+ *
+ * @return The transpose of m.
+ */
+template <typename T>
+Matrix4D<T> Mat4DTranspose (const Matrix4D<T> &m);
+
+// non member functions implementation
 
 template <typename T>
 Matrix2D<T>
 operator * (const T s, const Matrix2D<T> &m)
 {
-  return typename Matrix2D<T>::Matrix2D (m[0]*s, m[1]*s);
+  return Matrix2D<T> (m[0]*s, m[1]*s);
 }
+
+template <typename T>
+Matrix2D<T>
+Mat2DInverse (const Matrix2D<T> &m)
+{
+  T mDet = m.Determinant();
+  if (mDet == 0)
+    THROW (DivisionByZero,"Matrice determinant is zero.");
+ 
+  return Matrix2D<T> (m[1].y, -m[0].y, -m[1].x, m[0].x)/mDet;
+}
+
+template <typename T>
+Matrix2D<T>
+Mat2DTranspose (const Matrix2D<T> &m)
+{
+  return Matrix2D<T> (m[0].x, m[1].x, m[0].y, m[1].y);
+}
+
 
 template <typename T>
 Matrix3D<T>
 operator * (const T s, const Matrix3D<T> &m)
 {
-  return typename Matrix3D<T>::Matrix3D (m[0]*s, m[1]*s, m[2]*s);
+  return Matrix3D<T> (m[0]*s, m[1]*s, m[2]*s);
+}
+
+template <typename T>
+Matrix3D<T>
+Mat3DInverse (const Matrix3D<T> &m)
+{
+  T mDet = m.Determinant();
+  if (mDet == 0)
+    THROW (DivisionByZero,"Matrice determinant is zero.");
+
+  return Matrix3D<T> (m[1].y*m[2].z - m[1].z*m[2].y, 
+                                         m[0].z*m[2].y - m[0].y*m[2].z,
+                                         m[0].y*m[1].z - m[0].z*m[1].y,
+                                         m[1].z*m[2].x - m[1].x*m[2].z,
+                                         m[0].x*m[2].z - m[0].z*m[2].x,
+                                         m[0].z*m[1].x - m[0].x*m[1].z,
+                                         m[1].x*m[2].y - m[1].y*m[2].x,
+                                         m[0].y*m[2].x - m[0].x*m[2].y,
+                                         m[0].x*m[1].y - m[0].y*m[1].x)
+                                         /mDet;
+}
+
+template <typename T>
+Matrix3D<T>
+Mat3DTranspose (const Matrix3D<T> &m)
+{
+  return Matrix3D<T> (m[0].x, m[1].x, m[2].x,
+                                         m[0].y, m[1].y, m[2].y,
+                                         m[0].z, m[1].y, m[2].z);
 }
 
 template <typename T>
 Matrix4D<T>
 operator * (const T s, const Matrix4D<T> &m)
 {
-  return typename Matrix4D<T>::Matrix4D (m[0]*s, m[1]*s, m[2]*s, m[3]*s);
+  return Matrix4D<T> (m[0]*s, m[1]*s, m[2]*s, m[3]*s);
 }
 
+template <typename T>
+Matrix4D<T>
+Mat4DInverse (const Matrix4D<T> &m)
+{
+  T mDet = m.Determinant();
+  if (mDet == 0)
+    THROW (DivisionByZero,"Matrice determinant is zero.");
 
+  return Matrix4D<T> (m[1].y*m[2].z*m[3].w + m[1].z*m[2].w*m[3].y 
+                                         + m[1].w*m[2].y*m[3].z
+                                         - m[1].y*m[2].w*m[3].z - m[1].z*m[2].y*m[3].w 
+                                         - m[1].w*m[2].z*m[3].y, 
+                                         m[0].y*m[2].w*m[3].z + m[0].z*m[2].y*m[3].w 
+                                         + m[0].w*m[2].z*m[3].y
+                                         - m[0].y*m[2].z*m[3].w - m[0].z*m[2].w*m[3].y 
+                                         - m[0].w*m[2].y*m[3].z,
+                                         m[0].y*m[1].z*m[3].w + m[0].z*m[1].w*m[3].y 
+                                         +  m[0].w*m[1].y*m[3].z
+                                         - m[0].y*m[1].w*m[3].z - m[0].z*m[1].y*m[3].w 
+                                         - m[0].w*m[1].z*m[3].y,
+                                         m[0].y*m[1].w*m[2].z + m[0].z*m[1].y*m[2].w 
+                                         + m[0].w*m[1].z*m[2].y 
+                                         - m[0].y*m[1].z*m[2].y - m[0].z*m[1].w*m[2].y 
+                                         - m[0].w*m[1].y*m[2].z,
+
+                                         m[1].x*m[2].w*m[3].z + m[1].z*m[2].x*m[3].w 
+                                         + m[1].w*m[2].z*m[3].x
+                                         - m[1].x*m[2].z*m[3].w - m[1].z*m[2].w*m[3].x 
+                                         - m[1].w*m[2].x*m[3].z,
+                                         m[0].x*m[2].z*m[3].w + m[0].z*m[2].w*m[3].x 
+                                         + m[0].w*m[2].x*m[3].z
+                                         - m[0].x*m[2].w*m[3].z - m[0].z*m[2].x*m[3].w 
+                                         - m[0].w*m[2].z*m[3].x,
+                                         m[0].x*m[1].w*m[3].z + m[0].z*m[1].x*m[3].w 
+                                         + m[0].w*m[1].z*m[3].x
+                                         - m[0].x*m[1].z*m[3].w - m[0].z*m[1].w*m[3].x 
+                                         - m[0].w*m[1].x*m[3].z,
+                                         m[0].x*m[1].z*m[2].w + m[0].z*m[1].w*m[2].x 
+                                         + m[0].w*m[1].x*m[2].z
+                                         - m[0].x*m[1].w*m[2].z - m[0].z*m[1].x*m[2].w 
+                                         - m[0].w*m[1].z*m[2].x,
+
+                                         m[1].x*m[2].y*m[3].w + m[1].y*m[2].w*m[3].x 
+                                         + m[1].w*m[2].x*m[3].y
+                                         - m[1].x*m[2].w*m[3].y - m[1].y*m[2].x*m[3].w 
+                                         - m[1].w*m[2].y*m[3].x,
+                                         m[0].x*m[2].w*m[3].y + m[0].y*m[2].x*m[3].w 
+                                         + m[0].w*m[2].y*m[3].x
+                                         - m[0].x*m[2].y*m[3].w - m[0].y*m[2].w*m[3].x 
+                                         - m[0].w*m[2].x*m[3].y,
+                                         m[0].x*m[1].y*m[3].w + m[0].y*m[1].w*m[3].x 
+                                         + m[0].w*m[1].x*m[3].y
+                                         - m[0].x*m[1].w*m[3].y - m[0].y*m[1].x*m[3].w 
+                                         - m[0].w*m[1].y*m[3].x,
+                                         m[0].x*m[1].w*m[2].y + m[0].y*m[1].x*m[2].w 
+                                         + m[0].w*m[1].y*m[2].x
+                                         - m[0].x*m[1].y*m[2].w - m[0].y*m[1].w*m[2].x 
+                                         - m[0].w*m[1].x*m[2].y,
+
+                                         m[1].x*m[2].z*m[3].y + m[1].y*m[2].x*m[3].z 
+                                         + m[1].z*m[2].y*m[3].x
+                                         - m[1].x*m[2].y*m[3].z - m[1].y*m[2].z*m[3].x 
+                                         - m[1].z*m[2].x*m[3].y,
+                                         m[0].x*m[2].y*m[3].y + m[0].y*m[2].z*m[3].x 
+                                         + m[0].z*m[2].x*m[3].y
+                                         - m[0].x*m[2].z*m[3].y - m[0].y*m[2].x*m[3].z 
+                                         - m[0].z*m[2].y*m[3].x,
+                                         m[0].x*m[1].z*m[3].y + m[0].y*m[1].x*m[3].z 
+                                         + m[0].z*m[1].y*m[3].x
+                                         - m[0].x*m[1].y*m[3].z - m[0].y*m[1].z*m[3].x 
+                                         - m[0].z*m[1].x*m[3].y,
+                                         m[0].x*m[1].y*m[2].z + m[0].y*m[1].z*m[2].x 
+                                         + m[0].z*m[1].x*m[2].y
+                                         - m[0].x*m[1].z*m[2].y - m[0].y*m[1].x*m[2].z 
+                                         - m[0].z*m[1].y*m[2].x)/mDet; 
+}
+
+template <typename T>
+Matrix4D<T>
+Mat4DTranspose (const Matrix4D<T> &m)
+{
+  return Matrix4D<T> (m[0].x, m[1].x, m[2].x, m[3].x,
+                      m[0].y, m[1].y, m[2].y, m[3].y,
+                      m[0].z, m[1].z, m[2].z, m[3].z,
+                      m[0].w, m[1].w, m[2].w, m[3].w);
+}
 
 }
 }

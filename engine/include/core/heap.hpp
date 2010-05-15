@@ -504,15 +504,6 @@ class MasterHeap
     
   public:
     /** 
-     * Constructs a MasterHeap that will in turn allocate new Heap objects.
-     * One Heap will be allocated per processor.
-     * 
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-02-06
-     * @since  0.1
-     */
-    MasterHeap (void);
-    /** 
      * Destructs the MasterHeap and all of its Heap objects.
      * 
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
@@ -565,6 +556,15 @@ class MasterHeap
 
   private:
     /** 
+     * Constructs a MasterHeap that will in turn allocate new Heap objects.
+     * One Heap will be allocated per processor.
+     * 
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-02-06
+     * @since  0.1
+     */
+    MasterHeap (void);
+    /** 
      * Allocates a new Segment from system memory.  This is the only way
      * through which the Heap class interacts with the system memory heap.  Any
      * Segment objects allocated with this method must be freed using the
@@ -602,117 +602,5 @@ class MasterHeap
 }
 }
 
-/**
- * Allocates a new data buffer on the Heap.  This is the version which throws
- * an exception.
- *
- * Internally, this method calls Heap::Allocate.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-25
- * @since  0.2
- *
- * @param objectSize [in] The size of the memory to allocate on the Heap
- * (which may be different than the size of the buffer due to padding).
- *
- * @returns A pointer to the new memory for the buffer.
- *
- * @todo Throw exception after failed allocation.
- */
-void *operator new (std::size_t objectSize);
-/**
- * Allocates a new data buffer on the Heap.  This is the version which does not
- * throw an exception.
- *
- * Internally, this method calls Heap::Allocate.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-25
- * @since  0.2
- *
- * @param objectSize [in] The size of the memory to allocate on the Heap
- * (which may be different than the size of the buffer due to padding).
- *
- * @param dontThrowException [in] The flag that differentiates the nothrow
- * version of new from the throwing version.
- *
- * @returns A pointer to the new memory for the buffer, or a null pointer
- * if the memory could not be allocated.
- */
-void *operator new (std::size_t objectSize,
-                    std::nothrow_t dontThrowException)
-  throw ();
-/**
- * Allocates a new data array on the Heap.  This is the version which
- * throws an exception.
- *
- * Internally, this method calls Heap::Allocate.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-25
- * @since  0.2
- *
- * @param objectsSize [in] The size of the memory to allocate on the Heap
- * (which may be different than the size of the buffer due to padding).
- *
- * @returns A pointer to the new memory for the buffer.
- *
- * @todo Throw exception after failed allocation.
- */
-void *operator new[] (std::size_t objectsSize);
-/**
- * Allocates a new data array on the Heap.  This is the version which
- * does not throw an exception.
- *
- * Internally, this method calls Heap::Allocate.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-25
- * @since  0.2
- *
- * @param objectsSize [in] The size of the memory to allocate on the Heap
- * (which may be different than the size of the buffer due to
- * padding).
- *
- * @param dontThrowException [in] The flag that differentiates the nothrow
- * version of new from the throwing version.
- *
- * @returns A pointer to the new memory for the buffer, or a null pointer
- * if the memory could not be allocated.
- */
-void *operator new[] (std::size_t objectsSize,
-                      std::nothrow_t dontThrowException)
-  throw ();
-/**
- * Unallocates a data buffer from the Heap.  This function will fail and return
- * if called on a buffer that is not on the Heap.
- *
- * Internally, this method calls Heap::Free.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-25
- * @since  0.2
- *
- * @param object [in, out] The buffer which will be freed from the Heap.
- * This pointer to the buffer will no longer be valid after this operation.
- */
-void operator delete (void *object)
-  throw ();
-/**
- * Unallocates a data array from the Heap.  This function will fail and
- * return if called on an array that is not on the Heap.
- *
- * Internally, this method calls Heap::Free.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-25
- * @since  0.2
- *
- * @param objects [in, out] The data array which will be freed from
- * the Heap.  This pointer to the data array will no longer be valid
- * after this operation.
- */
-void operator delete[] (void *objects)
-  throw ();
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_CORE_HEAP
