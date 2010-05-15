@@ -43,9 +43,9 @@ namespace system
 
 /**
  * Holds byte-order information.  This class also allows you to get the system
- * byte order in an Endian object.  (There are #defines in the config.h file
+ * byte order in an Endian object.  (There are \#defines in the config.h file
  * that are created during CMake configuration.  You can use these, too, but
- * only in <tt>#ifdef ... #endif</tt> constructions.)
+ * only in <tt>\#ifdef ... \#endif</tt> constructions.)
  *
  * Two static constants are created to represent each type of Endian.  If you
  * need to create an Endian of a specific value, use these.  You can also
@@ -93,7 +93,7 @@ class Endian
      * @return Whether two Endians are the same.
      *
      * @note We don't have to implement a != operator, because a template is for
-     * it using the == operator is provided by the <utility> header.
+     * it using the == operator is provided by the \<utility\> header.
      */
     bool operator== (const Endian &endian) const throw ();
 

@@ -15,12 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
 
-#include <config.h>
-#include <debug/log.hpp>
-#include <debug/profiler.hpp>
-#include <types/inttypes.hpp>
-#include <types/date.hpp>
+#include "hummstrummengine.hpp"
 
 #include <string>
 #include <sstream>
@@ -31,13 +28,8 @@ namespace hummstrumm
 {
 namespace engine
 {
-namespace types
-{
-typedef std::wstring String;
-}
 namespace debug
 {
-
 
 Profiler::Profiler (hummstrumm::engine::types::String debugName)
   : startTime (hummstrumm::engine::types::Date::GetHighResolutionCount ()),
@@ -95,7 +87,7 @@ Profiler::~Profiler (void)
   hummstrumm::engine::types::String message (L"Profiler ``");
   message += this->debugName;
   message += L"'' ended in ";
-  message += intToStringStream.str ();
+  message += intToStringStream.str ().c_str ();
   message += L" µsec.";
 
   // Write it out.

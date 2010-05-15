@@ -29,7 +29,6 @@
 #ifndef HUMMSTRUMM_ENGINE_CORE_TYPE
 #define HUMMSTRUMM_ENGINE_CORE_TYPE
 
-#include <string>
 
 namespace hummstrumm
 {
@@ -103,7 +102,7 @@ class Type
      * @warning Do not create your own Type.  If you are using the engine's
      * Object/Type system, this will be done for you.
      */
-    Type (const std::string name,
+    Type (const hummstrumm::engine::types::String name,
           std::size_t size,
           const Type *parent,
           hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object>
@@ -128,7 +127,7 @@ class Type
      *
      * @return The name of the Object, as a String.
      */
-    const std::string GetName (void) const throw ();
+    const hummstrumm::engine::types::String GetName (void) const throw ();
     /**
      * Returns the size of the Object, in C++ bytes.
      *
@@ -240,7 +239,7 @@ class Type
      *
      * @see operator==(const hummstrumm::engine::types::String &)
      */
-    bool IsEqualTo (const std::string name) const
+    bool IsEqualTo (const hummstrumm::engine::types::String name) const
       throw ();
     /**
      * Returns whether this Type is the same as another Type.
@@ -273,7 +272,7 @@ class Type
      *
      * @see IsEqualTo(const hummstrumm::engine::types::String &)
      */
-    bool operator== (const std::string name) const
+    bool operator== (const hummstrumm::engine::types::String name) const
       throw ();
     
     /**

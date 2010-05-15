@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
 
 #include <cstddef>
 #include <cstdlib>
@@ -28,14 +29,10 @@
 #include <string>
 #include <sstream>
 
-#include <core/heap.cpp>
+#include "hummstrummengine.hpp"
 
-namespace hummstrumm
-{
-namespace engine
-{
-namespace core
-{
+using namespace hummstrumm::engine::core;
+
 
 #if defined (WINDOWS)
 // Windows API
@@ -58,21 +55,13 @@ GetProcessorCount_hidden_ (void)
 }
 #endif
 
-    // Thanks to Jeremy Jones for this code for Windows.
-    // <https://www.cs.tcd.ie/Jeremy.Jones/GetCurrentProcessorNumberXP.htm>
-const unsigned int
-GetCurrentProcessor_hidden_ (void)
-  throw ()
+
+namespace hummstrumm
 {
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-  _asm { mov eax, 1 }
-  _asm { cpuid }
-  _asm { shr ebx, 24 }
-  _asm { mov eax, ebx }
-#else
-  return sched_getcpu ();
-#endif
-}
+namespace engine
+{
+namespace core
+{
 
 Block::Block (Block *previous, Block *next, std::size_t size, Heap *heap)
 {
@@ -151,8 +140,7 @@ Segment::Allocate (char **newMemory, const std::size_t size)
           // memory inside the Block.  Set the output pointer to the beginning
           // of the real memory.
       *newMemory = this->firstBlock->GetMemory ();
-          // Debug Message TO BE REMOVED.
-      std::cout << "First Allocation...\n";
+      
       return true;
     }
 
@@ -171,8 +159,7 @@ Segment::Allocate (char **newMemory, const std::size_t size)
       this->firstBlock = newBlock;
           // And return the actual memory.
       *newMemory = newBlock->GetMemory ();
-          // Debug Message TO BE REMOVED.
-      std::cout << "Allocated New First Block...\n";
+      
       return true;
     }
   
@@ -229,8 +216,7 @@ Segment::Allocate (char **newMemory, const std::size_t size)
                   block->next = newBlock;
                       // Return the actual memory.
                   *newMemory = newBlock->GetMemory ();
-                      // Debug Message TO BE REMOVED.
-                  std::cout << "Placed new block between other Blocks...\n";
+                  
                   return true;
                 }
             }
@@ -250,14 +236,13 @@ Segment::Allocate (char **newMemory, const std::size_t size)
                 {                  
                       // Allocate a new block with placement new syntax.
                   Block *newBlock = new (reinterpret_cast <char *> (block) +
-                                         sizeOfBlock, heap)
-                    Block (block, 0, size);
+                                         sizeOfBlock)
+                    Block (block, 0, size, heap);
                       // Tell the prior block about the new end block.
                   block->next = newBlock;
                       // Return the actual memory.
                   *newMemory = newBlock->GetMemory ();
-                      // Debug message TO BE REMOVED.
-                  std::cout << "Placed new block after last allocated...\n";
+                  
                   return true;
                 }
             }
@@ -302,7 +287,7 @@ Segment::Free (char **oldMemory)
           // Tell the segment that the first block is the next down the line.
       this->firstBlock = block->next;
       
-          // Now tell the next blsock down the list that there is no block
+          // Now tell the next block down the list that there is no block
           // before it.
       if (block->next)
         {
@@ -312,7 +297,7 @@ Segment::Free (char **oldMemory)
       // Otherwise, we want to change both the previous block and next block's
       // pointers, because this is just a giant linked list.
   else
-    { 
+    {
           // If there is a previous block, set its next pointer to skip over me
           // and point to my next block.
       if (block->previous)
@@ -442,9 +427,9 @@ Heap::Free (char **oldMemory)
 
   Segment *currentSegment = this->head;
   
-  if (!IsHeapMemory (memory))
+  if (!IsHeapMemory (oldMemory))
     {
-      std::cerr << "WARNING: Non-heap memory could not be freed.\n");
+      std::cerr << "WARNING: Non-heap memory could not be freed.\n";
       return;
     }
   
@@ -501,23 +486,33 @@ Heap::IsHeapMemory (const void *const memory)
 void
 Heap::FreeHelper (char **oldMemory)
 {
-  Block *block; 
+  if (!MasterHeap::GetMasterHeap ().IsHeapMemory (*oldMemory))
+    {
+      return;
+    }
+  
+  Block *block;
 
   block = reinterpret_cast <Block *>
-    (std::size_t (oldMemory) - std::size_t (Block::GetMemoryOffset ()));
+    (std::size_t (oldMemory) - std::size_t (Block::GetMemoryOffset ())); 
   
   if (block->heap->IsHeapMemory (block))
     {
-      block->heap->Free ();
+      block->heap->Free (oldMemory);
+    }
+  else
+    {
+      //LOG (L"Trying to free a corrupt block.", ERROR);
     }
 }
 
 MasterHeap::MasterHeap (void)
-  : heaps (new Heap *[GetProcessorCount_hidden_ ()])
+  : heaps ((Heap **) std::malloc (sizeof (Heap *) * GetProcessorCount_hidden_ ()))
 {
   for (unsigned int i = 0; i < GetProcessorCount_hidden_ (); i++)
     {
-      heaps[i] = new Heap (AllocateSegment (0));
+      void *memory = std::malloc (sizeof (Heap));
+      heaps[i] = new (memory) Heap (AllocateSegment (0));
     }
 }
 
@@ -534,9 +529,9 @@ MasterHeap &
 MasterHeap::GetMasterHeap (void)
   throw ()
 {
-  static MasterHeap masterToAll ();
+  static MasterHeap masterToAll;
 
-  return masterTaAll;
+  return masterToAll;
 }
 
 Heap *
@@ -560,7 +555,7 @@ MasterHeap::IsHeapMemory (char *memory)
 {
   for (unsigned int i = 0; i < GetProcessorCount_hidden_ (); i++)
     {
-      if (heaps[i]->IsHeapMemory ())
+      if (heaps[i]->IsHeapMemory (memory))
         {
           return true;
         }
@@ -577,14 +572,15 @@ Segment *
 MasterHeap::AllocateSegment (Segment *previous)
   throw ()
 {
-  return new Segment (previous);
+  void *memory = std::malloc (sizeof (Segment));
+  return new (memory) Segment (previous);
 }
 
 void
 MasterHeap::FreeSegment (Segment *segment)
   throw ()
 {
-  if (segment->GetFirstBlock ())
+  if (segment->GetFirstBlock () && segment->GetNext () != 0)
     {
       std::cerr << "Attempting to free a segment that has allocations.\n";
       std::abort ();
@@ -598,87 +594,7 @@ MasterHeap::FreeSegment (Segment *segment)
   delete segment;
 }
 
-void *
-operator new (std::size_t objectSize)
-{
-  char *memory = 0;
-  
-  MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
-    Allocate (&memory, objectSize);
-  
-  return memory;
-}
-
-
-void *
-operator new (std::size_t objectSize,
-              std::nothrow_t dontThrowException)
-  throw ()
-{
-  char *memory = 0;
-  
-  try
-    {
-      MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
-        Allocate (&memory, objectSize);
-    }
-  catch (...)
-    {
-      return 0;
-    }
-  
-  return memory;
-}
-
-
-void *
-operator new[] (std::size_t objectsSize)
-{
-  char *memory = 0;
-  
-  MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
-    Allocate (&memory, objectsSize);
-  
-  return memory;
-}
-
-
-void *
-operator new[] (std::size_t objectsSize,
-                        std::nothrow_t dontThrowException) throw ()
-{
-  char *memory = 0;
-  
-  try
-    {
-      MasterHeap::GetMasterHeap ().GetHeap (GetCurrentProcessor_hidden_ ())->
-        Allocate (&memory, objectsSize);
-    }
-  catch (...)
-    {
-      return 0;
-    }
-  
-  return memory;
-}
-
-
-void
-operator delete (void *object) throw ()
-{
-  Heap::FreeHelper (reinterpret_cast<char **> (&object));
-}
-
-
-void
-operator delete[] (void *objects) throw ()
-{
-  Heap::FreeHelper (reinterpret_cast<char **> (&objects));
-} 
-
 
 }
 }
 }
-
-#endif // #ifndef HUMMSTRUMM_ENGINE_CORE_HEAP

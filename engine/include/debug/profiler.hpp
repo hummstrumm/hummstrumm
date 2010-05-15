@@ -28,16 +28,10 @@
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_PROFILER
 #define HUMMSTRUMM_ENGINE_DEBUG_PROFILER
 
-#include <types/inttypes.hpp>
-
 namespace hummstrumm
 {
 namespace engine
 {
-namespace types
-{
-typedef std::wstring String;
-}
 namespace debug
 {
 

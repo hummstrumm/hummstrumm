@@ -65,10 +65,6 @@
 
 // The extensive namespace hierarchy in the game engine.
 
-#include <string>
-#include <utility>
-using namespace std::rel_ops;
-
 /**
  * The namespace for all of the Humm and Strumm project.  This namespace
  * contains both the engine and the game code.
@@ -94,17 +90,24 @@ class Profiler;
 }
 
 /**
- * The namespace for the math classes of the game engine.  This namespace 
- * contains the vector and matrices classes.
+ * The namespace for the math classes of the game engine. 
  */
 namespace math
 {
+template <typename T>
 class Vector2D;
+template <typename T>
 class Vector3D;
+template <typename T>
 class Vector4D;
+template <typename T>
 class Matrix2D;
+template <typename T>
 class Matrix3D;
+template <typename T>
 class Matrix4D;
+template <typename T>
+class Quaternion;
 }
 
 /**
@@ -117,7 +120,7 @@ class Object;
 class Type;
 class Heap;
 template <typename T>
-class Pointer<T>;
+class Pointer;
 }
 
 /**
@@ -128,6 +131,8 @@ namespace error
 {
 class Error;
 class OutOfMemory;
+class OutOfRange;
+class DivisionByZero;
 }
 
 /**
@@ -136,7 +141,7 @@ class OutOfMemory;
  */
 namespace system
 {
-class Endian
+class Endian;
 }
 
 /**
@@ -148,11 +153,8 @@ class Endian
 namespace types
 {
 class Date;
-// class String
-class Character;
-typedef std::wstring String
-
-class RawData;
+class String;
+class Number;
 }
 
 /**
@@ -171,21 +173,48 @@ namespace streams {}
 }
 
 }
-
-#include "hummstrummengine/config.h"
-#include "hummstrummengine/types/inttypes.hpp"
-#include "hummstrummengine/debug/utils.hpp"
-#include "hummstrummengine/debug/log.hpp"
-#include "hummstrummengine/error/error.hpp"
-#include "hummstrummengine/error/outofmemory.hpp"
-#include "hummstrummengine/core/heap.hpp"
-#include "hummstrummengine/core/type.hpp"
-#include "hummstrummengine/core/pointer.hpp"
-#include "hummstrummengine/core/object.hpp"
-#include "hummstrummengine/system/endian.hpp"
-#include "hummstrummengine/types/character.hpp"
-#include "hummstrummengine/types/time.hpp"
-#include "hummstrummengine/types/number.hpp"
-
+#ifndef HUMMSTRUMM_ENGINE_SOURCE
+#  include "hummstrummengine/config.h"
+#  include "hummstrummengine/types/inttypes.hpp"
+#  include "hummstrummengine/debug/utils.hpp"
+#  include "hummstrummengine/error/error.hpp"
+#  include "hummstrummengine/error/outofmemory.hpp"
+#  include "hummstrummengine/error/outofrange.hpp"
+#  include "hummstrummengine/error/divisionbyzero.hpp"
+#  include "hummstrummengine/core/heap.hpp"
+#  include "hummstrummengine/core/type.hpp"
+#  include "hummstrummengine/core/pointer.hpp"
+#  include "hummstrummengine/core/object.hpp"
+#  include "hummstrummengine/system/endian.hpp"
+#  include "hummstrummengine/types/date.hpp"
+#  include "hummstrummengine/types/number.hpp"
+#  include "hummstrummengine/types/string.hpp"
+#  include "hummstrummengine/debug/log.hpp"
+#  include "hummstrummengine/debug/profiler.hpp"
+#  include "hummstrummengine/math/vector.hpp"
+#  include "hummstrummengine/math/matrice.hpp"
+#  include "hummstrummengine/math/quaternion.hpp"
+#else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+#  include "config.h"
+#  include "types/inttypes.hpp"
+#  include "debug/utils.hpp"
+#  include "error/error.hpp"
+#  include "error/outofmemory.hpp"
+#  include "error/outofrange.hpp"
+#  include "error/divisionbyzero.hpp"
+#  include "core/heap.hpp"
+#  include "core/type.hpp"
+#  include "core/pointer.hpp"
+#  include "core/object.hpp"
+#  include "system/endian.hpp"
+#  include "types/date.hpp"
+#  include "types/number.hpp"
+#  include "types/string.hpp"
+#  include "debug/log.hpp"
+#  include "debug/profiler.hpp"
+#  include "math/vector.hpp"
+#  include "math/matrice.hpp"
+#  include "math/quaternion.hpp"
+#endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

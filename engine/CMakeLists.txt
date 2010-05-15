@@ -21,10 +21,14 @@ set (hummstrummengine_SRCS
   src/debug/profiler.cpp
   src/error/error.cpp
   src/error/outofmemory.cpp
+  src/error/outofrange.cpp
+  src/error/divisionbyzero.cpp
   src/core/type.cpp
   src/core/object.cpp
+  src/core/heap.cpp
   src/types/date.cpp
-  src/types/rawdata.cpp
+  src/types/number.cpp
+  src/types/string.cpp
   src/system/endian.cpp)
 set (hummstrummengine_INCLUDE include/)
 set (CMAKE_C_FLAGS_DEBUG "-Wall -g -ggdb")
@@ -36,7 +40,7 @@ add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 include (UseDoxygen OPTIONAL)
 
 if (HUMMSTRUMM_BUILD_DOCS)
-  add_dependencies (hummstrummengine doc)
+#  add_dependencies (hummstrummengine doc)
 endif (HUMMSTRUMM_BUILD_DOCS)
 
 # Install library and header files

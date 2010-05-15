@@ -28,11 +28,15 @@
 #ifndef HUMMSTRUMM_ENGINE_TYPES_NUMBER
 #define HUMMSTRUMM_ENGINE_TYPES_NUMBER
 
+// For the various relational operator shortcuts.
+#include <utility>
+using namespace std::rel_ops;
 
 #include <core/object.hpp>
 #include <core/type.hpp>
 #include <core/pointer.hpp>
 
+#include <types/inttypes.hpp>
 
 namespace hummstrumm
 {
@@ -42,13 +46,14 @@ namespace types
 {
 
 /**
- * Holds a buffer of device-dependent data.  This buffer allows for specific
- * representations of data, accessing each byte of the data, and converting data
- * from one endian to another for ease of data exchange.
+ * Holds real number data.  Number allows all the operations of a normal IEEE
+ * floating point number or a standard integer, as per the standard C++ types.
+ * This allows more or less transparent integration with both C++ and the
+ * ECMAScript-compatible scripting language.
  *
  * @version 0.2
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date    2010-03-26
+ * @date    2010-05-08
  * @since   0.2
  *
  * @todo Add trig methods.
@@ -89,7 +94,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (int16);
+    Number (short);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -97,7 +102,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (uint16);
+    Number (unsigned short);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -105,7 +110,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (int32);
+    Number (int);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -113,7 +118,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (uint32);
+    Number (unsigned int);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -121,7 +126,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (int64);
+    Number (long int);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -129,16 +134,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (uint64);
-    /**
-     * Constructs a new Number object initialised to the value in a RawData
-     * object.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-04-27
-     * @since  0.2
-     */
-    explicit Number (hummstrumm::engine::types::RawData);
+    Number (unsigned long int);
     
     /**
      * Destructs a Number object.
@@ -149,56 +145,16 @@ class Number : public hummstrumm::engine::core::Object
      */
     virtual ~Number (void);
 
-    /**
-     * Adds two Number objects.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     * 
-     * @return The sum of the Number objects.
-     */
-    const Number operator+ (const Number &) const throw ();
-    /**
-     * Subtracts two Number objects.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     * 
-     * @return The difference of the Number objects.
-     */
-    const Number operator- (const Number &) const throw ();
-    /**
-     * Multiplies two Number objects.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     * 
-     * @return The product of the Number objects.
-     */
-    const Number operator* (const Number &) const throw ();
-    /**
-     * Divides two Number objects.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     * 
-     * @return The quotient of the Number objects.
-     */
-    const Number operator/ (const Number &) const throw (...);
-    /**
-     * Finds the modulus of two Number objects.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     * 
-     * @return The remainder of the division of Number objects.
-     */
-    const Number operator% (const Number &) const throw (...);
+    friend const Number operator+ (const Number &, const Number &)
+      throw ();
+    friend const Number operator- (const Number &, const Number &)
+      throw ();
+    friend const Number operator* (const Number &, const Number &)
+      throw ();
+    friend const Number operator/ (const Number &, const Number &)
+      throw (hummstrumm::engine::error::DivisionByZero);
+    friend const Number operator% (const Number &, const Number &)
+      throw (hummstrumm::engine::error::DivisionByZero);
 
     /**
      * Makes no change to the Number object.  Seriously, why do we need this?
@@ -271,7 +227,7 @@ class Number : public hummstrumm::engine::core::Object
      * 
      * @return The value of the Number, after assignment.
      */
-    const Number &operator= (const Number &) throw ();
+    Number &operator= (const Number &) throw ();
 
     /**
      * Adds a Number to this current value and then assigns the resulting value
@@ -283,7 +239,7 @@ class Number : public hummstrumm::engine::core::Object
      * 
      * @return The value of the Number, after addition.
      */
-    const Number &operator+= (const Number &) throw ();
+    Number &operator+= (const Number &) throw ();
     /**
      * Subtracts a Number from this current value and then assigns the resulting
      * value to this Number.
@@ -294,7 +250,7 @@ class Number : public hummstrumm::engine::core::Object
      * 
      * @return The value of the Number, after subtraction.
      */
-    const Number &operator-= (const Number &) throw ();
+    Number &operator-= (const Number &) throw ();
     /**
      * Multplies a Number by this current value and then assigns the resulting
      * value to this Number.
@@ -305,7 +261,7 @@ class Number : public hummstrumm::engine::core::Object
      * 
      * @return The value of the Number, after multiplication.
      */
-    const Number &operator*= (const Number &) throw ();
+    Number &operator*= (const Number &) throw ();
     /**
      * Divides this current value by a Number and then assigns the resulting
      * value to this Number.
@@ -316,60 +272,29 @@ class Number : public hummstrumm::engine::core::Object
      * 
      * @return The value of the Number, after division.
      */
-    const Number &operator/= (const Number &) throw (...);
+    Number &operator/= (const Number &)
+      throw (hummstrumm::engine::error::DivisionByZero);
     /**
-     * Divides this current value by a Number, takes the remainder, and then
-     * assigns the resulting value to this Number.
+     * Divides this current value by a Number and then assigns the resulting
+     * remainder value to this Number.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-05-01
      * @since  0.2
      * 
-     * @return The value of the Number, after modulus.
+     * @return The value of the Number, after modulo.
      */
-    const Number &operator%= (const Number &) throw (...);
+    Number &operator%= (const Number &)
+      throw (hummstrumm::engine::error::DivisionByZero);
+    
 
-    /**
-     * Checks if a Number is equal to this Number.  Number objects are
-     * considered equal if they are close enough, by nature of the IEEE float
-     * numbers.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     * 
-     * @return Whether the two Number objects are equal.
-     */
-    bool operator== (const Number &) const throw ();
-    /**
-     * Checks if a Number is greater than this Number.  Number objects are
-     * considered non-equal if they are far enough apart, by nature of the IEEE
-     * float numbers.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     * 
-     * @return Whether this value is less than that of another Number.
-     */
-    bool operator<  (const Number &) const throw ();
+    friend bool operator== (const Number &, const Number &) throw ();
+    friend bool operator!= (const Number &, const Number &) throw ();
+    friend bool operator<  (const Number &, const Number &) throw ();
+    friend bool operator<= (const Number &, const Number &) throw ();
+    friend bool operator>  (const Number &, const Number &) throw ();
+    friend bool operator>= (const Number &, const Number &) throw ();
 
-    /**
-     * Converts this Number into native C++ double.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     */
-    operator double  (void) const throw ();
-    /**
-     * Converts this Number into a RawData array.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-05-01
-     * @since  0.2
-     */
-    operator RawData (void) const throw ();
 
     /**
      * Finds the absolute value of the Number; that is, the value returned will
@@ -381,7 +306,25 @@ class Number : public hummstrumm::engine::core::Object
      *
      * @return The absolute value of this Number.
      */
-    const Number abs (void) const throw ();
+    const Number Abs (void) const throw ();
+    /**
+     * Returns the sign of the Number.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-05-01
+     * @since  0.2
+     *
+     * @return A value corresponding to the sign of the Number.
+     * @retval -1 The Number is of negative sign.
+     * @retval 1  The Number is of positive sign.
+     *
+     * @warning Unlike std::sign(), this method does not return 0 for a value.
+     * Zeros are stored as both positive and negative internally.  To check for
+     * zero, regardless of sign, just use the operator==() method, as normal.
+     * Whether -0 is recognised as separate from +0 is up to your compiler.
+     */
+   const Number Sign (void) const throw ();
+    
     /**
      * Calculates the power of the Number with a certain exponent.
      *
@@ -393,7 +336,7 @@ class Number : public hummstrumm::engine::core::Object
      *
      * @return The power with an exponent.
      */
-    const Number power (const Number &exponent) const throw (...);
+    const Number Power (const Number &exponent) const throw (int);
     /**
      * Calculates the logarithm of the Number with a certain base.
      *
@@ -401,23 +344,21 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-05-01
      * @since  0.2
      *
-     * @param exponent The base of the logarithm.
+     * @param base The base of the logarithm.
      *
      * @return The logarithm of a base.
      */
-    const Number log   (const Number &base)     const throw ();
+    const Number Log   (const Number &base)     const throw ();
     /**
-     * Calculates the root of the Number with a certain exponent.
+     * Calculates the square root of the Number.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-05-01
      * @since  0.2
      *
-     * @param exponent The exponent to which to take the radical of this Number.
-     *
-     * @return The root of a specific exponent.
+     * @return The square root.
      */
-    const Number root  (const Number &exponent) const throw (...);
+    const Number Sqrt (void) const throw (int);
 
     /**
      * Rounds the Number to the nearest integer value.
@@ -428,7 +369,7 @@ class Number : public hummstrumm::engine::core::Object
      *
      * @return The rounded Number.
      */
-    const Number round (void) const throw ();
+    const Number Round (void) const throw ();
     /**
      * Rounds the Number to the closest integer value less than the current
      * value.
@@ -439,7 +380,7 @@ class Number : public hummstrumm::engine::core::Object
      *
      * @return The rounded Number.
      */
-    const Number floor (void) const throw ();
+    const Number Floor (void) const throw ();
     /**
      * Rounds the Number to the closest integer value greater than the current
      * value.
@@ -450,7 +391,7 @@ class Number : public hummstrumm::engine::core::Object
      *
      * @return The rounded Number.
      */
-    const Number ceil  (void) const throw ();
+    const Number Ceil  (void) const throw ();
 
     /**
      * Returns whether the Number is an integer.
@@ -464,15 +405,169 @@ class Number : public hummstrumm::engine::core::Object
      * @warning Numbers close to an integer will be counted as integers.
      */
     bool IsInteger (void) const throw ();
+
+    /**
+     * Casts the Number to a double.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-05-01
+     * @since  0.2
+     *
+     * @return The value of the Number as a double.
+     */
+    double ToDouble (void) const throw ();
+    /**
+     * Casts the Number to an int.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-05-15
+     * @since  0.2
+     *
+     * @return The value of the Number as a int.
+     */
+    int ToInteger (void) const throw ();
     
   private:
     double value; /**< Value of the Number. */
 };
 
 
+/**
+ * Adds two Number objects.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return The sum of the Number objects.
+ */
+const Number operator+ (const Number &, const Number &) throw ();
+
+/**
+ * Subtracts two Number objects.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return The difference of the Number objects.
+ */
+const Number operator- (const Number &, const Number &) throw ();
+/**
+ * Multiplies two Number objects.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return The product of the Number objects.
+ */
+const Number operator* (const Number &, const Number &) throw ();
+/**
+ * Divides two Number objects.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return The quotient of the Number objects.
+ *
+ * @throws DivisionByZero Is the second value is 0.
+ */
+const Number operator/ (const Number &, const Number &)
+  throw (hummstrumm::engine::error::DivisionByZero);
+/**
+ * Finds the modulus of two Number objects.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return The remainder of the division of Number objects.
+ *
+ * @throws DivisionByZero If the second value is 0.
+ */
+const Number operator% (const Number &, const Number &)
+  throw (hummstrumm::engine::error::DivisionByZero);
+
+
+/**
+ * Checks if a Number is equal to this Number.  Number objects are
+ * considered equal if they are close enough, by nature of the IEEE float
+ * numbers.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return Whether the two Number objects are equal.
+ */
+bool operator== (const Number &, const Number &) throw ();
+/**
+ * Checks if a Number is not equal to this Number.  Number objects are
+ * considered equal if they are close enough, by nature of the IEEE float
+ * numbers.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return Whether the two Number objects are not equal.
+ */
+bool operator!= (const Number &, const Number &) throw ();
+/**
+ * Checks if a Number is less than this Number.  Number objects are
+ * considered equal if they are close enough, by nature of the IEEE float
+ * numbers.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return Whether the first Number is less than the second.
+ */
+bool operator< (const Number &, const Number &) throw ();
+/**
+ * Checks if a Number is less than or equal to this Number.  Number objects are
+ * considered equal if they are close enough, by nature of the IEEE float
+ * numbers.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return Whether the second Number is greater than the first.
+ */
+bool operator<= (const Number &, const Number &) throw ();
+/**
+ * Checks if a Number is more than this Number.  Number objects are
+ * considered equal if they are close enough, by nature of the IEEE float
+ * numbers.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return Whether the first Number is greater than the second.
+ */
+bool operator> (const Number &, const Number &) throw ();
+/**
+ * Checks if a Number is more than or equal to this Number.  Number objects are
+ * considered equal if they are close enough, by nature of the IEEE float
+ * numbers.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-05-01
+ * @since  0.2
+ * 
+ * @return Whether the the second Number is less than the first.
+ */
+bool operator>= (const Number &, const Number &) throw ();
+
+
 }
 }
 }
 
 
-#endif // #ifndef HUMMSTRUMM_ENGINE_TYPES_RAWDATA
+#endif // #ifndef HUMMSTRUMM_ENGINE_TYPES_NUMBER

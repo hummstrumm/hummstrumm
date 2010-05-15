@@ -15,8 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
 
-#include <config.h>
+#include "hummstrummengine.hpp"
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  include <windows.h>
@@ -26,9 +27,6 @@
 #endif
 
 #include <ctime>
-
-#include <types/date.hpp>
-#include <types/inttypes.hpp>
 
 namespace hummstrumm
 {
