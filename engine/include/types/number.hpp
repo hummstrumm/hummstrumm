@@ -407,15 +407,15 @@ class Number : public hummstrumm::engine::core::Object
     bool IsInteger (void) const throw ();
 
     /**
-     * Casts the Number to a double.
+     * Casts the Number to a float.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-05-01
      * @since  0.2
      *
-     * @return The value of the Number as a double.
+     * @return The value of the Number as a float.
      */
-    double ToDouble (void) const throw ();
+    float ToFloat (void) const throw ();
     /**
      * Casts the Number to an int.
      *
@@ -428,7 +428,7 @@ class Number : public hummstrumm::engine::core::Object
     int ToInteger (void) const throw ();
     
   private:
-    double value; /**< Value of the Number. */
+    float value; /**< Value of the Number. */
 };
 
 

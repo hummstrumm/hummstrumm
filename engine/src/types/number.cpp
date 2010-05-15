@@ -19,6 +19,7 @@
 
 #include <cmath>
 #include <cfloat>
+#include <limits>
 
 #include "hummstrummengine.hpp"
 
@@ -172,7 +173,7 @@ const Number
 Number::operator++ (int)
   throw ()
 {
-  double temp = this->value;
+  float temp = this->value;
   this->value++;
   return temp;
 }
@@ -182,7 +183,7 @@ const Number
 Number::operator-- (int)
   throw ()
 {
-  double temp = this->value;
+  float temp = this->value;
   this->value--;
   return temp;
 }
@@ -259,7 +260,7 @@ operator== (const Number &value1, const Number &value2)
   else
     {
       return (std::abs (value1.value - value2.value) <
-              DBL_MIN);
+              std::numeric_limits<float>::epsilon () * 10);
     }
 }
 
@@ -323,7 +324,7 @@ const Number
 Number::Power (const Number &exponent)
   const throw (int)
 {
-  return std::pow (this->value, exponent.ToDouble ());
+  return std::pow (this->value, exponent.ToFloat ());
 }
 
 
@@ -333,7 +334,7 @@ Number::Log (const Number &base)
 {
   // There is no log-base x function, so we use some basic algebra identities
   // to do our own.
-  return std::log (this->value) / std::log (base.ToDouble ());
+  return std::log (this->value) / std::log (base.ToFloat ());
 }
 
 
@@ -377,8 +378,8 @@ Number::IsInteger (void)
 }
 
 
-double
-Number::ToDouble(void)
+float
+Number::ToFloat (void)
   const throw ()
 {
   return this->value;

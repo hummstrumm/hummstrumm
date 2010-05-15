@@ -11,18 +11,17 @@ information, please see the FAQ file.
 
 == Features ==
 
-* Object/Type System
-
-* Memory Manager
-
-* Smart Pointers
+  * Object/Type System
+  * Memory Manager
+  * Smart Pointers
+  * Vector Math System
+  * Debug Utilities
+  * Basic Data Type Wrappers.
 
 == License ==
 
 The  source  code  and  other  content are  licensed  under  different
-licenses,  both   with  copyleft-style   terms.   In  addition,  other
-libraries  in the  ``lib''  directory may  include separate  licensing
-terms.
+licenses,  both   with  copyleft-style   terms.
 
 === Code License ===
 

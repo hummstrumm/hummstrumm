@@ -17,14 +17,10 @@
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
 
+#include "hummstrummengine.hpp"
+
 #include <string>
 #include <sstream>
-
-#include <config.h>
-#include <error/error.hpp>
-#include <error/outofmemory.hpp>
-
-#include "hummstrummengine.hpp"
 
 namespace hummstrumm
 {

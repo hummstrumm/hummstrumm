@@ -35,9 +35,11 @@ HUMMSTRUMM_IMPLEMENT_TYPE(hummstrumm::engine::types::String,
                           hummstrumm::engine::core::Object)
 
 String::String (void)
-  : string (0),
+  : string (new wchar_t [1]),
     length (0)
-{}
+{
+  this->string[0] = L'\0';
+}
 
 
 String::String (const wchar_t character)
@@ -45,6 +47,7 @@ String::String (const wchar_t character)
     length (1)
 {
   this->string[0] = character;
+  this->string[1] = L'\0';
 }
 
 
@@ -90,7 +93,7 @@ String::String (const Number &value)
     length (0)
 {
   std::wostringstream stream;
-  stream << value.ToDouble ();
+  stream << value.ToFloat ();
   
   this->length = stream.str ().length ();
   this->string = new wchar_t [this->length + 1];

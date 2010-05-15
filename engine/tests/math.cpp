@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define HUMMSTRUMM_ENGINE_SOURCE
 
 /* @todo Reuse test objects in multiple test cases?? */
 #define HUMMSTRUMM_ENGINE_SOURCE
@@ -23,8 +24,7 @@
 #include <cmath>
 #include <vector>
 
-#include "math/vector.hpp"
-#include "math/matrice.hpp"
+#include "hummstrummengine.hpp"
 #include "math/quaternion.hpp"
 
 #include "hummstrummengine.hpp"
