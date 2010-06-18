@@ -32,8 +32,6 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_MATRICE
 #define HUMMSTRUMM_ENGINE_MATH_MATRICE
 
-#include <error/outofrange.hpp>
-#include <error/divisionbyzero.hpp>
 
 namespace hummstrumm
 {
@@ -41,14 +39,6 @@ namespace engine
 {
 namespace math
 {
-
-template <typename>
-class Vector2D;
-template <typename>
-class Vector3D;
-template <typename>
-class Vector4D;
-
 
 template <typename T>
 class Matrix2D
@@ -81,7 +71,7 @@ class Matrix2D
     {
       mat2[0] = v1;
       mat2[1] = v2;
-    };
+    }
 
     /** 
      * Construct a 2x2 matrice from coordinates.
@@ -405,7 +395,7 @@ class Matrix3D
       mat3[0] = v1;
       mat3[1] = v2;
       mat3[2] = v3;
-    };
+    }
 
     /** 
      * Construct a 3x3 matrice from coordinates.
@@ -440,6 +430,32 @@ class Matrix3D
       mat3[2].x = x3;
       mat3[2].y = y3;
       mat3[2].z = z3;
+    }
+
+    /** 
+     * Construct a 3x3 matrice from a quaternion
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     * 
+     * @param q Quaternion
+     *
+     */
+
+    Matrix3D (const Quaternion<T> &q)
+    {
+      mat3[0].x = 1-2*q.v.y*q.v.y - 2*q.v.z*q.v.z;
+      mat3[0].y = 2*q.v.x*q.v.y + 2*q.w*q.v.z;
+      mat3[0].z = 2*q.v.x*q.v.z - 2*q.w*q.v.y;
+
+      mat3[1].x = 2*q.v.x*q.v.y - 2*q.w*q.v.z;
+      mat3[1].y = 1-2*q.v.x*q.v.x - 2*q.v.z*q.v.z;
+      mat3[1].z = 2*q.v.y*q.v.z + 2*q.w*q.v.x;
+
+      mat3[2].x = 2*q.v.x*q.v.z + 2*q.w*q.v.y;
+      mat3[2].y = 2*q.v.y*q.v.z - 2*q.w*q.v.x;
+      mat3[2].z = 1-2*q.v.x*q.v.x - 2*q.v.y*q.v.y;
     }
 
     /** 
@@ -749,7 +765,7 @@ class Matrix4D
       mat4[1] = v2;
       mat4[2] = v3;
       mat4[3] = v4;
-    };
+    }
 
     /** 
      * Construct a 4x4 matrice from coordinates.

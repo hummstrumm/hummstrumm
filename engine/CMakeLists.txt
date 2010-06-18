@@ -29,7 +29,8 @@ set (hummstrummengine_SRCS
   src/types/date.cpp
   src/types/number.cpp
   src/types/string.cpp
-  src/system/endian.cpp)
+  src/system/endian.cpp
+  src/math/vector.cpp)
 set (hummstrummengine_INCLUDE include/)
 set (CMAKE_C_FLAGS_DEBUG "-Wall -g -ggdb")
 

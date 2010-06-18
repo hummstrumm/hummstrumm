@@ -31,9 +31,6 @@
 #include <algorithm>
 #include <cmath>
 
-#include <error/outofrange.hpp>
-#include <error/divisionbyzero.hpp>
-
 namespace hummstrumm
 {
 namespace engine
@@ -1117,10 +1114,11 @@ Vector4D<T>::Zero ()
  * @param v A 2d vector.
  * 
  * @return The magnitude of vector v.
- */
+ * 
 template <typename T> 
 T 
 Vec2DMagnitude (const Vector2D<T> &v);
+*/
 
 /** 
  * Distance between two vectors. 
@@ -1436,7 +1434,7 @@ operator * (T k, const Vector4D<T> &v);
 
 // Non-member implementations
 
-template<typename T> 
+template <typename T> 
 T 
 Vec2DMagnitude (const Vector2D<T> &v)
 {
@@ -1482,6 +1480,7 @@ Vector2D<T>
 Vec2DUnitPerpendicular (const Vector2D<T> &v)
 {
   T vMag = Vec2DMagnitude(v);
+  std::cout << vMag << std::endl;
   if (vMag == 0)
     THROW (DivisionByZero,"Vector division by zero.");
 

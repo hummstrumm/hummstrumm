@@ -50,6 +50,7 @@ Log::Log (hummstrumm::engine::types::String fileName, bool isXmlMode,
   this->logFile = std::fopen (fileName.ToAscii (), "w");
   if (!this->logFile)
     {
+      std::cout << "Log file name" << fileName.ToAscii() << std::endl;
       std::wcerr << L"The log file could not be opened.\n";
       return;
     }

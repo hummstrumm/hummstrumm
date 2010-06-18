@@ -32,7 +32,7 @@ target_link_libraries(test_engine_log hummstrummengine)
 add_test (NAME test_engine_log COMMAND test_engine_log)
 
 add_executable(test_engine_math math.cpp)
-target_link_libraries(test_engine_math hummstrummengine cppunit)
+target_link_libraries(test_engine_math hummstrummengine cppunit rt)
 
 add_test (NAME test_engine_math COMMAND test_engine_math)
 
@@ -45,3 +45,9 @@ add_executable(test_engine_types types.cpp)
 target_link_libraries(test_engine_types hummstrummengine cppunit)
 
 add_test (NAME test_engine_types COMMAND test_engine_types)
+
+add_executable(test_engine_geometry geometry.cpp)
+target_link_libraries(test_engine_geometry hummstrummengine cppunit)
+
+add_test (NAME test_engine_geometry COMMAND test_engine_geometry)
+

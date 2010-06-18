@@ -111,6 +111,19 @@ class Quaternion;
 }
 
 /**
+ * The namespace for the geometry classes of the game engine.
+ */
+namespace geometry
+{
+template <typename T>
+class Plane3D;
+template <typename T>
+class Segment3D;
+template <typename T>
+class Segment2D;
+}
+
+/**
  * The namespace for the core of the game engine.  This namespace contains
  * the memory manager, the Object/Type system, and the smart pointer.
  */
@@ -191,6 +204,9 @@ namespace streams {}
 #  include "hummstrummengine/types/string.hpp"
 #  include "hummstrummengine/debug/log.hpp"
 #  include "hummstrummengine/debug/profiler.hpp"
+#  include "hummstrummengine/geometry/plane.hpp"
+#  include "hummstrummengine/geometry/segment.hpp"
+#  include "hummstrummengine/geometry/boundingBox.hpp"
 #  include "hummstrummengine/math/vector.hpp"
 #  include "hummstrummengine/math/matrice.hpp"
 #  include "hummstrummengine/math/quaternion.hpp"
@@ -212,6 +228,9 @@ namespace streams {}
 #  include "types/string.hpp"
 #  include "debug/log.hpp"
 #  include "debug/profiler.hpp"
+#  include "geometry/plane.hpp"
+#  include "geometry/segment.hpp"
+#  include "geometry/boundingBox.hpp"
 #  include "math/vector.hpp"
 #  include "math/matrice.hpp"
 #  include "math/quaternion.hpp"

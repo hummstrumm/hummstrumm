@@ -40,6 +40,8 @@ Profiler::Profiler (hummstrumm::engine::types::String debugName)
   message += this->debugName;
   message += L"'' started.";
 
+  std::cout << startTime << std::endl;
+
   // Log it.
   LOG (message, MESSAGE);
 }
@@ -49,7 +51,8 @@ Profiler::~Profiler (void)
   // Get the time and calculate how long it has been since the start.
   hummstrumm::engine::types::int64 endTime (hummstrumm::engine::types::Date::
                                             GetHighResolutionCount ());
-  
+ 
+  std::cout << endTime << std::endl;
   hummstrumm::engine::types::int64 difference;
   
   if (endTime < this->startTime)
@@ -75,9 +78,12 @@ Profiler::~Profiler (void)
   hummstrumm::engine::types::int64 frequency (hummstrumm::engine::types::Date::
                    GetHighResolutionFrequency ());
 
+  std::cout << frequency << std::endl;
+  std::cout << difference << std::endl;
   // Calculate the actual time, using tick counts and the frequency.
   double timeInSeconds (static_cast<double> (difference) / frequency);
-  long   timeInMicroSeconds (std::ceil (timeInSeconds / 1000000));
+  long   timeInMilliSeconds (timeInSeconds*1000);
+  long   timeInMicroSeconds (timeInSeconds*1000000);
 
   // Convert it to a string.
   std::wstringstream intToStringStream;
@@ -88,7 +94,7 @@ Profiler::~Profiler (void)
   message += this->debugName;
   message += L"'' ended in ";
   message += intToStringStream.str ().c_str ();
-  message += L" µsec.";
+  message += L" usec.";
 
   // Write it out.
   LOG (message, MESSAGE);
