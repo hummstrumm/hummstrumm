@@ -29,7 +29,6 @@
 #ifndef HUMMSTRUMM_ENGINE_CORE_HEAP
 #define HUMMSTRUMM_ENGINE_CORE_HEAP
 
-#include <error/outofmemory.hpp>
 
 namespace hummstrumm
 {

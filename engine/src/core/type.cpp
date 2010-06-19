@@ -37,6 +37,7 @@ Type::Type (const hummstrumm::engine::types::String name,
     parent_ (parent),
     createFunction_ (createFunction)
 {
+  // Copy into the internal buffer and be sure to NUL terminate it.
   std::strcpy (name_, name.ToAscii ());
   name_[name.GetLength ().ToInteger ()] = '\0';
 }
@@ -44,6 +45,7 @@ Type::Type (const hummstrumm::engine::types::String name,
 
 Type::~Type (void)
 {
+  // Free up the buffer.
   delete name_;
 }
     
@@ -72,6 +74,9 @@ Type::GetParent (void) const throw ()
 bool
 Type::IsRoot (void) const throw ()
 {
+  // If we don't have a parent, we are at the root of the tree.  This should
+  // only happen for hummstrumm::engine::core::Object in our engine, but for the
+  // sake of facilitating others using this code, we don't check.
   return (parent_ == 0);
 }
 
@@ -85,6 +90,7 @@ Type::IsParentClassOf (const Type *type) const throw ()
 bool
 Type::IsChildClassOf (const Type *type) const throw ()
 {
+  // Direct descendant.
   return (*parent_ == *type);
 }
 

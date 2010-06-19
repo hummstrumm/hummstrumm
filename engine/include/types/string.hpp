@@ -28,10 +28,6 @@
 #ifndef HUMMSTRUMM_ENGINE_TYPES_STRING
 #define HUMMSTRUMM_ENGINE_TYPES_STRING
 
-#include <core/object.hpp>
-#include <core/type.hpp>
-#include <core/pointer.hpp>
-
 namespace hummstrumm
 {
 namespace engine

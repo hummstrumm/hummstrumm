@@ -96,7 +96,32 @@ class HeapTest : public CppUnit::TestFixture
 
 };
 
+class TypeTest : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE ( TypeTest );
+  CPPUNIT_TEST ( testConstructor );
+  CPPUNIT_TEST_SUITE_END ();
+
+  public:
+
+    void setUp () {}
+
+    void tearDown () {}
+
+    void testConstructor ()
+    {
+      Type root ("Root", 8, 0, 0);
+      Type d1 ("Derived1", 44, &root, 0);
+      Type d2 ("Derived2", 162, &root, 0);
+      Type gc ("Grandchild", 340, &d1, 0);
+    }
+
+  private:
+
+};
+
 CPPUNIT_TEST_SUITE_REGISTRATION ( HeapTest );
+CPPUNIT_TEST_SUITE_REGISTRATION ( TypeTest );
 
 int
 main (int argc, char **argv)

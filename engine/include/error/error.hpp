@@ -70,9 +70,12 @@ class Error
      * @param fileName [in] The name of the file in which the error occured.
      * @param lineNumber [in] The line of the file in which the error occured.
      * @param text [in] A human readable description of the error.
+     * @param description [in] A description of the error by other error
+     * classes.
      */
-    Error (std::string fileName, unsigned int lineNumber,
-           std::string text = "");
+    Error (const char *fileName, unsigned int lineNumber,
+           const char *text = "", const char *description = 0)
+      throw ();
     /**
      * Destructs an Error object.
      *
@@ -93,7 +96,7 @@ class Error
      *
      * @return A human readable string of the data in the Error object.
      */
-    std::string GetHumanReadableMessage (void)
+    const char *GetHumanReadableMessage (void)
       const throw ();
 
     /**
@@ -105,7 +108,7 @@ class Error
      *
      * @return The file name of the Error.
      */
-    std::string GetFileName (void)
+    const char *GetFileName (void)
       const throw ();
     /**
      * Returns the line number on which the error occured.
@@ -127,13 +130,13 @@ class Error
      *
      * @return The description of the Error.
      */
-    std::string GetText (void)
+    const char *GetText (void)
       const throw ();
 
   private:
-    std::string fileName;         /**< The name of the file with the Error. */
+    char *fileName;               /**< The name of the file with the Error. */
     unsigned int lineNumber;      /**< The line number of the Error. */
-    std::string text;             /**< A description of the Error. */
+    char *text;                   /**< A description of the Error. */
 };
 
 }

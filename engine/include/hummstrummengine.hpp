@@ -18,8 +18,8 @@
 
 /**
  * Includes the files needed by the engine and documents the namespaces of the
- * engine.  This is the header file included PUBLICLY, no by the source code of
- * the engine.
+ * engine.  This is the header file included PUBLICLY, and by the source code
+ * of the engine.
   * 
  * @file   hummstrummengine.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
@@ -32,6 +32,7 @@
 /**
  * @mainpage
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @author Ricardo Tiago <RTiago.com>
  * @date 2010-02-06
  *
  * @section Overview
@@ -146,6 +147,7 @@ class Error;
 class OutOfMemory;
 class OutOfRange;
 class DivisionByZero;
+class Unicode;
 }
 
 /**
@@ -166,6 +168,7 @@ class Endian;
 namespace types
 {
 class Date;
+class Character;
 class String;
 class Number;
 }
@@ -187,29 +190,31 @@ namespace streams {}
 
 }
 #ifndef HUMMSTRUMM_ENGINE_SOURCE
-#  include "hummstrummengine/config.h"
-#  include "hummstrummengine/types/inttypes.hpp"
-#  include "hummstrummengine/debug/utils.hpp"
-#  include "hummstrummengine/error/error.hpp"
-#  include "hummstrummengine/error/outofmemory.hpp"
-#  include "hummstrummengine/error/outofrange.hpp"
-#  include "hummstrummengine/error/divisionbyzero.hpp"
-#  include "hummstrummengine/core/heap.hpp"
-#  include "hummstrummengine/core/type.hpp"
-#  include "hummstrummengine/core/pointer.hpp"
-#  include "hummstrummengine/core/object.hpp"
-#  include "hummstrummengine/system/endian.hpp"
-#  include "hummstrummengine/types/date.hpp"
-#  include "hummstrummengine/types/number.hpp"
-#  include "hummstrummengine/types/string.hpp"
-#  include "hummstrummengine/debug/log.hpp"
-#  include "hummstrummengine/debug/profiler.hpp"
-#  include "hummstrummengine/geometry/plane.hpp"
-#  include "hummstrummengine/geometry/segment.hpp"
-#  include "hummstrummengine/geometry/boundingBox.hpp"
-#  include "hummstrummengine/math/vector.hpp"
-#  include "hummstrummengine/math/matrice.hpp"
-#  include "hummstrummengine/math/quaternion.hpp"
+#  include <hummstrummengine/config.h>
+#  include <hummstrummengine/types/inttypes.hpp>
+#  include <hummstrummengine/debug/utils.hpp>
+#  include <hummstrummengine/error/error.hpp>
+#  include <hummstrummengine/error/outofmemory.hpp>
+#  include <hummstrummengine/error/outofrange.hpp>
+#  include <hummstrummengine/error/divisionbyzero.hpp>
+#  include <hummstrummengine/error/unicode.hpp>
+#  include <hummstrummengine/core/heap.hpp>
+#  include <hummstrummengine/core/type.hpp>
+#  include <hummstrummengine/core/object.hpp>
+#  include <hummstrummengine/core/pointer.hpp>
+#  include <hummstrummengine/system/endian.hpp>
+#  include <hummstrummengine/types/date.hpp>
+#  include <hummstrummengine/types/character.hpp>
+#  include <hummstrummengine/types/number.hpp>
+#  include <hummstrummengine/types/string.hpp>
+#  include <hummstrummengine/debug/log.hpp>
+#  include <hummstrummengine/debug/profiler.hpp>
+#  include <hummstrummengine/geometry/plane.hpp>
+#  include <hummstrummengine/geometry/segment.hpp>
+#  include <hummstrummengine/geometry/boundingBox.hpp>
+#  include <hummstrummengine/math/vector.hpp>
+#  include <hummstrummengine/math/matrice.hpp>
+#  include <hummstrummengine/math/quaternion.hpp>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "config.h"
 #  include "types/inttypes.hpp"
@@ -218,12 +223,14 @@ namespace streams {}
 #  include "error/outofmemory.hpp"
 #  include "error/outofrange.hpp"
 #  include "error/divisionbyzero.hpp"
+#  include "error/unicode.hpp"
 #  include "core/heap.hpp"
 #  include "core/type.hpp"
-#  include "core/pointer.hpp"
 #  include "core/object.hpp"
+#  include "core/pointer.hpp"
 #  include "system/endian.hpp"
 #  include "types/date.hpp"
+#  include "types/character.hpp"
 #  include "types/number.hpp"
 #  include "types/string.hpp"
 #  include "debug/log.hpp"

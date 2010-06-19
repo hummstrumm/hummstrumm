@@ -502,7 +502,7 @@ Heap::FreeHelper (char **oldMemory)
     }
   else
     {
-      //LOG (L"Trying to free a corrupt block.", ERROR);
+      LOG (L"Trying to free a corrupt block.", ERROR);
     }
 }
 

@@ -72,8 +72,8 @@ class OutOfMemory : public Error
      * @param lineNumber [in] The line of the file in which the error occured.
      * @param text [in] A human readable description of the error.
      */
-    OutOfMemory (std::string fileName, unsigned int lineNumber,
-                 std::string text = "");
+    OutOfMemory (const char *fileName, unsigned int lineNumber,
+                 const char *text = "");
     /**
      * Destructs an OutOfMemory object.
      *

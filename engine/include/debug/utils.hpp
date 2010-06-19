@@ -30,8 +30,6 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include <config.h>
-
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #  include <signal.h>
 #else

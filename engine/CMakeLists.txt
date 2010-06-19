@@ -23,14 +23,17 @@ set (hummstrummengine_SRCS
   src/error/outofmemory.cpp
   src/error/outofrange.cpp
   src/error/divisionbyzero.cpp
+  src/error/unicode.cpp
   src/core/type.cpp
   src/core/object.cpp
   src/core/heap.cpp
   src/types/date.cpp
+  src/types/character.cpp
   src/types/number.cpp
   src/types/string.cpp
   src/system/endian.cpp
-  src/math/vector.cpp)
+  src/math/vector.cpp
+  src/types/inttypes.cpp)
 set (hummstrummengine_INCLUDE include/)
 set (CMAKE_C_FLAGS_DEBUG "-Wall -g -ggdb")
 
