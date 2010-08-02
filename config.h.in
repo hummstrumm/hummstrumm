@@ -27,9 +27,15 @@
 #cmakedefine HUMMSTRUMM_PLATFORM_WIN64
 #cmakedefine HUMMSTRUMM_PLATFORM_WINDOWS
 #cmakedefine HUMMSTRUMM_PLATFORM_GNULINUX
+#cmakedefine HUMMSTRUMM_ARCHITECTURE_64
+#cmakedefine HUMMSTRUMM_ARCHITECTURE_32
 
 #cmakedefine HUMMSTRUMM_WINDOWSYSYEM_WINDOWS
 #cmakedefine HUMMSTRUMM_WINDOWSYSYEM_X11
+
+// System features
+#cmakedefine HUMMSTRUMM_SSE_SUPPORT
+#cmakedefine HUMMSTRUMM_SSE2_SUPPORT
 
 // File name of the log.
 #cmakedefine HUMMSTRUMM_LOG_FILENAME "@HUMMSTRUMM_LOG_FILENAME@"
@@ -39,7 +45,10 @@
 // file.
 #cmakedefine01 HUMMSTRUMM_LOG_XMLMODE
 // Minimum level of log messages to output.
-#cmakedefine HUMMSTRUMM_LOG_LOGLEVEL @HUMMSTRUMM_LOG_LOGLEVEL@
+#cmakedefine HUMMSTRUMM_LOG_LOGLEVEL LEVEL_@HUMMSTRUMM_LOG_LOGLEVEL@
+
+// Zero memory that is allocated?
+#cmakedefine01 HUMMSTRUMM_HEAP_ZERO_MEMORY
 
 // Endianness of system.
 #cmakedefine HUMMSTRUMM_ENDIAN_BIG

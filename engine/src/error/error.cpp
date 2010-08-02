@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
-
-#include <string>
-#include <sstream>
-
 #include "hummstrummengine.hpp"
+
+#include <cstring>
+#include <cstdlib>
+#include <sstream>
 
 namespace hummstrumm
 {
@@ -30,27 +30,37 @@ namespace error
 {
 
 
-Error::Error (std::string fileName, unsigned int lineNumber, std::string text)
-  : fileName (fileName),
+Error::Error (const char *fileName, unsigned int lineNumber, const char *text,
+              const char *description)
+  throw ()
+  : fileName ((char *) fileName),
     lineNumber (lineNumber),
-    text (text)
-{}
+    text ((char *) std::calloc (std::strlen (text) + std::strlen (description) +
+              3, 1))
+{
+  std::strncpy (this->text, description, std::strlen (text));
+  std::strncat (this->text, "  ", std::strlen (text));
+  std::strncat (this->text, text, std::strlen (text));
+  this->text[std::strlen (text) + std::strlen (description) + 2] = '\0';
+}
 
 Error::~Error (void)
-{}
+{
+  std::free (this->text);
+}
 
-std::string
+const char *
 Error::GetHumanReadableMessage (void)
   const throw ()
 {
   std::stringstream ss;
   ss << "An error has occured in " << this->GetFileName ()
-     << " at line " + this->GetLineNumber ()
-     << ":\n\n" + this->GetText () << "\n";
-  return ss.str ();
+     << " at line "                << this->GetLineNumber ()
+     << ":\n\n"                    << this->GetText () << "\n";
+  return ss.str ().c_str ();
 }
 
-std::string
+const char *
 Error::GetFileName (void)
   const throw ()
 {
@@ -64,7 +74,7 @@ Error::GetLineNumber (void)
   return this->lineNumber;
 }
 
-std::string
+const char *
 Error::GetText (void)
   const throw ()
 {

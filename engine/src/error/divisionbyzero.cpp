@@ -34,9 +34,10 @@ namespace engine
 namespace error
 {
 
-DivisionByZero::DivisionByZero (std::string fileName, unsigned int lineNumber,
-                          std::string text)
-  : Error (fileName, lineNumber, "The program encountered a division by zero.  " + text)
+DivisionByZero::DivisionByZero (const char *fileName, unsigned int lineNumber,
+                                const char *text)
+  : Error (fileName, lineNumber, text,
+           "The program encountered a division by zero.")
 {}
 
 DivisionByZero::~DivisionByZero (void) {}

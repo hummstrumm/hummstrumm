@@ -44,10 +44,6 @@ template <typename T>
 class Pointer;
 class MasterHeap;
 
-typedef Pointer<Object> ObjectPtr; /**< A Pointer to an Object. */
-/// A Pointer to a const Object.
-typedef Pointer<const Object> ConstObjectPtr;
-
 /**
  * The base class for all classes in the game engine's Object/Type system.
  * This class provides operations common to all objects in the game engine.
@@ -135,6 +131,8 @@ class Object
   friend class Pointer;
   
   public:
+    typedef hummstrumm::engine::core::Pointer<Object> Ptr;
+    typedef hummstrumm::engine::core::Pointer<const Object> ConstPtr;
     /**
      * Constructs a new Object.
      *
@@ -197,7 +195,7 @@ class Object
      *
      * @see Type
      */
-    static Type *GetType (void)
+    static const Type *GetType (void)
       throw ();
     /**
      * Returns a new object of this class.  This method uses the default
@@ -217,7 +215,7 @@ class Object
      *
      * @todo Throw an exception if the memory allocation fails.
      */
-    static ObjectPtr CreateNew (void)
+    static Ptr CreateNew (void)
       throw ();
     /**
      * Returns a Pointer<const Object> to this Object.  There are two versions
@@ -232,7 +230,7 @@ class Object
      *
      * @see operator&
      */
-    Pointer<const Object> GetPointer (void)
+    ConstPtr GetPointer (void)
       const throw ();
     /**
      * Returns a Pointer<const Object> to this Object.  There are two versions
@@ -252,7 +250,7 @@ class Object
      *
      * @see GetPointer
      */
-     ConstObjectPtr operator& (void)
+     ConstPtr operator& (void)
        const throw ();
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
@@ -267,7 +265,7 @@ class Object
      *
      * @see operator&
      */
-    ObjectPtr GetPointer (void)
+    Ptr GetPointer (void)
       throw ();
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
@@ -287,7 +285,7 @@ class Object
      *
      * @see GetPointer
      */
-    ObjectPtr operator& (void)
+    Ptr operator& (void)
       throw ();
     
 /*  =AFTER STREAM CLASSES CREATED=
@@ -296,119 +294,6 @@ class Object
     template <typename T>
     void Serialize (const StreamIn<T> &streamIn) throw ();
 */
-
-    /**
-     * Allocates a new data buffer on the Heap.  This is the version which
-     * throws an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-25
-     * @since  0.2
-     *
-     * @param objectSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the buffer due to padding).
-     *
-     * @returns A pointer to the new memory for the buffer.
-     *
-     * @todo Throw exception after failed allocation.
-     */
-//    static void *operator new (std::size_t objectSize);
-    /**
-     * Allocates a new data buffer on the Heap.  This is the version which does
-     * not throw an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-25
-     * @since  0.2
-     *
-     * @param objectSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the buffer due to padding).
-     *
-     * @param dontThrowException [in] The flag that differentiates the nothrow
-     * version of new from the throwing version.
-     *
-     * @returns A pointer to the new memory for the buffer, or a null pointer
-     * if the memory could not be allocated.
-     */
-//    static void *operator new (std::size_t objectSize,
-//                               std::nothrow_t dontThrowException)
-//      throw ();
-    /**
-     * Allocates a new data array on the Heap.  This is the version which
-     * throws an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-25
-     * @since  0.2
-     *
-     * @param objectsSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the buffer due to padding).
-     *
-     * @returns A pointer to the new memory for the buffer.
-     *
-     * @todo Throw exception after failed allocation.
-     */
-//    static void *operator new[] (std::size_t objectsSize);
-    /**
-     * Allocates a new data array on the Heap.  This is the version which
-     * does not throw an exception.
-     *
-     * Internally, this method calls Heap::Allocate.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-25
-     * @since  0.2
-     *
-     * @param objectsSize [in] The size of the memory to allocate on the Heap
-     * (which may be different than the size of the buffer due to
-     * padding).
-     *
-     * @param dontThrowException [in] The flag that differentiates the nothrow
-     * version of new from the throwing version.
-     *
-     * @returns A pointer to the new memory for the buffer, or a null pointer
-     * if the memory could not be allocated.
-     */
-//    static void *operator new[] (std::size_t objectsSize,
-//                                 std::nothrow_t dontThrowException)
-//      throw ();
-    /**
-     * Unallocates a data buffer from the Heap.  This function will fail and
-     * return if called on a buffer that is not on the Heap.
-     *
-     * Internally, this method calls Heap::Free.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-25
-     * @since  0.2
-     *
-     * @param object [in, out] The buffer which will be freed from the Heap.
-     * This pointer to the buffer will no longer be valid after this operation.
-     */
-//    static void operator delete (void *object)
-//      throw ();
-    /**
-     * Unallocates a data array from the Heap.  This function will fail and
-     * return if called on an array that is not on the Heap.
-     *
-     * Internally, this method calls Heap::Free.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-25
-     * @since  0.2
-     *
-     * @param objects [in, out] The data array which will be freed from
-     * the Heap.  This pointer to the data array will no longer be valid
-     * after this operation.
-     */
-//    static void operator delete[] (void *objects)
-//      throw ();
  
   private:
     /**
@@ -419,7 +304,6 @@ class Object
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date 2009-09-02
      * @since 0.1
-
      */
     void AddReference (void)
       const throw ();
@@ -437,7 +321,7 @@ class Object
     void DropReference (void)
       const throw ();
     
-    mutable unsigned int referenceCount_; /**< The Object's reference count. */
+    mutable unsigned int referenceCount; /**< The Object's reference count. */
     static Type type_HIDDEN_;             /**< The Type for this Object.*/
 };
 

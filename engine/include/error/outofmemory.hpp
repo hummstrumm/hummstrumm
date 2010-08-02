@@ -28,7 +28,6 @@
 #ifndef HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
 #define HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
 
-#include <string>
 #include "error.hpp"
 
 namespace hummstrumm
@@ -39,24 +38,12 @@ namespace error
 {
 
 /**
- * Contains error related information that is thrown in an exception.  Error
- * allows an error description to be passed back to the application error
- * handler.
- *
- * In addition, a human readable error message can be made from the information
- * that the Error class contains.  This message can be then saved to a log,
- * outputted to the terminal, or displayed in a message box.
- *
- * Error uses information obtained automatically from the THROW macro, such as
- * the file name and line number from which the error was thrown.  Though you
- * can use the standard C++ throw mechanism,  it is recomended that you use the
- * THROW macro to aid in this.
+ * The error for when an operation could not be completed due to an insufficient
+ * amount of memory available.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date 2010-01-31
  * @since 0.1
- *
- * @see THROW
  */
 class OutOfMemory : public Error
 {
@@ -72,8 +59,8 @@ class OutOfMemory : public Error
      * @param lineNumber [in] The line of the file in which the error occured.
      * @param text [in] A human readable description of the error.
      */
-    OutOfMemory (std::string fileName, unsigned int lineNumber,
-                 std::string text = "");
+    OutOfMemory (const char *fileName, unsigned int lineNumber,
+                 const char *text = "");
     /**
      * Destructs an OutOfMemory object.
      *

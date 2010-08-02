@@ -73,8 +73,6 @@ class Object;
  * @date 2009-09-02
  * @since 0.1
  *
- * @todo Add class registry?
- *
  * @see Object
  * @see HUMMSTRUMM_DECLARE_TYPE
  * @see HUMMSTRUMM_IMPLEMENT_TYPE
@@ -102,11 +100,10 @@ class Type
      * @warning Do not create your own Type.  If you are using the engine's
      * Object/Type system, this will be done for you.
      */
-    Type (const hummstrumm::engine::types::String name,
+    Type (const hummstrumm::engine::types::String &name,
           std::size_t size,
           const Type *parent,
-          hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object>
-            (*createFunction) (void));
+          Object::Ptr (*createFunction) (void));
     /**
      * Destructs a Type object for a certain Object.  Since all Type objects
      * in the Object/Type system are static members of an Object, this
@@ -168,9 +165,9 @@ class Type
      *
      * @param type [in] A Type to test for inheritance.
      *
-     * @return Whether this Object is the direct parent of type.
+     * @return Whether this Object is a direct parent of type.
      */
-    bool IsParentClassOf (const Type *type) const throw ();
+     bool IsParentClassOf (const Type *type) const throw ();
     /**
      * Returns whether this Object is a direct child of another Type.
      *
@@ -239,7 +236,7 @@ class Type
      *
      * @see operator==(const hummstrumm::engine::types::String &)
      */
-    bool IsEqualTo (const hummstrumm::engine::types::String name) const
+    bool IsEqualTo (const hummstrumm::engine::types::String &name) const
       throw ();
     /**
      * Returns whether this Type is the same as another Type.
@@ -290,18 +287,21 @@ class Type
      *
      * @see Object::CreateNew
      */
-    hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object>
-    Create (void)
+    Object::Ptr Create (void)
       const throw ();
   
   private:
-    char *name_;          /**< The name of the Object, including namespaces. */
-    std::size_t size_;    /**< The size, in bytes, of the Object. */
-    const Type *parent_;  /**< The parent Type of the Object. */
+    // Hide
+    Type (Type &);
+    void operator= (Type &);
+    Type (void);
+    
+    char *name;          /**< The name of the Object, including namespaces. */
+    std::size_t size;    /**< The size, in bytes, of the Object. */
+    const Type *parent;  /**< The parent Type of the Object. */
     /// The static creation function of the Object, which returns a
     /// Pointer<Object> to a new object.
-    hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object>
-      (*createFunction_) (void);
+    Object::Ptr (*createFunction) (void);
 };
 
 }
@@ -315,7 +315,8 @@ class Type
  * This macro adds a Type object, a method to return a pointer to this Type,
  * several methods that return a Pointer<className> (with const versions),
  * overloaded & (address) operators that give a Pointer<className> (with const
- * versions), and a method to create a new Object.
+ * versions), and a method to create a new Object.  It also gives typedefs for
+ * easy use with Pointer<className>.
  *
  * If you use this macro, you will also have to use the
  * HUMMSTRUMM_IMPLEMENT_TYPE macro, which adds the definitions of these
@@ -337,19 +338,21 @@ class Type
  */
 #define HUMMSTRUMM_DECLARE_TYPE(className) \
   private: \
-    static hummstrumm::engine::core::Type _type_; \
+    static hummstrumm::engine::core::Type type_HIDDEN_; \
   public: \
-    static hummstrumm::engine::core::Type *GetType (void) throw (); \
-    static hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object> \
-      CreateNew (void); \
-    hummstrumm::engine::core::Pointer<const className> \
-      GetPointer (void) const throw (); \
-    hummstrumm::engine::core::Pointer<const className> \
-      operator&  (void) const throw (); \
-    hummstrumm::engine::core::Pointer<className> \
-      GetPointer (void) throw (); \
-    hummstrumm::engine::core::Pointer<className> \
-      operator&  (void) throw ();
+    typedef hummstrumm::engine::core::Pointer<className> Ptr; \
+    typedef hummstrumm::engine::core::Pointer<const className> ConstPtr; \
+    static hummstrumm::engine::core::Type *GetType (void) \
+      throw (); \
+    static hummstrumm::engine::core::Object::Ptr CreateNew (void); \
+    ConstPtr GetPointer (void) \
+      const throw (); \
+    ConstPtr operator&  (void) \
+      const throw (); \
+    Ptr      GetPointer (void) \
+      throw (); \
+    Ptr      operator&  (void) \
+      throw ();
 
 /**
  * Adds support for the engine's Object/Type system to an Object.  Place this
@@ -377,40 +380,45 @@ class Type
  * @see HUMMSTRUMM_DECLARE_TYPE
  */
 #define HUMMSTRUMM_IMPLEMENT_TYPE(className, parentName) \
-  hummstrumm::engine::core::Type className::_type_ (#className, \
+  hummstrumm::engine::core::Type className::type_HIDDEN_ (#className, \
     sizeof (className), parentName::GetType (), className::CreateNew); \
    \
   hummstrumm::engine::core::Type * \
-  className::GetType (void) throw () \
+  className::GetType (void) \
+    throw () \
   { \
-    return &_type_; \
+    return &type_HIDDEN_; \
   } \
    \
-  hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object> \
+  hummstrumm::engine::core::Object::Ptr \
   className::CreateNew (void) \
   { \
     return new className; \
   } \
    \
-  hummstrumm::engine::core::Pointer<const className> \
-  className::GetPointer (void) const throw () \
+  className::ConstPtr \
+  className::GetPointer (void) \
+    const throw () \
   { \
-    return hummstrumm::engine::core::Pointer<const className> (this); \
+    return className::ConstPtr (this); \
   } \
-  hummstrumm::engine::core::Pointer<const className> \
-  className::operator& (void) const throw () \
+  className::ConstPtr \
+  className::operator& (void) \
+    const throw () \
   { \
-    return hummstrumm::engine::core::Pointer<const className> (this); \
+    return className::ConstPtr (this); \
   } \
-  hummstrumm::engine::core::Pointer<className> \
-  className::GetPointer (void) throw () \
+  className::Ptr \
+  className::GetPointer (void) \
+    throw () \
   { \
-    return hummstrumm::engine::core::Pointer<className> (this); \
+    return className::Ptr (this); \
   } \
-  hummstrumm::engine::core::Pointer<className> \
-  className::operator& (void) throw () \
+  className::Ptr \
+  className::operator& (void) \
+    throw () \
   { \
-    return hummstrumm::engine::core::Pointer<className> (this); \
+    return className::Ptr (this); \
   }
 
 /**
@@ -443,46 +451,51 @@ class Type
  */
 #define HUMMSTRUMM_IMPLEMENT_GENERIC_TYPE(templateDefinition, className, parentName) \
   templateDefinition \
-  hummstrumm::engine::core::Type className::_type_ (#className, \
+  hummstrumm::engine::core::Type className::type_HIDDEN_ (#className, \
     sizeof (className), parentName::GetType (), className::CreateNew); \
    \
   templateDefinition \
   hummstrumm::engine::core::Type * \
-  className::GetType (void) throw () \
+  className::GetType (void) \
+    throw () \
   { \
-    return &_type_; \
+    return &type_HIDDEN_; \
   } \
    \
   templateDefinition \
-  hummstrumm::engine::core::Pointer<hummstrumm::engine::core::Object> \
+  hummstrumm::engine::core::Object::Ptr \
   className::CreateNew (void) \
   { \
     return new className; \
   } \
    \
   templateDefinition \
-  hummstrumm::engine::core::Pointer<const className> \
-  className::GetPointer (void) const throw () \
+  typename className::ConstPtr \
+  className::GetPointer (void) \
+    const throw () \
   { \
-    return hummstrumm::engine::core::Pointer<const className> (this); \
+    return className::Ptr (this); \
   } \
   templateDefinition \
-  hummstrumm::engine::core::Pointer<const className> \
-  className::operator& (void) const throw () \
+  typename className::ConstPtr \
+  className::operator& (void)  \
+    const throw () \
   { \
-    return hummstrumm::engine::core::Pointer<const className> (this); \
+    return className::Ptr (this); \
   } \
   templateDefinition \
-  hummstrumm::engine::core::Pointer<className> \
-  className::GetPointer (void) throw () \
+  typename className::Ptr \
+  className::GetPointer (void) \
+    throw () \
   { \
-    return hummstrumm::engine::core::Pointer<className> (this); \
+    return className::Ptr (this); \
   } \
   templateDefinition \
-  hummstrumm::engine::core::Pointer<className> \
-  className::operator& (void) throw () \
+  typename className::Ptr \
+  className::operator& (void) \
+    throw () \
   { \
-    return hummstrumm::engine::core::Pointer<className> (this); \
+    return className::Ptr (this); \
   }
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_CORE_TYPE

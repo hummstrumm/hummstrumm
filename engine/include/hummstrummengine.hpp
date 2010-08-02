@@ -18,8 +18,8 @@
 
 /**
  * Includes the files needed by the engine and documents the namespaces of the
- * engine.  This is the header file included PUBLICLY, no by the source code of
- * the engine.
+ * engine.  This is the header file included PUBLICLY, and by the source code
+ * of the engine.
   * 
  * @file   hummstrummengine.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
@@ -32,8 +32,8 @@
 /**
  * @mainpage
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @author Ricardo Tiago <RTiago@gmail.com>
- * @date 2010-05-15
+ * @author Ricardo Tiago <RTiago.com>
+ * @date 2010-02-06
  *
  * @section Overview
  *
@@ -112,6 +112,25 @@ class Quaternion;
 }
 
 /**
+ * The namespace for the geometry classes of the game engine.
+ */
+namespace geometry
+{
+template <typename T>
+class Plane3D;
+template <typename T>
+class Segment3D;
+template <typename T>
+class Segment2D;
+template <typename T>
+class AABBox3D;
+template <typename T>
+class AABBox2D;
+template <typename T>
+class BSphere3D;
+}
+
+/**
  * The namespace for the core of the game engine.  This namespace contains
  * the memory manager, the Object/Type system, and the smart pointer.
  */
@@ -120,6 +139,8 @@ namespace core
 class Object;
 class Type;
 class Heap;
+template <typename T, unsigned int SIZE>
+class Pool;
 template <typename T>
 class Pointer;
 }
@@ -134,6 +155,9 @@ class Error;
 class OutOfMemory;
 class OutOfRange;
 class DivisionByZero;
+class Unicode;
+class MemoryCorruption;
+class InvalidParam;
 }
 
 /**
@@ -154,6 +178,7 @@ class Endian;
 namespace types
 {
 class Date;
+class Character;
 class String;
 class Number;
 }
@@ -163,7 +188,11 @@ class Number;
  * data structure classes, iterator types, concept maps for the data
  * structures, and generic algorithms that work on data structures.
  */
-namespace containers {}
+namespace containers
+{
+template <typename T>
+class List;
+}
 
 /**
  * The namespace for input/output streams.  This namespace contains memory,
@@ -171,51 +200,114 @@ namespace containers {}
  */
 namespace streams {}
 
+/**
+ * The namespace for the renderer system.
+ */
+namespace renderer
+{
+class WindowSystem;
+class WindowX11;
+}
 }
 
 }
 #ifndef HUMMSTRUMM_ENGINE_SOURCE
-#  include "hummstrummengine/config.h"
-#  include "hummstrummengine/types/inttypes.hpp"
-#  include "hummstrummengine/debug/utils.hpp"
-#  include "hummstrummengine/error/error.hpp"
-#  include "hummstrummengine/error/outofmemory.hpp"
-#  include "hummstrummengine/error/outofrange.hpp"
-#  include "hummstrummengine/error/divisionbyzero.hpp"
-#  include "hummstrummengine/core/heap.hpp"
-#  include "hummstrummengine/core/type.hpp"
-#  include "hummstrummengine/core/pointer.hpp"
-#  include "hummstrummengine/core/object.hpp"
-#  include "hummstrummengine/system/endian.hpp"
-#  include "hummstrummengine/types/date.hpp"
-#  include "hummstrummengine/types/number.hpp"
-#  include "hummstrummengine/types/string.hpp"
-#  include "hummstrummengine/debug/log.hpp"
-#  include "hummstrummengine/debug/profiler.hpp"
-#  include "hummstrummengine/math/vector.hpp"
-#  include "hummstrummengine/math/matrice.hpp"
-#  include "hummstrummengine/math/quaternion.hpp"
+#  include <hummstrummengine/config.h>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "config.h"
+#endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  define _CRT_SECURE_NO_WARNINGS
+#  define NOMINMAX
+#  pragma warning(push)
+#  pragma warning(disable:4290)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+
+#ifndef HUMMSTRUMM_ENGINE_SOURCE
+#  include <hummstrummengine/types/inttypes.hpp>
+#  include <hummstrummengine/debug/utils.hpp>
+#  include <hummstrummengine/error/error.hpp>
+#  include <hummstrummengine/error/generic.hpp>
+#  include <hummstrummengine/error/outofmemory.hpp>
+#  include <hummstrummengine/error/outofrange.hpp>
+#  include <hummstrummengine/error/divisionbyzero.hpp>
+#  include <hummstrummengine/error/unicode.hpp>
+#  include <hummstrummengine/error/memorycorruption.hpp>
+#  include <hummstrummengine/error/invalidparam.hpp>
+#  include <hummstrummengine/core/heap.hpp>
+#  include <hummstrummengine/core/pool.hpp>
+#  include <hummstrummengine/core/object.hpp>
+#  include <hummstrummengine/core/type.hpp>
+#  include <hummstrummengine/core/pointer.hpp>
+#  include <hummstrummengine/system/endian.hpp>
+#  include <hummstrummengine/types/date.hpp>
+#  include <hummstrummengine/types/character.hpp>
+#  include <hummstrummengine/types/number.hpp>
+#  include <hummstrummengine/types/string.hpp>
+#  include <hummstrummengine/debug/log.hpp>
+#  include <hummstrummengine/debug/profiler.hpp>
+#  include <hummstrummengine/geometry/plane.hpp>
+#  include <hummstrummengine/geometry/geomutils.hpp>
+#  include <hummstrummengine/geometry/segment.hpp>
+#  include <hummstrummengine/geometry/boundingbox.hpp>
+#  include <hummstrummengine/geometry/boundingsphere.hpp>
+#  include <hummstrummengine/math/vector.hpp>
+#  include <hummstrummengine/math/matrice.hpp>
+#  include <hummstrummengine/math/quaternion.hpp>
+#  include <hummstrummengine/renderer/windowSystem.hpp>
+#  include <hummstrummengine/renderer/windowX11.hpp>
+#  include <hummstrummengine/containers/list.hpp>
+// Template and Inline implementations now...
+#  include <hummstrummengine/core/pointer.inl>
+#  include <hummstrummengine/core/pool.inl>
+#  include <hummstrummengine/containers/list.inl>
+#else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "types/inttypes.hpp"
 #  include "debug/utils.hpp"
 #  include "error/error.hpp"
+#  include "error/generic.hpp"
 #  include "error/outofmemory.hpp"
 #  include "error/outofrange.hpp"
 #  include "error/divisionbyzero.hpp"
+#  include "error/unicode.hpp"
+#  include "error/memorycorruption.hpp"
+#  include "error/invalidparam.hpp"
 #  include "core/heap.hpp"
+#  include "core/pool.hpp"
+#  include "core/object.hpp"
 #  include "core/type.hpp"
 #  include "core/pointer.hpp"
-#  include "core/object.hpp"
 #  include "system/endian.hpp"
 #  include "types/date.hpp"
+#  include "types/character.hpp"
 #  include "types/number.hpp"
 #  include "types/string.hpp"
 #  include "debug/log.hpp"
 #  include "debug/profiler.hpp"
+#  include "math/mathutils.hpp"
 #  include "math/vector.hpp"
 #  include "math/matrice.hpp"
 #  include "math/quaternion.hpp"
+#  include "geometry/geomutils.hpp"
+#  include "geometry/plane.hpp"
+#  include "geometry/segment.hpp"
+#  include "geometry/boundingbox.hpp"
+#  include "geometry/boundingsphere.hpp"
+#  include "renderer/windowSystem.hpp"
+#  include "renderer/windowX11.hpp"
+#  include "containers/list.hpp"
+// Template and Inline implementations now...
+#  include "core/pointer.inl"
+#  include "core/pool.inl"
+#  include "containers/list.inl"
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  pragma warning(pop)
+#  ifdef HUMMSTRUMM_ENGINE_SOURCE
+#    pragma warning(disable:4290)
+#  endif // #ifdef HUMMSTRUMM_ENGINE_SOURCE
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

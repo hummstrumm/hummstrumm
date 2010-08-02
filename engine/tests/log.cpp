@@ -53,9 +53,9 @@ main (int argc, char **argv)
     }
 
 
-  log.Write (L"Testing...", hummstrumm::engine::debug::Log::MESSAGE);
-  log.Write (L"Testing...", hummstrumm::engine::debug::Log::ERROR);
-  log.Write (L"Testing...", hummstrumm::engine::debug::Log::WARNING);
+  log.Write (L"Testing...", hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
+  log.Write (L"Testing...", hummstrumm::engine::debug::Log::LEVEL_ERROR);
+  log.Write (L"Testing...", hummstrumm::engine::debug::Log::LEVEL_WARNING);
 
   return 0;
 }

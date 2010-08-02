@@ -28,15 +28,6 @@
 #ifndef HUMMSTRUMM_ENGINE_TYPES_NUMBER
 #define HUMMSTRUMM_ENGINE_TYPES_NUMBER
 
-// For the various relational operator shortcuts.
-#include <utility>
-using namespace std::rel_ops;
-
-#include <core/object.hpp>
-#include <core/type.hpp>
-#include <core/pointer.hpp>
-
-#include <types/inttypes.hpp>
 
 namespace hummstrumm
 {

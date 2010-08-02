@@ -16,13 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
+#include "hummstrummengine.hpp"
 
 #include <cmath>
 #include <cfloat>
 #include <limits>
 
-#include "hummstrummengine.hpp"
-
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  pragma warning(disable:4244)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 namespace hummstrumm
 {
@@ -114,7 +116,7 @@ operator/ (const Number &value1, const Number &value2)
   // Throw exception
   if (value2 == 0.0)
     {
-      THROW (DivisionByZero, "");
+      HUMMSTRUMM_THROW (DivisionByZero, "Division.");
     }
   
   return value1.value / value2.value;
@@ -128,7 +130,7 @@ operator% (const Number &value1, const Number &value2)
   // Throw exception
   if (value2 == 0.0)
     {
-      THROW (DivisionByZero, "");
+      HUMMSTRUMM_THROW (DivisionByZero, "Modulo");
     }
 
   return std::fmod (value1.value, value2.value);
@@ -194,6 +196,7 @@ Number::operator= (const Number &value)
   throw ()
 {
   this->value = value.value;
+  return *this;
 }
 
 
@@ -202,6 +205,7 @@ Number::operator+= (const Number &value)
   throw ()
 {
   this->value += value.value;
+  return *this;
 }
 
 
@@ -210,6 +214,7 @@ Number::operator-= (const Number &value)
   throw ()
 {
   this->value -= value.value;
+  return *this;
 }
 
 
@@ -218,6 +223,7 @@ Number::operator*= (const Number &value)
   throw ()
 {
   this->value *= value.value;
+  return *this;
 }
 
 
@@ -228,10 +234,11 @@ Number::operator/= (const Number &value)
   // Throw something
   if (value == 0.0)
     {
-      THROW (DivisionByZero, "");
+      HUMMSTRUMM_THROW (DivisionByZero, "");
     }
 
   this->value /= value.value;
+  return *this;
 }
 
 
@@ -242,10 +249,11 @@ Number::operator%= (const Number &value)
   // Throw something
   if (value == 0.0)
     {
-      THROW (DivisionByZero, "");
+      HUMMSTRUMM_THROW (DivisionByZero, "");
     }
 
   *this = *this % value;
+  return *this;
 }
   
 
@@ -316,7 +324,12 @@ const Number
 Number::Sign (void)
   const throw ()
 {
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
   return ::copysign (1.0, this->value);
+#endif // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  return ::_copysign (1.0, this->value);
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 }
 
 
@@ -350,7 +363,7 @@ const Number
 Number::Round (void)
   const throw ()
 {
-  return ::round (this->value);
+  return std::floor (this->value + 0.5);
 }
 
 

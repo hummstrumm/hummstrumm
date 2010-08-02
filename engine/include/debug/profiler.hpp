@@ -45,9 +45,10 @@ namespace debug
  *
  * This class uses scoping for starting and stopping the profile.  A Profiler
  * object created with the PROFILE() macro will write its output at the end of
- * the block.
+ * the block.  Furthermore, you can use the PROFILE_ITERATION() macro in
+ * conjunction with a loop to find various amounts 
  *
- * @version 0.2
+ * @version 0.3
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date    2010-03-15
  * @since   0.2
@@ -58,6 +59,19 @@ class Profiler
 { 
   public:
     /**
+     * The unit of measure in which to report times from the profiler.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-06-14
+     * @since  0.3
+     */
+    enum Units
+    {
+      REPORT_IN_SECONDS,      ///< Report in seconds      (decimal)
+      REPORT_IN_MILLISECONDS, ///< Report in milliseconds (integer)
+      REPORT_IN_MICROSECONDS  ///< Report in microseconds (integer)
+    };
+    /**
      * Starts a profiler.  This profiler will output a log message with the
      * debug name to help in identifying the profiling information.  It will
      * also take the current timestamp with the high-resolution timer, which
@@ -67,9 +81,12 @@ class Profiler
      * @date   2010-03-15
      * @since  0.2
      *
-     * @param debugName A name for the profiler to identify it in the log.
+     * @param debugName [in] A name for the profiler to identify it in the log.
+     * Names are unique for up to 24 ASCII characters.
+     * @param reportIn  [in] The unit in which to report the final times.
      */
-    Profiler (hummstrumm::engine::types::String debugName);
+    Profiler (const char *debugName,
+              Units reportIn = REPORT_IN_MILLISECONDS);
     /**
      * Stops the profiler.  The profiler will compare the current time with the
      * time taken when it was created and output a log message with the
@@ -81,9 +98,27 @@ class Profiler
      */
     virtual ~Profiler (void);
 
+    /**
+     * Starts a new run of the profiler.  This updates the various stats for
+     * times of the profiler.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-06-14
+     * @since  0.3
+     */
+    void Iterate (void) throw ();
+
   private:
-    hummstrumm::engine::types::int64 startTime;  ///< The starting time.
-    hummstrumm::engine::types::String debugName; ///< A name for use in a log.
+    hummstrumm::engine::types::int64 startTime;    ///< The starting time for
+                                                   ///  this run.
+    char debugName[25];                            ///< A name for use in a log.
+    hummstrumm::engine::types::int64 lowestTime;   ///< The fastest run.
+    hummstrumm::engine::types::int64 averageTime;  ///< The average time of
+                                                   ///  runs.
+    hummstrumm::engine::types::int16 numberOfRuns; ///< The running total of
+                                                   ///  runs (no pun intended).
+    Units                            reportInUnit; ///< The unit in which to
+                                                   ///  report the times.
 };
 
 /**
@@ -95,11 +130,28 @@ class Profiler
  *
  * @param debugName A name for the Profiler, which will aid in picking it out in
  * the Log.
+ * @param reportIn The unit in which to report times.  A member of the
+ * hummstrumm::engine::debug::Profiler::Units enumeration (without any
+ * prefixes).
  *
  * @see Profiler
  */
-#define PROFILE(debugName)                     \
-  Profiler profiler__HIDDEN__ ((debugName))
+#define HUMMSTRUMM_PROFILE(debugName, reportIn)                         \
+  hummstrumm::engine::debug::Profiler profiler__HIDDEN__ ((debugName),  \
+                                                          (reportIn))
+
+/**
+ * Starts a new run of the existing profiler.  A profiler must already exist in
+ * the current scope for this method to work.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-06-14
+ * @since  0.3
+ *
+ * @see HUMMSTRUMM_PROFILE()
+ */
+#define HUMMSTRUMM_PROFILE_ITERATION() \
+  profiler__HIDDEN__.Iterate ()        \
 
 }
 }

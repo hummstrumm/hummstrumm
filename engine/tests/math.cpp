@@ -17,15 +17,10 @@
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
 
-/* @todo Reuse test objects in multiple test cases?? */
-#define HUMMSTRUMM_ENGINE_SOURCE
-
 #include <iostream>
 #include <cmath>
 #include <vector>
-
-#include "hummstrummengine.hpp"
-#include "math/quaternion.hpp"
+#include <climits>
 
 #include "hummstrummengine.hpp"
 
@@ -37,13 +32,14 @@
 #include <cppunit/BriefTestProgressListener.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
-//@TODO Finishing Testing Matrix3D and Matrix4D.
 using namespace hummstrumm::engine::math;
+using namespace hummstrumm::engine::debug;
 
 class QuaternionsTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE ( QuaternionsTest );
-  CPPUNIT_TEST ( testLog );
+  CPPUNIT_TEST ( testLogExpPow );
+  CPPUNIT_TEST ( testMultiplication );
   CPPUNIT_TEST_SUITE_END ();
 
   public:
@@ -51,7 +47,30 @@ class QuaternionsTest : public CppUnit::TestFixture
 
     void tearDown () {}
 
-    void testLog ()
+
+    void testMultiplication ()
+    {
+      Quaternion <float> q0 ( 1, 2, 3, 4);
+      Quaternion <float> q5 ( 1, 1, 1, 1);
+
+      Quaternion <float> q1 ( 3, 2, 5, 4);
+      Quaternion <float> q2 ( 4, 5, 3, 1);
+
+      Quaternion <float> q0Expected;
+      q0.Normalize();
+      q5.Normalize();
+      q0Expected = q0*q5;
+      // expect a unit quaternion
+      CPPUNIT_ASSERT (QuatMagnitude(q0Expected) == 1);
+      q0Expected = q1*q2;
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (-17, q0Expected.w,   0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 16, q0Expected.v.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 47, q0Expected.v.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (  0, q0Expected.v.z, 0.01);
+
+    }
+
+    void testLogExpPow ()
     { 
       float exponent = 2;
       Quaternion <float> q0 ( 4, 1, 2, 3);
@@ -341,7 +360,6 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testAssignment ()
     {
-
       Matrix2D <float> m2_3 ( 3, 4, -2, -5);
       Matrix2D <float> m2_4;
       m2_4 = m2_3;
@@ -365,6 +383,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testInequality ()
     {
+
       Matrix2D <float> m2_3 ( 3, 4, -1, -5);
 
       Matrix2D <float> m2_4 ( 3.0, 4.0, -2, -5.0);
@@ -374,6 +393,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testNegate ()
     {
+
       Matrix2D <float> m2_3 ( 3, 4, -1, -5);
       Matrix2D <float> m2_4;
 
@@ -388,6 +408,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testSubtraction ()
     {
+
       Matrix2D <float> m2_3 ( 3,  4, -1, -5);
       Matrix2D <float> m2_4 ( 2,  1,  3,  6);
       m2_4 = m2_4 - m2_3;
@@ -409,6 +430,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testAdd ()
     {
+
       Matrix2D <float> m2_3 ( 3,  4,  -1,  -5);
       Matrix2D <float> m2_4 ( 2,  1,  3,  6);
       m2_4 = m2_4 + m2_3;
@@ -432,6 +454,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testMultiplication ()
     {
+
       Matrix2D <float> m2_3 ( 3,  4,  -1,  -5);
       float scalar = 3;
       m2_3 = m2_3 * scalar;
@@ -561,6 +584,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testDivision ()
     {
+
       Matrix2D <float> m2_3 ( 3, 4, -1, -5);
       float divisor = 2;
       m2_3 = m2_3 / divisor;
@@ -582,6 +606,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testDeterminant ()
     {
+
       Matrix2D <float> m2_3 (3, 4, -1, -5);
 
       Matrix3D <float> m3_1 ( 3.0f, -2.0f,  0.0f, 
@@ -675,6 +700,7 @@ class MatricesTest : public CppUnit::TestFixture
     }
     void testTranspose ()
     {
+
       Matrix2D <float> m2_4 (3,  4, 
                             -1, -5);
 
@@ -759,7 +785,7 @@ class VectorTest : public CppUnit::TestFixture
   CPPUNIT_TEST ( testNormalize );
   CPPUNIT_TEST ( testPerpendicular );
   CPPUNIT_TEST ( testUnitPerpendicular );
-  CPPUNIT_TEST ( testOrthonormalize );
+  //CPPUNIT_TEST ( testOrthonormalize );
   CPPUNIT_TEST ( testDotProduct );
   CPPUNIT_TEST_SUITE_END ();
 
@@ -880,7 +906,7 @@ class VectorTest : public CppUnit::TestFixture
     {
       Vector2D <float> v2_0 ( -4.0f, 5.0f);
       v2_0.Normalize ();
-      
+
       float expectedX = (1/sqrt(41.0f))*-4.0f;
       float expectedY = (1/sqrt(41.0f))*5.0f;
 
@@ -911,7 +937,7 @@ class VectorTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedX, v2_2.x , 0.0001 );
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedY, v2_2.y , 0.0001 );
     }
-
+/*
     void testOrthonormalize ()
     {
       std::vector <Vector4D<float> > v4;
@@ -981,7 +1007,7 @@ class VectorTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, Vec4DDot(v4_2,v4_3), 0.01);
 
     }
-
+*/
 
     void testDotProduct ()
     {

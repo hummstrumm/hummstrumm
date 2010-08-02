@@ -19,7 +19,7 @@
 /**
  * Defines and implements a quaternion.
  *
- * @file    matrice.hpp
+ * @file    quaternion.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  *
@@ -28,7 +28,6 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_QUATERNION
 #define HUMMSTRUMM_ENGINE_MATH_QUATERNION
 
-#include "error/divisionbyzero.hpp"
 
 namespace hummstrumm
 {
@@ -36,9 +35,6 @@ namespace engine
 {
 namespace math
 {
-
-template <typename T>
-class Vector3D;
 
 template <typename T>
 class Quaternion
@@ -76,11 +72,22 @@ class Quaternion
      * @param w The scalar component w.
      * @param vx The x component of vector.
      * @param vy The y component of vector.
-     * @param vw The w component of vector.
+     * @param vz The z component of vector.
      */
     Quaternion (const T &w, const T &vx, const T  &vy, const T &vz)
       : w(w), v(vx, vy, vz) {}
-    
+ 
+    /**
+     * Construct a quaternion from 3x3 matrice.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-03-28
+     * @since 0.2
+     *
+     * @param m 3x3 Matrice.
+     */  
+    Quaternion (const Matrix3D<T> &m);
+ 
     /**
      * Construct a quaternion from a vector and a scalar
      * component.
@@ -339,6 +346,67 @@ class Quaternion
 }; // end of class quaternion
 
 // implementation of member functions
+template <typename T>
+Quaternion<T>::Quaternion (const Matrix3D<T> &m)
+{
+  // from 3d math primer - shoemake method
+  T tmpW = m[0].x + m[1].y + m[2].z;
+  T tmpX = m[0].x - m[1].y - m[2].z;
+  T tmpY = m[1].y - m[0].x - m[2].z;
+  T tmpZ = m[2].z - m[0].x - m[1].y;
+      
+  unsigned short biggestIndex = 0;
+  T biggestTmp = tmpW;
+  if (tmpX > biggestTmp)
+  {
+    biggestTmp = tmpX;
+    biggestIndex = 1;
+  }
+  if (tmpY > biggestTmp)
+  {
+    biggestTmp = tmpY;
+    biggestIndex = 2;
+  }
+  if (tmpZ > biggestTmp)
+  {
+    biggestTmp = tmpZ;
+    biggestIndex = 3;
+  }
+  T biggestVal = sqrt(biggestTmp + 1) * 0.5;
+  T mult = 0.25 / biggestVal;
+
+  switch (biggestIndex)
+  {
+    case 0:
+      w = biggestVal;
+      v.x = (m[1].z - m[2].y) * mult;
+      v.y = (m[2].x - m[0].z) * mult;
+      v.z = (m[0].y - m[1].x) * mult;
+      break;
+
+    case 1:
+      v.x = biggestVal;
+      w = (m[1].z - m[2].y) * mult;
+      v.y = (m[0].y - m[1].x) * mult;
+      v.z = (m[2].x - m[0].z) * mult;
+      break;
+
+    case 2:
+      v.y = biggestVal;
+      w = (m[2].x - m[0].z) * mult;
+      v.x = (m[0].y - m[1].x) * mult;
+      v.z = (m[1].z - m[2].y) * mult;
+     break;
+
+    case 3:
+      v.z = biggestVal;
+      w = (m[0].y - m[1].x) * mult;
+      v.x = (m[2].x - m[0].z) * mult;
+      v.y = (m[1].z - m[2].y) * mult;
+     break;
+  }
+}
+
 
 template <typename T>
 Quaternion<T> & 
@@ -388,7 +456,7 @@ template <typename T>
 Quaternion<T>
 Quaternion<T>::operator * (const Quaternion<T> &q) const
 {
-  return Quaternion<T> (w*q.w - Vec3DDot(v,q.v), w*q.v + q.w*v + Vec3DCross(q.v,v));
+  return Quaternion<T> (w*q.w - Vec3DDot(v,q.v), w*q.v + q.w*v + Vec3DCross(v,q.v));
 }
 
 template <typename T>
@@ -403,7 +471,7 @@ Quaternion<T>
 Quaternion<T>::operator / (const T &s) const
 {
   if (s == 0)
-    THROW (DivisionByZero,"Quaternion division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion division by zero.");
 
   T oneOverS = 1/s; 
   return Quaternion<T> (oneOverS*w,oneOverS*v);
@@ -452,7 +520,7 @@ Quaternion<T> &
 Quaternion<T>::operator /= (const T &s)
 {
   if (s == 0)
-    THROW (DivisionByZero,"Quaternion division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion division by zero.");
 
   T oneOverS = 1/s;
   w *= oneOverS;
@@ -491,7 +559,7 @@ Quaternion<T>::Normalize ()
 {
   T qMag = QuatMagnitude(*this);
   if (qMag == 0)
-    THROW (DivisionByZero,"Quaternion magnitude is zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion magnitude is zero.");
  
   T oneOverMag = 1/qMag;
   v *= oneOverMag;
@@ -632,6 +700,60 @@ Quaternion<T> QuatPow (const Quaternion<T> &q, const Quaternion<T> &e);
 template <typename T>
 Quaternion<T> QuatPow (const Quaternion<T> &q, const T &e);
 
+/**
+ * Angular displacement between two quaternions.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param q A quaternion.
+ * @param w Another quaternion.
+ *
+ * @return The angular displacement which rotates from q to w.
+ */
+template <typename T>
+Quaternion<T>
+QuatAngDisp (const Quaternion<T> &q, const Quaternion<T> &w);
+
+/**
+ * Spherical Linear Interpolation (Slerp).
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param q A normalized quaternion (starting orientation).
+ * @param w Another normalized quaternion (ending orientation).
+ * @param t Interpolation parameter
+ *
+ * @return Orientation that interpolates from q and w.
+ */
+template <typename T>
+Quaternion<T>
+QuatSlerp (const Quaternion<T> &q, const Quaternion<T> &w, const T &t);
+
+/**
+ * Quaternion spline, squad (Spherical and quadrangle).
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param q A normalized quaternion (initial control point).
+ * @param w Another normalized quaternion (end control point).
+ * @param z A normalized quaternion (intermediate control point,  z).
+ * @param x Another normalized quaternion (intermediate control point, x=z+1).
+ * @param h Interpolation parameter
+ *
+ * @return A cubic interpolation between q and w by amount h.
+ */
+template <typename T>
+Quaternion<T>
+QuatSquad (const Quaternion<T> &q, const Quaternion<T> &w,
+           const Quaternion<T> &z, const Quaternion<T> &x, const T &h);
+
+
 // non-member functions implementation
 
 template <typename T>
@@ -668,7 +790,7 @@ QuatInverse (const Quaternion<T> &q)
 {
   T quatMag = QuatMagnitude(q);
   if (quatMag == 0)
-    THROW (DivisionByZero,"Quaternion magnitude is zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion magnitude is zero.");
  
   return QuatConjugate(q) / quatMag;
 }
@@ -702,7 +824,7 @@ template <typename T>
 Quaternion<T>
 QuatPow (const Quaternion<T> &q, const Quaternion<T> &e)
 {
-  return QuatExp (e*QuatLog(q));
+  return QuatExp (QuatLog(q)*e);
 }
 
 template <typename T>
@@ -711,6 +833,69 @@ QuatPow (const Quaternion<T> &q, const T &e)
 {
   return QuatExp (QuatLog(q)*e);
 }
+
+template <typename T>
+Quaternion<T>
+QuatSlerp (const Quaternion<T> &q, const Quaternion<T> &w, const T &t)
+{
+  if ( t < 0 || t > 1)
+    HUMMSTRUMM_THROW (OutOfRange,
+      "Interpolation parameter is not in the range of [0..1]");
+
+  Quaternion<T> aux;
+  T k0, k1;
+  T cosOmega = QuatDot (q,w);
+  if (cosOmega < 0)
+  {
+    aux = -w;
+    cosOmega = -cosOmega; 
+  }
+  // check if q and w are very close together
+  // to protec against divide-by-zero
+  if (cosOmega > 0.9999)
+  {
+    //use linear interpolation
+    k0 = 1 - t;
+    k1 = t;
+  }
+  else
+  {
+    T sinOmega = std::sqrt(1 - cosOmega*cosOmega);
+    T omega = atan2 (sinOmega, cosOmega);
+    T oneOverSinOmega = 1 / sinOmega;
+    k0 = sin((1 - t) * omega) * oneOverSinOmega;
+    k1 = sin(t * omega) * oneOverSinOmega;
+  }
+  // interpolate
+  aux.w = q.w*k0 + aux.w*k1;
+  aux.v.x = q.v.x*k0 + aux.v.x*k1;
+  aux.v.y = q.v.y*k0 + aux.v.y*k1;
+  aux.v.z = q.v.z*k0 + aux.v.z*k1;
+  return aux; 
+}
+
+
+template <typename T>
+Quaternion<T>
+QuatAngDisp (const Quaternion<T> &q, const Quaternion<T> &w)
+{
+  return QuatInverse(q) * w;
+}
+
+template <typename T>
+Quaternion<T>
+QuatSquad (const Quaternion<T> &q, const Quaternion<T> &w,
+           const Quaternion<T> &z, const Quaternion<T> &x, const T &h)
+{
+  if ( h < 0 || h > 1)
+    HUMMSTRUMM_THROW (OutOfRange,
+      "Interpolation parameter is not in the range of [0..1]");
+
+  return QuatSlerp(QuatSlerp(q,w,h),QuatSlerp(z,x,h),2*h(1-h));
+}
+
+
+
 
 }
 }

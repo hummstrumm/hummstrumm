@@ -34,9 +34,10 @@ namespace engine
 namespace error
 {
 
-OutOfRange::OutOfRange (std::string fileName, unsigned int lineNumber,
-                          std::string text)
-  : Error (fileName, lineNumber, "The program encountered an out of range error.  " + text)
+OutOfRange::OutOfRange (const char *fileName, unsigned int lineNumber,
+                        const char *text)
+  : Error (fileName, lineNumber, text,
+           "The program encountered an out of range error.")
 {}
 
 OutOfRange::~OutOfRange (void) {}

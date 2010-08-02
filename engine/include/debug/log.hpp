@@ -68,10 +68,10 @@ class Log
      */
     enum Level
     {
-      MESSAGE, ///< A normal log message, level one.
-      ERROR,   ///< An error log message, level four.
-      WARNING, ///< A warning log message, level two.
-      SUCCESS, ///< A success log message, level three.
+      LEVEL_MESSAGE, ///< A normal log message, level one.
+      LEVEL_ERROR,   ///< An error log message, level four.
+      LEVEL_WARNING, ///< A warning log message, level two.
+      LEVEL_SUCCESS, ///< A success log message, level three.
     };
 
     /**
@@ -144,10 +144,13 @@ class Log
      * @param text  The message to be written to the log.
      * @param level The level of the message.
      *
-     * @todo Add timestamp.
+     * @todo Make timestamp user-readable/pretty.  This goes along with adding
+     * the schema for log files.
      * @todo Make thread-safe.
      */
-    void Write (hummstrumm::engine::types::String text, Level level) throw ();
+    void Write (hummstrumm::engine::types::String text,
+                Level level = LEVEL_MESSAGE)
+      throw ();
 
   private:
     /**
@@ -180,10 +183,10 @@ class Log
     Level       minimumLevel; ///< The minimum level of log messages.
 };
 
-#define LOG(message, level)                                     \
+#define HUMMSTRUMM_LOG(message, level)                          \
   do {                                                          \
     hummstrumm::engine::debug::Log::GetLog ().Write ((message), \
-      hummstrumm::engine::debug::Log::level);                 \
+	  hummstrumm::engine::debug::Log::LEVEL_##level);           \
   } while (false)
 
 }

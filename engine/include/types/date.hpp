@@ -49,9 +49,25 @@ namespace types
  * @todo This class will eventually be a time class, storing information about
  * a moment in time.
  */
-class Date
+class Date : public hummstrumm::engine::core::Object
 {
+    HUMMSTRUMM_DECLARE_TYPE(Date);
+    
   public:
+    Date (void);
+    virtual ~Date (void);
+
+    const String ToString (void)
+      const throw ();
+    const String Format (void)
+      const throw ();
+    const String Format (const String &format)
+      const throw ();
+
+    const String &GetDayOfTheWeek (void)
+      const throw ();
+    // http://c-faq.com/misc/zeller.html
+    
     /**
      * Returns the system high-resolution timer value.  The frequency of the
      * timer may be found with the GetHighResolutionFrequency() method.
@@ -92,7 +108,14 @@ class Date
       throw ();
 
   private:
-    Date (void) {} // SO NOTHING IS CREATED
+    unsigned char  year;
+    unsigned char  month;
+    unsigned char  day;
+    unsigned char  hour;
+    unsigned char  minute;
+    unsigned char  second;
+    uint32         microsecond;
+    signed   char  timeZoneOffset;
 };
 
 }

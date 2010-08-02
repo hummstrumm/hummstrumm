@@ -96,7 +96,104 @@ class HeapTest : public CppUnit::TestFixture
 
 };
 
+class PoolTest : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE ( PoolTest );
+  CPPUNIT_TEST ( testAllocation );
+  CPPUNIT_TEST ( testFragmentation );
+  CPPUNIT_TEST_SUITE_END ();
+
+  public:
+
+    void setUp () {}
+
+    void tearDown () {}
+
+    void testAllocation ()
+    {
+      Pool<int, 1009> p; // Unless your characters are 1009 bits each, then this
+                         // prime number will not be a multiple of CHAR_BIT.
+      
+      int *a; p.Allocate (&a);
+      int *b; p.Allocate (&b);
+      int *c[65];
+      
+      int i;
+      
+      for (i = 0; i < 65; i++)
+        {
+          p.Allocate (&c[i]);
+        }
+      
+      for (i = 0; i < 65; i++)
+        {
+          p.Free (&c[i]);
+        }
+      
+      p.Free (&b);
+      p.Free (&a);
+    }
+    
+    void testFragmentation ()
+    {
+      Pool<Object, 1009> p; // Unless your characters are 1009 bits each, then this
+                         // prime number will not be a multiple of CHAR_BIT.
+      Object *c[65];
+      
+      int i;
+      
+      for (i = 0; i < 65; i++)
+        {
+          p.Allocate (&c[i]);
+        }
+      
+      for (i = 0; i < 65; i += 2)
+        {
+          p.Free (&c[i]);
+        };
+      
+      for (i = 0; i < 65; i += 2)
+        {
+          p.Allocate (&c[i]);
+        }
+        
+      for (i = 0; i < 65; i++)
+        {
+          p.Free (&c[i]);
+        }
+    }
+
+  private:
+
+};
+
+class TypeTest : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE ( TypeTest );
+  CPPUNIT_TEST ( testConstructor );
+  CPPUNIT_TEST_SUITE_END ();
+
+  public:
+
+    void setUp () {}
+
+    void tearDown () {}
+
+    void testConstructor ()
+    {
+      Type root ("Root", 8, 0, 0);
+      Type d1 ("Derived1", 44, &root, 0);
+      Type d2 ("Derived2", 162, &root, 0);
+      Type gc ("Grandchild", 340, &d1, 0);
+    }
+
+  private:
+
+};
+
 CPPUNIT_TEST_SUITE_REGISTRATION ( HeapTest );
+CPPUNIT_TEST_SUITE_REGISTRATION ( PoolTest );
+CPPUNIT_TEST_SUITE_REGISTRATION ( TypeTest );
 
 int
 main (int argc, char **argv)

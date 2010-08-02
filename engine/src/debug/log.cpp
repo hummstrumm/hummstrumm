@@ -38,10 +38,10 @@ Log::Log (hummstrumm::engine::types::String fileName, bool isXmlMode,
     minimumLevel (minimumLevel),
     logFile (0)
 {
-  if (this->minimumLevel != Log::MESSAGE &&
-      this->minimumLevel != Log::SUCCESS &&
-      this->minimumLevel != Log::WARNING &&
-      this->minimumLevel != Log::ERROR)
+  if (this->minimumLevel != Log::LEVEL_MESSAGE &&
+      this->minimumLevel != Log::LEVEL_SUCCESS &&
+      this->minimumLevel != Log::LEVEL_WARNING &&
+      this->minimumLevel != Log::LEVEL_ERROR)
     {
       std::wcerr << L"An invalid log level was provided.\n";
       return;
@@ -50,6 +50,7 @@ Log::Log (hummstrumm::engine::types::String fileName, bool isXmlMode,
   this->logFile = std::fopen (fileName.ToAscii (), "w");
   if (!this->logFile)
     {
+      std::cout << "Log file name" << fileName.ToAscii() << std::endl;
       std::wcerr << L"The log file could not be opened.\n";
       return;
     }
@@ -115,7 +116,7 @@ Log::GetMinimumLevel (void)
 
 void
 Log::Write (hummstrumm::engine::types::String text,
-            Log::Level level = Log::MESSAGE)
+            Log::Level level)
   throw ()
 {
   if (!logFile)
@@ -128,22 +129,22 @@ Log::Write (hummstrumm::engine::types::String text,
   // Mask the messages by log level.
   switch (this->minimumLevel)
     {
-    case Log::ERROR:
-      if (level != Log::ERROR)
+    case Log::LEVEL_ERROR:
+      if (level != Log::LEVEL_ERROR)
         {
           return;
         }
       break;
       
-    case Log::WARNING:
-      if (level != Log::ERROR || level != Log::WARNING)
+    case Log::LEVEL_WARNING:
+      if (level != Log::LEVEL_ERROR || level != Log::LEVEL_WARNING)
         {
           return;
         }
       break;
       
-    case Log::SUCCESS:
-      if (level == Log::MESSAGE)
+    case Log::LEVEL_SUCCESS:
+      if (level == Log::LEVEL_MESSAGE)
         {
           return;
         }
@@ -153,25 +154,28 @@ Log::Write (hummstrumm::engine::types::String text,
       break;
     }
 
+  // Get the timestamp (TODO: Make this prettier.
+  hummstrumm::engine::types::int64 time (hummstrumm::engine::types::Date::
+                                         GetHighResolutionCount ());
       
   if (!this->IsXmlMode ())
     {
       hummstrumm::engine::types::String mode;
       switch (level)
         {
-        case Log::MESSAGE:
+        case Log::LEVEL_MESSAGE:
           mode = "Message";
           break;
 
-        case Log::ERROR:
+        case Log::LEVEL_ERROR:
           mode = " Error ";
           break;
 
-        case Log::WARNING:
+        case Log::LEVEL_WARNING:
           mode = "Warning";
           break;
 
-        case Log::SUCCESS:
+		case Log::LEVEL_SUCCESS:
           mode = "Success";
           break;
 
@@ -180,26 +184,26 @@ Log::Write (hummstrumm::engine::types::String text,
           return;
         }
       
-      std::fprintf (this->logFile, "[%s]\t%s\n", mode.ToAscii (), text.ToAscii ());
+      std::fprintf (this->logFile, "%lld [%s]\t%s\n", time, mode.ToAscii (), text.ToAscii ());
     }
   else
     {
       hummstrumm::engine::types::String mode;
       switch (level)
         {
-        case Log::MESSAGE:
+        case Log::LEVEL_MESSAGE:
           mode = "message";
           break;
 
-        case Log::ERROR:
+        case Log::LEVEL_ERROR:
           mode = "error";
           break;
 
-        case Log::WARNING:
+        case Log::LEVEL_WARNING:
           mode = "warning";
           break;
 
-        case Log::SUCCESS:
+        case Log::LEVEL_SUCCESS:
           mode = "success";
           break;
 
@@ -208,8 +212,9 @@ Log::Write (hummstrumm::engine::types::String text,
           return;
         }
 
-      std::fprintf (this->logFile, "<item level=\"%s\">%s</item>\n",
-                    mode.ToAscii (), text.ToAscii ());
+      std::fprintf (this->logFile,
+                    "<item level=\"%s\" timestamp=\"%lld\">%s</item>\n",
+                    mode.ToAscii (), time, text.ToAscii ());
     }
 }
 

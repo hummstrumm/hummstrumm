@@ -30,9 +30,10 @@ namespace error
 {
 
 
-OutOfMemory::OutOfMemory (std::string fileName, unsigned int lineNumber,
-                          std::string text)
-  : Error (fileName, lineNumber, "The program has run out of memory.  " + text)
+OutOfMemory::OutOfMemory (const char *fileName, unsigned int lineNumber,
+                          const char *text)
+  : Error (fileName, lineNumber, text,
+           "The program has run out of memory.")
 {}
 
 OutOfMemory::~OutOfMemory (void)

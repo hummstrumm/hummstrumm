@@ -16,13 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
+#include "hummstrummengine.hpp"
+
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  pragma warning(disable:4267)
+#endif // #ifdef HUMMSTRMM_PLATFORM_WINDOWS
 
 #include <cstring>
 #include <wchar.h>
 #include <string>
 #include <sstream>
-
-#include "hummstrummengine.hpp"
 
 namespace hummstrumm
 {
@@ -147,6 +150,8 @@ String::operator= (const String &string)
   this->length = string.length;
   this->string = new wchar_t[this->length + 1];
   wcsncpy (this->string, string.string, this->length + 1);
+
+  return *this;
 }
 
 
@@ -163,6 +168,8 @@ String::operator+= (const String &string)
   delete [] this->string;
   this->string = new wchar_t[this->length + 1];
   wcsncpy (this->string, tempBuffer, this->length + 1);
+
+  return *this;
 }
 
 
@@ -199,7 +206,7 @@ String::GetLength (void)
     
 
 wchar_t &
-String::operator[] (int index)
+String::operator[] (unsigned int index)
   throw ()
 {
   if (index < 0 || index > this->length)
@@ -215,7 +222,7 @@ String::operator[] (int index)
 
 
 wchar_t
-String::operator[] (int index)
+String::operator[] (unsigned int index)
   const throw ()
 {
   if (index < 0 || index > this->length)

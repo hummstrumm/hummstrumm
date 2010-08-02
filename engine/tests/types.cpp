@@ -481,8 +481,124 @@ class StringTest : public CppUnit::TestFixture
 };
 
 
+class CharacterTest : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE ( CharacterTest );
+  CPPUNIT_TEST ( testConstructor );
+  CPPUNIT_TEST ( testAssignment );
+  CPPUNIT_TEST ( testEquality );
+  CPPUNIT_TEST ( testAscii );
+  CPPUNIT_TEST ( testConversions );
+  CPPUNIT_TEST ( testCategories );
+  CPPUNIT_TEST_SUITE_END ();
+
+  public:
+
+    void setUp () {}
+
+    void tearDown () {}
+
+    void testConstructor ()
+    {
+      Character c0;                        // Default constructor
+      Character c1 (c0);                   // Copy constructor
+      Character c2 (L'ぽ');                // Mmhm...it's Hiragana...
+      Character c3 ('a');                  // Latin alphabet
+      char bytes[4] = { (char)232,
+                        (char)135,
+                        (char)187,
+                        (char)0 };
+      Character c4 (bytes);                // Han character 臻
+
+      CPPUNIT_ASSERT ( c0 == '\0' );
+      CPPUNIT_ASSERT ( c1 == c0 );
+      CPPUNIT_ASSERT ( c2 == L'ぽ' );
+      CPPUNIT_ASSERT ( c3 == 'a' );
+      CPPUNIT_ASSERT ( c3 == L'a' );
+      
+#ifndef HUMMSTRUMM_PLATFORM_WINDOWS
+      Character c5 (L'𐏉');                // Old Persian, just in case...
+      Character c6 (L'臻');
+      CPPUNIT_ASSERT ( c5 == L'𐏉');
+      CPPUNIT_ASSERT ( c4 == L'臻');
+#endif // #if HUMMSTRUMM_PLATFORM_WINDOWS
+    }
+
+    void testAssignment ()
+    {
+      Character c1 (L'β');
+      Character c2 (L'c');
+      Character c3 ('a');
+      
+      c1 = c2;
+      CPPUNIT_ASSERT ( c1 == c2 );
+      
+      c1 = c3;
+      CPPUNIT_ASSERT ( c1 == c3 );
+      CPPUNIT_ASSERT ( c1 != c2 );
+      
+      c2 = c3;
+      CPPUNIT_ASSERT ( c1 == c2 );
+      CPPUNIT_ASSERT ( c1 == c3 );
+    }
+
+    void testEquality ()
+    {
+      Character c1 = L'a';
+      Character c2 = 'a';
+      Character c3 = L'ເ';
+      Character c4 = 'f';
+
+      CPPUNIT_ASSERT (c1 == c1);
+      CPPUNIT_ASSERT (c2 == c1);
+      CPPUNIT_ASSERT (c2 != c3);
+      CPPUNIT_ASSERT (c4 == L'f');
+    }
+
+    void testAscii ()
+    {
+      Character c1 = L'4';
+      Character c2 = L'ᤣ';
+      Character c3 = '\0';
+      
+      CPPUNIT_ASSERT (c1.IsAscii ());
+      CPPUNIT_ASSERT (!c2.IsAscii ());
+      CPPUNIT_ASSERT (c3.IsAscii ());
+    }
+  
+    void testConversions ()
+    {
+      Character c1 = L'N';
+      Character c2 = L'𐤇';
+      Character c3 = 'a';
+
+      CPPUNIT_ASSERT (c1.ToChar () == 'N');
+      CPPUNIT_ASSERT (c1.ToWchar_t () == L'N');
+      CPPUNIT_ASSERT (c2.ToWchar_t () == L'𐤇');
+      CPPUNIT_ASSERT (c3.ToChar () == 'a');
+      CPPUNIT_ASSERT (c3.ToWchar_t () == L'a');
+    }
+    
+    void testCategories ()
+    {
+      Character c1 = 'e';
+      Character c2 = ';';
+      Character c3 = 'P';
+      // Maybe add some more later...?
+      
+      CPPUNIT_ASSERT (c1.GetCategory () == Character::Ll);
+      CPPUNIT_ASSERT (c2.GetCategory () == Character::Po);
+      CPPUNIT_ASSERT (c3.GetCategory () == Character::Lu);
+    }
+
+  private:
+
+};
+
+
 CPPUNIT_TEST_SUITE_REGISTRATION ( NumberTest );
 CPPUNIT_TEST_SUITE_REGISTRATION ( StringTest );
+CPPUNIT_TEST_SUITE_REGISTRATION ( CharacterTest );
 
 
 int

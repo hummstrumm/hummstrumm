@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
+#include "hummstrummengine.hpp"
 
 #include <cstddef>
 #include <cstdlib>
@@ -29,31 +30,11 @@
 #include <string>
 #include <sstream>
 
-#include "hummstrummengine.hpp"
-
-using namespace hummstrumm::engine::core;
-
-
-#if defined (WINDOWS)
-// Windows API
-const unsigned int
-GetProcessorCount_hidden_ (void)
-  throw ()
-{
-  SYSTEM_INFO windowsSystemInfo;
-  GetSystemInfo (&windowsSystemInfo);
-
-  return static_cast <unsigned int> (windowsSystemInfo.dwNumberOfProcessors);
-}
-#else
-// Linux only
-const unsigned int
-GetProcessorCount_hidden_ (void)
-  throw ()
-{
-  return static_cast <unsigned int> (sysconf (_SC_NPROCESSORS_ONLN));
-}
-#endif
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  pragma warning(disable:4267)
+#  pragma warning(disable:4290)
+#  pragma warning(disable:4715)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 
 namespace hummstrumm
@@ -63,7 +44,19 @@ namespace engine
 namespace core
 {
 
-Block::Block (Block *previous, Block *next, std::size_t size, Heap *heap)
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#pragma init_seg(lib)
+MasterHeap masterToAll;
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+MasterHeap masterToAll
+  __attribute__ ((init_priority (2000)));
+#endif
+
+
+MasterHeap::Block::Block (Block *previous, Block *next, std::size_t size,
+                          Heap *heap)
 {
       // Fill in all our header values.
   this->previous = previous;
@@ -71,52 +64,54 @@ Block::Block (Block *previous, Block *next, std::size_t size, Heap *heap)
   this->size = size;
   this->heap = heap;
 
+#ifdef HUMMSTRUMM_HEAP_ZERO_MEMORY
   std::memset (this->GetMemory (), size, 0);
+#endif // #ifdef HUMMSTRUMM_HEAP_ZERO_MEMORY
 }
 
-Block::~Block (void)
+MasterHeap::Block::~Block (void)
 {}
 
-Block *
-Block::GetPrevious (void)
+MasterHeap::Block *
+MasterHeap::Block::GetPrevious (void)
   throw ()
 {
   return this->previous;
 }
 
-Block *
-Block::GetNext (void)
+MasterHeap::Block *
+MasterHeap::Block::GetNext (void)
   throw ()
 {
   return this->next;
 }
 
 char *
-Block::GetMemory (void)
+MasterHeap::Block::GetMemory (void)
   throw ()
 {
   return reinterpret_cast <char *> (this + 1);
 }
 
 std::ptrdiff_t
-Block::GetMemoryOffset (void)
+MasterHeap::Block::GetMemoryOffset (void)
   throw ()
 {
   return (static_cast <std::ptrdiff_t> (sizeof (Block)));
 }
 
-Segment::Segment (Segment *previous)
+MasterHeap::Segment::Segment (Segment *previous)
   : previous   (previous),
     next       (0),
     firstBlock (0),
     heap       (0)
 {}
 
-Segment::~Segment (void)
+MasterHeap::Segment::~Segment (void)
 {}
 
 bool
-Segment::Allocate (char **newMemory, const std::size_t size)
+MasterHeap::Segment::Allocate (char **newMemory, const std::size_t size)
   throw (hummstrumm::engine::error::OutOfMemory)
 {
   char *iterator = this->GetMemoryStart ();
@@ -130,8 +125,8 @@ Segment::Allocate (char **newMemory, const std::size_t size)
       std::size_t sizeOfBlock  = size + sizeof (Block);
       if (sizeOfBlock > Segment::SEGMENT_SIZE)
         {
-          THROW (OutOfMemory, "Segments are not large enough to fit a "
-                 "contiguous block of that size.")
+          HUMMSTRUMM_THROW (OutOfMemory, "Segments are not large enough to fit"
+                                         "a contiguous block of that size.")
         }
           // Use the placement new syntax.
       this->firstBlock = new (this->GetMemoryStart ())
@@ -252,7 +247,7 @@ Segment::Allocate (char **newMemory, const std::size_t size)
 }
 
 bool
-Segment::Free (char **oldMemory)
+MasterHeap::Segment::Free (char **oldMemory)
   throw ()
 {
       // We need to find the block address from the memory address.  Instead of
@@ -324,7 +319,7 @@ Segment::Free (char **oldMemory)
 }
 
 bool
-Segment::IsInSegment (Block *block)
+MasterHeap::Segment::IsInSegment (Block *block)
   throw ()
 {
       // If the block exists after the memory start but before the memory
@@ -344,29 +339,29 @@ Segment::IsInSegment (Block *block)
     }
 }
 
-Segment *
-Segment::GetPrevious (void)
+MasterHeap::Segment *
+MasterHeap::Segment::GetPrevious (void)
   throw ()
 {
   return this->previous;
 }
 
-Segment *
-Segment::GetNext (void)
+MasterHeap::Segment *
+MasterHeap::Segment::GetNext (void)
   throw ()
 {
   return this->next;
 }
 
 char *
-Segment::GetMemoryStart (void)
+MasterHeap::Segment::GetMemoryStart (void)
   throw ()
 {
   return this->memory;
 }
 
-Block *
-Segment::GetFirstBlock (void)
+MasterHeap::Block *
+MasterHeap::Segment::GetFirstBlock (void)
   throw ()
 {
   return this->firstBlock;
@@ -374,30 +369,30 @@ Segment::GetFirstBlock (void)
 
 
 void
-Segment::SetNext (Segment *next)
+MasterHeap::Segment::SetNext (Segment *next)
   throw ()
 {
   this->next = next;
 }
 
-Heap::Heap (Segment *head)
+MasterHeap::Heap::Heap (Segment *head)
   : head (head)
 {}
 
-Heap::~Heap (void)
+MasterHeap::Heap::~Heap (void)
 {
   MasterHeap::FreeSegment (this->head);
 }
 
-Segment *
-Heap::GetHeadSegment (void)
+MasterHeap::Segment *
+MasterHeap::Heap::GetHeadSegment (void)
   throw ()
 {
   return this->head;
 }
 
 void
-Heap::Allocate (char **newMemory, std::size_t size)
+MasterHeap::Heap::Allocate (char **newMemory, std::size_t size)
   throw (hummstrumm::engine::error::OutOfMemory)
 {
   Segment *currentSegment = this->head;
@@ -420,7 +415,7 @@ Heap::Allocate (char **newMemory, std::size_t size)
 }
 
 void
-Heap::Free (char **oldMemory)
+MasterHeap::Heap::Free (char **oldMemory)
   throw ()
 {
   std::cout << "Freeing a block...\n";
@@ -451,7 +446,7 @@ Heap::Free (char **oldMemory)
 }
 
 bool
-Heap::IsHeapMemory (const void *const memory)
+MasterHeap::Heap::IsHeapMemory (const void *const memory)
   throw ()
 {
   Block *block; 
@@ -484,7 +479,7 @@ Heap::IsHeapMemory (const void *const memory)
 }
 
 void
-Heap::FreeHelper (char **oldMemory)
+MasterHeap::Heap::FreeHelper (char **oldMemory)
 {
   if (!MasterHeap::GetMasterHeap ().IsHeapMemory (*oldMemory))
     {
@@ -502,14 +497,16 @@ Heap::FreeHelper (char **oldMemory)
     }
   else
     {
-      //LOG (L"Trying to free a corrupt block.", ERROR);
+      HUMMSTRUMM_LOG (L"Trying to free a corrupt block.", ERROR);
     }
 }
 
 MasterHeap::MasterHeap (void)
-  : heaps ((Heap **) std::malloc (sizeof (Heap *) * GetProcessorCount_hidden_ ()))
+  : heaps ((Heap **) std::malloc (sizeof (Heap *) *
+                                  GetNumberOfHeapsInternal ()))
 {
-  for (unsigned int i = 0; i < GetProcessorCount_hidden_ (); i++)
+  
+  for (unsigned int i = 0; i < GetNumberOfHeapsInternal (); i++)
     {
       void *memory = std::malloc (sizeof (Heap));
       heaps[i] = new (memory) Heap (AllocateSegment (0));
@@ -518,7 +515,7 @@ MasterHeap::MasterHeap (void)
 
 MasterHeap::~MasterHeap (void)
 {
-  for (unsigned int i = 0; i < GetProcessorCount_hidden_ (); i++)
+  for (unsigned int i = 0; i < GetNumberOfHeapsInternal (); i++)
     {
       delete heaps[i];
     }
@@ -529,31 +526,29 @@ MasterHeap &
 MasterHeap::GetMasterHeap (void)
   throw ()
 {
-  static MasterHeap masterToAll;
-
   return masterToAll;
 }
 
-Heap *
-MasterHeap::GetHeap (unsigned int processor)
+MasterHeap::Heap *
+MasterHeap::GetHeap (unsigned int index)
   throw ()
 {
-  if (processor > GetProcessorCount_hidden_ ())
+  if (index > GetNumberOfHeapsInternal ())
     {
-      // TODO: ERROR THROW~
-      return 0;
+      HUMMSTRUMM_THROW (OutOfRange, "The heap selected does not exist.");
     }
   else
     {
-      return heaps[processor];
+      return heaps[index];
     }
 }
 
+
 bool
 MasterHeap::IsHeapMemory (char *memory)
-  throw ()
+  const throw ()
 {
-  for (unsigned int i = 0; i < GetProcessorCount_hidden_ (); i++)
+  for (unsigned int i = 0; i < GetNumberOfHeapsInternal (); i++)
     {
       if (heaps[i]->IsHeapMemory (memory))
         {
@@ -568,13 +563,23 @@ MasterHeap::IsHeapMemory (char *memory)
   return false;
 }
 
-Segment *
+
+const hummstrumm::engine::types::Number
+MasterHeap::GetHeapCount (void)
+  const throw ()
+{
+  return hummstrumm::engine::types::Number (GetNumberOfHeapsInternal ());
+}
+
+
+MasterHeap::Segment *
 MasterHeap::AllocateSegment (Segment *previous)
   throw ()
 {
   void *memory = std::malloc (sizeof (Segment));
   return new (memory) Segment (previous);
 }
+
 
 void
 MasterHeap::FreeSegment (Segment *segment)
@@ -592,6 +597,27 @@ MasterHeap::FreeSegment (Segment *segment)
     }
   
   delete segment;
+}
+
+
+const unsigned int
+MasterHeap::GetNumberOfHeapsInternal (void)
+  const throw ()
+{
+  
+  // Windows API
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  SYSTEM_INFO windowsSystemInfo;
+  GetSystemInfo (&windowsSystemInfo);
+
+  return static_cast <unsigned int> (windowsSystemInfo.dwNumberOfProcessors);
+#endif // #ifdef HUMMSTRUM_PLATFORM_WINDOWS
+
+  // Linux only
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+  return static_cast <unsigned int> (sysconf (_SC_NPROCESSORS_ONLN));
+#endif // #ifdef HUMMSTRUM_PLATFORM_GNULINUX
+  
 }
 
 

@@ -28,10 +28,6 @@
 #ifndef HUMMSTRUMM_ENGINE_CORE_POINTER
 #define HUMMSTRUMM_ENGINE_CORE_POINTER
 
-#include <debug/utils.hpp>
-#include <core/type.hpp>
-#include <core/object.hpp>
-
 namespace hummstrumm
 {
 namespace engine
@@ -58,7 +54,7 @@ namespace core
  * ensured by the Object/Type system.  Pointer itself implements the
  * Object/Type system, so you can have a Pointer to a Pointer to an Object.
  *
- * @version 0.1
+ * @version 0.3
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date 2009-07-20
  * @since 0.1
@@ -73,9 +69,9 @@ template <typename T>
 class Pointer : public Object
 {
   private:
-    static Type _type_;
+    static Type type_HIDDEN_;
   public:
-    static Type *GetType (void) throw ();
+    static inline Type *GetType (void) throw ();
   
   public:
     /// The type of object this Pointer can point to.
@@ -113,7 +109,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    ~Pointer<DataType> (void);
+    virtual ~Pointer<DataType> (void);
     
     /**
      * Returns a raw pointer to the Pointer object's Object, or a null pointer
@@ -125,7 +121,7 @@ class Pointer : public Object
      *
      * @return The raw pointer of the Pointer.
      */
-    PointerType GetObjectPointer (void) const throw ();
+    inline PointerType GetObjectPointer (void) const throw ();
     /**
      * Returns a raw pointer to the Pointer object's Object, or a null pointer
      * if the Pointer is null.  This allows the user to access the members of
@@ -137,7 +133,7 @@ class Pointer : public Object
      *
      * @return The raw pointer of the Pointer.
      */
-    PointerType operator-> (void) const throw ();
+    inline PointerType operator-> (void) const throw ();
     
     /**
      * Returns a refence to the Pointer object's Object.  If the pointer is not
@@ -151,7 +147,7 @@ class Pointer : public Object
      *
      * @todo Throw exception.
      */
-    DereferenceType GetObject (void) const;
+    inline DereferenceType GetObject (void) const;
     /**
      * Returns a refence to the Pointer object's Object.  This allows the user
      * to dereference the Pointer as if it were a raw pointer.  If the pointer
@@ -165,7 +161,7 @@ class Pointer : public Object
      *
      * @todo Throw exception.
      */
-    DereferenceType operator* (void) const;
+    inline DereferenceType operator* (void) const;
     
     /**
      * Returns a refence to the Pointer object's Object.  If the pointer is not
@@ -175,7 +171,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    bool IsValid (void) const throw ();
+    inline bool IsValid (void) const throw ();
     
     /**
      * Converts the Pointer of a certain type to another type in a valid
@@ -233,7 +229,7 @@ class Pointer : public Object
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
-    bool operator== (const Pointer<DataType> &pointer) const throw ();
+    inline bool operator== (const Pointer<DataType> &pointer) const throw ();
     /**
      * Checks whether two Pointer objects reference the same Object.  The
      * two Pointer objects must point to the same memory to be the same.
@@ -246,150 +242,13 @@ class Pointer : public Object
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
-    bool IsEqualTo (const Pointer<DataType> &pointer) const throw ();
+    inline bool IsEqualTo (const Pointer<DataType> &pointer) const throw ();
     
   private:
     /// The raw pointer to an Object.
-    PointerType pointer_;
+    PointerType pointer;
 };
 
-// And now the implementation!
-
-template <typename T>
-Type
-Pointer<T>::_type_
-  ("hummstrumm::engine::core::Pointer<T>",
-   sizeof (Pointer<T>),
-   Object::GetType (), 0);
-
-template <typename T>
-Type *
-Pointer<T>::GetType (void) throw ()
-{
-  return &_type_;
-}
-
-
-template <typename T>
-Pointer<T>::Pointer (void)
-  : pointer_ (0),
-    Object ()
-{}
-
-
-template <typename T>
-Pointer<T>::Pointer (T *object)
-  : pointer_ (object),
-    Object ()
-{
-  pointer_->AddReference ();
-}
-
-
-template <typename T>
-Pointer<T>::~Pointer (void)
-{
-  if (pointer_ != 0)
-    {
-      pointer_->DropReference ();
-    }
-}
-
-
-template <typename T>
-T *
-Pointer<T>::GetObjectPointer (void) const throw ()
-{
-  return pointer_;
-}
-
-
-template <typename T>
-T *
-Pointer<T>::operator-> (void) const throw ()
-{
-  return GetObjectPointer ();
-}
-
-
-template <typename T>
-T &
-Pointer<T>::GetObject (void) const
-{
-  ASSERT (IsValid ());
-  
-  return *pointer_;
-}
-
-
-template <typename T>
-T &
-Pointer<T>::operator* (void) const
-{
-  return GetObject ();
-}
-
-
-template <typename T>
-bool
-Pointer<T>::IsValid (void) const throw ()
-{
-  return (pointer_ != 0);
-}
-
-
-template <typename T>
-template <typename NewType>
-Pointer<T>::operator Pointer<NewType> (void) const throw ()
-{
-  return Pointer<NewType>(pointer_);
-}
-
-
-template <typename T>
-const Pointer<T> &
-Pointer<T>::operator= (const Pointer<T> &pointer) throw ()
-{
-  Set (pointer);
-  
-  // For = chaining.
-  return *this;
-}
-
-
-template <typename T>
-void
-Pointer<T>::Set (const Pointer<T> pointer) throw ()
-{
-  // If I'm pointing to something already, the the Object I am pointing to that
-  // it has lost a reference.
-  if (IsValid ())
-    {
-      pointer_->DropReference ();
-    }
-  
-  // Set my pointer.
-  pointer_ = pointer->GetPointer ();
-  
-  // Tell the Object I now point to that it has gotten another reference.
-  pointer_->AddReference ();
-}
-
-    
-template <typename T>
-bool
-Pointer<T>::operator== (const Pointer<T> &pointer) const throw ()
-{
-  return IsEqualTo (pointer);
-}
-
-
-template <typename T>
-bool
-Pointer<T>::IsEqualTo (const Pointer<T> &pointer) const throw ()
-{
-  return (pointer_ == pointer->GetPointer ());
-}
 
 }
 }

@@ -117,7 +117,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT16_MIN  (-32768);
+extern const int16 INT16_MIN;
 /**
  * The maximum value of an int16.
  *
@@ -125,7 +125,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT16_MAX  (+32767);
+extern const int16 INT16_MAX;
 /**
  * The maximum value of an uint16.
  *
@@ -133,7 +133,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define UINT16_MAX (+65535u);
+extern const uint16 UINT16_MAX;
 /**
  * The minimum value of an int32.
  *
@@ -141,7 +141,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT32_MIN  (-2147483648l);
+extern const int32 INT32_MIN;
 /**
  * The maximum value of an int32.
  *
@@ -149,7 +149,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT32_MAX  (+2147483647l);
+extern const int32 INT32_MAX;
 /**
  * The maximum value of an uint32.
  *
@@ -157,7 +157,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define UINT32_MAX (+4294967295ul);
+extern const uint32 UINT32_MAX;
 /**
  * The minimum value of an int64.
  *
@@ -165,7 +165,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT64_MIN  (-9223372036854775808ll);
+extern const int64 INT64_MIN;
 /**
  * The maximum value of an int64.
  *
@@ -173,7 +173,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define INT64_MAX  (+9223372036854775807ll);
+extern const int64 INT64_MAX;
 /**
  * The maximum value of an uint64.
  *
@@ -181,7 +181,7 @@ typedef unsigned __int64 uint64;
  * @date 2010-03-15
  * @since 0.2
  */
-#define UINT64_MAX (+18446744073709551615ull);
+extern const uint64 UINT64_MAX;
 
 
 }

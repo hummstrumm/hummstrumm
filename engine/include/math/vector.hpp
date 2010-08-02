@@ -28,11 +28,7 @@
 #define HUMMSTRUMM_ENGINE_MATH_VECTOR
 
 #include <vector>
-#include <algorithm>
 #include <cmath>
-
-#include <error/outofrange.hpp>
-#include <error/divisionbyzero.hpp>
 
 namespace hummstrumm
 {
@@ -178,7 +174,7 @@ class Vector2D
      * 
      * @return A 2d vector.
      */
-    Vector2D<T> operator * (T s) const;
+    Vector2D<T> operator * (const T &s) const;
 
     /** 
      * Division of this vector with a scalar.
@@ -191,7 +187,7 @@ class Vector2D
      * 
      * @return A 2d vector.
      */
-    Vector2D<T> operator / (T s) const;
+    Vector2D<T> operator / (const T &s) const;
 
     /** 
      * Combined add assigment operator.
@@ -230,7 +226,7 @@ class Vector2D
      * 
      * @return This vector.
      */
-    Vector2D<T> &operator *= (T s);
+    Vector2D<T> &operator *= (const T &s);
 
     /** 
      * Combined division assignment operator.
@@ -243,7 +239,7 @@ class Vector2D
      * 
      * @return This vector.
      */
-    Vector2D<T> &operator /= (T s);
+    Vector2D<T> &operator /= (const T &s);
 
     /** 
      * Normalize this vector.
@@ -409,7 +405,7 @@ class Vector3D
      * 
      * @return A 3d vector.
      */
-    Vector3D<T> operator * (T s) const;
+    Vector3D<T> operator * (const T &s) const;
 
     /** 
      * Division of this vector by a scalar.
@@ -422,7 +418,7 @@ class Vector3D
      * 
      * @return A 3d vector.
      */
-    Vector3D<T> operator / (T s) const;
+    Vector3D<T> operator / (const T &s) const;
 
     /** 
      * Combined add assigment operator.
@@ -461,7 +457,7 @@ class Vector3D
      * 
      * @return This vector.
      */
-    Vector3D<T> &operator *= (T s);
+    Vector3D<T> &operator *= (const T &s);
 
     /** 
      * Combined division assignment operator.
@@ -474,7 +470,7 @@ class Vector3D
      * 
      * @return This vector.
      */
-    Vector3D<T> &operator /= (T s);
+    Vector3D<T> &operator /= (const T &s);
 
     /** 
      * Normalize this vector.
@@ -641,7 +637,7 @@ class Vector4D
      * 
      * @return A 4d vector.
      */
-    Vector4D<T> operator * (T s) const;
+    Vector4D<T> operator * (const T &s) const;
 
     /** 
      * Division of a Vector4D object by a scalar.
@@ -655,7 +651,7 @@ class Vector4D
      * @return A 4d vector.
      *
      */
-    Vector4D<T> operator / (T s) const;
+    Vector4D<T> operator / (const T &s) const;
 
     /** 
      * Combined add assigment operator.
@@ -694,7 +690,7 @@ class Vector4D
      * 
      * @return This vector.
      */
-    Vector4D<T> &operator *= (T s);
+    Vector4D<T> &operator *= (const T &s);
 
     /** 
      * Combined division assignment operator.
@@ -707,7 +703,7 @@ class Vector4D
      * 
      * @return This vector.
      */
-    Vector4D<T> &operator /= (T s);
+    Vector4D<T> &operator /= (const T &s);
 
     /** 
      * Normalize this vector.
@@ -781,17 +777,17 @@ Vector2D<T>::operator - () const
 
 template <typename T>
 Vector2D<T> 
-Vector2D<T>::operator * (T s) const
+Vector2D<T>::operator * (const T &s) const
 {
   return Vector2D<T> (x*s,y*s);
 }
 
 template <typename T>
 Vector2D<T> 
-Vector2D<T>::operator / (T s) const
+Vector2D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
   return Vector2D<T> (x*oneOverS, y*oneOverS);
@@ -815,7 +811,7 @@ Vector2D<T>::operator -= (const Vector2D<T> &v)
 
 template <typename T>
 Vector2D<T> &
-Vector2D<T>::operator *= (T s)
+Vector2D<T>::operator *= (const T &s)
 {
   x *= s; y *= s;
   return *this;
@@ -823,10 +819,10 @@ Vector2D<T>::operator *= (T s)
 
 template <typename T>
 Vector2D<T> &
-Vector2D<T>::operator /= (T s)
+Vector2D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
   x *= oneOverS; y *= oneOverS;
@@ -839,7 +835,7 @@ Vector2D<T>::Normalize ()
 {
   T magSq = Vec2DMagnitude(*this); 
   if (magSq == 0)
-    THROW (DivisionByZero,"Vector magnitude is zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
   x *= oneOverMag;
@@ -901,17 +897,17 @@ Vector3D<T>::operator - () const
 
 template <typename T>
 Vector3D<T> 
-Vector3D<T>::operator * (T s) const
+Vector3D<T>::operator * (const T &s) const
 {
   return Vector3D<T> (x*s,y*s,z*s);
 }
 
 template <typename T>
 Vector3D<T> 
-Vector3D<T>::operator / (T s) const
+Vector3D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
   return Vector3D<T> (x*oneOverS, y*oneOverS, z*oneOverS);
@@ -935,7 +931,7 @@ Vector3D<T>::operator -= (const Vector3D<T> &v)
 
 template <typename T>
 Vector3D<T> &
-Vector3D<T>::operator *= (T s)
+Vector3D<T>::operator *= (const T &s)
 {
   x *= s; y *= s; z *=s;
   return *this;
@@ -943,10 +939,10 @@ Vector3D<T>::operator *= (T s)
 
 template <typename T>
 Vector3D<T> &
-Vector3D<T>::operator /= (T s)
+Vector3D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
   x *= oneOverS; y *= oneOverS; z *= oneOverS;
@@ -959,7 +955,7 @@ Vector3D<T>::Normalize ()
 {
   T magSq = Vec3DMagnitude(*this); 
   if (magSq == 0)
-    THROW (DivisionByZero,"Vector magnitude is zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
   x *= oneOverMag;
@@ -1024,17 +1020,17 @@ Vector4D<T>::operator - () const
 
 template <typename T>
 Vector4D<T> 
-Vector4D<T>::operator * (T s) const
+Vector4D<T>::operator * (const T &s) const
 {
   return Vector4D<T> (x*s,y*s,z*s,w*s);
 }
 
 template <typename T>
 Vector4D<T> 
-Vector4D<T>::operator / (T s) const
+Vector4D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
   return Vector4D<T> (x*oneOverS, 
@@ -1061,7 +1057,7 @@ Vector4D<T>::operator -= (const Vector4D<T> &v)
 
 template <typename T>
 Vector4D<T> &
-Vector4D<T>::operator *= (T s)
+Vector4D<T>::operator *= (const T &s)
 {
   x *= s; y *= s; z *=s; w *=s;
   return *this;
@@ -1069,10 +1065,10 @@ Vector4D<T>::operator *= (T s)
 
 template <typename T>
 Vector4D<T> &
-Vector4D<T>::operator /= (T s)
+Vector4D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
   x *= oneOverS; y *= oneOverS; z *= oneOverS; w *= oneOverS;
@@ -1085,7 +1081,7 @@ Vector4D<T>::Normalize ()
 {
   T magSq = Vec4DMagnitude(*this); 
   if (magSq == 0)
-    THROW (DivisionByZero,"Vector magnitude is zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
   x *= oneOverMag;
@@ -1117,10 +1113,27 @@ Vector4D<T>::Zero ()
  * @param v A 2d vector.
  * 
  * @return The magnitude of vector v.
+ *
  */
 template <typename T> 
 T 
 Vec2DMagnitude (const Vector2D<T> &v);
+
+/** 
+ * Squared magnitude of a vector.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 2d vector.
+ * 
+ * @return The squared magnitude of vector v.
+ *
+ */
+template <typename T> 
+T 
+Vec2DSqMagnitude (const Vector2D<T> &v);
 
 /** 
  * Distance between two vectors. 
@@ -1137,6 +1150,22 @@ Vec2DMagnitude (const Vector2D<T> &v);
 template <typename T>
 T 
 Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w);
+
+/** 
+ * Squared distance between two vectors. 
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 2d vector.
+ * @param w Another 2d vector.
+ * 
+ * @return The squared distance between the vectors.
+ */
+template <typename T>
+T 
+Vec2DSqDistance (const Vector2D<T> &v, const Vector2D<T> &w);
 
 /** 
  * Dot product between two 2d vectors.
@@ -1177,7 +1206,7 @@ Vec2DProjection (const Vector2D<T> &v , const Vector2D<T> &n);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param A 2d vector.
+ * @param v A 2d vector.
  *
  * @return A perpendicular vector.
  */
@@ -1192,7 +1221,7 @@ Vec2DPerpendicular (const Vector2D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  * 
- * @param A 2d vector
+ * @param v A 2d vector
  *
  * @return A perpendicular vector of unit length.
  */
@@ -1211,9 +1240,11 @@ Vec2DUnitPerpendicular (const Vector2D<T> &v);
  * @param v A 2d vector.
  *
  */
+/*
 template <typename T>
 void 
 Orthonormalize2D (std::vector<Vector2D<T> > &v);
+*/
 
 /** 
  * Scalar on the left multiplication, for symmetry.
@@ -1229,7 +1260,7 @@ Orthonormalize2D (std::vector<Vector2D<T> > &v);
  */
 template <typename T>
 Vector2D<T>
-operator * (T k, const Vector2D<T> &v);
+operator * (const T &k, const Vector2D<T> &v);
 
 /** 
  * Magnitude of a vector.
@@ -1245,6 +1276,21 @@ operator * (T k, const Vector2D<T> &v);
 template <typename T> 
 T 
 Vec3DMagnitude (const Vector3D<T> &v);
+
+/** 
+ * Squared Magnitude of a vector.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ * 
+ * @return The squared magnitude of v.
+ */
+template <typename T> 
+T 
+Vec3DSqMagnitude (const Vector3D<T> &v);
 
 /** 
  * Cross product.
@@ -1277,6 +1323,22 @@ Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w);
 template <typename T>
 T 
 Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w);
+
+/** 
+ * Squared distance between two 3d vectors. 
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 3d vector.
+ * @param w Another 3d vector.
+ * 
+ * @return The squared distance between the vectors v and w.
+ */
+template <typename T>
+T 
+Vec3DSqDistance (const Vector3D<T> &v, const Vector3D<T> &w);
 
 /** 
  * Dot product between two 3d vectors.
@@ -1321,9 +1383,11 @@ Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
  * @param v A 3d vector.
  *
  */
+/*
 template <typename T>
 void 
 Orthonormalize3D (std::vector<Vector3D<T> > &v);
+ */
 
 /** 
  * Scalar on the left multiplication, for symmetry.
@@ -1339,7 +1403,7 @@ Orthonormalize3D (std::vector<Vector3D<T> > &v);
  */
 template <typename T>
 Vector3D<T>
-operator * (T k, const Vector3D<T> &v);
+operator * (const T &k, const Vector3D<T> &v);
 
 /** 
  * Magnitude of a 4d vector.
@@ -1357,6 +1421,22 @@ T
 Vec4DMagnitude (const Vector4D<T> &v);
 
 /** 
+ * Squared magnitude of a 4d vector.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 4d vector.
+ * 
+ * @return The squared magnitude of vector v.
+ */
+template <typename T> 
+T 
+Vec4DSqMagnitude (const Vector4D<T> &v);
+
+
+/** 
  * Distance between two 4d vectors. 
  *
  * @author Ricardo Tiago <Rtiago@gmail.com>
@@ -1371,6 +1451,23 @@ Vec4DMagnitude (const Vector4D<T> &v);
 template <typename T>
 T 
 Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k);
+
+/** 
+ * Squared distance between two 4d vectors. 
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-03-28
+ * @since 0.2
+ *
+ * @param v A 4d vector.
+ * @param k Another 4d vector.
+ * 
+ * @return The squared distance between the vectors.
+ */
+template <typename T>
+T 
+Vec4DSqDistance (const Vector4D<T> &v, const Vector4D<T> &k);
+
 
 /** 
  * Dot product between two 4d vectors.
@@ -1414,9 +1511,11 @@ Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
  *
  * @param v A 4d vector.
  */
+/*
 template <typename T>
 void 
 Orthonormalize4D (std::vector<Vector4D<T> > &v);
+ */
 
 /** 
  * Scalar on the left multiplication, for symmetry.
@@ -1432,15 +1531,22 @@ Orthonormalize4D (std::vector<Vector4D<T> > &v);
  */
 template <typename T>
 Vector4D<T>
-operator * (T k, const Vector4D<T> &v);
+operator * (const T &k, const Vector4D<T> &v);
 
 // Non-member implementations
 
-template<typename T> 
+template <typename T> 
 T 
 Vec2DMagnitude (const Vector2D<T> &v)
 {
   return std::sqrt (v.x*v.x + v.y*v.y);
+}
+
+template <typename T> 
+T 
+Vec2DSqMagnitude (const Vector2D<T> &v)
+{
+  return v.x*v.x + v.y*v.y;
 }
 
 template<typename T>
@@ -1450,6 +1556,15 @@ Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w)
   T dx = v.x - w.x;
   T dy = v.y - w.y;
   return std::sqrt (dx*dx + dy*dy);
+}
+
+template<typename T>
+T 
+Vec2DSqDistance (const Vector2D<T> &v, const Vector2D<T> &w)
+{
+  T dx = v.x - w.x;
+  T dy = v.y - w.y;
+  return dx*dx + dy*dy;
 }
 
 template <typename T>
@@ -1465,7 +1580,7 @@ Vec2DProjection (const Vector2D<T> &v, const Vector2D<T> &n)
 {
   T nDotProd = Vec2DDot(n,n);
   if (nDotProd == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   return n * (Vec2DDot(v,n)/nDotProd); 
 }
@@ -1483,18 +1598,18 @@ Vec2DUnitPerpendicular (const Vector2D<T> &v)
 {
   T vMag = Vec2DMagnitude(v);
   if (vMag == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   return Vec2DPerpendicular(v)/vMag;
 }
 
-
+/*
 template <typename T>
 void 
 Orthonormalize2D (std::vector<Vector2D<T> > &v)
 {
   if (v.size() > 2)
-    THROW (OutOfRange,"Cannot Orthonormalize more than 2 vectors");
+    HUMMSTRUMM_THROW (OutOfRange,"Cannot Orthonormalize more than 2 vectors");
 
   typename std::vector<Vector2D<T> >::iterator itForward;
   typename std::vector<Vector2D<T> >::iterator itReverse;
@@ -1509,10 +1624,11 @@ Orthonormalize2D (std::vector<Vector2D<T> > &v)
     *itForward = *itForward/Vec2DMagnitude(*itForward);
   }
 }
+*/
 
 template <typename T>
 Vector2D<T>
-operator * (T k, const Vector2D<T> &v)
+operator * (const T &k, const Vector2D<T> &v)
 {
   return Vector2D<T> (k*v.x,k*v.y);
 }
@@ -1522,6 +1638,13 @@ T
 Vec3DMagnitude (const Vector3D<T> &v)
 {
   return std::sqrt (v.x*v.x  + v.y*v.y + v.z*v.z);
+}
+
+template<typename T> 
+T 
+Vec3DSqMagnitude (const Vector3D<T> &v)
+{
+  return v.x*v.x  + v.y*v.y + v.z*v.z;
 }
 
 template<typename T>
@@ -1543,6 +1666,16 @@ Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w)
   return std::sqrt (dx*dx + dy*dy + dz*dz);
 }
 
+template<typename T>
+T 
+Vec3DSqDistance (const Vector3D<T> &v, const Vector3D<T> &w)
+{
+  T dx = v.x - w.x;
+  T dy = v.y - w.y;
+  T dz = v.z - w.z;
+  return dx*dx + dy*dy + dz*dz;
+}
+
 template <typename T>
 T 
 Vec3DDot (const Vector3D<T> &v, const Vector3D<T> &w)
@@ -1556,17 +1689,18 @@ Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n)
 {
   T nDotProd = Vec3DDot(n,n);
   if (nDotProd == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   return n * (Vec3DDot(v,n)/nDotProd);   
 }
 
+/*
 template <typename T>
 void 
 Orthonormalize3D (std::vector<Vector3D<T> > &v)
 {
   if (v.size() > 3)
-    THROW (OutOfRange,"Cannot Orthonormalize more than 3 vectors");
+    HUMMSTRUMM_THROW (OutOfRange,"Cannot Orthonormalize more than 3 vectors");
 
   typename std::vector<Vector3D<T> >::iterator itForward;
   typename std::vector<Vector3D<T> >::iterator itReverse;
@@ -1581,10 +1715,11 @@ Orthonormalize3D (std::vector<Vector3D<T> > &v)
     *itForward = *itForward/Vec3DMagnitude(*itForward);
   }
 }
+*/
 
 template <typename T>
 Vector3D<T>
-operator * (T k, const Vector3D<T> &v)
+operator * (const T &k, const Vector3D<T> &v)
 {
   return Vector3D<T> (k*v.x,k*v.y,k*v.z);
 }
@@ -1596,6 +1731,13 @@ Vec4DMagnitude (const Vector4D<T> &v)
   return std::sqrt (v.x*v.x + v.y*v.y + v.z*v.z + v.w*v.w);
 }
 
+template<typename T> 
+T 
+Vec4DSqMagnitude (const Vector4D<T> &v)
+{
+  return v.x*v.x + v.y*v.y + v.z*v.z + v.w*v.w;
+}
+
 template<typename T>
 T 
 Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k)
@@ -1605,6 +1747,17 @@ Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k)
   T dz = v.z - k.z;
   T dw = v.w - k.w;
   return std::sqrt (dx*dx + dy*dy + dw*dw);
+}
+
+template<typename T>
+T 
+Vec4DSqDistance (const Vector4D<T> &v, const Vector4D<T> &k)
+{
+  T dx = v.x - k.x;
+  T dy = v.y - k.y;
+  T dz = v.z - k.z;
+  T dw = v.w - k.w;
+  return dx*dx + dy*dy + dw*dw;
 }
 
 template <typename T>
@@ -1621,17 +1774,17 @@ Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n)
 {
   T nDotProd = Vec4DDot(n,n);
   if (nDotProd == 0)
-    THROW (DivisionByZero,"Vector division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   return n * (Vec4DDot(v,n)/nDotProd); 
 }
-
+/*
 template <typename T>
 void 
 Orthonormalize4D (std::vector<Vector4D<T> > &v)
 {
   if (v.size() > 4)
-    THROW (OutOfRange,"Cannot Orthonormalize more than 4 vectors");
+    HUMMSTRUMM_THROW (OutOfRange,"Cannot Orthonormalize more than 4 vectors");
 
   typename std::vector<Vector4D<T> >::iterator itForward;
   typename std::vector<Vector4D<T> >::iterator itReverse;
@@ -1646,10 +1799,11 @@ Orthonormalize4D (std::vector<Vector4D<T> > &v)
     *itForward = *itForward/Vec4DMagnitude(*itForward);
   }
 }
+*/
 
 template <typename T>
 Vector4D<T>
-operator * (T k, const Vector4D<T> &v)
+operator * (const T &k, const Vector4D<T> &v)
 {
   return Vector4D<T> (k*v.x,k*v.y,k*v.z,k*v.w);
 }
