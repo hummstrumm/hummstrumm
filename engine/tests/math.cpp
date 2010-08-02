@@ -785,7 +785,7 @@ class VectorTest : public CppUnit::TestFixture
   CPPUNIT_TEST ( testNormalize );
   CPPUNIT_TEST ( testPerpendicular );
   CPPUNIT_TEST ( testUnitPerpendicular );
-  CPPUNIT_TEST ( testOrthonormalize );
+  //CPPUNIT_TEST ( testOrthonormalize );
   CPPUNIT_TEST ( testDotProduct );
   CPPUNIT_TEST_SUITE_END ();
 
@@ -937,7 +937,7 @@ class VectorTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedX, v2_2.x , 0.0001 );
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedY, v2_2.y , 0.0001 );
     }
-
+/*
     void testOrthonormalize ()
     {
       std::vector <Vector4D<float> > v4;
@@ -1007,6 +1007,7 @@ class VectorTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, Vec4DDot(v4_2,v4_3), 0.01);
 
     }
+*/
 
     void testDotProduct ()
     {

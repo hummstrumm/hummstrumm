@@ -117,15 +117,15 @@ class Plane3D
              const Vector3D<T> &norm);
 
     /**
-     * Copy constructo.
+     * Copy constructor.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param A plane.
+     * @param p A plane.
      */
-    Plane3D (const Plane3D &p): normal(p.normal), d(p.d) {}
+    Plane3D (const Plane3D<T> &p): normal(p.normal), d(p.d) {}
 
     /**
      * Destructs a plane.
@@ -144,11 +144,11 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param A plane.
+     * @param p A plane.
      *
      * @return This plane.
      */
-    Plane3D<T> &operator = (const Plane3D &p);
+    Plane3D<T> &operator = (const Plane3D<T> &p);
 
      /**
      * Compare if two plane3D object are equal.
@@ -157,11 +157,11 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param A plane.
+     * @param p A plane.
      *
      * @return Whether the planes are equal.
      */
-    bool operator == (const Plane3D &p);
+    bool operator == (const Plane3D<T> &p) const;
 
      /**
      * Inequality operator.
@@ -170,11 +170,11 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param A plane.
+     * @param p A plane.
      *
      * @return Whether the planes are different.
      */
-    bool operator != (const Plane3D &p);
+    bool operator != (const Plane3D<T> &p) const;
 
     /**
      * Normalize the plane equation.
@@ -220,14 +220,14 @@ Plane3D<T>::operator = (const Plane3D<T> &p)
 
 template <typename T>
 bool
-Plane3D<T>::operator == (const Plane3D<T> &p)
+Plane3D<T>::operator == (const Plane3D<T> &p) const
 {
   return d == p.v && normal == p.normal;
 }
 
 template <typename T>
 bool
-Plane3D<T>::operator != (const Plane3D<T> &p)
+Plane3D<T>::operator != (const Plane3D<T> &p) const
 {
   return d != p.v || normal != p.normal;
 }

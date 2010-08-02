@@ -33,6 +33,7 @@ set (hummstrummengine_SRCS
   src/types/string.cpp
   src/system/endian.cpp
   src/math/vector.cpp
+  src/renderer/windowX11.cpp
   src/types/inttypes.cpp)
 set (hummstrummengine_INCLUDE include/)
 set (CMAKE_C_FLAGS_DEBUG "-Wall -g -ggdb")

@@ -122,6 +122,12 @@ template <typename T>
 class Segment3D;
 template <typename T>
 class Segment2D;
+template <typename T>
+class AABBox3D;
+template <typename T>
+class AABBox2D;
+template <typename T>
+class BSphere3D;
 }
 
 /**
@@ -186,6 +192,14 @@ namespace containers {}
  */
 namespace streams {}
 
+/**
+ * The namespace for the renderer system.
+ */
+namespace renderer
+{
+class WindowSystem;
+class WindowX11;
+}
 }
 
 }
@@ -210,11 +224,15 @@ namespace streams {}
 #  include <hummstrummengine/debug/log.hpp>
 #  include <hummstrummengine/debug/profiler.hpp>
 #  include <hummstrummengine/geometry/plane.hpp>
+#  include <hummstrummengine/geometry/geomutils.hpp>
 #  include <hummstrummengine/geometry/segment.hpp>
-#  include <hummstrummengine/geometry/boundingBox.hpp>
+#  include <hummstrummengine/geometry/boundingbox.hpp>
+#  include <hummstrummengine/geometry/boundingsphere.hpp>
 #  include <hummstrummengine/math/vector.hpp>
 #  include <hummstrummengine/math/matrice.hpp>
 #  include <hummstrummengine/math/quaternion.hpp>
+#  include <hummstrummengine/renderer/windowSystem.hpp>
+#  include <hummstrummengine/renderer/windowX11.hpp>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "config.h"
 #  include "types/inttypes.hpp"
@@ -235,12 +253,17 @@ namespace streams {}
 #  include "types/string.hpp"
 #  include "debug/log.hpp"
 #  include "debug/profiler.hpp"
-#  include "geometry/plane.hpp"
-#  include "geometry/segment.hpp"
-#  include "geometry/boundingBox.hpp"
+#  include "math/mathutils.hpp"
 #  include "math/vector.hpp"
 #  include "math/matrice.hpp"
 #  include "math/quaternion.hpp"
+#  include "geometry/geomutils.hpp"
+#  include "geometry/plane.hpp"
+#  include "geometry/segment.hpp"
+#  include "geometry/boundingbox.hpp"
+#  include "geometry/boundingsphere.hpp"
+#  include "renderer/windowSystem.hpp"
+#  include "renderer/windowX11.hpp"
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

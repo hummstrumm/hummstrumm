@@ -48,7 +48,7 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
   message += this->debugName;
   message += L"'' started.";
 
-  std::cout << startTime << std::endl;
+//  std::cout << startTime << std::endl;
 
   // Log it.
   LOG (message, MESSAGE);

@@ -98,9 +98,29 @@ class SegmentTest : public CppUnit::TestFixture
     }
 };
 
+class BoundingSphereTest : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE ( BoundingSphereTest );
+  CPPUNIT_TEST ( testConstructor );
+  CPPUNIT_TEST_SUITE_END ();
+
+  public:
+    void setUp () {}
+
+    void tearDown () {}
+
+
+    void testConstructor ()
+    {
+
+
+    }
+};
+
 
 CPPUNIT_TEST_SUITE_REGISTRATION ( PlaneTest );
 CPPUNIT_TEST_SUITE_REGISTRATION ( SegmentTest );
+CPPUNIT_TEST_SUITE_REGISTRATION ( BoundingSphereTest );
 
 int
 main (int argc, char **argv)

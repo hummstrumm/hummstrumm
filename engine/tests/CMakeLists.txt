@@ -51,3 +51,14 @@ target_link_libraries(test_engine_geometry hummstrummengine cppunit)
 
 add_test (NAME test_engine_geometry COMMAND test_engine_geometry)
 
+#add_executable(test_engine_sqrt sqrt.cpp)
+#target_link_libraries(test_engine_sqrt hummstrummengine rt)
+
+#add_test (NAME test_engine_sqrt COMMAND test_engine_sqrt)
+
+add_executable(test_engine_window window.cpp)
+target_link_libraries(test_engine_window hummstrummengine X11)
+
+add_test (NAME test_engine_window COMMAND test_engine_window)
+
+

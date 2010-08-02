@@ -72,7 +72,7 @@ class Quaternion
      * @param w The scalar component w.
      * @param vx The x component of vector.
      * @param vy The y component of vector.
-     * @param vw The w component of vector.
+     * @param vz The z component of vector.
      */
     Quaternion (const T &w, const T &vx, const T  &vy, const T &vz)
       : w(w), v(vx, vy, vz) {}
@@ -751,7 +751,7 @@ QuatSlerp (const Quaternion<T> &q, const Quaternion<T> &w, const T &t);
 template <typename T>
 Quaternion<T>
 QuatSquad (const Quaternion<T> &q, const Quaternion<T> &w,
-           const Quaternion<T> &z, const Quaternion<T> &x, const T h);
+           const Quaternion<T> &z, const Quaternion<T> &x, const T &h);
 
 
 // non-member functions implementation
@@ -884,7 +884,7 @@ QuatAngDisp (const Quaternion<T> &q, const Quaternion<T> &w)
 template <typename T>
 Quaternion<T>
 QuatSquad (const Quaternion<T> &q, const Quaternion<T> &w,
-           const Quaternion<T> &z, const Quaternion<T> &x, const T h)
+           const Quaternion<T> &z, const Quaternion<T> &x, const T &h)
 {
   if ( h < 0 || h > 1)
     THROW (OutOfRange, "Interpolation parameter is not in the range of [0..1]");
