@@ -28,9 +28,6 @@
 #ifndef HUMMSTRUMM_ENGINE_ERROR_UNICODE
 #define HUMMSTRUMM_ENGINE_ERROR_UNICODE
 
-#include <string>
-#include "error.hpp"
-
 namespace hummstrumm
 {
 namespace engine

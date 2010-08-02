@@ -30,7 +30,7 @@ namespace renderer
 WindowX11::WindowX11()
 {
   if ((dpy = XOpenDisplay(NULL)) == NULL)
-    THROW (Error, "Unable to open a connection to the X server.");
+    HUMMSTRUMM_THROW (Generic, "Unable to open a connection to the X server.");
   screen = XDefaultScreen(dpy);
   root = XRootWindow(dpy,screen);
   depth = XDefaultDepth(dpy,screen);

@@ -31,10 +31,12 @@
  *   met: http://www.gnu.org/copyleft/gpl.html.
 */
 #define HUMMSTRUMM_ENGINE_SOURCE
-
 #include "hummstrummengine.hpp"
 
-#include <iconv.h>
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#  include <iconv.h>
+#endif // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+
 #include <cstdlib>
 #include <cstring>
 #include <cerrno>
@@ -89,23 +91,23 @@ Character::Character (const char asciiCharacter)
         {
           // This means we have an incomplete sequence.  Shouldn't actually
           // happen.
-          LOG (L"The input character was invalid.", ERROR);
+          HUMMSTRUMM_LOG (L"The input character was invalid.", ERROR);
         }
       else if (errno == EILSEQ)
         {
           // We have as invalid character sequence.
-          LOG (L"The input character was invalid.", ERROR);
+          HUMMSTRUMM_LOG (L"The input character was invalid.", ERROR);
         }
       else if (errno == E2BIG)
         {
           // We ran out of space in the buffer.  Actually, this *should*
           // happen.  Nothing doing.
-          LOG (L"There was not enough space for the UTF-8 sequence.", ERROR);
+          HUMMSTRUMM_LOG (L"There was not enough space for the UTF-8 sequence.", ERROR);
         }
       else
         {
           // I don't know what just happened.
-          LOG (L"Unknown error.", ERROR);
+          HUMMSTRUMM_LOG (L"Unknown error.", ERROR);
         }
     }
   iconv_close (characterDescriptor);
@@ -137,23 +139,23 @@ Character::Character (const wchar_t unicodeCharacter)
         {
           // This means we have an incomplete sequence.  Shouldn't actually
           // happen.
-          LOG (L"The input character was invalid.", ERROR);
+          HUMMSTRUMM_LOG (L"The input character was invalid.", ERROR);
         }
       else if (errno == EILSEQ)
         {
           // We have as invalid character sequence.
-          LOG (L"The input character was invalid.", ERROR);
+          HUMMSTRUMM_LOG (L"The input character was invalid.", ERROR);
         }
       else if (errno == E2BIG)
         {
           // We ran out of space in the buffer.  Actually, this *should*
           // happen.  Nothing doing.
-          LOG (L"There was not enough space for the UTF-8 sequence.", ERROR);
+          HUMMSTRUMM_LOG (L"There was not enough space for the UTF-8 sequence.", ERROR);
         }
       else
         {
           // I don't know what just happened.
-          LOG (L"Unknown error.", ERROR);
+          HUMMSTRUMM_LOG (L"Unknown error.", ERROR);
         }
     }
   iconv_close (characterDescriptor);
@@ -179,7 +181,9 @@ Character::Character (const wchar_t unicodeCharacter)
                        &unicodeCharacter,
                        1,
                        this->utf8Data,
-                       sizeof this->utf8Data);
+                       sizeof this->utf8Data,
+                       0,
+                       0);
 }
 
 #endif // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
@@ -206,6 +210,7 @@ Character::operator= (const Character &character)
   throw ()
 {
   std::memcpy (this->utf8Data, character.utf8Data, 4);
+  return *this;
 }
 
 
@@ -220,7 +225,7 @@ bool
 Character::operator!= (const Character &character)
   const throw ()
 {
-  return std::memcmp (this->utf8Data, character.utf8Data, 4);
+  return (std::memcmp (this->utf8Data, character.utf8Data, 4) == 0 ? 0 : 1);
 }
 
 
@@ -256,7 +261,7 @@ Character::GetSequenceLength (void)
     }
   else
     {
-      THROW (Unicode, "The character was malformatted.");
+      HUMMSTRUMM_THROW (Unicode, "The character was malformatted.");
     }
 }
   
@@ -288,12 +293,12 @@ Character::ToChar (void)
         {
           // This means we have an incomplete sequence.  Shouldn't actually
           // happen.
-          THROW (Unicode, "The input character was invalid.");
+          HUMMSTRUMM_THROW (Unicode, "The input character was invalid.");
         }
       else if (errno == EILSEQ)
         {
           // We have as invalid character sequence.
-          THROW (Unicode, "The input character was invalid.");
+          HUMMSTRUMM_THROW (Unicode, "The input character was invalid.");
         }
       else if (errno == E2BIG)
         {
@@ -303,7 +308,7 @@ Character::ToChar (void)
       else
         {
           // I don't know what just happened.
-          THROW (Unicode, "Unknown error.");
+          HUMMSTRUMM_THROW (Unicode, "Unknown error.");
         }
     }
   iconv_close (characterDescriptor);
@@ -336,12 +341,12 @@ Character::ToWchar_t (void)
         {
           // This means we have an incomplete sequence.  Shouldn't actually
           // happen.
-          THROW (Unicode, "The input character was invalid.");
+          HUMMSTRUMM_THROW (Unicode, "The input character was invalid.");
         }
       else if (errno == EILSEQ)
         {
           // We have as invalid character sequence.
-          THROW (Unicode, "The input character was invalid.");
+          HUMMSTRUMM_THROW (Unicode, "The input character was invalid.");
         }
       else if (errno == E2BIG)
         {
@@ -351,7 +356,7 @@ Character::ToWchar_t (void)
       else
         {
           // I don't know what just happened.
-          THROW (Unicode, "Unknown error.");
+          HUMMSTRUMM_THROW (Unicode, "Unknown error.");
         }
     }
   iconv_close (characterDescriptor);
@@ -390,13 +395,13 @@ Character::GetCodePoint (void)
 #else // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 
 char
-Character::GetChar (void)
+Character::ToChar (void)
   const throw (hummstrumm::engine::error::Unicode)
 {
   // I guess I just have to only return the first byte...
   if (GetSequenceLength () != 1)
     {
-      THROW (Unicode, "The character will not fit in a C char variable.");
+      HUMMSTRUMM_THROW (Unicode, "The character will not fit in a C char variable.");
     }
   else
     {
@@ -405,7 +410,7 @@ Character::GetChar (void)
 }
 
 wchar_t
-Character::GetWchar_t (void)
+Character::ToWchar_t (void)
   const throw (hummstrumm::engine::error::Unicode)
 {
   wchar_t outBuffer;
@@ -458,7 +463,7 @@ Character::GetCodePoint (void)
 
       if ((c1 & 0xC0) != 0x80)
         {
-          THROW (Unicode, "The character was malformatted.");
+          HUMMSTRUMM_THROW (Unicode, "The character was malformatted.");
         }
     }
 
@@ -468,7 +473,7 @@ Character::GetCodePoint (void)
       c1 = this->utf8Data[0];
       if (!IS_IN_RANGE (c1, 0xC2, 0xDF))
         {
-          THROW (Unicode, "The character was malformatted.");
+          HUMMSTRUMM_THROW (Unicode, "The character was malformatted.");
         }
       break;
       
@@ -479,7 +484,7 @@ Character::GetCodePoint (void)
           ((c1 == 0xED) && !IS_IN_RANGE (c2, 0x80, 0x9F)) ||
           (!IS_IN_RANGE (c1, 0xE1, 0xEC) && !IS_IN_RANGE (c1, 0xEE, 0xEF)))
         {
-          THROW (Unicode, "The character was malformatted.");
+          HUMMSTRUMM_THROW (Unicode, "The character was malformatted.");
         }
       break;
 
@@ -490,7 +495,7 @@ Character::GetCodePoint (void)
           ((c1 == 0xF4) && !IS_IN_RANGE (c2, 0x80, 0x8F)) ||
           !IS_IN_RANGE (c1, 0xF1, 0xF3))
         {
-          THROW (Unicode, "The character was malformatted.");
+          HUMMSTRUMM_THROW (Unicode, "The character was malformatted.");
         }
       break;
     }

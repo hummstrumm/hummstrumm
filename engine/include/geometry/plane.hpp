@@ -238,7 +238,7 @@ Plane3D<T>::Normalize ()
 {
   T normalMag = Vec3DMagnitude(normal);
   if (normalMag == 0)
-    THROW (DivisionByZero,"Plane division by zero.");
+    HUMMSTRUMM_THROW (DivisionByZero,"Plane division by zero.");
 
   normal /= normalMag;
   d /= normalMag;

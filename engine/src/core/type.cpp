@@ -16,10 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
+#include "hummstrummengine.hpp"
 
 #include <cstring>
-
-#include "hummstrummengine.hpp"
 
 namespace hummstrumm
 {
@@ -28,75 +27,82 @@ namespace engine
 namespace core
 {
 
-Type::Type (const hummstrumm::engine::types::String name,
+Type::Type (const hummstrumm::engine::types::String &name,
             std::size_t size,
             const Type *parent,
-            hummstrumm::engine::core::ObjectPtr (*createFunction) (void))
-  : name_ (new char [name.GetLength ().ToInteger () + 1]),
-    size_ (size),
-    parent_ (parent),
-    createFunction_ (createFunction)
+            Object::Ptr (*createFunction) (void))
+  : name (new char [name.GetLength ().ToInteger () + 1]),
+    size (size),
+    parent (parent),
+    createFunction (createFunction)
 {
   // Copy into the internal buffer and be sure to NUL terminate it.
-  std::strcpy (name_, name.ToAscii ());
-  name_[name.GetLength ().ToInteger ()] = '\0';
+  std::strcpy (this->name, name.ToAscii ());
+  this->name[name.GetLength ().ToInteger ()] = '\0';
 }
 
 
 Type::~Type (void)
 {
   // Free up the buffer.
-  delete name_;
+  delete this->name;
 }
     
 
 const hummstrumm::engine::types::String
-Type::GetName (void) const throw ()
+Type::GetName (void)
+  const throw ()
 {
-  return hummstrumm::engine::types::String (name_);
+  return hummstrumm::engine::types::String (this->name);
 }
 
 
 std::size_t
-Type::GetSize (void) const throw ()
+Type::GetSize (void)
+  const throw ()
 {
-  return size_;
+  return this->size;
 }
 
 
 const Type *
-Type::GetParent (void) const throw ()
+Type::GetParent (void)
+  const throw ()
 {
-  return parent_;
+  return this->parent;
 }
     
 
 bool
-Type::IsRoot (void) const throw ()
+Type::IsRoot (void)
+  const throw ()
 {
   // If we don't have a parent, we are at the root of the tree.  This should
   // only happen for hummstrumm::engine::core::Object in our engine, but for the
   // sake of facilitating others using this code, we don't check.
-  return (parent_ == 0);
+  return (this->parent == 0);
 }
 
 bool
-Type::IsParentClassOf (const Type *type) const throw ()
+Type::IsParentClassOf (const Type *type)
+  const throw ()
 {
   return type->IsChildClassOf (this);
 }
 
 
 bool
-Type::IsChildClassOf (const Type *type) const throw ()
+Type::IsChildClassOf (const Type *type)
+  const throw ()
 {
   // Direct descendant.
-  return (*parent_ == *type);
+  return (*this->parent == *type);
 }
 
 
 bool
-Type::IsDerivedFrom (const Type *type) const throw ()
+Type::IsDerivedFrom (const Type *type)
+  const throw ()
 {
   return type->IsBaseOf (this);
 }
@@ -104,7 +110,8 @@ Type::IsDerivedFrom (const Type *type) const throw ()
 
 
 bool
-Type::IsBaseOf (const Type *type) const throw ()
+Type::IsBaseOf (const Type *type)
+  const throw ()
 {
   // If other type has no parents (through recursion or otherwise), this is
   // the end of the recursion chain, and return false all the way down.
@@ -130,14 +137,14 @@ Type::IsBaseOf (const Type *type) const throw ()
 bool
 Type::IsEqualTo (const Type &type) const throw ()
 {
-  return ((size_ == type.GetSize ()) &&
-          (*parent_ == *(type.GetParent ())) &&
+  return ((this->size == type.GetSize ()) &&
+          (*this->parent == *(type.GetParent ())) &&
           (GetName () == type.GetName ()));
 }
 
 
 bool
-Type::IsEqualTo (const hummstrumm::engine::types::String name) const throw ()
+Type::IsEqualTo (const hummstrumm::engine::types::String &name) const throw ()
 {
   // Maybe if we have a type registry then I could check everything
   return (GetName () == name);
@@ -158,13 +165,13 @@ Type::operator== (const hummstrumm::engine::types::String name) const throw ()
 }
 
 
-ObjectPtr
+Object::Ptr
 Type::Create (void) const throw ()
 {
   // Creates a new Object with a creation function for the Object.
-  if (createFunction_)
+  if (this->createFunction)
     {
-      return createFunction_ ();
+      return this->createFunction ();
     }
   else
     {

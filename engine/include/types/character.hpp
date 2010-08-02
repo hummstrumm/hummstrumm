@@ -237,7 +237,7 @@ class Character : public hummstrumm::engine::core::Object
      * @return The standard wchar_t value of the UTF-8 character, if one such
      * exists.
      */
-    wchar_t ToWchar_t(void)
+    wchar_t ToWchar_t (void)
       const throw (hummstrumm::engine::error::Unicode);
 
     /**

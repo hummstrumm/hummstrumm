@@ -17,18 +17,16 @@
  */
 
 /**
- * Defines the OutOfMemory exception class.
+ * Defines the InvalidParam exception class.
  *
- * @file   outofmemory.hpp
+ * @file   invalidparam.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-01-03
- * @see    OutOfMemory
+ * @date   2010-07-26
+ * @see    InvalidParam
  */
 
-#ifndef HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
-#define HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
-
-#include "error.hpp"
+#ifndef HUMMSTRUMM_ENGINE_ERROR_INVALIDPARAM
+#define HUMMSTRUMM_ENGINE_ERROR_INVALIDPARAM
 
 namespace hummstrumm
 {
@@ -38,41 +36,40 @@ namespace error
 {
 
 /**
- * The error for when an operation could not be completed due to an insufficient
- * amount of memory available.
+ * The error for receiving a generic invalid parameter.
  *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-31
- * @since 0.1
+ * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date 2010-07-26
+ * @since 0.3
  */
-class OutOfMemory : public Error
+class InvalidParam : public Error
 {
   public:
     /**
-     * Constructs an OutOfMemory object to be thrown to an error handler.
+     * Constructs an InvalidParam object to be thrown to an error handler.
      *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-07-26
+     * @since 0.3
      *
      * @param fileName [in] The name of the file in which the error occured.
      * @param lineNumber [in] The line of the file in which the error occured.
      * @param text [in] A human readable description of the error.
      */
-    OutOfMemory (const char *fileName, unsigned int lineNumber,
-                 const char *text = "");
+    InvalidParam (const char *fileName, unsigned int lineNumber,
+                  const char *text = "");
     /**
-     * Destructs an OutOfMemory object.
+     * Destructs an InvalidParam object.
      *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-07-26
+     * @since 0.3
      */
-    virtual ~OutOfMemory (void);
+    virtual ~InvalidParam(void);
 };
 
 }
 }
 }
 
-#endif // #ifndef HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
+#endif // #ifndef HUMMSTRUMM_ENGINE_ERROR_INVALIDPARAM

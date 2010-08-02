@@ -17,18 +17,16 @@
  */
 
 /**
- * Defines the OutOfMemory exception class.
+ * Defines the MemoryCorruption exception class.
  *
- * @file   outofmemory.hpp
+ * @file   memorycorruption.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-01-03
- * @see    OutOfMemory
+ * @date   2010-07-25
+ * @see    MemoryCorruption
  */
 
-#ifndef HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
-#define HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
-
-#include "error.hpp"
+#ifndef HUMMSTRUMM_ENGINE_ERROR_MEMORYCORRUPTION
+#define HUMMSTRUMM_ENGINE_ERROR_MEMORYCORRUPTION
 
 namespace hummstrumm
 {
@@ -37,42 +35,42 @@ namespace engine
 namespace error
 {
 
-/**
- * The error for when an operation could not be completed due to an insufficient
- * amount of memory available.
+/** 
+ * The error for when a block of memory in use by the becomes corrupt, and the
+ * program can no longer use it.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-31
- * @since 0.1
+ * @date 2010-07-25
+ * @since 0.3
  */
-class OutOfMemory : public Error
+class MemoryCorruption : public Error
 {
   public:
     /**
-     * Constructs an OutOfMemory object to be thrown to an error handler.
+     * Constructs a MemoryCorruption object to be thrown to an error handler.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date 2010-07-25
+     * @since 0.3
      *
      * @param fileName [in] The name of the file in which the error occured.
      * @param lineNumber [in] The line of the file in which the error occured.
      * @param text [in] A human readable description of the error.
      */
-    OutOfMemory (const char *fileName, unsigned int lineNumber,
-                 const char *text = "");
+    MemoryCorruption (const char *fileName, unsigned int lineNumber,
+                      const char *text = "");
     /**
-     * Destructs an OutOfMemory object.
+     * Destructs a MemoryCorruption object.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date 2010-07-25
+     * @since 0.3
      */
-    virtual ~OutOfMemory (void);
+    virtual ~MemoryCorruption (void);
 };
 
 }
 }
 }
 
-#endif // #ifndef HUMMSTRUMM_ENGINE_ERROR_OUTOFMEMORY
+#endif // #ifndef HUMMSTRUMM_ENGINE_ERROR_MEMORYCORRUPTION

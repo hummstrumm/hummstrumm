@@ -54,7 +54,7 @@ set(CPACK_PACKAGE_EXECUTABLES "hummstrumm" "Humm and Strumm")
 include(CPack)
 
 set (HUMMSTRUMM_VERSION "Humm and Strumm, version 0.2")
-set (HUMMSTRUMM_VERSION_NUMBER "0.2")
+set (HUMMSTRUMM_VERSION_NUMBER "0.3")
 
 if (WIN32)
   set (HUMMSTRUMM_PLATFORM_WINDOWS ON)
@@ -103,11 +103,19 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
   set (HUMMSTRUMM_LOG_FILENAME  /var/log/hummstrumm CACHE STRING
        "The file name of the log.")
 else (HUMMSTRUMM_PLATFORM_GNULINUX)
-  set (HUMMSTRUMM_LOG_FILENAME %APPDATA%\hummstrumm\log.txt CACHE STRING
+  set (HUMMSTRUMM_LOG_FILENAME %APPDATA%/hummstrumm/log.txt CACHE STRING
        "The file name of the log.")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 set (HUMMSTRUMM_LOG_XMLMODE  ON      CACHE BOOL "Whether to log in XML.")
-set (HUMMSTRUMM_LOG_LOGLEVEL MESSAGE CACHE STRING "The minimum level of messages.")
+set (HUMMSTRUMM_LOG_LOGLEVEL MESSAGE CACHE STRING
+     "The minimum level of messages.")
+
+
+# Memory Management
+set (HUMMSTRUMM_HEAP_ZERO_MEMORY
+     ON CACHE BOOL
+     "Whether to zero allocated memory.")
+
 
 # System Aspects
 include (TestBigEndian)
@@ -169,6 +177,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR
 set (HUMMSTRUMM_DEBUG ON)
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug" OR
       CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+set (HUMMSTRUMM_ENABLE_PRINTDEBUG ON CACHE BOOL
+       "Whether to enable PrintDebug() and LogDebug() methods.")
 
 configure_file (${CMAKE_SOURCE_DIR}/config.h.in
                 ${CMAKE_SOURCE_DIR}/engine/include/config.h @ONLY)

@@ -139,6 +139,8 @@ namespace core
 class Object;
 class Type;
 class Heap;
+template <typename T, unsigned int SIZE>
+class Pool;
 template <typename T>
 class Pointer;
 }
@@ -154,6 +156,8 @@ class OutOfMemory;
 class OutOfRange;
 class DivisionByZero;
 class Unicode;
+class MemoryCorruption;
+class InvalidParam;
 }
 
 /**
@@ -184,7 +188,11 @@ class Number;
  * data structure classes, iterator types, concept maps for the data
  * structures, and generic algorithms that work on data structures.
  */
-namespace containers {}
+namespace containers
+{
+template <typename T>
+class List;
+}
 
 /**
  * The namespace for input/output streams.  This namespace contains memory,
@@ -205,16 +213,32 @@ class WindowX11;
 }
 #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include <hummstrummengine/config.h>
+#else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+#  include "config.h"
+#endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  define _CRT_SECURE_NO_WARNINGS
+#  define NOMINMAX
+#  pragma warning(push)
+#  pragma warning(disable:4290)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+
+#ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include <hummstrummengine/types/inttypes.hpp>
 #  include <hummstrummengine/debug/utils.hpp>
 #  include <hummstrummengine/error/error.hpp>
+#  include <hummstrummengine/error/generic.hpp>
 #  include <hummstrummengine/error/outofmemory.hpp>
 #  include <hummstrummengine/error/outofrange.hpp>
 #  include <hummstrummengine/error/divisionbyzero.hpp>
 #  include <hummstrummengine/error/unicode.hpp>
+#  include <hummstrummengine/error/memorycorruption.hpp>
+#  include <hummstrummengine/error/invalidparam.hpp>
 #  include <hummstrummengine/core/heap.hpp>
-#  include <hummstrummengine/core/type.hpp>
+#  include <hummstrummengine/core/pool.hpp>
 #  include <hummstrummengine/core/object.hpp>
+#  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/core/pointer.hpp>
 #  include <hummstrummengine/system/endian.hpp>
 #  include <hummstrummengine/types/date.hpp>
@@ -233,18 +257,26 @@ class WindowX11;
 #  include <hummstrummengine/math/quaternion.hpp>
 #  include <hummstrummengine/renderer/windowSystem.hpp>
 #  include <hummstrummengine/renderer/windowX11.hpp>
+#  include <hummstrummengine/containers/list.hpp>
+// Template and Inline implementations now...
+#  include <hummstrummengine/core/pointer.inl>
+#  include <hummstrummengine/core/pool.inl>
+#  include <hummstrummengine/containers/list.inl>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
-#  include "config.h"
 #  include "types/inttypes.hpp"
 #  include "debug/utils.hpp"
 #  include "error/error.hpp"
+#  include "error/generic.hpp"
 #  include "error/outofmemory.hpp"
 #  include "error/outofrange.hpp"
 #  include "error/divisionbyzero.hpp"
 #  include "error/unicode.hpp"
+#  include "error/memorycorruption.hpp"
+#  include "error/invalidparam.hpp"
 #  include "core/heap.hpp"
-#  include "core/type.hpp"
+#  include "core/pool.hpp"
 #  include "core/object.hpp"
+#  include "core/type.hpp"
 #  include "core/pointer.hpp"
 #  include "system/endian.hpp"
 #  include "types/date.hpp"
@@ -264,6 +296,18 @@ class WindowX11;
 #  include "geometry/boundingsphere.hpp"
 #  include "renderer/windowSystem.hpp"
 #  include "renderer/windowX11.hpp"
+#  include "containers/list.hpp"
+// Template and Inline implementations now...
+#  include "core/pointer.inl"
+#  include "core/pool.inl"
+#  include "containers/list.inl"
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  pragma warning(pop)
+#  ifdef HUMMSTRUMM_ENGINE_SOURCE
+#    pragma warning(disable:4290)
+#  endif // #ifdef HUMMSTRUMM_ENGINE_SOURCE
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

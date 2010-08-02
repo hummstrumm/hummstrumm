@@ -27,9 +27,6 @@
 #ifndef HUMMSTRUMM_ENGINE_ERROR_DIVISIONBYZERO
 #define HUMMSTRUMM_ENGINE_ERROR_DIVISIONBYZERO
 
-#include <string>
-#include "error.hpp"
-
 namespace hummstrumm
 {
 namespace engine
@@ -38,24 +35,12 @@ namespace error
 {
 
 /**
- * Contains error related information that is thrown in an exception.  Error
- * allows an error description to be passed back to the application error
- * handler.
+ * The error for divisions or modulo operations in which the divisor of the
+ * expression is 0.
  *
- * In addition, a human readable error message can be made from the information
- * that the Error class contains.  This message can be then saved to a log,
- * outputted to the terminal, or displayed in a message box.
- *
- * Error uses information obtained automatically from the THROW macro, such as
- * the file name and line number from which the error was thrown.  Though you
- * can use the standard C++ throw mechanism,  it is recomended that you use the
- * THROW macro to aid in this.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-31
- * @since 0.1
- *
- * @see THROW
+ * @author Ricardo Tiag <RTiago@gmail.com>
+ * @date 2010-05-28
+ * @since 0.2
  */
 
 class DivisionByZero: public Error

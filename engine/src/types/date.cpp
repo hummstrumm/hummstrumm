@@ -36,6 +36,14 @@ namespace types
 {
 
 
+Date::Date (void)
+{}
+
+Date::~Date (void)
+{}
+
+
+
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 int64
@@ -47,7 +55,7 @@ Date::GetHighResolutionCount (void)
   // Get the timer's value.
   QueryPerformanceCounter (&time);
 
-  return static_cast<int64> (time);
+  return static_cast<int64> (time.QuadPart);
 }
 
 int64
@@ -59,7 +67,7 @@ Date::GetHighResolutionFrequency (void)
   // Get the frequency.
   QueryPerformanceFrequency (&frequency);
 
-  return static_cast<int64> (frequency);
+  return static_cast<int64> (frequency.QuadPart);
 }
 
 #endif
@@ -74,8 +82,8 @@ Date::GetHighResolutionCount (void)
   // Get the timer's value.
   clock_gettime (CLOCK_MONOTONIC, &ts);
 
-  return static_cast <int64> (ts.tv_sec * 1000000000 +
-                                     ts.tv_nsec);
+  return static_cast<int64> (ts.tv_sec * 1000000000 +
+                             ts.tv_nsec);
 }
 
 int64

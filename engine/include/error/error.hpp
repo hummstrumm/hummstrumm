@@ -55,7 +55,7 @@ namespace error
  * @date 2010-01-31
  * @since 0.1
  *
- * @see THROW
+ * @see HUMMSTRUMM_THROW
  */
 class Error
 {
@@ -165,7 +165,7 @@ class Error
  *
  * @see Error
  */
-#define THROW(exceptionName, text) \
+#define HUMMSTRUMM_THROW(exceptionName, text) \
   throw hummstrumm::engine::error::exceptionName (__FILE__, \
                                                   __LINE__, \
                                                   text);

@@ -23,7 +23,11 @@
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
+#include <algorithm>
 
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  pragma warning(disable:4244)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 namespace hummstrumm
 {
@@ -51,7 +55,7 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
 //  std::cout << startTime << std::endl;
 
   // Log it.
-  LOG (message, MESSAGE);
+  HUMMSTRUMM_LOG (message, MESSAGE);
 }
 
 void
@@ -108,7 +112,7 @@ Profiler::Iterate (void)
       // throw something...
     }
 
-  this->lowestTime = std::min (this->lowestTime, time);
+  this->lowestTime = std::min<long> (this->lowestTime, time);
   this->averageTime = ((this->averageTime * this->numberOfRuns) + time) /
     (this->numberOfRuns + 1);
   this->numberOfRuns += 1;
@@ -133,7 +137,7 @@ Profiler::~Profiler (void)
   message << this->averageTime;
 
   // Write it out.
-  LOG (message.str ().c_str (), MESSAGE);
+  HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);
 }
 
 

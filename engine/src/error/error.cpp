@@ -16,12 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
+#include "hummstrummengine.hpp"
 
 #include <cstring>
 #include <cstdlib>
 #include <sstream>
-
-#include "hummstrummengine.hpp"
 
 namespace hummstrumm
 {

@@ -136,7 +136,7 @@ class Profiler
  *
  * @see Profiler
  */
-#define PROFILE(debugName, reportIn)                                    \
+#define HUMMSTRUMM_PROFILE(debugName, reportIn)                         \
   hummstrumm::engine::debug::Profiler profiler__HIDDEN__ ((debugName),  \
                                                           (reportIn))
 
@@ -148,10 +148,10 @@ class Profiler
  * @date   2010-06-14
  * @since  0.3
  *
- * @see PROFILE()
+ * @see HUMMSTRUMM_PROFILE()
  */
-#define PROFILE_ITERATION()           \
-  profiler__HIDDEN__.Iterate ()       \
+#define HUMMSTRUMM_PROFILE_ITERATION() \
+  profiler__HIDDEN__.Iterate ()        \
 
 }
 }

@@ -594,7 +594,7 @@ Vector3D<T>
 AABBox3D<T>::GetCorner(unsigned short i) const
 {
   if (i < 0 || i > 7)
-    THROW (OutOfRange,"Corner out of range\n");
+    HUMMSTRUMM_THROW (OutOfRange,"Corner out of range\n");
 
   return Vector3D<T>(
     (i & 1) ? bmax.x : bmin.x,
@@ -693,7 +693,7 @@ Vector2D<T>
 AABBox2D<T>::GetCorner(unsigned short i) const
 {
   if (i < 0 || i > 3)
-    THROW (OutOfRange,"Corner out of range\n");
+    HUMMSTRUMM_THROW (OutOfRange,"Corner out of range\n");
 
   return Vector2D<T>(
     (i & 1) ? bmax.x : bmin.x,

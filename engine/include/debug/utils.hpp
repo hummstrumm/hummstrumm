@@ -42,21 +42,21 @@
  *
  * This is only available in a debug build.
  *
- * @def    ABORT()
+ * @def    HUMMSTRUMM_ABORT()
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
  */
 #ifdef HUMMSTRUMM_DEBUG
 
-#define ABORT()                                 \
+#define HUMMSTRUMM_ABORT()                      \
   do {                                          \
     abort ();                                   \
-  } while (true)
+  } while (false)
 
 #else // #ifdef HUMMSTRUMM_DEBUG
 
-#define ABORT()
+#define HUMMSTRUMM_ABORT()
 
 #endif // #ifdef HUMMSTRUMM_DEBUG
 
@@ -67,7 +67,7 @@
  *
  * This is only available in a debug build.
  *
- * @def    BREAK()
+ * @def    HUMMSTRUMM_BREAK()
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
@@ -75,23 +75,23 @@
 #ifdef HUMMSTRUMM_DEBUG
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 
-#define BREAK()                                 \
+#define HUMMSTRUMM_BREAK()                      \
   do {                                          \
     raise (SIGINT);                             \
-  } while (true)
+  } while (false)
 
 #else
 
-#define BREAK()                                 \
+#define HUMMSTRUMM_BREAK()                      \
   do {                                          \
     DebugBreak ();                              \
-  } while (true)
+  } while (false)
 
 #endif
 
 #else // #ifdef HUMMSTRUMM_DEBUG
 
-#define BREAK()
+#define HUMMSTRUMM_BREAK()
 
 #endif // #ifdef HUMMSTRUMM_DEBUG
 
@@ -102,14 +102,14 @@
  *
  * This is only available in a debug build.
  *
- * @def    ERROR()
+ * @def    HUMMSTRUMM_ERROR()
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
  */
 #ifdef HUMMSTRUMM_DEBUG
 
-#define ERROR()                                             \
+#define HUMMSTRUMM_ERROR()                                  \
   do {                                                      \
     std::wcerr << L"An error has occured in the program.  " \
                << L"Press A to abort, B to break into the " \
@@ -118,20 +118,20 @@
       {                                                     \
       case 'A':                                             \
       case 'a':                                             \
-        ABORT ();                                           \
+        HUMMSTRUMM_ABORT ();                                \
         break;                                              \
       case 'B':                                             \
       case 'b':                                             \
-        BREAK ();                                           \
+        HUMMSTRUMM_BREAK ();                                \
         break;                                              \
       default:                                              \
         break;                                              \
       }                                                     \
-  } while (true)
+  } while (false)
 
 #else // #ifdef HUMMSTRUMM_DEBUG
 
-#define ERROR()
+#define HUMMSTRUMM_ERROR()
 
 #endif // #ifdef HUMMSTRUMM_DEBUG
 
@@ -141,23 +141,47 @@
  *
  * This is only available in a debug build.
  *
- * @def    ASSERT(mustBeTrue)
+ * @def    HUMMSTRUMM_ASSERT(mustBeTrue)
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
  */
 #ifdef HUMMSTRUMM_DEBUG
 
-#define ASSERT(mustBeTrue)                      \
+#define HUMMSTRUMM_ASSERT(mustBeTrue)           \
   do {                                          \
     if (!mustBeTrue) {                          \
-      ERROR();                                  \
+      HUMMSTRUMM_ERROR();                       \
     }                                           \
-  } while (true)
+  } while (false)
 
 #else // #ifdef HUMMSTRUMM_DEBUG
 
-#define ASSERT(mustBeTrue)
+#define HUMMSTRUMM_ASSERT(mustBeTrue)
+
+#endif // #ifdef HUMMSTRUMM_DEBUG
+
+/**
+ * Prints a warning to the screen and to the logs.
+ *
+ * This is only available in a debug build.
+ *
+ * @def    HUMMSTRUMM_WARNING(text)
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-07-26
+ * @since  0.3
+ */
+#ifdef HUMMSTRUMM_DEBUG
+
+#define HUMMSTRUMM_WARNING(text)                                               \
+  do {                                                                         \
+    HUMMSTRUMM_LOG(text, WARNING);                                             \
+    std::cerr << "WARNING: " << text << "\n";                                  \
+  } while (false)
+
+#else // #ifdef HUMMSTRUMM_DEBUG
+
+#define HUMMSTRUMM_WARNING(text)
 
 #endif // #ifdef HUMMSTRUMM_DEBUG
 

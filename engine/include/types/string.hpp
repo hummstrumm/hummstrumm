@@ -212,7 +212,7 @@ class String : public hummstrumm::engine::core::Object
      *
      * @todo Throw an exception on an invalid index.
      */
-    wchar_t &operator[] (int index) throw ();
+    wchar_t &operator[] (unsigned int index) throw ();
     /**
      * Get the character at a certain position.
      *
@@ -224,7 +224,7 @@ class String : public hummstrumm::engine::core::Object
      *
      * @todo Throw an exception on an invalid index.
      */
-    wchar_t operator[] (int index) const throw ();
+    wchar_t operator[] (unsigned int index) const throw ();
     
     /**
      * Return the Unicode string buffer.

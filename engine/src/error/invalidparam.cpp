@@ -16,29 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
+
 #include "hummstrummengine.hpp"
-
-
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-#  pragma warning(disable: 4146)
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 namespace hummstrumm
 {
 namespace engine
 {
-namespace types
+namespace error
 {
 
-const int16 INT16_MIN  (-32768);
-const int16 INT16_MAX  (+32767);
-const uint16 UINT16_MAX (+65535u);
-const int32 INT32_MIN  (-2147483648l);
-const int32 INT32_MAX  (+2147483647l);
-const uint32 UINT32_MAX (+4294967295ul);
-const int64 INT64_MIN  (-9223372036854775807ll-1); // GCC warnings without this.
-const int64 INT64_MAX  (+9223372036854775807ll);
-const uint64 UINT64_MAX (+18446744073709551615ull);
+
+InvalidParam::InvalidParam (const char *fileName, unsigned int lineNumber,
+                            const char *text)
+  : Error (fileName, lineNumber, text,
+           "An invalid argument was passed to a method.")
+{}
+
+InvalidParam::~InvalidParam (void)
+{}
+
 
 }
 }
