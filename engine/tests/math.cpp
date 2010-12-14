@@ -228,9 +228,9 @@ class MatricesTest : public CppUnit::TestFixture
                              -1, -2, -3);
 
       Matrix4D <float> m4_2 (   2,      3,     4,      5,
-                             -0.01,   0.5,  3.24,     -3,
-                              -1.4, -20.1,  -300, -41.23,
-                                 0,  -678, -1.02,    -10  );
+                             -0.01f,   0.5f,  3.24f,     -3,
+                              -1.4f, -20.1f,  -300, -41.23f,
+                                 0,  -678, -1.02f,    -10  );
 
       CPPUNIT_ASSERT_EQUAL ( m2_2[0].x,  2.0f );
       CPPUNIT_ASSERT_EQUAL ( m2_2[0].y,  3.0f );
@@ -271,15 +271,15 @@ class MatricesTest : public CppUnit::TestFixture
       Vector3D <float> v3_1 ( 6, 7, 8);
       Vector3D <float> v3_2 ( 9, 0, -1);
 
-      Vector3D <float> v3_3 ( -10, -0.01, -0.1);
+      Vector3D <float> v3_3 ( -10, -0.01f, -0.1f);
 
       Matrix3D <float> m3_3 ( v3_1, v3_2, v3_3);
 
-      Vector4D <float> v4_1 ( 6, 7, 8, -1.3);
-      Vector4D <float> v4_2 ( 9, 0,-1, -3.1);
+      Vector4D <float> v4_1 ( 6, 7, 8, -1.3f);
+      Vector4D <float> v4_2 ( 9, 0,-1, -3.1f);
 
-      Vector4D <float> v4_3 ( -10, -0.01, -0.1, -4.2);
-      Vector4D <float> v4_4 (-0.1,  -134, -1.9, -5.5);
+      Vector4D <float> v4_3 ( -10, -0.01f, -0.1f, -4.2f);
+      Vector4D <float> v4_4 (-0.1f,  -134, -1.9f, -5.5f);
 
       Matrix4D <float> m4_3 ( v4_1, v4_2, v4_3, v4_4);
 
@@ -524,15 +524,15 @@ class MatricesTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT_EQUAL ( -321.0f, m3_0[2].y );
       CPPUNIT_ASSERT_EQUAL (  939.0f, m3_0[2].z );
 
-      Matrix4D <float> m4_4 (3, 4, -1, -0.5,
+      Matrix4D <float> m4_4 (3, 4, -1, -0.5f,
                             -5, 3,  2,    2,
                              3, 6,  7,    4,
                              7, 0,  0,    8);
 
-      Matrix4D <float> m4_5 ( 0.035,  -0.133,   0.043,  0.014, 
-                              0.181,   0.092,   0.000, -0.012,
-                             -0.153,  -0.089,   0.146, -0.061,
-                             -0.031,   0.117,  -0.038,  0.113);
+      Matrix4D <float> m4_5 ( 0.035f,  -0.133f,   0.043f,  0.014f, 
+                              0.181f,   0.092f,   0.000f, -0.012f,
+                             -0.153f,  -0.089f,   0.146f, -0.061f,
+                             -0.031f,   0.117f,  -0.038f,  0.113f);
 
       Matrix4D <float> m4_6;
       m4_6 = m4_4*m4_5;
@@ -631,7 +631,7 @@ class MatricesTest : public CppUnit::TestFixture
 
     void testInverse()
     {
-      Matrix2D <float> m2_3 (0.455, 0.364, -0.091, -0.273);
+      Matrix2D <float> m2_3 (0.455f, 0.364f, -0.091f, -0.273f);
       Matrix2D <float> m2_4 (3, 4, -1, -5);
       Matrix2D <float> m2_4Inv;
 
@@ -639,20 +639,20 @@ class MatricesTest : public CppUnit::TestFixture
                             -5, 3,  2,
                              3, 6,  7);
 
-      Matrix3D <float> m3_5 ( 0.039,  -0.148,   0.048, 
-                              0.178,   0.104,  -0.004,
-                             -0.170,  -0.026,   0.126);
+      Matrix3D <float> m3_5 ( 0.039f,  -0.148f,   0.048f, 
+                              0.178f,   0.104f,  -0.004f,
+                             -0.170f,  -0.026f,   0.126f);
       Matrix3D <float> m3_4Inv;
 
-      Matrix4D <float> m4_4 (3, 4, -1, -0.5,
+      Matrix4D <float> m4_4 (3, 4, -1, -0.5f,
                             -5, 3,  2,    2,
                              3, 6,  7,    4,
                              7, 0,  0,    8);
 
-      Matrix4D <float> m4_5 ( 0.035,  -0.133,   0.043,  0.014, 
-                              0.181,   0.092,   0.000, -0.012,
-                             -0.153,  -0.089,   0.146, -0.061,
-                             -0.031,   0.117,  -0.038,  0.113);
+      Matrix4D <float> m4_5 ( 0.035f,  -0.133f,   0.043f,  0.014f, 
+                              0.181f,   0.092f,   0.000f, -0.012f,
+                             -0.153f,  -0.089f,   0.146f, -0.061f,
+                             -0.031f,   0.117f,  -0.038f,  0.113f);
       Matrix4D <float> m4_4Inv;
 
 

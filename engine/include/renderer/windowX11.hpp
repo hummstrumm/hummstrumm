@@ -19,7 +19,7 @@
 /**
  * Defines a X11 window.
  *
- * @file    windowSystem.hpp
+ * @file    renderer/windowSystem.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-07-24
  */

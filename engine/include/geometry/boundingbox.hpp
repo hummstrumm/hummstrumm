@@ -20,7 +20,7 @@
  * Defines and implements an Axially Aligned Bounding Box in 2D and 
  * 3D space.
  *
- * @file    boundingbox.hpp
+ * @file    geometry/boundingbox.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  *

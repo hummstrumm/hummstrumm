@@ -19,7 +19,7 @@
 /**
  * Mathematical constants and some fast math functions.
  *
- * @file    mathutils.hpp
+ * @file    math/mathutils.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-06-10
  */

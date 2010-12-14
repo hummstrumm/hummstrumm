@@ -21,7 +21,7 @@
  * This class cannot be instantiated and will be implemented by specific
  * windows systems.
  *
- * @file    windowSystem.hpp
+ * @file    renderer/windowSystem.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-07-24
  */

@@ -31,14 +31,14 @@ Type::Type (const hummstrumm::engine::types::String &name,
             std::size_t size,
             const Type *parent,
             Object::Ptr (*createFunction) (void))
-  : name (new char [name.GetLength ().ToInteger () + 1]),
+  : name (new char [name.length () + 1]),
     size (size),
     parent (parent),
     createFunction (createFunction)
 {
   // Copy into the internal buffer and be sure to NUL terminate it.
-  std::strcpy (this->name, name.ToAscii ());
-  this->name[name.GetLength ().ToInteger ()] = '\0';
+  std::strcpy (this->name, name.c_str ());
+  this->name[name.length ()] = '\0';
 }
 
 

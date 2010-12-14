@@ -19,7 +19,7 @@
 /**
  * Geometry utility functions.
  *
- * @file    geomutils.hpp
+ * @file    geometry/geomutils.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  */

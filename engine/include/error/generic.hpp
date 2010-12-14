@@ -19,7 +19,7 @@
 /**
  * Defines the Unicode exception class.
  *
- * @file   generic.hpp
+ * @file   error/generic.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-08-02
  * @see    Generic
@@ -49,15 +49,16 @@ class Generic : public Error
      * Constructs a Generic object to be thrown to an error handler.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-06-02
+     * @date 2010-11-22
      * @since 0.3
      *
      * @param fileName [in] The name of the file in which the error occured.
      * @param lineNumber [in] The line of the file in which the error occured.
+     * @param function [in] The name of the function in which the error occured.
      * @param text [in] A human readable description of the error.
      */
     Generic (const char *fileName, unsigned int lineNumber,
-             const char *text = "");
+             const char *function, const char *text = "");
     /**
      * Destructs a Generic object.
      *

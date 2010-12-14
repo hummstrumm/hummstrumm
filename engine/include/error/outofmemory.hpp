@@ -19,7 +19,7 @@
 /**
  * Defines the OutOfMemory exception class.
  *
- * @file   outofmemory.hpp
+ * @file   error/outofmemory.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-01-03
  * @see    OutOfMemory
@@ -52,15 +52,16 @@ class OutOfMemory : public Error
      * Constructs an OutOfMemory object to be thrown to an error handler.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
+     * @date 2010-11-22
      * @since 0.1
      *
      * @param fileName [in] The name of the file in which the error occured.
      * @param lineNumber [in] The line of the file in which the error occured.
+     * @param function [in] The name of the function in which the error occured.
      * @param text [in] A human readable description of the error.
      */
     OutOfMemory (const char *fileName, unsigned int lineNumber,
-                 const char *text = "");
+                 const char *function, const char *text = "");
     /**
      * Destructs an OutOfMemory object.
      *

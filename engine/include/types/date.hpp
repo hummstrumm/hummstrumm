@@ -19,7 +19,7 @@
 /**
  * Defines the Date class.
  *
- * @file   date.hpp
+ * @file   types/date.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-13
  * @see    Date

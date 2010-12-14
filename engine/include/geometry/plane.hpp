@@ -19,7 +19,7 @@
 /**
  * Class(es) to represent a plane. 
  *
- * @file    plane.hpp
+ * @file    geometry/plane.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  *

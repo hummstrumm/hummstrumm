@@ -19,7 +19,7 @@
 /** 
  * Defines and implements classes for square matrices.
  *
- * @file    matrice.hpp
+ * @file    math/matrice.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  * @see     Vector2D
@@ -1430,6 +1430,8 @@ Matrix4D<T>::operator = (const Matrix4D<T> &m)
   mat4[1] = m[1];
   mat4[2] = m[2];
   mat4[3] = m[3];
+
+  return *this;
 }
 
 template <typename T>

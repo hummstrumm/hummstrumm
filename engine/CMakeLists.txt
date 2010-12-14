@@ -16,6 +16,7 @@
 
 add_subdirectory (tests/)
 
+# Common Source Files
 set (hummstrummengine_SRCS
   src/debug/log.cpp
   src/debug/profiler.cpp
@@ -27,22 +28,60 @@ set (hummstrummengine_SRCS
   src/error/unicode.cpp
   src/error/memorycorruption.cpp
   src/error/invalidparam.cpp
+  src/error/iterator.cpp
   src/core/type.cpp
   src/core/object.cpp
-  src/core/heap.cpp
+  src/core/allocationtable.cpp
+  src/core/engine.cpp
   src/types/date.cpp
-  src/types/character.cpp
+#  src/types/character.cpp
   src/types/number.cpp
-  src/types/string.cpp
-  src/system/endian.cpp
+#  src/types/string.cpp
+  src/system/endianness.cpp
   src/math/vector.cpp
-  src/renderer/windowX11.cpp
   src/types/inttypes.cpp)
+
+# Windows-Only Source Files
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
-  set (hummstrummengine_SRCS
-    ${hummstrummengine_SRCS}
-    src/core/object-win64.asm)
+  list (APPEND hummstrummengine_SRCS
+        src/system/windows/processors.cpp
+        src/system/windows/memory.cpp
+        src/system/windows/platform.cpp
+        src/system/windows/clock.cpp)
+  # enable_language (ASM_MASM)
+  # list (APPEND hummstrummengine_SRCS
+  #      src/core/object-win64.asm)
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
+
+# GNU-only Source Files
+if (HUMMSTRUMM_PLATFORM_GNULINUX)
+  list (APPEND hummstrummengine_SRCS
+        src/system/gnulinux/processors.cpp
+        src/system/gnulinux/memory.cpp
+        src/system/gnulinux/platform.cpp
+        src/system/gnulinux/clock.cpp)
+endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+
+if (HUMMSTRUMM_PLATFORM_BSD)
+  list (APPEND hummstrummengine_SRCS
+        src/system/bsd/processors.cpp
+        src/system/bsd/memory.cpp
+        src/system/bsd/platform.cpp
+        src/system/bsd/clock.cpp)
+endif (HUMMSTRUMM_PLATFORM_BSD)
+
+
+# Windows-only Window System Files
+if (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+#  list (APPEND hummstrummengine_SRCS
+#        src/renderer/windowWindows.cpp) # Or whatever.
+endif (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+
+# X11-only Window System Files
+if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  list (APPEND hummstrummengine_SRCS
+        src/renderer/windowX11.cpp)
+endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
 set (hummstrummengine_INCLUDE include/)
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
@@ -53,10 +92,14 @@ include_directories (${hummstrummengine_INCLUDE})
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 
 # Add documentation generation
-include (UseDoxygen OPTIONAL)
-
 if (HUMMSTRUMM_BUILD_DOCS)
-#  add_dependencies (hummstrummengine doc)
+  if (HUMMSTRUMM_BUILD_DOCS_LATEX)
+    set (DOXYFILE_LATEX YES)
+  else ()
+    set (DOXYFILE_LATEX NO)
+  endif (HUMMSTRUMM_BUILD_DOCS_LATEX)
+  include (UseDoxygen OPTIONAL)
+  add_dependencies (hummstrummengine doc)
 endif (HUMMSTRUMM_BUILD_DOCS)
 
 # Add directories (to be exported, too)
@@ -77,7 +120,11 @@ endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 install (TARGETS hummstrummengine 
          ARCHIVE DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES})
 if (HUMMSTRUMM_BUILD_DOCS)
-  install (FILES doc/latex/refman.pdf
+  if (HUMMSTRUMM_BUILD_DOCS_LATEX)
+    install (FILES doc/latex/refman.pdf
+             DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
+  endif (HUMMSTRUMM_BUILD_DOCS_LATEX)
+  install (DIRECTORY doc/html
            DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
 endif (HUMMSTRUMM_BUILD_DOCS)
 install (FILES include/hummstrummengine.hpp

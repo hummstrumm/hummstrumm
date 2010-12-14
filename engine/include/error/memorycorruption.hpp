@@ -19,7 +19,7 @@
 /**
  * Defines the MemoryCorruption exception class.
  *
- * @file   memorycorruption.hpp
+ * @file   error/memorycorruption.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-07-25
  * @see    MemoryCorruption
@@ -50,15 +50,16 @@ class MemoryCorruption : public Error
      * Constructs a MemoryCorruption object to be thrown to an error handler.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-07-25
+     * @date 2010-11-22
      * @since 0.3
      *
      * @param fileName [in] The name of the file in which the error occured.
      * @param lineNumber [in] The line of the file in which the error occured.
+     * @param function [in] The name of the function in which the error occured.
      * @param text [in] A human readable description of the error.
      */
     MemoryCorruption (const char *fileName, unsigned int lineNumber,
-                      const char *text = "");
+                      const char *function, const char *text = "");
     /**
      * Destructs a MemoryCorruption object.
      *

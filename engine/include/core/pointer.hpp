@@ -19,7 +19,7 @@
 /**
  * Defines and implements the Pointer class.
  *
- * @file   pointer.hpp
+ * @file   core/pointer.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-01-03
  * @see    Pointer
@@ -101,6 +101,16 @@ class Pointer : public Object
      * changed.
      */
     Pointer<DataType> (PointerType object);
+    /**
+     * Constructs a Pointer object that clones another Pointer.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-11-27
+     * @since 0.3
+     *
+     * @param pointer [in] A Pointer to copy.
+     */
+    Pointer<DataType> (const Pointer<T> &pointer);
     /**
      * Destructs a Pointer object.  If the Pointer is valid, it will decrease
      * the reference count of its Object.
@@ -203,6 +213,17 @@ class Pointer : public Object
     const Pointer<DataType> &operator= (const Pointer<DataType> &pointer)
       throw ();
     /**
+     * @overload
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-11-27
+     * @since 0.3
+     *
+     * @param pointer [in] The object you want to set this Pointer to.
+     */
+    const Pointer<DataType> &operator= (const PointerType &pointer)
+      throw ();
+    /**
      * Changes the Pointer object's Object to that of another Pointer object.
      * If the current Pointer is valid, the current Object will be
      * dereferenced, and the new Object will be referenced.  If the current
@@ -216,6 +237,17 @@ class Pointer : public Object
      * want to reference.
      */
     void Set (const Pointer<DataType> pointer) throw ();
+    /**
+     * @overload
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-11-27
+     * @since 0.3
+     *
+     * @param pointer [in] The new Pointer which references the Object you
+     * want to reference.
+     */
+    void Set (const PointerType pointer) throw ();
     
     /**
      * Checks whether two Pointer objects reference the same Object.  The

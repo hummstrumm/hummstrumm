@@ -19,7 +19,7 @@
 /** 
  * Defines and implements classes for vectors in 2,3,and 4 dimensions.
  *
- * @file    vector.hpp
+ * @file    math/vector.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  */

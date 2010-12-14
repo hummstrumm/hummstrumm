@@ -19,7 +19,7 @@
 /**
  * Defines a linked list data structure.
  *
- * @file   list.hpp
+ * @file   containers/list.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-06-22
  * @see    List

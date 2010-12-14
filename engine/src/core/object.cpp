@@ -22,36 +22,9 @@
 #include <memory>
 #include <new>
 
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-#include <utmpx.h>
-#endif
-
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  pragma warning(disable: 4355)
-#  ifdef HUMMSTRUMM_ARCHITECTURE_64
-extern "C" int __cdecl GetCurrentProcessor_asmforwin64_ (void);
-#  endif // #ifdef HUMMSTRUMM_ARCHITECTURE_64
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-
-    // Thanks to Jeremy Jones for this code for Windows.
-    // <https://www.cs.tcd.ie/Jeremy.Jones/GetCurrentProcessorNumberXP.htm>
-const unsigned int
-GetCurrentProcessor_hidden_ (void)
-  throw ()
-{
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-#ifdef HUMMSTRUMM_ARCHITECTURE_32
-  __asm { mov eax, 1 }
-  __asm { cpuid }
-  __asm { shr ebx, 24 }
-  __asm { mov eax, ebx }
-#else // #ifdef HUMMSTRUMM_ARCHITECTURE_32
-  return GetCurrentProcessor_asmforwin64_ ();
-#endif // #ifdef HUMMSTRUMM_ARCHITECTURE_32
-#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-  return sched_getcpu ();
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-}
 
 namespace hummstrumm
 {
@@ -68,23 +41,18 @@ Object::type_HIDDEN_
    Object::CreateNew);
 
 
+AllocationTable
+Object::allocations;
+
+
 Object::Object (void)
-  : referenceCount (!MasterHeap::GetMasterHeap ().IsHeapMemory
-      (reinterpret_cast<char *> (this)))
+  : referenceCount (!allocations.CheckAndRemove
+                      (reinterpret_cast<void *> (this)))
 {}
 
 
 Object::~Object (void)
 {}
-
-
-bool
-Object::IsHeapMemory (void)
-  const throw ()
-{
-  return MasterHeap::GetMasterHeap ().IsHeapMemory (reinterpret_cast<char *>
-    (const_cast<Object *> (this)));
-}
 
 
 unsigned int
@@ -147,107 +115,87 @@ void
 Object::AddReference (void)
   const throw ()
 {
-  ++this->referenceCount;
+  ++(this->referenceCount);
 }
 
 
 void
 Object::DropReference (void) const throw ()
 {
-  if (this->referenceCount <= 1)
-    {
-      delete this;
-    }
-  else
-    {
-      --this->referenceCount;
-    }
-}
-
-}
-}
+  --(this->referenceCount);
 }
 
 
 void *
-operator new (std::size_t objectSize)
+Object::operator new (std::size_t size)
+  throw (/*...*/)
 {
-  char *memory = 0;
-  
-  hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap
-    (GetCurrentProcessor_hidden_ ())->Allocate (&memory, objectSize);
-  
-  return memory;
+  void *pointer = malloc (size);
+  if (!pointer)
+    {
+      // throw
+    }
+
+  allocations.Allocate (pointer);
+
+  return pointer;
 }
 
 
 void *
-operator new (std::size_t objectSize,
-              std::nothrow_t dontThrowException)
+Object::operator new (std::size_t size, std::nothrow_t)
   throw ()
 {
-  char *memory = 0;
-  
-  try
+  void *pointer = malloc (size);
+  if (pointer)
     {
-      hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap
-        (GetCurrentProcessor_hidden_ ())->Allocate (&memory, objectSize);
+      allocations.Allocate (pointer);
     }
-  catch (...)
-    {
-      return 0;
-    }
-  
-  return memory;
-}
 
-
-void *
-operator new[] (std::size_t objectsSize)
-{
-  char *memory = 0;
-  
-  hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap
-    (GetCurrentProcessor_hidden_ ())->Allocate (&memory, objectsSize);
-  
-  return memory;
-}
-
-
-void *
-operator new[] (std::size_t objectsSize,
-                std::nothrow_t dontThrowException)
-  throw ()
-{
-  char *memory = 0;
-  
-  try
-    {
-      hummstrumm::engine::core::MasterHeap::GetMasterHeap ().GetHeap
-        (GetCurrentProcessor_hidden_ ())->Allocate (&memory, objectsSize);
-    }
-  catch (...)
-    {
-      return 0;
-    }
-  
-  return memory;
+  return pointer;
 }
 
 
 void
-operator delete (void *object)
+Object::operator delete (void *p)
   throw ()
 {
-  hummstrumm::engine::core::MasterHeap::Heap::FreeHelper
-    (reinterpret_cast<char **> (&object));
+  free (p);
+}
+
+
+void *
+Object::operator new[] (std::size_t size)
+  throw (/*...*/)
+{
+  void *pointer = malloc (size);
+  if (!pointer)
+    {
+      // throw
+    }
+
+  return pointer;
+}
+
+
+void *
+Object::operator new[] (std::size_t size, std::nothrow_t nt)
+  throw ()
+{
+  void *pointer = malloc (size);
+
+  return pointer;
 }
 
 
 void
-operator delete[] (void *objects)
+Object::operator delete[] (void *p)
   throw ()
 {
-  hummstrumm::engine::core::MasterHeap::Heap::FreeHelper
-    (reinterpret_cast<char **> (&objects));
+  free (p);
+}
+
+
+}
+}
 }

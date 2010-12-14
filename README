@@ -1,15 +1,31 @@
-= Humm and Strumm README File =
+Humm and Strumm README File
+**********************************************************************
 
 Copyright (C) 2008-2010, the people  listed in the AUTHORS file.  This
 file is  licensed under a Creative  Commons Attribution-ShareAlike 3.0
 Unported License.
 
-== Overview ==
 
-Humm  and Strumm  is  a free  3D  adventure game  for  PCs.  For  more
-information, please see the FAQ file.
 
-== Features ==
+
+Overview
+======================================================================
+
+Humm and Strumm is a 3D Adventure Game in which two players set out to
+stop the evil Dr. Geoff from taking over the world. Humm and Strumm is
+released as Free Software.
+
+You can find our home page here:
+  <http://hummstrumm.blogspot.com>
+
+Our  home page  has news  updates, new  downloads,  documentation, and
+links to all parts of the project.
+
+
+
+
+Features
+======================================================================
 
   * Object/Type System
   * Memory Manager
@@ -18,12 +34,15 @@ information, please see the FAQ file.
   * Debug Utilities
   * Basic Data Type Wrappers.
 
-== License ==
 
-The  source  code  and  other  content are  licensed  under  different
-licenses,  both   with  copyleft-style   terms.
 
-=== Code License ===
+
+Licenses
+======================================================================
+
+
+Code License
+----------------------------------------------------------------------
 
 This code is  free software; you can redistribute  it and/or modify it
 under the terms of the GNU  General Public License as published by the
@@ -38,99 +57,114 @@ General Public License for more details.
 You  should have receives  a copy  of the  GNU General  Public License
 along with this code.  If not, see <http://www.gnu.org/licenses/>.
 
-=== Content License ===
+
+Content License
+----------------------------------------------------------------------
 
 The  other   content, including images,  documentation  files, Doxygen
 documentation, and   music, is  licensed  under   a  Creative  Commons
 Attribution-ShareAlike    Unported    License    3.0,  available    at
 <http://creativecommons.org/licenses/by-sa/3.0/>.
 
-== System Requirements ==
 
-The following are the system requirements for each platform.
 
-=== Windows ===
 
-==== Operating System ====
+System Requirements
+======================================================================
 
+
+Windows
+----------------------------------------------------------------------
+
+Operating System:
   * Win32
-
   * Win64 (AMD64)
 
-==== Minimum Harware ====
-
+Minimum Harware:
   * Intel-compatible processor (x86 or AMD64 compatible)
-
   * Some amount of RAM that I'll figure out later.
-
   * An undisclosed amount of disk space (it's a secret!)
 
-=== GNU/Linux ===
 
-==== Software Requirements ====
+GNU/Linux
+----------------------------------------------------------------------
 
-*** NOTE:  GNU/Linux  distributors  may  provide   packages  for  your
-    distribution that have different requirements. ***
+*** NOTE:
+*** GNU/Linux distributors may provide packages for your distribution
+*** that have different requirements.
 
-  * Linux  kernel   - (a  version)  with  the   following  library  or
-    package minimums:
+Software Requirements:
+  * Linux  kernel - (a version)
+  * Some packages...
 
-    - some packages...
-
-==== Minimum Harware ====
-
+Minimum Harware:
   * Intel-compatible processor (x86 or AMD 64 compatible)
-
   * Some amount of RAM that I'll figure out later...
-
   * An undisclosed  amount of disk  space (it'sa  secret!)
 
-*** NOTE:  Macintosh  computers  are  not   officially  supported, for
-    lack of a testing computer. ***
 
-== Directory Structure ==
+Other Platforms
+----------------------------------------------------------------------
+
+Humm and Strumm was written  with cross-platform usability in mind, to
+ease  the  porting  of  it  to other  platforms.   However,  we  don't
+currently have  testing computers for  other platforms, so  any system
+besides those  enumerated above are not officially  supported.  If you
+want to help out, contact us and arrange to become the official tester
+for your platform.
+
+
+
+
+Directory Structure
+======================================================================
 
   * engine - The game engine
-
     - src - C++ source files
-
     - include - C++ header files.
-
     - scripts - Script files
-
     - doc - Doxygen documentation
-
     - tests - Test source files
 
   * game - The actual game
-
     - src - C++ source files
-
     - include - C++ header files
-
     - scripts - Script files
-
     - doc - Doxygen documentation
-
     - tests - Test source files
 
-== Installation ==
+
+
+
+Installation
+======================================================================
 
 Please see  the file  INSTALL for instructions  on how to  install the
 software.
 
-== Release Notes ==
+
+
+
+Release Notes
+======================================================================
 
 The file NEWS  contains important changes that may  affect the user of
-the software.  The ChangeLog file contains all changes to the project,
-which may be of use to developers.
+the software.
 
-== Credits ==
+
+
+
+Credits
+======================================================================
 
 Please see the  files AUTHORS and THANKS for all  the people that have
 helped make the Humm and Strumm game possible.
 
-== Bug Reports ==
+
+
+
+Bug Reports
+======================================================================
 
 The Humm and  Strumm game uses the Google  Code issue tracking system.
 You       can       find        the       issue       tracker       at
@@ -146,7 +180,11 @@ To enter  in a  new bug  you will also  be required  to have  a Google
 account.  Fill  out   the template, and  be  sure   to tag  the  issue
 appropriately using the input boxes below the main entry box.
 
-== Feature Requests ==
+
+
+
+Feature Requests
+======================================================================
 
 The  Google  Code   issue  tracker  is  also  used   for  new  feature
 requests. Use  the above guidelines  for bugs (i.e., look  for already

@@ -48,9 +48,9 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
   this->debugName[24] = '\0';
   
   // Construct log message.
-  hummstrumm::engine::types::String message (L"Profiler ``");
+  hummstrumm::engine::types::String message ("Profiler ``");
   message += this->debugName;
-  message += L"'' started.";
+  message += "'' started.";
 
 //  std::cout << startTime << std::endl;
 
@@ -126,14 +126,14 @@ Profiler::~Profiler (void)
   Iterate ();
 
   // Construct a log message.
-  std::wstringstream message;
-  message << L"Profiler ``";
+  std::stringstream message;
+  message << "Profiler ``";
   message << this->debugName;
-  message << L"'' stats: ";
+  message << "'' stats: ";
   message << this->numberOfRuns;
-  message << L" Runs, Lowest Time of ";
+  message << " Runs, Lowest Time of ";
   message << this->lowestTime;
-  message << L", Average Time of ";
+  message << ", Average Time of ";
   message << this->averageTime;
 
   // Write it out.

@@ -19,7 +19,7 @@
 /**
  * Defines the OutOfRange exception class.
  *
- * @file   outofmemory.hpp
+ * @file   error/outofmemory.hpp
  * @author Ricardo Tiago <RTiago@gmail.com>
  * @date   2010-05-09
  */
@@ -51,15 +51,16 @@ class OutOfRange: public Error
      * Constructs an OutOfRange object to be thrown to an error handler.
      *
      * @author Ricardo Tiago <RTiago@gmail.com>
-     * @date 2010-05-28
+     * @date 2010-11-22
      * @since 0.2
      *
      * @param fileName [in] The name of the file in which the error occured.
      * @param lineNumber [in] The line of the file in which the error occured.
+     * @param function [in] The name of the function in which the error occured.
      * @param text [in] A human readable description of the error.
      */
     OutOfRange (const char *fileName, unsigned int lineNumber,
-                const char *text = "");
+                const char *function, const char *text = "");
     /**
      * Destructs an OutOfRange object.
      *

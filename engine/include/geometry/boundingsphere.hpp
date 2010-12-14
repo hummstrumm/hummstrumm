@@ -19,7 +19,7 @@
 /**
  * Defines and implements a bounding sphere.
  *
- * @file    boundingsphere.hpp
+ * @file    geometry/boundingsphere.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  *

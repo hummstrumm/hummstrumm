@@ -19,7 +19,7 @@
 /**
  * Defines several debugging macros.
  * 
- * @file   utils.hpp
+ * @file   debug/utils.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  */

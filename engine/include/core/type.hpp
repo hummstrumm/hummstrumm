@@ -20,7 +20,7 @@
  * Defines the Type class and macros with which to implement and use typed
  * objects.
  * 
- * @file   type.hpp
+ * @file   core/type.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-01-03
  * @see    Type

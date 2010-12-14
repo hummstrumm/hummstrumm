@@ -32,7 +32,7 @@
 /**
  * @mainpage
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @author Ricardo Tiago <RTiago.com>
+ * @author Ricardo Tiago <RTiago@gmail.com>
  * @date 2010-02-06
  *
  * @section Overview
@@ -63,6 +63,8 @@
  * request on the <a href="mailto:hummstrumm-user@googlegroups.com">
  * hummstrumm-user</a> mailing list.
  **/
+
+#include <string>
 
 // The extensive namespace hierarchy in the game engine.
 
@@ -138,11 +140,12 @@ namespace core
 {
 class Object;
 class Type;
-class Heap;
-template <typename T, unsigned int SIZE>
-class Pool;
+//template <typename T, unsigned int SIZE>
+//class Pool;
 template <typename T>
 class Pointer;
+class Engine;
+class AllocationTable;
 }
 
 /**
@@ -158,6 +161,7 @@ class DivisionByZero;
 class Unicode;
 class MemoryCorruption;
 class InvalidParam;
+class Iterator;
 }
 
 /**
@@ -166,7 +170,11 @@ class InvalidParam;
  */
 namespace system
 {
-class Endian;
+class Platform;
+class Endianness;
+class Processors;
+class Memory;
+class Clock;
 }
 
 /**
@@ -178,8 +186,9 @@ class Endian;
 namespace types
 {
 class Date;
-class Character;
-class String;
+//class Character;
+//class String;
+typedef std::string String;
 class Number;
 }
 
@@ -192,6 +201,8 @@ namespace containers
 {
 template <typename T>
 class List;
+//template <typename T>
+//class Iterator;
 }
 
 /**
@@ -211,6 +222,8 @@ class WindowX11;
 }
 
 }
+
+
 #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include <hummstrummengine/config.h>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
@@ -235,16 +248,22 @@ class WindowX11;
 #  include <hummstrummengine/error/unicode.hpp>
 #  include <hummstrummengine/error/memorycorruption.hpp>
 #  include <hummstrummengine/error/invalidparam.hpp>
-#  include <hummstrummengine/core/heap.hpp>
-#  include <hummstrummengine/core/pool.hpp>
+//#  include <hummstrummengine/error/iterator.hpp>
+#  include <hummstrummengine/core/allocationtable.hpp>
+//#  include <hummstrummengine/core/pool.hpp>
 #  include <hummstrummengine/core/object.hpp>
 #  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/core/pointer.hpp>
-#  include <hummstrummengine/system/endian.hpp>
+#  include <hummstrummengine/system/platform.hpp>
+#  include <hummstrummengine/system/endianness.hpp>
+#  include <hummstrummengine/system/processors.hpp>
+#  include <hummstrummengine/system/memory.hpp>
+#  include <hummstrummengine/system/clock.hpp>
+#  include <hummstrummengine/containers/iterator.hpp>
 #  include <hummstrummengine/types/date.hpp>
-#  include <hummstrummengine/types/character.hpp>
+//#  include <hummstrummengine/types/character.hpp>
 #  include <hummstrummengine/types/number.hpp>
-#  include <hummstrummengine/types/string.hpp>
+//#  include <hummstrummengine/types/string.hpp>
 #  include <hummstrummengine/debug/log.hpp>
 #  include <hummstrummengine/debug/profiler.hpp>
 #  include <hummstrummengine/geometry/plane.hpp>
@@ -256,12 +275,17 @@ class WindowX11;
 #  include <hummstrummengine/math/matrice.hpp>
 #  include <hummstrummengine/math/quaternion.hpp>
 #  include <hummstrummengine/renderer/windowSystem.hpp>
-#  include <hummstrummengine/renderer/windowX11.hpp>
+#  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#    include <hummstrummengine/renderer/windowX11.hpp>
+#  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include <hummstrummengine/containers/list.hpp>
+// This has to go last.
+#  include <hummstrummengine/core/engine.hpp>
 // Template and Inline implementations now...
 #  include <hummstrummengine/core/pointer.inl>
-#  include <hummstrummengine/core/pool.inl>
+//#  include <hummstrummengine/core/pool.inl>
 #  include <hummstrummengine/containers/list.inl>
+#  include <hummstrummengine/system/endianness.inl>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "types/inttypes.hpp"
 #  include "debug/utils.hpp"
@@ -273,16 +297,22 @@ class WindowX11;
 #  include "error/unicode.hpp"
 #  include "error/memorycorruption.hpp"
 #  include "error/invalidparam.hpp"
-#  include "core/heap.hpp"
-#  include "core/pool.hpp"
+#  include "error/iterator.hpp"
+#  include "core/allocationtable.hpp"
+//#  include "core/pool.hpp"
 #  include "core/object.hpp"
 #  include "core/type.hpp"
 #  include "core/pointer.hpp"
-#  include "system/endian.hpp"
+#  include "system/platform.hpp"
+#  include "system/endianness.hpp"
+#  include "system/processors.hpp"
+#  include "system/memory.hpp"
+#  include "system/clock.hpp"
+//#  include "containers/iterator.hpp"
 #  include "types/date.hpp"
-#  include "types/character.hpp"
+//#  include "types/character.hpp"
 #  include "types/number.hpp"
-#  include "types/string.hpp"
+//#  include "types/string.hpp"
 #  include "debug/log.hpp"
 #  include "debug/profiler.hpp"
 #  include "math/mathutils.hpp"
@@ -295,12 +325,17 @@ class WindowX11;
 #  include "geometry/boundingbox.hpp"
 #  include "geometry/boundingsphere.hpp"
 #  include "renderer/windowSystem.hpp"
-#  include "renderer/windowX11.hpp"
+#  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#    include "renderer/windowX11.hpp"
+#  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include "containers/list.hpp"
+// This has to go last.
+#  include "core/engine.hpp"
 // Template and Inline implementations now...
 #  include "core/pointer.inl"
-#  include "core/pool.inl"
+//#  include "core/pool.inl"
 #  include "containers/list.inl"
+#  include "system/endianness.inl"
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS

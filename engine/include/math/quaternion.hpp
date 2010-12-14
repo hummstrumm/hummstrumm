@@ -19,7 +19,7 @@
 /**
  * Defines and implements a quaternion.
  *
- * @file    quaternion.hpp
+ * @file    math/quaternion.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  *

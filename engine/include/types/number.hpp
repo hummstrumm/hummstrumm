@@ -19,7 +19,7 @@
 /**
  * Defines several cross-platform, fixed-size integer types.
  *
- * @file   number.hpp
+ * @file   types/number.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-04-27
  * @see    Number
@@ -85,7 +85,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (short);
+    Number (int16);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -93,7 +93,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (unsigned short);
+    Number (uint16);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -101,7 +101,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (int);
+    Number (int32);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -109,7 +109,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (unsigned int);
+    Number (uint32);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -117,7 +117,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (long int);
+    Number (int64);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -125,7 +125,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (unsigned long int);
+    Number (uint64);
     
     /**
      * Destructs a Number object.

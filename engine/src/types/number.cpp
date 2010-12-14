@@ -51,38 +51,40 @@ Number::Number (float value)
 {}
 
 
-Number::Number (short value)
+Number::Number (int16 value)
   : value (value)
 {}
 
 
-Number::Number (unsigned short value)
+Number::Number (uint16 value)
   : value (value)
 {}
 
 
-Number::Number (int value)
+Number::Number (int32 value)
   : value (value)
 {}
 
 
-Number::Number (unsigned int value)
+Number::Number (uint32 value)
   : value (value)
 {}
 
 
-Number::Number (long int value)
+Number::Number (int64 value)
   : value (value)
 {}
 
 
-Number::Number (unsigned long int value)
+Number::Number (uint64 value)
   : value (value)
 {}
     
 
 Number::~Number (void)
 {}
+
+
 
 
 const Number

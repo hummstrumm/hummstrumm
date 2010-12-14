@@ -19,7 +19,7 @@
 /**
  * Defines several cross-platform, fixed-size integer types.
  *
- * @file   inttypes.hpp
+ * @file   types/inttypes.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-13
  */

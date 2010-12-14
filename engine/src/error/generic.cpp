@@ -28,8 +28,8 @@ namespace error
 
 
 Generic::Generic (const char *fileName, unsigned int lineNumber,
-                  const char *text)
-  : Error (fileName, lineNumber, text,
+                  const char *function, const char *text)
+  : Error (fileName, lineNumber, function, text,
            "The program has encountered a generic error.")
 {}
 

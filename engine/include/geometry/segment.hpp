@@ -19,7 +19,7 @@
 /**
  * Class(es) to represent a line segment.
  *
- * @file    segment.hpp
+ * @file    geometry/segment.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  *

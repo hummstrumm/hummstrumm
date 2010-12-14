@@ -35,8 +35,8 @@ namespace error
 {
 
 OutOfRange::OutOfRange (const char *fileName, unsigned int lineNumber,
-                        const char *text)
-  : Error (fileName, lineNumber, text,
+                        const char *function, const char *text)
+  : Error (fileName, lineNumber, function, text,
            "The program encountered an out of range error.")
 {}
 

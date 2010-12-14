@@ -29,8 +29,9 @@ namespace error
 
 MemoryCorruption::MemoryCorruption (const char *fileName,
                                     unsigned int lineNumber,
+                                    const char *function,
                                     const char *text)
-  : Error (fileName, lineNumber, text,
+  : Error (fileName, lineNumber, function, text,
            "The program has encountered a corrupt memory block.")
 {}
 

@@ -19,7 +19,7 @@
 /**
  * Defines the Profiler class.
  *
- * @file   profiler.hpp
+ * @file   debug/profiler.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-15
  * @see    Profiler
