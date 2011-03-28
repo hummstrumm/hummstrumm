@@ -29,6 +29,7 @@
 
 #include <vector>
 #include <cmath>
+#include <cstring>
 
 namespace hummstrumm
 {
@@ -723,10 +724,89 @@ class Vector4D
      */
     void Zero ();
 
-  private:
-
+  private: 
   protected:
 
+};
+
+template<>
+class Vector4D<float>
+{
+
+    /**
+     * Template specialization of Vector4D for float with SSE optimization.
+     * See Vector4D for description of member functions.
+     * 
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @see Vector4D
+     */ 
+
+  public:
+    #ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
+    HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_GNULINUX {
+      __m128 xyzw;
+      struct { float x,y,z,w; };
+      float f[4];
+    };
+    #endif    
+
+    #ifndef HUMMSTRUMM_HAVE_SSE_SUPPORT
+    float x,y,z,w;
+    #endif
+
+    Vector4D () 
+    {
+       
+      SIMD_SET_ZERO(xyzw);
+//      std::memset(f, 0x0, 4);
+    }
+
+    Vector4D (__m128 &r): xyzw(r) {}
+
+    Vector4D (const float &vx, const float &vy, const float &vz, const float &vw)
+    {
+      SIMD_SET_PS(vw,vz,vy,vx, xyzw);
+    }
+
+    Vector4D (const Vector4D<float>  &v)
+             : xyzw(v.xyzw) {} 
+
+    ~Vector4D () {}
+
+    Vector4D<float> &operator = (const Vector4D<float> &v);
+
+    bool operator == (const Vector4D<float> &v) const;
+
+    bool operator != (const Vector4D<float> &v) const;
+    
+    Vector4D<float> operator - () const;
+   
+    Vector4D<float> operator + (const Vector4D<float> &v) const;
+
+    Vector4D<float> operator - (const Vector4D<float> &v) const;
+
+    Vector4D<float> operator * (const float &s) const;
+
+    Vector4D<float> operator / (const float &s) const;
+
+    Vector4D<float> &operator += (const Vector4D<float> &v);
+
+    Vector4D<float> &operator -= (const Vector4D<float> &v);
+
+    Vector4D<float> &operator *= (const float &s);
+
+    Vector4D<float> &operator /= (const float &s);
+
+    void Normalize ();
+
+    void Zero ();
+
+
+  private:
+  protected:
 };
 
 // Implementation of Vector2D,3D,4D
@@ -1420,6 +1500,10 @@ template <typename T>
 T 
 Vec4DMagnitude (const Vector4D<T> &v);
 
+template <> 
+float 
+Vec4DMagnitude (const Vector4D<float> &v);
+
 /** 
  * Squared magnitude of a 4d vector.
  *
@@ -1468,7 +1552,6 @@ template <typename T>
 T 
 Vec4DSqDistance (const Vector4D<T> &v, const Vector4D<T> &k);
 
-
 /** 
  * Dot product between two 4d vectors.
  * 
@@ -1484,6 +1567,10 @@ Vec4DSqDistance (const Vector4D<T> &v, const Vector4D<T> &k);
 template <typename T>
 T 
 Vec4DDot (const Vector4D<T> &v, const Vector4D<T> &w);
+
+template <>
+float 
+Vec4DDot (const Vector4D<float> &v, const Vector4D<float> &w);
 
 /** 
  * Projection of v onto n.
@@ -1766,7 +1853,6 @@ Vec4DDot (const Vector4D<T> &v, const Vector4D<T> &w)
 {
   return v.x*w.x + v.y*w.y + v.z*w.z + v.w*w.w;
 }
-
 
 template <typename T>
 Vector4D<T>

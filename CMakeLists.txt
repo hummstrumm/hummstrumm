@@ -109,7 +109,7 @@ if (WIN32)
  
   # We need to use WinAPI.
   set (HUMMSTRUMM_WINDOWSYSYEM_WINDOWS ON)
-  set (HUMMSTRUMM_WINDOWSYSYEM_X11 OFF)
+  set (HUMMSTRUMM_WINDOWSYSTEM_X11 OFF)
 
   # When doxygen makes documentation, we need to tell it to make the Windows
   # documentation.
@@ -132,7 +132,7 @@ else (WIN32)
 
     # We need to use X11.
     set (HUMMSTRUMM_WINDOWSYSYEM_WINDOWS OFF)
-    set (HUMMSTRUMM_WINDOWSYSYEM_X11 ON)
+    set (HUMMSTRUMM_WINDOWSYSTEM_X11 ON)
 
     # When doxygen makes documentation, we need to tell it to make the GNU/Linux
     # documentation.
@@ -154,7 +154,7 @@ else (WIN32)
 
       # We need to use X11.
       set (HUMMSTRUMM_WINDOWSYSYEM_WINDOWS OFF)
-      set (HUMMSTRUMM_WINDOWSYSYEM_X11 ON)
+      set (HUMMSTRUMM_WINDOWSYSTEM_X11 ON)
 
       # When doxygen makes documentation, we need to tell it to make the *BSD
       # documentation.
@@ -166,13 +166,11 @@ else (WIN32)
   endif ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 endif (WIN32)
 
-
 # Is this a 32-bit system or a 64-bit system?
 if (CMAKE_SIZEOF_VOID_P MATCHES "4")
   # 32 bit
   set (HUMMSTRUMM_ARCHITECTURE_32 ON)
   set (HUMMSTRUMM_ARCHITECTURE_64 OFF)
-  list (APPEND HUMMSTRUMM_REQUIRED_DEFINITIONS "-DHUMMSTRUMM_ARCHITECTURE_32 ")
 
 else (CMAKE_SIZEOF_VOID_P MATCHES "4")
   if (CMAKE_SIZEOF_VOID_P MATCHES "8")
@@ -191,59 +189,24 @@ set (HUMMSTRUMM_BUILD_DOCS ON CACHE BOOL
 set (HUMMSTRUMM_BUILD_DOCS_LATEX NO CACHE BOOL
      "Build documentation of the engine in LaTeX, too?")
 
-
 # Log Options
 set (HUMMSTRUMM_LOG_FILENAME test.log CACHE STRING
        "The file name of the log.")
 set (HUMMSTRUMM_LOG_LOGLEVEL MESSAGE CACHE STRING
      "The minimum level of messages.")
 
+# Test for SIMD
+set (HUMMSTRUMM_HAVE_SSE_SUPPORT OFF)
 
-# Turned off for experimentally determining the data at runtime.
-
-# Try to detect if cpuid is available and if yes try to see
-# if sse or sse2 is supported.
-#try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
-#        ${CMAKE_BINARY_DIR}
-#        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectCPUID.c
-#        COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
-#        COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
-#if (${RUN_RESULT_VAR})
-#  set (HUMMSTRUMM_CPUID_SUPPORT ON)
-#else (${RUN_RESULT_VAR})
-#  set (HUMMSTRUMM_CPUID_SUPPORT OFF)
-#endif (${RUN_RESULT_VAR})
-
-#if (HUMMSTRUMM_CPUID_SUPPORT MATCHES ON)
-#  try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
-#          ${CMAKE_BINARY_DIR}
-#          ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE2.c
-#          CMAKE_FLAGS
-#            -DINCLUDE_DIRECTORIES:STRING=${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/cpuid.c
-#          COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
-#          COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
-#  if (NOT ${RUN_RESULT_VAR})
-#    set (HUMMSTRUMM_SSE2_SUPPORT OFF)
-#  else (NOT ${RUN_RESULT_VAR})
-#    set (HUMMSTRUMM_SSE2_SUPPORT ON)
-#  endif (NOT ${RUN_RESULT_VAR})
-#  try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
-#          ${CMAKE_BINARY_DIR}
-#          ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE.c
-#          CMAKE_FLAGS
-#            -DINCLUDE_DIRECTORIES:STRING=${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/cpuid.c
-#          COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
-#          COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
-#  if (NOT ${RUN_RESULT_VAR})
-#    set (HUMMSTRUMM_SSE_SUPPORT OFF)
-#  else (NOT ${RUN_RESULT_VAR})
-#    set (HUMMSTRUMM_SSE_SUPPORT ON) 
-#  endif (NOT ${RUN_RESULT_VAR})
-#else (HUMMSTRUMM_CPUID_SUPPORT MATCHES ON)
-#  set (HUMMSTRUMM_SSE2_SUPPORT OFF)
-#  set (HUMMSTRUMM_SSE_SUPPORT OFF)
-#endif (HUMMSTRUMM_CPUID_SUPPORT MATCHES ON)
-
+try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
+         ${CMAKE_BINARY_DIR}
+         ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE.c
+         CMAKE_FLAGS
+         COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
+         COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
+if (${RUN_RESULT_VAR})
+  set (HUMMSTRUMM_HAVE_SSE_SUPPORT ON)
+endif (${RUN_RESULT_VAR})
 
 set (CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
@@ -266,9 +229,6 @@ configure_file (
 
 add_custom_target (uninstall
   "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake")
-
-
-
 
 configure_file (${CMAKE_SOURCE_DIR}/config.h.in
                 ${CMAKE_SOURCE_DIR}/engine/include/config.h @ONLY)

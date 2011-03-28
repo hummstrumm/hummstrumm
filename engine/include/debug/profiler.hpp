@@ -71,6 +71,21 @@ class Profiler
       REPORT_IN_MILLISECONDS, ///< Report in milliseconds (integer)
       REPORT_IN_MICROSECONDS  ///< Report in microseconds (integer)
     };
+
+     /**
+     * Where to output the results from profiler.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date   2010-08-19
+     * @since  0.3
+     */  
+    enum Output
+    {
+      LOGGER,             /// Write to hummstrumm log
+      CONSOLE,            /// Show the results in the output stream
+      LOGGER_AND_CONSOLE  /// Both
+    };
+
     /**
      * Starts a profiler.  This profiler will output a log message with the
      * debug name to help in identifying the profiling information.  It will
@@ -84,9 +99,10 @@ class Profiler
      * @param debugName [in] A name for the profiler to identify it in the log.
      * Names are unique for up to 24 ASCII characters.
      * @param reportIn  [in] The unit in which to report the final times.
+     * @param out [in] Where to write the results.
      */
     Profiler (const char *debugName,
-              Units reportIn = REPORT_IN_MILLISECONDS);
+              Units reportIn = REPORT_IN_MILLISECONDS, Output out = LOGGER_AND_CONSOLE);
     /**
      * Stops the profiler.  The profiler will compare the current time with the
      * time taken when it was created and output a log message with the
@@ -112,13 +128,16 @@ class Profiler
     hummstrumm::engine::types::int64 startTime;    ///< The starting time for
                                                    ///  this run.
     char debugName[25];                            ///< A name for use in a log.
-    hummstrumm::engine::types::int64 lowestTime;   ///< The fastest run.
-    hummstrumm::engine::types::int64 averageTime;  ///< The average time of
+    hummstrumm::engine::types::uint64 lowestTime;   ///< The fastest run.
+    hummstrumm::engine::types::uint64 averageTime;  ///< The average time of
                                                    ///  runs.
-    hummstrumm::engine::types::int16 numberOfRuns; ///< The running total of
+    hummstrumm::engine::types::uint64 numberOfRuns; ///< The running total of
                                                    ///  runs (no pun intended).
     Units                            reportInUnit; ///< The unit in which to
                                                    ///  report the times.
+    Output                           writeTo;      /// Where to write the 
+                                                   ///  results.
+
 };
 
 /**
@@ -136,9 +155,10 @@ class Profiler
  *
  * @see Profiler
  */
-#define HUMMSTRUMM_PROFILE(debugName, reportIn)                         \
+#define HUMMSTRUMM_PROFILE(debugName, reportIn, out)                    \
   hummstrumm::engine::debug::Profiler profiler__HIDDEN__ ((debugName),  \
-                                                          (reportIn))
+                                                          (reportIn),   \
+                                                          (out))
 
 /**
  * Starts a new run of the existing profiler.  A profiler must already exist in

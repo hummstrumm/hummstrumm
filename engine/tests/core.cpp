@@ -35,7 +35,7 @@ class HeapTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE ( HeapTest );
   CPPUNIT_TEST ( testAllocation );
-  CPPUNIT_TEST ( testFragmentation );
+//  CPPUNIT_TEST ( testFragmentation );
   CPPUNIT_TEST_SUITE_END ();
 
   public:

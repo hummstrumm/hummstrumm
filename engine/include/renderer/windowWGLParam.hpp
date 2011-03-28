@@ -1,4 +1,4 @@
-// -*- c -*-
+// -*- c++ -*-
 /* Humm and Strumm Video Game
  * Copyright (C) 2008-2010, the people listed in the AUTHORS file.
  *
@@ -17,32 +17,39 @@
  */
 
 /**
+ * Definition for Microsoft Windows OpenGL window parameters.
+ *
+ * @file    winParamWGL.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-09-25
  */
 
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-#include "cpuid.h"
-#endif
+#ifndef HUMMSTRUMM_ENGINE_WINDOW_WGL_PARAMETERS
+#define HUMMSTRUMM_ENGINE_WINDOW_WGL_PARAMETERS
 
-#ifdef HUMMSTRUMM_PLATFORM_WIN
-#include "intrin.h"
-#endif
-
-int
-main(int argc, char **argv)
+namespace hummstrumm
 {
-  #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-  unsigned int regA, regB, regC, regD;
-  if (__get_cpuid(0x00000001,&regA,&regB,&regC,&regD) )
+namespace engine
+{
+namespace renderer
+{
+
+struct WindowWGLParam: public WindowParameters
+{
+  WindowWGLParam() {}
+
+  WindowWGLParam(const WindowWGLParam &param): WindowParameters(param) {}
+
+  virtual ~WindowWGLParam() {}
+
+  inline virtual HUMMSTRUMM_WINDOW_LIST_POINTER WindowParamList() const
   {
-    if (regD & bit_SSE)
-      return 1;
+    return NULL;
   }
-  #elif HUMMSTRUMM_PLATFORM_WINDOWS
-  int CPUInfo[4] = {-1}
-  __cpuid(CPUInfo, 1);
-  if (CPUInfo[3] & (1 << 25))
-    return 1; // SSE
-  #endif
-  return 0;
+};
+
 }
+}
+}
+
+#endif

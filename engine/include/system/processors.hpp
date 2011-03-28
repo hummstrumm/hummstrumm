@@ -126,6 +126,42 @@ class Processors
     bool HaveSse2Support (void)
       const throw ();
 
+    /**
+     * Returns whether the system supports Streaming SIMD Extensions 3 (SSE3).
+     *
+     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @date   2010-03-27
+     * @since  0.3
+     *
+     * @return If the system has SSE 3 support.
+     */
+    bool HaveSse3Support (void)
+      const throw ();
+
+    /**
+     * Returns whether the system supports Streaming SIMD Extensions 4.1 (SSE4).
+     *
+     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @date   2010-03-27
+     * @since  0.3
+     *
+     * @return If the system has SSE 4.1 support.
+     */
+    bool HaveSse41Support (void)
+      const throw ();
+
+    /**
+     * Returns whether the system supports Streaming SIMD Extensions 4.2 (SSE4).
+     *
+     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @date   2010-03-27
+     * @since  0.3
+     *
+     * @return If the system has SSE 4.2 support.
+     */
+    bool HaveSse42Support (void)
+      const throw ();
+
   private:
     /**
      * Allocates a processor name and sets it to the string "Unknown".  This is
@@ -145,6 +181,10 @@ class Processors
     char **processorStrings; ///< An array of the names of each processor.
     bool sseSupport;         ///< Whether we have SSE.
     bool sse2Support;        ///< Whether we have SSE 2.
+    bool sse3Support;        ///< Whether we have SSE 3.
+    bool sse41Support;        ///< Whether we have SSE 4.1.
+    bool sse42Support;        ///< Whether we have SSE 4.2.
+
 };
 
 

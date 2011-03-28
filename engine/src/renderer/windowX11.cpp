@@ -19,6 +19,7 @@
 #define HUMMSTRUMM_ENGINE_SOURCE
 
 #include "hummstrummengine.hpp"
+#include <sstream>
 
 namespace hummstrumm
 {
@@ -27,14 +28,36 @@ namespace engine
 namespace renderer
 {
 
+enum netWMStates
+{
+  _NET_WM_STATE_REMOVE,
+  _NET_WM_STATE_ADD,
+  _NET_WM_STATE_TOGGLE
+};
+
+using hummstrumm::engine::events::StructureEvents;
+
 WindowX11::WindowX11()
 {
+  std::stringstream message;
   if ((dpy = XOpenDisplay(NULL)) == NULL)
-    HUMMSTRUMM_THROW (Generic, "Unable to open a connection to the X server.");
+    HUMMSTRUMM_THROW (Generic, "Unable to open a connection to the X server.\n");
   screen = XDefaultScreen(dpy);
   root = XRootWindow(dpy,screen);
   depth = XDefaultDepth(dpy,screen);
-  NetWMSupport = IsNetWMCompliant(); 
+  if (!IsGLXSupported()) 
+    HUMMSTRUMM_THROW (Generic, "GLX extension is not available on the X server.");
+  
+  glXVerMajor = glXVerMinor = 0;
+  if (!GetGLXVersion(&glXVerMajor, &glXVerMinor))
+    HUMMSTRUMM_THROW (Generic, "Unable to get GLX version.");
+
+  message.str("");
+  message << "Supported GLX version: ";
+  message << glXVerMajor;
+  message << ".";
+  message << glXVerMinor;
+  HUMMSTRUMM_LOG(message.str().c_str(),MESSAGE);
 }
 
 WindowX11::~WindowX11()
@@ -44,94 +67,256 @@ WindowX11::~WindowX11()
 }
 
 void
-WindowX11::createWindow(std::string name, unsigned height, unsigned width, bool fs)
+WindowX11::CreateWindow(const WindowParameters &winParam)
 {
-  winXMain = XCreateSimpleWindow(dpy, root, 100, 100, width, height, 0, 0, BlackPixel(dpy,screen));
-  if (fs)
-    setToFullscreen();
-  XMapWindow(dpy,winXMain);
-  XMapRaised(dpy,winXMain);
+  XSetWindowAttributes winAttr; 
+  XVisualInfo *vi;
+  GLXFBConfig *fbconfig;
+  GLXContext glxCtx;
+  int nelements;
+  HUMMSTRUMM_WINDOW_LIST_POINTER attribList = winParam.WindowParamList();
+
+  if (attribList == NULL)
+    HUMMSTRUMM_THROW(Generic, "Unable to get window parameters\n");
+
+  fbconfig = glXChooseFBConfig(dpy,screen,attribList,&nelements);
+
+  if (fbconfig == NULL)
+    HUMMSTRUMM_THROW(Generic, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes.");
+
+  vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
+  if (vi == NULL)
+    HUMMSTRUMM_THROW(Generic, "Requested GLX visual is not supported by the graphics card.");
+
+  glxCtx = glXCreateContext(dpy,vi,0,GL_TRUE);
+
+  XFree(fbconfig);
+
+  delete [] attribList;
+
+  scr = DefaultScreenOfDisplay(dpy);
+
+  winAttr.background_pixel = BlackPixel(dpy,screen);
+  winAttr.border_pixel = 0;
+  winAttr.colormap = XCreateColormap(dpy,root,vi->visual,AllocNone);
+  winAttr.event_mask = KeyPressMask         |
+                       ExposureMask         |
+                       ButtonPressMask      |
+                       StructureNotifyMask  |
+                       PointerMotionMask    |
+                       KeyReleaseMask       |
+                       ButtonReleaseMask;
+
+
+  winMn = XCreateWindow(dpy, 
+                        root, winParam.positionX, winParam.positionY, 
+                        winParam.width, winParam.height, 
+                        0, vi->depth, InputOutput, 
+                        vi->visual,
+                        CWBorderPixel | CWColormap | CWEventMask | CWBackPixel, 
+                        &winAttr);
+
+
+  XFree(vi);
+
+  if (winMn == 0)
+    HUMMSTRUMM_THROW(Generic, "Unable to create an X11 window\n");
+
+  XStoreName(dpy, winMn, winParam.name.c_str());
+
+  wndProtocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
+  wndDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
+  Atom wndName = XInternAtom(dpy, "XA_WM_NAME", False);
+
+  XSetWMProtocols(dpy,winMn, &wndDelete, 1);
+
+  XMapWindow(dpy,winMn);
+  XMapRaised(dpy,winMn);
+  if (winParam.fullscreen)
+    SetFullscreen();
+
+  glXMakeCurrent(dpy,winMn,glxCtx);
+  if (glXIsDirect(dpy,glxCtx))
+  {
+    HUMMSTRUMM_LOG("DRI enabled",MESSAGE);
+  }
+  else
+  {
+    HUMMSTRUMM_LOG("DRI not enabled",MESSAGE);
+  }
+
+
 }
 
 void
-WindowX11::setToFullscreen()
+WindowX11::SetFullscreen()
 {
 
   long atomsSize;
   Atom *atoms;
   XWindowAttributes xwa;
   bool netWMFullscreen = false;
-  // Lets see if the WM supports _NET_WM_STATE and _NET_WM_STATE_FULLSCREEN.
-  if (NetWMSupport)
+
+  //The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
+  // should fill the entire screen and have no window decorations. Additionally 
+  // the Window Manager is responsible for restoring the original geometry after 
+  // a switch from fullscreen back to normal window. For example, a presentation 
+  // program would use this hint." 
+
+  // As some window managers still support the old MWN_HINTS we will try that to
+  // disable any window decorations
+
+
+
+  if (IsNetWMCompliant())
   {
     Atom netSupported = XInternAtom(dpy,"_NET_SUPPORTED", False);
     Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
     Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
-    if ( atoms = (Atom *) getXProperty(root, netSupported, XA_ATOM, atomsSize))
+    if ( atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize))
     {
       for (unsigned i = 0; i < atomsSize; i++)
         if (atoms[i] == fullScreen) 
         {
-          // NetWM Fullscreen supported
           netWMFullscreen = true;
           break;
         } 
     }
     delete [] atoms;
-    
+
     if (netWMFullscreen)
     {
       XEvent xev;
       xev.xclient.type=ClientMessage;
       xev.xclient.serial = 0;
       xev.xclient.send_event=True;
-      xev.xclient.window=winXMain;
+      xev.xclient.window=winMn;
       xev.xclient.message_type=wmState;
       xev.xclient.format=32;
-      xev.xclient.data.l[0] = 1;
+      xev.xclient.data.l[0] = _NET_WM_STATE_ADD;
       xev.xclient.data.l[1] = fullScreen;
       xev.xclient.data.l[2] = 0;
+      xev.xclient.data.l[3] = 0;
+      xev.xclient.data.l[4] = 0;
 
-      XSendEvent(dpy, root, False,
-             SubstructureRedirectMask | SubstructureNotifyMask,&xev);
+      XSendEvent(dpy, 
+                 root, 
+                 False, 
+                 SubstructureRedirectMask | SubstructureNotifyMask, 
+                 &xev);
   
       return;
     }
-
   }
+
   // Set fullscreen (fallback)
-  // This may keep WM decorations..
   XGetWindowAttributes(dpy, root, &xwa);
   std::cout << xwa.width << " " << xwa.height << std::endl;
-  XMoveResizeWindow(dpy,winXMain,0,0,xwa.width, xwa.height);
+  XMoveResizeWindow(dpy,winMn,0,0,xwa.width, xwa.height);
 }
 
 void
-WindowX11::setToWindowMode()
-{
+WindowX11::SetWindowMode()
+{ 
+  Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
+  Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
 
+  XEvent xev;
+  xev.xclient.type=ClientMessage;
+  xev.xclient.serial = 0;
+  xev.xclient.send_event=True;
+  xev.xclient.window=winMn;
+  xev.xclient.message_type=wmState;
+  xev.xclient.format=32;
+  xev.xclient.data.l[0] = 0;
+  xev.xclient.data.l[1] = fullScreen;
+  xev.xclient.data.l[2] = 0;
+
+  XSendEvent(dpy, 
+             root, 
+             False, 
+             SubstructureRedirectMask | SubstructureNotifyMask, 
+             &xev);
 }
 
-void
-WindowX11::setWidth(unsigned width)
+int WindowX11::GetHeight()
 {
   XWindowAttributes xwa;
-  XGetWindowAttributes(dpy, root, &xwa);
-  XResizeWindow(dpy,winXMain,width,xwa.height);
+  XGetWindowAttributes(dpy,winMn,&xwa);
+  return xwa.height;
+}
+
+int WindowX11::GetWidth()
+{
+  XWindowAttributes xwa;
+  XGetWindowAttributes(dpy,winMn,&xwa);
+  return xwa.width;
+}
+
+WindowEvents*
+WindowX11::GetNextEvent() const
+{
+  XEvent event;
+  XNextEvent(dpy,&event);
+
+  switch (event.type)
+  {
+    case DestroyNotify:
+      return new StructureEvents(WindowEvents::WINDOW_CLOSE);
+
+    case ClientMessage:
+      if (event.xclient.message_type == wndProtocols &&
+        event.xclient.data.l[0] == wndDelete)
+      {
+        //XDestroyWindow(dpy, event.xany.window);
+        // Generate WINDOW CLOSE Event
+        return new StructureEvents(WindowEvents::WINDOW_CLOSE);
+      }
+      break;
+
+    case Expose:
+      break;
+
+ /*   case ResizeRequest:
+      std::cout << event.xresizerequest.width << event.xresizerequest.height << std::endl;
+      XResizeWindow(dpy,winMn,event.xresizerequest.width,event.xresizerequest.height);
+      return new StructureEvents(WindowEvents::WINDOW_RESIZE, event.xresizerequest.width,
+                                 event.xresizerequest.height);
+*/
+
+    case ConfigureNotify:
+//      if (event.xconfigurerequest.type == ResizeRequest)
+//      {
+//        std::cout << event.xconfigurerequest.width << event.xconfigurerequest.height << std::endl;
+//      XResizeWindow(dpy,winMn,event.xconfigurerequest.width,event.xconfigurerequest.height);
+        return new StructureEvents(WindowEvents::WINDOW_RESIZE, event.xconfigurerequest.width,
+                                   event.xconfigurerequest.height);
+//      }
+//      break;
+
+    default:
+      break;
+  }
+  return new WindowEvents();
+}
+
+int
+WindowX11::GetPendingEventsCount() const
+{
+  return XPending(dpy);
 }
 
 void
-WindowX11::setHeight(unsigned height)
+WindowX11::SwapBuffers() const
 {
-  XWindowAttributes xwa;
-  XGetWindowAttributes(dpy, root, &xwa);
-  XResizeWindow(dpy,winXMain,xwa.width,height);
+  // No-op if winMn was created with a non-double-buffered GLXFBConfig.
+  glXSwapBuffers(dpy, winMn);
 }
 
 // Private methods
 
 char *
-WindowX11::getXProperty(Window &win, Atom property, Atom property_type, long &size)
+WindowX11::GetXProperty(const Window &win, Atom property, Atom property_type, long &size) const
 {
   // adapted from wmctrl source code
   Atom xa_ret_type;
@@ -157,7 +342,6 @@ WindowX11::getXProperty(Window &win, Atom property, Atom property_type, long &si
   tmpsize = (format / 8) * nitems;
   ret = new char[tmpsize + 1];
   memcpy(ret,data,tmpsize);
-  // makes life easier to handling string
   ret[tmpsize] = '\0';
 
   size = tmpsize;
@@ -166,18 +350,28 @@ WindowX11::getXProperty(Window &win, Atom property, Atom property_type, long &si
 }
 
 bool
-WindowX11::IsNetWMCompliant()
+WindowX11::IsNetWMCompliant() const
 {
   long winSize;
   bool retCode = false;
   Window *win = NULL;
   Atom netWMSupport = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK",False);
-  if (win = (Window *) getXProperty(root, netWMSupport, XA_WINDOW, winSize))
-  {
+  if (win = (Window *) GetXProperty(root, netWMSupport, XA_WINDOW, winSize))
     retCode = true;
-  }
   delete [] win;
   return retCode;
+}
+
+bool 
+WindowX11::IsGLXSupported() const
+{
+  return glXQueryExtension(dpy, NULL, NULL);
+}
+
+bool
+WindowX11::GetGLXVersion(int *major, int *minor) const
+{
+  return glXQueryVersion(dpy, major, minor);
 }
 
 }

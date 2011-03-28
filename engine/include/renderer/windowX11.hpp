@@ -29,9 +29,12 @@
 
 #include <climits>
 #include <cstring>
+
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
+#include <X11/extensions/Xrandr.h>
 
+#include <GL/glx.h>
 
 namespace hummstrumm
 {
@@ -39,6 +42,8 @@ namespace engine
 {
 namespace renderer
 {
+
+using namespace hummstrumm::engine::events;
 
 class WindowX11: public WindowSystem
 {
@@ -59,7 +64,7 @@ class WindowX11: public WindowSystem
      * @date 2010-07-24
      * @since 0.3
      */
-    ~WindowX11();
+     ~WindowX11();
 
     /**
      * Create a X11 window.
@@ -68,13 +73,10 @@ class WindowX11: public WindowSystem
      * @date 2010-07-24
      * @since 0.3
      *
-     * @param name Window name.
-     * @param height Height of the window.
-     * @param width Width of the window.
-     * @param fs Window in fullscreen.
+     * @param winParam Window parameters.
      *
      */
-    virtual void createWindow(std::string name, unsigned height, unsigned width, bool fs);
+    void CreateWindow(const WindowParameters &winParam);
 
     /**
      * Set this window to fullscreen.
@@ -84,7 +86,7 @@ class WindowX11: public WindowSystem
      * @since 0.3
      *
      */
-    virtual void setToFullscreen();
+    void SetFullscreen();
 
     /**
      * Set this window back to window mode if its in fullscreen.
@@ -94,45 +96,81 @@ class WindowX11: public WindowSystem
      * @since 0.3
      *
      */
-    virtual void setToWindowMode();
-
+    void SetWindowMode();
 
      /**
-     * Set this window width.
+     * Get current window drawable width.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-01-03
+     * @since 0.3
+     *
+     */
+    int GetWidth();
+
+     /**
+     * Get current window drawable height.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-01-03
+     * @since 0.3
+     *
+     */
+    int GetHeight();
+
+     /**
+     * Get window event. If event queue is empty, the output buffer is 
+     * flushed and getEvent is blocked until an event is received.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-07-24
      * @since 0.3
      *
+     * @note Needs to return the Event.
      */
-    virtual void setWidth(unsigned width);
+    WindowEvents* GetNextEvent() const;
 
      /**
-     * Set this window height.
+     * Get the number of pending events.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-07-24
      * @since 0.3
      *
+     * @return The number of events that have been received  but have 
+     * not been removed from the event queue.
      */
-    virtual void setHeight(unsigned height);
+    int GetPendingEventsCount() const;
+
+     /**
+     * Swap buffers if using double buffer.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-12-24
+     * @since 0.3
+     *
+     */
+    virtual void SwapBuffers() const;
  
-
   private:
-    // Pointer to a X11 display structure.
+    // Pointer to a X11 display structure
     Display *dpy;
-    // Root window.
+    // Root window
     Window root;
-    // To configure the window parameters.
-    XWindowChanges winParam;
-    // Is the window manager NetWM compliant
-    bool NetWMSupport;
     // Default screen
     int screen;
     // The depth (number of planes) of the default root window for 'screen'
     int depth;
-    // Main window
-    Window winXMain;
+    // window
+    Window winMn;
+    // Atoms
+    Atom wndDelete;
+    Atom wndProtocols;
+    // Supported GLX version
+    int glXVerMajor;
+    int glXVerMinor;
+    // Pointer to the default screen
+    Screen *scr;
 
     /**
      * Get a X Window property.
@@ -145,9 +183,9 @@ class WindowX11: public WindowSystem
      * @param property_type The type of property.
      * @param size Size of the returned data.
      *
-     * @return True if successful, false otherwise.
+     * @return A pointer to the property or null if property doesn't exist
      */  
-    char * getXProperty(Window &win, Atom property, Atom property_type, long &size);
+    char * GetXProperty(const Window &win, Atom property, Atom property_type, long &size) const;
 
     /**
      * Checks if the Window manager supports 'extended window manager hints' 
@@ -159,7 +197,33 @@ class WindowX11: public WindowSystem
      *
      * @return True if yes, false otherwise.
      */  
-    bool IsNetWMCompliant();
+    bool IsNetWMCompliant() const;
+
+   /**
+     * Verify if GLX extension is supported.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-07-24
+     * @since 0.3
+     *
+     * @return True if yes, false otherwise.
+     */  
+    bool IsGLXSupported() const;
+
+    /**
+     * Get the supported GLX version.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-07-24
+     * @since 0.3
+     *
+     * @param major Where to store the major value of version.
+     * @param minor Where to store the minor value of version.
+     *
+     * @return True if success false otherwise. 
+     */  
+    bool GetGLXVersion(int *major, int *minor) const;
+
 };
 
 

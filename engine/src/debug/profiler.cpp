@@ -36,9 +36,10 @@ namespace engine
 namespace debug
 {
 
-Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
+Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::Output out)
   : startTime (hummstrumm::engine::types::Date::GetHighResolutionCount ()),
     reportInUnit (reportIn),
+    writeTo (out),
     lowestTime (hummstrumm::engine::types::INT64_MAX), // So the first time will
                                                        // always be faster.
     averageTime (0),
@@ -52,7 +53,6 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
   message += this->debugName;
   message += "'' started.";
 
-//  std::cout << startTime << std::endl;
 
   // Log it.
   HUMMSTRUMM_LOG (message, MESSAGE);
@@ -65,8 +65,7 @@ Profiler::Iterate (void)
   // Get the time and calculate how long it has been since the start.
   hummstrumm::engine::types::int64 endTime (hummstrumm::engine::types::Date::
                                             GetHighResolutionCount ());
- 
-  std::cout << endTime << std::endl;
+  std::cout << endTime << std::endl; 
   hummstrumm::engine::types::int64 difference;
   
   if (endTime < this->startTime)
@@ -87,7 +86,6 @@ Profiler::Iterate (void)
     {
       difference = endTime - this->startTime;
     }
-
   // Get the timer frequency.
   hummstrumm::engine::types::int64 frequency (hummstrumm::engine::types::Date::
                    GetHighResolutionFrequency ());
@@ -116,7 +114,6 @@ Profiler::Iterate (void)
   this->averageTime = ((this->averageTime * this->numberOfRuns) + time) /
     (this->numberOfRuns + 1);
   this->numberOfRuns += 1;
-
   this->startTime = hummstrumm::engine::types::Date::GetHighResolutionCount ();
 }
 
@@ -136,8 +133,24 @@ Profiler::~Profiler (void)
   message << ", Average Time of ";
   message << this->averageTime;
 
-  // Write it out.
-  HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);
+  if (this->writeTo == LOGGER_AND_CONSOLE)
+    {
+      // Write it out.
+      HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);      
+      std::cout << message.str() << std::endl;
+    }
+  else if (this->writeTo == CONSOLE)
+    {
+      std::cout << message.str() << std::endl;
+    }
+  else if (this->writeTo == LOGGER)
+    {
+      HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);
+    }
+  else
+    {
+      // throw something ...
+    }
 }
 
 

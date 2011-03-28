@@ -47,7 +47,6 @@ class QuaternionsTest : public CppUnit::TestFixture
 
     void tearDown () {}
 
-
     void testMultiplication ()
     {
       Quaternion <float> q0 ( 1, 2, 3, 4);
@@ -159,13 +158,12 @@ class QuaternionsTest : public CppUnit::TestFixture
 
       q0Expected = QuatPow (q0,exponent);      
     }
-
 };
 
 
 class MatricesTest : public CppUnit::TestFixture
 {
-  CPPUNIT_TEST_SUITE ( MatricesTest );
+  CPPUNIT_TEST_SUITE ( MatricesTest );  
   CPPUNIT_TEST ( testConstructor );
   CPPUNIT_TEST ( testAssignment );
   CPPUNIT_TEST ( testEquality );
@@ -178,7 +176,6 @@ class MatricesTest : public CppUnit::TestFixture
   CPPUNIT_TEST ( testDeterminant );
   CPPUNIT_TEST ( testInverse );
   CPPUNIT_TEST_SUITE_END ();
-
   public:
 
     void setUp () {}
@@ -766,7 +763,6 @@ class MatricesTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].w, m4_4t[3].w, 0.01);
 
     }
-
 };
 
 class VectorTest : public CppUnit::TestFixture
@@ -788,7 +784,6 @@ class VectorTest : public CppUnit::TestFixture
   //CPPUNIT_TEST ( testOrthonormalize );
   CPPUNIT_TEST ( testDotProduct );
   CPPUNIT_TEST_SUITE_END ();
-
   public:
 
     void setUp () {}
@@ -1016,7 +1011,6 @@ class VectorTest : public CppUnit::TestFixture
 
       CPPUNIT_ASSERT_EQUAL ( Vec2DDot(v2_0,v2_1), 0.0f ); 
     }
-
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION ( VectorTest );

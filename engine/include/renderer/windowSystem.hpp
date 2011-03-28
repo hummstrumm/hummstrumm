@@ -55,7 +55,7 @@ class WindowSystem
      * @date 2010-07-24
      * @since 0.3
      */
-    ~WindowSystem() {}
+    virtual ~WindowSystem() {}
 
     /**
      * Create a window.
@@ -64,14 +64,10 @@ class WindowSystem
      * @date 2010-07-24
      * @since 0.3
      *
-     * @param name Window name.
-     * @param height Height of the window.
-     * @param width Width of the window.
-     * @param fs Window in fullscreen.
+     *@param winParam Window parameters.
      *
      */
-    virtual void createWindow(std::string name, unsigned height, unsigned width, bool fs) = 0;
-
+    virtual void CreateWindow(const WindowParameters &winParam) = 0;
     /**
      * Set the window to fullscreen.
      *
@@ -80,7 +76,7 @@ class WindowSystem
      * @since 0.3
      *
      */
-    virtual void setToFullscreen() = 0;
+    virtual void SetFullscreen() = 0;
 
     /**
      * Set the window back to window mode if its in fullscreen.
@@ -90,29 +86,27 @@ class WindowSystem
      * @since 0.3
      *
      */
-    virtual void setToWindowMode() = 0;
-
+    virtual void SetWindowMode() = 0;
 
      /**
-     * Set the window width.
+     * Get the window drawable width.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-07-24
      * @since 0.3
      *
      */
-    virtual void setWidth(unsigned width) = 0;
+    virtual int GetWidth() = 0;
 
      /**
-     * Set the window height.
+     * Get the window drawable height.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-07-24
      * @since 0.3
      *
      */
-    virtual void setHeight(unsigned height) = 0;
-
+    virtual int GetHeight() = 0;
 
 };
 

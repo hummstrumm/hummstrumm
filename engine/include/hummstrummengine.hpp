@@ -211,14 +211,30 @@ class List;
  */
 namespace streams {}
 
+namespace events
+{
+class WindowEvents;
+class StructureEvents;
+class KeyboardEvents;
+class MouseEvents;
+}
+
 /**
  * The namespace for the renderer system.
  */
 namespace renderer
 {
+struct WindowParameters;
 class WindowSystem;
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+struct WindowGLXParam;
 class WindowX11;
+#endif
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+struct WindowWGLParam;
+#endif
 }
+
 }
 
 }
@@ -271,13 +287,22 @@ class WindowX11;
 #  include <hummstrummengine/geometry/segment.hpp>
 #  include <hummstrummengine/geometry/boundingbox.hpp>
 #  include <hummstrummengine/geometry/boundingsphere.hpp>
+#  include <hummstrummengine/math/simd.hpp>
 #  include <hummstrummengine/math/vector.hpp>
 #  include <hummstrummengine/math/matrice.hpp>
 #  include <hummstrummengine/math/quaternion.hpp>
+#  include <hummstrummengine/events/windowEvents.hpp>
 #  include <hummstrummengine/renderer/windowSystem.hpp>
 #  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #    include <hummstrummengine/renderer/windowX11.hpp>
 #  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#  include <hummstrummengine/renderer/windowParameters.hpp>
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#  include <hummstrummengine/renderer/windowGLXParam.hpp>
+#endif
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  include <hummstrummengine/renderer/windowWGLParam.hpp>
+#endif
 #  include <hummstrummengine/containers/list.hpp>
 // This has to go last.
 #  include <hummstrummengine/core/engine.hpp>
@@ -315,6 +340,7 @@ class WindowX11;
 //#  include "types/string.hpp"
 #  include "debug/log.hpp"
 #  include "debug/profiler.hpp"
+#  include "math/simd.hpp"
 #  include "math/mathutils.hpp"
 #  include "math/vector.hpp"
 #  include "math/matrice.hpp"
@@ -324,10 +350,18 @@ class WindowX11;
 #  include "geometry/segment.hpp"
 #  include "geometry/boundingbox.hpp"
 #  include "geometry/boundingsphere.hpp"
+#  include "events/windowEvents.hpp"
 #  include "renderer/windowSystem.hpp"
 #  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #    include "renderer/windowX11.hpp"
 #  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#  include "renderer/windowParameters.hpp"
+#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#  include "renderer/windowGLXParam.hpp"
+#endif
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#  include "renderer/windowWGLParam.hpp"
+#endif
 #  include "containers/list.hpp"
 // This has to go last.
 #  include "core/engine.hpp"

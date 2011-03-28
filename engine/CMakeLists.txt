@@ -39,7 +39,8 @@ set (hummstrummengine_SRCS
 #  src/types/string.cpp
   src/system/endianness.cpp
   src/math/vector.cpp
-  src/types/inttypes.cpp)
+  src/types/inttypes.cpp
+  src/events/windowEvents.cpp)
 
 # Windows-Only Source Files
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
@@ -70,7 +71,6 @@ if (HUMMSTRUMM_PLATFORM_BSD)
         src/system/bsd/clock.cpp)
 endif (HUMMSTRUMM_PLATFORM_BSD)
 
-
 # Windows-only Window System Files
 if (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
 #  list (APPEND hummstrummengine_SRCS
@@ -85,7 +85,10 @@ endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
 set (hummstrummengine_INCLUDE include/)
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
-  set (CMAKE_C_FLAGS_DEBUG "-w -g -ggdb")
+  set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb")
+  add_definitions( -msse)
+  add_definitions( -msse4.1)
+  add_definitions( -msse4.2)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 include_directories (${hummstrummengine_INCLUDE})

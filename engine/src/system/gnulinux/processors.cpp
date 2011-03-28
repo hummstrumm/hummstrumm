@@ -176,6 +176,9 @@ Processors::Processors (void)
                   // The flags we are interested in.
                   const char *sseFlag = "sse ";
                   const char *sse2Flag = "sse2 ";
+                  const char *sse3Flag = "ssse3 ";
+                  const char *sse41Flag = "sse4_1 ";
+                  const char *sse42Flag = "sse4_2 ";
                   if (std::strstr (realFlags, sseFlag))
                     {
                       this->sseSupport = true;
@@ -184,6 +187,19 @@ Processors::Processors (void)
                     {
                       this->sse2Support = true;
                     }
+                  if (std::strstr (realFlags, sse3Flag))
+                    {
+                      this->sse3Support = true;
+                    }
+                  if (std::strstr (realFlags, sse41Flag))
+                    {
+                      this->sse41Support = true;
+                    }
+                  if (std::strstr (realFlags, sse42Flag))
+                    {
+                      this->sse42Support = true;
+                    }
+
                 }
               continue;
             }

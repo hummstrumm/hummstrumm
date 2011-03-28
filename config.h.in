@@ -30,12 +30,10 @@
 #cmakedefine HUMMSTRUMM_ARCHITECTURE_64
 #cmakedefine HUMMSTRUMM_ARCHITECTURE_32
 
-#cmakedefine HUMMSTRUMM_WINDOWSYSYEM_WINDOWS
-#cmakedefine HUMMSTRUMM_WINDOWSYSYEM_X11
+#cmakedefine HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
+#cmakedefine HUMMSTRUMM_WINDOWSYSTEM_X11
 
-// System features  -- Turned off to try to check at runtime
-//#cmakedefine HUMMSTRUMM_SSE_SUPPORT
-//#cmakedefine HUMMSTRUMM_SSE2_SUPPORT
+#cmakedefine HUMMSTRUMM_HAVE_SSE_SUPPORT
 
 // File name of the log.
 #cmakedefine HUMMSTRUMM_LOG_FILENAME "@HUMMSTRUMM_LOG_FILENAME@"
