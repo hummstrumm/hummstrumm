@@ -194,15 +194,25 @@ class Number;
 
 /**
  * The namespace for container types.  This namespace contains STL-style
- * data structure classes, iterator types, concept maps for the data
- * structures, and generic algorithms that work on data structures.
+ * data structure classes that implement the Object/Type System.
  */
 namespace containers
 {
+/**
+ * The namespace for accessor types.  This namespace contains classes termed
+ * "Accessors", which are used to access the individual elements of a data
+ * structure.  Accessors are a more general concept than iterators.
+ */
+namespace accessors
+{
+template <typename T>
+class Accessor;
+template <typename T>
+class Iterator;
+}
+
 template <typename T>
 class List;
-//template <typename T>
-//class Iterator;
 }
 
 /**
@@ -264,18 +274,17 @@ struct WindowWGLParam;
 #  include <hummstrummengine/error/unicode.hpp>
 #  include <hummstrummengine/error/memorycorruption.hpp>
 #  include <hummstrummengine/error/invalidparam.hpp>
-//#  include <hummstrummengine/error/iterator.hpp>
+#  include <hummstrummengine/error/iterator.hpp>
 #  include <hummstrummengine/core/allocationtable.hpp>
-//#  include <hummstrummengine/core/pool.hpp>
 #  include <hummstrummengine/core/object.hpp>
 #  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/core/pointer.hpp>
+#  include <hummstrummengine/accessors/accessor.hpp>
 #  include <hummstrummengine/system/platform.hpp>
 #  include <hummstrummengine/system/endianness.hpp>
 #  include <hummstrummengine/system/processors.hpp>
 #  include <hummstrummengine/system/memory.hpp>
 #  include <hummstrummengine/system/clock.hpp>
-#  include <hummstrummengine/containers/iterator.hpp>
 #  include <hummstrummengine/types/date.hpp>
 //#  include <hummstrummengine/types/character.hpp>
 #  include <hummstrummengine/types/number.hpp>
@@ -308,7 +317,6 @@ struct WindowWGLParam;
 #  include <hummstrummengine/core/engine.hpp>
 // Template and Inline implementations now...
 #  include <hummstrummengine/core/pointer.inl>
-//#  include <hummstrummengine/core/pool.inl>
 #  include <hummstrummengine/containers/list.inl>
 #  include <hummstrummengine/system/endianness.inl>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
@@ -324,7 +332,6 @@ struct WindowWGLParam;
 #  include "error/invalidparam.hpp"
 #  include "error/iterator.hpp"
 #  include "core/allocationtable.hpp"
-//#  include "core/pool.hpp"
 #  include "core/object.hpp"
 #  include "core/type.hpp"
 #  include "core/pointer.hpp"
@@ -333,7 +340,7 @@ struct WindowWGLParam;
 #  include "system/processors.hpp"
 #  include "system/memory.hpp"
 #  include "system/clock.hpp"
-//#  include "containers/iterator.hpp"
+#  include "accessors/accessor.hpp"
 #  include "types/date.hpp"
 //#  include "types/character.hpp"
 #  include "types/number.hpp"
@@ -367,7 +374,6 @@ struct WindowWGLParam;
 #  include "core/engine.hpp"
 // Template and Inline implementations now...
 #  include "core/pointer.inl"
-//#  include "core/pool.inl"
 #  include "containers/list.inl"
 #  include "system/endianness.inl"
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE

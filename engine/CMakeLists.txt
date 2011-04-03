@@ -33,6 +33,7 @@ set (hummstrummengine_SRCS
   src/core/object.cpp
   src/core/allocationtable.cpp
   src/core/engine.cpp
+  src/accessors/accessor.cpp
   src/types/date.cpp
 #  src/types/character.cpp
   src/types/number.cpp
@@ -85,7 +86,7 @@ endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
 set (hummstrummengine_INCLUDE include/)
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
-  set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb")
+  set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
   add_definitions( -msse)
   add_definitions( -msse4.1)
   add_definitions( -msse4.2)

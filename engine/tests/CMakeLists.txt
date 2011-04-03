@@ -33,35 +33,29 @@ include_directories (${hummstrummengine_INCLUDE})
 
 add_executable(test_engine_core core.cpp)
 target_link_libraries(test_engine_core ${hummstrummengine_LIBS})
+add_test (NAME test_engine_core COMMAND test_engine_core)
 
 add_executable(test_engine_log log.cpp)
 target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
-
-add_test (NAME test_engine_core COMMAND test_engine_core)
+add_test (NAME test_engine_log COMMAND test_engine_log)
 
 add_executable(test_engine_math math.cpp)
 target_link_libraries(test_engine_math ${hummstrummengine_LIBS})
 add_test (NAME test_engine_math COMMAND test_engine_math)
 
-add_test (NAME test_engine_core_cppunit COMMAND test_engine_core_cppunit)
-
-add_executable(test_engine_endian endian.cpp)
-target_link_libraries(test_engine_endian ${hummstrummengine_LIBS})
-
-add_test (NAME test_engine_core_no_cppunit COMMAND test_engine_core_no_cppunit)
+add_executable(test_engine_system system.cpp)
+target_link_libraries(test_engine_system ${hummstrummengine_LIBS})
+add_test (NAME test_engine_system COMMAND test_engine_system)
 
 add_executable(test_engine_types types.cpp)
 target_link_libraries(test_engine_types ${hummstrummengine_LIBS})
-
-add_test (NAME test_engine_log COMMAND test_engine_log)
+add_test (NAME test_engine_types COMMAND test_engine_types)
 
 add_executable(test_engine_geometry geometry.cpp)
 target_link_libraries(test_engine_geometry ${hummstrummengine_LIBS})
-
-add_test (NAME test_engine_endian COMMAND test_engine_endian)
+add_test (NAME test_engine_geometry COMMAND test_engine_geometry)
 
 add_executable(test_engine_window window.cpp)
 target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
-
 add_test (NAME test_engine_window COMMAND test_engine_window)
 

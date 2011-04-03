@@ -91,6 +91,12 @@ set (CPACK_PACKAGE_EXECUTABLES "hummstrumm" "Humm and Strumm")
 include (CPack)
 
 
+# Check for Perl 5
+find_package (Perl 5)
+if (PERL_FOUND)
+endif (PERL_FOUND)  
+
+
 # Detect which platform we are on.  Currently, we support Windows, GNU/Linux,
 # and *BSD (experimental).  *BSD is the default for any non-Linux based UNIX
 # system, be it FreeBSD, OpenSolaris, GNU/Hurd, whatever.

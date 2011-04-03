@@ -1,11 +1,11 @@
 # From the CMake FAQ:
 # <http://www.paraview.org/Wiki/CMake_FAQ#Can_I_do_.22make_uninstall.22_with_CMake.3F>
 
-IF(NOT EXISTS "/home/rtiago/games/hummstrumm/unstable/install_manifest.txt")
-  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/rtiago/games/hummstrumm/unstable/install_manifest.txt\".  Did you install the library?")
-ENDIF(NOT EXISTS "/home/rtiago/games/hummstrumm/unstable/install_manifest.txt")
+IF(NOT EXISTS "/home/pniedzielski/Projektoj/hummstrumm/unstable/install_manifest.txt")
+  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/pniedzielski/Projektoj/hummstrumm/unstable/install_manifest.txt\".  Did you install the library?")
+ENDIF(NOT EXISTS "/home/pniedzielski/Projektoj/hummstrumm/unstable/install_manifest.txt")
 
-FILE(READ "/home/rtiago/games/hummstrumm/unstable/install_manifest.txt" files)
+FILE(READ "/home/pniedzielski/Projektoj/hummstrumm/unstable/install_manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   MESSAGE(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")
