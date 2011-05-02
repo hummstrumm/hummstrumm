@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -280,6 +280,7 @@ struct WindowWGLParam;
 #  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/core/pointer.hpp>
 #  include <hummstrummengine/accessors/accessor.hpp>
+//#  include <hummstrummengine/accessors/iterator.hpp>
 #  include <hummstrummengine/system/platform.hpp>
 #  include <hummstrummengine/system/endianness.hpp>
 #  include <hummstrummengine/system/processors.hpp>
@@ -341,6 +342,7 @@ struct WindowWGLParam;
 #  include "system/memory.hpp"
 #  include "system/clock.hpp"
 #  include "accessors/accessor.hpp"
+//#  include "accessors/iterator.hpp"
 #  include "types/date.hpp"
 //#  include "types/character.hpp"
 #  include "types/number.hpp"

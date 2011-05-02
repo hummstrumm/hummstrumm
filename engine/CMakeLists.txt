@@ -1,5 +1,5 @@
 # Humm and Strumm Video Game
-# Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ if (HUMMSTRUMM_WINDOWSYSTEM_X11)
         src/renderer/windowX11.cpp)
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
-set (hummstrummengine_INCLUDE include/)
+set (hummstrummengine_INCLUDE include/ ${CMAKE_CURRENT_BINARY_DIR}/include/)
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
   set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
   add_definitions( -msse)
@@ -113,11 +113,11 @@ if (HUMMSTRUMM_PLATFORM_WINDOWS)
   set (HUMMSTRUMM_ENGINE_INSTALL_DOC       doc)
 else ()
   set (HUMMSTRUMM_ENGINE_INSTALL_HEADERS
-       include/hummstrummengine-${HUMMSTRUMM_VERSION_NUMBER})
+       include/hummstrummengine-${HUMMSTRUMM_VERSION})
   set (HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES
-       lib/hummstrummengine-${HUMMSTRUMM_VERSION_NUMBER})
+       lib/hummstrummengine-${HUMMSTRUMM_VERSION})
   set (HUMMSTRUMM_ENGINE_INSTALL_DOC
-       share/doc/hummstrummengine-${HUMMSTRUMM_VERSION_NUMBER})
+       share/doc/hummstrummengine-${HUMMSTRUMM_VERSION})
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
 # Install library and header files
@@ -125,13 +125,15 @@ install (TARGETS hummstrummengine
          ARCHIVE DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES})
 if (HUMMSTRUMM_BUILD_DOCS)
   if (HUMMSTRUMM_BUILD_DOCS_LATEX)
-    install (FILES doc/latex/refman.pdf
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/doc/latex/refman.pdf
              DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
   endif (HUMMSTRUMM_BUILD_DOCS_LATEX)
-  install (DIRECTORY doc/html
+  install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html
            DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
 endif (HUMMSTRUMM_BUILD_DOCS)
 install (FILES include/hummstrummengine.hpp
+         DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
 install (DIRECTORY ${hummstrummengine_INCLUDE}
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS}
@@ -142,13 +144,13 @@ install (DIRECTORY ${hummstrummengine_INCLUDE}
                         REGEX "/*[.]svn" EXCLUDE)
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
   if ($ENV{PKG_CONFIG_PATH})
-    install (FILES hummstrummengine-${HUMMSTRUMM_VERSION_NUMBER}.pc
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/hummstrummengine-${HUMMSTRUMM_VERSION}.pc
              DESTINATION $ENV{PKG_CONFIG_PATH})
   else ()
-    install (FILES hummstrummengine-${HUMMSTRUMM_VERSION_NUMBER}.pc
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/hummstrummengine-${HUMMSTRUMM_VERSION}.pc
              DESTINATION lib/pkgconfig)
   endif ($ENV{PKG_CONFIG_PATH})
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
-configure_file (${CMAKE_SOURCE_DIR}/engine/hummstrummengine.pc.in
-                ${CMAKE_SOURCE_DIR}/engine/hummstrummengine-${HUMMSTRUMM_VERSION_NUMBER}.pc @ONLY)
+configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hummstrummengine.pc.in
+                ${CMAKE_CURRENT_BINARY_DIR}/hummstrummengine-${HUMMSTRUMM_VERSION}.pc @ONLY)

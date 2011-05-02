@@ -37,10 +37,11 @@
 
 #
 #  Copyright (c) 2009, 2010 Tobias Rautenkranz <tobias@rautenkranz.ch>
+#  Copyright (C) 2011, those listed in the AUTHORS file.
 #
 #  Redistribution and use is allowed according to the terms of the New
 #  BSD license.
-#  For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+#  For details see the accompanying COPYING.UseDoxygen file.
 #
 
 macro(usedoxygen_set_default name value)
@@ -55,6 +56,7 @@ if(DOXYGEN_FOUND)
 	find_file(DOXYFILE_IN "Doxyfile.in"
 			PATHS "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_ROOT}/Modules/"
 			NO_DEFAULT_PATH)
+        mark_as_advanced (DOXYFILE_IN)
 	set(DOXYFILE "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
 	include(FindPackageHandleStandardArgs)
 	find_package_handle_standard_args(DOXYFILE_IN DEFAULT_MSG "DOXYFILE_IN")
@@ -63,16 +65,24 @@ endif()
 if(DOXYGEN_FOUND AND DOXYFILE_IN_FOUND)
 	usedoxygen_set_default(DOXYFILE_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/doc")
 	usedoxygen_set_default(DOXYFILE_HTML_DIR "html")
-	usedoxygen_set_default(DOXYFILE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}\"
-		\"${CMAKE_CURRENT_BINARY_DIR}")
+	usedoxygen_set_default(DOXYFILE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 	set_property(DIRECTORY APPEND PROPERTY
 		ADDITIONAL_MAKE_CLEAN_FILES
 		"${DOXYFILE_OUTPUT_DIR}/${DOXYFILE_HTML_DIR}")
 
-	add_custom_target(doxygen
+        file (GLOB_RECURSE header_files_relative
+              RELATIVE ${DOXYFILE_SOURCE_DIR}
+              "*.hpp")
+        foreach (header_file ${header_files_relative})
+          list (APPEND header_files "${DOXYFILE_SOURCE_DIR}/${header_file}")
+        endforeach ()
+
+	add_custom_target(doxygen DEPENDS ${DOXYFILE_OUTPUT_DIR})
+	add_custom_command(DEPENDS ${header_files}
+	        OUTPUT  ${DOXYFILE_OUTPUT_DIR}
 		COMMAND ${DOXYGEN_EXECUTABLE}
-			${DOXYFILE} 
+                ARGS    ${DOXYFILE}
 		COMMENT "Writing documentation to ${DOXYFILE_OUTPUT_DIR}..."
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 

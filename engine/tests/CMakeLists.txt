@@ -1,5 +1,5 @@
 # Humm and Strumm Video Game
-# Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 enable_testing ()
 
-set (hummstrummengine_INCLUDE ../include/ ../../CPPUnit/include/)
+set (hummstrummengine_INCLUDE ../include/ ../../CPPUnit/include/ ${hummstrumm_BINARY_DIR}/engine/include)
 set (hummstrummengine_LIBS hummstrummengine cppunit)
 
 if (HUMMSTRUMM_WINDOWSYSTEM_X11)
@@ -59,3 +59,8 @@ add_executable(test_engine_window window.cpp)
 target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
 add_test (NAME test_engine_window COMMAND test_engine_window)
 
+#add_executable(test_engine_sqrt sqrt.cpp)
+#target_link_libraries(test_engine_sqrt ${hummstrummengine_LIBS})
+#add_test (NAME test_engine_sqrt COMMAND test_engine_sqrt)
+
+#endif (HUMMSTRUMM_PLATFORM_GNULINUX)
