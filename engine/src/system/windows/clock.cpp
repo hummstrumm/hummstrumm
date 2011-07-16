@@ -30,28 +30,22 @@ namespace system
 
 Clock::Clock (void)
   throw ()
-  : offset (0),
-    isDaylight (0),
-    timeZoneName (0),
+  : //offset (0),
+    //isDaylight (0),
+    //timeZoneName (0),
     frequency (0)
 {
-  try
+  // Get clock frequency.
+  LARGE_INTEGER freq;
+  QueryPerformanceFrequency (&freq);
+  if (freq.QuadPart == 0)
     {
-      // Get clock frequency.
-      LARGE_INTEGER freq;
-      QueryPerformanceFrequency (&freq);
-      if (freq.QuadPart == 0)
-        {
-          this->frequency = 0;  // wtf?
-        }
-      else
-        {
-          this->frequency = 1000000000 /
-            static_cast <hummstrumm::engine::types::uint64> (freq.QuadPart);
-        }
+      this->frequency = 0;  // wtf?  If this happens we have big problems.
     }
-  catch (int i)
+  else
     {
+      this->frequency = 1000000000 /
+        static_cast <hummstrumm::engine::types::uint64> (freq.QuadPart);
     }
 }
 

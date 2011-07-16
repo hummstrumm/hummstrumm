@@ -20,8 +20,10 @@
 
 #include <cstring>
 #include <cstdlib>
+#include <sys/types.h>
 #include <sys/sysctl.h>
-#include "cpuid.h"
+#include <vm/vm_param.h>
+#include <sys/vmmeter.h>
 
 namespace hummstrumm
 {
@@ -35,7 +37,10 @@ Memory::Memory (void)
   throw ()
   : totalMemory (0),
     freeMemory (0)
-{  
+{
+  int mib[2];  
+  std::size_t length;
+
   // Find the total amount of memory.
   mib[0] = CTL_HW;
   mib[1] = HW_PHYSMEM;
@@ -53,29 +58,27 @@ Memory::Memory (void)
   length = sizeof pageSize;
   sysctl (mib, 2, &pageSize, &length, 0, 0);
 
-  // Find the amount of inactive memory.
-  int inactive;
+  vmtotal meter;
   mib[0] = CTL_VM;
-  mib[1] = VM_INACTIVE;
-  length = sizeof inactive;
-  sysctl (mib, 2, &inactive, &length, 0, 0);
-  inactive *= pageSize;
+  mib[1] = VM_METER;
+  length = sizeof meter;
+  sysctl (mib, 2, &meter, &length, 0, 0);
+
+  // Find the amount of inactive memory.
+  int inactive = 0;
+//  inactive *= pageSize;
 
   // Find the amount of cache memory.
-  int cache;
-  mib[0] = CTL_VM;
-  mib[1] = VM_CACHE;
-  length = sizeof cache;
-  sysctl (mib, 2, &cache, &length, 0, 0);
-  cache *= pageSize;
+  int cache = 0;
+//  mib[0] = CTL_VM;
+//  mib[1] = VM_CACHE;
+//  length = sizeof cache;
+//  sysctl (mib, 2, &cache, &length, 0, 0);
+//  cache *= pageSize;
 
   // Find the amount of unused memory.
   int unused;
-  mib[0] = CTL_VM;
-  mib[1] = VM_FREE;
-  length = sizeof unused;
-  sysctl (mib, 2, &unused, &length, 0, 0);
-  unused *= pageSize;
+  unused = meter.t_free * pageSize;
 
   // Add them!
   this->freeMemory = inactive + cache + unused;

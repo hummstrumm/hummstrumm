@@ -76,7 +76,7 @@ Platform::Platform (void)
           throw 1;
         }
       
-      std::strncpy (this->name, "Microsoft ", 256);
+      std::strcpy (this->name, "Microsoft ");
 
       // Test for the specific product.
 
@@ -86,11 +86,11 @@ Platform::Platform (void)
             {
               if (versionInfo.wProductType == VER_NT_WORKSTATION)
                 {
-                  std::strncat (this->name, 256, "Windows Vista ");
+                  std::strcat (this->name, "Windows Vista ");
                 }
               else
                 {
-                  std::strncat (this->name, 256, "Windows Server 2008 ");
+                  std::strcat (this->name, "Windows Server 2008 ");
                 }
             }
 
@@ -98,11 +98,11 @@ Platform::Platform (void)
             {
               if (versionInfo.wProductType == VER_NT_WORKSTATION)
                 {
-                  std::strncat (this->name, 256, "Windows 7 ");
+                  std::strcat (this->name, "Windows 7 ");
                 }
               else
                 {
-                  std::strncat (this->name, 56, "Windows Server 2008 R2 ");
+                  std::strcat (this->name, "Windows Server 2008 R2 ");
                 }
             }
          
@@ -117,63 +117,63 @@ Platform::Platform (void)
          switch (osType)
            {
            case PRODUCT_ULTIMATE:
-             std::strncat (this->name, 256, "Ultimate Edition");
+             std::strcat (this->name, "Ultimate Edition");
              break;
            case PRODUCT_PROFESSIONAL:
-             std::strncat (this->name, 256, "Professional");
+             std::strcat (this->name, "Professional");
              break;
            case PRODUCT_HOME_PREMIUM:
-             std::strncat (this->name, 256, "Home Premium Edition");
+             std::strcat (this->name, "Home Premium Edition");
              break;
            case PRODUCT_HOME_BASIC:
-             std::strncat (this->name, 256, "Home Basic Edition");
+             std::strcat (this->name, "Home Basic Edition");
              break;
            case PRODUCT_ENTERPRISE:
-             std::strncat (this->name, 256, "Enterprise Edition");
+             std::strcat (this->name, "Enterprise Edition");
              break;
            case PRODUCT_BUSINESS:
-             std::strncat (this->name, 256, "Business Edition");
+             std::strcat (this->name, "Business Edition");
              break;
            case PRODUCT_STARTER:
-             std::strncat (this->name, 256, "Starter Edition");
+             std::strcat (this->name, "Starter Edition");
              break;
            case PRODUCT_CLUSTER_SERVER:
-             std::strncat (this->name, 256, "Cluster Server Edition");
+             std::strcat (this->name, "Cluster Server Edition");
              break;
            case PRODUCT_DATACENTER_SERVER:
-             std::strncat (this->name, 256, "Datacenter Edition");
+             std::strcat (this->name, "Datacenter Edition");
              break;
            case PRODUCT_DATACENTER_SERVER_CORE:
-             std::strncat (this->name, 256,
+             std::strcat (this->name,
                            "Datacenter Edition (core installation)");
              break;
            case PRODUCT_ENTERPRISE_SERVER:
-             std::strncat (this->name, 256, "Enterprise Edition");
+             std::strcat (this->name, "Enterprise Edition");
              break;
            case PRODUCT_ENTERPRISE_SERVER_CORE:
-             std::strncat (this->name, 256,
+             std::strcat (this->name,
                            "Enterprise Edition (core installation)");
              break;
            case PRODUCT_ENTERPRISE_SERVER_IA64:
-             std::strncat (this->name, 256,
+             std::strcat (this->name,
                            "Enterprise Edition for Itanium-based Systems");
              break;
            case PRODUCT_SMALLBUSINESS_SERVER:
-             std::strncat (this->name, 256, "Small Business Server");
+             std::strcat (this->name, "Small Business Server");
              break;
            case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
-             std::strncat (this->name, 256,
+             std::strcat (this->name,
                            "Small Business Server Premium Edition");
              break;
            case PRODUCT_STANDARD_SERVER:
-             std::strncat (this->name, 256, "Standard Edition");
+             std::strcat (this->name, "Standard Edition");
              break;
            case PRODUCT_STANDARD_SERVER_CORE:
-             std::strncat (this->name, 256,
+             std::strcat (this->name,
                            "Standard Edition (core installation)");
              break;
            case PRODUCT_WEB_SERVER:
-             std::strncat (this->name, 256, "Web Server Edition");
+             std::strcat (this->name, "Web Server Edition");
              break;
            }
         }
@@ -183,26 +183,26 @@ Platform::Platform (void)
         {
           if (GetSystemMetrics (SM_SERVERR2))
             {
-              std::strncat (this->name, 256, "Windows Server 2003 R2, ");
+              std::strcat (this->name, "Windows Server 2003 R2, ");
             }
           else if (versionInfo.wSuiteMask & VER_SUITE_STORAGE_SERVER)
             {
-              std::strncat (this->name, 256, "Windows Storage Server 2003");
+              std::strcat (this->name, "Windows Storage Server 2003");
             }
           else if (versionInfo.wSuiteMask & VER_SUITE_WH_SERVER)
             {
-              std::strncat (this->name, 256, "Windows Home Server");
+              std::strcat (this->name, "Windows Home Server");
             }
           else if (versionInfo.wProductType == VER_NT_WORKSTATION &&
                    systemInfo.wProcessorArchitecture ==
                      PROCESSOR_ARCHITECTURE_AMD64)
             {
-              std::strncat (this->name, 256,
+              std::strcat (this->name,
                             "Windows XP Professional x64 Edition");
             }
           else
             {
-              std::strncat (this->name, 256, "Windows Server 2003, ");
+              std::strcat (this->name, "Windows Server 2003, ");
             }
  
           // Test for the server type.
@@ -213,12 +213,12 @@ Platform::Platform (void)
                 {
                   if (versionInfo.wSuiteMask & VER_SUITE_DATACENTER)
                     {
-                      std::strncat (this->name, 256,
+                      std::strcat (this->name,
                         "Datacenter Edition for Itanium-based Systems");
                     }
                   else if (versionInfo.wSuiteMask & VER_SUITE_ENTERPRISE)
                     {
-                      std::strncat (this->name, 256,
+                      std::strcat (this->name,
                         "Enterprise Edition for Itanium-based Systems");
                     }
                 }
@@ -227,38 +227,39 @@ Platform::Platform (void)
                 {
                   if (versionInfo.wSuiteMask & VER_SUITE_DATACENTER)
                     {
-                      std::strncat (this->name, 256, "Datacenter x64 Edition");
+                      std::strcat (this->name, "Datacenter x64 Edition");
                     }
                   else if (versionInfo.wSuiteMask & VER_SUITE_ENTERPRISE)
                     {
-                      std::strncat (this->name, 256, "Enterprise x64 Edition");
+                      std::strcat (this->name, "Enterprise x64 Edition");
                     }
                   else
                     {
-                      std::strncat (this->name, 256, "Standard x64 Edition");
+                      std::strcat (this->name, "Standard x64 Edition");
                     }
                 }          
               else
                 {
                   if (versionInfo.wSuiteMask & VER_SUITE_COMPUTE_SERVER)
                     {
-                      std::strncat (this->name, 256, "Compute Cluster Edition");
+                      std::strcat (this->name,
+                                    "Compute Cluster Edition");
                     }
                   else if (versionInfo.wSuiteMask & VER_SUITE_DATACENTER)
                     {
-                      std::strncat (this->name, 256, "Datacenter Edition");
+                      std::strcat (this->name, "Datacenter Edition");
                     }
                   else if (versionInfo.wSuiteMask & VER_SUITE_ENTERPRISE)
                     {
-                      std::strncat (this->name, 256, "Enterprise Edition");
+                      std::strcat (this->name, "Enterprise Edition");
                     }
                   else if (versionInfo.wSuiteMask & VER_SUITE_BLADE)
                     {
-                      std::strncat (this->name, 256, "Web Edition");
+                      std::strcat (this->name, "Web Edition");
                     }
                   else
                     {
-                      std::strncat (this->name, 256, "Standard Edition");
+                      std::strcat (this->name, "Standard Edition");
                     }
                 }
             }
@@ -266,38 +267,38 @@ Platform::Platform (void)
 
      if (versionInfo.dwMajorVersion == 5 && versionInfo.dwMinorVersion == 1)
         {
-          std::strncat (this->name, 256, "Windows XP ");
+          std::strcat (this->name, "Windows XP ");
           if (versionInfo.wSuiteMask & VER_SUITE_PERSONAL)
             {
-              std::strncat (this->name, 256, "Home Edition");
+              std::strcat (this->name, "Home Edition");
             }
           else
             {
-              std::strncat (this->name, 256, "Professional");
+              std::strcat (this->name, "Professional");
             }
         }
 
       if (versionInfo.dwMajorVersion == 5 && versionInfo.dwMinorVersion == 0)
         {
-          std::strncat (this->name, 256, "Windows 2000 ");
+          std::strcat (this->name, "Windows 2000 ");
 
           if (versionInfo.wProductType == VER_NT_WORKSTATION)
             {
-              std::strncat (this->name, 256, "Professional");
+              std::strcat (this->name, "Professional");
             }
           else
             {
               if (versionInfo.wSuiteMask & VER_SUITE_DATACENTER)
                 {
-                  std::strncat (this->name, 256, "Datacenter Server");
+                  std::strcat (this->name, "Datacenter Server");
                 }
               else if (versionInfo.wSuiteMask & VER_SUITE_ENTERPRISE)
                 {
-                  std::strncat (this->name, 256, "Advanced Server");
+                  std::strcat (this->name, "Advanced Server");
                 }
               else
                 {
-                  std::strncat (this->name, 256, "Server");
+                  std::strcat (this->name, "Server");
                 }
             }
         }
@@ -306,25 +307,25 @@ Platform::Platform (void)
 
       if (std::strlen (versionInfo.szCSDVersion) > 0)
         {
-          std::strncat (this->name, 256, " ");
-          std::strncat (this->name, 256, versionInfo.szCSDVersion);
+          std::strcat (this->name, " ");
+          std::strcat (this->name, versionInfo.szCSDVersion);
         }
 
       char buffer[80];
 
-      std::sprintf (buffer, 80, " (build %d)", versionInfo.dwBuildNumber);
-      std::strncat (this->name, 256, buffer);
+      std::sprintf (buffer, " (build %d)", versionInfo.dwBuildNumber);
+      std::strcat (this->name, buffer);
 
       if (versionInfo.dwMajorVersion >= 6)
         {
          if (systemInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
            {
-             std::strncat (this->name, 256,", 64-bit");
+             std::strcat (this->name, ", 64-bit");
            }
          else if (systemInfo.wProcessorArchitecture ==
                   PROCESSOR_ARCHITECTURE_INTEL)
            {
-             std::strncat (this->name, 256, ", 32-bit");
+             std::strcat (this->name, ", 32-bit");
            }
         }
     }
@@ -334,7 +335,7 @@ Platform::Platform (void)
         {
         case 0:
         case 1:
-          std::strncpy (this->name, 256, "Microsoft Windows");
+          std::strcpy (this->name, "Microsoft Windows");
           break;
         }
     }

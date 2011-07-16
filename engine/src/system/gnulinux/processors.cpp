@@ -65,14 +65,13 @@ Processors::Processors (void)
       // finally get to a newline, even if the line is really long.
       while (true)
         {
-          std::fgets (line, 1024, cpuinfo);
-          if (std::feof (cpuinfo) != 0)
-            {
-              break;
-            }
-          else if (std::ferror (cpuinfo))
+          if (std::fgets (line, 1024, cpuinfo) == 0 && std::ferror (cpuinfo))
             {
               throw 1; // Something went wrong in reading the file.
+            }
+          else if (std::feof (cpuinfo))
+            {
+              break;
             }
           else if (std::strncmp (processorLabel,
                                  line,
@@ -101,8 +100,11 @@ Processors::Processors (void)
       // every cycle FOR WHICH we find a name.
       for (int i = 0; i < this->numberOfProcessors;)
         {
-          std::fgets (line, 1024, cpuinfo);
-          if (std::feof (cpuinfo) != 0)
+          if (std::fgets (line, 1024, cpuinfo) == 0 && std::ferror (cpuinfo))
+            {
+              throw 1; // Something went wrong in reading the file.
+            }
+          else if (std::feof (cpuinfo))
             {
               // We had more processors than names?  Okay...?  Let's just set
               // the names to "Unknown".
@@ -111,10 +113,6 @@ Processors::Processors (void)
                   SetProcessorNameToUnknown (i);
                 }
               break;
-            }
-          else if (std::ferror (cpuinfo))
-            {
-              throw 1; // Something went wrong in reading the file.
             }
           else if (std::strncmp (nameLabel,
                                  line,

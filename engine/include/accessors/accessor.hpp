@@ -81,8 +81,10 @@ class Accessor
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2011-03-18
      * @since  0.3
+     *
+     * @param [in] accessor Another Accessor to copy into a new Accessor.
      */
-    Accessor (const Accessor &)
+    Accessor (const Accessor &accessor)
       throw ();
 
     /**
@@ -91,11 +93,27 @@ class Accessor
      * data structure in which node connections are not two-way, no edge will
      * register on the receiving end of the connection.
      *
+     * Indexes of edges are enumerated starting with 0.
+     *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2011-03-20
      * @since  0.3
+     *
+     * @param [in] edge An edge index for whose existance we want to check.
      */
     virtual bool HasEdge (hummstrumm::engine::types::Number edge)
+      const throw () = 0;
+    /**
+     * Returns the number of edges from the current node in a data structure.
+     * This method gives a value of one plus the highest edge index.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2011-05-04
+     * @since  0.3
+     *
+     * @return The number of edges leading from the currently referenced node.
+     */
+    virtual int GetNumberOfEdges (void)
       const throw () = 0;
     /**
      * Traverses a specified number edge from the node referenced by this
@@ -105,6 +123,9 @@ class Accessor
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2011-03-20
      * @since  0.3
+     *
+     * @todo We probably want to throw an exception or something if there is no
+     * edge we can follow.  That would be nicer to the programmer.
      */
     virtual void FollowEdge (hummstrumm::engine::types::Number edge)
       throw () = 0;
@@ -130,7 +151,7 @@ class Accessor
      * @since  0.3
      */
     DataType &operator* (void)
-      const throw ();
+      const throw () = 0;
     /**
      * Accesses a method of the data element currently referenced by this
      * Accessor.  If DataType is const, this can only access const methods of
@@ -141,7 +162,7 @@ class Accessor
      * @since  0.3
      */
     DataType *operator-> (void)
-      const throw ();
+      const throw () = 0;
 };
 
 

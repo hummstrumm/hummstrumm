@@ -16,11 +16,16 @@
 
 enable_testing ()
 
-set (hummstrummengine_INCLUDE ../include/ ../../CPPUnit/include/ ${hummstrumm_BINARY_DIR}/engine/include)
-set (hummstrummengine_LIBS hummstrummengine cppunit)
+set (hummstrummengine_INCLUDE ../include/
+                                 ${hummstrumm_BINARY_DIR}/engine/include
+                                 ${CPPUNIT_INCLUDE_DIR}
+                                 ${OPENGL_INCLUDE_DIR})
+set (hummstrummengine_LIBS hummstrummengine
+                             ${CPPUNIT_LIBRARIES}
+                             ${OPENGL_LIBRARIES})
 
 if (HUMMSTRUMM_WINDOWSYSTEM_X11)
-  list (APPEND hummstrummengine_LIBS X11 GL GLU)
+  list (APPEND hummstrummengine_LIBS ${X11_LIBRARIES})
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_LIBS rt)
@@ -30,6 +35,9 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 include_directories (${hummstrummengine_INCLUDE})
+if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  include_directories (${X11_X11_INCLUDE_PATH})
+endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
 add_executable(test_engine_core core.cpp)
 target_link_libraries(test_engine_core ${hummstrummengine_LIBS})

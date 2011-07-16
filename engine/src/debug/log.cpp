@@ -168,7 +168,7 @@ Log &
 Log::GetLog (void)
   throw (HUMMSTRUMM_ERRORNAME(Generic))
 {
-  if (theLog = 0)
+  if (theLog == 0)
     {
       HUMMSTRUMM_THROW (Generic, "A log hasn't yet been created.");
     }
@@ -233,8 +233,8 @@ Log::Write (hummstrumm::engine::types::String text,
     }
 
   // Get the timestamp (TODO: Make this prettier).
-  hummstrumm::engine::types::int64 time (hummstrumm::engine::types::Date::
-                                         GetHighResolutionCount ());
+  /*hummstrumm::engine::types::int64 time (hummstrumm::engine::types::Date::
+                                         GetHighResolutionCount ());*/
       
   const char *mode = 0;
   switch (level)

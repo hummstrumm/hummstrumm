@@ -326,11 +326,10 @@ const Number
 Number::Sign (void)
   const throw ()
 {
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-  return ::copysign (1.0, this->value);
-#endif // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   return ::_copysign (1.0, this->value);
+#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  return ::copysign (1.0, this->value);
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 }
 

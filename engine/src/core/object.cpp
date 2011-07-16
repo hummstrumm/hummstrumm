@@ -143,7 +143,7 @@ Object::operator new (std::size_t size)
 
 
 void *
-Object::operator new (std::size_t size, std::nothrow_t)
+Object::operator new (std::size_t size, std::nothrow_t /* nt */)
   throw ()
 {
   void *pointer = malloc (size);
@@ -173,16 +173,28 @@ Object::operator new[] (std::size_t size)
     {
       // throw
     }
+    
+  // We DON'T WANT THIS line here.  All elements that are on an arry shouldn't be put
+  // in our allocation table.
+  // TODO: Document why and point to there from here.
+  // allocations.Allocate (pointer);
 
   return pointer;
 }
 
 
 void *
-Object::operator new[] (std::size_t size, std::nothrow_t nt)
+Object::operator new[] (std::size_t size, std::nothrow_t /* nt */)
   throw ()
 {
   void *pointer = malloc (size);
+  if (pointer)
+    {
+      // We DON'T WANT THIS line here.  All elements that are on an arry shouldn't be put
+      // in our allocation table.
+      // TODO: Document why and point to there from here.
+      // allocations.Allocate (pointer);
+    }
 
   return pointer;
 }

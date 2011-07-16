@@ -69,7 +69,7 @@ Processors::Processors (void)
           if  (i == 0x80000002)
             {
               std::memcpy (cpuBrandString,
-                           cpuInfo;
+                           cpuInfo,
                            sizeof cpuInfo);
             }
           else if (i == 0x80000003)

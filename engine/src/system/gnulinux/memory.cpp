@@ -56,14 +56,13 @@ Memory::Memory (void)
       // We just need to loop through the file in search of what we want.
       while (true)
         {
-          std::fgets (line, 256, meminfo);
-          if (std::feof (meminfo) != 0)
-            {
-              break;
-            }
-          else if (std::ferror (meminfo))
+          if (std::fgets (line, 256, meminfo) == 0 && std::ferror (meminfo))
             {
               throw 1; // Something went wrong in reading the file.
+            }
+          else if (std::feof (meminfo))
+            {
+              break;
             }
           else if (std::strncmp (totalLabel,
                                  line,

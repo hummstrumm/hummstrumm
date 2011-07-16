@@ -228,15 +228,40 @@ class Log
     static Log *theLog;       ///< The global Log.
 };
 
-#define HUMMSTRUMM_LOG(message, level)                          \
-  do {                                                          \
-    hummstrumm::engine::core::Engine::GetEngine ()->            \
-      GetLog ()->Write ((message),                              \
-        __FILE__,                                               \
-        __LINE__,                                               \
-        __PRETTY_FUNCTION__,                                    \
-        hummstrumm::engine::debug::Log::LEVEL_##level);         \
-  } while (false)
+/**
+ * @def HUMMSTRUMM_LOG
+ * Logs a message from the engine.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date 2010-11-09
+ * @since 0.1
+ *
+ * @param [in] message The text to write to the log.
+ * @param [in] level A constant describing the type of message.
+ *
+ * @see Log
+ */
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_LOG(message, level)                          \
+    do {                                                          \
+      hummstrumm::engine::core::Engine::GetEngine ()->            \
+        GetLog ()->Write ((message),                              \
+          __FILE__,                                               \
+          __LINE__,                                               \
+          __FUNCSIG__,                                            \
+          hummstrumm::engine::debug::Log::LEVEL_##level);         \
+    } while (false)
+#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_LOG(message, level)                          \
+    do {                                                          \
+      hummstrumm::engine::core::Engine::GetEngine ()->            \
+        GetLog ()->Write ((message),                              \
+          __FILE__,                                               \
+          __LINE__,                                               \
+          __PRETTY_FUNCTION__,                                    \
+          hummstrumm::engine::debug::Log::LEVEL_##level);         \
+    } while (false)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 }
 }

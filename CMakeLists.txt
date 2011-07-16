@@ -33,10 +33,23 @@ include (MaintainerMode)
 include (Uninstall)
 
 # We want testing with CTest.
+include (UnitTest)
 enable_testing ()
 
-# Install the system libraries we'll need.
-include (InstallRequiredSystemLibraries)
+include (CheckX11)
+include (CheckGL)
+
+# Use some flags across the entire project:
+if (HUMMSTRUMM_PLATFORM_GNULINUX)
+  set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
+  add_definitions( -msse)
+  add_definitions( -msse4.1)
+  add_definitions( -msse4.2)
+endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+if (HUMMSTRUMM_PLATFORM_WINDOWS)
+  set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W 4")
+endif (HUMMSTRUMM_PLATFORM_WINDOWS)
+
 
 # Test for SIMD
 set (HUMMSTRUMM_HAVE_SSE_SUPPORT OFF)
@@ -55,14 +68,9 @@ configure_file (${CMAKE_SOURCE_DIR}/config.h.in
                 ${CMAKE_BINARY_DIR}/engine/include/config.h @ONLY)
 configure_file (${CMAKE_SOURCE_DIR}/config.h.in
                 ${CMAKE_BINARY_DIR}/game/include/config.h @ONLY)
-#set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
-#              ${CMAKE_BINARY_DIR}/engine/include/config.h
-#              ${CMAKE_BINARY_DIR}/game/include/config.h)
 
 add_subdirectory (engine)
 add_subdirectory (game)
 add_subdirectory (res)
 
-if (HUMMSTRUMM_PLATFORM_WINDOWS)
-  add_subdirectory (CPPUnit)
-endif (HUMMSTRUMM_PLATFORM_WINDOWS)
+include (VariableLogging)

@@ -18,10 +18,12 @@
 #define HUMMSTRUMM_ENGINE_SOURCE
 #include "hummstrummengine.hpp"
 
+// This could be useful later:
+// <http://www.koders.com/c/fid43214AC6EBD2CFFB339A4283E46B634666E05C22.aspx?s=vtt>
+
 #include <cstring>
 #include <cstdlib>
 #include <sys/sysctl.h>
-#include "cpuid.h"
 
 namespace hummstrumm
 {
@@ -77,9 +79,9 @@ Processors::Processors (void)
           for (int i = 0; i < this->numberOfProcessors; ++i)
             {
               this->processorStrings[i] = new char [length];
-              std::strncpy (this->processorStrings{i],
+              std::strncpy (this->processorStrings[i],
                             name,
-                            length)
+                            length);
             }
         }
       delete [] name;
@@ -106,29 +108,28 @@ Processors::Processors (void)
               // These processors could have SSE.  Use a compiler intrinsic to
               // determine.
               unsigned int regA, regB, regC, regD;
-              if (__get_cpuid (0x00000001, &regA, &regB, &regC, &regD))
+#define __get_cpuid(code,a,b,c,d) \
+  asm volatile ("cpuid": \
+  "=a" (a), "=b" (b), "=c" (c), "=d" (d) : "a" (code));
+#define bit_SSE2 (1 << 25)
+#define bit_SSE  (1 << 26)
+              __get_cpuid (0x00000001, regA, regB, regC, regD);
+ 
+              if (regD & bit_SSE2)
                 {
-                  if (regD & bit_SSE2)
-                    {
-                      this->sse2Support = true;
-                    }
-                  else
-                    {
-                      this->sse2Support = false;
-                    }
-                  
-                  if (regD & bit_SSE)
-                    {
-                      this->sseSupport = true;
-                    }
-                  else
-                    {
-                      this->sseSupport = false;
-                    }
+                  this->sse2Support = true;
                 }
               else
                 {
                   this->sse2Support = false;
+                }
+                  
+              if (regD & bit_SSE)
+                {
+                  this->sseSupport = true;
+                }
+              else
+                {
                   this->sseSupport = false;
                 }
             }

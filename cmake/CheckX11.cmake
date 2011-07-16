@@ -14,21 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# MaintainerMode.cmake -- Adds extra controls that are useful to maintainers.
+# CheckX11.cmake -- Look for X11 files if we need them.
 
-# Turn off the flag by default.
-set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
-     "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
-
-if (HUMMSTRUMM_MAINTAINER_MODE)
-  # Check to see if we have all that we need to be in maintainer mode.
-  include (MaintainerModeChecks)
-  
-  # We only need these things in maintainer mode.
-  include (CPackSetup)
-  include (MakeChangeLog)
-  include (SubversionTag)
-  include (Dist)
-  include (UploadDownloads)
-
-endif (HUMMSTRUMM_MAINTAINER_MODE)
+# We need X11 if we're building for it.
+if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  find_package(X11)
+  if (NOT X11_FOUND)
+    message (FATAL_ERROR "Failed to find X11 required development files.")
+  endif (NOT X11_FOUND)
+endif (HUMMSTRUMM_WINDOWSYSTEM_X11)

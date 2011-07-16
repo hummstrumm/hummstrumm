@@ -32,8 +32,12 @@
 
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #  include <signal.h>
-#else
+#endif
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  include <windows.h>
+#endif
+#ifdef HUMMSTRUMM_PLATFORM_BSD
+#  include <signal.h>
 #endif
 
 

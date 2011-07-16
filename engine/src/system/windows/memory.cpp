@@ -41,10 +41,10 @@ Memory::Memory (void)
   GlobalMemoryStatusEx (&memoryStatus);
   
   // Find the total amount of memory.
-  this->totalMemory = memoryStatus.ullTotalPhys / 1024;
+  this->totalMemory = int (memoryStatus.ullTotalPhys / 1024);
 
   // Find the total amount of free memory.
-  this->freeMemory = memoryStatus.ullAvailPhys / 1024;
+  this->freeMemory = int (memoryStatus.ullAvailPhys / 1024);
 }
 
 Memory::~Memory (void)

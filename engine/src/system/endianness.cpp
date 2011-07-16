@@ -18,10 +18,6 @@
 #define HUMMSTRUMM_ENGINE_SOURCE
 #include "hummstrummengine.hpp"
 
-#include <cstdio>
-#include <cstring>
-#include <unistd.h>
-
 namespace hummstrumm
 {
 namespace engine

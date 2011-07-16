@@ -17,8 +17,7 @@
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
 #include "hummstrummengine.hpp"
-
-#include <iostream>
+#include <cstring>
 
 namespace hummstrumm
 {
@@ -34,6 +33,7 @@ AllocationTable::AllocationTable (void)
     allocationsPool (new char [sizeof (Allocation) * 32]),
     usedInPool (0)
 {
+  std::memset (this->allocationsPool, 0, sizeof (Allocation) * 32);
 }
 
 
@@ -45,7 +45,7 @@ AllocationTable::~AllocationTable (void)
       currentNode = currentNode->nextAllocation;
 
       // Check if we're on the pool.
-      if (reinterpret_cast <char *> (temp) > this->allocationsPool &&
+      if (reinterpret_cast <char *> (temp) >= this->allocationsPool &&
           reinterpret_cast <char *> (temp) < this->allocationsPool +
             sizeof (Allocation) * 32)
         {
@@ -71,7 +71,7 @@ AllocationTable::Allocate (void *memoryLocation)
   // Find place in pool to allocate.
   for (unsigned char i = 0; i < 32; ++i)
     {
-      if (this->usedInPool & (1 << i) == 0)
+      if ((this->usedInPool & (1 << i)) == 0)
         {
           memoryPlace = this->allocationsPool + sizeof (Allocation) * i;
           this->usedInPool |= (1 << i);
@@ -90,19 +90,25 @@ AllocationTable::Allocate (void *memoryLocation)
       temp = new Allocation (memoryLocation, this->head);
     }
   
-  head = temp;
+  this->head = temp;
 }
 
 
 bool
 AllocationTable::CheckAndRemove (void *memoryLocation)
   throw ()
-{ 
+{
+  if (!this->head)
+    {
+      // If we don't even have one node in the table, then the memoryLocation
+      // cannot possibly be on the heap.
+      return false;
+    }
   for (Allocation *currentNode = this->head;
        currentNode;
        currentNode = currentNode->nextAllocation)
     {
-      if (currentNode->memoryLocation = memoryLocation)
+      if (currentNode->memoryLocation == memoryLocation)
         {
           if (currentNode == this->head)
             {
@@ -110,16 +116,15 @@ AllocationTable::CheckAndRemove (void *memoryLocation)
             }
 
           // Check if we're on the pool.
-          if (reinterpret_cast <char *> (currentNode) > this->allocationsPool &&
+          if (reinterpret_cast <char *> (currentNode) >= this->allocationsPool &&
               reinterpret_cast <char *> (currentNode) < this->allocationsPool +
                 sizeof (Allocation) * 32)
             {
-              currentNode->~Allocation (); // Because of placement new.
-              
               std::ptrdiff_t i = (reinterpret_cast <char *> (currentNode) -
-                                  this->allocationsPool) /
-                sizeof (Allocation);
+                                  this->allocationsPool) / sizeof (Allocation);
               this->usedInPool &= ~(1 << i);
+
+              currentNode->~Allocation (); // Because of placement new.
             }
           else
             {
@@ -129,7 +134,7 @@ AllocationTable::CheckAndRemove (void *memoryLocation)
           return true;
         }
     }
-  
+
   return false;
 }
 
@@ -140,6 +145,10 @@ AllocationTable::Allocation::Allocation (void *memoryLocation, Allocation *next)
     nextAllocation (next),
     previousAllocation (0)
 {
+  if (next)
+    {
+      next->previousAllocation = this;
+    }
 }
 
 

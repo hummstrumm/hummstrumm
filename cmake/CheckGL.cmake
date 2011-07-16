@@ -14,21 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# MaintainerMode.cmake -- Adds extra controls that are useful to maintainers.
+# CheckGL.cmake -- Look for OpenGL files.
 
-# Turn off the flag by default.
-set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
-     "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
-
-if (HUMMSTRUMM_MAINTAINER_MODE)
-  # Check to see if we have all that we need to be in maintainer mode.
-  include (MaintainerModeChecks)
-  
-  # We only need these things in maintainer mode.
-  include (CPackSetup)
-  include (MakeChangeLog)
-  include (SubversionTag)
-  include (Dist)
-  include (UploadDownloads)
-
-endif (HUMMSTRUMM_MAINTAINER_MODE)
+find_package (OpenGL)
+if (NOT OPENGL_FOUND)
+  message (FATAL_ERROR "Failed to find OpenGL required development files.")
+endif (NOT OPENGL_FOUND)
+if (NOT OPENGL_GLU_FOUND)
+  message (FATAL_ERROR "Failed to find GLU required development files.")
+endif (NOT OPENGL_GLU_FOUND)

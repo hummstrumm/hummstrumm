@@ -80,4 +80,8 @@ set (cppunit_SRCS
   src/XmlOutputterHook.cpp)
 
 include_directories (include/)
+if (HUMMSTRUMM_PLATFORM_WINDOWS)
+  set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi")
+  set (CMAKE_CXX_FLAGS "/w /EHsc")
+endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 add_library (cppunit STATIC ${cppunit_SRCS})

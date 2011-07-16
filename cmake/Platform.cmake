@@ -17,11 +17,14 @@
 # Platform.cmake -- Detect the platform we are compiling on.
 
 # Detect which platform we are on.  Currently, we support Windows, GNU/Linux,
-# and *BSD (experimental).  *BSD is the default for any non-Linux based UNIX
-# system, be it FreeBSD, OpenSolaris, GNU/Hurd, whatever.
+# and *BSD (experimental).  Any other UNIX system, be it Darwin, OpenSolaris,
+# GNU/Hurd, whatever, are not supported at the moment.
+#
+# For a complete list of CMAKE_SYSTEM_NAME values, see
+# <http://synergy-foss.org/pm/projects/synergy/repository/revisions/413/entry/trunk/tool/win/cmake/share/cmake-2.8/Modules/CMakeDetermineSystem.cmake>
 
 # Windows
-if (WIN32)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
 
   # Set the platform define.
   set (HUMMSTRUMM_PLATFORM_WINDOWS ON)
@@ -41,52 +44,56 @@ if (WIN32)
        "The predefined macro string for Doxygen.")  
 
 # GNU/Linux
-else (WIN32)
-  if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+elseif ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
 
-    # Set the platform define.
-    set (HUMMSTRUMM_PLATFORM_WINDOWS OFF)
-    set (HUMMSTRUMM_PLATFORM_GNULINUX ON)
-    set (HUMMSTRUMM_PLATFORM_BSD OFF)
+  # Set the platform define.
+  set (HUMMSTRUMM_PLATFORM_WINDOWS OFF)
+  set (HUMMSTRUMM_PLATFORM_GNULINUX ON)
+  set (HUMMSTRUMM_PLATFORM_BSD OFF)
 
-    # Add this to the string to put in the pkginfo file.
-    list (APPEND HUMMSTRUMM_REQUIRED_DEFINITIONS
-          "-DHUMMSTRUMM_PLATFORM_GNULINUX ")
+  # Add this to the string to put in the pkginfo file.
+  list (APPEND HUMMSTRUMM_REQUIRED_DEFINITIONS
+        "-DHUMMSTRUMM_PLATFORM_GNULINUX ")
 
-    # We need to use X11.
-    set (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS OFF)
-    set (HUMMSTRUMM_WINDOWSYSTEM_X11 ON)
+  # We need to use X11.
+  set (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS OFF)
+  set (HUMMSTRUMM_WINDOWSYSTEM_X11 ON)
 
-    # When doxygen makes documentation, we need to tell it to make the GNU/Linux
-    # documentation.
-    set (HUMMSTRUMM_DOXYGEN_MACROS "HUMMSTRUMM_PLATFORM_GNULINUX=" CACHE STRING
-         "The predefined macro string for Doxygen.")
+  # When doxygen makes documentation, we need to tell it to make the GNU/Linux
+  # documentation.
+  set (HUMMSTRUMM_DOXYGEN_MACROS "HUMMSTRUMM_PLATFORM_GNULINUX=" CACHE STRING
+       "The predefined macro string for Doxygen.")
 
-# *BSD (Actually any UNIX.  I think we use POSIX-compat things for BSD.)
-  else ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-    if (UNIX)
+# *BSD
+# Should this include GNU/kFreeBSD?  TODO: Do a little research on that.
+elseif ("${CMAKE_SYSTEM_NAME}" MATCHES "BSD/OS" OR
+        "${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD" OR
+        "${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD" OR
+        "${CMAKE_SYSTEM_NAME}" MATCHES "OpenBSD")
 
-      # Set the platform define.
-      set (HUMMSTRUMM_PLATFORM_WINDOWS OFF)
-      set (HUMMSTRUMM_PLATFORM_GNULINUX OFF)
-      set (HUMMSTRUMM_PLATFORM_BSD ON)
+  # Set the platform define.
+  set (HUMMSTRUMM_PLATFORM_WINDOWS OFF)
+  set (HUMMSTRUMM_PLATFORM_GNULINUX OFF)
+  set (HUMMSTRUMM_PLATFORM_BSD ON)
 
-      # Add this to the string to put in the pkginfo file.
-      list (APPEND HUMMSTRUMM_REQUIRED_DEFINITIONS "-DHUMMSTRUMM_PLATFORM_BSD ")
+  # Add this to the string to put in the pkginfo file.
+  list (APPEND HUMMSTRUMM_REQUIRED_DEFINITIONS "-DHUMMSTRUMM_PLATFORM_BSD ")
 
-      # We need to use X11.
-      set (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS OFF)
-      set (HUMMSTRUMM_WINDOWSYSTEM_X11 ON)
+  # We need to use X11.
+  set (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS OFF)
+  set (HUMMSTRUMM_WINDOWSYSTEM_X11 ON)
 
-      # When doxygen makes documentation, we need to tell it to make the *BSD
-      # documentation.
-      set (HUMMSTRUMM_DOXYGEN_MACROS "HUMMSTRUMM_PLATFORM_BSD=" CACHE STRING
-           "The predefined macro string for Doxygen.")
+  # When doxygen makes documentation, we need to tell it to make the *BSD
+  # documentation.
+  set (HUMMSTRUMM_DOXYGEN_MACROS "HUMMSTRUMM_PLATFORM_BSD=" CACHE STRING
+       "The predefined macro string for Doxygen.")
 
+# Any other UNIX (we don't support them yet).
+else ()
 
-    endif (UNIX)
-  endif ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-endif (WIN32)
+  message (FATAL_ERROR "We don't currently support this platform.  Our supported platforms are Windows, GNU/Linux, and *BSD platforms.  Please contact the developers if you feel your platform should be supported.")
+
+endif ()
 
 mark_as_advanced (HUMMSTRUMM_DOXYGEN_MACROS)
 

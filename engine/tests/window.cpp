@@ -1,10 +1,11 @@
 
 #define HUMMSTRUMM_ENGINE_SOURCE
 #include <iostream>
+#include "hummstrummengine.hpp"
+#ifndef HUMMSTRUMM_PLATFORM_WINDOWS
 #include <unistd.h>
 #include <signal.h>
-
-#include "hummstrummengine.hpp"
+#endif // #ifndef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #include <GL/gl.h>
 #include <GL/glx.h>
@@ -120,7 +121,7 @@ main()
 {
   hummstrumm::engine::core::Engine engine;
 
-  #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 
   try
   {
@@ -204,7 +205,7 @@ main()
 
   #endif
   
-  #ifdef HUMMSTRUMM_PLATFORM_WINDOW
+  #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
   std::cout << "Win32 window with OpenGL/WGL context" << std::endl;
   #endif
 

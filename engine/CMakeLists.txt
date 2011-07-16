@@ -14,7 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-add_subdirectory (tests/)
+if (HUMMSTRUMM_UNIT_TEST)
+  add_subdirectory (tests/)
+endif (HUMMSTRUMM_UNIT_TEST)
 
 # Common Source Files
 set (hummstrummengine_SRCS
@@ -55,7 +57,7 @@ if (HUMMSTRUMM_PLATFORM_WINDOWS)
   #      src/core/object-win64.asm)
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
-# GNU-only Source Files
+# GNU/Linux-only Source Files
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_SRCS
         src/system/gnulinux/processors.cpp
@@ -64,6 +66,7 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
         src/system/gnulinux/clock.cpp)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
+# *BSD-only Source Files
 if (HUMMSTRUMM_PLATFORM_BSD)
   list (APPEND hummstrummengine_SRCS
         src/system/bsd/processors.cpp
@@ -84,15 +87,15 @@ if (HUMMSTRUMM_WINDOWSYSTEM_X11)
         src/renderer/windowX11.cpp)
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
-set (hummstrummengine_INCLUDE include/ ${CMAKE_CURRENT_BINARY_DIR}/include/)
-if (HUMMSTRUMM_PLATFORM_GNULINUX)
-  set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
-  add_definitions( -msse)
-  add_definitions( -msse4.1)
-  add_definitions( -msse4.2)
-endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+set (hummstrummengine_INCLUDE include/
+                                 ${CMAKE_CURRENT_BINARY_DIR}/include/
+                                 ${OPENGL_INCLUDE_DIR})
 
 include_directories (${hummstrummengine_INCLUDE})
+if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  include_directories (${X11_INCLUDE_DIR})
+endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 
 # Add documentation generation

@@ -257,8 +257,9 @@ struct WindowWGLParam;
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-#  define _CRT_SECURE_NO_WARNINGS
 #  define NOMINMAX
+// Microsoft has deprecated CRT functions as "insecure".  Hah, good one guys.
+#  pragma warning(disable:4996)
 #  pragma warning(push)
 #  pragma warning(disable:4290)
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
@@ -307,18 +308,18 @@ struct WindowWGLParam;
 #    include <hummstrummengine/renderer/windowX11.hpp>
 #  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include <hummstrummengine/renderer/windowParameters.hpp>
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include <hummstrummengine/renderer/windowGLXParam.hpp>
 #endif
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #  include <hummstrummengine/renderer/windowWGLParam.hpp>
 #endif
-#  include <hummstrummengine/containers/list.hpp>
+//#  include <hummstrummengine/containers/list.hpp>
 // This has to go last.
 #  include <hummstrummengine/core/engine.hpp>
 // Template and Inline implementations now...
 #  include <hummstrummengine/core/pointer.inl>
-#  include <hummstrummengine/containers/list.inl>
+//#  include <hummstrummengine/containers/list.inl>
 #  include <hummstrummengine/system/endianness.inl>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "types/inttypes.hpp"
@@ -365,18 +366,18 @@ struct WindowWGLParam;
 #    include "renderer/windowX11.hpp"
 #  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include "renderer/windowParameters.hpp"
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include "renderer/windowGLXParam.hpp"
 #endif
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #  include "renderer/windowWGLParam.hpp"
 #endif
-#  include "containers/list.hpp"
+//#  include "containers/list.hpp"
 // This has to go last.
 #  include "core/engine.hpp"
 // Template and Inline implementations now...
 #  include "core/pointer.inl"
-#  include "containers/list.inl"
+//#  include "containers/list.inl"
 #  include "system/endianness.inl"
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 

@@ -174,23 +174,35 @@ class Error
 
 
 /**
- * 
+ * @def HUMMSTRUMM_THROW
+ * Throws an exception.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date 2010-01-31
  * @since 0.1
  *
- * @param exceptionName [in] The name of the Error exception to throw.  This
+ * @param [in] exceptionName The name of the Error exception to throw.  This
  * does not include any namespace prefix.
- * @param text [in] A description of the Error.
+ * @param [in] text A description of the Error.
  *
  * @see Error
  */
-#define HUMMSTRUMM_THROW(exceptionName, text) \
-  throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__, \
-                                             __LINE__, \
-                                             __PRETTY_FUNCTION__, \
-                                             text);
-
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_THROW(exceptionName, text)                       \
+    do {                                                              \
+      throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__,            \
+                                                 __LINE__,            \
+                                                 __FUNCSIG__,         \
+                                                 text);               \
+    } while (false)
+#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_THROW(exceptionName, text)                       \
+    do {                                                              \
+      throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__,            \
+                                                 __LINE__,            \
+                                                 __PRETTY_FUNCTION__, \
+                                                 text);               \
+    } while (false)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_ERROR_ERROR

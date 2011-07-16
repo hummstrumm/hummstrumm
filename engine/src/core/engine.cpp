@@ -34,8 +34,7 @@ Engine::theEngine = 0;
 Engine::Engine (void)
   throw (HUMMSTRUMM_ERRORNAME(Generic)) try
 {
-  std::cout << "Humm and Strumm Game Engine\n"
-            << "Initializing...\n\n";
+  std::cout << "Humm and Strumm Game Engine initializing...\n\n";
 
   // Set the engine pointer.
   theEngine = this;
@@ -45,14 +44,25 @@ Engine::Engine (void)
   this->processors = new hummstrumm::engine::system::Processors;
   this->memory     = new hummstrumm::engine::system::Memory;
   this->endianness = new hummstrumm::engine::system::Endianness;
-
-  // Create a new log.
-  this->log = new hummstrumm::engine::debug::Log (HUMMSTRUMM_LOG_FILENAME,
+  
+  try
+    {
+      // Create a new log.
+      this->log = new hummstrumm::engine::debug::Log (HUMMSTRUMM_LOG_FILENAME,
                     hummstrumm::engine::debug::Log::HUMMSTRUMM_LOG_LOGLEVEL);
+    }
+  catch (HUMMSTRUMM_ERRORNAME(Generic) e)
+    {
+      // We couldn't open the log.  Kind of evil, but we should still be able
+      // to run the game.  Just warn the user of this, and continue on.  Our
+      // logging functionality is smart enough to realize that the log file
+      // doesn't exist and to instead use only standard out.
+      HUMMSTRUMM_LOG ("Log support has been disabled due to REASON.", WARNING);
+      this->log = 0;
+    }
 
-  std::cout << "\nEngine up and running.\n"
-            << "-------------------------------\n\n";
-  HUMMSTRUMM_LOG ("Engine up and running.", SUCCESS);
+  HUMMSTRUMM_LOG ("Humm and Strumm Game Engine up and running.", SUCCESS);
+  std::cout << "-------------------------------------------\n\n";
 }
 catch (...)
   {
