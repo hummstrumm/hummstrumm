@@ -87,16 +87,23 @@ if (HUMMSTRUMM_WINDOWSYSTEM_X11)
         src/renderer/windowX11.cpp)
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
+
+
+# Set include dirs
 set (hummstrummengine_INCLUDE include/
-                                 ${CMAKE_CURRENT_BINARY_DIR}/include/
-                                 ${OPENGL_INCLUDE_DIR})
+                              ${CMAKE_CURRENT_BINARY_DIR}/include/
+                              ${OPENGL_INCLUDE_DIR})
 
 include_directories (${hummstrummengine_INCLUDE})
 if (HUMMSTRUMM_WINDOWSYSTEM_X11)
   include_directories (${X11_INCLUDE_DIR})
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
+
+# Build the library.
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
+
+
 
 # Add documentation generation
 if (HUMMSTRUMM_BUILD_DOCS)
@@ -108,6 +115,8 @@ if (HUMMSTRUMM_BUILD_DOCS)
   include (UseDoxygen OPTIONAL)
   add_dependencies (hummstrummengine doc)
 endif (HUMMSTRUMM_BUILD_DOCS)
+
+
 
 # Add directories (to be exported, too)
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
@@ -123,37 +132,53 @@ else ()
        share/doc/hummstrummengine-${HUMMSTRUMM_VERSION})
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
-# Install library and header files
+
+
+# Install library.
 install (TARGETS hummstrummengine 
          ARCHIVE DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES})
+
+
+# Install documentation.
 if (HUMMSTRUMM_BUILD_DOCS)
+
   if (HUMMSTRUMM_BUILD_DOCS_LATEX)
     install (FILES ${CMAKE_CURRENT_BINARY_DIR}/doc/latex/refman.pdf
              DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
   endif (HUMMSTRUMM_BUILD_DOCS_LATEX)
+
   install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html
            DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
 endif (HUMMSTRUMM_BUILD_DOCS)
+
+
+# Install header files.
 install (FILES include/hummstrummengine.hpp
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
-install (DIRECTORY ${hummstrummengine_INCLUDE}
+install (DIRECTORY include/
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS}
          FILES_MATCHING PATTERN "*.h"
                         PATTERN "*.hpp"
                         PATTERN "*.inl"
                         PATTERN "hummstrummengine.hpp" EXCLUDE
                         REGEX "/*[.]svn" EXCLUDE)
-if (HUMMSTRUMM_PLATFORM_GNULINUX)
+
+
+set (HUMMSTRUMM_PKGCONFIG_FILENAME hummstrummengine-${HUMMSTRUMM_VERSION}.pc)
+
+if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
   if ($ENV{PKG_CONFIG_PATH})
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/hummstrummengine-${HUMMSTRUMM_VERSION}.pc
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_PKGCONFIG_FILENAME}
              DESTINATION $ENV{PKG_CONFIG_PATH})
   else ()
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/hummstrummengine-${HUMMSTRUMM_VERSION}.pc
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_PKGCONFIG_FILENAME}
              DESTINATION lib/pkgconfig)
   endif ($ENV{PKG_CONFIG_PATH})
-endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hummstrummengine.pc.in
-                ${CMAKE_CURRENT_BINARY_DIR}/hummstrummengine-${HUMMSTRUMM_VERSION}.pc @ONLY)
+                ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_PKGCONFIG_FILENAME}
+                @ONLY)

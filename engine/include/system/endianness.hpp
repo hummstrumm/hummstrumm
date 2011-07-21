@@ -103,7 +103,7 @@ class Endianness
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param memory [in] A value.
+     * @param [in] memory A value.
      * 
      * @return An equivalent swapped-endian value
      */
@@ -119,7 +119,7 @@ class Endianness
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param bigEndian [in] The big endian value.
+     * @param [in] bigEndian The big endian value.
      * 
      * @return An equivalent system endian value.
      */
@@ -135,7 +135,7 @@ class Endianness
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param littleEndian [in] The little endian value.
+     * @param [in] littleEndian The little endian value.
      * 
      * @return An equivalent system endian value.
      */
@@ -151,7 +151,7 @@ class Endianness
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param systemEndian [in] The system endian value.
+     * @param [in] systemEndian The system endian value.
      * 
      * @return An equivalent big endian value.
      */
@@ -167,7 +167,7 @@ class Endianness
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param systemEndian [in] The system endian value.
+     * @param [in] systemEndian The system endian value.
      * 
      * @return An equivalent little endian value.
      */

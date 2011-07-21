@@ -24,6 +24,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <sys/sysctl.h>
+#include "cpuid.h"
 
 namespace hummstrumm
 {
@@ -99,6 +100,9 @@ Processors::Processors (void)
           // Whatever.  Assume no SSE.
           this->sseSupport = false;
           this->sse2Support = false;
+          this->sse3Support = false;
+          this->sse41Support = false;
+          this->sse42Support = false;
         }
       else
         {
@@ -108,30 +112,13 @@ Processors::Processors (void)
               // These processors could have SSE.  Use a compiler intrinsic to
               // determine.
               unsigned int regA, regB, regC, regD;
-#define __get_cpuid(code,a,b,c,d) \
-  asm volatile ("cpuid": \
-  "=a" (a), "=b" (b), "=c" (c), "=d" (d) : "a" (code));
-#define bit_SSE2 (1 << 25)
-#define bit_SSE  (1 << 26)
-              __get_cpuid (0x00000001, regA, regB, regC, regD);
+              __get_cpuid (0x00000001, &regA, &regB, &regC, &regD);
  
-              if (regD & bit_SSE2)
-                {
-                  this->sse2Support = true;
-                }
-              else
-                {
-                  this->sse2Support = false;
-                }
-                  
-              if (regD & bit_SSE)
-                {
-                  this->sseSupport = true;
-                }
-              else
-                {
-                  this->sseSupport = false;
-                }
+              this->sse42Support = regC & bit_SSE4_2;
+              this->sse41Support = regC & bit_SSE4_1;
+              this->sse3Support  = regC & bit_SSE3;
+              this->sse2Support  = regD & bit_SSE2;
+              this->sseSupport   = regD & bit_SSE;
             }
         }
       delete [] name;
@@ -150,6 +137,9 @@ Processors::Processors (void)
           SetProcessorNameToUnknown (0);
           this->sseSupport = false;
           this->sse2Support = false;
+          this->sse3Support = false;
+          this->sse41Support = false;
+          this->sse42Support = false;
           break;
         }
     }
@@ -203,6 +193,30 @@ Processors::HaveSse2Support (void)
   const throw ()
 {
   return this->sse2Support;
+}
+
+
+bool
+Processors::HaveSse3Support (void)
+  const throw ()
+{
+  return this->sse3Support;
+}
+
+
+bool
+Processors::HaveSse41Support (void)
+  const throw ()
+{
+  return this->sse41Support;
+}
+
+
+bool
+Processors::HaveSse42Support (void)
+  const throw ()
+{
+  return this->sse42Support;
 }
 
 

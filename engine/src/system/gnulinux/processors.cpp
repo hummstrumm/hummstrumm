@@ -36,7 +36,10 @@ Processors::Processors (void)
   : numberOfProcessors (0),
     processorStrings (0),
     sseSupport (false),
-    sse2Support (false)
+    sse2Support (false),
+    sse3Support (false),
+    sse41Support (false),
+    sse42Support (false)
 {
   FILE *cpuinfo = 0;
   
@@ -57,12 +60,13 @@ Processors::Processors (void)
       const char *nameLabel      = "model name";
       const char *flagsLabel     = "flags";
 
-      // Two passes: one for determining the total number of processors, the
-      // next for getting the processor string and flags.  This algorithm will
-      // read 1023 characters from the stream, or up to the next newline if it
-      // is closer.  If we don't read up to the newline, the next cycle will
-      // continue reading from this line.  Which is perfectly fine.  It will
-      // finally get to a newline, even if the line is really long.
+      // Three passes: one for determining the total number of processors, the
+      // next for getting the processor string, the next for finding processor
+      // flags.  This algorithm will read 1023 characters from the stream, or up
+      // to the next newline if it is closer.  If we don't read up to the
+      // newline, the next cycle will continue reading from this line.  Which is
+      // perfectly fine.  It will finally get to a newline, even if the line is
+      // really long.
       while (true)
         {
           if (std::fgets (line, 1024, cpuinfo) == 0 && std::ferror (cpuinfo))
@@ -118,15 +122,15 @@ Processors::Processors (void)
                                  line,
                                  std::strlen (nameLabel)) == 0)
             {
-              // We've got a hit.  Get ourselves to the beginning of the actual
-              // processor name.
+              // We've got a hit.  Get ourselves to the beginning of the
+              // actual processor name.
               char *realName = line;
               // Ignore the label.
               realName += std::strlen (nameLabel);
               // Just increment over all the white space.
-              for (; *realName != ' ' && *realName != '\t'; ++realName);
+              for (; *realName == ' ' || *realName == '\t'; ++realName);
               // Make sure we did it right.
-              if (*(++realName) != ':' && *(++realName) != ' ')
+              if (*(realName) != ':' || *(++realName) != ' ')
                 {
                   // We did it wrong.  Just set the name to Unknown.
                   SetProcessorNameToUnknown (i);
@@ -134,15 +138,15 @@ Processors::Processors (void)
               else
                 {
                   // Yay!  Now set the string name.
-                  realName += 2; // Increment to first spot in string.
+                  realName++; // Increment to first spot in string.
                   this->processorStrings[i] =
-                    new char [std::strlen (realName) + 1];
+                  new char [std::strlen (realName) + 1];
                   std::strcpy (this->processorStrings[i], realName);
                   // let's remove the last char if it's a newline.
-                  if (this->processorStrings[i][std::strlen (realName) - 1] ==
+                  if (this->processorStrings[i][std::strlen (realName)-1] ==
                       '\n')
                     {
-                      this->processorStrings[i][std::strlen (realName) - 1] =
+                      this->processorStrings[i][std::strlen (realName)-1] =
                         '\0';
                     }
                 }
@@ -150,21 +154,39 @@ Processors::Processors (void)
               ++i;
               continue;
             }
+        }
+
+      // Seek back to the beginning in preparation for another pass.
+      std::rewind (cpuinfo);
+      
+      for (int i = 0; i < this->numberOfProcessors;)
+        {
+          if (std::fgets (line, 1024, cpuinfo) == 0 && std::ferror (cpuinfo))
+            {
+              throw 1; // Something went wrong in reading the file.
+            }
+          else if (std::feof (cpuinfo))
+            {
+              // Oh well.
+              break;
+            }
           else if (std::strncmp (flagsLabel,
                                  line,
                                  std::strlen (flagsLabel)) == 0)
             {
-              // We've got a hit.  Get ourselves to the beginning of the actual
-              // flags
+              // We've got a hit.  Get ourselves to the beginning of the
+              // actual flags
               char *realFlags = line;
               // Ignore the label.
               realFlags += std::strlen (flagsLabel);
               // Just increment over all the white space.
-              for (; *realFlags != ' ' && *realFlags != '\t'; ++realFlags);
+              for (; *realFlags == ' ' || *realFlags == '\t'; ++realFlags);
               // Make sure we did it right.
-              if (*(++realFlags) != ':' && *(++realFlags) != ' ')
+              std::cout << realFlags << "\n";
+              if (*(realFlags) != ':' && *(++realFlags) != ' ')
                 {
-                  // We did it wrong.  Just keep the two interesting flags off.
+                  // We did it wrong.  Just keep the two interesting flags
+                  // off.
                 }
               else
                 {
@@ -172,8 +194,11 @@ Processors::Processors (void)
                   ++realFlags; // Increment to first spot in string.
 
                   // The flags we are interested in.
-                  const char *sseFlag = "sse ";
-                  const char *sse2Flag = "sse2 ";
+                  const char *sseFlag = "sse";
+                  const char *sse2Flag = "sse2";
+                  const char *sse3Flag = "pni";
+                  const char *sse41Flag = "sse4_1";
+                  const char *sse42Flag = "sse4_2";
                   const char *sse3Flag = "ssse3 ";
                   const char *sse41Flag = "sse4_1 ";
                   const char *sse42Flag = "sse4_2 ";
@@ -195,10 +220,11 @@ Processors::Processors (void)
                     }
                   if (std::strstr (realFlags, sse42Flag))
                     {
-                      this->sse42Support = true;
+                     this->sse42Support = true;
                     }
-
                 }
+              // Increment i; we're on to the next processor!
+              ++i;
               continue;
             }
         }
@@ -278,6 +304,30 @@ Processors::HaveSse2Support (void)
   const throw ()
 {
   return this->sse2Support;
+}
+
+
+bool
+Processors::HaveSse3Support (void)
+  const throw ()
+{
+  return this->sse3Support;
+}
+
+
+bool
+Processors::HaveSse41Support (void)
+  const throw ()
+{
+  return this->sse41Support;
+}
+
+
+bool
+Processors::HaveSse42Support (void)
+  const throw ()
+{
+  return this->sse42Support;
 }
 
 

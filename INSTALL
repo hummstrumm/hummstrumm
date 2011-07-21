@@ -48,12 +48,11 @@ To   compile,  you   will   need   CMake,  available   for   free   at
 <http://www.cmake.org/>.
 
 The basic instructions for generating  build files are the same on all
-systems.  If  you run  the following  commands,  a set of  build files
+systems.  If  you run  the following  command,  a  set of  build files
 that can be  used to build  Humm and Strumm  on  your  system  will be
 generated:
 
-  $ cd build/
-  $ cmake ../
+  $ cmake .
 
 Then, you can build the game  using the build system installed on your
 computer (usually make for GNU systems or nmake/MSVC++ for Windows).
@@ -63,15 +62,15 @@ the CMake cache, which contains  build variables.  CMake comes with an
 interactive  mode, which  allows   you to  configure  these  variables
 yourself.  Run interactive mode with the following command:
 
-  $ cmake -i ../
+  $ cmake -i .
 
 You may also have the ncurses interface to CMake.
 
-  $ ccmake ../
+  $ ccmake .
 
 Or the GUI interface to CMake.
 
-  $ cmake-gui ../
+  $ cmake-gui .
 
 These will  allow you  to  change the  variables.  After this, you can
 continue through the build platform.

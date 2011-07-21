@@ -36,7 +36,8 @@ namespace geometry
 {
 
 using hummstrumm::engine::math::Vector3D;
-/*
+/* @todo Document class
+ * 
  * In 3D dimension the implicit form of a plane is given
  * by all points p = (x,y,z) that satify the plane equation.
  *
@@ -67,8 +68,8 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      * 
-     * @param norm Plane normal
-     * @param d  
+     * @param [in] norm Plane normal
+     * @param [in] d    From the above equation.
      */
     Plane3D (const Vector3D<T> &norm, const T &d) 
       : normal(norm), d(d) {}
@@ -80,10 +81,10 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      * 
-     * @param a Component a of normal.
-     * @param b Component b of normal.
-     * @param c Component c of normal.
-     * @param d Component d.
+     * @param [in] a Component a of normal.
+     * @param [in] b Component b of normal.
+     * @param [in] c Component c of normal.
+     * @param [in] d Component d.
      */
     Plane3D (const T &a, const T &b, const T &c, const T &d) 
       : normal(a,b,c), d(d) {}
@@ -95,9 +96,9 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      * 
-     * @param p1 A point given as vector.
-     * @param p2 Another point given as vector.
-     * @param p3 Another point given as vector.
+     * @param [in] p1 A point given as vector.
+     * @param [in] p2 Another point given as vector.
+     * @param [in] p3 Another point given as vector.
      */
     Plane3D (const Vector3D<T> &p1, 
              const Vector3D<T> &p2, 
@@ -110,8 +111,8 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      * 
-     * @param p1 A point given as vector.
-     * @param norm Plane normal.
+     * @param [in] p1 A point given as vector.
+     * @param [in] norm Plane normal.
      */
     Plane3D (const Vector3D<T> &p1, 
              const Vector3D<T> &norm);
@@ -123,7 +124,7 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param p A plane.
+     * @param [in] p A plane.
      */
     Plane3D (const Plane3D<T> &p): normal(p.normal), d(p.d) {}
 
@@ -133,7 +134,6 @@ class Plane3D
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-05-30
      * @since 0.3
-     * 
      */
     ~Plane3D () {}
 
@@ -144,7 +144,7 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param p A plane.
+     * @param [in] p A plane.
      *
      * @return This plane.
      */
@@ -157,7 +157,7 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param p A plane.
+     * @param [in] p A plane.
      *
      * @return Whether the planes are equal.
      */
@@ -170,7 +170,7 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param p A plane.
+     * @param [in] p A plane.
      *
      * @return Whether the planes are different.
      */
@@ -253,8 +253,10 @@ Plane3D<T>::Normalize ()
   * @date 2010-05-30
   * @since 0.3
   *
-  * @param plane A normalized plane.
-  * @param p     A point not necessarily lying on the plane.
+  * @param [in] plane A normalized plane.
+  * @param [in] p     A point not necessarily lying on the plane.
+  *
+  * @see Plane3D
   */
 template <typename T>
 T

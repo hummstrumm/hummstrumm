@@ -46,7 +46,7 @@ Memory::Memory (void)
   mib[1] = HW_PHYSMEM;
   length = sizeof this->totalMemory;
   sysctl (mib, 2, &this->totalMemory, &length, 0, 0);
-  this->totalMemory *= 1024;
+  this->totalMemory *= -1024;
 
   // Algorithm for finding free memory by Ralf S. Engelschall.
   // <http://www.cyberciti.biz/files/scripts/freebsd-memory.pl.txt>
@@ -58,27 +58,24 @@ Memory::Memory (void)
   length = sizeof pageSize;
   sysctl (mib, 2, &pageSize, &length, 0, 0);
 
-  vmtotal meter;
-  mib[0] = CTL_VM;
-  mib[1] = VM_METER;
-  length = sizeof meter;
-  sysctl (mib, 2, &meter, &length, 0, 0);
+  // Find the amount of free memory.
+  int free = 0;
+  length = sizeof free;
+  sysctlbyname ("vm.stats.vm.v_free_count", &free, &length, 0, 0);
 
   // Find the amount of inactive memory.
   int inactive = 0;
-//  inactive *= pageSize;
+  length = sizeof inactive;
+  sysctlbyname ("vm.stats.vm.v_inactive_count", &inactive, &length, NULL, 0);
 
   // Find the amount of cache memory.
   int cache = 0;
-//  mib[0] = CTL_VM;
-//  mib[1] = VM_CACHE;
-//  length = sizeof cache;
-//  sysctl (mib, 2, &cache, &length, 0, 0);
-//  cache *= pageSize;
+  length = sizeof cache;
+  sysctlbyname ("vm.stats.vm.v_cache_count", &cache, &length, NULL, 0);
 
   // Find the amount of unused memory.
   int unused;
-  unused = meter.t_free * pageSize;
+  unused = free * pageSize + inactive * pageSize + cache * pageSize;
 
   // Add them!
   this->freeMemory = inactive + cache + unused;

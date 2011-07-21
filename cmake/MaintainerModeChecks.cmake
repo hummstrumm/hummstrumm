@@ -19,12 +19,9 @@
 
 
 # Make sure that we are in a working copy.
-message (STATUS "Check for working copy")
-if (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.svn)
+if (NOT HUMMSTRUMM_IN_WORKING_COPY)
   message (FATAL_ERROR "This source tree doesn't seem to be a working copy.  Working copies are required in maintainer mode.  Are you sure you want to be in maintainer mode?")
-else (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.svn)
-  message (STATUS "Check for working copy - done")
-endif (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.svn)
+endif (NOT HUMMSTRUMM_IN_WORKING_COPY)
 
 
 # Find CPack

@@ -323,7 +323,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-05-01
      * @since  0.2
      *
-     * @param exponent The exponent to which to raise this Number.
+     * @param [in] exponent The exponent to which to raise this Number.
      *
      * @return The power with an exponent.
      */
@@ -335,7 +335,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-05-01
      * @since  0.2
      *
-     * @param base The base of the logarithm.
+     * @param [in] base The base of the logarithm.
      *
      * @return The logarithm of a base.
      */

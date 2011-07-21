@@ -61,8 +61,8 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param vx X coordinate.
-     * @param vy Y coordinate.
+     * @param [in] vx X coordinate.
+     * @param [in] vy Y coordinate.
      *
      */
     Vector2D (const T &vx, const T &vy) : x(vx), y(vy) {}
@@ -74,7 +74,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      *
      */ 
     Vector2D (const Vector2D<T>  &v) : x(v.x), y(v.y) {}
@@ -95,7 +95,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      *
      * @return This vector.
      */ 
@@ -108,7 +108,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      * 
      * @return Whether the vectors are equal.
      */
@@ -121,7 +121,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      * 
      * @return Whether the vectors are different.
      */
@@ -145,7 +145,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      * 
      * @return A 2d vector.
      */
@@ -158,7 +158,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      * 
      * @return A 2d vector.
      */
@@ -171,7 +171,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 2d vector.
      */
@@ -184,7 +184,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 2d vector.
      */
@@ -197,7 +197,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      * 
      * @return This vector.
      */
@@ -210,7 +210,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      * 
      * @return This vector.
      */
@@ -223,7 +223,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This vector.
      */
@@ -236,7 +236,7 @@ class Vector2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This vector.
      */
@@ -289,9 +289,9 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param vx X coordinate.
-     * @param vy Y coordinate.
-     * @param vz Z coordinate.
+     * @param [in] vx X coordinate.
+     * @param [in] vy Y coordinate.
+     * @param [in] vz Z coordinate.
      *
      */
     Vector3D (const T &vx, const T &vy, const T &vz) 
@@ -304,7 +304,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      *
      */ 
     Vector3D (const Vector3D<T>  &v)
@@ -326,7 +326,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      *
      * @return This vector.
      */ 
@@ -339,7 +339,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      * 
      * @return Whether the vectors are equal.
      */
@@ -352,7 +352,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      * 
      * @return Whether the vectors are different.
      */
@@ -376,7 +376,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      * 
      * @return A 3d vector.
      */
@@ -389,7 +389,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      * 
      * @return A 3d vector.
      */
@@ -402,7 +402,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 3d vector.
      */
@@ -415,7 +415,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 3d vector.
      */
@@ -428,7 +428,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      * 
      * @return This vector.
      */
@@ -441,7 +441,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      * 
      * @return This vector.
      */
@@ -454,7 +454,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This vector.
      */
@@ -467,7 +467,7 @@ class Vector3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This vector.
      */
@@ -520,10 +520,10 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param vx X coordinate.
-     * @param vy Y coordinate.
-     * @param vz Z coordinate.
-     * @param vw W coordinate.
+     * @param [in] vx X coordinate.
+     * @param [in] vy Y coordinate.
+     * @param [in] vz Z coordinate.
+     * @param [in] vw W coordinate.
      *
      */
     Vector4D (const T &vx, const T &vy, const T &vz, const T &vw)
@@ -536,7 +536,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      *
      */ 
     Vector4D (const Vector4D<T>  &v)
@@ -558,7 +558,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      *
      * @return This vector.
      */ 
@@ -571,7 +571,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      * 
      * @return Whether the vectors are equal.
      */
@@ -584,7 +584,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      * 
      * @return Whether the vectors are different.
      */
@@ -608,7 +608,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      * 
      * @return A 4d vector.
      */
@@ -621,7 +621,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      * 
      * @return A 4d vector.
      */
@@ -634,7 +634,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 4d vector.
      */
@@ -647,7 +647,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 4d vector.
      *
@@ -661,7 +661,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      * 
      * @return This vector.
      */
@@ -674,7 +674,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      * 
      * @return This vector.
      */
@@ -687,7 +687,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This vector.
      */
@@ -700,7 +700,7 @@ class Vector4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This vector.
      */
@@ -729,24 +729,23 @@ class Vector4D
 
 };
 
+/**
+ * Template specialization of Vector4D for float with SSE optimization.
+ * See Vector4D for description of member functions.
+ * 
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-08-28
+ * @since 0.3
+ *
+ * @see Vector4D
+ */ 
 template<>
 class Vector4D<float>
 {
-
-    /**
-     * Template specialization of Vector4D for float with SSE optimization.
-     * See Vector4D for description of member functions.
-     * 
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-08-28
-     * @since 0.3
-     *
-     * @see Vector4D
-     */ 
-
   public:
     #ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
-    HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_GNULINUX {
+    HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_GNULINUX
+      HUMMSTRUMM_ALIGN_16_BSD {
       __m128 xyzw;
       struct { float x,y,z,w; };
       float f[4];
@@ -1190,10 +1189,11 @@ Vector4D<T>::Zero ()
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
+ * @param [in] v A 2d vector.
  * 
  * @return The magnitude of vector v.
  *
+ * @see Vector2D 
  */
 template <typename T> 
 T 
@@ -1206,10 +1206,11 @@ Vec2DMagnitude (const Vector2D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
+ * @param [in] v A 2d vector.
  * 
  * @return The squared magnitude of vector v.
  *
+ * @see Vector2D 
  */
 template <typename T> 
 T 
@@ -1222,10 +1223,12 @@ Vec2DSqMagnitude (const Vector2D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
- * @param w Another 2d vector.
+ * @param [in] v A 2d vector.
+ * @param [in] w Another 2d vector.
  * 
  * @return The distance between the vectors.
+ *
+ * @see Vector2D 
  */
 template <typename T>
 T 
@@ -1238,10 +1241,12 @@ Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
- * @param w Another 2d vector.
+ * @param [in] v A 2d vector.
+ * @param [in] w Another 2d vector.
  * 
  * @return The squared distance between the vectors.
+ *
+ * @see Vector2D 
  */
 template <typename T>
 T 
@@ -1254,10 +1259,12 @@ Vec2DSqDistance (const Vector2D<T> &v, const Vector2D<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
- * @param w Another 2d vector.
+ * @param [in] v A 2d vector.
+ * @param [in] w Another 2d vector.
  * 
  * @return The result of the dot product between v and w.
+ *
+ * @see Vector2D 
  */
 template <typename T>
 T 
@@ -1270,11 +1277,13 @@ Vec2DDot (const Vector2D<T> &v, const Vector2D<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
- * @param n Another 2d vector.
+ * @param [in] v A 2d vector.
+ * @param [in] n Another 2d vector.
  * 
  * @return The projection of v onto n.
-*/
+ *
+ * @see Vector2D 
+ */
 template <typename T>
 Vector2D<T>
 Vec2DProjection (const Vector2D<T> &v , const Vector2D<T> &n);
@@ -1286,9 +1295,11 @@ Vec2DProjection (const Vector2D<T> &v , const Vector2D<T> &n);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
+ * @param [in] v A 2d vector.
  *
  * @return A perpendicular vector.
+ *
+ * @see Vector2D 
  */
 template <typename T>
 Vector2D<T> 
@@ -1301,15 +1312,18 @@ Vec2DPerpendicular (const Vector2D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  * 
- * @param v A 2d vector
+ * @param [in] v A 2d vector
  *
  * @return A perpendicular vector of unit length.
+ *
+ * @see Vector2D 
  */
 template <typename T>
 Vector2D<T> 
 Vec2DUnitPerpendicular (const Vector2D<T> &v);
 
-/** 
+// add star here when this is uncommented
+/*
  * Vector Orthonormalization using the biased 
  * Gram-Schmidt algorithm.
  * 
@@ -1317,8 +1331,9 @@ Vec2DUnitPerpendicular (const Vector2D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 2d vector.
+ * @param [in] v A 2d vector.
  *
+ * @see Vector2D  
  */
 /*
 template <typename T>
@@ -1333,10 +1348,12 @@ Orthonormalize2D (std::vector<Vector2D<T> > &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param k scalar.
- * @param v A 2d vector.
+ * @param [in] k scalar.
+ * @param [in] v A 2d vector.
  * 
  * @return A 2d vector.
+ * 
+ * @see Vector2D 
  */
 template <typename T>
 Vector2D<T>
@@ -1349,9 +1366,11 @@ operator * (const T &k, const Vector2D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
+ * @param [in] v A 3d vector.
  * 
  * @return The magnitude of v.
+ *
+ * @see Vector3D 
  */
 template <typename T> 
 T 
@@ -1364,9 +1383,11 @@ Vec3DMagnitude (const Vector3D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
+ * @param [in] v A 3d vector.
  * 
  * @return The squared magnitude of v.
+ *
+ * @see Vector3D 
  */
 template <typename T> 
 T 
@@ -1379,10 +1400,12 @@ Vec3DSqMagnitude (const Vector3D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
- * @param w Another 3d vector.
+ * @param [in] v A 3d vector.
+ * @param [in] w Another 3d vector.
  * 
  * @return Cross product result.
+ *
+ * @see Vector3D 
  */
 template <typename T>
 Vector3D<T> 
@@ -1395,10 +1418,12 @@ Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
- * @param w Another 3d vector.
+ * @param [in] v A 3d vector.
+ * @param [in] w Another 3d vector.
  * 
  * @return The distance between the vectors v and w.
+ *
+ * @see Vector3D 
  */
 template <typename T>
 T 
@@ -1411,10 +1436,12 @@ Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
- * @param w Another 3d vector.
+ * @param [in] v A 3d vector.
+ * @param [in] w Another 3d vector.
  * 
  * @return The squared distance between the vectors v and w.
+ *
+ * @see Vector3D 
  */
 template <typename T>
 T 
@@ -1427,10 +1454,12 @@ Vec3DSqDistance (const Vector3D<T> &v, const Vector3D<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
- * @param w Another 3d vector.
+ * @param [in] v A 3d vector.
+ * @param [in] w Another 3d vector.
  * 
  * @return The result of the dot product between v and w.
+ *
+ * @see Vector3D 
  */
 template <typename T>
 T 
@@ -1443,16 +1472,19 @@ Vec3DDot (const Vector3D<T> &v, const Vector3D<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
- * @param n Another three dimension vector.
+ * @param [in] v A 3d vector.
+ * @param [in] n Another three dimension vector.
  * 
  * @return The projection of v onto n.
+ *
+ * @see Vector3D 
  */
 template <typename T>
 Vector3D<T>
 Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
 
-/** 
+// Add star here when uncommented and implemented.
+/*
  * Vector Orthonormalization using the biased 
  * Gram-Schmidt algorithm.
  * 
@@ -1460,9 +1492,10 @@ Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 3d vector.
+ * @param [in] v A 3d vector.
  *
- */
+ * @see Vector3D 
+*/
 /*
 template <typename T>
 void 
@@ -1476,10 +1509,12 @@ Orthonormalize3D (std::vector<Vector3D<T> > &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param k scalar.
- * @param v A 3d vector.
+ * @param [in] k scalar.
+ * @param [in] v A 3d vector.
  * 
  * @return A 3d vector.
+ *
+ * @see Vector3D 
  */
 template <typename T>
 Vector3D<T>
@@ -1492,9 +1527,11 @@ operator * (const T &k, const Vector3D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 4d vector.
+ * @param [in] v A 4d vector.
  * 
  * @return The magnitude of vector v.
+ *
+ * @see Vector4D 
  */
 template <typename T> 
 T 
@@ -1511,9 +1548,11 @@ Vec4DMagnitude (const Vector4D<float> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 4d vector.
+ * @param [in] v A 4d vector.
  * 
  * @return The squared magnitude of vector v.
+ *
+ * @see Vector4D 
  */
 template <typename T> 
 T 
@@ -1527,11 +1566,13 @@ Vec4DSqMagnitude (const Vector4D<T> &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 4d vector.
- * @param k Another 4d vector.
+ * @param [in] v A 4d vector.
+ * @param [in] k Another 4d vector.
  * 
  * @return The distance between the vectors.
- */
+ *
+ * @see Vector4D  
+*/
 template <typename T>
 T 
 Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k);
@@ -1543,10 +1584,12 @@ Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 4d vector.
- * @param k Another 4d vector.
+ * @param [in] v A 4d vector.
+ * @param [in] k Another 4d vector.
  * 
  * @return The squared distance between the vectors.
+ *
+ * @see Vector4D 
  */
 template <typename T>
 T 
@@ -1559,10 +1602,12 @@ Vec4DSqDistance (const Vector4D<T> &v, const Vector4D<T> &k);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 4d vector.
- * @param w Another 4d vector.
+ * @param [in] v A 4d vector.
+ * @param [in] w Another 4d vector.
  * 
  * @return The result of the dot product between v and w.
+ *
+ * @see Vector4D 
  */
 template <typename T>
 T 
@@ -1579,16 +1624,19 @@ Vec4DDot (const Vector4D<float> &v, const Vector4D<float> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 4d vector.
- * @param n Another four dimension vector.
+ * @param [in] v A 4d vector.
+ * @param [in] n Another four dimension vector.
  * 
  * @return The projection of v onto n.
+ *
+ * @see Vector4D 
  */
 template <typename T>
 Vector4D<T>
 Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
 
-/** 
+// Add star when this is uncommented and implemented
+/*
  * Vector Orthonormalization using the biased 
  * Gram-Schmidt algorithm.
  * 
@@ -1596,7 +1644,7 @@ Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param v A 4d vector.
+ * @param [in] v A 4d vector.
  */
 /*
 template <typename T>
@@ -1611,10 +1659,12 @@ Orthonormalize4D (std::vector<Vector4D<T> > &v);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param k scalar.
- * @param v A 4d vector.
+ * @param [in] k scalar.
+ * @param [in] v A 4d vector.
  * 
  * @return A 4d vector.
+ *
+ * @see Vector4D 
  */
 template <typename T>
 Vector4D<T>

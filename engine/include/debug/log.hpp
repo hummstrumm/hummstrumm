@@ -29,6 +29,7 @@
 #define HUMMSTRUMM_ENGINE_DEBUG_LOG
 
 #include <string>
+#include <cstdio>
 
 namespace hummstrumm
 {
@@ -133,11 +134,11 @@ class Log
      * @date   2010-03-12
      * @since  0.2
      *
-     * @param text [in] The message to be written to the log.
-     * @param fileName [in] The file from which the message originates.
-     * @param lineNumber [in] The line from which the message originates.
-     * @param function [in] The function from which the message originates.
-     * @param level [in] The level of the message.
+     * @param [in] text The message to be written to the log.
+     * @param [in] fileName The file from which the message originates.
+     * @param [in] lineNumber The line from which the message originates.
+     * @param [in] function The function from which the message originates.
+     * @param [in] level The level of the message.
      *
      * @todo Make timestamp user-readable/pretty.  This goes along with adding
      * the schema for log files.
@@ -159,9 +160,9 @@ class Log
      * @date   2010-09-11
      * @since  0.2
      *
-     * @param fileName     The name of the file to which to write the
-     * log message.
-     * @param minimumLevel The minimum level of log messages.
+     * @param [in] fileName    The name of the file to which to write the log
+     * message.
+     * @param [in] minimumLevel The minimum level of log messages.
      */
     Log (hummstrumm::engine::types::String fileName, Level minimumLevel)
       throw (HUMMSTRUMM_ERRORNAME(Generic));
@@ -188,10 +189,6 @@ class Log
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-11-09
      * @since  0.3
-     *
-     * @todo Create classes in system/ to find the system attributes in a cross
-     * platform manner.  Shouldn't be that difficult.  On GNU, it's all in
-     * /proc/, and on Windows, it's API calls.
      */
     void OutputHeader (void)
       throw ();

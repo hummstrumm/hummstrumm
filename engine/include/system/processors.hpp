@@ -130,7 +130,7 @@ class Processors
      * Returns whether the system supports Streaming SIMD Extensions 3 (SSE3).
      *
      * @author Ricardo Tiago <RTiago@gmail.com>
-     * @date   2010-03-27
+     * @date   2011-03-27
      * @since  0.3
      *
      * @return If the system has SSE 3 support.
@@ -142,7 +142,7 @@ class Processors
      * Returns whether the system supports Streaming SIMD Extensions 4.1 (SSE4).
      *
      * @author Ricardo Tiago <RTiago@gmail.com>
-     * @date   2010-03-27
+     * @date   2011-03-27
      * @since  0.3
      *
      * @return If the system has SSE 4.1 support.
@@ -154,7 +154,7 @@ class Processors
      * Returns whether the system supports Streaming SIMD Extensions 4.2 (SSE4).
      *
      * @author Ricardo Tiago <RTiago@gmail.com>
-     * @date   2010-03-27
+     * @date   2011-03-27
      * @since  0.3
      *
      * @return If the system has SSE 4.2 support.
@@ -172,7 +172,7 @@ class Processors
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param index [in] The processor index for which to set the name. 
+     * @param [in] index The processor index for which to set the name. 
      */
     void SetProcessorNameToUnknown (int index)
       throw ();
@@ -182,8 +182,8 @@ class Processors
     bool sseSupport;         ///< Whether we have SSE.
     bool sse2Support;        ///< Whether we have SSE 2.
     bool sse3Support;        ///< Whether we have SSE 3.
-    bool sse41Support;        ///< Whether we have SSE 4.1.
-    bool sse42Support;        ///< Whether we have SSE 4.2.
+    bool sse41Support;       ///< Whether we have SSE 4.1.
+    bool sse42Support;       ///< Whether we have SSE 4.2.
 
 };
 

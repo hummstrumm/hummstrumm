@@ -274,7 +274,7 @@ class Object
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param size [in] The size of the block to allocate.
+     * @param [in] size The size of the block to allocate.
      * 
      * @return A block of memory in which an Object can fit.
      */
@@ -298,7 +298,7 @@ class Object
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param p [inout] The Object to delete.
+     * @param [in,out] p The Object to delete.
      */
     void operator delete (void *p)
       throw ();
@@ -310,7 +310,7 @@ class Object
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param size [in] The size of the block to allocate.
+     * @param [in] size The size of the block to allocate.
      * 
      * @return A block of memory in which an array of Objects can fit.
      */
@@ -334,7 +334,7 @@ class Object
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param p [inout] The Object array to delete.
+     * @param [in,out] p The Object array to delete.
      */
     void operator delete[] (void *p)
       throw ();
@@ -372,9 +372,9 @@ class Object
     void DropReference (void)
       const throw ();
     
-    mutable unsigned int referenceCount; /**< The Object's reference count. */
-    static Type type_HIDDEN_;             /**< The Type for this Object.*/
-    static AllocationTable allocations; ///< New allocations.
+    mutable unsigned int referenceCount;  /**< The Object's reference count. */
+    static Type type_HIDDEN_;             /**< The Type for this Object.     */
+    static AllocationTable allocations;   /**< New allocations.              */
 };
 
 }

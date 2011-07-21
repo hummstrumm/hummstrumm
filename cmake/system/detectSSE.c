@@ -24,14 +24,18 @@
 #include "cpuid.h"
 #endif
 
-#ifdef HUMMSTRUMM_PLATFORM_WIN
+#ifdef HUMMSTRUMM_PLATFORM_BSD
+#include "cpuid.h"
+#endif
+
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #include "intrin.h"
 #endif
 
 int
 main(int argc, char **argv)
 {
-  #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+  #if defined(HUMMSTRUMM_PLATFORM_GNULINUX) || defined(HUMMSTRUMM_PLATFORM_BSD)
   unsigned int regA, regB, regC, regD;
   if (__get_cpuid(0x00000001,&regA,&regB,&regC,&regD) )
   {

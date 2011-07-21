@@ -19,13 +19,15 @@
 
 
 # Add flag for unit testing.
-# If we're in a release build (the default), don't build unit tests.  Most
-# users don't care about that.
-if (${CMAKE_BUILD_TYPE} MATCHES "Release")
+# If we're in a working copy, then we are probably developing, in which case,
+# we should build the unit testing functionality.  Otherwise, this is a user
+# distribution, and most users don't want to unit test software that really
+# ought to work.
+if (NOT HUMMSTRUMM_IN_WORKING_COPY)
   set (HUMMSTRUMM_UNIT_TEST OFF CACHE BOOL "Build CPPUnit tests?")
-else (${CMAKE_BUILD_TYPE} MATCHES "Release")
+else (NOT HUMMSTRUMM_IN_WORKING_COPY)
   set (HUMMSTRUMM_UNIT_TEST ON CACHE BOOL "Build CPPUnit tests?")
-endif (${CMAKE_BUILD_TYPE} MATCHES "Release")
+endif (NOT HUMMSTRUMM_IN_WORKING_COPY)
 
 # Check if CPPUnit exists on this platform.
 if (HUMMSTRUMM_UNIT_TEST)

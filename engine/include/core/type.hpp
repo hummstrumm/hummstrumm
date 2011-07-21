@@ -89,12 +89,12 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param name [in] The name of the Object, including the namespaces it is
+     * @param [in] name The name of the Object, including the namespaces it is
      * under.
-     * @param size [in] The size, in bytes, of the Object.
-     * @param parent [in] The Object's parent class's Type.  This is only a
+     * @param [in] size The size, in bytes, of the Object.
+     * @param [in] parent The Object's parent class's Type.  This is only a
      * null pointer at the root of the hierarchy.
-     * @param createFunction [in] The Object's static create function, which
+     * @param [in] createFunction The Object's static create function, which
      * should return a Pointer<Object> to the newly-created Object.
      *
      * @warning Do not create your own Type.  If you are using the engine's
@@ -163,7 +163,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param type [in] A Type to test for inheritance.
+     * @param [in] type A Type to test for inheritance.
      *
      * @return Whether this Object is a direct parent of type.
      */
@@ -175,7 +175,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param type [in] A Type to test for inheritance.
+     * @param [in] type A Type to test for inheritance.
      *
      * @return Whether this Object is a direct child of type.
      */
@@ -187,7 +187,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param type [in] A Type to test for inheritance.
+     * @param [in] type A Type to test for inheritance.
      *
      * @return Whether this Object is a descendant of type.
      */
@@ -199,7 +199,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param type [in] A Type to test for inheritance.
+     * @param [in] type A Type to test for inheritance.
      *
      * @return Whether this Object is an ancestor of type.
      */
@@ -212,7 +212,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param type [in] A Type to test for equality.
+     * @param [in] type A Type to test for equality.
      *
      * @return Whether this Type is equal to type.
      *
@@ -228,7 +228,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param name [in] A String to test for equality.
+     * @param [in] name A String to test for equality.
      *
      * @return Whether this Type is equal to name.
      *
@@ -245,7 +245,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param type [in] A Type to test for equality.
+     * @param [in] type A Type to test for equality.
      *
      * @return Whether this Type is equal to type.
      *
@@ -261,7 +261,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      *
-     * @param name [in] A String to test for equality.
+     * @param [in] name A String to test for equality.
      *
      * @return Whether this Type is equal to name.
      *
@@ -328,7 +328,7 @@ class Type
  * @date 2009-09-02
  * @since 0.1
  *
- * @param className [in] The name of the class.
+ * @param [in] className The name of the class.
  *
  * @see Object
  * @see Object::GetType
@@ -369,8 +369,8 @@ class Type
  * @date 2009-09-02
  * @since 0.1
  *
- * @param className [in] The full name of the class, including namespaces.
- * @param parentName [in] The full name of the parent class, including
+ * @param [in] className  The full name of the class, including namespaces.
+ * @param [in] parentName The full name of the parent class, including
  *                        namespaces.
  *
  * @see Object
@@ -437,10 +437,10 @@ class Type
  * @date 2009-09-02
  * @since 0.1
  *
- * @param templateDefinition [in] The template definition to prefix definitions
+ * @param [in] templateDefinition The template definition to prefix definitions
  *                                of the class members.
- * @param className [in] The full name of the class, including namespaces.
- * @param parentName [in] The full name of the parent class, including
+ * @param [in] className The full name of the class, including namespaces.
+ * @param [in] parentName The full name of the parent class, including
  *                        namespaces.
  *
  * @see Object

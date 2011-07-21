@@ -97,7 +97,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param object [in, out] The Object to point to.  Its reference count is
+     * @param [in, out] object The Object to point to.  Its reference count is
      * changed.
      */
     Pointer<DataType> (PointerType object);
@@ -108,7 +108,7 @@ class Pointer : public Object
      * @date 2010-11-27
      * @since 0.3
      *
-     * @param pointer [in] A Pointer to copy.
+     * @param [in] pointer A Pointer to copy.
      */
     Pointer<DataType> (const Pointer<T> &pointer);
     /**
@@ -205,7 +205,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in, out] The new Pointer which references the Object you
+     * @param [in, out] pointer The new Pointer which references the Object you
      *  want to reference.
      *
      * @return The new Pointer (useful in chaining = statements)
@@ -219,7 +219,7 @@ class Pointer : public Object
      * @date 2010-11-27
      * @since 0.3
      *
-     * @param pointer [in] The object you want to set this Pointer to.
+     * @param [in] pointer The object you want to set this Pointer to.
      */
     const Pointer<DataType> &operator= (const PointerType &pointer)
       throw ();
@@ -233,7 +233,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in] The new Pointer which references the Object you
+     * @param [in] pointer The new Pointer which references the Object you
      * want to reference.
      */
     void Set (const Pointer<DataType> pointer) throw ();
@@ -244,7 +244,7 @@ class Pointer : public Object
      * @date 2010-11-27
      * @since 0.3
      *
-     * @param pointer [in] The new Pointer which references the Object you
+     * @param [in] pointer The new Pointer which references the Object you
      * want to reference.
      */
     void Set (const PointerType pointer) throw ();
@@ -257,7 +257,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in] The Pointer object to compare with.
+     * @param [in] pointer The Pointer object to compare with.
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
@@ -270,7 +270,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in] The Pointer object to compare with.
+     * @param [in] pointer The Pointer object to compare with.
      *
      * @return Whether the two Pointer objects reference the same Object.
      */

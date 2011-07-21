@@ -119,7 +119,7 @@ class AllocationTable
      * @date   2010-11-27
      * @since  0.3
      *
-     * @param memoryLocation [in] The memory location to add. 
+     * @param [in] memoryLocation The memory location to add. 
      * 
      * @todo Make thread safe.
      */
@@ -169,8 +169,8 @@ class AllocationTable
          * @date   2010-11-27
          * @since  0.3
          *
-         * @param memoryLocation [in] The memory location that was allocated.
-         * @param next [in] The next node in the linked list.
+         * @param [in] memoryLocation The memory location that was allocated.
+         * @param [in] next The next node in the linked list.
          */
         Allocation (void *memoryLocation,
                     Allocation *next)
@@ -190,8 +190,11 @@ class AllocationTable
         Allocation *nextAllocation;     ///< Next allocation in the list.
     };
 
+    /// The start of the current Allocation stack.
     Allocation *head;
+    /// A pool in which to allocate Allocation objects for speed.
     char *allocationsPool;
+    /// A bitfield for tracking which elements of the pool are used.
     hummstrumm::engine::types::uint32 usedInPool;
 };
 

@@ -77,7 +77,8 @@
  * @since  0.2
  */
 #ifdef HUMMSTRUMM_DEBUG
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#if defined (HUMMSTRUMM_PLATFORM_GNULINUX) || \
+    defined (HUMMSTRUMM_PLATFORM_BSD)
 
 #define HUMMSTRUMM_BREAK()                      \
   do {                                          \

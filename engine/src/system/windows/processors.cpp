@@ -99,22 +99,11 @@ Processors::Processors (void)
 
       // Look for SSE support.
       __cpuid (cpuInfo, 1);
-      if (cpuInfo[3] & (1 << 26))
-        {
-          this->sse2Support = true;
-        }
-      else
-        {
-          this->sse2Support = false;
-        }
-      if (cpuInfo[3] & (1 << 25))
-        {
-          this->sseSupport = true;
-        }
-      else
-        {
-          this->sseSupport = false;
-        }
+      this->sse42Support = cpuInfo[2] & (1 << 20);
+      this->sse41Support = cpuInfo[2] & (1 << 19);
+      this->sse3Support  = cpuInfo[2] & (1 << 0);
+      this->sse2Support  = cpuInfo[3] & (1 << 26);
+      this->sseSupport   = cpuInfo[3] & (1 << 25);
     }
   catch (int i)
     {
@@ -129,6 +118,9 @@ Processors::Processors (void)
           SetProcessorNameToUnknown (0);
           this->sseSupport = false;
           this->sse2Support = false;
+          this->sse3Support = false;
+          this->sse41Support = false;
+          this->sse42Support = false;
           break;
         }
     }
@@ -182,6 +174,30 @@ Processors::HaveSse2Support (void)
   const throw ()
 {
   return this->sse2Support;
+}
+
+
+bool
+Processors::HaveSse3Support (void)
+  const throw ()
+{
+  return this->sse3Support;
+}
+
+
+bool
+Processors::HaveSse41Support (void)
+  const throw ()
+{
+  return this->sse41Support;
+}
+
+
+bool
+Processors::HaveSse42Support (void)
+  const throw ()
+{
+  return this->sse42Support;
 }
 
 

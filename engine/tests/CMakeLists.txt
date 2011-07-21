@@ -31,7 +31,7 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_LIBS rt)
   # I do not really understand why I do have to add this in here too.
   # Its already added in engine.CMakeLists.txt
-  add_definitions(-msse4.1) 
+  add_definitions("-msse4.1")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 include_directories (${hummstrummengine_INCLUDE})
@@ -54,6 +54,10 @@ add_test (NAME test_engine_math COMMAND test_engine_math)
 add_executable(test_engine_system system.cpp)
 target_link_libraries(test_engine_system ${hummstrummengine_LIBS})
 add_test (NAME test_engine_system COMMAND test_engine_system)
+
+add_executable(test_engine_systemprint systemprint.cpp)
+target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
+add_test (NAME test_engine_systemprint COMMAND test_engine_systemprint)
 
 add_executable(test_engine_types types.cpp)
 target_link_libraries(test_engine_types ${hummstrummengine_LIBS})

@@ -26,6 +26,7 @@ cmake_minimum_required (VERSION 2.6.3)
 
 set (CMAKE_MODULE_PATH ${hummstrumm_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
+include (CheckWorkingCopy)
 include (Defaults)
 include (Version)
 include (Platform)
@@ -40,12 +41,12 @@ include (CheckX11)
 include (CheckGL)
 
 # Use some flags across the entire project:
-if (HUMMSTRUMM_PLATFORM_GNULINUX)
+if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
   set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
-  add_definitions( -msse)
-  add_definitions( -msse4.1)
-  add_definitions( -msse4.2)
-endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+  add_definitions("-msse")
+  add_definitions("-msse4.1")
+  add_definitions("-msse4.2")
+endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
   set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W 4")
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
@@ -60,6 +61,7 @@ try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
          CMAKE_FLAGS
          COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
          COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
+#message (STATUS ${COMPILE_OUTPUT_VAR})
 if (${RUN_RESULT_VAR})
   set (HUMMSTRUMM_HAVE_SSE_SUPPORT ON)
 endif (${RUN_RESULT_VAR})

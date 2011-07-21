@@ -96,9 +96,10 @@ class Profiler
      * @date   2010-03-15
      * @since  0.2
      *
-     * @param debugName [in] A name for the profiler to identify it in the log.
+     * @param [in] debugName A name for the profiler to identify it in the log.
      * Names are unique for up to 24 ASCII characters.
-     * @param reportIn  [in] The unit in which to report the final times.
+     * @param [in] reportIn The unit in which to report the final times.
+     * @param [in] out Where to write the results.
      * @param out [in] Where to write the results.
      */
     Profiler (const char *debugName,
@@ -147,11 +148,12 @@ class Profiler
  * @date   2010-03-15
  * @since  0.2
  *
- * @param debugName A name for the Profiler, which will aid in picking it out in
- * the Log.
- * @param reportIn The unit in which to report times.  A member of the
+ * @param [in] debugName A name for the Profiler, which will aid in picking it
+ * out in the Log.
+ * @param [in] reportIn The unit in which to report times.  A member of the
  * hummstrumm::engine::debug::Profiler::Units enumeration (without any
  * prefixes).
+ * @param [in] out Where to write the results.
  *
  * @see Profiler
  */

@@ -12,6 +12,20 @@ with the most recent  release.
 
 
 
+Humm and Strumm, version 0.3
+======================================================================
+
+  * *BSD system support added.
+  * Vector math support added.
+  * X11 support code.
+  * Experimental SIMD code.
+  * Containers System created.
+  * Unicode System created.
+
+
+
+
+
 Humm and Strumm, version 0.2
 ======================================================================
 

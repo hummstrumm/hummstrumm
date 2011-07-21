@@ -50,8 +50,12 @@ Memory::Memory (void)
       char line[256];
 
       // What strings do we want to look for?
-      const char *totalLabel = "MemTotal:";
-      const char *freeLabel  = "MemFree:";
+      const char *totalLabel   = "MemTotal:";
+      const char *freeLabel    = "MemFree:";
+      const char *buffersLabel = "Buffers:";
+      const char *cachedLabel  = "Cached:";
+
+      int tmpFree = 0;
 
       // We just need to loop through the file in search of what we want.
       while (true)
@@ -79,7 +83,28 @@ Memory::Memory (void)
             {
               // We've got a hit.  Give us the total memory.
               char *number = line + std::strlen (freeLabel);
-              sscanf (number, "%d", &this->freeMemory);
+              sscanf (number, "%d", &tmpFree);
+              this->freeMemory += tmpFree;
+              continue;
+            }
+          else if (std::strncmp (buffersLabel,
+                                 line,
+                                 std::strlen (buffersLabel)) == 0)
+            {
+              // We've got a hit.  Give us the total memory.
+              char *number = line + std::strlen (buffersLabel);
+              sscanf (number, "%d", &tmpFree);
+              this->freeMemory += tmpFree;
+              continue;
+            }
+          else if (std::strncmp (cachedLabel,
+                                 line,
+                                 std::strlen (cachedLabel)) == 0)
+            {
+              // We've got a hit.  Give us the total memory.
+              char *number = line + std::strlen (cachedLabel);
+              sscanf (number, "%d", &tmpFree);
+              this->freeMemory += tmpFree;
               continue;
             }
         }

@@ -69,10 +69,10 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param w The scalar component w.
-     * @param vx The x component of vector.
-     * @param vy The y component of vector.
-     * @param vz The z component of vector.
+     * @param [in] w The scalar component w.
+     * @param [in] vx The x component of vector.
+     * @param [in] vy The y component of vector.
+     * @param [in] vz The z component of vector.
      */
     Quaternion (const T &w, const T &vx, const T  &vy, const T &vz)
       : w(w), v(vx, vy, vz) {}
@@ -84,7 +84,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m 3x3 Matrice.
+     * @param [in] m 3x3 Matrice.
      */  
     Quaternion (const Matrix3D<T> &m);
  
@@ -96,8 +96,8 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param w The scalar component w.
-     * @param v 3D Vector.
+     * @param [in] w The scalar component w.
+     * @param [in] v 3D Vector.
      */
     Quaternion (const T &w, const Vector3D<T> &v)
       : w(w), v(v) {}
@@ -109,7 +109,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      */
     Quaternion (const Quaternion<T> &q): w(q.w), v(q.v) {}
 
@@ -120,7 +120,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *
      * @return This quaternion. 
      */
@@ -133,7 +133,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *
      * @return Whether the quaternions are equal. 
      */
@@ -146,7 +146,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *
      * @return Whether the quaternions are different. 
      */
@@ -159,7 +159,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *
      * @return A quaternion that is the sum of this with q.
      */
@@ -183,7 +183,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *    
      * @return A quaternion that is the subtraction of this with q.
      */
@@ -196,7 +196,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *
      * @return A quaternion that is the multiplication of this with q.
      *
@@ -211,7 +211,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s A scalar.
+     * @param [in] s A scalar.
      *
      * @return A quaternion that is the multiplication of this with s.
      *
@@ -225,7 +225,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s A scalar.
+     * @param [in] s A scalar.
      *
      * @return A quaternion that is the division of this with s.
      */
@@ -238,7 +238,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *
      * @return This quaternion added with q.
      */
@@ -251,7 +251,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *    
      * @return This quaternion subtracted with q.
      */
@@ -264,7 +264,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param q A quaternion.
+     * @param [in] q A quaternion.
      *
      * @return This quaternion multiplied by q. 
      */
@@ -277,7 +277,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s A scalar.
+     * @param [in] s A scalar.
      *
      * @return This quaternion multiplied by s.
      */
@@ -290,7 +290,7 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s A scalar.
+     * @param [in] s A scalar.
      *
      * @return This quaternion divided by s.
      */
@@ -303,8 +303,8 @@ class Quaternion
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param angle Angle in radians to rotate about the axis.
-     * @param axis Rotation axis (should be normalized).
+     * @param [in] angle Angle in radians to rotate about the axis.
+     * @param [in] axis Rotation axis (should be normalized).
      */
     void SetAxisAngle (const T &angle, const Vector3D<T> &axis);
 
@@ -576,10 +576,12 @@ Quaternion<T>::Normalize ()
  * @date 2010-03-28
  * @since 0.2
  *
- * @param n A quaternion.
- * @param q Another quatenrion.
+ * @param [in] n A quaternion.
+ * @param [in] q Another quatenrion.
  *
  * @return The dot product of n with q.
+ *
+ * @see Quaternion
  */
 template <typename T>
 T QuatDot (const Quaternion<T> &n, const Quaternion<T> &q);
@@ -591,10 +593,12 @@ T QuatDot (const Quaternion<T> &n, const Quaternion<T> &q);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param s A scalar.
- * @param q A quaternion.
+ * @param [in] s A scalar.
+ * @param [in] q A quaternion.
  *
  * @return The quaternion that resulted from s*q.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T> operator * (const T &s, const Quaternion<T> &q);
@@ -606,9 +610,11 @@ Quaternion<T> operator * (const T &s, const Quaternion<T> &q);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion.
+ * @param [in] q A quaternion.
  *
  * @return The conjugate of q.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T> QuatConjugate (const Quaternion<T> &q);
@@ -620,9 +626,11 @@ Quaternion<T> QuatConjugate (const Quaternion<T> &q);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion.
+ * @param [in] q A quaternion.
  *
  * @return The magnitude q.
+ *
+ * @see Quaternion
  */
 template <typename T>
 T QuatMagnitude (const Quaternion<T> &q);
@@ -634,9 +642,11 @@ T QuatMagnitude (const Quaternion<T> &q);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion.
+ * @param [in] q A quaternion.
  *
  * @return The inverse of q.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T> QuatInverse (const Quaternion<T> &q);
@@ -648,10 +658,12 @@ Quaternion<T> QuatInverse (const Quaternion<T> &q);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion. Should be normalized 
+ * @param [in] q A quaternion. Should be normalized 
  * before used in here.
  *
- * @return The logarithm of q. 
+ * @return The logarithm of q.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T> QuatLog (const Quaternion<T> &q);
@@ -663,9 +675,11 @@ Quaternion<T> QuatLog (const Quaternion<T> &q);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion. 
+ * @param [in] q A quaternion. 
  *
  * @return The exponential of q.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T> QuatExp (const Quaternion<T> &q);
@@ -677,10 +691,12 @@ Quaternion<T> QuatExp (const Quaternion<T> &q);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion.
- * @param e Another quaternion.
+ * @param [in] q A quaternion.
+ * @param [in] e Another quaternion.
  *
  * @return Quaternion q raised to e.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T> QuatPow (const Quaternion<T> &q, const Quaternion<T> &e);
@@ -692,10 +708,12 @@ Quaternion<T> QuatPow (const Quaternion<T> &q, const Quaternion<T> &e);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion.
- * @param e Scalar.
+ * @param [in] q A quaternion.
+ * @param [in] e Scalar.
  *
  * @return Quaternion q raised to e.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T> QuatPow (const Quaternion<T> &q, const T &e);
@@ -707,10 +725,12 @@ Quaternion<T> QuatPow (const Quaternion<T> &q, const T &e);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A quaternion.
- * @param w Another quaternion.
+ * @param [in] q A quaternion.
+ * @param [in] w Another quaternion.
  *
  * @return The angular displacement which rotates from q to w.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T>
@@ -723,11 +743,13 @@ QuatAngDisp (const Quaternion<T> &q, const Quaternion<T> &w);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A normalized quaternion (starting orientation).
- * @param w Another normalized quaternion (ending orientation).
- * @param t Interpolation parameter
+ * @param [in] q A normalized quaternion (starting orientation).
+ * @param [in] w Another normalized quaternion (ending orientation).
+ * @param [in] t Interpolation parameter
  *
  * @return Orientation that interpolates from q and w.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T>
@@ -740,13 +762,16 @@ QuatSlerp (const Quaternion<T> &q, const Quaternion<T> &w, const T &t);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param q A normalized quaternion (initial control point).
- * @param w Another normalized quaternion (end control point).
- * @param z A normalized quaternion (intermediate control point,  z).
- * @param x Another normalized quaternion (intermediate control point, x=z+1).
- * @param h Interpolation parameter
+ * @param [in] q A normalized quaternion (initial control point).
+ * @param [in] w Another normalized quaternion (end control point).
+ * @param [in] z A normalized quaternion (intermediate control point,  z).
+ * @param [in] x Another normalized quaternion (intermediate control point,
+ * x=z+1).
+ * @param [in] h Interpolation parameter
  *
  * @return A cubic interpolation between q and w by amount h.
+ *
+ * @see Quaternion
  */
 template <typename T>
 Quaternion<T>

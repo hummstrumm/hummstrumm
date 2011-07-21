@@ -202,7 +202,7 @@ class String
      * @date   2010-09-26
      * @since  0.3
      *
-     * @param utf8 [in] A null terminated buffer of UTF-8 octets.
+     * @param [in] utf8 A null terminated buffer of UTF-8 octets.
      * 
      * @throw hummstrumm::engine::error::OutOfMemory If not enough memory can be
      * allocated to store the String.
@@ -222,7 +222,7 @@ class String
      * @date   2010-09-26
      * @since  0.3
      *
-     * @param utf16 [in] A null terminated buffer of UTF-16 code points.
+     * @param [in] utf16 A null terminated buffer of UTF-16 code points.
      * 
      * @throw hummstrumm::engine::error::OutOfMemory If not enough memory can be
      * allocated to store the String.
@@ -242,7 +242,7 @@ class String
      * @date   2010-09-26
      * @since  0.3
      *
-     * @param utf32 [in] A null terminated buffer of UTF-32 codepoints.
+     * @param [in] utf32 A null terminated buffer of UTF-32 codepoints.
      * 
      * @throw hummstrumm::engine::error::OutOfMemory If not enough memory can be
      * allocated to store the String.
@@ -261,7 +261,7 @@ class String
      * @date   2010-09-26
      * @since  0.3
      *
-     * @param character [in] A Character holding a single Unicode code point.
+     * @param [in] character A Character holding a single Unicode code point.
      *
      * @throw hummstrumm::engine::error::OutOfMemory If not enough memory can be
      * allocated to store the String.
@@ -288,7 +288,7 @@ class String
      * @date   2010-09-27
      * @since  0.3
      *
-     * @param string [in] A String to add to this one.
+     * @param [in] string A String to add to this one.
      *
      * @return A new String containing the concatenation of both this String and
      * argument String.
@@ -307,7 +307,7 @@ class String
      * @date   2010-09-27
      * @since  0.3
      *
-     * @param string [in] A String to which to set this one.
+     * @param [in] string A String to which to set this one.
      *
      * @return A reference to this String, after having undergone the operation.
      *
@@ -324,7 +324,7 @@ class String
      * @date   2010-09-27
      * @since  0.3
      *
-     * @param string [in] A String to which to add to this one.
+     * @param [in] string A String to which to add to this one.
      *
      * @return A reference to this String, after having undergone the operation.
      *
@@ -485,8 +485,8 @@ class String
      *
      * @return A String equal to the substring of requested in this String.
      *
-     * @param start [in] The Iterator from which to start counting Characters.
-     * @param end   [in] The Iterator one after the final counted Character.
+     * @param [in] start The Iterator from which to start counting Characters.
+     * @param [in] end   The Iterator one after the final counted Character.
      */
     String GetSubstring (const String::Iterator &start,
                          const String::Iterator &end)

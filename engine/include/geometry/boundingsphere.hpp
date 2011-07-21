@@ -59,8 +59,8 @@ class BSphere3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param c Center of the bounding sphere
-     * @param r Radius of the bounding sphere.
+     * @param [in] c Center of the bounding sphere
+     * @param [in] r Radius of the bounding sphere.
      */
     BSphere3D (const Vector3D<T> &c, const T &r)
       : center(c), radius(r) {}
@@ -72,10 +72,10 @@ class BSphere3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param centerx Sphere center coordinate x.
-     * @param centery Sphere center coordinate y.
-     * @param centerz Sphere center coordinate z.
-     * @param r Sphere radius.
+     * @param [in] centerx Sphere center coordinate x.
+     * @param [in] centery Sphere center coordinate y.
+     * @param [in] centerz Sphere center coordinate z.
+     * @param [in] r Sphere radius.
      */
     BSphere3D (const T &centerx, const T &centery, const T &centerz,
                const T &r)
@@ -88,7 +88,7 @@ class BSphere3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param bsphere A bounding sphere.
+     * @param [in] bsphere A bounding sphere.
      */
     BSphere3D (const BSphere3D<T> &bsphere): center(bsphere.center), radius(bsphere.radius) {}
 
@@ -109,7 +109,7 @@ class BSphere3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param bsphere A bounding sphere.
+     * @param [in] bsphere A bounding sphere.
      *
      * @return This bounding sphere.
      */
@@ -122,7 +122,7 @@ class BSphere3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param bsphere A bounding spheres.
+     * @param [in] bsphere A bounding spheres.
      *
      * @return Whether the two bounding spheres are equal.
      */
@@ -135,7 +135,7 @@ class BSphere3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param bsphere A bounding spheres.
+     * @param [in] bsphere A bounding spheres.
      *
      * @return Whether the two bounding spheres are different.
      */
@@ -248,10 +248,12 @@ BSphere3D<T>::SurfaceArea() const
  * @date 2010-05-30
  * @since 0.3
  *
- * @param bsphere A bounding sphere.
- * @param point A point.
+ * @param [in] bsphere A bounding sphere.
+ * @param [in] point A point.
  *
  * @return Whether the point is inside the sphere.
+ *
+ * @see BSphere3D
  */
 template <typename T>
 bool BSphere3ContainsPoint (const BSphere3D<T> &bsphere, const Vector3D<T> &point);
@@ -263,11 +265,13 @@ bool BSphere3ContainsPoint (const BSphere3D<T> &bsphere, const Vector3D<T> &poin
  * @date 2010-05-30
  * @since 0.3
  *
- * @param bsphere A bounding sphere.
- * @param other Another bounding sphere.
+ * @param [in] bsphere A bounding sphere.
+ * @param [in] other Another bounding sphere.
  *
  * @return -1 if they don't intersect, 1 if bsphere
  * contains other and 0 if they intersect.
+ *
+ * @see BSphere3D
  */
 template <typename T>
 short BSphere3IntersectSphere (const BSphere3D<T> &bsphere, const BSphere3D<T> &other);
@@ -279,10 +283,12 @@ short BSphere3IntersectSphere (const BSphere3D<T> &bsphere, const BSphere3D<T> &
  * @date 2010-05-30
  * @since 0.3
  *
- * @param bsphere A bounding sphere.
- * @param point A point.
+ * @param [in,out] bsphere A bounding sphere.
+ * @param [in] point A point.
  *
  * @note Moves bounding sphere center.
+ *
+ * @see BSphere3D
  */
 template <typename T>
 void BSphere3AddPoint (BSphere3D<T> &bsphere, const Vector3D<T> &point);
@@ -294,9 +300,10 @@ void BSphere3AddPoint (BSphere3D<T> &bsphere, const Vector3D<T> &point);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param bsphere A bounding sphere.
- * @param other Another bounding sphere.
+ * @param [in,out] bsphere A bounding sphere.
+ * @param [in] other Another bounding sphere.
  *
+ * @see BSphere3D 
  */
 template <typename T>
 void BSphere3AddSphere (BSphere3D<T> &bsphere, const BSphere3D<T> &other);
@@ -308,9 +315,10 @@ void BSphere3AddSphere (BSphere3D<T> &bsphere, const BSphere3D<T> &other);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param bsphere A bounding sphere.
- * @param box A bounding box.
+ * @param [in,out] bsphere A bounding sphere.
+ * @param [in] box A bounding box.
  *
+ * @see BSphere3D
  */
 template <typename T>
 void BSphere3AddBox (BSphere3D<T> &bsphere, const AABBox3D<T> &box);

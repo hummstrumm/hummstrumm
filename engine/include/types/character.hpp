@@ -79,7 +79,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-03
      * @since  0.3
      *
-     * @param asciiChar [in] A character in the ASCII range.
+     * @param [in] asciiChar A character in the ASCII range.
      *
      * @throw hummstrumm::engine::error::OutOfRange If the character is not a
      * valid ASCII character in the Unicode range U+0000 to U+007F.
@@ -103,10 +103,10 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-03
      * @since  0.3
      *
-     * @param octet1 [in] The first octet in the UTF-8 sequence.
-     * @param octet2 [in] The secend octet in the UTF-8 sequence.
-     * @param octet3 [in] The third octet in the UTF-8 sequence.
-     * @param octet4 [in] The fourth octet in the UTF-8 sequence.
+     * @param [in] octet1 The first octet in the UTF-8 sequence.
+     * @param [in] octet2 The secend octet in the UTF-8 sequence.
+     * @param [in] octet3 The third octet in the UTF-8 sequence.
+     * @param [in] octet4 The fourth octet in the UTF-8 sequence.
      *
      * @throw hummstrumm::engine::error::Unicode If the UTF-8 octets form an
      * an invalid sequence or code point.
@@ -134,9 +134,9 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-04
      * @since  0.3
      *
-     * @param surrogate1 [in] The first value of the UTF-16 sequence.  This does
+     * @param [in] surrogate1 The first value of the UTF-16 sequence.  This does
      * not need to be a surrogate.
-     * @param surrogate2 [in] The second value of a UTF-16 surrogate pair.  This
+     * @param [in] surrogate2 The second value of a UTF-16 surrogate pair.  This
      * is only regarded if surrogate1 actually denotes the beginning of a
      * surrogate pair.
      *
@@ -160,7 +160,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-04
      * @since  0.3
      *
-     * @param codePoint [in] The Unicode code point which to encode into UTF-8.
+     * @param [in] codePoint The Unicode code point which to encode into UTF-8.
      *
      * @throw hummstrumm::engine::error::Unicode If the UTF-16 pair forms an
      * invalid surrogate pair or code point.
@@ -175,7 +175,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-04
      * @since  0.3
      *
-     * @param character [in] A Character to clone.
+     * @param [in] character A Character to clone.
      *
      * @throw hummstrumm::engine::error::Unicode If the other Character is
      * invalid.
@@ -261,7 +261,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-06
      * @since  0.3
      *
-     * @param buffer [out] The address of the buffer in which to store the code
+     * @param [out] buffer The address of the buffer in which to store the code
      * point.  This pointer must be valid, and point to a one element buffer of
      * type uint32. 
      *
@@ -280,7 +280,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-06
      * @since  0.3
      *
-     * @param buffer [out] The address of the buffer in which to store the
+     * @param [out] buffer The address of the buffer in which to store the
      * sequence.  This pointer must be valid, and point to a big enough to hold
      * the UTF-16 sequence.  To be safe, you should use a buffer that is at
      * least two uint16 elements long; this can hold any UTF-16 sequence.
@@ -300,7 +300,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-06
      * @since  0.3
      *
-     * @param buffer [out] The address of the buffer in which to store the
+     * @param [out] buffer The address of the buffer in which to store the
      * sequence.  This pointer must be valid, and point to a big enough to hold
      * the UTF-8 sequence.  To be safe, you should use a buffer that is at least
      * four unsigned char elements long; this can hold any UTF-8 sequence which
@@ -323,7 +323,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-06
      * @since  0.3
      *
-     * @param utf32Value [in] The address of the buffer containing the code
+     * @param [in] utf32Value The address of the buffer containing the code
      * point.
      *
      * @throw hummstrumm::engine::error::Unicode If utf32Value encodes an
@@ -342,7 +342,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-06
      * @since  0.3
      *
-     * @param utf16Value [in] The address of the buffer containing the
+     * @param [in] utf16Value The address of the buffer containing the
      * sequence.
      *
      * @throw hummstrumm::engine::error::Unicode If utf16Value encodes an
@@ -361,7 +361,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-06
      * @since  0.3
      *
-     * @param utf8Value [in] The address of the buffer containing the
+     * @param [in] utf8Value The address of the buffer containing the
      * sequence.
      *
      * @throw hummstrumm::engine::error::Unicode If utf8Value encodes an
@@ -381,7 +381,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-06
      * @since  0.3
      *
-     * @param character [in] A Character to clone.
+     * @param [in] character A Character to clone.
      *
      * @return This object, to facilitate chaining of assignments.
      *
@@ -399,7 +399,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param character [in] A Character to which to compare for equality.
+     * @param [in] character A Character to which to compare for equality.
      *
      * @return If the two Characters being compared are equal.
      *
@@ -416,7 +416,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param character [in] A Character to which to compare for inequality.
+     * @param [in] character A Character to which to compare for inequality.
      *
      * @return If the two Characters being compared are unequal.
      *
@@ -433,7 +433,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param character [in] A Character to which to compare for difference.
+     * @param [in] character A Character to which to compare for difference.
      *
      * @return If this code point is less than another Character's code point.
      *
@@ -450,7 +450,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param character [in] A Character to which to compare for difference.
+     * @param [in] character A Character to which to compare for difference.
      *
      * @return If this code point is not greater than another Character's code
      * point.
@@ -465,7 +465,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param character [in] A Character to which to compare for difference.
+     * @param [in] character A Character to which to compare for difference.
      *
      * @return If this code point is greater than another Character's code
      * point.
@@ -480,7 +480,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param character [in] A Character to which to compare for difference.
+     * @param [in] character A Character to which to compare for difference.
      *
      * @return If this code point is not less than another Character's code
      * point.
@@ -499,7 +499,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param octetsFromString [in] A pointer to the beginning of the UTF-8
+     * @param [in] octetsFromString A pointer to the beginning of the UTF-8
      * sequence.
      *
      * @throw hummstrumm::engine::error::InvalidParam If octetsFromString is a
@@ -550,7 +550,7 @@ class Character : public hummstrumm::engine::core::Object
      * @date   2010-09-08
      * @since  0.3
      *
-     * @param firstByte [in] The first octet in a UTF-8 sequence.
+     * @param [in] firstByte The first octet in a UTF-8 sequence.
      *
      * @return The sequence length of this Character.
      */

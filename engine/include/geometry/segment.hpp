@@ -61,10 +61,10 @@ class Segment2D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param x1 x coordinate of start point.
-     * @param y1 y coordinate of start point.
-     * @param x2 x coordinate of end point.
-     * @param y2 y coordinate of end point.
+     * @param [in] x1 x coordinate of start point.
+     * @param [in] y1 y coordinate of start point.
+     * @param [in] x2 x coordinate of end point.
+     * @param [in] y2 y coordinate of end point.
      */
     Segment2D (const T &x1, const T &y1, const T &x2, const T &y2)
       : start(x1,y1), end(x2,y2) {}
@@ -76,8 +76,8 @@ class Segment2D
      * @date 2010-05-10
      * @since 0.3
      * 
-     * @param s Start point as a vector.
-     * @param e End point as a vector.
+     * @param [in] s Start point as a vector.
+     * @param [in] e End point as a vector.
      */
     Segment2D (const Vector2D<T> &s, const Vector2D<T> &e): start(s), end(e) {}
 
@@ -88,7 +88,7 @@ class Segment2D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      */
     Segment2D (const Segment2D<T> &s): start(s.start), end(s.end) {}
 
@@ -108,7 +108,7 @@ class Segment2D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      * 
      * @return This segment.
      */
@@ -121,7 +121,7 @@ class Segment2D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      * 
      * @return Whether the segments are equal.
      */
@@ -134,7 +134,7 @@ class Segment2D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      * 
      * @return Whether the segments are different.
      */
@@ -164,12 +164,12 @@ class Segment3D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param x1 x coordinate of start point.
-     * @param y1 y coordinate of start point.
-     * @param z1 z coordinate of start point.
-     * @param x2 x coordinate of end point.
-     * @param y2 y coordinate of end point.
-     * @param z2 z coordinate of end point.
+     * @param [in] x1 x coordinate of start point.
+     * @param [in] y1 y coordinate of start point.
+     * @param [in] z1 z coordinate of start point.
+     * @param [in] x2 x coordinate of end point.
+     * @param [in] y2 y coordinate of end point.
+     * @param [in] z2 z coordinate of end point.
      */
     Segment3D (const T &x1, const T &y1, const  T &z1, const T &x2, 
                const T &y2, const T &z2)
@@ -182,8 +182,8 @@ class Segment3D
      * @date 2010-05-10
      * @since 0.3
      * 
-     * @param s Start point as a vector.
-     * @param e End point as a vector.
+     * @param [in] s Start point as a vector.
+     * @param [in] e End point as a vector.
      */
     Segment3D (const Vector3D<T> &s, const Vector3D<T> &e): start(s), end(e) {}
 
@@ -194,7 +194,7 @@ class Segment3D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      */
     Segment3D (const Segment3D<T> &s): start(s.start), end(s.end) {}
 
@@ -214,7 +214,7 @@ class Segment3D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      * 
      * @return This segment.
      */
@@ -227,7 +227,7 @@ class Segment3D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      * 
      * @return Whether the segments are equal.
      */
@@ -240,7 +240,7 @@ class Segment3D
      * @date 2010-05-10
      * @since 0.3
      *
-     * @param s A line segment.
+     * @param [in] s A line segment.
      * 
      * @return Whether the segments are different.
      */

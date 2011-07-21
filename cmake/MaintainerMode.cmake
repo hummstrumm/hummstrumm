@@ -16,9 +16,15 @@
 
 # MaintainerMode.cmake -- Adds extra controls that are useful to maintainers.
 
-# Turn off the flag by default.
-set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
-     "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
+# Turn off the flag unless we are in a working copy.
+
+if (NOT HUMMSTRUMM_IN_WORKING_COPY)
+  set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
+       "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
+else (NOT HUMMSTRUMM_IN_WORKING_COPY)
+  set (HUMMSTRUMM_MAINTAINER_MODE ON CACHE BOOL
+       "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
+endif (NOT HUMMSTRUMM_IN_WORKING_COPY)
 
 if (HUMMSTRUMM_MAINTAINER_MODE)
   # Check to see if we have all that we need to be in maintainer mode.
