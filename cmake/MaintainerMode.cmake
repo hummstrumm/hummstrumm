@@ -31,7 +31,6 @@ if (HUMMSTRUMM_MAINTAINER_MODE)
   include (MaintainerModeChecks)
   
   # We only need these things in maintainer mode.
-  include (CPackSetup)
   include (MakeChangeLog)
   include (SubversionTag)
   include (Dist)
