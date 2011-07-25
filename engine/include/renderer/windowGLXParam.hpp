@@ -19,10 +19,10 @@
 /**
  * Definition of GLX window parameters.
  * The available configuration options are based on the available GLX version.
- * GLX 1.2 or older only uses the following subset of options. See the description 
- * of each option for more information.
+ * GLX 1.2 or older only uses the following subset of options. See the
+ * description of each option for more information.
  * 
- * @file    winParamGLX.hpp
+ * @file    renderer/windowGLXParam.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-09-25
  */

@@ -199,9 +199,6 @@ Processors::Processors (void)
                   const char *sse3Flag = "pni";
                   const char *sse41Flag = "sse4_1";
                   const char *sse42Flag = "sse4_2";
-                  const char *sse3Flag = "ssse3 ";
-                  const char *sse41Flag = "sse4_1 ";
-                  const char *sse42Flag = "sse4_2 ";
                   if (std::strstr (realFlags, sseFlag))
                     {
                       this->sseSupport = true;

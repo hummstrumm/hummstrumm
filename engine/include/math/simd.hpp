@@ -24,6 +24,11 @@
 #include <smmintrin.h> //sse 4.1
 #endif
 
+#if defined (HUMMSTRUMM_PLATFORM_BSD) && defined (HUMMSTRUMM_HAVE_SSE_SUPPORT)
+#include <xmmintrin.h> //sse2
+#include <smmintrin.h> //sse 4.1
+#endif
+
 #if defined (HUMMSTRUMM_PLATFORM_WINDOWS) && defined(HUMMSTRUMM_HAVE_SSE_SUPPORT)
 #include <mmintrin.h>
 #endif
@@ -35,13 +40,21 @@ namespace engine
 namespace math
 {
 
-#ifdef HUMMSTRUMM_PLATFORM_WINDOW
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_ALIGN_16_GNULINUX
+  #define HUMMSTRUMM_ALIGN_16_BSD
   #define HUMMSTRUMM_ALIGN_16_WINDOWS __declspec(align(16))
 #endif
 
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
   #define HUMMSTRUMM_ALIGN_16_GNULINUX  __attribute__ ((aligned (16)))
+  #define HUMMSTRUMM_ALIGN_16_BSD
+  #define HUMMSTRUMM_ALIGN_16_WINDOWS
+#endif
+
+#ifdef HUMMSTRUMM_PLATFORM_BSD
+  #define HUMMSTRUMM_ALIGN_16_GNULINUX
+  #define HUMMSTRUMM_ALIGN_16_BSD __attribute__ ((aligned (16)))
   #define HUMMSTRUMM_ALIGN_16_WINDOWS
 #endif
 

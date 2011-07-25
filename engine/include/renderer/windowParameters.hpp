@@ -19,7 +19,7 @@
 /**
  * Common window parameters interface for the GLX and WGL windows.
  *
- * @file    winParam.hpp
+ * @file    renderer/windowParameters.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-07-24
  */

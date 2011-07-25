@@ -100,7 +100,6 @@ class Profiler
      * Names are unique for up to 24 ASCII characters.
      * @param [in] reportIn The unit in which to report the final times.
      * @param [in] out Where to write the results.
-     * @param out [in] Where to write the results.
      */
     Profiler (const char *debugName,
               Units reportIn = REPORT_IN_MILLISECONDS, Output out = LOGGER_AND_CONSOLE);

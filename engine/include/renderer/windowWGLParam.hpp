@@ -19,7 +19,7 @@
 /**
  * Definition for Microsoft Windows OpenGL window parameters.
  *
- * @file    winParamWGL.hpp
+ * @file    windowWGLParam.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-09-25
  */
