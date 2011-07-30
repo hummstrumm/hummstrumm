@@ -58,7 +58,9 @@ using hummstrumm::engine::math::Vector3D;
  * bmin       
  *         
  */
-
+/**
+ * @image html aabb3d.png
+ */
 template <typename T>
 class AABBox3D
 {
@@ -246,16 +248,7 @@ class AABBox3D
      * Get the corner(s) of the box.
      * From 3D Math Primer book.
      *
-     *
-     *     6__________7
-     *     /|        /|
-     *    / |       / |
-     * 2 /________3/  |
-     *  |  4|_____|___|
-     *  |  /      |  /5
-     *  | /       | /
-     *  |/________|/
-     *  0         1 
+     * @image html aabb3d-corners.png
      *
      * Bit 0 selects bmin.x vs bmax.x
      * Bit 1 selects bmin.y vs bmax.y
@@ -266,6 +259,16 @@ class AABBox3D
      * @since 0.3
      *
      * @param [in] i Corner number.
+     */
+    /*     6__________7
+     *     /|        /|
+     *    / |       / |
+     * 2 /________3/  |
+     *  |  4|_____|___|
+     *  |  /      |  /5
+     *  | /       | /
+     *  |/________|/
+     *  0         1
      */
     Vector3D<T> GetCorner(unsigned short i) const;
 
@@ -310,6 +313,9 @@ class AABBox3D
  *  |_________________|
  * bmin       
  *         
+ */
+/**
+ * @image html aabb2d.png
  */
 template <typename T>
 class AABBox2D
@@ -484,13 +490,7 @@ class AABBox2D
     /**
      * Get the corner(s) of the box.
      *
-     *             
-     *  2_________3
-     *  |         |
-     *  |         |
-     *  |         |
-     *  |_________|
-     *  0         1 
+     * @image html aabb2d-corners.png
      *
      * Bit 0 selects bmin.x vs bmax.x
      * Bit 1 selects bmin.y vs bmax.y
@@ -500,6 +500,13 @@ class AABBox2D
      * @since 0.3
      *
      * @param [in] i Corner number.
+     */
+    /*  2_________3
+     *  |         |
+     *  |         |
+     *  |         |
+     *  |_________|
+     *  0         1
      */
     Vector2D<T> GetCorner(unsigned short i) const;
 

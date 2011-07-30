@@ -78,13 +78,32 @@ if(DOXYGEN_FOUND AND DOXYFILE_IN_FOUND)
           list (APPEND header_files "${DOXYFILE_SOURCE_DIR}/${header_file}")
         endforeach ()
 
-	add_custom_target(doxygen DEPENDS ${DOXYFILE_OUTPUT_DIR})
-	add_custom_command(DEPENDS ${header_files}
+        file (GLOB_RECURSE image_files_relative
+              RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/doc/images"
+              "*.png")
+        foreach (image_file ${image_files_relative})
+          list (APPEND image_files
+                "${CMAKE_CURRENT_SOURCE_DIR}/doc/images/${header_file}")
+        endforeach ()
+
+        set (doxygen_dependencies "${CMAKE_CURRENT_SOURCE_DIR}/doc/header.html"
+                                  "${CMAKE_CURRENT_SOURCE_DIR}/doc/footer.html"
+                                  "${CMAKE_CURRENT_SOURCE_DIR}/doc/styles.css")
+
+	add_custom_target(doxygen
+                          DEPENDS ${DOXYFILE_OUTPUT_DIR}
+                                  ${CMAKE_CURRENT_BINARY_DIR}/doc/html/images)
+	add_custom_command(DEPENDS ${header_files} ${doxygen_dependencies}
 	        OUTPUT  ${DOXYFILE_OUTPUT_DIR}
 		COMMAND ${DOXYGEN_EXECUTABLE}
                 ARGS    ${DOXYFILE}
 		COMMENT "Writing documentation to ${DOXYFILE_OUTPUT_DIR}..."
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+        add_custom_command(DEPENDS ${image_files}
+	        OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/doc/html/images
+	        COMMAND "${CMAKE_COMMAND}"
+                ARGS    -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/doc/images" "${CMAKE_CURRENT_BINARY_DIR}/doc/html/images"
+	        COMMENT "Copying images to ${DOXYFILE_OUTPUT_DIR}/html/images...")
 
 	## LaTeX
 	set(DOXYFILE_PDFLATEX "NO")

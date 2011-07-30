@@ -43,9 +43,6 @@ include (CheckGL)
 # Use some flags across the entire project:
 if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
   set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
-  add_definitions("-msse")
-  add_definitions("-msse4.1")
-  add_definitions("-msse4.2")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
   set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W 4")
@@ -53,18 +50,27 @@ endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
 
 # Test for SIMD
+set (HUMMSTRUMM_USE_SSE ON CACHE BOOL
+     "Whether to build the engine with SSE support or not.")
 set (HUMMSTRUMM_HAVE_SSE_SUPPORT OFF)
 
-try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
-         ${CMAKE_BINARY_DIR}
-         ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE.c
-         CMAKE_FLAGS
-         COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
-         COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
-#message (STATUS ${COMPILE_OUTPUT_VAR})
-if (${RUN_RESULT_VAR})
-  set (HUMMSTRUMM_HAVE_SSE_SUPPORT ON)
-endif (${RUN_RESULT_VAR})
+if (HUMMSTRUMM_USE_SSE)
+  try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
+           ${CMAKE_BINARY_DIR}
+           ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE.c
+           CMAKE_FLAGS
+           COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
+           COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
+  #message (STATUS ${COMPILE_OUTPUT_VAR})
+  if (${RUN_RESULT_VAR})
+    set (HUMMSTRUMM_HAVE_SSE_SUPPORT ON)
+    if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+      add_definitions("-msse")
+      add_definitions("-msse4.1")
+      add_definitions("-msse4.2")
+    endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+  endif (${RUN_RESULT_VAR})
+endif (HUMMSTRUMM_USE_SSE)
 
 configure_file (${CMAKE_SOURCE_DIR}/config.h.in
                 ${CMAKE_BINARY_DIR}/engine/include/config.h @ONLY)

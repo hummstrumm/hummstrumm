@@ -52,9 +52,6 @@ if (HUMMSTRUMM_PLATFORM_WINDOWS)
         src/system/windows/memory.cpp
         src/system/windows/platform.cpp
         src/system/windows/clock.cpp)
-  # enable_language (ASM_MASM)
-  # list (APPEND hummstrummengine_SRCS
-  #      src/core/object-win64.asm)
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
 # GNU/Linux-only Source Files
@@ -175,6 +172,7 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
   else ()
     install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_PKGCONFIG_FILENAME}
              DESTINATION lib/pkgconfig)
+    message (STATUS "Be sure to set your $PKG_CONFIG_PATH variable to ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig if pkg-config can't find the Humm and Strumm engine.")
   endif ($ENV{PKG_CONFIG_PATH})
 endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
 

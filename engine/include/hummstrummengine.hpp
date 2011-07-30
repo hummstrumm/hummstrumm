@@ -31,9 +31,10 @@
 
 /**
  * @mainpage
+ * @image html logo-large.png
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @author Ricardo Tiago <RTiago@gmail.com>
- * @date 2010-02-06
+ * @date 2011-07-29
  *
  * @section Overview
  *

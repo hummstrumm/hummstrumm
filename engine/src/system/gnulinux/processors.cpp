@@ -182,7 +182,6 @@ Processors::Processors (void)
               // Just increment over all the white space.
               for (; *realFlags == ' ' || *realFlags == '\t'; ++realFlags);
               // Make sure we did it right.
-              std::cout << realFlags << "\n";
               if (*(realFlags) != ':' && *(++realFlags) != ' ')
                 {
                   // We did it wrong.  Just keep the two interesting flags
