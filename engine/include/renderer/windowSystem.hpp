@@ -58,6 +58,16 @@ class WindowSystem
     virtual ~WindowSystem() {}
 
     /**
+     * Destroy a window.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-07-24
+     * @since 0.3
+     *
+     */
+    virtual void DestroyWindow() = 0;
+
+    /**
      * Create a window.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>

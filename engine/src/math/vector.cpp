@@ -27,6 +27,8 @@ namespace engine
 namespace math
 {
 
+using hummstrumm::engine::core::Engine;
+
 #ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
 
 Vector4D<float> &
@@ -71,7 +73,7 @@ Vector4D<float>::operator - (const Vector4D<float> &v) const
 Vector4D<float> 
 Vector4D<float>::operator * (const float &s) const
 {
-  __m128 res; SIMD_MULT_SCALAR(xyzw,s, res);
+  __m128 res; SIMD_MULT_SCALAR(xyzw,s,res);
   return Vector4D<float> (res);
 }
 
@@ -137,7 +139,8 @@ float
 Vec4DMagnitude (const Vector4D<float> &v)
 {
   float res = 0;
-  __m128 mag;SIMD_MAGNITUDE(v.xyzw, mag);
+  __m128 mag;
+  SIMD_MAGNITUDE(v.xyzw, mag);
   SIMD_STORE_SS(&res,mag);
   return res;
 }
@@ -147,7 +150,8 @@ float
 Vec4DSqMagnitude (const Vector4D<float> &v)
 {
   float res = 0;
-  __m128 sqmag; SIMD_DOT(v.xyzw,v.xyzw, sqmag)
+  __m128 sqmag; 
+  SIMD_DOT(v.xyzw,v.xyzw, sqmag)
   SIMD_STORE_SS(&res,sqmag);
   return res;
 }
@@ -164,7 +168,18 @@ float
 Vec4DDot (const Vector4D<float> &v, const Vector4D<float> &k)
 {
   float res = 0;
-  __m128 dot; SIMD_DOT(v.xyzw, k.xyzw, dot);
+  __m128 dot;
+
+  Engine *engine = Engine::GetEngine ();
+
+  if (engine->GetProcessors()->HaveSse41Support())
+  {
+    SIMD_DOT_SSE_4(v.xyzw, k.xyzw, dot);
+  }
+  else
+  {
+    SIMD_DOT(v.xyzw, k.xyzw, dot);
+  }
   SIMD_STORE_SS(&res, dot);
   return res;
 }

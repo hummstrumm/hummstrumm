@@ -1903,7 +1903,7 @@ Mat4DInverse (const Matrix4D<T> &m)
   if (mDet == 0)
     HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
 
-  return Matrix4D<T> (m[1].y*m[2].z*m[3].w + m[1].z*m[2].w*m[3].y 
+  return Matrix4D<T> ( m[1].y*m[2].z*m[3].w + m[1].z*m[2].w*m[3].y 
                       + m[1].w*m[2].y*m[3].z
                       - m[1].y*m[2].w*m[3].z - m[1].z*m[2].y*m[3].w 
                       - m[1].w*m[2].z*m[3].y, 

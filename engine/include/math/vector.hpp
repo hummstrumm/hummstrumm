@@ -729,6 +729,7 @@ class Vector4D
 
 };
 
+#ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
 /**
  * Template specialization of Vector4D for float with SSE optimization.
  * See Vector4D for description of member functions.
@@ -743,27 +744,19 @@ template<>
 class Vector4D<float>
 {
   public:
-    #ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
-    HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_GNULINUX
+     HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_GNULINUX
       HUMMSTRUMM_ALIGN_16_BSD {
       __m128 xyzw;
       struct { float x,y,z,w; };
       float f[4];
     };
-    #endif    
-
-    #ifndef HUMMSTRUMM_HAVE_SSE_SUPPORT
-    float x,y,z,w;
-    #endif
 
     Vector4D () 
     {
-       
       SIMD_SET_ZERO(xyzw);
-//      std::memset(f, 0x0, 4);
     }
 
-    Vector4D (__m128 &r): xyzw(r) {}
+    Vector4D (__m128 &r): xyzw(r) { }
 
     Vector4D (const float &vx, const float &vy, const float &vz, const float &vw)
     {
@@ -807,6 +800,8 @@ class Vector4D<float>
   private:
   protected:
 };
+#endif    
+
 
 // Implementation of Vector2D,3D,4D
 
@@ -1537,9 +1532,11 @@ template <typename T>
 T 
 Vec4DMagnitude (const Vector4D<T> &v);
 
+#ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
 template <> 
 float 
 Vec4DMagnitude (const Vector4D<float> &v);
+#endif
 
 /** 
  * Squared magnitude of a 4d vector.
@@ -1613,9 +1610,11 @@ template <typename T>
 T 
 Vec4DDot (const Vector4D<T> &v, const Vector4D<T> &w);
 
+#ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
 template <>
 float 
 Vec4DDot (const Vector4D<float> &v, const Vector4D<float> &w);
+#endif
 
 /** 
  * Projection of v onto n.

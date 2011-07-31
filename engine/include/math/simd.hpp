@@ -75,6 +75,9 @@ namespace math
 // load/set values into register
 #define SIMD_SET_PS(f0,f1,f2,f3, rout) rout = _mm_set_ps(f0,f1,f2,f3)
 
+// Set the same value for all fields of rout
+#define SIMD_SET_PS_2(value, rout) rout = _mm_set_ps(value,value,value,value)
+
 #define SIMD_SET_SS(value, rout) rout = _mm_set_ss(value)
 
 #define SIMD_LOAD_PS(fp, rout) rout = _mm_load_ps(fp)
@@ -101,12 +104,12 @@ namespace math
 
 // out = s*in[0..31], s*in[32..63], s*in[64..95], s*in[96..127]
 #define SIMD_MULT_SCALAR(rin, s, rout)                 \
-  __m128 mulr; SIMD_SET_SS(s, mulr);                   \
+  __m128 mulr; SIMD_SET_PS_2(s, mulr);                   \
   SIMD_MUL_PS(rin,mulr, rout);
 
 // out = in[0..31]/s, s*in[32..63]/s, s*in[64..95]/s, s*in[96..127]/s
 #define SIMD_DIV_SCALAR(rin, s, rout)                     \
-  __m128 divr; SIMD_SET_SS(s, divr);                      \
+  __m128 divr; SIMD_SET_PS_2(s, divr);                    \
   SIMD_DIV_PS(rin,divr,rout);
 
 // out = Magntiude of rin
@@ -115,9 +118,8 @@ namespace math
   __m128 addr; SIMD_ADD_REGISTER(mulr, addr);  \
   SIMD_SQRT_SS(addr, rout);
 
-#define SIMD_DOT_4(rin0, rin1, rout)  \
-  _mm_dp_ps(rin0, rin1,0xf1);         \
-  rout = rin0;
+#define SIMD_DOT_SSE_4(rin0, rin1, rout)  \
+  rout = _mm_dp_ps(rin0, rin1, 0xf1);     \
 
 #define SIMD_DOT(rin0, rin1, rout)                  \
   __m128 mulr; SIMD_MUL_PS(rin0,rin1, mulr);        \

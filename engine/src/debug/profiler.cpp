@@ -53,7 +53,6 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::O
   message += this->debugName;
   message += "'' started.";
 
-
   // Log it.
   HUMMSTRUMM_LOG (message, MESSAGE);
 }

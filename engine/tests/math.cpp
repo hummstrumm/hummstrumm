@@ -34,6 +34,7 @@
 
 using namespace hummstrumm::engine::math;
 using namespace hummstrumm::engine::debug;
+using namespace hummstrumm::engine::core;
 
 class QuaternionsTest : public CppUnit::TestFixture
 {
@@ -641,15 +642,21 @@ class MatricesTest : public CppUnit::TestFixture
                              -0.170f,  -0.026f,   0.126f);
       Matrix3D <float> m3_4Inv;
 
-      Matrix4D <float> m4_4 (3, 4, -1, -0.5f,
+      Matrix4D <float> m4_4 (3, 4, -1,   -5,
                             -5, 3,  2,    2,
                              3, 6,  7,    4,
                              7, 0,  0,    8);
-
+/*
       Matrix4D <float> m4_5 ( 0.035f,  -0.133f,   0.043f,  0.014f, 
                               0.181f,   0.092f,   0.000f, -0.012f,
                              -0.153f,  -0.089f,   0.146f, -0.061f,
                              -0.031f,   0.117f,  -0.038f,  0.113f);
+*/
+      Matrix4D <float> m4_5 ( 0.031f, -0.117f,  0.038f,  0.030f,
+                              0.159f,  0.176f, -0.028f,  0.069f,
+                             -0.134f, -0.159f,  0.169f, -0.129f,
+                             -0.027f,  0.102f, -0.033f,  0.099f);
+
       Matrix4D <float> m4_4Inv;
 
 
@@ -795,10 +802,26 @@ class VectorTest : public CppUnit::TestFixture
       Vector2D <float> v2_0;
       Vector2D <float> v2_1 ( 3.0f, 4.0f );
 
+      Vector4D <float> v4_0;
+      Vector4D <float> v4_1 ( 3.0f, 4.0f, 1.0f, -0.5f );
+
+
       CPPUNIT_ASSERT_EQUAL ( v2_0.x, 0.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_0.y, 0.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_1.x, 3.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_1.y, 4.0f );
+
+      CPPUNIT_ASSERT_EQUAL ( v4_0.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_0.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_0.z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_0.w, 0.0f );
+
+      CPPUNIT_ASSERT_EQUAL ( v4_1.x, 3.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.z, 1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.w, -0.5f );
+
+
     }
 
     void testCopyConstructor ()
@@ -807,26 +830,47 @@ class VectorTest : public CppUnit::TestFixture
       Vector2D <float> v2_1 ( 3.0f, 4.0f );
       Vector2D <float> v2_2 ( v2_1 );
 
+      Vector4D <float> v4_0;
+      Vector4D <float> v4_1 ( 3.0f, 4.0f, 1.0f, -0.5f );
+      Vector4D <float> v4_2 ( v4_1 );
+
       CPPUNIT_ASSERT_EQUAL ( v2_2.x, 3.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_2.y, 4.0f );
+
+      CPPUNIT_ASSERT_EQUAL ( v4_2.x, 3.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.z, 1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.w, -.5f );
+
     }
 
     void testAssignment ()
     {
-      Vector2D <float> v2_0 (-4.0f,5.0f);
+      Vector2D <float> v2_0 ( -4.0f, 5.0f);
       Vector2D <float> v2_1 = v2_0;
+ 
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, -0.5f);
+      Vector4D <float> v4_1 = v4_0;
 
       CPPUNIT_ASSERT_EQUAL ( v2_1.x, -4.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_1.y,  5.0f );
+
+      CPPUNIT_ASSERT_EQUAL ( v4_1.x, -4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.y,  5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.z,  1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.w,  -.5f );
     }
 
     void testEquality ()
     {
-      Vector2D <float> v2_0 (-4.0f,5.0f);
+      Vector2D <float> v2_0 ( -4.0f, 5.0f);
       Vector2D <float> v2_1 = v2_0;
 
-      CPPUNIT_ASSERT ( v2_0 == v2_1 );
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, -.5f);
+      Vector4D <float> v4_1 = v4_0;
 
+      CPPUNIT_ASSERT ( v2_0 == v2_1 );
+      CPPUNIT_ASSERT ( v4_0 == v4_1 );
     }
 
     void testInequality ()
@@ -834,28 +878,53 @@ class VectorTest : public CppUnit::TestFixture
       Vector2D <float> v2_0 (-4.0f,5.0f);
       Vector2D <float> v2_1;
 
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, -.5f);
+      Vector4D <float> v4_1;
+
       CPPUNIT_ASSERT ( v2_0 != v2_1 );
+      CPPUNIT_ASSERT ( v4_0 != v4_1 );
     }
 
     void testMinus ()
     {
-      Vector2D <float> v2_0 (-4.0f,5.0f);
-      Vector2D <float> v2_1 ( 3.0f,10.0f);
+      Vector2D <float> v2_0 ( -4.0f, 5.0f);
+      Vector2D <float> v2_1 ( 3.0f, 10.0f);
       Vector2D <float> v2_2;
-  
+
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, -1.0f);
+      Vector4D <float> v4_1 ( 3.0f, 10.0f, 1.0f, -.5f);
+      Vector4D <float> v4_2;
+ 
       v2_2 = v2_0 - v2_1;
       CPPUNIT_ASSERT_EQUAL ( v2_2.x, -7.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_2.y, -5.0f );
+
+      v4_2 = v4_0 - v4_1;
+      CPPUNIT_ASSERT_EQUAL ( v4_2.x, -7.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.y, -5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.z,  0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.w, -0.5f );
+
     }
 
     void testNegation ()
     {
       Vector2D <float> v2_0 (-4.0f,5.0f);
       Vector2D <float> v2_2;
+
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, -1.0f);
+      Vector4D <float> v4_2;
   
-      v2_2 = - v2_0;
+      v2_2 = -v2_0;
       CPPUNIT_ASSERT_EQUAL ( v2_2.x,  4.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_2.y, -5.0f );
+
+      v4_2 = -v4_0;
+      CPPUNIT_ASSERT_EQUAL ( v4_2.x, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.y, -5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.z, -1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.w,  1.0f );
+
     }
 
 
@@ -872,28 +941,45 @@ class VectorTest : public CppUnit::TestFixture
 
     void testDivision ()
     {
-      Vector2D <float> v2_0 (-4.0f,5.0f);
+      Vector2D <float> v2_0 ( -4.0f,5.0f);
       Vector2D <float> v2_2;
+
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 2.0f, -1.0f);
+      Vector4D <float> v4_2;
+
       float scalar = 2.0f;
   
       v2_2 = v2_0 / scalar;
       CPPUNIT_ASSERT_EQUAL ( v2_2.x, -2.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_2.y,  5.0f/scalar );
+
+      v4_2 = v4_0 / scalar;
+      CPPUNIT_ASSERT_EQUAL ( v4_2.x, -2.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.y,  5.0f/scalar );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.z,  1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.w,  -0.5f );
+
     }
 
     void testMultiplication ()
     {
-      Vector2D <float> v2_0 (-4.0f,5.0f);
+      Vector2D <float> v2_0 ( -4.0f, 5.0f);
       Vector2D <float> v2_2;
+
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 2.0f, -1.0f);
+      Vector4D <float> v4_2;
+ 
       float scalar = 2.0f;
   
       v2_2 = scalar * v2_0;
       CPPUNIT_ASSERT_EQUAL ( v2_2.x, -8.0f );
       CPPUNIT_ASSERT_EQUAL ( v2_2.y, 10.0f );
 
-      v2_2 = scalar * v2_0;
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x, -8.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y, 10.0f );
+      v4_2 = scalar * v4_0;
+      CPPUNIT_ASSERT_EQUAL ( v4_2.x, -8.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.y, 10.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.z, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.w, -2.0f );
 
     }
 
@@ -907,6 +993,16 @@ class VectorTest : public CppUnit::TestFixture
 
       CPPUNIT_ASSERT_EQUAL ( v2_0.x, expectedX );
       CPPUNIT_ASSERT_EQUAL ( v2_0.y, expectedY );
+
+      Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, 0.5f);
+      v4_0.Normalize ();
+
+      expectedX = (1/sqrt(41.0f))*-4.0f;
+      expectedY = (1/sqrt(41.0f))*5.0f;
+
+      CPPUNIT_ASSERT_EQUAL ( v2_0.x, expectedX );
+      CPPUNIT_ASSERT_EQUAL ( v2_0.y, expectedY );
+
     }
 
     void testPerpendicular ()
@@ -1009,7 +1105,14 @@ class VectorTest : public CppUnit::TestFixture
       hummstrumm::engine::math::Vector2D <float> v2_0;
       hummstrumm::engine::math::Vector2D <float> v2_1 (3.0f, 4.0f);
 
-      CPPUNIT_ASSERT_EQUAL ( Vec2DDot(v2_0,v2_1), 0.0f ); 
+      hummstrumm::engine::math::Vector4D <float> v4_0;
+      hummstrumm::engine::math::Vector4D <float> v4_1 (3.0f, 4.0f, 1.0f, 4.0f);
+
+      CPPUNIT_ASSERT_EQUAL ( 0.0f, Vec2DDot(v2_0, v2_1) );
+
+      CPPUNIT_ASSERT_EQUAL ( 0.0f, Vec4DDot(v4_0, v4_1) ); 
+
+      CPPUNIT_ASSERT_EQUAL ( 42.0f, Vec4DDot(v4_1, v4_1) ); 
     }
 };
 
@@ -1028,6 +1131,7 @@ main (int argc, char **argv)
   CppUnit::BriefTestProgressListener progress;
   controller.addListener (&progress);
 
+  Engine engine; 
 
   CppUnit::TestRunner runner;
   CppUnit::TestFactoryRegistry& registry = 

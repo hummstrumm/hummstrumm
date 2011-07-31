@@ -67,6 +67,16 @@ class WindowX11: public WindowSystem
      ~WindowX11();
 
     /**
+     * Destroy a X11 window.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-07-30
+     * @since 0.3
+     *
+     */
+    void DestroyWindow();
+
+    /**
      * Create a X11 window.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>

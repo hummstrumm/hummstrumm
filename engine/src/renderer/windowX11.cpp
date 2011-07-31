@@ -28,14 +28,14 @@ namespace engine
 namespace renderer
 {
 
+using hummstrumm::engine::events::StructureEvents;
+
 enum netWMStates
 {
   _NET_WM_STATE_REMOVE,
   _NET_WM_STATE_ADD,
   _NET_WM_STATE_TOGGLE
 };
-
-using hummstrumm::engine::events::StructureEvents;
 
 WindowX11::WindowX11()
 {
@@ -64,6 +64,24 @@ WindowX11::~WindowX11()
 {
   if (dpy != NULL)
     XCloseDisplay(dpy);
+}
+
+
+void
+WindowX11::DestroyWindow()
+{
+  if (dpy != NULL && winMn != NULL)
+    XDestroyWindow(dpy, winMn);
+  else
+  {
+    std::stringstream message;
+    message.str("");
+    message << "Cannot destroy window ";
+    message << "Display is " << dpy;
+    message << " and is ";
+    message << "Window " << winMn;
+    HUMMSTRUMM_LOG(message.str().c_str(),WARNING);
+  }
 }
 
 void
@@ -166,8 +184,6 @@ WindowX11::SetFullscreen()
   // As some window managers still support the old MWN_HINTS we will try that to
   // disable any window decorations
 
-
-
   if (IsNetWMCompliant())
   {
     Atom netSupported = XInternAtom(dpy,"_NET_SUPPORTED", False);
@@ -175,24 +191,26 @@ WindowX11::SetFullscreen()
     Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
     if ( atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize))
     {
-      for (unsigned i = 0; i < atomsSize; i++)
+     for (unsigned i = 0; i < atomsSize; i++)
+      {
         if (atoms[i] == fullScreen) 
         {
           netWMFullscreen = true;
           break;
-        } 
+        }
+      }
     }
     delete [] atoms;
 
     if (netWMFullscreen)
     {
       XEvent xev;
-      xev.xclient.type=ClientMessage;
+      xev.xclient.type = ClientMessage;
       xev.xclient.serial = 0;
-      xev.xclient.send_event=True;
-      xev.xclient.window=winMn;
-      xev.xclient.message_type=wmState;
-      xev.xclient.format=32;
+      xev.xclient.send_event = True;
+      xev.xclient.window = winMn;
+      xev.xclient.message_type = wmState;
+      xev.xclient.format = 32;
       xev.xclient.data.l[0] = _NET_WM_STATE_ADD;
       xev.xclient.data.l[1] = fullScreen;
       xev.xclient.data.l[2] = 0;
@@ -210,8 +228,8 @@ WindowX11::SetFullscreen()
   }
 
   // Set fullscreen (fallback)
+  HUMMSTRUMM_LOG("The Window Manager doesn't support NETWM",WARNING);
   XGetWindowAttributes(dpy, root, &xwa);
-  std::cout << xwa.width << " " << xwa.height << std::endl;
   XMoveResizeWindow(dpy,winMn,0,0,xwa.width, xwa.height);
 }
 
@@ -268,8 +286,6 @@ WindowX11::GetNextEvent() const
       if (event.xclient.message_type == wndProtocols &&
         event.xclient.data.l[0] == wndDelete)
       {
-        //XDestroyWindow(dpy, event.xany.window);
-        // Generate WINDOW CLOSE Event
         return new StructureEvents(WindowEvents::WINDOW_CLOSE);
       }
       break;
@@ -277,22 +293,9 @@ WindowX11::GetNextEvent() const
     case Expose:
       break;
 
- /*   case ResizeRequest:
-      std::cout << event.xresizerequest.width << event.xresizerequest.height << std::endl;
-      XResizeWindow(dpy,winMn,event.xresizerequest.width,event.xresizerequest.height);
-      return new StructureEvents(WindowEvents::WINDOW_RESIZE, event.xresizerequest.width,
-                                 event.xresizerequest.height);
-*/
-
     case ConfigureNotify:
-//      if (event.xconfigurerequest.type == ResizeRequest)
-//      {
-//        std::cout << event.xconfigurerequest.width << event.xconfigurerequest.height << std::endl;
-//      XResizeWindow(dpy,winMn,event.xconfigurerequest.width,event.xconfigurerequest.height);
         return new StructureEvents(WindowEvents::WINDOW_RESIZE, event.xconfigurerequest.width,
                                    event.xconfigurerequest.height);
-//      }
-//      break;
 
     default:
       break;
@@ -323,9 +326,10 @@ WindowX11::GetXProperty(const Window &win, Atom property, Atom property_type, lo
   int format;
   unsigned long nitems;
   unsigned long bytes_after_return;
-  unsigned long tmpsize;
   unsigned char *data;
+  unsigned long nbytes;
   char *ret;
+  unsigned long maxSize = 10000;
 
   if (XGetWindowProperty(dpy,win,property, 0, 1024, False, property_type,
                          &xa_ret_type, &format, &nitems, &bytes_after_return,
@@ -339,12 +343,21 @@ WindowX11::GetXProperty(const Window &win, Atom property, Atom property_type, lo
     return NULL;
     XFree(data);
   }
-  tmpsize = (format / 8) * nitems;
-  ret = new char[tmpsize + 1];
-  memcpy(ret,data,tmpsize);
-  ret[tmpsize] = '\0';
+  
+  if (format == 32)
+    nbytes = sizeof(long);
+  else if (format == 16)
+    nbytes = sizeof(short);
+  else if (format == 8)
+    nbytes = 1;
+  else
+    return NULL;
 
-  size = tmpsize;
+  size= std::min(nitems * nbytes,maxSize);
+  ret = new char[size + 1];
+  memcpy(ret,data,size);
+  ret[size] = '\0';
+  size = size;
   XFree(data);
   return ret;
 }

@@ -40,7 +40,8 @@ WindowEvents::getType()
 StructureEvents::StructureEvents(WindowEventType evType) 
 { 
   type = evType;
-  width = 0; height = 0;
+  width = 0; 
+  height = 0;
 }
 
 StructureEvents::StructureEvents(WindowEventType evType, int w, int h) 
