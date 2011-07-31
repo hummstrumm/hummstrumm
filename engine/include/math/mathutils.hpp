@@ -55,7 +55,7 @@ const float RAD_TO_DEG = 180.0f / PI;
  * @date 2010-07-30
  * @since 0.3
  * 
- * @param [in] angle in radians
+ * @param [in] radians angle in radians
  *
  * @return The angle in degrees
  */
@@ -73,7 +73,7 @@ RadToDeg (float radians)
  * @date 2010-07-30
  * @since 0.3
  * 
- * @param [in] angle in degrees
+ * @param [in] degrees angle in degrees
  *
  * @return The angle in radians
  */
