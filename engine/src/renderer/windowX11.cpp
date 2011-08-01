@@ -70,7 +70,7 @@ WindowX11::~WindowX11()
 void
 WindowX11::DestroyWindow()
 {
-  if (dpy != NULL && winMn != NULL)
+  if (dpy != 0 && winMn != 0)
     XDestroyWindow(dpy, winMn);
   else
   {
