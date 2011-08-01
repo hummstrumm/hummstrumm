@@ -194,34 +194,15 @@ class Number;
 }
 
 /**
- * The namespace for container types.  This namespace contains STL-style
- * data structure classes that implement the Object/Type System.
- */
-namespace containers
-{
-/**
- * The namespace for accessor types.  This namespace contains classes termed
- * "Accessors", which are used to access the individual elements of a data
- * structure.  Accessors are a more general concept than iterators.
- */
-namespace accessors
-{
-template <typename T>
-class Accessor;
-template <typename T>
-class Iterator;
-}
-
-template <typename T>
-class List;
-}
-
-/**
  * The namespace for input/output streams.  This namespace contains memory,
  * terminal, file, string, and null streams buffers and stream classes.
  */
 namespace streams {}
 
+/**
+ * The namespace for the events used by the render system.  Later, this will
+ * include the code for the event system.
+ */
 namespace events
 {
 class WindowEvents;
@@ -281,17 +262,12 @@ struct WindowWGLParam;
 #  include <hummstrummengine/core/object.hpp>
 #  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/core/pointer.hpp>
-#  include <hummstrummengine/accessors/accessor.hpp>
-//#  include <hummstrummengine/accessors/iterator.hpp>
 #  include <hummstrummengine/system/platform.hpp>
 #  include <hummstrummengine/system/endianness.hpp>
 #  include <hummstrummengine/system/processors.hpp>
 #  include <hummstrummengine/system/memory.hpp>
 #  include <hummstrummengine/system/clock.hpp>
-#  include <hummstrummengine/types/date.hpp>
-//#  include <hummstrummengine/types/character.hpp>
 #  include <hummstrummengine/types/number.hpp>
-//#  include <hummstrummengine/types/string.hpp>
 #  include <hummstrummengine/debug/log.hpp>
 #  include <hummstrummengine/debug/profiler.hpp>
 #  include <hummstrummengine/geometry/plane.hpp>
@@ -315,12 +291,10 @@ struct WindowWGLParam;
 #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #  include <hummstrummengine/renderer/windowWGLParam.hpp>
 #endif
-//#  include <hummstrummengine/containers/list.hpp>
 // This has to go last.
 #  include <hummstrummengine/core/engine.hpp>
 // Template and Inline implementations now...
 #  include <hummstrummengine/core/pointer.inl>
-//#  include <hummstrummengine/containers/list.inl>
 #  include <hummstrummengine/system/endianness.inl>
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "types/inttypes.hpp"
@@ -343,12 +317,7 @@ struct WindowWGLParam;
 #  include "system/processors.hpp"
 #  include "system/memory.hpp"
 #  include "system/clock.hpp"
-#  include "accessors/accessor.hpp"
-//#  include "accessors/iterator.hpp"
-#  include "types/date.hpp"
-//#  include "types/character.hpp"
 #  include "types/number.hpp"
-//#  include "types/string.hpp"
 #  include "debug/log.hpp"
 #  include "debug/profiler.hpp"
 #  include "math/simd.hpp"
@@ -373,12 +342,10 @@ struct WindowWGLParam;
 #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #  include "renderer/windowWGLParam.hpp"
 #endif
-//#  include "containers/list.hpp"
 // This has to go last.
 #  include "core/engine.hpp"
 // Template and Inline implementations now...
 #  include "core/pointer.inl"
-//#  include "containers/list.inl"
 #  include "system/endianness.inl"
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 

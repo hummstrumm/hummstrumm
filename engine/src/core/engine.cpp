@@ -44,6 +44,7 @@ Engine::Engine (void)
   this->processors = new hummstrumm::engine::system::Processors;
   this->memory     = new hummstrumm::engine::system::Memory;
   this->endianness = new hummstrumm::engine::system::Endianness;
+  this->clock      = new hummstrumm::engine::system::Clock;
   
   try
     {
@@ -76,6 +77,7 @@ Engine::~Engine (void)
             << "Engine going down!\n\n";
   HUMMSTRUMM_LOG ("Engine going down!", MESSAGE);
   delete this->log;
+  delete this->clock;
   delete this->endianness;
   delete this->memory;
   delete this->processors;
@@ -128,6 +130,13 @@ Engine::GetEndianness (void)
   throw ()
 {
   return this->endianness;
+}
+
+hummstrumm::engine::system::Clock *
+Engine::GetClock (void)
+  throw ()
+{
+  return this->clock;
 }
 
 

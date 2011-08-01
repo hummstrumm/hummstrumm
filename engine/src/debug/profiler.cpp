@@ -37,7 +37,7 @@ namespace debug
 {
 
 Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::Output out)
-  : startTime (hummstrumm::engine::types::Date::GetHighResolutionCount ()),
+  : startTime (0),
     reportInUnit (reportIn),
     writeTo (out),
     lowestTime (hummstrumm::engine::types::INT64_MAX), // So the first time will
@@ -61,9 +61,11 @@ void
 Profiler::Iterate (void)
   throw ()
 {
+  hummstrumm::engine::core::Engine *engine =
+    hummstrumm::engine::core::Engine::GetEngine ();
   // Get the time and calculate how long it has been since the start.
-  hummstrumm::engine::types::int64 endTime (hummstrumm::engine::types::Date::
-                                            GetHighResolutionCount ());
+  hummstrumm::engine::types::int64 endTime =
+    engine->GetClock ()->GetHighResolutionCount ();
   std::cout << endTime << std::endl; 
   hummstrumm::engine::types::int64 difference;
   
@@ -86,8 +88,8 @@ Profiler::Iterate (void)
       difference = endTime - this->startTime;
     }
   // Get the timer frequency.
-  hummstrumm::engine::types::int64 frequency (hummstrumm::engine::types::Date::
-                   GetHighResolutionFrequency ());
+  hummstrumm::engine::types::int64 frequency =
+    engine->GetClock ()->GetHighResolutionFrequency ();
 
   // Calculate the actual time, using tick counts and the frequency.
   double timeInSeconds (static_cast<double> (difference) / frequency);
@@ -113,7 +115,7 @@ Profiler::Iterate (void)
   this->averageTime = ((this->averageTime * this->numberOfRuns) + time) /
     (this->numberOfRuns + 1);
   this->numberOfRuns += 1;
-  this->startTime = hummstrumm::engine::types::Date::GetHighResolutionCount ();
+  this->startTime = engine->GetClock ()->GetHighResolutionCount ();
 }
 
 Profiler::~Profiler (void)

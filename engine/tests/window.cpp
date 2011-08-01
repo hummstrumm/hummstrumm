@@ -22,7 +22,7 @@ static WindowX11* xwindow;
 int64 start;
 int64 freq;
 
-const unsigned int TIME_FOR_EACH_TEST = 2;
+const unsigned int TIME_FOR_EACH_TEST = 20000000000;
 bool isTesting = true;
 
 unsigned short currentTest = 0;
@@ -149,7 +149,8 @@ initializeTest(int n)
       isTesting = false;
       break;
   }
-  start = Date::GetHighResolutionCount();
+  start = hummstrumm::engine::core::Engine::
+    GetEngine ()->GetClock ()->GetHighResolutionCount();
 
   if (isTesting)
   {
@@ -170,7 +171,8 @@ initializeTest(int n)
 void
 checkTestIsOver()
 {
-  int64 end = Date::GetHighResolutionCount();
+  int64 end = hummstrumm::engine::core::Engine::
+    GetEngine ()->GetClock ()->GetHighResolutionCount();
 
   while( (end - start)/freq > TIME_FOR_EACH_TEST )
   {
@@ -196,7 +198,7 @@ main()
 
   hummstrumm::engine::core::Engine engine;
 
-  freq = Date::GetHighResolutionFrequency();
+  freq = engine.GetClock ()->GetHighResolutionFrequency();
 
 #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
   try

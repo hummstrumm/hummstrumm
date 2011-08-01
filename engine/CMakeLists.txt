@@ -35,11 +35,7 @@ set (hummstrummengine_SRCS
   src/core/object.cpp
   src/core/allocationtable.cpp
   src/core/engine.cpp
-  src/accessors/accessor.cpp
-  src/types/date.cpp
-#  src/types/character.cpp
   src/types/number.cpp
-#  src/types/string.cpp
   src/system/endianness.cpp
   src/math/vector.cpp
   src/types/inttypes.cpp

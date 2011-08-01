@@ -129,6 +129,17 @@ class Engine
      */
     hummstrumm::engine::system::Endianness *GetEndianness (void)
       throw ();
+    /**
+     * Returns the Clock.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2011-08-01
+     * @since  0.3
+     *
+     * @return The Clock object.
+     */
+    hummstrumm::engine::system::Clock *GetClock (void)
+      throw ();
 
   private:
     /// The engine-wide log.
@@ -141,6 +152,8 @@ class Engine
     hummstrumm::engine::system::Memory *memory;
     /// Endianness information.
     hummstrumm::engine::system::Endianness *endianness;
+    /// High resolution clock information.
+    hummstrumm::engine::system::Clock *clock;
 
     /// The global engine pointer.
     static Engine *theEngine;
