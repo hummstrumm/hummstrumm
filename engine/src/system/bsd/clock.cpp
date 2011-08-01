@@ -62,10 +62,10 @@ Clock::GetHighResolutionCount (void)
   // Get clock count.  Try monotonic first, because it is guaranteed to keep on
   // ticking and always increase, never decrease.
   timespec monotonicCount;
-  if (-1 == clock_getres (CLOCK_MONOTONIC, &monotonicCount))
+  if (-1 == clock_gettime (CLOCK_MONOTONIC, &monotonicCount))
     {
       // I guess we don't have a monotonic clock.
-      clock_getres (CLOCK_REALTIME, &monotonicCount);
+      clock_gettime (CLOCK_REALTIME, &monotonicCount);
     }
   return monotonicCount.tv_sec * 1000000000 + // Seconds
          monotonicCount.tv_nsec;              // Nanoseconds
