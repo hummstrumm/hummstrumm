@@ -17,10 +17,12 @@ Humm and Strumm, version 0.3
 
   * *BSD system support added.
   * Vector math support added.
-  * X11 support code.
-  * Experimental SIMD code.
-  * Containers System created.
-  * Unicode System created.
+  * X11 support added.
+  * SSE support added.
+  * Geometry Mathematics support added.
+  * CPPUnit for Windows now included.
+  * System Detection support added.
+  * Build System refactored.
 
 
 
