@@ -36,11 +36,21 @@ namespace geometry
 
 using hummstrumm::engine::math::Vector3D;
 
+/**
+ * A three-dimentional bounding sphere, defined by a center point and a radius.
+ *
+ * @version 0.3 
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-05-30
+ * @since   0.3
+ */
 template <typename T>
 class BSphere3D
 {
   public:
+    /// The center of the sphere.
     Vector3D<T> center;
+    /// The radius of the sphere from the center point.
     T radius;
 
     /**

@@ -68,7 +68,7 @@ namespace core
  * means the Object either isn't on the heap (could be in static or stack
  * memory), or it is a member of an allocated data structure on the heap
  * (including elements of an array).  Either way, we shouldn't call delete on
- * it.  Otherwise, we 
+ * it.  Otherwise, we allow it to be deleted.
  *
  * This rules out stack variables, static/global variables, member variables,
  * and all array elements.  The only remaining Object instances are ones that

@@ -59,13 +59,23 @@ using hummstrumm::engine::math::Vector3D;
  *         
  */
 /**
+ * A three-dimentional axis-aligned bounding box.  The bounding box is
+ * determined as shown in the picture below.
+ *
  * @image html aabb3d.png
+ *
+ * @version 0.3 
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-05-30
+ * @since   0.3
  */
 template <typename T>
 class AABBox3D
 {
   public:
+    /// One corner of the bounding box.
     Vector3D<T> bmin;
+    /// The opposite corner of the bounding box.
     Vector3D<T> bmax;
 
     /**
@@ -315,13 +325,23 @@ class AABBox3D
  *         
  */
 /**
+ * A two-dimentional axis-aligned bounding box.  The bounding box is
+ * determined as shown in the picture below.
+ *
  * @image html aabb2d.png
+ *
+ * @version 0.3 
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-05-30
+ * @since   0.3
  */
 template <typename T>
 class AABBox2D
 {
   public:
+    /// One corner of the bounding box.
     Vector2D<T> bmin;
+    /// The opposite corner of the bounding box.
     Vector2D<T> bmax;
 
     /**
