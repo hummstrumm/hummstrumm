@@ -92,12 +92,20 @@ if(DOXYGEN_FOUND AND DOXYFILE_IN_FOUND)
   add_custom_target(doxygen
                     DEPENDS ${DOXYFILE_OUTPUT_DIR}
                             ${CMAKE_CURRENT_BINARY_DIR}/doc/html/images)
-  add_custom_command(DEPENDS ${header_files} ${doxygen_dependencies}
-                     OUTPUT  ${DOXYFILE_OUTPUT_DIR}
-                     COMMAND ${DOXYGEN_EXECUTABLE}
-                     ARGS    "${DOXYFILE}"
-                     COMMENT "Writing documentation to ${DOXYFILE_OUTPUT_DIR}..."
-                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc)
+  if (HUMMSTRUMM_PLATFORM_WINDOWS)
+    add_custom_command(DEPENDS ${header_files} ${doxygen_dependencies}
+                       OUTPUT  ${DOXYFILE_OUTPUT_DIR}
+                       COMMAND ${DOXYGEN_EXECUTABLE}
+                       ARGS    "${DOXYFILE}"
+                       COMMENT "Writing documentation to ${DOXYFILE_OUTPUT_DIR}..."
+                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc)
+  else (HUMMSTRUMM_PLATFORM_WINDOWS)
+    add_custom_command(DEPENDS ${header_files} ${doxygen_dependencies}
+                       OUTPUT  ${DOXYFILE_OUTPUT_DIR}
+                       COMMAND ${DOXYGEN_EXECUTABLE}
+                       ARGS    "${DOXYFILE}"
+                       COMMENT "Writing documentation to ${DOXYFILE_OUTPUT_DIR}...")
+  endif (HUMMSTRUMM_PLATFORM_WINDOWS)
   add_custom_command(DEPENDS ${image_files}
                      OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/doc/html/images
                      COMMAND "${CMAKE_COMMAND}"
