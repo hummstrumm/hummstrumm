@@ -27,7 +27,7 @@
 #ifndef HUMMSTRUMM_ENGINE_WINDOW_PARAMETERS
 #define HUMMSTRUMM_ENGINE_WINDOW_PARAMETERS
 
-#include <GL/glx.h>
+//#include <GL/glx.h>
 
 namespace hummstrumm
 {

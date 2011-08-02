@@ -77,7 +77,7 @@ class WindowSystem
      *@param winParam Window parameters.
      *
      */
-    virtual void CreateWindow(const WindowParameters &winParam) = 0;
+    virtual void (CreateWindow)(const WindowParameters &winParam) = 0;
     /**
      * Set the window to fullscreen.
      *
