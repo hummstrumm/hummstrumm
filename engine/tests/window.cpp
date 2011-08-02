@@ -192,9 +192,9 @@ main()
   std::cout << "There is a remote possibility that the test might fail and leave your system "
                "in an unstable state." << std::endl;
   std::cout << std::endl;
-  std::cout << "Press ENTER to continue or any other key to exit" << std::endl;
-  if (std::cin.get() != '\n')
-    exit(0);
+//  std::cout << "Press ENTER to continue or any other key to exit" << std::endl;
+//  if (std::cin.get() != '\n')
+//    exit(0);
 
   hummstrumm::engine::core::Engine engine;
 
