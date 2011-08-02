@@ -67,11 +67,11 @@ class Error
      * @date   2010-11-22
      * @since  0.1
      *
-     * @param fileName [in] The name of the file in which the error occured.
-     * @param lineNumber [in] The line of the file in which the error occured.
-     * @param function [in] The name of the function in which the error occured.
-     * @param text [in] A human readable description of the error.
-     * @param description [in] A description of the error by other error
+     * @param [in] fileName The name of the file in which the error occured.
+     * @param [in] lineNumber The line of the file in which the error occured.
+     * @param [in] function The name of the function in which the error occured.
+     * @param [in] text A human readable description of the error.
+     * @param [in] description A description of the error by other error
      * classes.
      */
     Error (const char *fileName, unsigned int lineNumber,
@@ -165,7 +165,7 @@ class Error
  * @date   2010-11-09
  * @since  0.3
  *
- * @param exceptionName [in] The name of the Error exception to throw.  This
+ * @param [in] exceptionName The name of the Error exception to throw.  This
  * does not include any namespace prefix.
  */
 #define HUMMSTRUMM_ERRORNAME(exceptionName) \

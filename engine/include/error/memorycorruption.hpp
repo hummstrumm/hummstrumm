@@ -53,10 +53,10 @@ class MemoryCorruption : public Error
      * @date 2010-11-22
      * @since 0.3
      *
-     * @param fileName [in] The name of the file in which the error occured.
-     * @param lineNumber [in] The line of the file in which the error occured.
-     * @param function [in] The name of the function in which the error occured.
-     * @param text [in] A human readable description of the error.
+     * @param [in] fileName The name of the file in which the error occured.
+     * @param [in] lineNumber The line of the file in which the error occured.
+     * @param [in] function The name of the function in which the error occured.
+     * @param [in] text A human readable description of the error.
      */
     MemoryCorruption (const char *fileName, unsigned int lineNumber,
                       const char *function, const char *text = "");
