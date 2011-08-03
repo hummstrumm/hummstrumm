@@ -59,7 +59,7 @@ using hummstrumm::engine::math::Vector3D;
  *         
  */
 /**
- * A three-dimentional axis-aligned bounding box.  The bounding box is
+ * A three-dimensional axis-aligned bounding box.  The bounding box is
  * determined as shown in the picture below.
  *
  * @image html aabb3d.png
@@ -325,7 +325,7 @@ class AABBox3D
  *         
  */
 /**
- * A two-dimentional axis-aligned bounding box.  The bounding box is
+ * A two-dimensional axis-aligned bounding box.  The bounding box is
  * determined as shown in the picture below.
  *
  * @image html aabb2d.png

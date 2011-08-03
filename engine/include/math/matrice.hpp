@@ -22,9 +22,9 @@
  * @file    math/matrice.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
- * @see     Vector2D
- * @see     Vector3D
- * @see     Vector4D
+ * @see     Matrix2D
+ * @see     Matrix3D
+ * @see     Matrix4D
  *
  * @note This code uses column vectors.
  */
@@ -40,11 +40,22 @@ namespace engine
 namespace math
 {
 
+
+/**
+ * A class representing a two-dimensional matrix.  This class is capable of
+ * doing all standard matrix transforms and operations.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Matrix2D
 {
 
   public:
+    /// The two columns, represented as vectors.
     Vector2D<T> mat2[2];
 
     /**
@@ -360,11 +371,22 @@ class Matrix2D
 
 };
 
+
+/**
+ * A class representing a three-dimensional matrix.  This class is capable of
+ * doing all standard matrix transforms and operations.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Matrix3D
 {
 
   public:
+    /// The three columns, represented as vectors.
     Vector3D<T> mat3[3];
 
     /**
@@ -727,11 +749,22 @@ class Matrix3D
 
 };
 
+
+/**
+ * A class representing a four-dimensional matrix.  This class is capable of
+ * doing all standard matrix transforms and operations.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Matrix4D
 {
 
   public:
+    /// The three columns, represented as vectors.
     Vector4D<T> mat4[4];
 
     /**

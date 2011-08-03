@@ -36,6 +36,15 @@ namespace engine
 namespace renderer
 {
 
+/**
+ * Holds methods for dealing with Window System interaction. This is abstracted
+ * away for different window systems.
+ *
+ * @version 0.3
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-07-24
+ * @since 0.3
+ */
 class WindowSystem
 {
   public:

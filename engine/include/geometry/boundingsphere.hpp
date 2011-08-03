@@ -37,7 +37,7 @@ namespace geometry
 using hummstrumm::engine::math::Vector3D;
 
 /**
- * A three-dimentional bounding sphere, defined by a center point and a radius.
+ * A three-dimensional bounding sphere, defined by a center point and a radius.
  *
  * @version 0.3 
  * @author  Ricardo Tiago <Rtiago@gmail.com>

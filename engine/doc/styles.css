@@ -217,7 +217,7 @@ div.groupText {
 }
 
 td.indexkey {
-	background-color: #e8eef2;
+	background-color: #eef5ef;
 	font-weight: bold;
 	border: 1px solid #CCCCCC;
 	margin: 2px 0px 2px 0;
@@ -225,7 +225,7 @@ td.indexkey {
 }
 
 td.indexvalue {
-	background-color: #e8eef2;
+	background-color: #eef5ef;
 	border: 1px solid #CCCCCC;
 	padding: 2px 10px;
 	margin: 2px 0px;
@@ -389,12 +389,12 @@ hr {
 }
 
 .memproto, .memdoc {
-	border: 1px solid #84b0c7;	
+	border: 1px solid #84c792;	
 }
 
 .memproto {
 	padding: 0;
-	background-color: #d5e1e8;
+	background-color: #d5e8d9;
 	font-weight: bold;
 	-webkit-border-top-left-radius: 8px;
 	-webkit-border-top-right-radius: 8px;
@@ -404,7 +404,7 @@ hr {
 
 .memdoc {
 	padding: 2px 5px;
-	background-color: #eef3f5;
+	background-color: #eef5ef;
 	border-top-width: 0;
 	-webkit-border-bottom-left-radius: 8px;
 	-webkit-border-bottom-right-radius: 8px;

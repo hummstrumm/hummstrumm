@@ -36,20 +36,30 @@ namespace geometry
 {
 
 using hummstrumm::engine::math::Vector3D;
-/* @todo Document class
- * 
- * In 3D dimension the implicit form of a plane is given
- * by all points p = (x,y,z) that satify the plane equation.
+
+/**
+ * A plane in three dimensions.  Planes are flat surfaces that extend infinitely
+ * along two of their relative axis. In three dimensions, the implicit form of a
+ * plane is given* by all points \f$ p = (x,y,z)\f$ that satify the plane
+ * equation:
  *
- * ax + by + cz = d 
+ * \f$ ax + by + cz = d\f$
  *
- * p.n = d where n = [a,b,c] and its called the plane normal.
+ * \f$ p\cdot n = d\f$ where \f$ n = <a,b,c>\f$, and it's called the plane
+ * normal.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
  */
 template <typename T>
 class Plane3D
 {
   public:
+    /// The normal vector of the plane.
     Vector3D<T> normal;
+    /// The value d in the plane equation.
     T d;
 
     /**

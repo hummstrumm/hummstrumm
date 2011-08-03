@@ -27,8 +27,6 @@
 #ifndef HUMMSTRUMM_ENGINE_WINDOW_PARAMETERS
 #define HUMMSTRUMM_ENGINE_WINDOW_PARAMETERS
 
-//#include <GL/glx.h>
-
 namespace hummstrumm
 {
 namespace engine
@@ -36,85 +34,85 @@ namespace engine
 namespace renderer
 {
 
-/**
- * Common window parameters to be used with hummstrumm window system when 
- * creating a GLX or WGL window.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-09-28
- * @since 0.3
- */
-
-#ifdef HUMMSTRUMM_PLATFORM_WINDOW
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #define HUMMSTRUMM_WINDOW_LIST_POINTER PIXELFORMATDESCRIPTOR
 #else
 #define HUMMSTRUMM_WINDOW_LIST_POINTER int*
 #endif
 
+/**
+ * Common window parameters to be used with hummstrumm window system when 
+ * creating a GLX or WGL window.
+ *
+ * @version 0.3
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-09-28
+ * @since 0.3
+ */
 struct WindowParameters
 {
+    /**
+     * Initializes the parameters to a default configuration values.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-28
+     * @since 0.3
+     */
+    WindowParameters(): name("HUMMSTRUMM Engine Window"),
+                        positionX(0),
+                        positionY(0),
+                        height(512), 
+                        width(512),
+                        fullscreen(false) {}
+    /**
+     * Construct a WindowParameters object from another WindowParameters object.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-28
+     * @since 0.3
+     */
+    WindowParameters(const WindowParameters &param):
+      name(param.name),
+      positionX(param.positionX),
+      positionY(param.positionY),
+      height(param.height),
+      width(param.width),
+      fullscreen(param.fullscreen) {}
+    /**
+     * Destructs a WindowParameters object.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-28
+     * @since 0.3
+     */
+    virtual ~WindowParameters() {}
 
-  /**
-   * Initializes the parameters to a default configuration values.
-   *
-   * @author Ricardo Tiago <Rtiago@gmail.com>
-   * @date 2010-09-28
-   * @since 0.3
-   */
-  WindowParameters(): name("HUMMSTRUMM Engine Window"),
-                      positionX(0),
-                      positionY(0),
-                      height(512), 
-                      width(512),
-                      fullscreen(false) {}
+    /**
+     * Gets a pointer of type HUMMSTRUMM_WINDOW_LIST_POINTER to the window
+     * parameters.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-28
+     * @since 0.3
+     *
+     * @return A pointer to an array of window parameters else NULL in case of
+     * an error.
+     * @note The caller is responsible for freeing the pointer.
+     */
+    virtual HUMMSTRUMM_WINDOW_LIST_POINTER WindowParamList() const = 0;
 
-  /**
-   * Construct a WindowParameters object from another WindowParameters object.
-   *
-   * @author Ricardo Tiago <Rtiago@gmail.com>
-   * @date 2010-09-28
-   * @since 0.3
-   */
-  WindowParameters(const WindowParameters &param): name(param.name),
-                                                   positionX(param.positionX),
-                                                   positionY(param.positionY),
-                                                   height(param.height),
-                                                   width(param.width),
-                                                   fullscreen(param.fullscreen) {}
-
-  /**
-   * Destructs a WindowParameters object.
-   *
-   * @author Ricardo Tiago <Rtiago@gmail.com>
-   * @date 2010-09-28
-   * @since 0.3
-   */
-  virtual ~WindowParameters() {}
-
-  /**
-   * Gets a pointer of type HUMMSTRUMM_WINDOW_LIST_POINTER to the window parameters.
-   *
-   * @author Ricardo Tiago <Rtiago@gmail.com>
-   * @date 2010-09-28
-   * @since 0.3
-   *
-   * @return A pointer to an array of window parameters else NULL in case of an error.
-   * @note The caller is responsible for freeing the pointer.
-   */
-  virtual HUMMSTRUMM_WINDOW_LIST_POINTER WindowParamList() const = 0;
-
-  // Set the window caption name.
-  std::string name;
-  // Set the window position in X.
-  unsigned int positionX;
-  // Set the window position in Y.
-  unsigned int positionY;
-  // Set the window height.
-  unsigned int height;
-  // Set the window width.
-  unsigned int width;
-  // Specificies if the window should cover the whole screen or not.
-  bool fullscreen;
+    /// Set the window caption name.
+    std::string name;
+    /// Set the window position in X.
+    unsigned int positionX;
+    /// Set the window position in Y.
+    unsigned int positionY;
+    /// Set the window height.
+    unsigned int height;
+    /// Set the window width.
+    unsigned int width;
+    /// Specificies if the window should cover the whole screen or not.
+    bool fullscreen;
 };
 
 }

@@ -36,11 +36,30 @@ namespace engine
 namespace math
 {
 
+
+/**
+ * A quaternion used in rotational calculations.  Quaternions are an efficient
+ * method of representing rotations of points in 4D space, and don't suffer from
+ * the "Gimbal Lock" that rotational matrices do.  Mathematically, quaternions
+ * are akin to complex numbers, definied by the equation:
+ *
+ * \f$ a + bi + cj + dk = Q\f$ in which a, b, c, and d are real numbers and \f$
+ * i^2 = j^2 = k^2 = ijk = -1\f$
+ *
+ * Quaternions can also be represented by a 3D vector and a scalar value.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Quaternion
 {
   public:
+    /// The vector part of the quaternion.
     Vector3D<T> v;
+    /// The scalar part of the quaternion.
     T w;
 
     /**

@@ -34,18 +34,57 @@ namespace engine
 namespace renderer
 {
 
+/**
+ * Contains the parameters concerning WGL.
+ *
+ * @version 0.3
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-09-25
+ * @since 0.3
+ *
+ * @todo Implement.
+ */
 struct WindowWGLParam: public WindowParameters
 {
-  WindowWGLParam() {}
+    /**
+     * Initializes the WGL parameters to a set of sane default values.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-25
+     * @since 0.3
+     */
+    WindowWGLParam() {}
+    /**
+     * Construct a WindowWGLParam object from another WindowWGLParam object.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-25
+     * @since 0.3
+     */
+    WindowWGLParam(const WindowWGLParam &param): WindowParameters(param) {}
+    /**
+     * Destruct an existing WindowWGLParam object.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-25
+     * @since 0.3
+     */
+    virtual ~WindowWGLParam() {}
 
-  WindowWGLParam(const WindowWGLParam &param): WindowParameters(param) {}
-
-  virtual ~WindowWGLParam() {}
-
-  inline virtual HUMMSTRUMM_WINDOW_LIST_POINTER WindowParamList() const
-  {
-    return NULL;
-  }
+    /**
+     * Gets a pointer to the WGL window parameters.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-25
+     * @since 0.3
+     * 
+     * @return The pointer to parameters array.
+     * @note The caller must free the pointer after using it.
+     */
+    inline virtual HUMMSTRUMM_WINDOW_LIST_POINTER WindowParamList() const
+    {
+      return NULL;
+    }
 };
 
 }

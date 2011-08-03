@@ -19,7 +19,7 @@
 /**
  * Defines a X11 window.
  *
- * @file    renderer/windowSystem.hpp
+ * @file    renderer/windowX11.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-07-24
  */
@@ -45,6 +45,16 @@ namespace renderer
 
 using namespace hummstrumm::engine::events;
 
+/**
+ * Implements the Window System interaction code for the X11 window system.
+ *
+ * @version 0.3
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-07-24
+ * @since 0.3
+ *
+ * @todo Implement.
+ */
 class WindowX11: public WindowSystem
 {
   public:
@@ -56,7 +66,6 @@ class WindowX11: public WindowSystem
      * @since 0.3
      */
     WindowX11();
-
     /**
      * X11 window destructor.
      *
@@ -65,7 +74,7 @@ class WindowX11: public WindowSystem
      * @since 0.3
      */
      ~WindowX11();
-
+    
     /**
      * Destroy a X11 window.
      *
@@ -75,7 +84,6 @@ class WindowX11: public WindowSystem
      *
      */
     void DestroyWindow();
-
     /**
      * Create a X11 window.
      *
@@ -97,7 +105,6 @@ class WindowX11: public WindowSystem
      *
      */
     void SetFullscreen();
-
     /**
      * Set this window back to window mode if its in fullscreen.
      *
@@ -117,7 +124,6 @@ class WindowX11: public WindowSystem
      *
      */
     int GetWidth();
-
      /**
      * Get current window drawable height.
      *
@@ -139,7 +145,6 @@ class WindowX11: public WindowSystem
      * @note Needs to return the Event.
      */
     WindowEvents* GetNextEvent() const;
-
      /**
      * Get the number of pending events.
      *
@@ -163,21 +168,23 @@ class WindowX11: public WindowSystem
     virtual void SwapBuffers() const;
  
   private:
-    // Pointer to a X11 display structure
+    /// Pointer to a X11 display structure
     Display *dpy;
-    // Root window
+    /// Root window
     Window root;
-    // Default screen
+    /// Default screen
     int screen;
-    // The depth (number of planes) of the default root window for 'screen'
+    /// The depth (number of planes) of the default root window for 'screen'
     int depth;
-    // window
+    /// window
     Window winMn;
-    // Atoms
+    /// Atom for deleting.
     Atom wndDelete;
+    /// Atom for protocols.
     Atom wndProtocols;
-    // Supported GLX version
+    // Supported GLX version (major)
     int glXVerMajor;
+    // Supported GLX version (minor)
     int glXVerMinor;
     // Pointer to the default screen
     Screen *scr;
@@ -208,8 +215,7 @@ class WindowX11: public WindowSystem
      * @return True if yes, false otherwise.
      */  
     bool IsNetWMCompliant() const;
-
-   /**
+    /**
      * Verify if GLX extension is supported.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
@@ -219,7 +225,6 @@ class WindowX11: public WindowSystem
      * @return True if yes, false otherwise.
      */  
     bool IsGLXSupported() const;
-
     /**
      * Get the supported GLX version.
      *
@@ -233,7 +238,6 @@ class WindowX11: public WindowSystem
      * @return True if success false otherwise. 
      */  
     bool GetGLXVersion(int *major, int *minor) const;
-
 };
 
 

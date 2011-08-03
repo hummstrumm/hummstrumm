@@ -38,11 +38,22 @@ namespace geometry
 using hummstrumm::engine::math::Vector2D;
 using hummstrumm::engine::math::Vector3D;
 
+/**
+ * Represents a segment of a line on a plane.  This segment is defined by a
+ * starting point and an an ending point.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-05-10
+ * @since   0.3
+ */
 template <typename T>
 class Segment2D
 {
   public:
+    /// The starting point of the segment.
     Vector2D<T> start;
+    /// The ending point of the segment.
     Vector2D<T> end;
 
     /**
@@ -141,11 +152,23 @@ class Segment2D
     bool operator != (const Segment2D<T> &s);
 
 };
+
+/**
+ * Represents a segment of a line in space.  This segment is defined by a
+ * starting point and an an ending point.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-05-10
+ * @since   0.3
+ */
 template <typename T>
 class Segment3D
 {
   public:
+    /// The starting point of the segment.
     Vector3D<T> start;
+    /// The ending point of the segment.
     Vector3D<T> end;
 
     /**

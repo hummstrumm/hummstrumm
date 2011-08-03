@@ -38,11 +38,22 @@ namespace engine
 namespace math
 {
 
+/**
+ * Represents a two-dimensional vector.  This vector is mapped by rectangular
+ * coordinates (x- and y- components), instead of by polar coordinates (r- and
+ * theta- components).
+ *
+ * @version 0.2
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Vector2D
 {
   public:
-    T x,y;
+    T x, ///< The x-component.
+      y; ///< The y-component.
 
     /**
      * Constructs a null Vector2D object.
@@ -266,11 +277,23 @@ class Vector2D
 
 };
 
+/**
+ * Represents a three-dimensional vector.  This vector is mapped by rectangular
+ * coordinates (x-, y-, and z- components), instead of by spherical coordinates
+ * (radius r-, elevation theta-, and azimuth phi- components).
+ *
+ * @version 0.2
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Vector3D
 {
   public:
-    T x,y,z;
+    T x, ///< The x component.
+      y, ///< The y component.
+      z; ///< The z component.
 
     /**
      * Constructs a null Vector3D object.
@@ -497,11 +520,25 @@ class Vector3D
 
 };
 
+/**
+ * Represents a four-dimensional vector.  This vector is mapped by rectangular
+ * coordinates (x-, y-, z-, and w- components), instead of by hyperspherical
+ * coordinates (radius r- and angular phi<sub>1</sub>-, phi<sub>2</sub>-, and
+ * phi<sub>3</sub>- components).
+ *
+ * @version 0.2
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Vector4D
 {
   public:
-    T x,y,z,w;
+    T x, ///< The x component.
+      y, ///< The y component.
+      z, ///< The z component.
+      w; ///< The w component.
 
     /**
      * Constructs a null Vector4D object.
@@ -563,7 +600,6 @@ class Vector4D
      * @return This vector.
      */ 
     Vector4D<T> &operator = (const Vector4D<T> &v);
-
     /** 
      * Equality operator.
      * 
@@ -576,7 +612,6 @@ class Vector4D
      * @return Whether the vectors are equal.
      */
     bool operator == (const Vector4D<T> &v) const;
-
     /** 
      * Inequality operator.
      *
@@ -589,7 +624,6 @@ class Vector4D
      * @return Whether the vectors are different.
      */
     bool operator != (const Vector4D<T> &v) const;
-    
     /** 
      * Unary minus. Negate this vector.
      *
@@ -600,7 +634,6 @@ class Vector4D
      * @return A 4d vector.
      */
     Vector4D<T> operator - () const;
-   
     /** 
      * Sum this vector with another 4d vector. 
      *
@@ -613,7 +646,6 @@ class Vector4D
      * @return A 4d vector.
      */
     Vector4D<T> operator + (const Vector4D<T> &v) const;
-
     /** 
      * Subtract this vector with another 4d vector.
      *
@@ -626,7 +658,6 @@ class Vector4D
      * @return A 4d vector.
      */
     Vector4D<T> operator - (const Vector4D<T> &v) const;
-
     /** 
      * Multiplication of scalar with this vector.
      *
@@ -639,7 +670,6 @@ class Vector4D
      * @return A 4d vector.
      */
     Vector4D<T> operator * (const T &s) const;
-
     /** 
      * Division of a Vector4D object by a scalar.
      *
@@ -653,7 +683,6 @@ class Vector4D
      *
      */
     Vector4D<T> operator / (const T &s) const;
-
     /** 
      * Combined add assigment operator.
      * 
@@ -666,7 +695,6 @@ class Vector4D
      * @return This vector.
      */
     Vector4D<T> &operator += (const Vector4D<T> &v);
-
     /** 
      * Combined subtract assignment operator.
      *
@@ -679,7 +707,6 @@ class Vector4D
      * @return This vector.
      */
     Vector4D<T> &operator -= (const Vector4D<T> &v);
-
     /** 
      * Combined multiplication assignment operator.
      *
@@ -692,7 +719,6 @@ class Vector4D
      * @return This vector.
      */
     Vector4D<T> &operator *= (const T &s);
-
     /** 
      * Combined division assignment operator.
      *
@@ -714,7 +740,6 @@ class Vector4D
      * @since 0.2
      */
     void Normalize ();
-
     /** 
      * Set this vector to zero.
      *
@@ -732,68 +757,249 @@ class Vector4D
 #ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
 /**
  * Template specialization of Vector4D for float with SSE optimization.
- * See Vector4D for description of member functions.
- * 
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-08-28
- * @since 0.3
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-08-28
+ * @since   0.3
  *
  * @see Vector4D
- */ 
+ */
 template<>
 class Vector4D<float>
 {
   public:
-     HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_GNULINUX
-      HUMMSTRUMM_ALIGN_16_BSD {
-      __m128 xyzw;
-      struct { float x,y,z,w; };
-      float f[4];
+    HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_UNIX {
+        /// Aligned register for SIMD
+        __m128 xyzw;
+        struct { float x, ///< The x component.
+                       y, ///< The y component.
+                       z, ///< The z component.
+                       w; ///< The w component.
+        };
+        /// As an array of floats.
+        float f[4];
     };
 
+    /**
+     * Constructs a null Vector4D object.
+     *
+     * @author  Ricardo Tiago <Rtiago@gmail.com>
+     * @date    2010-08-28
+     * @since   0.3 
+     */ 
     Vector4D () 
     {
       SIMD_SET_ZERO(xyzw);
     }
-
+    /**
+     * Constructs a Vector4D object from a SSE register variable.
+     *
+     * @author  Ricardo Tiago <Rtiago@gmail.com>
+     * @date    2010-08-28
+     * @since   0.3
+     *
+     * @param [in] r An SSE register.
+     */
     Vector4D (__m128 &r): xyzw(r) { }
-
-    Vector4D (const float &vx, const float &vy, const float &vz, const float &vw)
+    /**
+     * Constructs a Vector4D object from four floating point values.
+     *
+     * @author  Ricardo Tiago <Rtiago@gmail.com>
+     * @date    2010-08-28
+     * @since   0.3
+     *
+     * @param [in] vx The x component.
+     * @param [in] vy The y component.
+     * @param [in] vz The z component.
+     * @param [in] vw The w component.
+     */
+    Vector4D (const float &vx,
+              const float &vy,
+              const float &vz,
+              const float &vw)
     {
       SIMD_SET_PS(vw,vz,vy,vx, xyzw);
     }
-
+    /**
+     * Constructs a Vector4D object from an array of values.
+     *
+     * @author  Ricardo Tiago <Rtiago@gmail.com>
+     * @date    2010-08-28
+     * @since   0.3
+     *
+     * @param [in] v An array of floating point values.
+     */
     Vector4D (const Vector4D<float>  &v)
-             : xyzw(v.xyzw) {} 
+             : xyzw(v.xyzw) {}
+    /**
+     * Destructs a Vector4D object.
+     *
+     * @author  Ricardo Tiago <Rtiago@gmail.com>
+     * @date    2010-08-28
+     * @since   0.3
+     */
+    virtual ~Vector4D () {}
 
-    ~Vector4D () {}
-
+    /** 
+     * Assignment operator. 
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] v A 3d vector.
+     *
+     * @return This vector.
+     */ 
     Vector4D<float> &operator = (const Vector4D<float> &v);
-
+    /** 
+     * Equality operator.
+     * 
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] v A 4d vector.
+     * 
+     * @return Whether the vectors are equal.
+     */
     bool operator == (const Vector4D<float> &v) const;
-
+    /** 
+     * Inequality operator.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] v A 4d vector.
+     * 
+     * @return Whether the vectors are different.
+     */
     bool operator != (const Vector4D<float> &v) const;
-    
+    /** 
+     * Unary minus. Negate this vector.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @return A 4d vector.
+     */
     Vector4D<float> operator - () const;
-   
+    /** 
+     * Sum this vector with another 4d vector. 
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] v A 4d vector.
+     * 
+     * @return A 4d vector.
+     */
     Vector4D<float> operator + (const Vector4D<float> &v) const;
-
+    /** 
+     * Subtract this vector with another 4d vector.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] v A 4d vector.
+     * 
+     * @return A 4d vector.
+     */
     Vector4D<float> operator - (const Vector4D<float> &v) const;
-
+    /** 
+     * Multiplication of scalar with this vector.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] s scalar.
+     * 
+     * @return A 4d vector.
+     */
     Vector4D<float> operator * (const float &s) const;
-
+    /** 
+     * Division of a Vector4D object by a scalar.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] s scalar.
+     * 
+     * @return A 4d vector.
+     *
+     */
     Vector4D<float> operator / (const float &s) const;
-
+    /** 
+     * Combined add assigment operator.
+     * 
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] v A 4d vector.
+     * 
+     * @return This vector.
+     */
     Vector4D<float> &operator += (const Vector4D<float> &v);
-
+    /** 
+     * Combined subtract assignment operator.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] v A 4d vector.
+     * 
+     * @return This vector.
+     */
     Vector4D<float> &operator -= (const Vector4D<float> &v);
-
+    /** 
+     * Combined multiplication assignment operator.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] s scalar.
+     * 
+     * @return This vector.
+     */
     Vector4D<float> &operator *= (const float &s);
-
+    /** 
+     * Combined division assignment operator.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     *
+     * @param [in] s scalar.
+     * 
+     * @return This vector.
+     */
     Vector4D<float> &operator /= (const float &s);
 
+    /** 
+     * Normalize this vector.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     */
     void Normalize ();
-
+    /** 
+     * Set this vector to zero.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-08-28
+     * @since 0.3
+     */
     void Zero ();
 
 
