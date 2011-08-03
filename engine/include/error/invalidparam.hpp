@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /**
  * Defines the InvalidParam exception class.
  *
- * @file   invalidparam.hpp
+ * @file   error/invalidparam.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-07-26
  * @see    InvalidParam
@@ -49,15 +49,16 @@ class InvalidParam : public Error
      * Constructs an InvalidParam object to be thrown to an error handler.
      *
      * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-07-26
+     * @date 2010-11-22
      * @since 0.3
      *
-     * @param fileName [in] The name of the file in which the error occured.
-     * @param lineNumber [in] The line of the file in which the error occured.
-     * @param text [in] A human readable description of the error.
+     * @param [in] fileName The name of the file in which the error occured.
+     * @param [in] lineNumber The line of the file in which the error occured.
+     * @param [in] function The name of the function in which the error occured.
+     * @param [in] text A human readable description of the error.
      */
     InvalidParam (const char *fileName, unsigned int lineNumber,
-                  const char *text = "");
+                  const char *function, const char *text = "");
     /**
      * Destructs an InvalidParam object.
      *

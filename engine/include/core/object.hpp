@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /**
  * Defines the Object class.
  *
- * @file   object.hpp
+ * @file   core/object.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-01-03
  * @see    Object
@@ -38,11 +38,6 @@ namespace engine
 namespace core
 {
 
-class Type;
-class Object;
-template <typename T>
-class Pointer;
-class MasterHeap;
 
 /**
  * The base class for all classes in the game engine's Object/Type system.
@@ -52,7 +47,7 @@ class MasterHeap;
  * you use these classes instead of C++ types; they only have the extra
  * overhead of virtual functions.
  *
- * Object provides integration with the Type, Heap, and Pointer<T> classes.
+ * Object provides integration with the Type and Pointer<T> classes.
  *
  * All classes implementing the Object/Type system provide a Type object that
  * describes the class.  The macros HUMMSTRUMM_DECLARE_TYPE and
@@ -62,10 +57,6 @@ class MasterHeap;
  * An Object can dynamically create themselves with the Object::CreateNew
  * method.  Each Object's Type can also create a new Object using the
  * Type::Create method.
- *
- * Any allocation of the Object will occur on the Heap, using overloaded new,
- * new[], delete, and delete[] operators for the Heap.  The user can find out
- * whether an Object is on the Heap using its Object::IsHeapMemory method.
  *
  * Object also overloads the & (address) operator to return a Pointer<T> to the
  * Object.  You can also access this through the Object::GetPointer method.  By
@@ -79,12 +70,12 @@ class MasterHeap;
  * reference count gets to zero (meaning there is no way to reference it), the
  * Object is freed.
  *
- * When an Object is created dynamically on the Heap, it starts with a
+ * When an Object is created dynamically on the heap, it starts with a
  * reference count of zero.  A Pointer<T> would be used to point to the new
  * memory, which would increment the reference count.  When an Object is
  * created on the Stack normally, it starts with a reference count of one.
  * This prevents the reference count from reaching zero, so the Object is never
- * freed.
+ * freed.  The same is true of member variables and array elements.
  *
  * To make a class implement the Object/Type system, there are several
  * requirements:
@@ -115,10 +106,10 @@ class MasterHeap;
  * A class implementing the Object/Type system will integrate completely with
  * the other classes of the engine.
  *
- * @version 0.2
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2009-07-20
- * @since 0.1
+ * @version 0.3
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2009-07-20
+ * @since   0.1
  *
  * @note This will be reworked when the multithreaded support is done (not for
  * a while).  The API will stay mostly the same if used as specified.
@@ -156,18 +147,6 @@ class Object
      * @since 0.1
      */
     virtual ~Object (void);
-
-    /**
-     * Returns whether the Object is on the Heap, dynamically allocated.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2009-09-02
-     * @since 0.1
-     *
-     * @returns If the Object is on the Heap.
-     */
-    bool IsHeapMemory (void)
-      const throw ();
 
     /**
      * Returns the current reference count of the Object.  This will be the
@@ -287,6 +266,78 @@ class Object
      */
     Ptr operator& (void)
       throw ();
+
+    /**
+     * Returns the memory for an Object and adds it to the AllocationTable.
+     *
+     * @author Patrick M. Niedzielski <PatickNiedzielski@gmail.com>
+     * @date   2010-11-27
+     * @since  0.3
+     *
+     * @param [in] size The size of the block to allocate.
+     * 
+     * @return A block of memory in which an Object can fit.
+     */
+    void *operator new (std::size_t size)
+      throw (/*...*/);
+    /**
+     * @overload
+     *
+     * Won't throw an exception on failure.
+     *
+     * @author Patrick M. Niedzielski <PatickNiedzielski@gmail.com>
+     * @date   2010-11-27
+     * @since  0.3
+     */
+    void *operator new (std::size_t size, std::nothrow_t)
+      throw ();
+    /**
+     * Deletes an Object from the heap.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-11-27
+     * @since  0.3
+     *
+     * @param [in,out] p The Object to delete.
+     */
+    void operator delete (void *p)
+      throw ();
+    /**
+     * Returns the memory for an array of Objects and adds it to the
+     * AllocationTable.
+     *
+     * @author Patrick M. Niedzielski <PatickNiedzielski@gmail.com>
+     * @date   2010-11-27
+     * @since  0.3
+     *
+     * @param [in] size The size of the block to allocate.
+     * 
+     * @return A block of memory in which an array of Objects can fit.
+     */
+    void *operator new[] (std::size_t size)
+      throw (/*...*/);
+    /**
+     * @overload
+     *
+     * Won't throw an exception on failure.
+     *
+     * @author Patrick M. Niedzielski <PatickNiedzielski@gmail.com>
+     * @date   2010-11-27
+     * @since  0.3
+     */
+    void *operator new[] (std::size_t size, std::nothrow_t)
+      throw ();
+    /**
+     * Deletes an array of Objects from the heap.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-11-27
+     * @since  0.3
+     *
+     * @param [in,out] p The Object array to delete.
+     */
+    void operator delete[] (void *p)
+      throw ();
     
 /*  =AFTER STREAM CLASSES CREATED=
     template <typename T>
@@ -321,8 +372,9 @@ class Object
     void DropReference (void)
       const throw ();
     
-    mutable unsigned int referenceCount; /**< The Object's reference count. */
-    static Type type_HIDDEN_;             /**< The Type for this Object.*/
+    mutable unsigned int referenceCount;  /**< The Object's reference count. */
+    static Type type_HIDDEN_;             /**< The Type for this Object.     */
+    static AllocationTable allocations;   /**< New allocations.              */
 };
 
 }

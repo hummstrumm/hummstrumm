@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,38 +51,40 @@ Number::Number (float value)
 {}
 
 
-Number::Number (short value)
+Number::Number (int16 value)
   : value (value)
 {}
 
 
-Number::Number (unsigned short value)
+Number::Number (uint16 value)
   : value (value)
 {}
 
 
-Number::Number (int value)
+Number::Number (int32 value)
   : value (value)
 {}
 
 
-Number::Number (unsigned int value)
+Number::Number (uint32 value)
   : value (value)
 {}
 
 
-Number::Number (long int value)
+Number::Number (int64 value)
   : value (value)
 {}
 
 
-Number::Number (unsigned long int value)
+Number::Number (uint64 value)
   : value (value)
 {}
     
 
 Number::~Number (void)
 {}
+
+
 
 
 const Number
@@ -324,11 +326,10 @@ const Number
 Number::Sign (void)
   const throw ()
 {
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-  return ::copysign (1.0, this->value);
-#endif // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   return ::_copysign (1.0, this->value);
+#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  return ::copysign (1.0, this->value);
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 }
 

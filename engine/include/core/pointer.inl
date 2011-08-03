@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,17 @@ template <typename T>
 Pointer<T>::Pointer (void)
   : pointer (0),
     Object ()
-{}
+{
+}
+
+
+template <typename T>
+Pointer<T>::Pointer (const Pointer<T> &pointer)
+  : pointer (pointer.pointer),
+    Object ()
+{
+  this->pointer->AddReference ();
+}
 
 
 template <typename T>
@@ -64,6 +74,10 @@ Pointer<T>::~Pointer (void)
   if (IsValid ())
     {
       this->pointer->DropReference ();
+      if (this->pointer->GetReferenceCount () <= 0)
+        {
+          delete this->pointer;
+        }
     }
 }
 
@@ -80,7 +94,7 @@ template <typename T>
 T *
 Pointer<T>::operator-> (void) const throw ()
 {
-  ASSERT (IsValid ());
+  HUMMSTRUMM_ASSERT (IsValid ());
   
   return GetObjectPointer ();
 }
@@ -90,7 +104,7 @@ template <typename T>
 T &
 Pointer<T>::GetObject (void) const
 {
-  ASSERT (IsValid ());
+  HUMMSTRUMM_ASSERT (IsValid ());
   
   return *this->pointer;
 }
@@ -133,6 +147,17 @@ Pointer<T>::operator= (const Pointer<DataType> &pointer) throw ()
 
 
 template <typename T>
+const Pointer<T> &
+Pointer<T>::operator= (const PointerType &pointer) throw ()
+{
+  Set (pointer);
+  
+  // For = chaining.
+  return *this;
+}
+
+
+template <typename T>
 void
 Pointer<T>::Set (const Pointer<DataType> pointer) throw ()
 {
@@ -141,10 +166,36 @@ Pointer<T>::Set (const Pointer<DataType> pointer) throw ()
   if (IsValid ())
     {
       this->pointer->DropReference ();
+      if (this->pointer->GetReferenceCount () <= 0)
+        {
+          delete this->pointer;
+        }
     }
   
   // Set my pointer.
-  this->pointer = pointer->GetPointer ();
+  this->pointer = pointer.GetObjectPointer ();
+  
+  // Tell the Object I now point to that it has gotten another reference.
+  this->pointer->AddReference ();
+}
+
+template <typename T>
+void
+Pointer<T>::Set (PointerType pointer) throw ()
+{
+  // If I'm pointing to something already, the the Object I am pointing to that
+  // it has lost a reference.
+  if (IsValid ())
+    {
+      this->pointer->DropReference ();
+      if (this->pointer->GetReferenceCount () <= 0)
+        {
+          delete this->pointer;
+        }
+    }
+  
+  // Set my pointer.
+  this->pointer = pointer;
   
   // Tell the Object I now point to that it has gotten another reference.
   this->pointer->AddReference ();

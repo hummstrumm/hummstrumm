@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,11 +30,13 @@ namespace error
 {
 
 
-Error::Error (const char *fileName, unsigned int lineNumber, const char *text,
+Error::Error (const char *fileName, unsigned int lineNumber,
+              const char *function, const char *text,
               const char *description)
   throw ()
   : fileName ((char *) fileName),
     lineNumber (lineNumber),
+    function ((char *) function),
     text ((char *) std::calloc (std::strlen (text) + std::strlen (description) +
               3, 1))
 {
@@ -56,6 +58,7 @@ Error::GetHumanReadableMessage (void)
   std::stringstream ss;
   ss << "An error has occured in " << this->GetFileName ()
      << " at line "                << this->GetLineNumber ()
+     << " from the function "      << this->GetFunction ()
      << ":\n\n"                    << this->GetText () << "\n";
   return ss.str ().c_str ();
 }
@@ -79,6 +82,13 @@ Error::GetText (void)
   const throw ()
 {
   return this->text;
+}
+
+const char *
+Error::GetFunction (void)
+  const throw ()
+{
+  return this->function;
 }
 
 

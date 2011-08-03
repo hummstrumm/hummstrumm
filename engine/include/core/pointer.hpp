@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /**
  * Defines and implements the Pointer class.
  *
- * @file   pointer.hpp
+ * @file   core/pointer.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-01-03
  * @see    Pointer
@@ -97,10 +97,20 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param object [in, out] The Object to point to.  Its reference count is
+     * @param [in, out] object The Object to point to.  Its reference count is
      * changed.
      */
     Pointer<DataType> (PointerType object);
+    /**
+     * Constructs a Pointer object that clones another Pointer.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-11-27
+     * @since 0.3
+     *
+     * @param [in] pointer A Pointer to copy.
+     */
+    Pointer<DataType> (const Pointer<T> &pointer);
     /**
      * Destructs a Pointer object.  If the Pointer is valid, it will decrease
      * the reference count of its Object.
@@ -195,12 +205,23 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in, out] The new Pointer which references the Object you
+     * @param [in, out] pointer The new Pointer which references the Object you
      *  want to reference.
      *
      * @return The new Pointer (useful in chaining = statements)
      */
     const Pointer<DataType> &operator= (const Pointer<DataType> &pointer)
+      throw ();
+    /**
+     * @overload
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-11-27
+     * @since 0.3
+     *
+     * @param [in] pointer The object you want to set this Pointer to.
+     */
+    const Pointer<DataType> &operator= (const PointerType &pointer)
       throw ();
     /**
      * Changes the Pointer object's Object to that of another Pointer object.
@@ -212,10 +233,21 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in] The new Pointer which references the Object you
+     * @param [in] pointer The new Pointer which references the Object you
      * want to reference.
      */
     void Set (const Pointer<DataType> pointer) throw ();
+    /**
+     * @overload
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date 2010-11-27
+     * @since 0.3
+     *
+     * @param [in] pointer The new Pointer which references the Object you
+     * want to reference.
+     */
+    void Set (const PointerType pointer) throw ();
     
     /**
      * Checks whether two Pointer objects reference the same Object.  The
@@ -225,7 +257,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in] The Pointer object to compare with.
+     * @param [in] pointer The Pointer object to compare with.
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
@@ -238,7 +270,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      *
-     * @param pointer [in] The Pointer object to compare with.
+     * @param [in] pointer The Pointer object to compare with.
      *
      * @return Whether the two Pointer objects reference the same Object.
      */

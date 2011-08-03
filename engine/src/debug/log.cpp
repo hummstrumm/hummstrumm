@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,7 @@
 
 #include "hummstrummengine.hpp"
 
-#include <string>
 #include <cstdio>
-#include <iostream>
 
 namespace hummstrumm
 {
@@ -31,73 +29,151 @@ namespace debug
 {
 
 
-Log::Log (hummstrumm::engine::types::String fileName, bool isXmlMode,
+Log *
+Log::theLog = 0;
+
+
+Log::Log (hummstrumm::engine::types::String fileName,
           Level minimumLevel)
+  throw (HUMMSTRUMM_ERRORNAME (Generic))
   : fileName (fileName),
-    isXmlMode (isXmlMode),
     minimumLevel (minimumLevel),
-    logFile (0)
+    logFile (0),
+    currentId (0)
 {
+  // Make sure this is the only Log.  Throw an error otherwise.
+  if (theLog != 0)
+    {
+      HUMMSTRUMM_THROW (Generic, "A second log is being created.");
+    }
+
+  // Print to console.
+  std::printf ("Opening log...");
+
+  // Make sure we've a valid log level.  That some idiot didn't try to pass the
+  // value 32 to the Log via casting.
   if (this->minimumLevel != Log::LEVEL_MESSAGE &&
       this->minimumLevel != Log::LEVEL_SUCCESS &&
       this->minimumLevel != Log::LEVEL_WARNING &&
       this->minimumLevel != Log::LEVEL_ERROR)
     {
-      std::wcerr << L"An invalid log level was provided.\n";
-      return;
-    }
-  
-  this->logFile = std::fopen (fileName.ToAscii (), "w");
-  if (!this->logFile)
-    {
-      std::cout << "Log file name" << fileName.ToAscii() << std::endl;
-      std::wcerr << L"The log file could not be opened.\n";
+      std::fprintf (stderr, "failed\n\tAn invalid log level was provided.\n");
       return;
     }
 
-  if (!this->IsXmlMode ())
+  // Open the Log file.
+  this->logFile = std::fopen (fileName.c_str (), "w");
+  if (!this->logFile)
     {
-      std::fprintf (this->logFile, "*** Logging Started ***\n");
+      std::fprintf (stderr, "failed\n\tThe log file could not be opened.\n");
+      return;
     }
-  else
-    {
-      std::fprintf (this->logFile, "<?xml version=\"1.1\" encoding=\"utf-8\"?>"
-                    "\n\n<log>\n");
-    }
+
+  // Print the XML header.
+  OutputHeader ();
+
+  // Alert the user we've created the log.
+  std::printf ("done\n");
+
+  // Set the singleton pointer to this object.
+  theLog = this;
 }
+
 
 Log::~Log (void)
 {
-  if (logFile)
+  if (this->logFile)
     {
-      if (!this->IsXmlMode ())
-        {
-          std::fprintf (this->logFile, "*** Logging Ended ***\n");
-        }
-      else
-        {
-          std::fprintf (this->logFile, "</log>\n");
-        }
+      // Print the last part of the XML and close the file.
+      OutputFooter ();
       std::fclose (this->logFile);
     }
 }
 
-Log &
-Log::GetLog (void)
+
+void
+Log::OutputHeader (void)
   throw ()
 {
-  static Log log (HUMMSTRUMM_LOG_FILENAME,
-                  HUMMSTRUMM_LOG_XMLMODE,
-                  Log::HUMMSTRUMM_LOG_LOGLEVEL);
+  // Get the string for the minimum level for events in the log.
+  const char *mode = 0;
+  switch (this->minimumLevel)
+    {
+    case Log::LEVEL_ERROR:
+      mode = "error";
+      break;
+
+    case Log::LEVEL_WARNING:
+      mode = "warning";
+      break;
+
+    case Log::LEVEL_SUCCESS:
+      mode = "success";
+      break;
+
+    case Log::LEVEL_MESSAGE:
+      mode = "message";
+      break;
+    }
+
+  // Get system attributes.
+  hummstrumm::engine::core::Engine *engine =
+    hummstrumm::engine::core::Engine::GetEngine ();
+
+  hummstrumm::engine::types::String platform =
+    engine->GetPlatform ()->GetName ();
   
-  return log;
+  hummstrumm::engine::types::String processor;
+  for (int i = 0; i < engine->GetProcessors ()->GetNumberOfProcessors (); ++i)
+    {
+      processor += "\n      <processor>";
+      processor += engine->GetProcessors ()->GetProcessorName (i);
+      processor += "</processor>";
+    }
+
+  int ram = engine->GetMemory ()->GetTotalMemory ();
+
+  // Print it all out.
+  std::fprintf (this->logFile,
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n"
+                "<log>\n\n"
+                "<header>\n"
+                "  <timestamp time=\"0\" date=\"0\" />\n"
+                "  <level>%s</level>\n"
+                "  <system>\n"
+                "    <platform>%s</platform>\n"
+                "    <processors>%s\n    </processors>\n"
+                "    <memory>%d KiB</memory>\n"
+                "  </system>\n"
+                "</header>",
+                mode,
+                platform.c_str (),
+                processor.c_str (),
+                ram);
+  std::fflush (this->logFile);
 }
 
-bool
-Log::IsXmlMode (void)
-  const throw ()
+
+void
+Log::OutputFooter (void)
+  throw ()
 {
-  return this->isXmlMode;
+  std::fprintf (this->logFile,
+                "\n\n</log>");
+  std::fflush (this->logFile);
+}
+  
+
+Log &
+Log::GetLog (void)
+  throw (HUMMSTRUMM_ERRORNAME(Generic))
+{
+  if (theLog == 0)
+    {
+      HUMMSTRUMM_THROW (Generic, "A log hasn't yet been created.");
+    }
+  
+  return *theLog;
 }
 
 hummstrumm::engine::types::String
@@ -116,13 +192,15 @@ Log::GetMinimumLevel (void)
 
 void
 Log::Write (hummstrumm::engine::types::String text,
+            hummstrumm::engine::types::String fileName,
+            int lineNumber,
+            hummstrumm::engine::types::String function,
             Log::Level level)
   throw ()
 {
   if (!logFile)
     {
-      std::wcerr << L"Trying to write to an invalid log file.\n"
-                 << std::flush;
+      std::cerr << "Trying to write to an invalid log file.\n";
       return;
     }
 
@@ -154,69 +232,56 @@ Log::Write (hummstrumm::engine::types::String text,
       break;
     }
 
-  // Get the timestamp (TODO: Make this prettier.
-  hummstrumm::engine::types::int64 time (hummstrumm::engine::types::Date::
-                                         GetHighResolutionCount ());
+  // Get the timestamp (TODO: Make this prettier).
+  /*hummstrumm::engine::types::int64 time (hummstrumm::engine::types::Date::
+                                         GetHighResolutionCount ());*/
       
-  if (!this->IsXmlMode ())
+  const char *mode = 0;
+  switch (level)
     {
-      hummstrumm::engine::types::String mode;
-      switch (level)
-        {
-        case Log::LEVEL_MESSAGE:
-          mode = "Message";
-          break;
+    case Log::LEVEL_MESSAGE:
+      mode = "message";
+      break;
 
-        case Log::LEVEL_ERROR:
-          mode = " Error ";
-          break;
+    case Log::LEVEL_ERROR:
+      mode = "error";
+      break;
 
-        case Log::LEVEL_WARNING:
-          mode = "Warning";
-          break;
+    case Log::LEVEL_WARNING:
+      mode = "warning";
+      break;
 
-		case Log::LEVEL_SUCCESS:
-          mode = "Success";
-          break;
-
-        default:
-          std::wcerr << L"The log level was invalid.";
-          return;
-        }
-      
-      std::fprintf (this->logFile, "%lld [%s]\t%s\n", time, mode.ToAscii (), text.ToAscii ());
+    case Log::LEVEL_SUCCESS:
+      mode = "success";
+      break;
     }
-  else
-    {
-      hummstrumm::engine::types::String mode;
-      switch (level)
-        {
-        case Log::LEVEL_MESSAGE:
-          mode = "message";
-          break;
 
-        case Log::LEVEL_ERROR:
-          mode = "error";
-          break;
-
-        case Log::LEVEL_WARNING:
-          mode = "warning";
-          break;
-
-        case Log::LEVEL_SUCCESS:
-          mode = "success";
-          break;
-
-        default:
-          std::wcerr << L"The log level wan invalid.";
-          return;
-        }
-
-      std::fprintf (this->logFile,
-                    "<item level=\"%s\" timestamp=\"%lld\">%s</item>\n",
-                    mode.ToAscii (), time, text.ToAscii ());
-    }
+  std::fprintf (this->logFile,
+                "\n\n<event>\n"
+                "  <id>%d</id>\n"
+                "  <level>%s</level>\n"
+                "  <timestamp time=\"0\" date=\"0\" />\n"
+                "  <file>%s</file>\n"
+                "  <function>%s</function>\n"
+                "  <line>%d</line>\n"
+                "  <message>%s</message>\n"
+                "</event>",
+                ReturnAndIncrementId (),
+                mode,
+                fileName.c_str (),
+                function.c_str (),
+                lineNumber,
+                text.c_str ());
 }
+
+
+int
+Log::ReturnAndIncrementId (void)
+  throw ()
+{
+  return ++currentId;
+}
+
 
 }
 }

@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file.
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  * This class cannot be instantiated and will be implemented by specific
  * windows systems.
  *
- * @file    windowSystem.hpp
+ * @file    renderer/windowSystem.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-07-24
  */
@@ -36,6 +36,15 @@ namespace engine
 namespace renderer
 {
 
+/**
+ * Holds methods for dealing with Window System interaction. This is abstracted
+ * away for different window systems.
+ *
+ * @version 0.3
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date 2010-07-24
+ * @since 0.3
+ */
 class WindowSystem
 {
   public:
@@ -55,7 +64,17 @@ class WindowSystem
      * @date 2010-07-24
      * @since 0.3
      */
-    ~WindowSystem() {}
+    virtual ~WindowSystem() {}
+
+    /**
+     * Destroy a window.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-07-24
+     * @since 0.3
+     *
+     */
+    virtual void DestroyWindow() = 0;
 
     /**
      * Create a window.
@@ -64,14 +83,10 @@ class WindowSystem
      * @date 2010-07-24
      * @since 0.3
      *
-     * @param name Window name.
-     * @param height Height of the window.
-     * @param width Width of the window.
-     * @param fs Window in fullscreen.
+     *@param winParam Window parameters.
      *
      */
-    virtual void createWindow(std::string name, unsigned height, unsigned width, bool fs) = 0;
-
+    virtual void (CreateWindow)(const WindowParameters &winParam) = 0;
     /**
      * Set the window to fullscreen.
      *
@@ -80,7 +95,7 @@ class WindowSystem
      * @since 0.3
      *
      */
-    virtual void setToFullscreen() = 0;
+    virtual void SetFullscreen() = 0;
 
     /**
      * Set the window back to window mode if its in fullscreen.
@@ -90,29 +105,27 @@ class WindowSystem
      * @since 0.3
      *
      */
-    virtual void setToWindowMode() = 0;
-
+    virtual void SetWindowMode() = 0;
 
      /**
-     * Set the window width.
+     * Get the window drawable width.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-07-24
      * @since 0.3
      *
      */
-    virtual void setWidth(unsigned width) = 0;
+    virtual int GetWidth() = 0;
 
      /**
-     * Set the window height.
+     * Get the window drawable height.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-07-24
      * @since 0.3
      *
      */
-    virtual void setHeight(unsigned height) = 0;
-
+    virtual int GetHeight() = 0;
 
 };
 

@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /**
  * Defines several cross-platform, fixed-size integer types.
  *
- * @file   number.hpp
+ * @file   types/number.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-04-27
  * @see    Number
@@ -85,7 +85,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (short);
+    Number (int16);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -93,7 +93,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (unsigned short);
+    Number (uint16);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -101,7 +101,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (int);
+    Number (int32);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -109,7 +109,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (unsigned int);
+    Number (uint32);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -117,7 +117,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (long int);
+    Number (int64);
     /**
      * Constructs a new Number object initialised to a value.
      *
@@ -125,7 +125,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-04-27
      * @since  0.2
      */
-    Number (unsigned long int);
+    Number (uint64);
     
     /**
      * Destructs a Number object.
@@ -323,7 +323,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-05-01
      * @since  0.2
      *
-     * @param exponent The exponent to which to raise this Number.
+     * @param [in] exponent The exponent to which to raise this Number.
      *
      * @return The power with an exponent.
      */
@@ -335,7 +335,7 @@ class Number : public hummstrumm::engine::core::Object
      * @date   2010-05-01
      * @since  0.2
      *
-     * @param base The base of the logarithm.
+     * @param [in] base The base of the logarithm.
      *
      * @return The logarithm of a base.
      */

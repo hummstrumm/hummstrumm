@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file.
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  * Defines and implements an Axially Aligned Bounding Box in 2D and 
  * 3D space.
  *
- * @file    boundingbox.hpp
+ * @file    geometry/boundingbox.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
  *
@@ -58,12 +58,24 @@ using hummstrumm::engine::math::Vector3D;
  * bmin       
  *         
  */
-
+/**
+ * A three-dimensional axis-aligned bounding box.  The bounding box is
+ * determined as shown in the picture below.
+ *
+ * @image html aabb3d.png
+ *
+ * @version 0.3 
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-05-30
+ * @since   0.3
+ */
 template <typename T>
 class AABBox3D
 {
   public:
+    /// One corner of the bounding box.
     Vector3D<T> bmin;
+    /// The opposite corner of the bounding box.
     Vector3D<T> bmax;
 
     /**
@@ -82,8 +94,8 @@ class AABBox3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param pmin Corner point bmin.
-     * @param pmax Corner point bmax.
+     * @param [in] pmin Corner point bmin.
+     * @param [in] pmax Corner point bmax.
      */
     AABBox3D (const Vector3D<T> &pmin, const Vector3D<T> &pmax)
       : bmin (pmin), bmax (pmax) {}
@@ -95,12 +107,12 @@ class AABBox3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param minx Min point coordinate x.
-     * @param miny Min point coordinate y.
-     * @param minz Min point coordinate z.
-     * @param maxx Max point coordinate x.
-     * @param maxy Max point coordinate y.
-     * @param maxz Max point coordinate z.
+     * @param [in] minx Min point coordinate x.
+     * @param [in] miny Min point coordinate y.
+     * @param [in] minz Min point coordinate z.
+     * @param [in] maxx Max point coordinate x.
+     * @param [in] maxy Max point coordinate y.
+     * @param [in] maxz Max point coordinate z.
      */
     AABBox3D (const T &minx, const T &miny, const T &minz,
             const T &maxx, const T &maxy, const T &maxz)
@@ -113,7 +125,7 @@ class AABBox3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box An 3d AABB.
+     * @param [in] box An 3d AABB.
      */
     AABBox3D (const AABBox3D<T> &box): bmin(box.bmin), bmax(box.bmax) {}
 
@@ -134,7 +146,7 @@ class AABBox3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box A bounding box.
+     * @param [in] box A bounding box.
      *
      * @return This bounding box.
      */
@@ -147,7 +159,7 @@ class AABBox3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box A bounding box.
+     * @param [in] box A bounding box.
      *
      * @return Whether the two bounding boxes are equal.
      */
@@ -160,7 +172,7 @@ class AABBox3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box A bounding box.
+     * @param [in] box A bounding box.
      *
      * @return Whether the two bounding boxes are different.
      */
@@ -246,16 +258,7 @@ class AABBox3D
      * Get the corner(s) of the box.
      * From 3D Math Primer book.
      *
-     *
-     *     6__________7
-     *     /|        /|
-     *    / |       / |
-     * 2 /________3/  |
-     *  |  4|_____|___|
-     *  |  /      |  /5
-     *  | /       | /
-     *  |/________|/
-     *  0         1 
+     * @image html aabb3d-corners.png
      *
      * Bit 0 selects bmin.x vs bmax.x
      * Bit 1 selects bmin.y vs bmax.y
@@ -265,7 +268,17 @@ class AABBox3D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param i Corner number.
+     * @param [in] i Corner number.
+     */
+    /*     6__________7
+     *     /|        /|
+     *    / |       / |
+     * 2 /________3/  |
+     *  |  4|_____|___|
+     *  |  /      |  /5
+     *  | /       | /
+     *  |/________|/
+     *  0         1
      */
     Vector3D<T> GetCorner(unsigned short i) const;
 
@@ -311,11 +324,24 @@ class AABBox3D
  * bmin       
  *         
  */
+/**
+ * A two-dimensional axis-aligned bounding box.  The bounding box is
+ * determined as shown in the picture below.
+ *
+ * @image html aabb2d.png
+ *
+ * @version 0.3 
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-05-30
+ * @since   0.3
+ */
 template <typename T>
 class AABBox2D
 {
   public:
+    /// One corner of the bounding box.
     Vector2D<T> bmin;
+    /// The opposite corner of the bounding box.
     Vector2D<T> bmax;
 
     /**
@@ -334,8 +360,8 @@ class AABBox2D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param pmin Corner point bmin.
-     * @param pmax Corner point bmax.
+     * @param [in] pmin Corner point bmin.
+     * @param [in] pmax Corner point bmax.
      */
     AABBox2D (const Vector2D<T> &pmin, const Vector2D<T> &pmax)
       : bmin (pmin), bmax (pmax) {}
@@ -347,10 +373,10 @@ class AABBox2D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param minx Min point coordinate x.
-     * @param miny Min point coordinate y.
-     * @param maxx Max point coordinate x.
-     * @param maxy Max point coordinate y.
+     * @param [in] minx Min point coordinate x.
+     * @param [in] miny Min point coordinate y.
+     * @param [in] maxx Max point coordinate x.
+     * @param [in] maxy Max point coordinate y.
      */
     AABBox2D (const T &minx, const T &miny, const T &maxx, 
               const T &maxy)
@@ -363,7 +389,7 @@ class AABBox2D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box An 3d AABB.
+     * @param [in] box An 3d AABB.
      */
     AABBox2D (const AABBox2D<T> &box): bmin(box.bmin), bmax(box.bmax) {}
 
@@ -384,7 +410,7 @@ class AABBox2D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box A bounding box.
+     * @param [in] box A bounding box.
      *
      * @return This bounding box.
      */
@@ -397,7 +423,7 @@ class AABBox2D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box A bounding box.
+     * @param [in] box A bounding box.
      *
      * @return Whether the two bounding boxes are equal.
      */
@@ -410,7 +436,7 @@ class AABBox2D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param box A bounding box.
+     * @param [in] box A bounding box.
      *
      * @return Whether the two bounding boxes are different.
      */
@@ -484,13 +510,7 @@ class AABBox2D
     /**
      * Get the corner(s) of the box.
      *
-     *             
-     *  2_________3
-     *  |         |
-     *  |         |
-     *  |         |
-     *  |_________|
-     *  0         1 
+     * @image html aabb2d-corners.png
      *
      * Bit 0 selects bmin.x vs bmax.x
      * Bit 1 selects bmin.y vs bmax.y
@@ -499,7 +519,14 @@ class AABBox2D
      * @date 2010-05-30
      * @since 0.3
      *
-     * @param i Corner number.
+     * @param [in] i Corner number.
+     */
+    /*  2_________3
+     *  |         |
+     *  |         |
+     *  |         |
+     *  |_________|
+     *  0         1
      */
     Vector2D<T> GetCorner(unsigned short i) const;
 
@@ -719,10 +746,12 @@ AABBox2D<T>::Area() const
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param plane A point.
+ * @param [in] box A AABB.
+ * @param [in] plane A point.
  *
  * @return Whether the point is inside the box.
+ *
+ * @see AABBox3D
  */
 template <typename T>
 bool AABBox3ContainsPoint (const AABBox3D<T> &box, const Vector3D<T> &plane);
@@ -734,8 +763,10 @@ bool AABBox3ContainsPoint (const AABBox3D<T> &box, const Vector3D<T> &plane);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param plane A point.
+ * @param [in,out] box A AABB.
+ * @param [in] plane A point.
+ *
+ * @see AABBox3D
  */
 template <typename T>
 void AABBox3AddPoint (AABBox3D<T> &box, const Vector3D<T> &plane);
@@ -748,8 +779,10 @@ void AABBox3AddPoint (AABBox3D<T> &box, const Vector3D<T> &plane);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param other Another AABB.
+ * @param [in,out] box A AABB.
+ * @param [in] other Another AABB.
+ *
+ * @see AABBox3D
  */
 template <typename T>
 void AABBox3AddBox (AABBox3D<T> &box, const AABBox3D<T> &other);
@@ -762,8 +795,10 @@ void AABBox3AddBox (AABBox3D<T> &box, const AABBox3D<T> &other);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param sphere A bounding sphere.
+ * @param [in,out] box A AABB.
+ * @param [in] sphere A bounding sphere.
+ *
+ * @see AABBox3D
  */
 template <typename T>
 void AABBox3AddSphere (AABBox3D<T> &box, const BSphere3D<T> &sphere);
@@ -775,13 +810,14 @@ void AABBox3AddSphere (AABBox3D<T> &box, const BSphere3D<T> &sphere);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param other Another AABB.
+ * @param [in] box A AABB.
+ * @param [in] other Another AABB.
  *
  * @return -1 if they don't intersect, 1 if box contains the other box
  * and 0 if they intersect.
  *
  * @note Static.
+ * @see AABBox3D
  */
 template <typename T>
 short AABBox3IntersectBox (const AABBox3D<T> &box, const AABBox3D<T> &other);
@@ -793,13 +829,14 @@ short AABBox3IntersectBox (const AABBox3D<T> &box, const AABBox3D<T> &other);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param sphere A bounding sphere.
+ * @param [in] box A AABB.
+ * @param [in] sphere A bounding sphere.
  *
  * @return -1 if they don't intersect, 1 if box contains the sphere
  * and 0 if they intersect.
  *
  * @note Static.
+ * @see AABBox3D
  */
 template <typename T>
 short AABBox3IntersectSphere (const AABBox3D<T> &box, const BSphere3D<T> &sphere);
@@ -811,13 +848,14 @@ short AABBox3IntersectSphere (const AABBox3D<T> &box, const BSphere3D<T> &sphere
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param plane A plane
+ * @param [in] box A AABB.
+ * @param [in] plane A plane
  *
  * @return 0 if they intersect, -1 if box is completely on the back side
  * of the plane and 1 if the box is completely on the front side of the place.
  *
  * @note Static.
+ * @see AABBox3D
  */
 template <typename T>
 short AABBox3IntersectPlane (const AABBox3D<T> &box, const Plane3D<T> &plane);
@@ -829,10 +867,11 @@ short AABBox3IntersectPlane (const AABBox3D<T> &box, const Plane3D<T> &plane);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param point A point
+ * @param [in] box A AABB.
+ * @param [in] point A point
  *
  * @return The closest point.
+ * @see AABBox3D
  */
 template <typename T>
 Vector3D<T> AABBox3ClosestPoint (const AABBox3D<T> &box, const Vector3D<T> &point);
@@ -846,10 +885,11 @@ Vector3D<T> AABBox3ClosestPoint (const AABBox3D<T> &box, const Vector3D<T> &poin
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param plane A point.
+ * @param [in] box A AABB.
+ * @param [in] plane A point.
  *
  * @return Whether the point is inside the box.
+ * @see AABBox2D
  */
 template <typename T>
 bool AABBox2ContainsPoint (const AABBox2D<T> &box, const Vector2D<T> &plane);
@@ -861,8 +901,10 @@ bool AABBox2ContainsPoint (const AABBox2D<T> &box, const Vector2D<T> &plane);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param plane A point.
+ * @param [in,out] box A AABB.
+ * @param [in] plane A point.
+ *
+ * @see AABBox2D
  */
 template <typename T>
 void AABBox2AddPoint (AABBox2D<T> &box, const Vector2D<T> &plane);
@@ -875,8 +917,10 @@ void AABBox2AddPoint (AABBox2D<T> &box, const Vector2D<T> &plane);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param other Another AABB.
+ * @param [in,out] box A AABB.
+ * @param [in] other Another AABB.
+ *
+ * @see AABBox2D
  */
 template <typename T>
 void AABBox2AddBox (AABBox2D<T> &box, const AABBox2D<T> &other);
@@ -889,8 +933,10 @@ void AABBox2AddBox (AABBox2D<T> &box, const AABBox2D<T> &other);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param sphere A bounding sphere.
+ * @param [in,out] box A AABB.
+ * @param [in] sphere A bounding sphere.
+ *
+ * @see AABBox2D
  */
 template <typename T>
 void AABBox2AddSphere (AABBox2D<T> &box, const BSphere3D<T> &sphere);
@@ -902,13 +948,14 @@ void AABBox2AddSphere (AABBox2D<T> &box, const BSphere3D<T> &sphere);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param other Another AABB.
+ * @param [in] box A AABB.
+ * @param [in] other Another AABB.
  *
  * @return -1 if they don't intersect, 1 if box contains the other box
  * and 0 if they intersect.
  *
  * @note Static.
+ * @see AABBox2D
  */
 template <typename T>
 short AABBox2IntersectBox (const AABBox2D<T> &box, const AABBox2D<T> &other);
@@ -920,10 +967,11 @@ short AABBox2IntersectBox (const AABBox2D<T> &box, const AABBox2D<T> &other);
  * @date 2010-05-30
  * @since 0.3
  *
- * @param box A AABB.
- * @param point A point
+ * @param [in] box A AABB.
+ * @param [in] point A point
  *
  * @return The closest point.
+ * @see AABBox2D
  */
 template <typename T>
 Vector2D<T> AABBox2ClosestPoint (const AABBox2D<T> &box, const Vector2D<T> &point);

@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /**
  * Defines the Error class and macros that throw exceptions.
  * 
- * @file   error.hpp
+ * @file   error/error.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-01-03
  * @see    Error
@@ -52,8 +52,8 @@ namespace error
  * THROW macro to aid in this.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-01-31
- * @since 0.1
+ * @date   2010-01-31
+ * @since  0.1
  *
  * @see HUMMSTRUMM_THROW
  */
@@ -64,24 +64,26 @@ class Error
      * Constructs an Error object to be thrown to an error handler.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date   2010-11-22
+     * @since  0.1
      *
-     * @param fileName [in] The name of the file in which the error occured.
-     * @param lineNumber [in] The line of the file in which the error occured.
-     * @param text [in] A human readable description of the error.
-     * @param description [in] A description of the error by other error
+     * @param [in] fileName The name of the file in which the error occured.
+     * @param [in] lineNumber The line of the file in which the error occured.
+     * @param [in] function The name of the function in which the error occured.
+     * @param [in] text A human readable description of the error.
+     * @param [in] description A description of the error by other error
      * classes.
      */
     Error (const char *fileName, unsigned int lineNumber,
-           const char *text = "", const char *description = 0)
+           const char *function, const char *text = "",
+           const char *description = 0)
       throw ();
     /**
      * Destructs an Error object.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date   2010-01-31
+     * @since  0.1
      */
     virtual ~Error (void);
 
@@ -91,8 +93,8 @@ class Error
      * in a message box.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date   2010-01-31
+     * @since  0.1
      *
      * @return A human readable string of the data in the Error object.
      */
@@ -103,8 +105,8 @@ class Error
      * Returns the name of the file in which the error occured.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date   2010-01-31
+     * @since   0.1
      *
      * @return The file name of the Error.
      */
@@ -114,8 +116,8 @@ class Error
      * Returns the line number on which the error occured.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date   2010-01-31
+     * @since  0.1
      *
      * @return The line number of the Error.
      */
@@ -125,17 +127,29 @@ class Error
      * Returns the description of error provided by the programmer.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date 2010-01-31
-     * @since 0.1
+     * @date   2010-01-31
+     * @since  0.1
      *
      * @return The description of the Error.
      */
     const char *GetText (void)
       const throw ();
+    /**
+     * Returns the name of the function provided by the programmer.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2010-11-22
+     * @since  0.1
+     *
+     * @return The name of the function from which the Error hails.
+     */
+    const char *GetFunction (void)
+      const throw ();
 
   private:
     char *fileName;               /**< The name of the file with the Error. */
     unsigned int lineNumber;      /**< The line number of the Error. */
+    char *function;               /**< The function of origin of the Error. */
     char *text;                   /**< A description of the Error. */
 };
 
@@ -143,31 +157,52 @@ class Error
 }
 }
 
+
 /**
- * Adds support for the engine's Object/Type system to an Object.  Place this
- * macro at the top of the class's source file.
+ * Expands an exception name.  It adds the namespace prefixes to the name.
  *
- * This macro implements the members added by the HUMMSTRUMM_DECLARE_TYPE
- * macro.  You must supply the full class name (including the namespaces) and
- * the full parent class name (including the namespaces), and a template
- * definition.
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2010-11-09
+ * @since  0.3
  *
- * If you use this macro, you will also have to use the HUMMSTRUMM_DECLARE_TYPE
- * macro, which adds the definitions of these members.
+ * @param [in] exceptionName The name of the Error exception to throw.  This
+ * does not include any namespace prefix.
+ */
+#define HUMMSTRUMM_ERRORNAME(exceptionName) \
+  hummstrumm::engine::error::exceptionName
+
+
+
+/**
+ * @def HUMMSTRUMM_THROW
+ * Throws an exception.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date 2010-01-31
  * @since 0.1
  *
- * @param exceptionName [in] The name of the Error exception to throw.  This
+ * @param [in] exceptionName The name of the Error exception to throw.  This
  * does not include any namespace prefix.
- * @param text [in] A description of the Error.
+ * @param [in] text A description of the Error.
  *
  * @see Error
  */
-#define HUMMSTRUMM_THROW(exceptionName, text) \
-  throw hummstrumm::engine::error::exceptionName (__FILE__, \
-                                                  __LINE__, \
-                                                  text);
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_THROW(exceptionName, text)                       \
+    do {                                                              \
+      throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__,            \
+                                                 __LINE__,            \
+                                                 __FUNCSIG__,         \
+                                                 text);               \
+    } while (false)
+#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_THROW(exceptionName, text)                       \
+    do {                                                              \
+      throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__,            \
+                                                 __LINE__,            \
+                                                 __PRETTY_FUNCTION__, \
+                                                 text);               \
+    } while (false)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_ERROR_ERROR

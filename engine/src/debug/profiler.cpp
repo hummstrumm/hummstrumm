@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,9 +36,10 @@ namespace engine
 namespace debug
 {
 
-Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
-  : startTime (hummstrumm::engine::types::Date::GetHighResolutionCount ()),
+Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::Output out)
+  : startTime (0),
     reportInUnit (reportIn),
+    writeTo (out),
     lowestTime (hummstrumm::engine::types::INT64_MAX), // So the first time will
                                                        // always be faster.
     averageTime (0),
@@ -48,11 +49,9 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
   this->debugName[24] = '\0';
   
   // Construct log message.
-  hummstrumm::engine::types::String message (L"Profiler ``");
+  hummstrumm::engine::types::String message ("Profiler ``");
   message += this->debugName;
-  message += L"'' started.";
-
-//  std::cout << startTime << std::endl;
+  message += "'' started.";
 
   // Log it.
   HUMMSTRUMM_LOG (message, MESSAGE);
@@ -62,11 +61,12 @@ void
 Profiler::Iterate (void)
   throw ()
 {
+  hummstrumm::engine::core::Engine *engine =
+    hummstrumm::engine::core::Engine::GetEngine ();
   // Get the time and calculate how long it has been since the start.
-  hummstrumm::engine::types::int64 endTime (hummstrumm::engine::types::Date::
-                                            GetHighResolutionCount ());
- 
-  std::cout << endTime << std::endl;
+  hummstrumm::engine::types::int64 endTime =
+    engine->GetClock ()->GetHighResolutionCount ();
+  std::cout << endTime << std::endl; 
   hummstrumm::engine::types::int64 difference;
   
   if (endTime < this->startTime)
@@ -87,10 +87,9 @@ Profiler::Iterate (void)
     {
       difference = endTime - this->startTime;
     }
-
   // Get the timer frequency.
-  hummstrumm::engine::types::int64 frequency (hummstrumm::engine::types::Date::
-                   GetHighResolutionFrequency ());
+  hummstrumm::engine::types::int64 frequency =
+    engine->GetClock ()->GetHighResolutionFrequency ();
 
   // Calculate the actual time, using tick counts and the frequency.
   double timeInSeconds (static_cast<double> (difference) / frequency);
@@ -116,8 +115,7 @@ Profiler::Iterate (void)
   this->averageTime = ((this->averageTime * this->numberOfRuns) + time) /
     (this->numberOfRuns + 1);
   this->numberOfRuns += 1;
-
-  this->startTime = hummstrumm::engine::types::Date::GetHighResolutionCount ();
+  this->startTime = engine->GetClock ()->GetHighResolutionCount ();
 }
 
 Profiler::~Profiler (void)
@@ -126,18 +124,34 @@ Profiler::~Profiler (void)
   Iterate ();
 
   // Construct a log message.
-  std::wstringstream message;
-  message << L"Profiler ``";
+  std::stringstream message;
+  message << "Profiler ``";
   message << this->debugName;
-  message << L"'' stats: ";
+  message << "'' stats: ";
   message << this->numberOfRuns;
-  message << L" Runs, Lowest Time of ";
+  message << " Runs, Lowest Time of ";
   message << this->lowestTime;
-  message << L", Average Time of ";
+  message << ", Average Time of ";
   message << this->averageTime;
 
-  // Write it out.
-  HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);
+  if (this->writeTo == LOGGER_AND_CONSOLE)
+    {
+      // Write it out.
+      HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);      
+      std::cout << message.str() << std::endl;
+    }
+  else if (this->writeTo == CONSOLE)
+    {
+      std::cout << message.str() << std::endl;
+    }
+  else if (this->writeTo == LOGGER)
+    {
+      HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);
+    }
+  else
+    {
+      // throw something ...
+    }
 }
 
 

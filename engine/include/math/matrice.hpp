@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +19,12 @@
 /** 
  * Defines and implements classes for square matrices.
  *
- * @file    matrice.hpp
+ * @file    math/matrice.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-03-28
- * @see     Vector2D
- * @see     Vector3D
- * @see     Vector4D
+ * @see     Matrix2D
+ * @see     Matrix3D
+ * @see     Matrix4D
  *
  * @note This code uses column vectors.
  */
@@ -40,11 +40,22 @@ namespace engine
 namespace math
 {
 
+
+/**
+ * A class representing a two-dimensional matrix.  This class is capable of
+ * doing all standard matrix transforms and operations.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Matrix2D
 {
 
   public:
+    /// The two columns, represented as vectors.
     Vector2D<T> mat2[2];
 
     /**
@@ -63,8 +74,8 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v1 First row of matrix
-     * @param v2 Second row of matrix.
+     * @param [in] v1 First row of matrix
+     * @param [in] v2 Second row of matrix.
      *
      */
     Matrix2D (const Vector2D<T> &v1, const Vector2D<T> &v2)
@@ -80,10 +91,10 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param x1 First row X coordinate.
-     * @param y1 First row Y coordinate.
-     * @param x2 Second row X coordinate
-     * @param y2 Second row Y coordinate
+     * @param [in] x1 First row X coordinate.
+     * @param [in] y1 First row Y coordinate.
+     * @param [in] x2 Second row X coordinate
+     * @param [in] y2 Second row Y coordinate
      *
      */
     Matrix2D (const T &x1, const T &y1, const T &x2, const T &y2)
@@ -102,7 +113,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      *
      */ 
     Matrix2D (const Matrix2D<T>  &m)
@@ -127,7 +138,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      *
      * @return This matrice.
      */ 
@@ -140,7 +151,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      * 
      * @return Whether the matrices are equal.
      */
@@ -153,7 +164,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      * 
      * @return Whether the matrices are different.
      */
@@ -178,7 +189,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      * 
      * @return A 2x2 matrice containing the sum of the two matrices.
      */
@@ -191,7 +202,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      * 
      * @return A 2x2 matrice containing the substraction of the two
      * matrices.
@@ -205,7 +216,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 2x2 matrice containing the multiplication of the
      * scalar with the matrice.
@@ -219,7 +230,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      *
      * @return The multiplication of this matrice with m.
      */
@@ -232,7 +243,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 2d vector.
+     * @param [in] v A 2d vector.
      *
      * @return The multiplication of this matrice with v.
      */
@@ -245,7 +256,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 2x2 matrice containing the division of the scalar
      * with the matrice.
@@ -260,7 +271,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param r line to get.
+     * @param [in] r line to get.
      * 
      * @return Line of the matrice.
      *
@@ -274,7 +285,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      * 
      * @return This matrice added with m.
      */
@@ -287,7 +298,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrice.
+     * @param [in] m A 2x2 matrice.
      * 
      * @return This matrice subtracted by m.
      */
@@ -300,7 +311,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 2x2 matrix.
+     * @param [in] m A 2x2 matrix.
      *
      * @return This matrice multiplied by m.
      */
@@ -313,7 +324,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      *
      * @return This matrice multiplied by s.
      */
@@ -326,7 +337,7 @@ class Matrix2D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This matrice divided by s.
      *
@@ -360,11 +371,22 @@ class Matrix2D
 
 };
 
+
+/**
+ * A class representing a three-dimensional matrix.  This class is capable of
+ * doing all standard matrix transforms and operations.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Matrix3D
 {
 
   public:
+    /// The three columns, represented as vectors.
     Vector3D<T> mat3[3];
 
     /**
@@ -383,9 +405,9 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v1 First row of matrix
-     * @param v2 Second row of matrix.
-     * @param v3 Third row of matrix.
+     * @param [in] v1 First row of matrix
+     * @param [in] v2 Second row of matrix.
+     * @param [in] v3 Third row of matrix.
      *
      */
     Matrix3D (const Vector3D<T> &v1, 
@@ -404,15 +426,15 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param x1 First row X coordinate.
-     * @param y1 First row Y coordinate.
-     * @param z1 First row Z coordinate.
-     * @param x2 Second row X coordinate
-     * @param y2 Second row Y coordinate
-     * @param z2 Second row Z coordinate
-     * @param x3 Third row X coordinate
-     * @param y3 Third row Y coordinate
-     * @param z3 Third row Z coordinate
+     * @param [in] x1 First row X coordinate.
+     * @param [in] y1 First row Y coordinate.
+     * @param [in] z1 First row Z coordinate.
+     * @param [in] x2 Second row X coordinate
+     * @param [in] y2 Second row Y coordinate
+     * @param [in] z2 Second row Z coordinate
+     * @param [in] x3 Third row X coordinate
+     * @param [in] y3 Third row Y coordinate
+     * @param [in] z3 Third row Z coordinate
      *
      */
     Matrix3D (const T &x1, const T &y1, const T &z1,
@@ -439,7 +461,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param q Quaternion
+     * @param [in] q Quaternion
      *
      */
 
@@ -466,7 +488,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      *
      */ 
     Matrix3D (const Matrix3D<T>  &m)
@@ -492,7 +514,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      *
      * @return This matrice.
      */ 
@@ -505,7 +527,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      * 
      * @return Whether the matrices are equal.
      */
@@ -518,7 +540,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      * 
      * @return Whether the matrices are different.
      */
@@ -543,7 +565,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      * 
      * @return A 3x3 matrice containing the sum of the two matrices.
      */
@@ -556,7 +578,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      * 
      * @return A 3x3 matrice containing the substraction of the two
      * matrices.
@@ -570,7 +592,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 3x3 matrice containing the multiplication of the
      * scalar with the matrice.
@@ -584,7 +606,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      *
      * @return A 3x3 matrice containing the multiplication of this 
      * matrice with m.
@@ -598,7 +620,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 3d vector.
+     * @param [in] v A 3d vector.
      *
      * @return A 3x3 matrice containing the multiplication of 
      * this matrice with v.
@@ -612,7 +634,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 3x3 matrice containing the division of the s
      * with this matrice.
@@ -627,7 +649,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param r line to get.
+     * @param [in] r line to get.
      * 
      * @return This matrice line r.
      *
@@ -641,7 +663,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      * 
      * @return This matrice containing the sum of this with m.
      */
@@ -654,7 +676,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      * 
      * @return This matrice subtracted by m.
      */
@@ -667,7 +689,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      *
      * @return This matrice multiplied by s.
      */
@@ -680,7 +702,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 3x3 matrice.
+     * @param [in] m A 3x3 matrice.
      *
      * @return This matrice multiplied by m.
      */
@@ -693,7 +715,7 @@ class Matrix3D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This matrice divided s.
      *
@@ -727,11 +749,22 @@ class Matrix3D
 
 };
 
+
+/**
+ * A class representing a four-dimensional matrix.  This class is capable of
+ * doing all standard matrix transforms and operations.
+ *
+ * @version 0.3
+ * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @date    2010-03-28
+ * @since   0.2
+ */
 template <typename T>
 class Matrix4D
 {
 
   public:
+    /// The three columns, represented as vectors.
     Vector4D<T> mat4[4];
 
     /**
@@ -750,10 +783,10 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param v1 First row of matrix
-     * @param v2 Second row of matrix.
-     * @param v3 Third row of matrix.
-     * @param v4 Fourth row of matrix.
+     * @param [in] v1 First row of matrix
+     * @param [in] v2 Second row of matrix.
+     * @param [in] v3 Third row of matrix.
+     * @param [in] v4 Fourth row of matrix.
      *
      */
     Matrix4D (const Vector4D<T> &v1, 
@@ -774,22 +807,22 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param x1 First row X coordinate.
-     * @param y1 First row Y coordinate.
-     * @param z1 First row Z coordinate.
-     * @param w1 First row W coordinate.
-     * @param x2 Second row X coordinate.
-     * @param y2 Second row Y coordinate.
-     * @param z2 Second row Z coordinate.
-     * @param w2 Second row W coordinate.
-     * @param x3 Third row X coordinate.
-     * @param y3 Third row Y coordinate.
-     * @param z3 Third row Z coordinate.
-     * @param w3 Third row W coordinate.
-     * @param x4 Fourth row X coordinate.
-     * @param y4 Fourth row Y coordinate.
-     * @param z4 Fourth row Z coordinate.
-     * @param w4 Fourth row W coordinate.
+     * @param [in] x1 First row X coordinate.
+     * @param [in] y1 First row Y coordinate.
+     * @param [in] z1 First row Z coordinate.
+     * @param [in] w1 First row W coordinate.
+     * @param [in] x2 Second row X coordinate.
+     * @param [in] y2 Second row Y coordinate.
+     * @param [in] z2 Second row Z coordinate.
+     * @param [in] w2 Second row W coordinate.
+     * @param [in] x3 Third row X coordinate.
+     * @param [in] y3 Third row Y coordinate.
+     * @param [in] z3 Third row Z coordinate.
+     * @param [in] w3 Third row W coordinate.
+     * @param [in] x4 Fourth row X coordinate.
+     * @param [in] y4 Fourth row Y coordinate.
+     * @param [in] z4 Fourth row Z coordinate.
+     * @param [in] w4 Fourth row W coordinate.
      *
      */
     Matrix4D (const T &x1, const T &y1, const T &z1, const T &w1, 
@@ -826,7 +859,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      * 
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      *
      */ 
     Matrix4D (const Matrix4D<T>  &m)
@@ -853,7 +886,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      *
      * @return This matrice.
      */ 
@@ -866,7 +899,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      * 
      * @return Whether the matrices are equal.
      */
@@ -879,7 +912,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      * 
      * @return Whether the matrices are different.
      */
@@ -904,7 +937,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      * 
      * @return A 4x4 matrice containing the sum of this with m.
      */
@@ -917,7 +950,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      * 
      * @return A 4x4 matrice containing the substraction of this with m.
      */
@@ -930,7 +963,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 4x4 matrice containing the multiplication of this with s.
      */
@@ -943,7 +976,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      *
      * @return The multiplication of this matrice with m.
      */
@@ -956,7 +989,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param v A 4d vector.
+     * @param [in] v A 4d vector.
      *
      * @return The multiplication of this matrice with v.
      */
@@ -969,7 +1002,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return A 4x4 matrice containing the division this with s..
      *
@@ -983,7 +1016,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param r line to get.
+     * @param [in] r line to get.
      * 
      * @return matrice line.
      *
@@ -997,7 +1030,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      * 
      * @return This matrice added with m.
      */
@@ -1010,7 +1043,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrice.
+     * @param [in] m A 4x4 matrice.
      * 
      * @return This matrice subtracted with m.
      */
@@ -1023,7 +1056,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param m A 4x4 matrix.
+     * @param [in] m A 4x4 matrix.
      *
      * @return This matrix multiplied by m.
      */
@@ -1036,7 +1069,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      *
      * @return This matrice multiplied by s.
      */
@@ -1049,7 +1082,7 @@ class Matrix4D
      * @date 2010-03-28
      * @since 0.2
      *
-     * @param s scalar.
+     * @param [in] s scalar.
      * 
      * @return This matrice divided by s.
      *
@@ -1430,6 +1463,8 @@ Matrix4D<T>::operator = (const Matrix4D<T> &m)
   mat4[1] = m[1];
   mat4[2] = m[2];
   mat4[3] = m[3];
+
+  return *this;
 }
 
 template <typename T>
@@ -1683,10 +1718,12 @@ Matrix4D<T>::Determinant () const
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 2x2 matrice.
- * @param s Scalar
+ * @param [in] m A 2x2 matrice.
+ * @param [in] s Scalar
  *
  * @return The multiplication of m with s.
+ *
+ * @see Matrix2D
  */
 template <typename T>
 Matrix2D<T> operator * (const T &s, const Matrix2D<T> &m);
@@ -1698,9 +1735,11 @@ Matrix2D<T> operator * (const T &s, const Matrix2D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 2x2 matrice.
+ * @param [in] m A 2x2 matrice.
  * 
  * @return The inverse of m.
+ *
+ * @see Matrix2D
  */
 template <typename T>
 Matrix2D<T> Mat2DInverse (const Matrix2D<T> &m);
@@ -1712,9 +1751,11 @@ Matrix2D<T> Mat2DInverse (const Matrix2D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 2x2 matrice.
+ * @param [in] m A 2x2 matrice.
  *
  * @return The transpose of m.
+ *
+ * @see Matrix2D
  */
 template <typename T>
 Matrix2D<T> Mat2DTranspose (const Matrix2D<T> &m);
@@ -1726,10 +1767,12 @@ Matrix2D<T> Mat2DTranspose (const Matrix2D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 3x3 matrice.
- * @param s Scalar
+ * @param [in] m A 3x3 matrice.
+ * @param [in] s Scalar
  *
  * @return The multiplication of m with s.
+ *
+ * @see Matrix3D
  */
 template <typename T>
 Matrix3D<T> operator * (const T &s, const Matrix3D<T> &m);
@@ -1741,9 +1784,11 @@ Matrix3D<T> operator * (const T &s, const Matrix3D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 3x3 matrice.
+ * @param [in] m A 3x3 matrice.
  * 
  * @return The inverse of m.
+ *
+ * @see Matrix3D
  */
 template <typename T>
 Matrix3D<T> Mat3DInverse (const Matrix3D<T> &m);
@@ -1755,9 +1800,11 @@ Matrix3D<T> Mat3DInverse (const Matrix3D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 3x3 matrice.
+ * @param [in] m A 3x3 matrice.
  *
  * @return The transpose of m.
+ *
+ * @see Matrix3D
  */
 template <typename T>
 Matrix3D<T> Mat3DTranspose (const Matrix3D<T> &m);
@@ -1769,10 +1816,12 @@ Matrix3D<T> Mat3DTranspose (const Matrix3D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 4x4 matrice.
- * @param s Scalar
+ * @param [in] m A 4x4 matrice.
+ * @param [in] s Scalar
  *
  * @return The multiplication of m with s.
+ *
+ * @see Matrix4D
  */
 template <typename T>
 Matrix4D<T> operator * (const T &s, const Matrix4D<T> &m);
@@ -1784,9 +1833,11 @@ Matrix4D<T> operator * (const T &s, const Matrix4D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 4x4 matrice.
+ * @param [in] m A 4x4 matrice.
  * 
  * @return The inverse of m.
+ *
+ * @see Matrix4D
  */
 template <typename T>
 Matrix4D<T> Mat4DInverse (const Matrix4D<T> &m);
@@ -1798,9 +1849,11 @@ Matrix4D<T> Mat4DInverse (const Matrix4D<T> &m);
  * @date 2010-03-28
  * @since 0.2
  *
- * @param m A 4x4 matrice.
+ * @param [in] m A 4x4 matrice.
  *
  * @return The transpose of m.
+ *
+ * @see Matrix4D
  */
 template <typename T>
 Matrix4D<T> Mat4DTranspose (const Matrix4D<T> &m);
@@ -1883,7 +1936,7 @@ Mat4DInverse (const Matrix4D<T> &m)
   if (mDet == 0)
     HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
 
-  return Matrix4D<T> (m[1].y*m[2].z*m[3].w + m[1].z*m[2].w*m[3].y 
+  return Matrix4D<T> ( m[1].y*m[2].z*m[3].w + m[1].z*m[2].w*m[3].y 
                       + m[1].w*m[2].y*m[3].z
                       - m[1].y*m[2].w*m[3].z - m[1].z*m[2].y*m[3].w 
                       - m[1].w*m[2].z*m[3].y, 

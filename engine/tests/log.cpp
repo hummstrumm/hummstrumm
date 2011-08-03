@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,38 +24,11 @@
 int
 main (int argc, char **argv)
 {
-  hummstrumm::engine::debug::Log &log =
-    hummstrumm::engine::debug::Log::GetLog ();
-
-
-  // Have we got the filename right?
-  if (log.GetFileName () != HUMMSTRUMM_LOG_FILENAME)
-    {
-      std::wcerr << L"The filename is incorrect.\n";
-      return 1;
-    }
-
-
-  // The mode of the log?
-  if (log.IsXmlMode () != HUMMSTRUMM_LOG_XMLMODE)
-    {
-      std::wcerr << L"The mode is incorrect.\n";
-      return 1;
-    }
+  hummstrumm::engine::core::Engine engine;
   
-  
-  // And what about the minimum level of the log?
-  if (log.GetMinimumLevel () !=
-      hummstrumm::engine::debug::Log::HUMMSTRUMM_LOG_LOGLEVEL)
-    {
-      std::wcerr << L"The log level is incorrect.\n";
-      return 1;
-    }
-
-
-  log.Write (L"Testing...", hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
-  log.Write (L"Testing...", hummstrumm::engine::debug::Log::LEVEL_ERROR);
-  log.Write (L"Testing...", hummstrumm::engine::debug::Log::LEVEL_WARNING);
+  HUMMSTRUMM_LOG ("Testing...", MESSAGE);
+  HUMMSTRUMM_LOG ("Testing...", ERROR);
+  HUMMSTRUMM_LOG ("Testing...", WARNING);
 
   return 0;
 }

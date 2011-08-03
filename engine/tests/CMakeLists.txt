@@ -1,5 +1,5 @@
 # Humm and Strumm Video Game
-# Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,50 +16,63 @@
 
 enable_testing ()
 
-set (hummstrummengine_INCLUDE ../include/)
+set (hummstrummengine_INCLUDE ../include/
+                                 ${hummstrumm_BINARY_DIR}/engine/include
+                                 ${CPPUNIT_INCLUDE_DIR}
+                                 ${OPENGL_INCLUDE_DIR})
+set (hummstrummengine_LIBS hummstrummengine
+                             ${CPPUNIT_LIBRARIES}
+                             ${OPENGL_LIBRARIES})
+
+if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  list (APPEND hummstrummengine_LIBS ${X11_LIBRARIES})
+endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+if (HUMMSTRUMM_PLATFORM_GNULINUX)
+  list (APPEND hummstrummengine_LIBS rt)
+  # I do not really understand why I do have to add this in here too.
+  # Its already added in engine.CMakeLists.txt
+  add_definitions("-msse4.1")
+endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 include_directories (${hummstrummengine_INCLUDE})
-
-if (HUMMSTRUMM_PLATFORM_GNULINUX)
+if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  include_directories (${X11_X11_INCLUDE_PATH})
+endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
 add_executable(test_engine_core core.cpp)
-target_link_libraries(test_engine_core hummstrummengine cppunit rt)
-
+target_link_libraries(test_engine_core ${hummstrummengine_LIBS})
 add_test (NAME test_engine_core COMMAND test_engine_core)
 
 add_executable(test_engine_log log.cpp)
-target_link_libraries(test_engine_log hummstrummengine rt)
-
+target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
 add_test (NAME test_engine_log COMMAND test_engine_log)
 
 add_executable(test_engine_math math.cpp)
-target_link_libraries(test_engine_math hummstrummengine cppunit rt)
-
+target_link_libraries(test_engine_math ${hummstrummengine_LIBS})
 add_test (NAME test_engine_math COMMAND test_engine_math)
 
-add_executable(test_engine_endian endian.cpp)
-target_link_libraries(test_engine_endian hummstrummengine rt)
+add_executable(test_engine_system system.cpp)
+target_link_libraries(test_engine_system ${hummstrummengine_LIBS})
+add_test (NAME test_engine_system COMMAND test_engine_system)
 
-add_test (NAME test_engine_endian COMMAND test_engine_endian)
+add_executable(test_engine_systemprint systemprint.cpp)
+target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
+add_test (NAME test_engine_systemprint COMMAND test_engine_systemprint)
 
 add_executable(test_engine_types types.cpp)
-target_link_libraries(test_engine_types hummstrummengine cppunit rt)
-
+target_link_libraries(test_engine_types ${hummstrummengine_LIBS})
 add_test (NAME test_engine_types COMMAND test_engine_types)
 
 add_executable(test_engine_geometry geometry.cpp)
-target_link_libraries(test_engine_geometry hummstrummengine cppunit rt)
-
+target_link_libraries(test_engine_geometry ${hummstrummengine_LIBS})
 add_test (NAME test_engine_geometry COMMAND test_engine_geometry)
 
+if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  add_executable(test_engine_window window.cpp)
+  target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
+  add_test (NAME test_engine_window COMMAND test_engine_window)
+endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+
 #add_executable(test_engine_sqrt sqrt.cpp)
-#target_link_libraries(test_engine_sqrt hummstrummengine rt)
-
+#target_link_libraries(test_engine_sqrt ${hummstrummengine_LIBS})
 #add_test (NAME test_engine_sqrt COMMAND test_engine_sqrt)
-
-add_executable(test_engine_window window.cpp)
-target_link_libraries(test_engine_window hummstrummengine rt X11)
-
-add_test (NAME test_engine_window COMMAND test_engine_window)
-
-endif (HUMMSTRUMM_PLATFORM_GNULINUX)

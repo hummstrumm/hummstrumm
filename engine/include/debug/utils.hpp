@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /**
  * Defines several debugging macros.
  * 
- * @file   utils.hpp
+ * @file   debug/utils.hpp
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  */
@@ -32,8 +32,12 @@
 
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #  include <signal.h>
-#else
+#endif
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  include <windows.h>
+#endif
+#ifdef HUMMSTRUMM_PLATFORM_BSD
+#  include <signal.h>
 #endif
 
 
@@ -73,7 +77,8 @@
  * @since  0.2
  */
 #ifdef HUMMSTRUMM_DEBUG
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#if defined (HUMMSTRUMM_PLATFORM_GNULINUX) || \
+    defined (HUMMSTRUMM_PLATFORM_BSD)
 
 #define HUMMSTRUMM_BREAK()                      \
   do {                                          \

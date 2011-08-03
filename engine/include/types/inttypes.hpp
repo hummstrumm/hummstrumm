@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2010, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 /**
  * Defines several cross-platform, fixed-size integer types.
  *
- * @file   inttypes.hpp
+ * @file   types/inttypes.hpp
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-13
  */
@@ -27,11 +27,9 @@
 #ifndef HUMMSTRUMM_ENGINE_TYPES_INTTYPES
 #define HUMMSTRUMM_ENGINE_TYPES_INTTYPES
 
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#if defined(HUMMSTRUMM_PLATFORM_GNULINUX) || defined (HUMMSTRUMM_PLATFORM_BSD)
 #  include <inttypes.h>
 #endif
-
-#include "../config.h"
 
 namespace hummstrumm
 {
@@ -89,16 +87,6 @@ namespace types
  * @since 0.2
  */
 
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-
-typedef int16_t  int16;
-typedef uint16_t uint16;
-typedef int32_t  int32;
-typedef uint32_t uint32;
-typedef int64_t  int64;
-typedef uint64_t uint64;
-
-#endif // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 typedef __int16          int16;
@@ -108,7 +96,16 @@ typedef unsigned __int32 uint32;
 typedef __int64          int64;
 typedef unsigned __int64 uint64;
 
-#endif // #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+
+typedef int16_t  int16;
+typedef uint16_t uint16;
+typedef int32_t  int32;
+typedef uint32_t uint32;
+typedef int64_t  int64;
+typedef uint64_t uint64;
+
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 /**
  * The minimum value of an int16.
