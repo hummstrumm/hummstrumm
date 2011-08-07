@@ -1,0 +1,8 @@
+You can use this directory when building to keep the generated files separate
+from the source files.
+
+# Use:
+cd build/
+cmake ..
+make
+# Or something similar
