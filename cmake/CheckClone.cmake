@@ -14,16 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# CheckWorkingCopy.cmake -- Checks whether the source dir is a working copy or
+# CheckClone.cmake -- Checks whether the source dir is a Git clone or
 # a distribution.
 
-message (STATUS "Check for working copy")
-if (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.svn)
-  message (STATUS "Check for working copy - not found")
-  set (HUMMSTRUMM_IN_WORKING_COPY OFF CACHE BOOL
-       "Whether the source dir is a Subversion working copy or a clean distribution.")
-else (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.svn)
-  message (STATUS "Check for working copy - found")
-  set (HUMMSTRUMM_IN_WORKING_COPY ON CACHE BOOL
-       "Whether the source dir is a Subversion working copy or a clean distribution.")
-endif (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.svn)
+message (STATUS "Check for Git repository")
+if (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.git)
+  message (STATUS "Check for Git repository - not found")
+  set (HUMMSTRUMM_IN_CLONE OFF CACHE BOOL
+       "Whether the source dir is a Git clone or a clean distribution.")
+else (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.git)
+  message (STATUS "Check for Git repsotiory - found")
+  set (HUMMSTRUMM_IN_CLONE ON CACHE BOOL
+       "Whether the source dir is a Git clone or a clean distribution.")
+endif (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.git)

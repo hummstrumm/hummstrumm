@@ -24,15 +24,15 @@ endif (CMAKE_CONFIGURATION_TYPES)
 
 # Force a selection of a build type.  It's rather important that we have one.
 if (NOT CMAKE_BUILD_TYPE)
-  if (NOT HUMMSTRUMM_IN_WORKING_COPY)
+  if (NOT HUMMSTRUMM_IN_CLONE)
     set (CMAKE_BUILD_TYPE Release CACHE STRING
          "Choose the type of build, options are: Debug Release."
          FORCE)
-  else (NOT HUMMSTRUMM_IN_WORKING_COPY)
+  else (NOT HUMMSTRUMM_IN_CLONE)
     set (CMAKE_BUILD_TYPE Debug CACHE STRING
          "Choose the type of build, options are: Debug Release."
          FORCE)
-  endif (NOT HUMMSTRUMM_IN_WORKING_COPY)
+  endif (NOT HUMMSTRUMM_IN_CLONE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # Gotta set some flags

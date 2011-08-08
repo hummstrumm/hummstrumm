@@ -19,15 +19,15 @@
 
 
 # Add flag for unit testing.
-# If we're in a working copy, then we are probably developing, in which case,
+# If we're in a Git repository, then we are probably developing, in which case,
 # we should build the unit testing functionality.  Otherwise, this is a user
 # distribution, and most users don't want to unit test software that really
 # ought to work.
-if (NOT HUMMSTRUMM_IN_WORKING_COPY)
+if (NOT HUMMSTRUMM_IN_CLONE)
   set (HUMMSTRUMM_UNIT_TEST OFF CACHE BOOL "Build CPPUnit tests?")
-else (NOT HUMMSTRUMM_IN_WORKING_COPY)
+else (NOT HUMMSTRUMM_IN_CLONE)
   set (HUMMSTRUMM_UNIT_TEST ON CACHE BOOL "Build CPPUnit tests?")
-endif (NOT HUMMSTRUMM_IN_WORKING_COPY)
+endif (NOT HUMMSTRUMM_IN_CLONE)
 
 # Check if CPPUnit exists on this platform.
 if (HUMMSTRUMM_UNIT_TEST)

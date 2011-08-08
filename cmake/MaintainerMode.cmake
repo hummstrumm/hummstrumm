@@ -18,13 +18,13 @@
 
 # Turn off the flag unless we are in a working copy.
 
-if (NOT HUMMSTRUMM_IN_WORKING_COPY)
+if (NOT HUMMSTRUMM_IN_CLONE)
   set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
        "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
-else (NOT HUMMSTRUMM_IN_WORKING_COPY)
+else (NOT HUMMSTRUMM_IN_CLONE)
   set (HUMMSTRUMM_MAINTAINER_MODE ON CACHE BOOL
        "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
-endif (NOT HUMMSTRUMM_IN_WORKING_COPY)
+endif (NOT HUMMSTRUMM_IN_CLONE)
 
 if (HUMMSTRUMM_MAINTAINER_MODE)
   # Check to see if we have all that we need to be in maintainer mode.
@@ -32,7 +32,7 @@ if (HUMMSTRUMM_MAINTAINER_MODE)
   
   # We only need these things in maintainer mode.
   include (MakeChangeLog)
-  include (SubversionTag)
+  include (GitTag)
   include (Dist)
   include (UploadDownloads)
 

@@ -21,7 +21,5 @@
 
 set (HUMMSTRUMM_TAG_NAME "${HUMMSTRUMM_VERSION}")
 add_custom_target (tag-release
-                   COMMAND ${Subversion_SVN_EXECUTABLE} copy
-                     https://hummstrumm.googlecode.com/svn/trunk/
-                     https://hummstrumm.googlecode.com/svn/tags/${HUMMSTRUMM_TAG_NAME}
+                   COMMAND ${GIT_EXECUTABLE} tag -a ${HUMMSTRUMM_TAG_NAME}
                      -m "Release, version ${HUMMSTRUMM_VERSION}")

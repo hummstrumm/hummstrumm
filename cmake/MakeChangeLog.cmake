@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # MakeChangeLog.cmake -- Defines the changelog target that produces a ChangeLog
-# file from the Subversion repository.
+# file from the Git repository.
 
 configure_file (
   "${hummstrumm_SOURCE_DIR}/cmake/MakeChangeLogInternal.cmake.in"
@@ -30,6 +30,6 @@ set_property (DIRECTORY APPEND PROPERTY
 	      ADDITIONAL_MAKE_CLEAN_FILES ${hummstrumm_BINARY_DIR}/ChangeLog)
 
 # TARGET: changelog
-# Runs svn log on the online repository and pipes the output to a file
+# Runs git log on the online repository and pipes the output to a file
 # ChangeLog.
 add_custom_target (changelog DEPENDS ${hummstrumm_BINARY_DIR}/ChangeLog)

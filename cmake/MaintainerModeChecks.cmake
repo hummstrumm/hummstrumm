@@ -19,9 +19,9 @@
 
 
 # Make sure that we are in a working copy.
-if (NOT HUMMSTRUMM_IN_WORKING_COPY)
-  message (FATAL_ERROR "This source tree doesn't seem to be a working copy.  Working copies are required in maintainer mode.  Are you sure you want to be in maintainer mode?")
-endif (NOT HUMMSTRUMM_IN_WORKING_COPY)
+if (NOT HUMMSTRUMM_IN_CLONE)
+  message (FATAL_ERROR "This source tree doesn't seem to be a Git clone.  Git clones are required in maintainer mode.  Are you sure you want to be in maintainer mode?")
+endif (NOT HUMMSTRUMM_IN_CLONE)
 
 
 # Find CPack
@@ -36,11 +36,10 @@ endif ()
 
 
 # Find Subversion
-find_package (Subversion)
-if (Subversion_FOUND)
-  message (STATUS "Found Subversion: ${Subversion_SVN_EXECUTABLE}")
+find_package (Git)
+if (GIT_FOUND)
 else ()
-  message (FATAL_ERROR "Subversion was not found. Subversion is only required in maintainer mode.  Are you sure want to be in maintainer mode?")
+  message (FATAL_ERROR "Git was not found. Git is only required in maintainer mode.  Are you sure want to be in maintainer mode?")
 endif ()
 
 

@@ -16,15 +16,15 @@
 
 # MakeChangeLogInternal.cmake -- Does the dirty work of getting the ChangeLog.
 
-message (STATUS "Getting ChangeLog from repository online")
-exec_program ("@Subversion_SVN_EXECUTABLE@"
-              ARGS "log http://hummstrumm.googlecode.com/svn/"
-              OUTPUT_VARIABLE svn_out
-              RETURN_VALUE svn_retval)
-if (NOT "${svn_retval}" STREQUAL 0)
+message (STATUS "Getting ChangeLog from repository")
+exec_program ("@GIT_EXECUTABLE@"
+              ARGS "log"
+              OUTPUT_VARIABLE git_out
+              RETURN_VALUE git_retval)
+if (NOT "${git_retval}" STREQUAL 0)
   message (ERROR "Unable to generate ChangeLog from repository")
 else ()
   set (output @hummstrumm_BINARY_DIR@/ChangeLog)
-  file (WRITE ${output} ${svn_out})
-  message (STATUS "Getting ChangeLog from repository online - done")
+  file (WRITE ${output} ${git_out})
+  message (STATUS "Getting ChangeLog from repository - done")
 endif ()
