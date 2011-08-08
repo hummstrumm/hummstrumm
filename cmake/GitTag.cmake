@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# SubversionTag.cmake -- Simplifies the creation of a release tag.
+# GitTag.cmake -- Simplifies the creation of a release tag.
 
 # TARGET: tag-release
 # Creates a new release tag in the online Subversion repository.
