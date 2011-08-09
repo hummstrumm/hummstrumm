@@ -27,6 +27,9 @@ namespace engine
 namespace system
 {
 
+hummstrumm::engine::types::uint64
+Clock::NANOSECONDS_PER_SECOND = 1000000000;
+
 
 Clock::Clock (void)
   throw ()
