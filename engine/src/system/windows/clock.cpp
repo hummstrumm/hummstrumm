@@ -27,6 +27,9 @@ namespace engine
 namespace system
 {
 
+hummstrumm::engine::types::uint64
+Clock::NANOSECONDS_PER_SECOND = 1000000000;
+
 
 Clock::Clock (void)
   throw ()
@@ -44,7 +47,7 @@ Clock::Clock (void)
     }
   else
     {
-      this->frequency = 1000000000 /
+      this->frequency = NANOSECONDS_PER_SECOND /
         static_cast <hummstrumm::engine::types::uint64> (freq.QuadPart);
     }
 }
@@ -64,7 +67,8 @@ Clock::GetHighResolutionCount (void)
   // Get the timer's value.
   QueryPerformanceCounter (&time);
 
-  return static_cast<hummstrumm::engine::types::uint64> (time.QuadPart);
+  return static_cast<hummstrumm::engine::types::uint64> (time.QuadPart) *
+    this->frequency;
 }
 
 

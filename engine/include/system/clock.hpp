@@ -87,8 +87,8 @@ class Clock
     hummstrumm::engine::types::uint64 GetHighResolutionCount (void)
       const throw ();
     /**
-     * Returns the frequency of the high resolution clock on the system, in
-     * nanoseconds.
+     * Returns the number of nanoseconds that pass between clicks of the high
+     * resolution clock.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-12-13
@@ -98,6 +98,9 @@ class Clock
      */
     hummstrumm::engine::types::uint64 GetHighResolutionFrequency (void)
       const throw ();
+
+    /// The number of nanoseconds in a second.
+    static hummstrumm::engine::types::uint64 NANOSECONDS_PER_SECOND;
 
   private:
     hummstrumm::engine::types::uint64 frequency; ///< The high resolution
