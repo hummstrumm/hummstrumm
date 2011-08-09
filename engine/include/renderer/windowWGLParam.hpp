@@ -83,7 +83,7 @@ struct WindowWGLParam: public WindowParameters
      */
     inline virtual HUMMSTRUMM_WINDOW_LIST_POINTER WindowParamList() const
     {
-      return NULL;
+      return (HUMMSTRUMM_WINDOW_LIST_POINTER)NULL;
     }
 };
 
