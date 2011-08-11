@@ -41,9 +41,8 @@ Clock::Clock (void)
           // I guess we don't have a monotonic clock.
           clock_getres (CLOCK_REALTIME, &monotonicResolution);
         }
-      this->frequency =
-        monotonicResolution.tv_sec * 1000000000000 + // Seconds
-        monotonicResolution.tv_nsec;                 // Nanoseconds
+      this->frequency = monotonicResolution.tv_sec * 1000000000 + // Seconds
+                        monotonicResolution.tv_nsec;              // Nanoseconds
     }
   catch (int i)
     {
@@ -68,8 +67,8 @@ Clock::GetHighResolutionCount (void)
       // I guess we don't have a monotonic clock.
       clock_gettime (CLOCK_REALTIME, &monotonicCount);
     }
-  return monotonicCount.tv_sec * 1000000000000 + // Seconds
-         monotonicCount.tv_nsec;                 // Nanoseconds
+  return monotonicCount.tv_sec * 1000000000 + // Seconds
+         monotonicCount.tv_nsec;              // Nanoseconds
 }
 
 
