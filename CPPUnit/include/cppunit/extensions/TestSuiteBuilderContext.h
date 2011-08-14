@@ -38,7 +38,10 @@ public:
                                const TestNamer &namer,
                                TestFixtureFactory &factory );
 
+  TestSuiteBuilderContextBase & operator=(const TestSuiteBuilderContextBase &) {}
+
   virtual ~TestSuiteBuilderContextBase();
+
 
   /*! \brief Adds a test to the fixture suite.
    *

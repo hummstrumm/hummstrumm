@@ -95,16 +95,16 @@ WindowX11::CreateWindow(const WindowParameters &winParam)
   HUMMSTRUMM_WINDOW_LIST_POINTER attribList = winParam.WindowParamList();
 
   if (attribList == NULL)
-    HUMMSTRUMM_THROW(Generic, "Unable to get window parameters\n");
+    HUMMSTRUMM_THROW (Generic, "Unable to get window parameters\n");
 
   fbconfig = glXChooseFBConfig(dpy,screen,attribList,&nelements);
 
   if (fbconfig == NULL)
-    HUMMSTRUMM_THROW(Generic, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes.");
+    HUMMSTRUMM_THROW (Generic, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes.");
 
   vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
   if (vi == NULL)
-    HUMMSTRUMM_THROW(Generic, "Requested GLX visual is not supported by the graphics card.");
+    HUMMSTRUMM_THROW (Generic, "Requested GLX visual is not supported by the graphics card.");
 
   glxCtx = glXCreateContext(dpy,vi,0,GL_TRUE);
 
@@ -138,7 +138,7 @@ WindowX11::CreateWindow(const WindowParameters &winParam)
   XFree(vi);
 
   if (winMn == 0)
-    HUMMSTRUMM_THROW(Generic, "Unable to create an X11 window\n");
+    HUMMSTRUMM_THROW (Generic, "Unable to create an X11 window\n");
 
   XStoreName(dpy, winMn, winParam.name.c_str());
 

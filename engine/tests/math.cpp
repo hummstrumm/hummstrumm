@@ -1121,7 +1121,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION ( MatricesTest );
 CPPUNIT_TEST_SUITE_REGISTRATION ( QuaternionsTest );
 
 int
-main (int argc, char **argv)
+main ()
 {
   CppUnit::TestResult controller;
   CppUnit::TestResultCollector result;

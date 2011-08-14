@@ -106,7 +106,7 @@ class VectorMathProfilerTest : public CppUnit::TestFixture
 CPPUNIT_TEST_SUITE_REGISTRATION ( VectorMathProfilerTest<float> );
 
 int
-main (int argc, char **argv)
+main ()
 {
   CppUnit::TestResult controller;
   CppUnit::TestResultCollector result;

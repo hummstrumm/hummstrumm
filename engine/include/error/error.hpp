@@ -189,12 +189,12 @@ class Error
  */
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_THROW(exceptionName, text)                       \
-    do {                                                              \
+    MULTI_LINE_MACRO_BEGIN                                            \
       throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__,            \
                                                  __LINE__,            \
                                                  __FUNCSIG__,         \
                                                  text);               \
-    } while (false)
+    MULTI_LINE_MACRO_END
 #else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_THROW(exceptionName, text)                       \
     do {                                                              \

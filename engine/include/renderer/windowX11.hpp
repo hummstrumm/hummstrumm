@@ -46,14 +46,13 @@ namespace renderer
 using namespace hummstrumm::engine::events;
 
 /**
- * Implements the Window System interaction code for the X11 window system.
+ * Implements the Window System for the X11 window system.
  *
  * @version 0.3
  * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-07-24
  * @since 0.3
  *
- * @todo Implement.
  */
 class WindowX11: public WindowSystem
 {

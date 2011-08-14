@@ -123,7 +123,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION ( SegmentTest );
 CPPUNIT_TEST_SUITE_REGISTRATION ( BoundingSphereTest );
 
 int
-main (int argc, char **argv)
+main ()
 {
   CppUnit::TestResult controller;
   CppUnit::TestResultCollector result;

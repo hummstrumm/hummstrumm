@@ -1,5 +1,6 @@
+// -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2011, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,32 +17,81 @@
  */
 
 #define HUMMSTRUMM_ENGINE_SOURCE
-#include <iostream>
+
 #include "hummstrummengine.hpp"
 
-using namespace hummstrumm::engine::system;
-using namespace hummstrumm::engine::types;
-
-int
-main ()
+namespace hummstrumm
 {
-  int64 start = 0, end = 0;
-  int64 freq = 0;
-  hummstrumm::engine::core::Engine engine;
+namespace engine
+{
+namespace renderer
+{
 
-  const int64 TIME_FOR_EACH_TEST = 2 *
-    engine.GetClock ()->NANOSECONDS_PER_SECOND;
+using hummstrumm::engine::events::StructureEvents;
 
-  start = engine.GetClock ()->GetHighResolutionCount ();
-  freq  = engine.GetClock ()->GetHighResolutionFrequency();
+WindowMSWin::WindowMSWin()
+{
 
-  std::cout << "This test should run for exactly 2 seconds!\n";
-  std::cout << "There are " << freq << " ns between ticks.\n";
+}
 
-  do
-    {
-      end = engine.GetClock ()->GetHighResolutionCount();
-    }
-  while ((end - start) < TIME_FOR_EACH_TEST);
+WindowMSWin::~WindowMSWin()
+{
+
+}
+
+void
+WindowMSWin::DestroyWindow()
+{
+
+}
+
+void
+(WindowMSWin::CreateWindow)(const WindowParameters &winParam)
+{
+
+}
+
+void
+WindowMSWin::SetFullscreen()
+{
+
+}
+
+void
+WindowMSWin::SetWindowMode()
+{ 
+
+}
+
+int WindowMSWin::GetHeight()
+{
   return 0;
 }
+
+int WindowMSWin::GetWidth()
+{
+  return 0;
+}
+
+WindowEvents*
+WindowMSWin::GetNextEvent() const
+{
+  return NULL;
+}
+
+int
+WindowMSWin::GetPendingEventsCount() const
+{
+  return 0;
+}
+
+void
+WindowMSWin::SwapBuffers() const
+{
+
+}
+
+}
+}
+}
+

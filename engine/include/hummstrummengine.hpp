@@ -259,6 +259,7 @@ class WindowX11;
 #endif
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 struct WindowWGLParam;
+class WindowMSWin;
 #endif
 }
 
@@ -279,6 +280,15 @@ struct WindowWGLParam;
 #  pragma warning(disable:4996)
 #  pragma warning(push)
 #  pragma warning(disable:4290)
+// To avoid the do-while(false) trick warnings from the MSVC compiler 
+// Credit to Charles Nicholson from cnicholson.net
+#  define MULTI_LINE_MACRO_BEGIN do { 
+#  define MULTI_LINE_MACRO_END \
+    __pragma(warning(push)) \
+   	__pragma(warning(disable:4127)) \
+    } while(0) \
+    __pragma(warning(pop))
+#  endif
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #ifndef HUMMSTRUMM_ENGINE_SOURCE
@@ -316,9 +326,12 @@ struct WindowWGLParam;
 #  include <hummstrummengine/math/quaternion.hpp>
 #  include <hummstrummengine/events/windowEvents.hpp>
 #  include <hummstrummengine/renderer/windowSystem.hpp>
-#  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#    include <hummstrummengine/renderer/windowX11.hpp>
-#  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#  include <hummstrummengine/renderer/windowX11.hpp>
+#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
+#  include <hummstrummengine/renderer/windowMSWin.hpp>
+#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #  include <hummstrummengine/renderer/windowParameters.hpp>
 #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include <hummstrummengine/renderer/windowGLXParam.hpp>
@@ -367,9 +380,12 @@ struct WindowWGLParam;
 #  include "geometry/boundingsphere.hpp"
 #  include "events/windowEvents.hpp"
 #  include "renderer/windowSystem.hpp"
-#  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#    include "renderer/windowX11.hpp"
-#  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#  include "renderer/windowX11.hpp"
+#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
+#  include "renderer/windowMSWin.hpp"
+#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #  include "renderer/windowParameters.hpp"
 #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #  include "renderer/windowGLXParam.hpp"
@@ -389,6 +405,4 @@ struct WindowWGLParam;
 #  ifdef HUMMSTRUMM_ENGINE_SOURCE
 #    pragma warning(disable:4290)
 #  endif // #ifdef HUMMSTRUMM_ENGINE_SOURCE
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-
 #endif // #ifndef HUMMSTRUMM_ENGINE

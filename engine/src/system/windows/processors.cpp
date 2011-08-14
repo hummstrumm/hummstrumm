@@ -99,11 +99,12 @@ Processors::Processors (void)
 
       // Look for SSE support.
       __cpuid (cpuInfo, 1);
-      this->sse42Support = cpuInfo[2] & (1 << 20);
-      this->sse41Support = cpuInfo[2] & (1 << 19);
-      this->sse3Support  = cpuInfo[2] & (1 << 0);
-      this->sse2Support  = cpuInfo[3] & (1 << 26);
-      this->sseSupport   = cpuInfo[3] & (1 << 25);
+      // MSVC Warning C4800 (Addeed '!=0' to the expressions)
+      this->sse42Support = (cpuInfo[2] & (1 << 20)) != 0;
+      this->sse41Support = (cpuInfo[2] & (1 << 19)) != 0;
+      this->sse3Support  = (cpuInfo[2] & (1 << 0)) != 0;
+      this->sse2Support  = (cpuInfo[3] & (1 << 26)) != 0;
+      this->sseSupport   = (cpuInfo[3] & (1 << 25)) != 0;
     }
   catch (int i)
     {
