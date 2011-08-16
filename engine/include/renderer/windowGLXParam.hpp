@@ -47,6 +47,7 @@ namespace renderer
  */
 class WindowGLXParam: public WindowParameters
 {
+  public:
     /**
      * Initializes the GLX parameters to a set of sane default values.
      *
@@ -296,270 +297,269 @@ class WindowGLXParam: public WindowParameters
       return attrib;
     }
 
-    public:
-      // GLXFBConfig attributes
-      /**
-       * The render type.  Must be followed by a mask indicating which OpenGL
-       * rendering modes the frame buffer configuration must support. Valid bits
-       * are GLX_RGBA_BIT and GLX_COLOR_INDEX_BIT. If the mask is set to
-       * GLX_RGBA_BIT | GLX_COLOR_INDEX_BIT, then only frame buffer configurations
-       * that can be bound to both RGBA contexts and color index contexts will be
-       * considered.
-       */                
-      int renderType;
-      /**
-       * The drawable type.  Must be followed by a mask indicating which GLX
-       * drawable types the frame buffer configuration must support. Valid bits
-       * are GLX_WINDOW_BIT, GLX_PIXMAP_BIT, and GLX_PBUFFER_BIT.  For example, if
-       * mask is set to GLX_WINDOW_BIT | GLX_PIXMAP_BIT,  only frame buffer
-       * configurations that support both windows and GLX pixmaps will be
-       * considered.
-       */
-      int drawableType;
-      /**
-       * The Renderable object for X11.  Must be followed by True or False. If
-       * True is specified, then only frame buffer configurations that have
-       * associated X visuals (and can be used to render to Windows and/or GLX
-       * pixmaps) will be considered.
-       */
-      int xRenderable;
-      /**
-       * The visual type.  Must be followed by one of GLX_TRUE_COLOR,
-       * GLX_DIRECT_COLOR, GLX_PSEUDO_COLOR, GLX_STATIC_COLOR, GLX_GRAY_SCALE, or
-       * GLX_STATIC_GRAY, indicating the desired X visual type.  Not all frame
-       * buffer configurations have an associated X visual. If GLX_DRAWABLE_TYPE
-       * is specified in attrib_list and the mask that follows does not have
-       * GLX_WINDOW_BIT set, then this value is ignored. It is also ignored if
-       * GLX_X_RENDERABLE is specified as False. RGBA rendering may be supported
-       * for visuals of type GLX_TRUE_COLOR, GLX_DIRECT_COLOR, GLX_PSEUDO_COLOR,
-       * or GLX_STATIC_COLOR, but color index rendering is only supported for
-       * visuals of type GLX_PSEUDO_COLOR or GLX_STATIC_COLOR (i.e.,
-       * single-channel visuals). The tokens GLX_GRAY_SCALE and GLX_STATIC_GRAY
-       * will not match current OpenGL enabled visuals, but are included for
-       * future use.
-       */
-      int visualType;
-      /**
-       * A param regarding the configuration process.  Must be followed by one of
-       * GLX_NONE, GLX_SLOW_CONFIG, GLX_NON_CONFORMANT_CONFIG. If GLX_NONE is
-       * specified, then only frame buffer configurations with no caveats will be
-       * considered; if GLX_SLOW_CONFIG is specified, then only slow frame buffer
-       * configurations will be considered; if GLX_NON_CONFORMANT_CONFIG is
-       * specified, then only nonconformant frame buffer configurations will be
-       * considered.
-       */
-      int configCaveat;
-      /**
-       * This attribute indicates whether or not the configuration supports
-       * transparency, and if it it does support transparency, what type of
-       * transparency is available.
-       */
-      int transparentType;
-      /**
-       * Must be followed by an integer value indicating the transparent index
-       * value; the value must be between 0 and the maximum frame buffer value for
-       * indices. Only frame buffer configurations that use the specified
-       * transparent index value  will be considered.  This attribute is ignored
-       * unless GLX_TRANSPARENT_TYPE  is included in attribibute list and
-       * specified as GLX_TRANSPARENT_INDEX.
-       */                    
-      int transparentIndexValue;
-      /**
-       * Must be followed by an integer value indicating the transparent red
-       * value; the value must be between 0 and the maximum frame buffer value for
-       * red. Only frame buffer configurations that use the specified transparent
-       * red value will be considered.  This attribute is ignored unless
-       * GLX_TRANSPARENT_TYPE is included in attribute list and specified as
-       * GLX_TRANSPARENT_RGB.
-       */                    
-      int transparentRedValue;
-      /**
-       * Must be followed by an integer value indicating the transparent green
-       * value; the value must be between 0 and the maximum frame buffer value for
-       * green.  Only frame buffer configurations that use the specified
-       * transparent green value will be considered.  This attribute is ignored
-       * unless GLX_TRANSPARENT_TYPE is included in attribute list and specified
-       * as GLX_TRANSPARENT_RGB.
-       */
-      int transparentGreenValue;
-      /**
-       * Must be followed by an integer value indicating the transparent blue
-       * value; the value must be between 0 and the maximum frame buffer value for
-       * blue. Only frame buffer configurations that use the specified transparent
-       * blue value will be considered.  This attribute is ignored unless
-       * GLX_TRANSPARENT_TYPE is included in attribute list  and specified as
-       * GLX_TRANSPARENT_RGB.
-       */
-      int transparentBlueValue;
-      /**
-       * Must be followed by an integer value indicating the transparent alpha
-       * value; the value must be between 0 and the maximum frame buffer value for
-       * alpha.  Only frame buffer configurations that use the specified
-       * transparent alpha value will be considered.
-       */                    
-      int transparentAlphaValue;
-      /**
-       * If true, only double-buffered visuals are considered. Otherwise, only
-       * single-buffered visuals are considered.
-       *
-       * Used in GLX version 1.2 and above. Defaults to true.
-       */
-      bool doubleBuffer;
-      /**
-       * If true, only stereo visuals are considered. Otherwise, only monoscopic 
-       * visuals are considered. 
-       *
-       * Used in GLX version 1.2 and above. Defaults to false. 
-       */
-      bool stereo;
-      /**
-       * Must be followed by a nonnegative integer that indicates the desired 
-       * color index buffer size. The smallest index buffer of at least the 
-       * specified size is preferred. Ignored if GLX_RGBA is asserted. 
-       *
-       * Used in GLX version 1.2 and above. Defaults 0.
-       */
-      int bufferSize;
-      /**
-       * Must be followed by an integer buffer-level specification. This 
-       * specification is honored exactly. Buffer level zero corresponds to 
-       * the main frame buffer of the display. Buffer level one is the first 
-       * overlay frame buffer, level two the second overlay frame buffer, 
-       * and so on. Negative buffer levels correspond to underlay frame buffers.
-       * 
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int level;
-      /**
-       * Must be followed by a nonnegative integer that indicates the desired
-       * number of auxiliary buffers. Visuals with the smallest number of
-       * auxiliary buffers that meets or exceeds the specified number are
-       * preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int auxBuffers;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, the smallest available red buffer is preferred. Otherwise,
-       * the largest available red buffer of at least the minimum size is
-       * preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int redSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, the smallest available green buffer is
-       * preferred. Otherwise, the largest available green buffer of at least the
-       * minimum size is preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int greenSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, the smallest available blue buffer is
-       * preferred. Otherwise, the largest available blue buffer of at least the
-       * minimum size is preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int blueSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, the smallest available alpha buffer is
-       * preferred. Otherwise, the largest available alpha buffer of at least the
-       * minimum size is preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int alphaSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, visuals with no depth buffer are preferred. Otherwise, the
-       * largest available depth buffer of at least the minimum size is preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int depthSize;
-      /**
-       * Must be followed by a nonnegative integer that indicates the desired
-       * number of stencil bitplanes. The smallest stencil buffer of at least the
-       * specified size is preferred. If the desired value is zero, visuals with
-       * no stencil buffer are preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int stencilSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, visuals with no red accumulation buffer are preferred.
-       * Otherwise, the largest possible red accumulation buffer of at least the
-       * minimum size is preferred.
-       * 
-       * Used in GLX version 1.2 and above. Defaults to 0. 
-       */
-      int accumRedSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, visuals with no green accumulation buffer are preferred.
-       * Otherwise, the largest possible green accumulation buffer of at least the
-       * minimum size is preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0. 
-       */
-      int accumGreenSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, visuals with no blue accumulation buffer are
-       * preferred. Otherwise, the largest possible blue accumulation buffer of at
-       * least the minimum size is preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0. 
-       */
-      int accumBlueSize;
-      /**
-       * Must be followed by a nonnegative minimum size specification. If this
-       * value is zero, visuals with no alpha accumulation buffer are preferred.
-       * Otherwise, the largest possible alpha accumulation buffer of at least the
-       * minimum size is preferred.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0. 
-       */
-      int accumAlphaSize;
-      /**
-       * This attribute indicates the number of multisample buffers, which must be
-       * zero or one. If this attribute is zero, then samples will also be zero.
-       * If this is one, then the number of color, depth, and stencil bits for
-       * each sample in the multisample buffer are as specified by the size
-       * attributes.
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int sampleBuffers;
-      /**
-       * The attribute samples gives the number of samples per pixel. 
-       *
-       * Used in GLX version 1.2 and above. Defaults to 0.
-       */
-      int samples;
-      // http://publib.boulder.ibm.com/infocenter/pseries/v5r3/topic/com.ibm.aix.opengl/doc/openglrf/glXChooseFBConfig.htm
-      /**
-       * This attribute indicates the maximum width that can be passed into
-       * glXCreatePbuffer.  This attribute is ignored by glXChooseFBConfig.
-       */
-      int maxPbufferWidth; 
-      /**
-       * This attribute indicates the maximum height that can be passed into
-       * glXCreatePbuffer. This attribute is ignored by glXChooseFBConfig.
-       */ 
-      int maxPbufferHeight;
-      /**
-       * This attribute indicates the maximum number of pixels (width*height) ofr
-       * a GLXPbuffer. This attribute is ignored by glXChooseFBConfig.
-       */ 
-      int maxPbufferPixels;
+    // GLXFBConfig attributes
+    /**
+     * The render type.  Must be followed by a mask indicating which OpenGL
+     * rendering modes the frame buffer configuration must support. Valid bits
+     * are GLX_RGBA_BIT and GLX_COLOR_INDEX_BIT. If the mask is set to
+     * GLX_RGBA_BIT | GLX_COLOR_INDEX_BIT, then only frame buffer configurations
+     * that can be bound to both RGBA contexts and color index contexts will be
+     * considered.
+     */                
+    int renderType;
+    /**
+     * The drawable type.  Must be followed by a mask indicating which GLX
+     * drawable types the frame buffer configuration must support. Valid bits
+     * are GLX_WINDOW_BIT, GLX_PIXMAP_BIT, and GLX_PBUFFER_BIT.  For example, if
+     * mask is set to GLX_WINDOW_BIT | GLX_PIXMAP_BIT,  only frame buffer
+     * configurations that support both windows and GLX pixmaps will be
+     * considered.
+     */
+    int drawableType;
+    /**
+     * The Renderable object for X11.  Must be followed by True or False. If
+     * True is specified, then only frame buffer configurations that have
+     * associated X visuals (and can be used to render to Windows and/or GLX
+     * pixmaps) will be considered.
+     */
+    int xRenderable;
+    /**
+     * The visual type.  Must be followed by one of GLX_TRUE_COLOR,
+     * GLX_DIRECT_COLOR, GLX_PSEUDO_COLOR, GLX_STATIC_COLOR, GLX_GRAY_SCALE, or
+     * GLX_STATIC_GRAY, indicating the desired X visual type.  Not all frame
+     * buffer configurations have an associated X visual. If GLX_DRAWABLE_TYPE
+     * is specified in attrib_list and the mask that follows does not have
+     * GLX_WINDOW_BIT set, then this value is ignored. It is also ignored if
+     * GLX_X_RENDERABLE is specified as False. RGBA rendering may be supported
+     * for visuals of type GLX_TRUE_COLOR, GLX_DIRECT_COLOR, GLX_PSEUDO_COLOR,
+     * or GLX_STATIC_COLOR, but color index rendering is only supported for
+     * visuals of type GLX_PSEUDO_COLOR or GLX_STATIC_COLOR (i.e.,
+     * single-channel visuals). The tokens GLX_GRAY_SCALE and GLX_STATIC_GRAY
+     * will not match current OpenGL enabled visuals, but are included for
+     * future use.
+     */
+    int visualType;
+    /**
+     * A param regarding the configuration process.  Must be followed by one of
+     * GLX_NONE, GLX_SLOW_CONFIG, GLX_NON_CONFORMANT_CONFIG. If GLX_NONE is
+     * specified, then only frame buffer configurations with no caveats will be
+     * considered; if GLX_SLOW_CONFIG is specified, then only slow frame buffer
+     * configurations will be considered; if GLX_NON_CONFORMANT_CONFIG is
+     * specified, then only nonconformant frame buffer configurations will be
+     * considered.
+     */
+    int configCaveat;
+    /**
+     * This attribute indicates whether or not the configuration supports
+     * transparency, and if it it does support transparency, what type of
+     * transparency is available.
+     */
+    int transparentType;
+    /**
+     * Must be followed by an integer value indicating the transparent index
+     * value; the value must be between 0 and the maximum frame buffer value for
+     * indices. Only frame buffer configurations that use the specified
+     * transparent index value  will be considered.  This attribute is ignored
+     * unless GLX_TRANSPARENT_TYPE  is included in attribibute list and
+     * specified as GLX_TRANSPARENT_INDEX.
+     */                    
+    int transparentIndexValue;
+    /**
+     * Must be followed by an integer value indicating the transparent red
+     * value; the value must be between 0 and the maximum frame buffer value for
+     * red. Only frame buffer configurations that use the specified transparent
+     * red value will be considered.  This attribute is ignored unless
+     * GLX_TRANSPARENT_TYPE is included in attribute list and specified as
+     * GLX_TRANSPARENT_RGB.
+     */                    
+    int transparentRedValue;
+    /**
+     * Must be followed by an integer value indicating the transparent green
+     * value; the value must be between 0 and the maximum frame buffer value for
+     * green.  Only frame buffer configurations that use the specified
+     * transparent green value will be considered.  This attribute is ignored
+     * unless GLX_TRANSPARENT_TYPE is included in attribute list and specified
+     * as GLX_TRANSPARENT_RGB.
+     */
+    int transparentGreenValue;
+    /**
+     * Must be followed by an integer value indicating the transparent blue
+     * value; the value must be between 0 and the maximum frame buffer value for
+     * blue. Only frame buffer configurations that use the specified transparent
+     * blue value will be considered.  This attribute is ignored unless
+     * GLX_TRANSPARENT_TYPE is included in attribute list  and specified as
+     * GLX_TRANSPARENT_RGB.
+     */
+    int transparentBlueValue;
+    /**
+     * Must be followed by an integer value indicating the transparent alpha
+     * value; the value must be between 0 and the maximum frame buffer value for
+     * alpha.  Only frame buffer configurations that use the specified
+     * transparent alpha value will be considered.
+     */                    
+    int transparentAlphaValue;
+    /**
+     * If true, only double-buffered visuals are considered. Otherwise, only
+     * single-buffered visuals are considered.
+     *
+     * Used in GLX version 1.2 and above. Defaults to true.
+     */
+    bool doubleBuffer;
+    /**
+     * If true, only stereo visuals are considered. Otherwise, only monoscopic 
+     * visuals are considered. 
+     *
+     * Used in GLX version 1.2 and above. Defaults to false. 
+     */
+    bool stereo;
+    /**
+     * Must be followed by a nonnegative integer that indicates the desired 
+     * color index buffer size. The smallest index buffer of at least the 
+     * specified size is preferred. Ignored if GLX_RGBA is asserted. 
+     *
+     * Used in GLX version 1.2 and above. Defaults 0.
+     */
+    int bufferSize;
+    /**
+     * Must be followed by an integer buffer-level specification. This 
+     * specification is honored exactly. Buffer level zero corresponds to 
+     * the main frame buffer of the display. Buffer level one is the first 
+     * overlay frame buffer, level two the second overlay frame buffer, 
+     * and so on. Negative buffer levels correspond to underlay frame buffers.
+     * 
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int level;
+    /**
+     * Must be followed by a nonnegative integer that indicates the desired
+     * number of auxiliary buffers. Visuals with the smallest number of
+     * auxiliary buffers that meets or exceeds the specified number are
+     * preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int auxBuffers;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, the smallest available red buffer is preferred. Otherwise,
+     * the largest available red buffer of at least the minimum size is
+     * preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int redSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, the smallest available green buffer is
+     * preferred. Otherwise, the largest available green buffer of at least the
+     * minimum size is preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int greenSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, the smallest available blue buffer is
+     * preferred. Otherwise, the largest available blue buffer of at least the
+     * minimum size is preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int blueSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, the smallest available alpha buffer is
+     * preferred. Otherwise, the largest available alpha buffer of at least the
+     * minimum size is preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int alphaSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, visuals with no depth buffer are preferred. Otherwise, the
+     * largest available depth buffer of at least the minimum size is preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int depthSize;
+    /**
+     * Must be followed by a nonnegative integer that indicates the desired
+     * number of stencil bitplanes. The smallest stencil buffer of at least the
+     * specified size is preferred. If the desired value is zero, visuals with
+     * no stencil buffer are preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int stencilSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, visuals with no red accumulation buffer are preferred.
+     * Otherwise, the largest possible red accumulation buffer of at least the
+     * minimum size is preferred.
+     * 
+     * Used in GLX version 1.2 and above. Defaults to 0. 
+     */
+    int accumRedSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, visuals with no green accumulation buffer are preferred.
+     * Otherwise, the largest possible green accumulation buffer of at least the
+     * minimum size is preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0. 
+     */
+    int accumGreenSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, visuals with no blue accumulation buffer are
+     * preferred. Otherwise, the largest possible blue accumulation buffer of at
+     * least the minimum size is preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0. 
+     */
+    int accumBlueSize;
+    /**
+     * Must be followed by a nonnegative minimum size specification. If this
+     * value is zero, visuals with no alpha accumulation buffer are preferred.
+     * Otherwise, the largest possible alpha accumulation buffer of at least the
+     * minimum size is preferred.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0. 
+     */
+    int accumAlphaSize;
+    /**
+     * This attribute indicates the number of multisample buffers, which must be
+     * zero or one. If this attribute is zero, then samples will also be zero.
+     * If this is one, then the number of color, depth, and stencil bits for
+     * each sample in the multisample buffer are as specified by the size
+     * attributes.
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int sampleBuffers;
+    /**
+     * The attribute samples gives the number of samples per pixel. 
+     *
+     * Used in GLX version 1.2 and above. Defaults to 0.
+     */
+    int samples;
+    // http://publib.boulder.ibm.com/infocenter/pseries/v5r3/topic/com.ibm.aix.opengl/doc/openglrf/glXChooseFBConfig.htm
+    /**
+     * This attribute indicates the maximum width that can be passed into
+     * glXCreatePbuffer.  This attribute is ignored by glXChooseFBConfig.
+     */
+    int maxPbufferWidth; 
+    /**
+     * This attribute indicates the maximum height that can be passed into
+     * glXCreatePbuffer. This attribute is ignored by glXChooseFBConfig.
+     */ 
+    int maxPbufferHeight;
+    /**
+     * This attribute indicates the maximum number of pixels (width*height) ofr
+     * a GLXPbuffer. This attribute is ignored by glXChooseFBConfig.
+     */ 
+    int maxPbufferPixels;
 };
 
 }

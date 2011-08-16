@@ -28,7 +28,7 @@ static WindowMSWin* mswindow;
 int64 start;
 int64 freq;
 
-const uint64 TIME_FOR_EACH_TEST = 20000000000;
+const uint64 TIME_FOR_EACH_TEST = 2000000000;
 bool isTesting = true;
 
 unsigned short currentTest = 0;
@@ -160,15 +160,16 @@ initializeTest(int n)
     } 
     break;
 
-    default:
+    default:   
       isTesting = false;
       break;
   }
-  start = hummstrumm::engine::core::Engine::
-    GetEngine ()->GetClock ()->GetHighResolutionCount();
 
   if (isTesting)
   {
+
+    start = hummstrumm::engine::core::Engine::
+      GetEngine ()->GetClock ()->GetHighResolutionCount();
 
     std::cout << "Test #" << n << std::endl;
     std::cout << " FullScreen : " << param.IsFullscreen() << std::endl;
@@ -185,6 +186,7 @@ initializeTest(int n)
     #endif
     initGL();
   }
+
 }
 
 void
@@ -193,7 +195,7 @@ checkTestIsOver()
   int64 end = hummstrumm::engine::core::Engine::
     GetEngine ()->GetClock ()->GetHighResolutionCount();
 
-  while( (end - start)/freq > TIME_FOR_EACH_TEST )
+  if ( (end - start)/freq > TIME_FOR_EACH_TEST )
   {
     std::cout << "Test ended\n";
     #if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
@@ -215,9 +217,6 @@ main()
   std::cout << "There is a remote possibility that the test might fail and leave your system "
                "in an unstable state." << std::endl;
   std::cout << std::endl;
-//  std::cout << "Press ENTER to continue or any other key to exit" << std::endl;
-//  if (std::cin.get() != '\n')
-//    exit(0);
 
   hummstrumm::engine::core::Engine engine;
 
@@ -294,7 +293,6 @@ main()
       xwindow->SwapBuffers();
       checkTestIsOver();
     }
-
   } catch (HUMMSTRUMM_ERRORNAME(Generic) &e)
   {
     std::cout << "Test #" << currentTest << " failed";
