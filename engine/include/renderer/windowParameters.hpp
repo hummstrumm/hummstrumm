@@ -49,8 +49,9 @@ namespace renderer
  * @date 2010-09-28
  * @since 0.3
  */
-struct WindowParameters
+class WindowParameters
 {
+  public:  
     /**
      * Initializes the parameters to a default configuration values.
      *
@@ -64,6 +65,7 @@ struct WindowParameters
                         height(512), 
                         width(512),
                         fullscreen(false) {}
+
     /**
      * Construct a WindowParameters object from another WindowParameters object.
      *
@@ -78,6 +80,7 @@ struct WindowParameters
       height(param.height),
       width(param.width),
       fullscreen(param.fullscreen) {}
+
     /**
      * Destructs a WindowParameters object.
      *
@@ -88,7 +91,7 @@ struct WindowParameters
     virtual ~WindowParameters() {}
 
     /**
-     * Gets a pointer of type HUMMSTRUMM_WINDOW_LIST_POINTER to the window
+     * Get a pointer of type HUMMSTRUMM_WINDOW_LIST_POINTER to the window
      * parameters.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
@@ -101,6 +104,129 @@ struct WindowParameters
      */
     virtual HUMMSTRUMM_WINDOW_LIST_POINTER WindowParamList() const = 0;
 
+    // GETTER METHODS
+
+    /**
+     * Get the window name
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     * @return The window name
+     */
+    virtual std::string GetWindowName() const { return name; }
+
+
+    /**
+     * Get the x-coordinate of the position of the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     * @return The position x-coordinate
+     */
+    virtual unsigned int GetPositionX() const { return positionX; }
+
+    /**
+     * Get the y-coordinate of the position of the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     * @return The position y-coordinate
+     */
+    virtual unsigned int GetPositionY() const { return positionY; }
+
+    /**
+     * Get the height of the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     * @return The window height
+     */
+    virtual unsigned int GetHeight() const { return height; }
+
+    /**
+     * Get the width of the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     * @return The window width
+     */
+    virtual unsigned int GetWidth() const { return width; }
+
+    /**
+     * Get whether the window should be in fullscreen
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     * @return True if the window should be in fullscreen or false otherwise
+     */
+    virtual bool IsFullscreen() const { return fullscreen; }
+
+    // SETTER METHODS
+
+    /**
+     * Set the window name
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     */
+    virtual void SetWindowName(std::string &n) { name = n; }
+
+    /**
+     * Set the x-coordinate of the position of the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     */
+    virtual void SetPosition(unsigned int px, unsigned int py) { positionX = px; positionY = py; }
+
+    /**
+     * Set the height of the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     */
+    virtual void SetHeight(unsigned int h) { height = h; }
+
+    /**
+     * Set the width of the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     */
+    virtual void SetWidth(unsigned int w) { width = w; }
+
+    /**
+     * Set whether the window should be in fullscreen
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-16
+     * @since 0.4
+     *
+     */
+    virtual void SetFullscreen(bool f) { fullscreen = f; }
+
+
+  protected:
     /// Set the window caption name.
     std::string name;
     /// Set the window position in X.

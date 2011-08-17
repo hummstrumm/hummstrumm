@@ -52,17 +52,19 @@ template <typename T>
 class Vector2D
 {
   public:
-    T x, ///< The x-component.
-      y; ///< The y-component.
+    struct {
+      T x, ///< The x-component.
+        y; ///< The y-component.
+    } coord;
 
     /**
-     * Constructs a null Vector2D object.
+     * Constructs an empty Vector2D object.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    Vector2D () : x(0), y(0) {}
+    Vector2D () { coord.x = 0; coord.y = 0; }
 
     /** 
      * Construct a Vector2D object. It will assign coordinates vx, 
@@ -76,7 +78,7 @@ class Vector2D
      * @param [in] vy Y coordinate.
      *
      */
-    Vector2D (const T &vx, const T &vy) : x(vx), y(vy) {}
+    Vector2D (const T &vx, const T &vy) { coord.x = vx; coord.y = vy; }
 
     /** 
      * Copy constructor for Vector2D class.
@@ -88,7 +90,7 @@ class Vector2D
      * @param [in] v A 2d vector.
      *
      */ 
-    Vector2D (const Vector2D<T>  &v) : x(v.x), y(v.y) {}
+    Vector2D (const Vector2D<T>  &v) { coord.x = v.coord.x; coord.y = v.coord.y; }
 
     /** 
      * Destructs a Vector2D object.
@@ -291,18 +293,20 @@ template <typename T>
 class Vector3D
 {
   public:
-    T x, ///< The x component.
-      y, ///< The y component.
-      z; ///< The z component.
+    struct {
+      T x, ///< The x component.
+        y, ///< The y component.
+        z; ///< The z component.
+    } coord;
 
     /**
-     * Constructs a null Vector3D object.
+     * Constructs an empty Vector3D object.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    Vector3D () : x(0), y(0), z(0) {}
+    Vector3D () { coord.x = 0; coord.y= 0; coord.z = 0; }
 
     /** 
      * Construct a Vector3D object. It will assign coordinates vx, 
@@ -317,8 +321,9 @@ class Vector3D
      * @param [in] vz Z coordinate.
      *
      */
-    Vector3D (const T &vx, const T &vy, const T &vz) 
-             : x(vx), y(vy), z(vz) {}
+    Vector3D (const T &vx, const T &vy, const T &vz) {
+             coord.x = vx; coord.y = vy; coord.z = vz;
+    }
 
     /** 
      * Copy constructor for Vector3D class.
@@ -330,8 +335,9 @@ class Vector3D
      * @param [in] v A 3d vector.
      *
      */ 
-    Vector3D (const Vector3D<T>  &v)
-             : x(v.x), y(v.y), z(v.z) {}
+    Vector3D (const Vector3D<T>  &v) {
+             coord.x = v.coord.x; coord.y = v.coord.y; coord.z = v.coord.z;
+    }
 
     /** 
      * Destructs a Vector3D object.
@@ -535,19 +541,21 @@ template <typename T>
 class Vector4D
 {
   public:
-    T x, ///< The x component.
-      y, ///< The y component.
-      z, ///< The z component.
-      w; ///< The w component.
+    struct {
+      T x, ///< The x component.
+        y, ///< The y component.
+        z, ///< The z component.
+        w; ///< The w component.
+    } coord;
 
     /**
-     * Constructs a null Vector4D object.
+     * Constructs an empty Vector4D object.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-03-28
      * @since 0.2
      */ 
-    Vector4D () : x(0), y(0), z(0), w(0) {}
+    Vector4D () { coord.x = 0; coord.y = 0; coord.z = 0; coord.w = 0; }
 
     /** 
      * Construct a Vector4D object. It will assign coordinates vx, 
@@ -563,8 +571,9 @@ class Vector4D
      * @param [in] vw W coordinate.
      *
      */
-    Vector4D (const T &vx, const T &vy, const T &vz, const T &vw)
-             : x(vx), y(vy), z(vz), w(vw) {}
+    Vector4D (const T &vx, const T &vy, const T &vz, const T &vw) {
+      coord.x = vx; coord.y = vy; coord.z = vz; coord.w = vw;
+    }
 
     /** 
      * Copy constructor for Vector4D class.
@@ -576,8 +585,10 @@ class Vector4D
      * @param [in] v A 4d vector.
      *
      */ 
-    Vector4D (const Vector4D<T>  &v)
-             : x(v.x), y(v.y), z(v.z), w(v.w) {} 
+    Vector4D (const Vector4D<T>  &v) {
+      coord.x = v.coord.x; coord.y = v.coord.y; 
+      coord.z = v.coord.z; coord.w = v.coord.w;
+    }
 
     /** 
      * Destructs a Vector4D object.
@@ -772,11 +783,12 @@ class Vector4D<float>
     HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_UNIX {
         /// Aligned register for SIMD
         __m128 xyzw;
+
         struct { float x, ///< The x component.
                        y, ///< The y component.
                        z, ///< The z component.
                        w; ///< The w component.
-        };
+        } coord;
         /// As an array of floats.
         float f[4];
     };
@@ -1015,8 +1027,8 @@ template <typename T>
 Vector2D<T> &
 Vector2D<T>::operator = (const Vector2D<T> &v)
 {
-  x = v.x;
-  y = v.y;
+  coord.x = v.coord.x;
+  coord.y = v.coord.y;
   return *this;
 }
 
@@ -1024,42 +1036,42 @@ template <typename T>
 bool 
 Vector2D<T>::operator == (const Vector2D<T> &v) const
 {
-  return x == v.x && y == v.y;
+  return coord.x == v.coord.x && coord.y == v.coord.y;
 }
 
 template <typename T>
 bool 
 Vector2D<T>::operator != (const Vector2D<T> &v) const
 {
-  return x != v.x || y != v.y;
+  return coord.x != v.coord.x || coord.y != v.coord.y;
 }
 
 template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator + (const Vector2D<T> &v) const
 {
-  return Vector2D<T> (x + v.x, y + v.y);
+  return Vector2D<T> (coord.x + v.coord.x, coord.y + v.coord.y);
 }
 
 template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator - (const Vector2D<T> &v) const
 {
-  return Vector2D<T> (x - v.x, y - v.y);
+  return Vector2D<T> (coord.x - v.coord.x, coord.y - v.coord.y);
 }
 
 template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator - () const 
 {
-  return Vector2D<T> (-x, -y); 
+  return Vector2D<T> (-coord.x, -coord.y); 
 }
 
 template <typename T>
 Vector2D<T> 
 Vector2D<T>::operator * (const T &s) const
 {
-  return Vector2D<T> (x*s,y*s);
+  return Vector2D<T> (coord.x*s,coord.y*s);
 }
 
 template <typename T>
@@ -1070,14 +1082,14 @@ Vector2D<T>::operator / (const T &s) const
     HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
-  return Vector2D<T> (x*oneOverS, y*oneOverS);
+  return Vector2D<T> (coord.x*oneOverS, coord.y*oneOverS);
 }
 
 template <typename T>
 Vector2D<T> &
 Vector2D<T>::operator += (const Vector2D<T> &v)
 {
-  x += v.x; y +=v.y;
+  coord.x += v.coord.x; coord.y +=v.coord.y;
   return *this;
 }
 
@@ -1085,7 +1097,7 @@ template <typename T>
 Vector2D<T> &
 Vector2D<T>::operator -= (const Vector2D<T> &v)
 {
-  x -= v.x; y -=v.y;
+  coord.x -= v.coord.x; coord.y -=v.coord.y;
   return *this;
 }
 
@@ -1093,7 +1105,7 @@ template <typename T>
 Vector2D<T> &
 Vector2D<T>::operator *= (const T &s)
 {
-  x *= s; y *= s;
+  coord.x *= s; coord.y *= s;
   return *this;
 }
 
@@ -1105,7 +1117,7 @@ Vector2D<T>::operator /= (const T &s)
     HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
-  x *= oneOverS; y *= oneOverS;
+  coord.x *= oneOverS; coord.y *= oneOverS;
   return *this;
 }
 
@@ -1118,25 +1130,25 @@ Vector2D<T>::Normalize ()
     HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
-  x *= oneOverMag;
-  y *= oneOverMag;
+  coord.x *= oneOverMag;
+  coord.y *= oneOverMag;
 }
 
 template <typename T>
 void 
 Vector2D<T>::Zero ()
 {
-  x = 0;
-  y = 0;
+  coord.x = 0;
+  coord.y = 0;
 }
 
 template <typename T>
 Vector3D<T> &
 Vector3D<T>::operator = (const Vector3D<T> &v)
 {
-  x = v.x;
-  y = v.y;
-  z = v.z;
+  coord.x = v.coord.x;
+  coord.y = v.coord.y;
+  coord.z = v.coord.z;
   return *this;
 }
 
@@ -1144,42 +1156,42 @@ template <typename T>
 bool 
 Vector3D<T>::operator == (const Vector3D<T> &v) const
 {
-  return x == v.x && y == v.y && z == v.z;
+  return coord.x == v.coord.x && coord.y == v.coord.y && coord.z == v.coord.z;
 }
 
 template <typename T>
 bool 
 Vector3D<T>::operator != (const Vector3D<T> &v) const
 {
-  return x != v.x || y != v.y || z != v.z;
+  return coord.x != v.coord.x || coord.y != v.coord.y || coord.z != v.coord.z;
 }
 
 template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator + (const Vector3D<T> &v) const
 {
-  return Vector3D<T> (x + v.x, y + v.y, z + v.z);
+  return Vector3D<T> (coord.x + v.coord.x, coord.y + v.coord.y, coord.z + v.coord.z);
 }
 
 template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator - (const Vector3D<T> &v) const
 {
-  return Vector3D<T> (x - v.x, y - v.y, z - v.z);
+  return Vector3D<T> (coord.x - v.coord.x, coord.y - v.coord.y, coord.z - v.coord.z);
 }
 
 template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator - () const 
 {
-  return Vector3D<T> (-x,-y, -z); 
+  return Vector3D<T> (-coord.x, -coord.y, -coord.z); 
 }
 
 template <typename T>
 Vector3D<T> 
 Vector3D<T>::operator * (const T &s) const
 {
-  return Vector3D<T> (x*s,y*s,z*s);
+  return Vector3D<T> (coord.x*s,coord.y*s,coord.z*s);
 }
 
 template <typename T>
@@ -1190,14 +1202,14 @@ Vector3D<T>::operator / (const T &s) const
     HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
-  return Vector3D<T> (x*oneOverS, y*oneOverS, z*oneOverS);
+  return Vector3D<T> (coord.x*oneOverS, coord.y*oneOverS, coord.z*oneOverS);
 }
 
 template <typename T>
 Vector3D<T> &
 Vector3D<T>::operator += (const Vector3D<T> &v)
 {
-  x += v.x; y +=v.y; z +=v.z;
+  coord.x += v.coord.x; coord.y += v.coord.y; coord.z += v.coord.z;
   return *this;
 }
 
@@ -1205,7 +1217,7 @@ template <typename T>
 Vector3D<T> &
 Vector3D<T>::operator -= (const Vector3D<T> &v)
 {
-  x -= v.x; y -=v.y; z -=v.z;
+  coord.x -= v.coord.x; coord.y -= v.coord.y; coord.z -= v.coord.z;
   return *this;
 }
 
@@ -1213,7 +1225,7 @@ template <typename T>
 Vector3D<T> &
 Vector3D<T>::operator *= (const T &s)
 {
-  x *= s; y *= s; z *=s;
+  coord.x *= s; coord.y *= s; coord.z *=s;
   return *this;
 }
 
@@ -1225,7 +1237,7 @@ Vector3D<T>::operator /= (const T &s)
     HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
-  x *= oneOverS; y *= oneOverS; z *= oneOverS;
+  coord.x *= oneOverS; coord.y *= oneOverS; coord.z *= oneOverS;
   return *this;
 }
 
@@ -1238,28 +1250,28 @@ Vector3D<T>::Normalize ()
     HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
-  x *= oneOverMag;
-  y *= oneOverMag;
-  z *= oneOverMag;
+  coord.x *= oneOverMag;
+  coord.y *= oneOverMag;
+  coord.z *= oneOverMag;
 }
 
 template <typename T>
 void 
 Vector3D<T>::Zero ()
 {
-  x = 0;
-  y = 0;
-  z = 0;
+  coord.x = 0;
+  coord.y = 0;
+  coord.z = 0;
 }
 
 template <typename T>
 Vector4D<T> &
 Vector4D<T>::operator = (const Vector4D<T> &v)
 {
-  x = v.x;
-  y = v.y;
-  z = v.z;
-  w = v.w;
+  coord.x = v.coord.x;
+  coord.y = v.coord.y;
+  coord.z = v.coord.z;
+  coord.w = v.coord.w;
   return *this;
 }
 
@@ -1267,42 +1279,46 @@ template <typename T>
 bool 
 Vector4D<T>::operator == (const Vector4D<T> &v) const
 {
-  return x == v.x && y == v.y && z == v.z && w == v.w;
+  return coord.x == v.coord.x && coord.y == v.coord.y 
+      && coord.z == v.coord.z && coord.w == v.coord.w;
 }
 
 template <typename T>
 bool 
 Vector4D<T>::operator != (const Vector4D<T> &v) const
 {
-  return x != v.x || y != v.y || z != v.z || w != v.w;
+  return coord.x != v.coord.x || coord.y != v.coord.y 
+      || coord.z != v.coord.z || coord.w != v.coord.w;
 }
 
 template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator + (const Vector4D<T> &v) const
 {
-  return Vector4D<T> (x + v.x, y + v.y, z + v.z, w + v.w);
+  return Vector4D<T> (coord.x + v.coord.x, coord.y + v.coord.y, 
+                      coord.z + v.coord.z, coord.w + v.coord.w);
 }
 
 template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator - (const Vector4D<T> &v) const
 {
-  return Vector4D<T> (x - v.x, y - v.y, z - v.z, w - v.w);
+  return Vector4D<T> (coord.x - v.coord.x, coord.y - v.coord.y, 
+                      coord.z - v.coord.z, coord.w - v.coord.w);
 }
 
 template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator - () const 
 {
-  return Vector4D<T> (-x, -y, -z, -w); 
+  return Vector4D<T> (-coord.x, -coord.y, -coord.z, -coord.w); 
 }
 
 template <typename T>
 Vector4D<T> 
 Vector4D<T>::operator * (const T &s) const
 {
-  return Vector4D<T> (x*s,y*s,z*s,w*s);
+  return Vector4D<T> (coord.x*s,coord.y*s,coord.z*s,coord.w*s);
 }
 
 template <typename T>
@@ -1313,17 +1329,18 @@ Vector4D<T>::operator / (const T &s) const
     HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
-  return Vector4D<T> (x*oneOverS, 
-                      y*oneOverS, 
-                      z*oneOverS, 
-                      w*oneOverS);
+  return Vector4D<T> (coord.x*oneOverS, 
+                      coord.y*oneOverS, 
+                      coord.z*oneOverS, 
+                      coord.w*oneOverS);
 }
 
 template <typename T>
 Vector4D<T> &
 Vector4D<T>::operator += (const Vector4D<T> &v)
 {
-  x += v.x; y +=v.y; z +=v.z; w +=v.w;
+  coord.x += v.coord.x; coord.y +=v.coord.y; 
+  coord.z += v.coord.z; coord.w +=v.coord.w;
   return *this;
 }
 
@@ -1331,7 +1348,8 @@ template <typename T>
 Vector4D<T> &
 Vector4D<T>::operator -= (const Vector4D<T> &v)
 {
-  x -= v.x; y -=v.y; z -=v.z; w -=v.w;
+  coord.x -= v.coord.x; coord.y -=v.coord.y; 
+  coord.z -= v.coord.z; coord.w -=v.coord.w;
   return *this;
 }
 
@@ -1339,7 +1357,7 @@ template <typename T>
 Vector4D<T> &
 Vector4D<T>::operator *= (const T &s)
 {
-  x *= s; y *= s; z *=s; w *=s;
+  coord.x *= s; coord.y *= s; coord.z *=s; coord.w *=s;
   return *this;
 }
 
@@ -1351,7 +1369,8 @@ Vector4D<T>::operator /= (const T &s)
     HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
 
   T oneOverS = 1/s;
-  x *= oneOverS; y *= oneOverS; z *= oneOverS; w *= oneOverS;
+  coord.x *= oneOverS; coord.y *= oneOverS; 
+  coord.z *= oneOverS; coord.w *= oneOverS;
   return *this;
 }
 
@@ -1364,20 +1383,20 @@ Vector4D<T>::Normalize ()
     HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
-  x *= oneOverMag;
-  y *= oneOverMag;
-  z *= oneOverMag;
-  w *= oneOverMag;
+  coord.x *= oneOverMag;
+  coord.y *= oneOverMag;
+  coord.z *= oneOverMag;
+  coord.w *= oneOverMag;
 }
 
 template <typename T>
 void 
 Vector4D<T>::Zero ()
 {
-  x = 0;
-  y = 0;
-  z = 0;
-  w = 0;
+  coord.x = 0;
+  coord.y = 0;
+  coord.z = 0;
+  coord.w = 0;
 }
 
 
@@ -1881,22 +1900,22 @@ template <typename T>
 T 
 Vec2DMagnitude (const Vector2D<T> &v)
 {
-  return std::sqrt (v.x*v.x + v.y*v.y);
+  return std::sqrt (v.coord.x*v.coord.x + v.coord.y*v.coord.y);
 }
 
 template <typename T> 
 T 
 Vec2DSqMagnitude (const Vector2D<T> &v)
 {
-  return v.x*v.x + v.y*v.y;
+  return v.coord.x*v.coord.x + v.coord.y*v.coord.y;
 }
 
 template<typename T>
 T 
 Vec2DDistance (const Vector2D<T> &v, const Vector2D<T> &w)
 {
-  T dx = v.x - w.x;
-  T dy = v.y - w.y;
+  T dx = v.coord.x - w.coord.x;
+  T dy = v.coord.y - w.coord.y;
   return std::sqrt (dx*dx + dy*dy);
 }
 
@@ -1904,8 +1923,8 @@ template<typename T>
 T 
 Vec2DSqDistance (const Vector2D<T> &v, const Vector2D<T> &w)
 {
-  T dx = v.x - w.x;
-  T dy = v.y - w.y;
+  T dx = v.coord.x - w.coord.x;
+  T dy = v.coord.y - w.coord.y;
   return dx*dx + dy*dy;
 }
 
@@ -1913,7 +1932,7 @@ template <typename T>
 T 
 Vec2DDot (const Vector2D<T> &v, const Vector2D<T> &w)
 {
-  return v.x*w.x + v.y*w.y;
+  return v.coord.x*w.coord.x + v.coord.y*w.coord.y;
 }
 
 template <typename T>
@@ -1931,7 +1950,7 @@ template <typename T>
 Vector2D<T> 
 Vec2DPerpendicular (const Vector2D<T> &v)
 {
-  return Vector2D<T> (v.y,-v.x);
+  return Vector2D<T> (v.coord.y,-v.coord.x);
 }
 
 template <typename T>
@@ -1972,39 +1991,39 @@ template <typename T>
 Vector2D<T>
 operator * (const T &k, const Vector2D<T> &v)
 {
-  return Vector2D<T> (k*v.x,k*v.y);
+  return Vector2D<T> (k*v.coord.x,k*v.coord.y);
 }
 
 template<typename T> 
 T 
 Vec3DMagnitude (const Vector3D<T> &v)
 {
-  return std::sqrt (v.x*v.x  + v.y*v.y + v.z*v.z);
+  return std::sqrt (v.coord.x*v.coord.x  + v.coord.y*v.coord.y + v.coord.z*v.coord.z);
 }
 
 template<typename T> 
 T 
 Vec3DSqMagnitude (const Vector3D<T> &v)
 {
-  return v.x*v.x  + v.y*v.y + v.z*v.z;
+  return v.coord.x*v.coord.x  + v.coord.y*v.coord.y + v.coord.z*v.coord.z;
 }
 
 template<typename T>
 Vector3D<T> 
 Vec3DCross (const Vector3D<T> &v, const Vector3D<T> &w)
 {
-  return Vector3D<T> (v.y*w.z - v.z*w.y,
-                      v.z*w.x - v.x*w.z,
-                      v.x*w.y - v.y*w.x);
+  return Vector3D<T> (v.coord.y*w.coord.z - v.coord.z*w.coord.y,
+                      v.coord.z*w.coord.x - v.coord.x*w.coord.z,
+                      v.coord.x*w.coord.y - v.coord.y*w.coord.x);
 }
 
 template<typename T>
 T 
 Vec3DDistance (const Vector3D<T> &v, const Vector3D<T> &w)
 {
-  T dx = v.x - w.x;
-  T dy = v.y - w.y;
-  T dz = v.z - w.z;
+  T dx = v.coord.x - w.coord.x;
+  T dy = v.coord.y - w.coord.y;
+  T dz = v.coord.z - w.coord.z;
   return std::sqrt (dx*dx + dy*dy + dz*dz);
 }
 
@@ -2012,9 +2031,9 @@ template<typename T>
 T 
 Vec3DSqDistance (const Vector3D<T> &v, const Vector3D<T> &w)
 {
-  T dx = v.x - w.x;
-  T dy = v.y - w.y;
-  T dz = v.z - w.z;
+  T dx = v.coord.x - w.coord.x;
+  T dy = v.coord.y - w.coord.y;
+  T dz = v.coord.z - w.coord.z;
   return dx*dx + dy*dy + dz*dz;
 }
 
@@ -2022,7 +2041,7 @@ template <typename T>
 T 
 Vec3DDot (const Vector3D<T> &v, const Vector3D<T> &w)
 {
-  return v.x*w.x + v.y*w.y + v.z*w.z;
+  return v.coord.x*w.coord.x + v.coord.y*w.coord.y + v.coord.z*w.coord.z;
 }
 
 template <typename T>
@@ -2063,31 +2082,33 @@ template <typename T>
 Vector3D<T>
 operator * (const T &k, const Vector3D<T> &v)
 {
-  return Vector3D<T> (k*v.x,k*v.y,k*v.z);
+  return Vector3D<T> (k*v.coord.x,k*v.coord.y,k*v.coord.z);
 }
 
 template<typename T> 
 T 
 Vec4DMagnitude (const Vector4D<T> &v)
 {
-  return std::sqrt (v.x*v.x + v.y*v.y + v.z*v.z + v.w*v.w);
+  return std::sqrt (v.coord.x*v.coord.x + v.coord.y*v.coord.y 
+                  + v.coord.z*v.coord.z + v.coord.w*v.coord.w);
 }
 
 template<typename T> 
 T 
 Vec4DSqMagnitude (const Vector4D<T> &v)
 {
-  return v.x*v.x + v.y*v.y + v.z*v.z + v.w*v.w;
+  return v.coord.x*v.coord.x + v.coord.y*v.coord.y 
+       + v.coord.z*v.coord.z + v.coord.w*v.coord.w;
 }
 
 template<typename T>
 T 
 Vec4DDistance (const Vector4D<T> &v, const Vector4D<T> &k)
 {
-  T dx = v.x - k.x;
-  T dy = v.y - k.y;
-  T dz = v.z - k.z;
-  T dw = v.w - k.w;
+  T dx = v.coord.x - k.coord.x;
+  T dy = v.coord.y - k.coord.y;
+  T dz = v.coord.z - k.coord.z;
+  T dw = v.coord.w - k.coord.w;
   return std::sqrt (dx*dx + dy*dy + dw*dw);
 }
 
@@ -2095,10 +2116,10 @@ template<typename T>
 T 
 Vec4DSqDistance (const Vector4D<T> &v, const Vector4D<T> &k)
 {
-  T dx = v.x - k.x;
-  T dy = v.y - k.y;
-  T dz = v.z - k.z;
-  T dw = v.w - k.w;
+  T dx = v.coord.x - k.coord.x;
+  T dy = v.coord.y - k.coord.y;
+  T dz = v.coord.z - k.coord.z;
+  T dw = v.coord.w - k.coord.w;
   return dx*dx + dy*dy + dw*dw;
 }
 
@@ -2106,7 +2127,8 @@ template <typename T>
 T 
 Vec4DDot (const Vector4D<T> &v, const Vector4D<T> &w)
 {
-  return v.x*w.x + v.y*w.y + v.z*w.z + v.w*w.w;
+  return v.coord.x*w.coord.x + v.coord.y*w.coord.y 
+       + v.coord.z*w.coord.z + v.coord.w*w.coord.w;
 }
 
 template <typename T>
@@ -2146,7 +2168,7 @@ template <typename T>
 Vector4D<T>
 operator * (const T &k, const Vector4D<T> &v)
 {
-  return Vector4D<T> (k*v.x,k*v.y,k*v.z,k*v.w);
+  return Vector4D<T> (k*v.coord.x,k*v.coord.y,k*v.coord.z,k*v.coord.w);
 }
 
 }

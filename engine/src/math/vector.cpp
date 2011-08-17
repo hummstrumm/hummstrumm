@@ -41,19 +41,25 @@ Vector4D<float>::operator = (const Vector4D<float> &v)
 bool 
 Vector4D<float>::operator == (const Vector4D<float> &v) const
 {
-  return x == v.x && y == v.y && z == v.z && w == v.w;
+  return coord.x == v.coord.x 
+      && coord.y == v.coord.y 
+      && coord.z == v.coord.z 
+      && coord.w == v.coord.w;
 }
 
 bool 
 Vector4D<float>::operator != (const Vector4D<float> &v) const
 {
-  return x != v.x || y != v.y || z != v.z || w != v.w;
+  return coord.x != v.coord.x 
+      || coord.y != v.coord.y 
+      || coord.z != v.coord.z 
+      || coord.w != v.coord.w;
 }
 
 Vector4D<float> 
 Vector4D<float>::operator - () const
 {
-  return Vector4D<float> (-x, -y, -z, -w);
+  return Vector4D<float> (-coord.x, -coord.y, -coord.z, -coord.w);
 }
 
 Vector4D<float> 
@@ -160,7 +166,11 @@ template<>
 float
 Vec4DDistance (const Vector4D<float> &v, const Vector4D<float> &k)
 {
-  return 0;
+  float res = 0;
+  __m128 dist;
+  SIMD_DISTANCE(v.xyzw, k.xyzw, dist);
+  SIMD_STORE_SS(&res, dist);
+  return res;
 }
 
 template<>

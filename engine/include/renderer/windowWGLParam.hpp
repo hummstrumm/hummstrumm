@@ -35,17 +35,17 @@ namespace renderer
 {
 
 /**
- * Contains the parameters concerning WGL.
+ * Contains the WGL parameters needed by the window system.
  *
  * @version 0.3
  * @author Ricardo Tiago <Rtiago@gmail.com>
  * @date 2010-09-25
  * @since 0.3
  *
- * @todo Implement.
  */
-struct WindowWGLParam: public WindowParameters
+class WindowWGLParam: public WindowParameters
 {
+  public:
     /**
      * Initializes the WGL parameters to a set of sane default values.
      *
@@ -61,7 +61,7 @@ struct WindowWGLParam: public WindowParameters
      * @date 2010-09-25
      * @since 0.3
      */
-    WindowWGLParam(const WindowWGLParam &param): WindowParameters(param) {}
+    WindowWGLParam(const WindowWGLParam &WGLParam): WindowParameters(WGLParam) {}
     /**
      * Destruct an existing WindowWGLParam object.
      *
@@ -85,6 +85,9 @@ struct WindowWGLParam: public WindowParameters
     {
       return (HUMMSTRUMM_WINDOW_LIST_POINTER)NULL;
     }
+
+  private:
+
 };
 
 }

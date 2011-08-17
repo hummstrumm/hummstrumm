@@ -93,7 +93,7 @@ class WindowX11: public WindowSystem
      * @param winParam Window parameters.
      *
      */
-    void CreateWindow(const WindowParameters &winParam);
+    void MakeWindow(const WindowParameters &winParam);
 
     /**
      * Set this window to fullscreen.

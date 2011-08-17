@@ -3,26 +3,32 @@
 #include <iostream>
 #include <sstream>
 #include "hummstrummengine.hpp"
+#include <GL/gl.h>
+#include <GL/glu.h>
 #ifndef HUMMSTRUMM_PLATFORM_WINDOWS
 #include <unistd.h>
 #include <signal.h>
+#include <GL/glx.h>
 #endif // #ifndef HUMMSTRUMM_PLATFORM_WINDOWS
 
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glu.h>
+
+
 using namespace hummstrumm::engine::renderer;
 using namespace hummstrumm::engine::system;
 using namespace hummstrumm::engine::types;
 using std::boolalpha;
 
 static GLfloat rotQuad = 0.0f;
+#if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
 static WindowX11* xwindow;
+#elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+static WindowMSWin* mswindow;
+#endif
 
 int64 start;
 int64 freq;
 
-const unsigned int TIME_FOR_EACH_TEST = 20000000000;
+const uint64 TIME_FOR_EACH_TEST = 20000000000;
 bool isTesting = true;
 
 unsigned short currentTest = 0;
@@ -98,50 +104,59 @@ void renderGL()
     glEnd();                                           
     rotQuad += 0.1f;     
 }  
-
 void
 initializeTest(int n)
 {
 
   std::cout << boolalpha;
 
+  #if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
   WindowGLXParam param;
+  #elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+  WindowWGLParam param;
+  #endif
 
   switch(n)
   {
     case 0:
     {
-      param.fullscreen = false;
+      param.SetFullscreen(false);
+      #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
       param.doubleBuffer = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
+      #endif
     }
     break;
 
     case 1:
     {
-      param.fullscreen = true;
-      param.doubleBuffer = true;
-      param.redSize = 4;
-      param.greenSize = 4;
-      param.blueSize = 4;
-      param.depthSize = 16;     
-    }
-    break;
-
-    case 2:
-    {
-      param.fullscreen = false;
+      param.SetFullscreen(true);
+      #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
       param.doubleBuffer = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
+      #endif
+    }
+    break;
 
-      param.width = 200;
-      param.height = 200;
+    case 2:
+    {
+      param.SetFullscreen(false);
+      #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+      param.doubleBuffer = true;
+      param.redSize = 4;
+      param.greenSize = 4;
+      param.blueSize = 4;
+      param.depthSize = 16;
+      #endif
+
+      param.SetWidth(200);
+      param.SetHeight(200);
     } 
     break;
 
@@ -156,14 +171,18 @@ initializeTest(int n)
   {
 
     std::cout << "Test #" << n << std::endl;
-    std::cout << " FullScreen : " << param.fullscreen << std::endl;
+    std::cout << " FullScreen : " << param.IsFullscreen() << std::endl;
+    #if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
     std::cout << " Double Buffer : " << param.doubleBuffer << std::endl;
     std::cout << " Red Buffer Size: " << param.redSize << std::endl;
     std::cout << " Green Buffer Size: " << param.greenSize << std::endl;
     std::cout << " Blue Buffer Size: " << param.blueSize << std::endl;
     std::cout << " Depth Buffer Size: " << param.depthSize << std::endl;
 
-    xwindow->CreateWindow(param);
+    xwindow->MakeWindow(param);
+    #elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+    mswindow->MakeWindow(param);
+    #endif
     initGL();
   }
 }
@@ -177,7 +196,11 @@ checkTestIsOver()
   while( (end - start)/freq > TIME_FOR_EACH_TEST )
   {
     std::cout << "Test ended\n";
+    #if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
     xwindow->DestroyWindow();
+    #elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+    mswindow->DestroyWindow();
+    #endif
     initializeTest(++currentTest);
   }
 }
@@ -204,7 +227,7 @@ main()
   try
   {
     std::stringstream logMessage;
-    std::cout << "X11 windows testing with OpenGL/GLX context" << std::endl;
+    std::cout << "HUMMSTRUMM X11 window testing with OpenGL/GLX context" << std::endl;
     xwindow = new WindowX11;
 
     initializeTest(0);
@@ -283,7 +306,22 @@ main()
   #endif
   
   #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-  std::cout << "Win32 window with OpenGL/WGL context" << std::endl;
+  try
+  {
+    std::stringstream logMessage;
+    std::cout << "HUMMSTRUMM Microsoft Windows window with OpenGL/WGL context" << std::endl;
+    mswindow = new WindowMSWin;
+
+    initializeTest(0);
+
+  } catch (HUMMSTRUMM_ERRORNAME(Generic) &e)
+  {
+    std::cout << "Test #" << currentTest << " failed";
+
+    std::cout << e.GetHumanReadableMessage() << std::endl;
+
+    return 0;
+  } 
   #endif
 
   return 0;

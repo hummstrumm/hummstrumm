@@ -369,10 +369,10 @@ template <typename T>
 Quaternion<T>::Quaternion (const Matrix3D<T> &m)
 {
   // from 3d math primer - shoemake method
-  T tmpW = m[0].x + m[1].y + m[2].z;
-  T tmpX = m[0].x - m[1].y - m[2].z;
-  T tmpY = m[1].y - m[0].x - m[2].z;
-  T tmpZ = m[2].z - m[0].x - m[1].y;
+  T tmpW = m[0].coord.x + m[1].coord.y + m[2].coord.z;
+  T tmpX = m[0].coord.x - m[1].coord.y - m[2].coord.z;
+  T tmpY = m[1].coord.y - m[0].coord.x - m[2].coord.z;
+  T tmpZ = m[2].coord.z - m[0].coord.x - m[1].coord.y;
       
   unsigned short biggestIndex = 0;
   T biggestTmp = tmpW;
@@ -398,30 +398,30 @@ Quaternion<T>::Quaternion (const Matrix3D<T> &m)
   {
     case 0:
       w = biggestVal;
-      v.x = (m[1].z - m[2].y) * mult;
-      v.y = (m[2].x - m[0].z) * mult;
-      v.z = (m[0].y - m[1].x) * mult;
+      v.coord.x = (m[1].coord.z - m[2].coord.y) * mult;
+      v.coord.y = (m[2].coord.x - m[0].coord.z) * mult;
+      v.coord.z = (m[0].coord.y - m[1].coord.x) * mult;
       break;
 
     case 1:
-      v.x = biggestVal;
-      w = (m[1].z - m[2].y) * mult;
-      v.y = (m[0].y - m[1].x) * mult;
-      v.z = (m[2].x - m[0].z) * mult;
+      v.coord.x = biggestVal;
+      w = (m[1].coord.z - m[2].coord.y) * mult;
+      v.coord.y = (m[0].coord.y - m[1].coord.x) * mult;
+      v.coord.z = (m[2].coord.x - m[0].coord.z) * mult;
       break;
 
     case 2:
-      v.y = biggestVal;
-      w = (m[2].x - m[0].z) * mult;
-      v.x = (m[0].y - m[1].x) * mult;
-      v.z = (m[1].z - m[2].y) * mult;
+      v.coord.y = biggestVal;
+      w = (m[2].coord.x - m[0].coord.z) * mult;
+      v.coord.x = (m[0].coord.y - m[1].coord.x) * mult;
+      v.coord.z = (m[1].coord.z - m[2].coord.y) * mult;
      break;
 
     case 3:
-      v.z = biggestVal;
-      w = (m[0].y - m[1].x) * mult;
-      v.x = (m[2].x - m[0].z) * mult;
-      v.y = (m[1].z - m[2].y) * mult;
+      v.coord.z = biggestVal;
+      w = (m[0].coord.y - m[1].coord.x) * mult;
+      v.coord.x = (m[2].coord.x - m[0].coord.z) * mult;
+      v.coord.y = (m[1].coord.z - m[2].coord.y) * mult;
      break;
   }
 }
@@ -560,9 +560,9 @@ void
 Quaternion<T>::Identity ()
 {
   w = 1;
-  v.x = 0;
-  v.y = 0;
-  v.z = 0;
+  v.coord.x = 0;
+  v.coord.y = 0;
+  v.coord.z = 0;
 }
 
 template <typename T>
@@ -825,7 +825,7 @@ template <typename T>
 T 
 QuatMagnitude (const Quaternion<T> &q)
 {
-  return std::sqrt (q.w*q.w + q.v.x*q.v.x + q.v.y*q.v.y + q.v.z*q.v.z);
+  return std::sqrt (q.w*q.w + q.v.coord.x*q.v.coord.x + q.v.coord.y*q.v.coord.y + q.v.coord.z*q.v.coord.z);
 }
 
 template <typename T>
@@ -912,9 +912,9 @@ QuatSlerp (const Quaternion<T> &q, const Quaternion<T> &w, const T &t)
   }
   // interpolate
   aux.w = q.w*k0 + aux.w*k1;
-  aux.v.x = q.v.x*k0 + aux.v.x*k1;
-  aux.v.y = q.v.y*k0 + aux.v.y*k1;
-  aux.v.z = q.v.z*k0 + aux.v.z*k1;
+  aux.v.coord.x = q.v.coord.x*k0 + aux.v.coord.x*k1;
+  aux.v.coord.y = q.v.coord.y*k0 + aux.v.coord.y*k1;
+  aux.v.coord.z = q.v.coord.z*k0 + aux.v.coord.z*k1;
   return aux; 
 }
 

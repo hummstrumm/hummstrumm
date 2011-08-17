@@ -85,7 +85,7 @@ WindowX11::DestroyWindow()
 }
 
 void
-WindowX11::CreateWindow(const WindowParameters &winParam)
+WindowX11::MakeWindow(const WindowParameters &winParam)
 {
   XSetWindowAttributes winAttr; 
   XVisualInfo *vi;
@@ -127,8 +127,8 @@ WindowX11::CreateWindow(const WindowParameters &winParam)
 
 
   winMn = XCreateWindow(dpy, 
-                        root, winParam.positionX, winParam.positionY, 
-                        winParam.width, winParam.height, 
+                        root, winParam.GetPositionX(), winParam.GetPositionY(), 
+                        winParam.GetWidth(), winParam.GetHeight(), 
                         0, vi->depth, InputOutput, 
                         vi->visual,
                         CWBorderPixel | CWColormap | CWEventMask | CWBackPixel, 
@@ -140,7 +140,7 @@ WindowX11::CreateWindow(const WindowParameters &winParam)
   if (winMn == 0)
     HUMMSTRUMM_THROW (Generic, "Unable to create an X11 window\n");
 
-  XStoreName(dpy, winMn, winParam.name.c_str());
+  XStoreName(dpy, winMn, winParam.GetWindowName().c_str());
 
   wndProtocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
   wndDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
@@ -150,7 +150,7 @@ WindowX11::CreateWindow(const WindowParameters &winParam)
 
   XMapWindow(dpy,winMn);
   XMapRaised(dpy,winMn);
-  if (winParam.fullscreen)
+  if (winParam.IsFullscreen())
     SetFullscreen();
 
   glXMakeCurrent(dpy,winMn,glxCtx);

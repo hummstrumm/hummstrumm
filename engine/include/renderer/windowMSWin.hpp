@@ -27,6 +27,9 @@
 #ifndef HUMMSTRUMM_ENGINE_WINDOW_MSWIN
 #define HUMMSTRUMM_ENGINE_WINDOW_MSWIN
 
+#include <windows.h>
+#include <gl\gl.h>
+
 namespace hummstrumm
 {
 namespace engine
@@ -47,7 +50,7 @@ using namespace hummstrumm::engine::events;
 
 class WindowMSWin : public WindowSystem
 {
-	public:
+  public:
     /**
      * Microsoft Windows window constructor.
      *
@@ -85,7 +88,7 @@ class WindowMSWin : public WindowSystem
      * @param winParam Window parameters.
      *
      */
-    void (CreateWindow)(const WindowParameters &winParam);
+    void MakeWindow(const WindowParameters &winParam);
 
     /**
      * Set this window to fullscreen.
@@ -159,7 +162,7 @@ class WindowMSWin : public WindowSystem
     virtual void SwapBuffers() const;
 
   private:    
-
+    HINSTANCE hInstance;
 };
 
 }

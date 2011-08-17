@@ -46,8 +46,28 @@ WindowMSWin::DestroyWindow()
 }
 
 void
-(WindowMSWin::CreateWindow)(const WindowParameters &winParam)
+WindowMSWin::MakeWindow(const WindowParameters &winParam)
 {
+
+  HWND windowHandle;
+
+  DWORD windowStyleEx = WS_EX_APPWINDOW;
+  DWORD windowStyle = WS_POPUP;
+
+  windowHandle = CreateWindowEx(windowStyleEx,
+                                NULL,
+                                winParam.GetWindowName().c_str(),
+                                windowStyle,
+                                winParam.GetPositionX(),
+                                winParam.GetPositionY(),
+                                winParam.GetWidth(),
+                                winParam.GetHeight(),
+                                NULL,
+                                NULL,
+                                hInstance,
+                                NULL);
+  if (windowHandle == NULL)
+    HUMMSTRUMM_THROW (Generic,"Add a meaningful message with GetLastError");
 
 }
 

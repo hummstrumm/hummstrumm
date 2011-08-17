@@ -251,14 +251,14 @@ class MouseEvents;
  */
 namespace renderer
 {
-struct WindowParameters;
+class WindowParameters;
 class WindowSystem;
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-struct WindowGLXParam;
+class WindowGLXParam;
 class WindowX11;
 #endif
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-struct WindowWGLParam;
+class WindowWGLParam;
 class WindowMSWin;
 #endif
 }
