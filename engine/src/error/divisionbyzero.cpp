@@ -21,10 +21,6 @@
 #include <string>
 #include <sstream>
 
-#include "config.h"
-#include "error/error.hpp"
-#include "error/divisionbyzero.hpp"
-
 #include "hummstrummengine.hpp"
 
 namespace hummstrumm

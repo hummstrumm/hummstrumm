@@ -162,8 +162,43 @@ class WindowMSWin : public WindowSystem
     virtual void SwapBuffers() const;
 
   private:    
-    HINSTANCE hInstance;
+    HINSTANCE moduleHandle;
+
+    /**
+     * Get a description of the error code.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     * @param [in] pmsg A message to prepend to the error message
+     * @param [in] code The error code.
+     *
+     * @return The description of the error code.
+     */
+    hummstrumm::engine::types::String GetErrorMessage(hummstrumm::engine::types::String premsg, 
+      DWORD code);
+
+    friend LRESULT CALLBACK ProcessWindowMessages(HWND windowHandle, UINT uMsg, 
+      WPARAM wParam, LPARAM lParam);
 };
+
+/**
+ * Process messages sent to the window.
+ *
+ * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+ * @date 2011-08-16
+ * @since 0.4
+ *
+ * @param [in] windowHandle A handle to the window.
+ * @param [in] uMsg The message.
+ * @param [in] wParam Additional message information.
+ * @param [in] lParam Additional message information.
+ *
+ * @return The result of the message processing and depends on the message sent.
+ */
+LRESULT CALLBACK ProcessWindowMessages(HWND windowHandle, UINT uMsg, 
+  WPARAM wParam, LPARAM lParam);
 
 }
 }

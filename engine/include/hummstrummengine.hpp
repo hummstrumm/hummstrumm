@@ -185,22 +185,6 @@ class AllocationTable;
 }
 
 /**
- * The namespace for throwable exceptions.  These classes work together with
- * those of the debug namespace to help produce robust code,
- */
-namespace error
-{
-class Error;
-class OutOfMemory;
-class OutOfRange;
-class DivisionByZero;
-class Unicode;
-class MemoryCorruption;
-class InvalidParam;
-class Iterator;
-}
-
-/**
  * The namespace for any direct wrapper of a system concept that does not fit
  * elsewhere in the engine.
  */
@@ -226,6 +210,23 @@ class Date;
 //class String;
 typedef std::string String;
 class Number;
+}
+
+/**
+ * The namespace for throwable exceptions.  These classes work together with
+ * those of the debug namespace to help produce robust code,
+ */
+namespace error
+{
+class Error;
+class OutOfMemory;
+class OutOfRange;
+class DivisionByZero;
+class Unicode;
+class MemoryCorruption;
+class InvalidParam;
+class Iterator;
+class WindowSystem;
 }
 
 /**
@@ -294,18 +295,19 @@ class WindowMSWin;
 #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include <hummstrummengine/types/inttypes.hpp>
 #  include <hummstrummengine/debug/utils.hpp>
+#  include <hummstrummengine/core/allocationtable.hpp>
+#  include <hummstrummengine/core/object.hpp>
+#  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/error/error.hpp>
 #  include <hummstrummengine/error/generic.hpp>
 #  include <hummstrummengine/error/outofmemory.hpp>
 #  include <hummstrummengine/error/outofrange.hpp>
+#  include <hummstrummengine/error/windowsystem.hpp>
 #  include <hummstrummengine/error/divisionbyzero.hpp>
 #  include <hummstrummengine/error/unicode.hpp>
 #  include <hummstrummengine/error/memorycorruption.hpp>
 #  include <hummstrummengine/error/invalidparam.hpp>
 #  include <hummstrummengine/error/iterator.hpp>
-#  include <hummstrummengine/core/allocationtable.hpp>
-#  include <hummstrummengine/core/object.hpp>
-#  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/core/pointer.hpp>
 #  include <hummstrummengine/system/platform.hpp>
 #  include <hummstrummengine/system/endianness.hpp>
@@ -347,18 +349,19 @@ class WindowMSWin;
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "types/inttypes.hpp"
 #  include "debug/utils.hpp"
+#  include "core/object.hpp"
+#  include "core/type.hpp"
 #  include "error/error.hpp"
 #  include "error/generic.hpp"
 #  include "error/outofmemory.hpp"
 #  include "error/outofrange.hpp"
 #  include "error/divisionbyzero.hpp"
+#  include "error/windowsystem.hpp"
 #  include "error/unicode.hpp"
 #  include "error/memorycorruption.hpp"
 #  include "error/invalidparam.hpp"
 #  include "error/iterator.hpp"
 #  include "core/allocationtable.hpp"
-#  include "core/object.hpp"
-#  include "core/type.hpp"
 #  include "core/pointer.hpp"
 #  include "system/platform.hpp"
 #  include "system/endianness.hpp"

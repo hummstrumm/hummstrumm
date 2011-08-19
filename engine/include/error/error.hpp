@@ -98,7 +98,7 @@ class Error
      *
      * @return A human readable string of the data in the Error object.
      */
-    const char *GetHumanReadableMessage (void)
+     hummstrumm::engine::types::String GetHumanReadableMessage (void)
       const throw ();
 
     /**

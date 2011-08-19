@@ -40,8 +40,8 @@ Error::Error (const char *fileName, unsigned int lineNumber,
     text ((char *) std::calloc (std::strlen (text) + std::strlen (description) +
               3, 1))
 {
-  std::strncpy (this->text, description, std::strlen (text));
-  std::strncat (this->text, "  ", std::strlen (text));
+  std::strncpy (this->text, description, std::strlen (description));
+  std::strncat (this->text, "  ", std::strlen ("  "));
   std::strncat (this->text, text, std::strlen (text));
   this->text[std::strlen (text) + std::strlen (description) + 2] = '\0';
 }
@@ -51,7 +51,7 @@ Error::~Error (void)
   std::free (this->text);
 }
 
-const char *
+hummstrumm::engine::types::String
 Error::GetHumanReadableMessage (void)
   const throw ()
 {
@@ -60,7 +60,7 @@ Error::GetHumanReadableMessage (void)
      << " at line "                << this->GetLineNumber ()
      << " from the function "      << this->GetFunction ()
      << ":\n\n"                    << this->GetText () << "\n";
-  return ss.str ().c_str ();
+  return ss.str();
 }
 
 const char *

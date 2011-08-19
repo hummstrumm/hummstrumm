@@ -312,9 +312,9 @@ main()
 
     initializeTest(0);
 
-  } catch (HUMMSTRUMM_ERRORNAME(Generic) &e)
+  } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
   {
-    std::cout << "Test #" << currentTest << " failed";
+    std::cout << "Test #" << currentTest << " failed" << std::endl;
 
     std::cout << e.GetHumanReadableMessage() << std::endl;
 

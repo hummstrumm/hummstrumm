@@ -20,10 +20,6 @@
 #include <string>
 #include <sstream>
 
-#include "config.h"
-#include "error/error.hpp"
-#include "error/outofrange.hpp"
-
 #include "hummstrummengine.hpp"
 
 

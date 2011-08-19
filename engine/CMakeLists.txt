@@ -30,6 +30,7 @@ set (hummstrummengine_SRCS
   src/error/unicode.cpp
   src/error/memorycorruption.cpp
   src/error/invalidparam.cpp
+  src/error/windowsystem.cpp
   src/error/iterator.cpp
   src/core/type.cpp
   src/core/object.cpp
