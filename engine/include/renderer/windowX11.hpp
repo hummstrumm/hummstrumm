@@ -82,7 +82,7 @@ class WindowX11: public WindowSystem
      * @since 0.3
      *
      */
-    void DestroyWindow();
+    void DisposeWindow();
     /**
      * Create a X11 window.
      *
@@ -143,7 +143,7 @@ class WindowX11: public WindowSystem
      *
      * @note Needs to return the Event.
      */
-    WindowEvents* GetNextEvent() const;
+    WindowEvents* GetNextEvent();
      /**
      * Get the number of pending events.
      *
@@ -164,7 +164,7 @@ class WindowX11: public WindowSystem
      * @since 0.3
      *
      */
-    virtual void SwapBuffers() const;
+    void ExchangeBuffers() const;
  
   private:
     /// Pointer to a X11 display structure

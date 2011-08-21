@@ -74,7 +74,7 @@ class WindowSystem
      * @since 0.3
      *
      */
-    virtual void DestroyWindow() = 0;
+    virtual void DisposeWindow() = 0;
 
     /**
      * Create a window.

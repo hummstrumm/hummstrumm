@@ -272,11 +272,12 @@ int WindowX11::GetWidth()
 }
 
 WindowEvents*
-WindowX11::GetNextEvent() const
+WindowX11::GetNextEvent()
 {
   XEvent event;
+  // Blocks until an event is received
   XNextEvent(dpy,&event);
-
+ 
   switch (event.type)
   {
     case DestroyNotify:
@@ -296,7 +297,6 @@ WindowX11::GetNextEvent() const
     case ConfigureNotify:
         return new StructureEvents(WindowEvents::WINDOW_RESIZE, event.xconfigurerequest.width,
                                    event.xconfigurerequest.height);
-
     default:
       break;
   }
@@ -310,7 +310,7 @@ WindowX11::GetPendingEventsCount() const
 }
 
 void
-WindowX11::SwapBuffers() const
+WindowX11::ExchangeBuffers() const
 {
   // No-op if winMn was created with a non-double-buffered GLXFBConfig.
   glXSwapBuffers(dpy, winMn);

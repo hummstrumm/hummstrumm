@@ -75,7 +75,8 @@ class WindowWGLParam: public WindowParameters
         stencilBits(0),
         auxBuffers(0),
         numberOfPlanes(0),
-        visibleMask(0) {}
+        visibleMask(0) 
+    {}
     /**
      * Construct a WindowWGLParam object from another WindowWGLParam object.
      *
@@ -135,9 +136,8 @@ class WindowWGLParam: public WindowParameters
         flags = flags | PFD_STEREO;
       if (depthBits == 0)
         flags = flags | PFD_STEREO_DONTCARE;
-
-
-      PIXELFORMATDESCRIPTOR pdf = {
+     
+      PIXELFORMATDESCRIPTOR pfd = {
         sizeof(PIXELFORMATDESCRIPTOR),
         1,
         flags, 
@@ -166,7 +166,7 @@ class WindowWGLParam: public WindowParameters
         0
       };
 
-      return pdf;
+      return pfd;
     }
 
     /* @note See MSDN for a complete reference */

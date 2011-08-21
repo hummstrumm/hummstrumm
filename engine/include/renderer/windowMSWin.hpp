@@ -28,6 +28,7 @@
 #define HUMMSTRUMM_ENGINE_WINDOW_MSWIN
 
 #include <windows.h>
+#include <queue>
 #include <gl\gl.h>
 
 namespace hummstrumm
@@ -77,7 +78,7 @@ class WindowMSWin : public WindowSystem
      * @since 0.4
      *
      */
-    void DestroyWindow();
+    void DisposeWindow();
     /**
      * Create a Microsoft Windows window.
      *
@@ -138,7 +139,7 @@ class WindowMSWin : public WindowSystem
      *
      * @note Needs to return the Event.
      */
-    WindowEvents* GetNextEvent() const;
+    WindowEvents* GetNextEvent();
      /**
      * Get the number of pending events.
      *
@@ -159,11 +160,32 @@ class WindowMSWin : public WindowSystem
      * @since 0.4
      *
      */
-    virtual void SwapBuffers() const;
+     void ExchangeBuffers() const;
+
+     /**
+     * Post a message to be retrieved by the call to GetNextEvent().
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-07-12
+     * @since 0.4
+     *
+     */
+     void PostEventMessage(UINT msg, WPARAM wParam, LPARAM lParam);
 
   private:    
     HINSTANCE moduleHandle;
-
+    HWND windowHandle;
+    HDC deviceContext;
+    HGLRC renderingContext;
+ 
+    struct EventMsg
+    {
+      UINT msg;
+      WPARAM wparam;
+      LPARAM lparam;
+    };
+    
+    std::queue<EventMsg> msgQueue;
     /**
      * Get a description of the error code.
      *
@@ -179,26 +201,24 @@ class WindowMSWin : public WindowSystem
     hummstrumm::engine::types::String GetErrorMessage(hummstrumm::engine::types::String premsg, 
       DWORD code);
 
-    friend LRESULT CALLBACK ProcessWindowMessages(HWND windowHandle, UINT uMsg, 
+    /**
+     * Process messages sent to the window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     * @param [in] hWnd A handle to the window.
+     * @param [in] uMsg The message.
+     * @param [in] wParam Additional message information.
+     * @param [in] lParam Additional message information.
+     *
+     * @return The result of the message processing and depends on the message sent.
+     */
+    static LRESULT CALLBACK ProcessWindowMessages(HWND hWnd, UINT uMsg, 
       WPARAM wParam, LPARAM lParam);
-};
 
-/**
- * Process messages sent to the window.
- *
- * @author Ricardo Tiago <rtiago.mendes@gmail.com>
- * @date 2011-08-16
- * @since 0.4
- *
- * @param [in] windowHandle A handle to the window.
- * @param [in] uMsg The message.
- * @param [in] wParam Additional message information.
- * @param [in] lParam Additional message information.
- *
- * @return The result of the message processing and depends on the message sent.
- */
-LRESULT CALLBACK ProcessWindowMessages(HWND windowHandle, UINT uMsg, 
-  WPARAM wParam, LPARAM lParam);
+};
 
 }
 }

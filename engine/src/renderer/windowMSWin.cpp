@@ -52,8 +52,55 @@ WindowMSWin::~WindowMSWin()
 }
 
 void
-WindowMSWin::DestroyWindow()
+WindowMSWin::DisposeWindow()
 {
+  DWORD error;
+
+  if (renderingContext)
+  {
+    BOOL noLongerCurrent = wglMakeCurrent(deviceContext,NULL);
+    if (!noLongerCurrent)
+    {
+      error = GetLastError();
+      hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    }
+    BOOL ctxDeleted = wglDeleteContext(renderingContext);
+    if (!ctxDeleted)
+    {
+      error = GetLastError();
+      hummstrumm::engine::types::String errMsg = GetErrorMessage("wglDeleteContext: ",error);
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    }  
+    renderingContext = NULL; 
+  }
+
+  int wasReleased = ReleaseDC(windowHandle,deviceContext);
+  if (wasReleased == 0)
+  {
+      error = GetLastError();
+      hummstrumm::engine::types::String errMsg = GetErrorMessage("ReleaseDC: ",error);
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      deviceContext = NULL;
+  } 
+
+  BOOL windowDestroyed = DestroyWindow(windowHandle);
+  if (!windowDestroyed)
+  {
+      error = GetLastError();
+      hummstrumm::engine::types::String errMsg = GetErrorMessage("DestroyWindow: ",error);
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      windowHandle = NULL; 
+  }
+
+  BOOL classUnregistered = UnregisterClass("HummstrummWindow",moduleHandle);
+  if (!classUnregistered)
+  {
+      error = GetLastError();
+      hummstrumm::engine::types::String errMsg = GetErrorMessage("UnregisteredClass: ",error);
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      moduleHandle = NULL; 
+  }
 
 }
 
@@ -61,9 +108,6 @@ void
 WindowMSWin::MakeWindow(const WindowParameters &winParam)
 {
   WNDCLASS wndAttributes;
-  HWND windowHandle;
-  HDC deviceContext;
-  HGLRC renderingContext;
 
   ATOM classAtom;
   DWORD windowStyleEx = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
@@ -74,6 +118,7 @@ WindowMSWin::MakeWindow(const WindowParameters &winParam)
   wndAttributes.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
   wndAttributes.lpfnWndProc = (WNDPROC) ProcessWindowMessages;
   wndAttributes.cbClsExtra = 0;
+  wndAttributes.cbWndExtra = 0;
   wndAttributes.hInstance = moduleHandle;
   wndAttributes.hIcon = LoadIcon(NULL,IDI_WINLOGO);
   wndAttributes.hCursor = LoadCursor(NULL,IDC_ARROW);
@@ -108,7 +153,7 @@ WindowMSWin::MakeWindow(const WindowParameters &winParam)
                                 NULL,
                                 NULL,
                                 moduleHandle,
-                                NULL);
+                                this);
 
   if (windowHandle == NULL)
   {
@@ -116,7 +161,6 @@ WindowMSWin::MakeWindow(const WindowParameters &winParam)
     hummstrumm::engine::types::String errMsg = GetErrorMessage("CreateWindowEx: ",error);
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
-
 
   PIXELFORMATDESCRIPTOR pfd = winParam.WindowParamList();
 
@@ -189,21 +233,72 @@ int WindowMSWin::GetWidth()
 }
 
 WindowEvents*
-WindowMSWin::GetNextEvent() const
+WindowMSWin::GetNextEvent()
 {
-  return NULL;
+  MSG msg = { };
+
+  if (msgQueue.size() > 0)
+  {
+    EventMsg eMsg = EventMsg();
+    eMsg = msgQueue.front();
+    switch (eMsg.msg)
+    {
+      case WM_SIZE:
+      {
+        msgQueue.pop();
+        return new StructureEvents(WindowEvents::WINDOW_RESIZE,LOWORD(eMsg.lparam),
+          HIWORD(eMsg.lparam));
+      }
+      break;
+
+      default:
+        msgQueue.pop();
+        break;
+    }
+  }
+
+  PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+  switch (msg.message)
+  {
+    case WM_QUIT:
+    {
+      return new StructureEvents(WindowEvents::WINDOW_CLOSE);
+    }
+
+    default:
+    {       
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
+    }
+    break;
+  }    
+
+  return new WindowEvents();
 }
 
 int
 WindowMSWin::GetPendingEventsCount() const
 {
-  return 0;
+  DWORD queueStatus = GetQueueStatus(QS_ALLINPUT);
+  // The high-order word of the return value indicates the types of 
+  // messages currently in the queue.
+  return HIWORD(queueStatus) + msgQueue.size();
 }
 
 void
-WindowMSWin::SwapBuffers() const
+WindowMSWin::ExchangeBuffers() const
 {
+  SwapBuffers(deviceContext);
+}
 
+void 
+WindowMSWin::PostEventMessage(UINT msg, WPARAM wParam, LPARAM lParam)
+{
+  EventMsg *pMsg = new EventMsg;
+  pMsg->msg = msg;
+  pMsg->wparam = wParam;
+  pMsg->lparam = lParam;
+  msgQueue.push(*pMsg);
 }
 
 hummstrumm::engine::types::String
@@ -229,10 +324,73 @@ WindowMSWin::GetErrorMessage(hummstrumm::engine::types::String premsg, DWORD cod
 }
 
 LRESULT CALLBACK
-ProcessWindowMessages(HWND windowHandle, UINT uMsg, 
+WindowMSWin::ProcessWindowMessages(HWND hWnd, UINT uMsg, 
   WPARAM wParam, LPARAM lParam)
 {
-  return DefWindowProc(windowHandle, uMsg, wParam, lParam);
+
+ WindowMSWin *pWin;
+
+  switch (uMsg)
+  {
+
+    case WM_CREATE:
+    {
+        CREATESTRUCT *pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
+        pWin = reinterpret_cast<WindowMSWin*>(pCreate->lpCreateParams);
+        SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pWin);
+    }
+
+    case WM_ACTIVATE:
+    {
+      return 0;
+    }
+
+    case WM_SYSCOMMAND:
+    {
+      switch (wParam)
+      {
+        case SC_SCREENSAVE:
+        case SC_MONITORPOWER:
+        return 0;
+      }
+      break;
+    }
+
+    case WM_CLOSE:
+    {
+      PostQuitMessage(0);
+      return 0;
+    }
+
+    case WM_KEYUP:
+    {
+      return 0;
+    }
+
+    case WM_SIZE:
+    {
+      LONG_PTR ptr = GetWindowLongPtr(hWnd, GWLP_USERDATA);
+      pWin = reinterpret_cast<WindowMSWin*>(ptr);
+      // I could probably avoid having to do this only if I was able
+      // to post a message to the thread message queue. Well, I'm 
+      // capable of posting a message but this message is only received
+      // once when the window starts! WHY??! I don't know. 
+      // PostQuitMessage does exactly what I want but without the source 
+      // code of it I can't figure it out and Google didn't help much.
+      // 
+      // Until I can find an alternative we have to stick to the internal queue 
+      // to pass messages around. The alternative would be to redesign the event
+      // system to be more Microsoft Windows friendly.
+      //
+      // References:
+      // http://msdn.microsoft.com/en-us/library/ff381400%28v=VS.85%29.aspx
+      pWin->PostEventMessage(WM_SIZE, wParam, lParam);
+      return 0;
+    }
+
+  }
+
+  return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 }
