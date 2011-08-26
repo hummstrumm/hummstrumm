@@ -32,14 +32,14 @@ set_property (DIRECTORY APPEND PROPERTY
 # Using distributable packages, make sure the installation works just fine.
 add_custom_target (dist-check COMMAND ${CMAKE_COMMAND} -E make_directory ${hummstrumm_BINARY_DIR}/distcheck
                               COMMAND ${CMAKE_COMMAND} -E make_directory ${hummstrumm_BINARY_DIR}/distcheck/install
-                              COMMAND ${CMAKE_COMMAND} -E chdir ${hummstrumm_BINARY_DIR}/distcheck tar xvfz ${hummstrumm_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.tar.gz
+                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck" ${CMAKE_COMMAND} -E tar xvfz ${hummstrumm_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.tar.gz
                               COMMAND ${CMAKE_COMMAND} -E make_directory ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build
-                              COMMAND ${CMAKE_COMMAND} -E chdir ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX=${hummstrumm_BINARY_DIR}/distcheck/install/ ../
-                              COMMAND ${CMAKE_COMMAND} -E chdir ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build ${MAKE_PROGRAM}
-                              COMMAND ${CMAKE_COMMAND} -E chdir ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build ${MAKE_PROGRAM} test
-                              COMMAND ${CMAKE_COMMAND} -E chdir ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build ${MAKE_PROGRAM} install
-                              COMMAND ${CMAKE_COMMAND} -E chdir ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build ${MAKE_PROGRAM} uninstall
-                              COMMAND ${CMAKE_COMMAND} -E chdir ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build ${MAKE_PROGRAM} clean
+                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX=${hummstrumm_BINARY_DIR}/distcheck/install/ ../
+                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM}
+                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} test
+                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} install
+                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} uninstall
+                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} clean
                               COMMAND ${CMAKE_COMMAND} -E remove_directory ${hummstrumm_BINARY_DIR}/distcheck)
 add_dependencies (dist-check dist)
 add_custom_target (distcheck)
