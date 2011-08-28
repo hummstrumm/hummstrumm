@@ -29,8 +29,8 @@ namespace error
 
 Iterator::Iterator (const char *fileName, unsigned int lineNumber,
                     const char *function, const char *text)
-  : Error (fileName, lineNumber, function, text,
-           "The program has encountered an iterator error.")
+  : Error (fileName, lineNumber, function,
+           "The program has encountered an iterator error.", text)
 {}
 
 Iterator::~Iterator (void)

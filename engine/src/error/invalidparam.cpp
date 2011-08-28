@@ -29,8 +29,8 @@ namespace error
 
 InvalidParam::InvalidParam (const char *fileName, unsigned int lineNumber,
                             const char *function, const char *text)
-  : Error (fileName, lineNumber, function, text,
-           "An invalid argument was passed to a method.")
+  : Error (fileName, lineNumber, function,
+           "An invalid argument was passed to a method.", text)
 {}
 
 InvalidParam::~InvalidParam (void)

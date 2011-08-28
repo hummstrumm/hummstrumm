@@ -29,8 +29,8 @@ namespace error
 
 Unicode::Unicode (const char *fileName, unsigned int lineNumber,
                   const char *function, const char *text)
-  : Error (fileName, lineNumber, function, text,
-           "The program has encountered a Unicode error.")
+  : Error (fileName, lineNumber, function,
+           "The program has encountered a Unicode error.", text)
 {}
 
 Unicode::~Unicode (void)

@@ -17,13 +17,6 @@
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
 
-#include <string>
-#include <sstream>
-
-#include "config.h"
-#include "error/error.hpp"
-#include "error/outofrange.hpp"
-
 #include "hummstrummengine.hpp"
 
 
@@ -36,8 +29,8 @@ namespace error
 
 OutOfRange::OutOfRange (const char *fileName, unsigned int lineNumber,
                         const char *function, const char *text)
-  : Error (fileName, lineNumber, function, text,
-           "The program encountered an out of range error.")
+  : Error (fileName, lineNumber, function,
+           "The program encountered an out of range error.", text)
 {}
 
 OutOfRange::~OutOfRange (void) {}

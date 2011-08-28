@@ -28,7 +28,6 @@
 #ifndef HUMMSTRUMM_ENGINE_ERROR_ERROR
 #define HUMMSTRUMM_ENGINE_ERROR_ERROR
 
-#include <string>
 
 namespace hummstrumm
 {
@@ -75,8 +74,8 @@ class Error
      * classes.
      */
     Error (const char *fileName, unsigned int lineNumber,
-           const char *function, const char *text = "",
-           const char *description = 0)
+           const char *function, const char *description,
+           const char *text = "")
       throw ();
     /**
      * Destructs an Error object.
@@ -130,9 +129,20 @@ class Error
      * @date   2010-01-31
      * @since  0.1
      *
-     * @return The description of the Error.
+     * @return The specific description of the Error.
      */
     const char *GetText (void)
+      const throw ();
+    /**
+     * Returns the description of error provided by the type of error thrown.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2011-08-28
+     * @since  0.4
+     *
+     * @return The general description of the Error.
+     */
+    const char *GetDescription (void)
       const throw ();
     /**
      * Returns the name of the function provided by the programmer.
@@ -147,10 +157,11 @@ class Error
       const throw ();
 
   private:
-    char *fileName;               /**< The name of the file with the Error. */
+    const char *fileName;         /**< The name of the file with the Error. */
     unsigned int lineNumber;      /**< The line number of the Error. */
-    char *function;               /**< The function of origin of the Error. */
-    char *text;                   /**< A description of the Error. */
+    const char *function;         /**< The function of origin of the Error. */
+    const char *text;             /**< A specific description of the Error. */
+    const char *description;      /**< A general description of the Error. */
 };
 
 }

@@ -19,9 +19,6 @@
 
 #include "hummstrummengine.hpp"
 
-#include <string>
-#include <sstream>
-
 namespace hummstrumm
 {
 namespace engine
@@ -32,8 +29,8 @@ namespace error
 
 OutOfMemory::OutOfMemory (const char *fileName, unsigned int lineNumber,
                           const char *function, const char *text)
-  : Error (fileName, lineNumber, function, text,
-           "The program has run out of memory.")
+  : Error (fileName, lineNumber, function,
+           "The program has run out of memory.", text)
 {}
 
 OutOfMemory::~OutOfMemory (void)

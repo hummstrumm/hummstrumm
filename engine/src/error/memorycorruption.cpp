@@ -31,8 +31,8 @@ MemoryCorruption::MemoryCorruption (const char *fileName,
                                     unsigned int lineNumber,
                                     const char *function,
                                     const char *text)
-  : Error (fileName, lineNumber, function, text,
-           "The program has encountered a corrupt memory block.")
+  : Error (fileName, lineNumber, function,
+           "The program has encountered a corrupt memory block.", text)
 {}
 
 MemoryCorruption::~MemoryCorruption (void)

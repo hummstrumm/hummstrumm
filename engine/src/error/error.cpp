@@ -16,10 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define HUMMSTRUMM_ENGINE_SOURCE
+
 #include "hummstrummengine.hpp"
 
-#include <cstring>
-#include <cstdlib>
 #include <sstream>
 
 namespace hummstrumm
@@ -31,24 +30,19 @@ namespace error
 
 
 Error::Error (const char *fileName, unsigned int lineNumber,
-              const char *function, const char *text,
-              const char *description)
+              const char *function, const char *description,
+              const char *text)
   throw ()
-  : fileName ((char *) fileName),
+  : fileName (fileName),
     lineNumber (lineNumber),
-    function ((char *) function),
-    text ((char *) std::calloc (std::strlen (text) + std::strlen (description) +
-              3, 1))
+    function (function),
+    text (text),
+    description (description)
 {
-  std::strncpy (this->text, description, std::strlen (text));
-  std::strncat (this->text, "  ", std::strlen (text));
-  std::strncat (this->text, text, std::strlen (text));
-  this->text[std::strlen (text) + std::strlen (description) + 2] = '\0';
 }
 
 Error::~Error (void)
 {
-  std::free (this->text);
 }
 
 const char *
@@ -82,6 +76,13 @@ Error::GetText (void)
   const throw ()
 {
   return this->text;
+}
+
+const char *
+Error::GetDescription (void)
+  const throw ()
+{
+  return this->description;
 }
 
 const char *

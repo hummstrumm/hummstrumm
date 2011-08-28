@@ -15,15 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #define HUMMSTRUMM_ENGINE_SOURCE
-
-#include <string>
-#include <sstream>
-
-#include "config.h"
-#include "error/error.hpp"
-#include "error/divisionbyzero.hpp"
 
 #include "hummstrummengine.hpp"
 
@@ -36,11 +28,12 @@ namespace error
 
 DivisionByZero::DivisionByZero (const char *fileName, unsigned int lineNumber,
                                 const char *function, const char *text)
-  : Error (fileName, lineNumber, function, text,
-           "The program encountered a division by zero.")
+  : Error (fileName, lineNumber, function,
+           "The program encountered a division by zero.", text)
 {}
 
-DivisionByZero::~DivisionByZero (void) {}
+DivisionByZero::~DivisionByZero (void)
+{}
 
 }
 }
