@@ -272,11 +272,14 @@ main()
       checkTestIsOver();
     }
 
-  } catch (HUMMSTRUMM_ERRORNAME(Generic) &e)
+  } catch (HUMMSTRUMM_ERRORNAME(Error) &e)
   {
     std::cout << "Test #" << currentTest << " failed";
 
-    std::cout << e.GetHumanReadableMessage() << std::endl;
+    std::cout << "An error has occured in " << e.GetFileName ()
+              << " at line "                << e.GetLineNumber ()
+              << " from the function "      << e.GetFunction ()
+              << ":\n\n"                    << e.GetText () << "\n";
 
     return 0;
   }

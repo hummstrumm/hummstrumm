@@ -46,18 +46,6 @@ Error::~Error (void)
 }
 
 const char *
-Error::GetHumanReadableMessage (void)
-  const throw ()
-{
-  std::stringstream ss;
-  ss << "An error has occured in " << this->GetFileName ()
-     << " at line "                << this->GetLineNumber ()
-     << " from the function "      << this->GetFunction ()
-     << ":\n\n"                    << this->GetText () << "\n";
-  return ss.str ().c_str ();
-}
-
-const char *
 Error::GetFileName (void)
   const throw ()
 {

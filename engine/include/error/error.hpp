@@ -87,20 +87,6 @@ class Error
     virtual ~Error (void);
 
     /**
-     * Returns the data contained within the Error in a human readable form.
-     * This data can then be logged, outputted to the terminal, or displayed in
-     * in a message box.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-01-31
-     * @since  0.1
-     *
-     * @return A human readable string of the data in the Error object.
-     */
-    const char *GetHumanReadableMessage (void)
-      const throw ();
-
-    /**
      * Returns the name of the file in which the error occured.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
