@@ -34,8 +34,6 @@ namespace engine
 namespace events
 {
 
-using hummstrumm::engine::renderer::WindowParameters;
-
 /**
  * The class for representing events from the window system.  This is the
  * superclass of all separate window events.

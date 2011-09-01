@@ -5,29 +5,20 @@
 #include "hummstrummengine.hpp"
 #include <GL/gl.h>
 #include <GL/glu.h>
-#ifndef HUMMSTRUMM_PLATFORM_WINDOWS
-#include <unistd.h>
-#include <signal.h>
-#include <GL/glx.h>
-#endif // #ifndef HUMMSTRUMM_PLATFORM_WINDOWS
 
 
-
-using namespace hummstrumm::engine::renderer;
+using namespace hummstrumm::engine::window;
 using namespace hummstrumm::engine::system;
 using namespace hummstrumm::engine::types;
+using namespace hummstrumm::engine::events;
 using std::boolalpha;
 
 static GLfloat rotQuad = 0.0f;
-#if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
-static WindowX11* xwindow;
-#elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
-static WindowMSWin* mswindow;
-#endif
 
 int64 start;
 int64 freq;
 
+HsWindowSystem* window;
 int64 TIME_FOR_EACH_TEST;
 bool isTesting = true;
 
@@ -111,54 +102,44 @@ initializeTest(int n)
 
   std::cout << boolalpha;
 
-  #if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
-  WindowGLXParam param = WindowGLXParam();
-  #elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
-  WindowWGLParam param = WindowWGLParam();
-  #endif
+
+  WindowVisualInfo param;
 
   switch(n)
   {
     case 0:
     {
-      param.SetFullscreen(false);      
-      param.doubleBuffer = true;
-      param.depthBits = 16;
-      #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+      param.isFullscreen = false;      
+      param.isDoubleBuffer = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
-      #endif
     }
     break;
 
     case 1:
     {
-      param.SetFullscreen(true);
-      param.doubleBuffer = true;
-      #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+      param.isFullscreen = true;
+      param.isDoubleBuffer = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
-      #endif
     }
     break;
 
     case 2:
     {
-      param.SetFullscreen(false);
-      param.doubleBuffer = true;
-      #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+      param.isFullscreen = false;
+      param.isDoubleBuffer = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
-      #endif
 
-      param.SetWidth(200);
-      param.SetHeight(200);
+      param.width = 200;
+      param.height = 200;
     } 
     break;
 
@@ -174,18 +155,15 @@ initializeTest(int n)
       GetEngine ()->GetClock ()->GetHighResolutionCount();
 
     std::cout << "Test #" << n << std::endl;
-    std::cout << " FullScreen : " << param.IsFullscreen() << std::endl;
-    std::cout << " Double Buffer : " << param.doubleBuffer << std::endl;
-    #if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
+    std::cout << " FullScreen : " << param.isFullscreen << std::endl;
+    std::cout << " Double Buffer : " << param.isDoubleBuffer << std::endl;
     std::cout << " Red Buffer Size: " << param.redSize << std::endl;
     std::cout << " Green Buffer Size: " << param.greenSize << std::endl;
     std::cout << " Blue Buffer Size: " << param.blueSize << std::endl;
     std::cout << " Depth Buffer Size: " << param.depthSize << std::endl;
-    xwindow->MakeWindow(param);
-    #elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
-    mswindow->MakeWindow(param);
+    // init window
+    window->HsCreateWindow(param);
     resizeGL(512,512);
-    #endif
     initGL();
   }
 
@@ -200,11 +178,8 @@ checkTestIsOver()
   if ( (end - start) > TIME_FOR_EACH_TEST )
   {
     std::cout << "Test ended\n";
-    #if defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
-    xwindow->DisposeWindow();
-    #elif defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
-    mswindow->DisposeWindow();
-    #endif
+    // destory window
+    window->HsDestroyWindow();
     initializeTest(++currentTest);
 
   }
@@ -214,29 +189,32 @@ checkTestIsOver()
 int
 main()
 {
+
   hummstrumm::engine::core::Engine engine;
 
   freq = engine.GetClock ()->GetHighResolutionFrequency();
 
   TIME_FOR_EACH_TEST = 5 * engine.GetClock()->NANOSECONDS_PER_SECOND;
-  #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
   try
   {
     std::stringstream logMessage;
-    std::cout << "HUMMSTRUMM X11 window testing with OpenGL/GLX context" << std::endl;
-    xwindow = new WindowX11();
+    std::cout << "HUMMSTRUMM window testing with OpenGL context" << std::endl;
+    window = new HsWindowSystem;
+    WindowVisualInfo param;
+    window->HsCreateWindow(param);
+    resizeGL(512,512);
+    initGL();
+    //initializeTest(0);
 
-    initializeTest(0);
-
-    while (1)
+    while (isTesting)
     {
-      while (xwindow->GetPendingEventsCount() > 0) 
+      while (window->GetPendingEventsCount() > 0) 
       {
-        WindowEvents *wev = xwindow->GetNextEvent();
+        WindowEvents *wev = window->GetNextEvent();
         StructureEvents *wsv = NULL;
         switch(wev->getType())
         {
-          case WindowEvents::WINDOW_RESIZE: 
+          case WindowEvents::WINDOW_RESIZE:           
               wsv = (StructureEvents *) wev;
               logMessage.str("");
               logMessage << "Window Event : RESIZE ( w ";
@@ -282,116 +260,16 @@ main()
           default: 
               break;
         }
-      }
-      if (!isTesting)
-        break;
-
+      } 
       renderGL();
-      xwindow->ExchangeBuffers();
-      checkTestIsOver();
+//      checkTestIsOver();
     }
-  } catch (HUMMSTRUMM_ERRORNAME(Generic) &e)
+  } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
   {
     std::cout << "Test #" << currentTest << " failed";
 
     std::cout << e.GetHumanReadableMessage() << std::endl;
-
-    return 0;
-  }
-  #endif
-  
-  #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-  try
-  {
-    std::stringstream logMessage;
-    std::cout << "HUMMSTRUMM Microsoft Windows window with OpenGL/WGL context" << std::endl;
-    mswindow = new WindowMSWin();
-
-    initializeTest(0);
-
-    while (isTesting)
-    {
-      while (mswindow->GetPendingEventsCount() > 0) 
-      {
-        WindowEvents *wev = mswindow->GetNextEvent();
-        StructureEvents *wsv = NULL;
-        switch(wev->getType())
-        {
-          case WindowEvents::WINDOW_RESIZE:
-          { 
-              wsv = (StructureEvents *) wev;
-              logMessage.str("");
-              logMessage << "Window Event : RESIZE ( w ";
-              logMessage << wsv->GetWidth();
-              logMessage << ", h ";
-              logMessage << wsv->GetHeight();
-              logMessage << " )";
-              HUMMSTRUMM_LOG(logMessage.str().c_str(), MESSAGE);
-              std::cout << "Resize event\n";
-              resizeGL(wsv->GetWidth(), wsv->GetHeight());
-          }
-          break;
-
-          case WindowEvents::WINDOW_CLOSE:
-          {
-              logMessage.str("");
-              logMessage << "Window Event : CLOSE";
-              HUMMSTRUMM_LOG(logMessage.str().c_str(), MESSAGE);
-          }
-          break;
-
-          case WindowEvents::KEY_PRESS:
-          {
-              logMessage.str("");
-              logMessage << "Window Event : KEY PRESS";
-          }
-          break;
-
-          case WindowEvents::KEY_RELEASE:
-          {
-              logMessage.str("");
-              logMessage << "Window Event : KEY RELEASE";
-          }
-          break;
-
-          case WindowEvents::MOUSE_PRESS:
-          {
-              logMessage.str("");
-              logMessage << "Window Event : MOUSE PRESS";
-          }
-          break;
-
-          case WindowEvents::MOUSE_RELEASE:
-          {
-              logMessage.str("");
-              logMessage << "Window Event : MOUSE RELEASE";
-          }
-          break;
-
-          case WindowEvents::MOUSE_MOTION:
-          {
-              logMessage.str("");
-              logMessage << "Window Event : MOUSE MOTION";
-          }
-          break;
-
-          default: 
-              break;
-        }
-      }
-      renderGL();
-      mswindow->ExchangeBuffers();
-      checkTestIsOver();
-    }
-  } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
-  {
-    std::cout << "Test #" << currentTest << " failed" << std::endl;
-
-    std::cout << e.GetHumanReadableMessage() << std::endl;
-
-    return 0;
-  } 
-  #endif
-
+    return -1;
+  }  
   return 0;
 }

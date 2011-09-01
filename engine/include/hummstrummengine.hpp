@@ -248,20 +248,12 @@ class MouseEvents;
 }
 
 /**
- * The namespace for the renderer system.
+ * The namespace for the window system.
  */
-namespace renderer
+namespace window
 {
-class WindowParameters;
+class WindowVisualInfo;
 class WindowSystem;
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-class WindowGLXParam;
-class WindowX11;
-#endif
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-class WindowWGLParam;
-class WindowMSWin;
-#endif
 }
 
 }
@@ -326,21 +318,9 @@ class WindowMSWin;
 #  include <hummstrummengine/math/vector.hpp>
 #  include <hummstrummengine/math/matrice.hpp>
 #  include <hummstrummengine/math/quaternion.hpp>
-#  include <hummstrummengine/events/windowEvents.hpp>
-#  include <hummstrummengine/renderer/windowSystem.hpp>
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include <hummstrummengine/renderer/windowX11.hpp>
-#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include <hummstrummengine/renderer/windowMSWin.hpp>
-#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include <hummstrummengine/renderer/windowParameters.hpp>
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include <hummstrummengine/renderer/windowGLXParam.hpp>
-#endif
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include <hummstrummengine/renderer/windowWGLParam.hpp>
-#endif
+#  include <hummstrummengine/events/windowevents.hpp>
+#  include <hummstrummengine/window/windowvisualinfo.hpp>
+#  include <hummstrummengine/window/windowsystem.hpp>
 // This has to go last.
 #  include <hummstrummengine/core/engine.hpp>
 // Template and Inline implementations now...
@@ -381,21 +361,9 @@ class WindowMSWin;
 #  include "geometry/segment.hpp"
 #  include "geometry/boundingbox.hpp"
 #  include "geometry/boundingsphere.hpp"
-#  include "events/windowEvents.hpp"
-#  include "renderer/windowSystem.hpp"
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include "renderer/windowX11.hpp"
-#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include "renderer/windowMSWin.hpp"
-#endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include "renderer/windowParameters.hpp"
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include "renderer/windowGLXParam.hpp"
-#endif
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include "renderer/windowWGLParam.hpp"
-#endif
+#  include "events/windowevents.hpp"
+#  include "window/windowvisualinfo.hpp"
+#  include "window/windowsystem.hpp"
 // This has to go last.
 #  include "core/engine.hpp"
 // Template and Inline implementations now...
