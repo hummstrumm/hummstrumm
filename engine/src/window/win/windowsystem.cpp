@@ -20,6 +20,7 @@
 
 #include "hummstrummengine.hpp"
 #include <sstream>
+#include <strsafe.h>
 
 namespace hummstrumm
 {
@@ -33,6 +34,7 @@ using hummstrumm::engine::events::StructureEvents;
 HsWindowSystem::HsWindowSystem()
 {
   DWORD error;
+
   // Passing NULL retrieves a handle to the file used to create the calling process.
   moduleHandle = GetModuleHandle(NULL);
   if (moduleHandle == NULL)
@@ -41,7 +43,6 @@ HsWindowSystem::HsWindowSystem()
     hummstrumm::engine::types::String errMsg = GetErrorMessage("GetModuleHandle: ",error);
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
-
   InitializeWGLExtensions();
 }
 
@@ -55,6 +56,8 @@ HsWindowSystem::HsDestroyWindow()
 {
   DWORD error;
 
+  ChangeDisplaySettings(NULL,0);
+
   if (renderingContext)
   {
     BOOL noLongerCurrent = wglMakeCurrent(deviceContext,NULL);
@@ -62,14 +65,14 @@ HsWindowSystem::HsDestroyWindow()
     {
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
     }
     BOOL ctxDeleted = wglDeleteContext(renderingContext);
     if (!ctxDeleted)
     {
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglDeleteContext: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
     }  
     renderingContext = NULL; 
   }
@@ -80,7 +83,7 @@ HsWindowSystem::HsDestroyWindow()
       deviceContext = NULL;
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("ReleaseDC: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
   } 
 
   BOOL windowDestroyed = DestroyWindow(windowHandle);
@@ -89,7 +92,7 @@ HsWindowSystem::HsDestroyWindow()
       windowHandle = NULL;
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("DestroyWindow: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
   }
 
   BOOL classUnregistered = UnregisterClass("HummstrummWindow",moduleHandle);
@@ -98,19 +101,19 @@ HsWindowSystem::HsDestroyWindow()
       moduleHandle = NULL; 
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("UnregisteredClass: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
   }
 
 }
 
 void
-HsWindowSystem::HsCreateWindow(WindowVisualInfo &winVisual)
+HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
 {
   WNDCLASS wndAttributes;
 
   ATOM classAtom;
-  DWORD windowStyleEx = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-  DWORD windowStyle = WS_OVERLAPPEDWINDOW;
+  DWORD windowStyleEx;
+  DWORD windowStyle;
   DWORD error;
   RECT windowRect;
 
@@ -132,22 +135,33 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &winVisual)
     hummstrumm::engine::types::String errMsg = GetErrorMessage ("RegisterClass: ",error);
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
-
-  windowRect.left = (long) winVisual.positionX;
-  windowRect.right = (long) winVisual.width;
-  windowRect.top = (long) winVisual.positionY; 
-  windowRect.bottom = (long) winVisual.height;
+  HsSetMode(windowParameters);
+  if (windowParameters.isFullscreen)
+  {
+    windowStyleEx = WS_EX_APPWINDOW;
+    windowStyle = WS_POPUP;
+  }
+  else
+  {
+    windowStyleEx = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+    windowStyle = WS_OVERLAPPEDWINDOW;
+  }
+ 
+  windowRect.left = (long) windowParameters.positionX;
+  windowRect.right = (long) windowParameters.width;
+  windowRect.top = (long) windowParameters.positionY; 
+  windowRect.bottom = (long) windowParameters.height;
 
   AdjustWindowRectEx(&windowRect, windowStyle, FALSE, windowStyleEx);
 
   windowHandle = CreateWindowEx(windowStyleEx,
                                 "HummstrummWindow",
-                                winVisual.name.c_str(),
+                                windowParameters.name.c_str(),
                                 WS_CLIPSIBLINGS | WS_CLIPCHILDREN | windowStyle,
-                                winVisual.positionX,
-                                winVisual.positionY,
-                                winVisual.width,
-                                winVisual.height,
+                                windowParameters.positionX,
+                                windowParameters.positionY,
+                                windowParameters.width,
+                                windowParameters.height,
                                 NULL,
                                 NULL,
                                 moduleHandle,
@@ -169,17 +183,17 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &winVisual)
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
 
-  const int* descriptor = winVisual.GetWindowDescriptor();
   int pixelFormat;
   PIXELFORMATDESCRIPTOR pfd;
-  if (wglChoosePixelFormatARB != NULL) 
+  if (wglChoosePixelFormatARB != NULL && wglGetPixelFormatAttribivARB != NULL) 
   { 
     UINT matchedFormats;
+    const int* descriptor = windowParameters.GetPixelFormatDescriptor();
     BOOL ret = wglChoosePixelFormatARB(deviceContext, descriptor, NULL, 1 , &pixelFormat, &matchedFormats);
     if (!ret)
     {
-      error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("wglChoosePixelFormat: ",error);
+      hummstrumm::engine::types::String errMsg;
+      errMsg = "Couldn't find a suitable pixel format that matched the requested parameters";
       HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
     }
 
@@ -187,36 +201,59 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &winVisual)
     {
       HUMMSTRUMM_THROW (WindowSystem, "No suitable pixel formats have been found");
     }
+
+    const int* attrib;
+    int attribSize = 0;
+    attrib = windowParameters.GetQueryAttributes (attribSize);
+    int* values = new int[attribSize];
+    wglGetPixelFormatAttribivARB(deviceContext, pixelFormat, 0, attribSize, attrib, values);
+   
+    windowParameters.isDoubleBuffer = values[0] != 0;
+    windowParameters.isStereo = values[1] != 0;
+    windowParameters.auxBuffers = values[2];
+    windowParameters.redSize = values[3];
+    windowParameters.greenSize = values[4];
+    windowParameters.blueSize = values[5];
+    windowParameters.alphaSize = values[6];
+    windowParameters.accumRedSize = values[9];
+    windowParameters.accumGreenSize = values[10];
+    windowParameters.accumBlueSize = values[11];
+    windowParameters.accumAlphaSize = values[12];
+    windowParameters.depthSize = values[7];
+    windowParameters.stencilSize = values[8];
+    if (windowParameters.useAntiAliasing)
+      windowParameters.samples = values[14]; 
+
   }
   else
   {
     DWORD flags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_GENERIC_ACCELERATED;
-    if (winVisual.isDoubleBuffer) flags = flags | PFD_DOUBLEBUFFER;
-    if (winVisual.isStereo) flags = flags | PFD_STEREO;
-    if (winVisual.depthSize == 0) flags = flags | PFD_DEPTH_DONTCARE;
+    if (windowParameters.isDoubleBuffer) flags = flags | PFD_DOUBLEBUFFER;
+    if (windowParameters.isStereo) flags = flags | PFD_STEREO;
+    if (windowParameters.depthSize == 0) flags = flags | PFD_DEPTH_DONTCARE;
     pfd.nSize           =  sizeof(PIXELFORMATDESCRIPTOR);
     pfd.nVersion        =  1;
     pfd.dwFlags         =  flags;
-    pfd.iPixelType      =  (BYTE) winVisual.renderType;
-    pfd.cColorBits      =  (BYTE) winVisual.bufferSize;
-    pfd.cRedBits        =  (BYTE) winVisual.redSize;
+    pfd.iPixelType      =  (BYTE) windowParameters.renderType;
+    pfd.cColorBits      =  (BYTE) windowParameters.bufferSize;
+    pfd.cRedBits        =  (BYTE) windowParameters.redSize;
     pfd.cRedShift       =  0;
-    pfd.cGreenBits      =  (BYTE) winVisual.greenSize;
+    pfd.cGreenBits      =  (BYTE) windowParameters.greenSize;
     pfd.cGreenShift     =  0;
-    pfd.cBlueBits       =  (BYTE) winVisual.blueSize;
+    pfd.cBlueBits       =  (BYTE) windowParameters.blueSize;
     pfd.cBlueShift      =  0;
-    pfd.cAlphaBits      =  (BYTE) winVisual.alphaSize;
+    pfd.cAlphaBits      =  (BYTE) windowParameters.alphaSize;
     pfd.cAlphaShift     =  0;
-    pfd.cAccumBits      =  (BYTE) (winVisual.accumRedSize + 
-                                  winVisual.accumGreenSize + 
-                                  winVisual.accumBlueSize + 
-                                  winVisual.accumAlphaSize);
-    pfd.cAccumRedBits   =  (BYTE) winVisual.accumRedSize;
-    pfd.cAccumGreenBits =  (BYTE) winVisual.accumGreenSize;
-    pfd.cAccumBlueBits  =  (BYTE) winVisual.accumBlueSize;
-    pfd.cDepthBits      =  (BYTE) winVisual.depthSize;
-    pfd.cStencilBits    =  (BYTE) winVisual.stencilSize;
-    pfd.cAuxBuffers     =  (BYTE) winVisual.auxBuffers;
+    pfd.cAccumBits      =  (BYTE) (windowParameters.accumRedSize + 
+                                   windowParameters.accumGreenSize + 
+                                   windowParameters.accumBlueSize + 
+                                   windowParameters.accumAlphaSize);
+    pfd.cAccumRedBits   =  (BYTE) windowParameters.accumRedSize;
+    pfd.cAccumGreenBits =  (BYTE) windowParameters.accumGreenSize;
+    pfd.cAccumBlueBits  =  (BYTE) windowParameters.accumBlueSize;
+    pfd.cDepthBits      =  (BYTE) windowParameters.depthSize;
+    pfd.cStencilBits    =  (BYTE) windowParameters.stencilSize;
+    pfd.cAuxBuffers     =  (BYTE) windowParameters.auxBuffers;
     pfd.iLayerType      =  PFD_MAIN_PLANE;
     pfd.bReserved       =  0;
     pfd.dwLayerMask     =  0;
@@ -230,6 +267,28 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &winVisual)
       hummstrumm::engine::types::String errMsg = GetErrorMessage("ChoosePixelFormat: ",error);
       HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
     }
+
+    int ret = DescribePixelFormat(deviceContext, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pfd);
+    if (ret == 0)
+    {
+      error = GetLastError();
+      hummstrumm::engine::types::String errMsg = GetErrorMessage("DescribePixelFormat: ",error);
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str()); 
+    }
+    
+    windowParameters.renderType = pfd.iPixelType;
+    windowParameters.bufferSize = pfd.cColorBits;
+    windowParameters.redSize = pfd.cRedBits;
+    windowParameters.greenSize = pfd.cGreenBits;
+    windowParameters.blueSize = pfd.cBlueBits;
+    windowParameters.alphaSize = pfd.cAlphaBits;
+    windowParameters.accumRedSize = pfd.cAccumRedBits;
+    windowParameters.accumGreenSize = pfd.cAccumGreenBits;
+    windowParameters.accumBlueSize = pfd.cAccumBlueBits;
+    windowParameters.depthSize = pfd.cDepthBits;
+    windowParameters.stencilSize = pfd.cStencilBits;
+    windowParameters.auxBuffers = pfd.cAuxBuffers;
+    windowParameters.samples = 0; 
   }
 
   BOOL isPixelFormatSet = SetPixelFormat(deviceContext, pixelFormat, &pfd);
@@ -240,17 +299,38 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &winVisual)
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
 
-  if (wglSwapIntervalEXT != NULL)
+  if (wglCreateContextAttribsARB != NULL)
   {
-    wglSwapIntervalEXT (winVisual.verticalSync);
+    const int* ctxAttribs = windowParameters.GetContextDescriptor();
+    renderingContext = wglCreateContextAttribsARB(deviceContext, 0, ctxAttribs); 
+    if (renderingContext == NULL)
+    {
+      DWORD error = GetLastError();
+      hummstrumm::engine::types::String errMsg;
+      switch (error)
+      {
+        case ERROR_INVALID_VERSION_ARB:
+          errMsg = "Requested OpenGL context version is not supported";
+          break;
+        case ERROR_INVALID_PROFILE_ARB:
+          errMsg = "Requested OpenGL context profile is not support or invalid";
+          break;
+        default:
+          errMsg = GetErrorMessage("wglCreateContextAttribsARB: ",error);
+          break;         
+      }
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    }  
   }
-
-  renderingContext = wglCreateContext(deviceContext);
-  if (renderingContext == NULL)
+  else
   {
-    error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage("wglCreateContext: ",error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    renderingContext = wglCreateContext(deviceContext);
+    if (renderingContext == NULL)
+    {
+      error = GetLastError();
+      hummstrumm::engine::types::String errMsg = GetErrorMessage("wglCreateContext: ",error);
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    }
   }
 
   BOOL isCurrent = wglMakeCurrent(deviceContext, renderingContext);
@@ -260,10 +340,68 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &winVisual)
     hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
- 
+
+  if (wglSwapIntervalEXT != NULL)
+  {
+    BOOL ret = wglSwapIntervalEXT (windowParameters.forceVerticalSync);
+    if (!ret)
+    {
+      DWORD error = GetLastError();
+      hummstrumm::engine::types::String errMsg;
+      switch (error)
+      {
+        case ERROR_INVALID_DATA:
+          errMsg = "The requested interval parameter is negative";
+          break;
+        case ERROR_DC_NOT_FOUND:
+          errMsg = "No device context could be obtained";
+          break;
+        default:
+          errMsg = GetErrorMessage("wglSwapIntervalEXT: ",error);
+          break;         
+      }
+      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    }
+  }
+
   ShowWindow(windowHandle,SW_SHOW);
   SetForegroundWindow(windowHandle);
   SetFocus(windowHandle); 
+}
+
+void
+HsWindowSystem::HsSwapBuffers()
+{
+  DWORD error;
+  BOOL ret = SwapBuffers(deviceContext);
+  if (!ret)
+  {
+    error = GetLastError();
+    hummstrumm::engine::types::String errMsg = GetErrorMessage("SwapBuffers: ",error);
+    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+  }
+}
+
+void
+HsWindowSystem::HsSetMode(WindowVisualInfo &param)
+{
+  if (param.isFullscreen)
+  {
+    DEVMODE dmScreenSettings;
+    memset(&dmScreenSettings,0,sizeof(dmScreenSettings));
+    dmScreenSettings.dmSize=sizeof(dmScreenSettings); 
+    dmScreenSettings.dmPelsWidth  = param.width;
+    dmScreenSettings.dmPelsHeight = param.height;
+    dmScreenSettings.dmBitsPerPel = param.depthSize;
+    dmScreenSettings.dmFields=DM_BITSPERPEL|DM_PELSWIDTH|DM_PELSHEIGHT;
+    LONG ret = ChangeDisplaySettings(&dmScreenSettings,CDS_FULLSCREEN);
+    if (ret != DISP_CHANGE_SUCCESSFUL)
+    {
+      hummstrumm::engine::types::String errMsg = "Requested parameters don't support fullscreen.";
+      HUMMSTRUMM_LOG (errMsg.c_str(), WARNING);
+      param.isFullscreen = false;
+    }
+  }
 }
 
 void
@@ -332,10 +470,10 @@ HsWindowSystem::InitializeWGLExtensions()
                                   wglGetProcAddress("wglSwapIntervalEXT");
   wglGetSwapIntervalEXT         = (PFNWGLGETSWAPINTERVALEXTPROC) 
                                   wglGetProcAddress("wglGetSwapIntervalEXT");
+  wglGetPixelFormatAttribivARB  = (PFNWGLGETPIXELFORMATATTRIBIVARBPROC)
+                                  wglGetProcAddress("wglGetPixelFormatAttribivARB");
   wglChoosePixelFormatARB       = (PFNWGLCHOOSEPIXELFORMATARBPROC) 
                                   wglGetProcAddress("wglChoosePixelFormatARB");
-  wglMakeContextCurrentARB      = (PFNWGLMAKECONTEXTCURRENTARBPROC) 
-                                  wglGetProcAddress("wglMakeContextCurrentARB");
   wglCreateContextAttribsARB    = (PFNWGLCREATECONTEXTATTRIBSARBPROC) 
                                   wglGetProcAddress("wglCreateContextAttribsARB");
 
@@ -373,7 +511,7 @@ HsWindowSystem::InitializeWGLExtensions()
 }
 
 hummstrumm::engine::events::WindowEvents*
-HsWindowSystem::GetNextEvent()
+HsWindowSystem::HsGetNextEvent()
 {
   MSG msg = { };
 
@@ -390,11 +528,18 @@ HsWindowSystem::GetNextEvent()
       }
       break;
 
+      case WM_ACTIVATE:
+      {
+        std::cout << "Window activate\n";          
+      }
+      break;
+
       default:
         msgQueue.pop();
         break;
     }
   }
+
 
   PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
   switch (msg.message)
@@ -410,7 +555,7 @@ HsWindowSystem::GetNextEvent()
       DispatchMessage(&msg);
     }
     break;
-  }    
+  }
   
   return new hummstrumm::engine::events::WindowEvents();
 }
@@ -426,7 +571,7 @@ HsWindowSystem::PostEventMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 int
-HsWindowSystem::GetPendingEventsCount() const
+HsWindowSystem::HsGetPendingEventsCount() const
 {
   DWORD queueStatus = GetQueueStatus(QS_ALLINPUT);
   // The high-order word of the return value indicates the types of 
@@ -437,6 +582,7 @@ HsWindowSystem::GetPendingEventsCount() const
 hummstrumm::engine::types::String
 HsWindowSystem::GetErrorMessage(hummstrumm::engine::types::String premsg, DWORD code)
 {
+
   LPVOID lpMsgBuf;
 
   FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -471,11 +617,6 @@ HsWindowSystem::ProcessWindowMessages(HWND hWnd, UINT uMsg,
         CREATESTRUCT *pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
         pWin = reinterpret_cast<HsWindowSystem*>(pCreate->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pWin);
-    }
-
-    case WM_ACTIVATE:
-    {
-      return 0;
     }
 
     case WM_SYSCOMMAND:

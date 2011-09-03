@@ -17,7 +17,7 @@
  */
 
 /**
- * Window visual parameters.
+ * Window and OpenGL parameters.
  *
  * @file    window/windowvisualinfo.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
@@ -78,23 +78,66 @@ class WindowVisualInfo
     ~WindowVisualInfo ();
 
     /**
-     * Get the visual descriptor.
+     * Get the WGL/GLX context attributes.
+     * The returned format is an array of (attrib, value) pairs.
+     * (attrib1, value1, attrib2, value2, .., .., attribN, valueN)
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-09-28
      * @since 0.3
      *
-     * @return A pointer to a window descriptor.
-     * @note The caller is responsible for freeing the pointer.
+     * @return An array of context attributes.
      */
-    int* GetWindowDescriptor ();
+    int* GetContextDescriptor ();
 
     /**
-     * Set the visual descriptor. This gives the power to the caller
-     * to set the descriptor to its own liking. For example, the caller
-     * might want to disable or enable some specific feature that is 
-     * not provided in the class data members. 
+     * Set the WGL/GLX context attributes. This gives the power to the caller
+     * to set the context attributes to its own liking. For example, 
+     * the caller might want to disable or enable some specific feature 
+     * that is not provided in the class data members.
+     *
+     * The given format must be an array of (attrib, value) pairs.
+     * (attrib1, value1, attrib2, value2, .., .., attribN, valueN)
      * 
+     * Only supported in Windows if wglCreateContextAttribsARB is available.
+     * If that is not available then setting the context attributes manually 
+     * has no influence because the system will use the old way
+     * (a.k.a wglCreateContext).
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-28
+     * @since 0.3
+     *
+     * @param [in] ctx An array of WGL/GLX context attributes.
+     * @param [in] ctxSize The attributes size. The descriptor must be equal 
+     * or less than ATTRIB_MAX to succeed.
+     *
+     * @return Whether the descriptor was successfully set.
+     */
+    bool SetContextDescriptor (const int* ctx, unsigned short ctxSize);
+
+    /**
+     * Get the pixel format descriptor in WGL/GLX format.
+     * The returned format is an array of (attrib, value) pairs.
+     * (attrib1, value1, attrib2, value2, .., .., attribN, valueN)
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-28
+     * @since 0.3
+     *
+     * @return The pixel format attributes.
+     */
+    int* GetPixelFormatDescriptor ();
+
+    /**
+     * Set the WGL/GLX pixel format descriptor. This gives the power to the 
+     * caller to set the descriptor to its own liking. For example, the
+     * caller might want to disable or enable some specific feature that is 
+     * not provided in the class data members. 
+     *
+     * The given format must be an array of (attrib, value) pairs.
+     * (attrib1, value1, attrib2, value2, .., .., attribN, valueN)
+     *
      * Only supported in Windows if wglChoosePixelFormatARB is available.
      * If that is not available then setting the descriptor manually has
      * no influence because the system will use the old way
@@ -104,15 +147,28 @@ class WindowVisualInfo
      * @date 2010-09-28
      * @since 0.3
      *
-     * @param [in] desc A pointer to a window descriptor.
+     * @param [in] desc An array of attributes.
      * @param [in] descSize The descriptor size. The descriptor must be equal 
      * or less than ATTRIB_MAX.
      *
      * @return Whether the descriptor was successfully set.
      */
-    bool SetWindowDescriptor (const int* desc, unsigned short descSize);
+    bool SetPixelFormatDescriptor (const int* desc, unsigned short descSize);
 
-    // Parameters common to every window for all systems 
+    /**
+     * Get the corresponding WGL/GLX parameters of the class data members.
+     * The returned format is an array of attributes.
+     * (attrib1, attrib2, .., attribN)
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2010-09-28
+     * @since 0.3
+     *
+     * @param [in] sz The size of the returned array.
+     *
+     * @return The WGL/GLX parameters array.
+     */
+    int* GetQueryAttributes (int &sz) const;
 
     /// Defines the window caption name.
     std::string name;
@@ -124,6 +180,7 @@ class WindowVisualInfo
     unsigned short height;
     /// Defines the window width.
     unsigned short width;
+
     /// Whether the window should be created in fullscreen.
     bool isFullscreen;
     
@@ -131,7 +188,9 @@ class WindowVisualInfo
 
     bool isStereo;
 
-    bool verticalSync;
+    bool useAntiAliasing;
+
+    bool forceVerticalSync;
 
     int renderType;
 
@@ -160,10 +219,14 @@ class WindowVisualInfo
     int auxBuffers;
 
     int samples;
+    
+    int openGLMajorVer;
+
+    int openGLMinorVer;
 
   private:
-    int* descriptor;
- 
+    int* pixelDescriptor;
+    int* contextDescriptor; 
 };
 
 }

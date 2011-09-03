@@ -60,14 +60,14 @@ class WindowEvents
      */
     enum WindowEventType
     {
-      WINDOW_RESIZE, ///< Resizing the window.
-      WINDOW_CLOSE,  ///< Closing the window.
-      KEY_PRESS,     ///< Key down.
-      KEY_RELEASE,   ///< Key up.
-      MOUSE_PRESS,   ///< Mouse button down.
-      MOUSE_RELEASE, ///< Mouse button up.
-      MOUSE_MOTION,  ///< Mouse movement.
-      NONE           ///< No event.
+      WINDOW_RESIZE,     ///< Resizing the window.
+      WINDOW_CLOSE,      ///< Closing the window.
+      KEY_PRESS,         ///< Key down.
+      KEY_RELEASE,       ///< Key up.
+      MOUSE_PRESS,       ///< Mouse button down.
+      MOUSE_RELEASE,     ///< Mouse button up.
+      MOUSE_MOTION,      ///< Mouse movement.
+      NONE               ///< No event.
     };
 
     /**

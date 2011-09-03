@@ -95,14 +95,37 @@ void renderGL()
     glEnd();                                           
     rotQuad += 0.1f;     
 }
+
+void
+showParameters(WindowVisualInfo &param, const char *title)
+{
+    std::cout << title << std::endl;
+    std::cout << " FullScreen : " << param.isFullscreen << std::endl;
+    std::cout << " Double Buffer : " << param.isDoubleBuffer << std::endl;
+    std::cout << " Red Buffer Size: " << param.redSize << std::endl;
+    std::cout << " Green Buffer Size: " << param.greenSize << std::endl;
+    std::cout << " Blue Buffer Size: " << param.blueSize << std::endl;
+    std::cout << " Depth Buffer Size: " << param.depthSize << std::endl;
+    std::cout << " Vertical Sync: " << param.forceVerticalSync << std::endl;
+    std::cout << " Width : " << param.width << std::endl;
+    std::cout << " Height : " << param.height << std::endl;
+    std::cout << " Position : " << param.positionX << "," << param.positionY << std::endl;
+    std::cout << " Alpha Size: " << param.alphaSize << std::endl;
+    std::cout << " AntiAliasing : " << param.useAntiAliasing << std::endl;
+    if (param.useAntiAliasing)
+      std::cout << " Samples : " << param.samples << std::endl;
+    if (param.openGLMajorVer != -1)
+      std::cout << " Context Version: " << param.openGLMajorVer
+                << "."
+                << param.openGLMinorVer
+                << std::endl;
+}
   
 void
-initializeTest(int n)
+runTest(int n)
 {
 
   std::cout << boolalpha;
-
-
   WindowVisualInfo param;
 
   switch(n)
@@ -111,6 +134,7 @@ initializeTest(int n)
     {
       param.isFullscreen = false;      
       param.isDoubleBuffer = true;
+      param.forceVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
@@ -122,6 +146,7 @@ initializeTest(int n)
     {
       param.isFullscreen = true;
       param.isDoubleBuffer = true;
+      param.forceVerticalSync = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
@@ -131,8 +156,23 @@ initializeTest(int n)
 
     case 2:
     {
+      param.isFullscreen = true;
+      param.isDoubleBuffer = true;
+      param.forceVerticalSync = true;
+      param.redSize = 4;
+      param.greenSize = 4;
+      param.blueSize = 4;
+      param.depthSize = 16;
+      param.useAntiAliasing = true;
+      param.samples = 2;
+    }
+    break;
+
+    case 3:
+    {
       param.isFullscreen = false;
       param.isDoubleBuffer = true;
+      param.forceVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
@@ -143,27 +183,52 @@ initializeTest(int n)
     } 
     break;
 
+    case 4:
+    {
+      param.isFullscreen = true;
+      param.isDoubleBuffer = true;
+      param.forceVerticalSync = false;
+      param.redSize = 4;
+      param.greenSize = 4;
+      param.blueSize = 4;
+      param.depthSize = 16;
+      param.width = 500;
+      param.height = 200;
+      param.openGLMajorVer = 1;
+      param.openGLMinorVer = 0;
+    } 
+    break;
+
+    case 5:
+    {
+      param.isFullscreen = true;
+      param.isDoubleBuffer = true;
+      param.forceVerticalSync = false;
+      param.redSize = 4;
+      param.greenSize = 4;
+      param.blueSize = 4;
+      param.depthSize = 16;
+      param.width = 1024;
+      param.height = 768;
+      param.openGLMajorVer = 3;
+      param.openGLMinorVer = 1;
+    } 
+    break;
+
     default:   
       isTesting = false;
       break;
+
   }
 
   if (isTesting)
   {
-
     start = hummstrumm::engine::core::Engine::
       GetEngine ()->GetClock ()->GetHighResolutionCount();
-
-    std::cout << "Test #" << n << std::endl;
-    std::cout << " FullScreen : " << param.isFullscreen << std::endl;
-    std::cout << " Double Buffer : " << param.isDoubleBuffer << std::endl;
-    std::cout << " Red Buffer Size: " << param.redSize << std::endl;
-    std::cout << " Green Buffer Size: " << param.greenSize << std::endl;
-    std::cout << " Blue Buffer Size: " << param.blueSize << std::endl;
-    std::cout << " Depth Buffer Size: " << param.depthSize << std::endl;
-    // init window
+     std::cout << "Test #" << n << std::endl;
+    showParameters(param, "Requested parameters");
     window->HsCreateWindow(param);
-    resizeGL(512,512);
+    showParameters(param, "Obtained parameters");
     initGL();
   }
 
@@ -178,39 +243,32 @@ checkTestIsOver()
   if ( (end - start) > TIME_FOR_EACH_TEST )
   {
     std::cout << "Test ended\n";
-    // destory window
     window->HsDestroyWindow();
-    initializeTest(++currentTest);
-
+    runTest(++currentTest);
   }
 }
-
 
 int
 main()
 {
-
   hummstrumm::engine::core::Engine engine;
 
   freq = engine.GetClock ()->GetHighResolutionFrequency();
 
-  TIME_FOR_EACH_TEST = 5 * engine.GetClock()->NANOSECONDS_PER_SECOND;
+  TIME_FOR_EACH_TEST = 15 * engine.GetClock()->NANOSECONDS_PER_SECOND;
   try
   {
     std::stringstream logMessage;
     std::cout << "HUMMSTRUMM window testing with OpenGL context" << std::endl;
     window = new HsWindowSystem;
-    WindowVisualInfo param;
-    window->HsCreateWindow(param);
-    resizeGL(512,512);
-    initGL();
-    //initializeTest(0);
+
+    runTest(0);
 
     while (isTesting)
     {
-      while (window->GetPendingEventsCount() > 0) 
+      while (window->HsGetPendingEventsCount() > 0) 
       {
-        WindowEvents *wev = window->GetNextEvent();
+        WindowEvents *wev = window->HsGetNextEvent();
         StructureEvents *wsv = NULL;
         switch(wev->getType())
         {
@@ -226,7 +284,7 @@ main()
               resizeGL(wsv->GetWidth(), wsv->GetHeight());
               break;
 
-          case WindowEvents::WINDOW_CLOSE: 
+          case WindowEvents::WINDOW_CLOSE:
               logMessage.str("");
               logMessage << "Window Event : CLOSE";
               HUMMSTRUMM_LOG(logMessage.str().c_str(), MESSAGE);
@@ -262,12 +320,13 @@ main()
         }
       } 
       renderGL();
-//      checkTestIsOver();
+      window->HsSwapBuffers();
+      checkTestIsOver();
     }
   } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
   {
-    std::cout << "Test #" << currentTest << " failed";
-
+    std::cout << "Test #" << currentTest << " failed\n";
+    
     std::cout << e.GetHumanReadableMessage() << std::endl;
     return -1;
   }  

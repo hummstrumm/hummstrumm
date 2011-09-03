@@ -50,13 +50,17 @@ class HsWindowSystem
 
     void HsDestroyWindow();
 
-    void HsCreateWindow(WindowVisualInfo &winVisual);
+    void HsCreateWindow(WindowVisualInfo &windowParameters);
 
-    hummstrumm::engine::events::WindowEvents* GetNextEvent();
+    hummstrumm::engine::events::WindowEvents* HsGetNextEvent();
 
-    int GetPendingEventsCount() const;
+    int HsGetPendingEventsCount() const;
 
-  private:
+    void HsSwapBuffers();
+
+  private:    
+    void HsSetMode(WindowVisualInfo &param);
+
     #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
     Display *dpy; // Pointer to a X11 display structure
     Window  root; // Root window
@@ -107,6 +111,7 @@ class HsWindowSystem
     PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
     PFNWGLMAKECONTEXTCURRENTARBPROC wglMakeContextCurrentARB;
     PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
+    PFNWGLGETPIXELFORMATATTRIBIVARBPROC wglGetPixelFormatAttribivARB;
 
     struct EventMsg
     {
@@ -141,7 +146,7 @@ class HsWindowSystem
      */
     hummstrumm::engine::types::String GetErrorMessage(hummstrumm::engine::types::String premsg,
       DWORD code);
-
+     
     /**
      * Process messages sent to the window.
      *
