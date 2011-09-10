@@ -50,10 +50,10 @@ namespace window
   contextDescriptor[cidx++] = a; contextDescriptor[cidx++] = b;                            \
 }
 
-#define ATTRIB_QUERY_ADD(a)                                                             \
-{                                                                                       \
-  if (qidx+1 >= ATTRIB_MAX) return NULL;                                                \
-  queryAttrib[qidx++] = a;                                                              \
+#define ATTRIB_QUERY_ADD(a)                                                                \
+{                                                                                          \
+  if (qidx+1 >= ATTRIB_MAX) return NULL;                                                   \
+  queryAttrib[qidx++] = a;                                                                 \
 }
 
 WindowVisualInfo::WindowVisualInfo ():
@@ -130,11 +130,8 @@ WindowVisualInfo::WindowVisualInfo (const WindowVisualInfo &param):
 
 WindowVisualInfo::~WindowVisualInfo ()
 {
-  if (pixelDescriptor != NULL)
-    delete [] pixelDescriptor;
-
-  if (contextDescriptor != NULL)
-    delete [] contextDescriptor;
+  delete [] pixelDescriptor;
+  delete [] contextDescriptor;
 }
 
 int *
@@ -145,16 +142,16 @@ WindowVisualInfo::GetContextDescriptor ()
 
   contextDescriptor = new int[ATTRIB_MAX];
   int cidx = 0;
-  #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
   if (openGLMajorVer != -1 && openGLMinorVer != -1 )
   {
+    #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
     ATTRIB_CONTEXT_ADD2 (WGL_CONTEXT_MAJOR_VERSION_ARB, openGLMajorVer); 
     ATTRIB_CONTEXT_ADD2 (WGL_CONTEXT_MINOR_VERSION_ARB, openGLMinorVer);
+    #else
+    ATTRIB_CONTEXT_ADD2 (GLX_CONTEXT_MAJOR_VERSION_ARB, openGLMajorVer); 
+    ATTRIB_CONTEXT_ADD2 (GLX_CONTEXT_MINOR_VERSION_ARB, openGLMinorVer);
+    #endif
   }
-  #else
-  ATTRIB_CONTEXT_ADD2 (GLX_CONTEXT_MAJOR_VERSION_ARB, openGLMajorVer); 
-  ATTRIB_CONTEXT_ADD2 (GLX_CONTEXT_MINOR_VERSION_ARB, openGLMinorVer);
-  #endif
   ATTRIB_CONTEXT_ADD1 (0); 
   return contextDescriptor;
 }
@@ -195,22 +192,30 @@ WindowVisualInfo::GetPixelFormatDescriptor ()
     ATTRIB_PIXEL_ADD2 (WGL_SAMPLES_ARB,        samples); 
   }
   #else
-  ATTRIB_PIXEL_ADD2 (GLX_BUFFER_SIZE,      bufferSize);
-  ATTRIB_PIXEL_ADD2 (GLX_DOUBLEBUFFER,     isDoubleBuffer);
-  ATTRIB_PIXEL_ADD2 (GLX_STEREO,           isStereo);
-  ATTRIB_PIXEL_ADD2 (GLX_AUX_BUFFERS,      auxBuffers); 
-  ATTRIB_PIXEL_ADD2 (GLX_RED_SIZE,         redSize);
-  ATTRIB_PIXEL_ADD2 (GLX_GREEN_SIZE,       greenSize);
-  ATTRIB_PIXEL_ADD2 (GLX_BLUE_SIZE,        blueSize);
-  ATTRIB_PIXEL_ADD2 (GLX_ALPHA_SIZE,       alphaSize);
-  ATTRIB_PIXEL_ADD2 (GLX_DEPTH_SIZE,       depthSize);
-  ATTRIB_PIXEL_ADD2 (GLX_STENCIL_SIZE,     stencilSize);
-  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_RED_SIZE,   accumRedSize); 
-  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_GREEN_SIZE, accumGreenSize);
-  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_BLUE_SIZE,  accumBlueSize);
-  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_ALPHA_SIZE, accumAlphaSize);
-  ATTRIB_PIXEL_ADD2 (GLX_RENDER_TYPE,      renderType);
-  ATTRIB_PIXEL_ADD2 (GLX_SAMPLES,          samples);
+//  ATTRIB_PIXEL_ADD2 (GLX_X_RENDERABLE,      GL_TRUE);
+//  ATTRIB_PIXEL_ADD2 (GLX_DRAWABLE_TYPE,     GLX_WINDOW_BIT);
+//  ATTRIB_PIXEL_ADD2 (GLX_X_VISUAL_TYPE,     GLX_TRUE_COLOR);
+  ATTRIB_PIXEL_ADD2 (GLX_BUFFER_SIZE,       bufferSize);
+  ATTRIB_PIXEL_ADD2 (GLX_DOUBLEBUFFER,      isDoubleBuffer);
+  ATTRIB_PIXEL_ADD2 (GLX_STEREO,            isStereo);
+  ATTRIB_PIXEL_ADD2 (GLX_AUX_BUFFERS,       auxBuffers); 
+  ATTRIB_PIXEL_ADD2 (GLX_RED_SIZE,          redSize);
+  ATTRIB_PIXEL_ADD2 (GLX_GREEN_SIZE,        greenSize);
+  ATTRIB_PIXEL_ADD2 (GLX_BLUE_SIZE,         blueSize);
+  ATTRIB_PIXEL_ADD2 (GLX_ALPHA_SIZE,        alphaSize);
+  ATTRIB_PIXEL_ADD2 (GLX_DEPTH_SIZE,        depthSize);
+  ATTRIB_PIXEL_ADD2 (GLX_STENCIL_SIZE,      stencilSize);
+  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_RED_SIZE,    accumRedSize); 
+  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_GREEN_SIZE,  accumGreenSize);
+  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_BLUE_SIZE,   accumBlueSize);
+  ATTRIB_PIXEL_ADD2 (GLX_ACCUM_ALPHA_SIZE,  accumAlphaSize);
+  ATTRIB_PIXEL_ADD2 (GLX_RENDER_TYPE,       renderType);
+
+  if (useAntiAliasing)
+  {
+    ATTRIB_PIXEL_ADD2 (GLX_SAMPLE_BUFFERS,  1);
+    ATTRIB_PIXEL_ADD2 (GLX_SAMPLES,         samples); 
+  }
   #endif
   ATTRIB_PIXEL_ADD1 (0); 
   return pixelDescriptor;
@@ -261,6 +266,7 @@ WindowVisualInfo::GetQueryAttributes (int& sz) const
 {
   int qidx = 0;
   int* queryAttrib = new int[ATTRIB_MAX];
+  #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
   ATTRIB_QUERY_ADD (WGL_DOUBLE_BUFFER_ARB);
   ATTRIB_QUERY_ADD (WGL_STEREO_ARB);
   ATTRIB_QUERY_ADD (WGL_AUX_BUFFERS_ARB);
@@ -277,6 +283,7 @@ WindowVisualInfo::GetQueryAttributes (int& sz) const
   ATTRIB_QUERY_ADD (WGL_PIXEL_TYPE_ARB);
   if (useAntiAliasing)
     ATTRIB_QUERY_ADD (WGL_SAMPLES_ARB); 
+  #endif 
   sz = qidx;
   return queryAttrib;
 }

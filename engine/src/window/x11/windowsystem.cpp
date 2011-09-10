@@ -42,17 +42,21 @@ HsWindowSystem::HsWindowSystem()
 
   std::stringstream message;
   if ((dpy = XOpenDisplay(NULL)) == NULL)
-    HUMMSTRUMM_THROW (Generic, "Unable to open a connection to the X server.\n");
+    HUMMSTRUMM_THROW (WindowSystem, "Unable to open a connection to the X server.\n");
+
   screen = XDefaultScreen(dpy);
   root = XRootWindow(dpy,screen);
   depth = XDefaultDepth(dpy,screen);
 
   if (!glXQueryExtension(dpy, NULL, NULL)) 
-    HUMMSTRUMM_THROW (Generic, "GLX extension is not available on the X server.");
+    HUMMSTRUMM_THROW (WindowSystem, "GLX extension is not available on the X server.");
   
-  glXVerMajor = glXVerMinor = 0;
+  major = minor = 0;
   if (!glXQueryVersion(dpy, &major, &minor))
-    HUMMSTRUMM_THROW (Generic, "Unable to get GLX version.");
+    HUMMSTRUMM_THROW (WindowSystem, "Unable to get GLX version.");
+
+  wndProtocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
+  wndDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
 
   message.str("");
   message << "Supported GLX version: ";
@@ -60,6 +64,13 @@ HsWindowSystem::HsWindowSystem()
   message << ".";
   message << minor;
   HUMMSTRUMM_LOG(message.str().c_str(),MESSAGE);
+
+  swapIntervalAddr = NULL;
+  createContextAttribsAddr = NULL;
+  chooseFBConfigAddr = NULL;
+  makeContextCurrentAddr = NULL;
+
+  InitializeGLXExtensions ();
 }
 
 HsWindowSystem::~HsWindowSystem()
@@ -72,6 +83,8 @@ HsWindowSystem::~HsWindowSystem()
 void
 HsWindowSystem::HsDestroyWindow()
 {
+  glXDestroyContext(dpy, glxCtx);
+
   if (dpy != 0 && winMn != 0)
     XDestroyWindow(dpy, winMn);
   else
@@ -84,37 +97,185 @@ HsWindowSystem::HsDestroyWindow()
     message << "Window " << winMn;
     HUMMSTRUMM_LOG(message.str().c_str(),WARNING);
   }
+
 }
 
 void
-HsWindowSystem::HsCreateWindow(const WindowVisualInfo &winVisual)
+HsWindowSystem::InitializeGLXExtensions()
+{
+  /* Note: http://dri.freedesktop.org/wiki/glXGetProcAddressNeverReturnsNULL */
+  /* Doing this is acceptable for GLX functions. See the last paragraph of misconception #3. */
+
+  const char* extensions =  glXQueryExtensionsString(dpy, screen);
+
+  std::stringstream message;
+  message.str("");
+  message << "Available GLX extensions: ";
+  message << extensions; 
+  HUMMSTRUMM_LOG(message.str().c_str(),MESSAGE); 
+
+  if (IsGLXExtensionSupported("GLX_SGI_swap_control",(const GLubyte *) extensions))
+  {
+    swapIntervalAddr = (PFNGLXSWAPINTERVALSGIPROC) 
+                       glXGetProcAddressARB ((const GLubyte *) "glXSwapIntervalSGI");
+  }
+
+  if (IsGLXExtensionSupported("GLX_ARB_create_context",(const GLubyte *)extensions))
+  {
+    createContextAttribsAddr = (PFNGLXCREATECONTEXTATTRIBSARBPROC)
+                                glXGetProcAddress ((const GLubyte *) "glXCreateContextAttribsARB");
+  }
+
+  chooseFBConfigAddr = (PFNGLXCHOOSEFBCONFIGPROC) 
+                        glXGetProcAddressARB ((const GLubyte *) "glXChooseFBConfig");
+
+  makeContextCurrentAddr = (PFNGLXMAKECONTEXTCURRENTPROC)
+                            glXGetProcAddressARB ((const GLubyte *) "glXMakeContextCurrent");
+
+}
+
+bool
+HsWindowSystem::IsGLXExtensionSupported(const char* extension, const GLubyte *extensions)
+{
+  const GLubyte *start;
+  GLubyte *where, *terminator;
+
+  start = extensions;
+  while(1)
+  {
+      where = (GLubyte *) strstr ((const char *)start, extension);
+      if( !where )
+      {
+          return false;
+      }
+      terminator = where + strlen(extension);
+      if( where == start || *(where - 1) == ' ' )
+      {
+          if( *terminator == ' ' || *terminator == '\0' )
+          {
+              break;
+          }
+      }
+      start = terminator;
+  }
+  return true;
+}
+
+void
+HsWindowSystem::HsSwapBuffers()
+{
+  glXSwapBuffers(dpy, winMn);
+}
+
+void
+HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
 {
   XSetWindowAttributes winAttr; 
-  XVisualInfo *vi;
-  GLXFBConfig *fbconfig;
-  GLXContext glxCtx;
+  XVisualInfo *vi = NULL;
+  GLXFBConfig *fbconfig = NULL;
   int nelements;
-  HUMMSTRUMM_WINDOW_LIST_POINTER attribList = winParam.WindowParamList();
+  const int* attribList = NULL;
 
+  attribList = windowParameters.GetPixelFormatDescriptor();
   if (attribList == NULL)
-    HUMMSTRUMM_THROW (Generic, "Unable to get window parameters\n");
+    HUMMSTRUMM_THROW (WindowSystem, "Unable to get window parameters\n");
 
-  fbconfig = glXChooseFBConfig(dpy,screen,attribList,&nelements);
+  if (chooseFBConfigAddr != NULL)
+  {
+    fbconfig = chooseFBConfigAddr(dpy,screen,attribList,&nelements);
 
-  if (fbconfig == NULL)
-    HUMMSTRUMM_THROW (Generic, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes.");
+    if (fbconfig == NULL)
+      HUMMSTRUMM_THROW (WindowSystem, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes.");
 
-  vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
+    vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
+    int tmp;
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_RED_SIZE, &windowParameters.redSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_GREEN_SIZE, &windowParameters.greenSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_BLUE_SIZE, &windowParameters.blueSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_ALPHA_SIZE, &windowParameters.alphaSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_DOUBLEBUFFER, &tmp);
+    windowParameters.isDoubleBuffer = (tmp != 0);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_STEREO, &tmp);
+    windowParameters.isStereo = (tmp != 0);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_DEPTH_SIZE, &windowParameters.depthSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_STENCIL_SIZE, &windowParameters.stencilSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_ACCUM_RED_SIZE, &windowParameters.accumRedSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_ACCUM_GREEN_SIZE, &windowParameters.accumGreenSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_ACCUM_BLUE_SIZE, &windowParameters.accumBlueSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_ACCUM_ALPHA_SIZE, &windowParameters.accumAlphaSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_AUX_BUFFERS, &windowParameters.bufferSize);
+    glXGetFBConfigAttrib(dpy, *fbconfig, GLX_SAMPLES, &windowParameters.samples);
+  }
+  else
+  {
+    // glXChooseFBConfig is not available so looks like we're running in a system with 
+    // GLX 1.2 or below.
+    // Fallback
+    bool rgba = (windowParameters.renderType == GLX_RGBA_BIT) ? true : false;
+    int hasStereo = 0;
+    if (windowParameters.isStereo)
+       hasStereo = GLX_STEREO;
+
+    int altAttribList[] = 
+    {
+      GLX_USE_GL,           GL_TRUE,
+      GLX_BUFFER_SIZE,      windowParameters.bufferSize,
+      GLX_LEVEL,            0,
+      GLX_RGBA,             rgba,
+      GLX_DOUBLEBUFFER,     windowParameters.isDoubleBuffer,
+      GLX_AUX_BUFFERS,      windowParameters.auxBuffers,
+      GLX_RED_SIZE,         windowParameters.redSize,
+      GLX_GREEN_SIZE,       windowParameters.greenSize,
+      GLX_BLUE_SIZE,        windowParameters.blueSize,
+      GLX_ALPHA_SIZE,       windowParameters.alphaSize,
+      GLX_DEPTH_SIZE,       windowParameters.depthSize,
+      GLX_STENCIL_SIZE,     windowParameters.stencilSize,
+      GLX_ACCUM_RED_SIZE,   windowParameters.accumRedSize,
+      GLX_ACCUM_BLUE_SIZE,  windowParameters.accumBlueSize,
+      GLX_ACCUM_GREEN_SIZE, windowParameters.accumGreenSize,
+      GLX_SAMPLE_BUFFERS,   (windowParameters.samples > 0) ? 1 : 0,
+      GLX_SAMPLES,          windowParameters.samples,
+      hasStereo, 
+      0
+    };
+
+    vi = glXChooseVisual(dpy, screen, altAttribList);
+    int tmp;
+    glXGetConfig(dpy, vi, GLX_RED_SIZE, &windowParameters.redSize);
+    glXGetConfig(dpy, vi, GLX_GREEN_SIZE, &windowParameters.greenSize);
+    glXGetConfig(dpy, vi, GLX_BLUE_SIZE, &windowParameters.blueSize);
+    glXGetConfig(dpy, vi, GLX_ALPHA_SIZE, &windowParameters.alphaSize);
+    glXGetConfig(dpy, vi, GLX_DOUBLEBUFFER, &tmp);
+    windowParameters.isDoubleBuffer = (tmp != 0);
+    glXGetConfig(dpy, vi, GLX_STEREO, &tmp);
+    windowParameters.isStereo = (tmp != 0);
+    glXGetConfig(dpy, vi, GLX_DEPTH_SIZE, &windowParameters.depthSize);
+    glXGetConfig(dpy, vi, GLX_STENCIL_SIZE, &windowParameters.stencilSize);
+    glXGetConfig(dpy, vi, GLX_ACCUM_RED_SIZE, &windowParameters.accumRedSize);
+    glXGetConfig(dpy, vi, GLX_ACCUM_GREEN_SIZE, &windowParameters.accumGreenSize);
+    glXGetConfig(dpy, vi, GLX_ACCUM_BLUE_SIZE, &windowParameters.accumBlueSize);
+    glXGetConfig(dpy, vi, GLX_ACCUM_ALPHA_SIZE, &windowParameters.accumAlphaSize);
+    glXGetConfig(dpy, vi, GLX_AUX_BUFFERS, &windowParameters.bufferSize);
+    glXGetConfig(dpy, vi, GLX_SAMPLES, &windowParameters.samples);
+  }
+
   if (vi == NULL)
-    HUMMSTRUMM_THROW (Generic, "Requested GLX visual is not supported by the graphics card.");
+    HUMMSTRUMM_THROW (WindowSystem, "Requested GLX visual is not supported by the graphics card.");
 
-  glxCtx = glXCreateContext(dpy,vi,0,GL_TRUE);
+  if (createContextAttribsAddr != NULL && chooseFBConfigAddr != NULL)
+  {
+    const int *ctxAttributes = windowParameters.GetContextDescriptor();
+    glxCtx = createContextAttribsAddr(dpy, *fbconfig, NULL, true, ctxAttributes);
+  }
+  else
+  {
+    glxCtx = glXCreateContext(dpy,vi,0,GL_TRUE);
+  }
 
-  XFree(fbconfig);
+  if (fbconfig != NULL)
+    XFree(fbconfig);
 
-  delete [] attribList;
-
-  scr = DefaultScreenOfDisplay(dpy);
+  Screen* scr = DefaultScreenOfDisplay(dpy);
 
   winAttr.background_pixel = BlackPixel(dpy,screen);
   winAttr.border_pixel = 0;
@@ -129,8 +290,8 @@ HsWindowSystem::HsCreateWindow(const WindowVisualInfo &winVisual)
 
 
   winMn = XCreateWindow(dpy, 
-                        root, winParam.positionX, winParam.positionY, 
-                        winParam.width, winParam.height, 
+                        root, windowParameters.positionX, windowParameters.positionY, 
+                        windowParameters.width, windowParameters.height, 
                         0, vi->depth, InputOutput, 
                         vi->visual,
                         CWBorderPixel | CWColormap | CWEventMask | CWBackPixel, 
@@ -140,100 +301,105 @@ HsWindowSystem::HsCreateWindow(const WindowVisualInfo &winVisual)
   XFree(vi);
 
   if (winMn == 0)
-    HUMMSTRUMM_THROW (Generic, "Unable to create an X11 window\n");
+    HUMMSTRUMM_THROW (WindowSystem, "Unable to create an X11 window\n");
 
-  XStoreName(dpy, winMn, winParam.name.c_str());
+  XStoreName(dpy, winMn, windowParameters.name.c_str());
 
-  wndProtocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
-  wndDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
   Atom wndName = XInternAtom(dpy, "XA_WM_NAME", False);
 
   XSetWMProtocols(dpy,winMn, &wndDelete, 1);
 
   XMapWindow(dpy,winMn);
   XMapRaised(dpy,winMn);
-  if (winParam.fullscreen)
-    SetFullscreen();
 
-  glXMakeCurrent(dpy,winMn,glxCtx);
-  if (glXIsDirect(dpy,glxCtx))
+  if (makeContextCurrentAddr != NULL)
   {
-    HUMMSTRUMM_LOG("DRI enabled",MESSAGE);
+    makeContextCurrentAddr(dpy, winMn, winMn, glxCtx);
   }
   else
-  {
+    glXMakeCurrent(dpy,winMn,glxCtx);
+
+  if (glXIsDirect(dpy,glxCtx))
+    HUMMSTRUMM_LOG("DRI enabled",MESSAGE);
+  else
     HUMMSTRUMM_LOG("DRI not enabled",MESSAGE);
-  }
 
+  if ( swapIntervalAddr != NULL)
+    swapIntervalAddr (windowParameters.forceVerticalSync);
 
+  HsSetMode(windowParameters);
 }
 
 void
-HsWindowSystem::ChangeToFullscreen()
+HsWindowSystem::HsSetMode(WindowVisualInfo &param)
 {
-
-  long atomsSize;
-  Atom *atoms;
-  XWindowAttributes xwa;
-  bool netWMFullscreen = false;
-
-  //The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
-  // should fill the entire screen and have no window decorations. Additionally 
-  // the Window Manager is responsible for restoring the original geometry after 
-  // a switch from fullscreen back to normal window. For example, a presentation 
-  // program would use this hint." 
-
-  // As some window managers still support the old MWN_HINTS we will try that to
-  // disable any window decorations
-
-  if (IsNetWMCompliant())
+  if (param.isFullscreen)
   {
-    Atom netSupported = XInternAtom(dpy,"_NET_SUPPORTED", False);
-    Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
-    Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
-    if ( atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize))
+    long atomsSize;
+    Atom *atoms;
+    XWindowAttributes xwa;
+    bool netWMFullscreen = false;
+
+    //The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
+    // should fill the entire screen and have no window decorations. Additionally 
+    // the Window Manager is responsible for restoring the original geometry after 
+    // a switch from fullscreen back to normal window. For example, a presentation 
+    // program would use this hint." 
+
+    // As some window managers still support the old MWN_HINTS we will try that to
+    // disable any window decorations
+
+    if (IsNetWMCompliant())
     {
-     for (unsigned i = 0; i < atomsSize; i++)
+      Atom netSupported = XInternAtom(dpy,"_NET_SUPPORTED", False);
+      Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
+      Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
+      if ( atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize))
       {
-        if (atoms[i] == fullScreen) 
+       for (unsigned i = 0; i < atomsSize; i++)
         {
-          netWMFullscreen = true;
-          break;
+          if (atoms[i] == fullScreen) 
+          {
+            netWMFullscreen = true;
+            break;
+          }
         }
       }
-    }
-    delete [] atoms;
+      delete [] atoms;
 
-    if (netWMFullscreen)
-    {
-      XEvent xev;
-      xev.xclient.type = ClientMessage;
-      xev.xclient.serial = 0;
-      xev.xclient.send_event = True;
-      xev.xclient.window = winMn;
-      xev.xclient.message_type = wmState;
-      xev.xclient.format = 32;
-      xev.xclient.data.l[0] = _NET_WM_STATE_ADD;
-      xev.xclient.data.l[1] = fullScreen;
-      xev.xclient.data.l[2] = 0;
-      xev.xclient.data.l[3] = 0;
-      xev.xclient.data.l[4] = 0;
+      if (netWMFullscreen)
+      {
+        XEvent xev;
+        xev.xclient.type = ClientMessage;
+        xev.xclient.serial = 0;
+        xev.xclient.send_event = True;
+        xev.xclient.window = winMn;
+        xev.xclient.message_type = wmState;
+        xev.xclient.format = 32;
+        xev.xclient.data.l[0] = _NET_WM_STATE_ADD;
+        xev.xclient.data.l[1] = fullScreen;
+        xev.xclient.data.l[2] = 0;
+        xev.xclient.data.l[3] = 0;
+        xev.xclient.data.l[4] = 0;
 
-      XSendEvent(dpy, 
-                 root, 
-                 False, 
-                 SubstructureRedirectMask | SubstructureNotifyMask, 
-                 &xev);
-  
-      return;
+        XSendEvent(dpy, 
+                   root, 
+                   False, 
+                   SubstructureRedirectMask | SubstructureNotifyMask, 
+                   &xev);
+    
+        return;
+      }
     }
+
+    // Set fullscreen (fallback)
+    HUMMSTRUMM_LOG("The Window Manager doesn't support NETWM. Using fullscreen fallback mode",WARNING);
+    XGetWindowAttributes(dpy, root, &xwa);
+    XMoveResizeWindow(dpy,winMn,0,0,xwa.width, xwa.height);
   }
 
-  // Set fullscreen (fallback)
-  HUMMSTRUMM_LOG("The Window Manager doesn't support NETWM. Using fullscreen fallback mode",WARNING);
-  XGetWindowAttributes(dpy, root, &xwa);
-  XMoveResizeWindow(dpy,winMn,0,0,xwa.width, xwa.height);
 }
+
 /*
 void
 HsWindowSystem::SetWindowMode()
@@ -260,8 +426,8 @@ HsWindowSystem::SetWindowMode()
 }
 */
 
-WindowEvents*
-HsWindowSystem::GetNextEvent()
+hummstrumm::engine::events::WindowEvents*
+HsWindowSystem::HsGetNextEvent()
 {
   XEvent event;
   // Blocks until an event is received
@@ -270,13 +436,15 @@ HsWindowSystem::GetNextEvent()
   switch (event.type)
   {
     case DestroyNotify:
-      return new hummstrumm::engine::events::StructureEvents(WindowEvents::WINDOW_CLOSE);
+      return new hummstrumm::engine::events::StructureEvents(
+        hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
 
     case ClientMessage:
       if (event.xclient.message_type == wndProtocols &&
-        event.xclient.data.l[0] == wndDelete)
+          event.xclient.data.l[0] == wndDelete)
       {
-        return new hummstrumm::engine::events::StructureEvents(WindowEvents::WINDOW_CLOSE);
+        return new hummstrumm::engine::events::StructureEvents(
+          hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
       }
       break;
 
@@ -284,20 +452,22 @@ HsWindowSystem::GetNextEvent()
       break;
 
     case ConfigureNotify:
-        return new hummstrumm::engine::events::StructureEvents(WindowEvents::WINDOW_RESIZE, event.xconfigurerequest.width,event.xconfigurerequest.height);
+        return new hummstrumm::engine::events::StructureEvents(
+          hummstrumm::engine::events::WindowEvents::WINDOW_RESIZE, 
+          event.xconfigurerequest.width,
+          event.xconfigurerequest.height);
     default:
       break;
   }
-  return new WindowEvents();
+  return new hummstrumm::engine::events::WindowEvents();
 }
 
 int
-HsWindowSystem::GetPendingEventsCount() const
+HsWindowSystem::HsGetPendingEventsCount() const
 {
   return XPending(dpy);
 }
 
-// Private methods
 char *
 HsWindowSystem::GetXProperty(const Window &win, Atom property, Atom property_type, long &size) const
 {

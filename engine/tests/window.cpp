@@ -6,7 +6,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-
 using namespace hummstrumm::engine::window;
 using namespace hummstrumm::engine::system;
 using namespace hummstrumm::engine::types;
@@ -18,13 +17,15 @@ static GLfloat rotQuad = 0.0f;
 int64 start;
 int64 freq;
 
-HsWindowSystem* window;
+HsWindowSystem* window = NULL;
+WindowVisualInfo param;
 int64 TIME_FOR_EACH_TEST;
 bool isTesting = true;
 
 unsigned short currentTest = 0;
 
-void resizeGL(unsigned int width, unsigned int height)
+void 
+resizeGL(unsigned int width, unsigned int height)
 {                                                     
     if (height == 0)                                  
         height = 1;
@@ -36,8 +37,10 @@ void resizeGL(unsigned int width, unsigned int height)
     glMatrixMode(GL_MODELVIEW);
 }                                                                         
  
-void initGL()
-{ 
+void 
+initGL()
+{
+    glEnable(GL_MULTISAMPLE); 
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);                  
@@ -49,7 +52,8 @@ void initGL()
 
 }                                                               
  
-void renderGL()
+void 
+renderGL()
 {              
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();                                  
@@ -126,19 +130,22 @@ runTest(int n)
 {
 
   std::cout << boolalpha;
-  WindowVisualInfo param;
 
   switch(n)
   {
     case 0:
-    {
+    {     
       param.isFullscreen = false;      
       param.isDoubleBuffer = true;
       param.forceVerticalSync = false;
-      param.redSize = 4;
-      param.greenSize = 4;
-      param.blueSize = 4;
-      param.depthSize = 16;
+      param.redSize = 8;
+      param.greenSize = 8;
+      param.blueSize = 8;
+      param.alphaSize = 8;
+      param.depthSize = 24;
+      param.stencilSize = 8;
+      param.useAntiAliasing = true;
+      param.samples = 8;
     }
     break;
 
@@ -151,6 +158,9 @@ runTest(int n)
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
+      param.stencilSize = 0;
+      param.useAntiAliasing = false;
+      param.samples = 0;
     }
     break;
 
@@ -159,12 +169,13 @@ runTest(int n)
       param.isFullscreen = true;
       param.isDoubleBuffer = true;
       param.forceVerticalSync = true;
-      param.redSize = 4;
-      param.greenSize = 4;
-      param.blueSize = 4;
-      param.depthSize = 16;
+      param.redSize = 8;
+      param.greenSize = 8;
+      param.blueSize = 8;
+      param.depthSize = 24;
+      param.stencilSize = 8;
       param.useAntiAliasing = true;
-      param.samples = 2;
+      param.samples = 4;
     }
     break;
 
@@ -177,6 +188,9 @@ runTest(int n)
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
+      param.useAntiAliasing = false;
+      param.samples = 0;
+      param.stencilSize = 0;
 
       param.width = 200;
       param.height = 200;
@@ -194,6 +208,9 @@ runTest(int n)
       param.depthSize = 16;
       param.width = 500;
       param.height = 200;
+      param.useAntiAliasing = false;
+      param.samples = 0;
+      param.stencilSize = 0;
       param.openGLMajorVer = 1;
       param.openGLMinorVer = 0;
     } 
@@ -212,6 +229,9 @@ runTest(int n)
       param.height = 768;
       param.openGLMajorVer = 3;
       param.openGLMinorVer = 1;
+      param.stencilSize = 8;
+      param.useAntiAliasing = true;
+      param.samples = 8;
     } 
     break;
 
@@ -231,7 +251,6 @@ runTest(int n)
     showParameters(param, "Obtained parameters");
     initGL();
   }
-
 }
 
 void
@@ -268,11 +287,12 @@ main()
     {
       while (window->HsGetPendingEventsCount() > 0) 
       {
+
         WindowEvents *wev = window->HsGetNextEvent();
         StructureEvents *wsv = NULL;
         switch(wev->getType())
         {
-          case WindowEvents::WINDOW_RESIZE:           
+          case WindowEvents::WINDOW_RESIZE:
               wsv = (StructureEvents *) wev;
               logMessage.str("");
               logMessage << "Window Event : RESIZE ( w ";
@@ -318,7 +338,7 @@ main()
           default: 
               break;
         }
-      } 
+      }
       renderGL();
       window->HsSwapBuffers();
       checkTestIsOver();

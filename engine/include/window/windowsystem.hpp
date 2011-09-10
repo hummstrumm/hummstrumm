@@ -31,6 +31,8 @@
 #include <X11/Xatom.h>
 #include <X11/extensions/Xrandr.h>
 #include <GL/glx.h>
+#include "glxext.h"
+#include "glext.h"
 #endif
 
 
@@ -67,6 +69,36 @@ class HsWindowSystem
     int screen;   // Default screen
     int depth;    // The depth of the default root window for default screen
     Window winMn; // Current window
+    GLXContext glxCtx;
+    
+    Atom wndProtocols;
+    Atom wndDelete;
+
+    // GLX Extensions
+    PFNGLXSWAPINTERVALSGIPROC swapIntervalAddr;
+    PFNGLXCHOOSEFBCONFIGPROC chooseFBConfigAddr;
+    PFNGLXMAKECONTEXTCURRENTPROC makeContextCurrentAddr;
+    PFNGLXCREATECONTEXTATTRIBSARBPROC createContextAttribsAddr;
+
+    /**
+     * Initialize the GLX Extensions.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     */
+    void InitializeGLXExtensions();
+
+    /**
+     * Check if a GLX Extension is supported
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     */
+    bool IsGLXExtensionSupported(const char* extension, const GLubyte *extensions);
 
     /**
      * Get a X Window property.
@@ -94,8 +126,6 @@ class HsWindowSystem
      * @return True if yes, false otherwise.
      */
     bool IsNetWMCompliant() const;
-
-    void SetToFullscreenMode();
 
     #endif
 
