@@ -31,7 +31,7 @@ namespace window
 
 using hummstrumm::engine::events::StructureEvents;
 
-HsWindowSystem::HsWindowSystem()
+WindowSystem::WindowSystem()
 {
   DWORD error;
 
@@ -46,13 +46,13 @@ HsWindowSystem::HsWindowSystem()
   InitializeWGLExtensions();
 }
 
-HsWindowSystem::~HsWindowSystem()
+WindowSystem::~WindowSystem()
 {
-  HsDestroyWindow();
+  DestroyWindow();
 }
 
 void
-HsWindowSystem::HsDestroyWindow()
+WindowSystem::HsDestroyWindow()
 {
   DWORD error;
 
@@ -107,7 +107,7 @@ HsWindowSystem::HsDestroyWindow()
 }
 
 void
-HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
+WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
 {
   WNDCLASS wndAttributes;
 
@@ -136,7 +136,7 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
   HsSetMode(windowParameters);
-  if (windowParameters.isFullscreen)
+  if (windowParameters.useFullscreen)
   {
     windowStyleEx = WS_EX_APPWINDOW;
     windowStyle = WS_POPUP;
@@ -208,8 +208,8 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
     int* values = new int[attribSize];
     wglGetPixelFormatAttribivARB(deviceContext, pixelFormat, 0, attribSize, attrib, values);
    
-    windowParameters.isDoubleBuffer = values[0] != 0;
-    windowParameters.isStereo = values[1] != 0;
+    windowParameters.useDoubleBuffer = values[0] != 0;
+    windowParameters.useStereo = values[1] != 0;
     windowParameters.auxBuffers = values[2];
     windowParameters.redSize = values[3];
     windowParameters.greenSize = values[4];
@@ -228,8 +228,8 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
   else
   {
     DWORD flags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_GENERIC_ACCELERATED;
-    if (windowParameters.isDoubleBuffer) flags = flags | PFD_DOUBLEBUFFER;
-    if (windowParameters.isStereo) flags = flags | PFD_STEREO;
+    if (windowParameters.useDoubleBuffer) flags = flags | PFD_DOUBLEBUFFER;
+    if (windowParameters.useStereo) flags = flags | PFD_STEREO;
     if (windowParameters.depthSize == 0) flags = flags | PFD_DEPTH_DONTCARE;
     pfd.nSize           =  sizeof(PIXELFORMATDESCRIPTOR);
     pfd.nVersion        =  1;
@@ -370,7 +370,7 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
 }
 
 void
-HsWindowSystem::HsSwapBuffers()
+WindowSystem::HsSwapBuffers()
 {
   DWORD error;
   BOOL ret = SwapBuffers(deviceContext);
@@ -383,9 +383,9 @@ HsWindowSystem::HsSwapBuffers()
 }
 
 void
-HsWindowSystem::HsSetMode(WindowVisualInfo &param)
+WindowSystem::HsSetMode(WindowVisualInfo &param)
 {
-  if (param.isFullscreen)
+  if (param.useFullscreen)
   {
     DEVMODE dmScreenSettings;
     memset(&dmScreenSettings,0,sizeof(dmScreenSettings));
@@ -399,13 +399,13 @@ HsWindowSystem::HsSetMode(WindowVisualInfo &param)
     {
       hummstrumm::engine::types::String errMsg = "Requested parameters don't support fullscreen.";
       HUMMSTRUMM_LOG (errMsg.c_str(), WARNING);
-      param.isFullscreen = false;
+      param.useFullscreen = false;
     }
   }
 }
 
 void
-HsWindowSystem::InitializeWGLExtensions()
+WindowSystem::InitializeWGLExtensions()
 {
   /* This method deserves a quick explanation. The objective is to get
    * the address of WGL functions and to do that we need to create a 
@@ -511,7 +511,7 @@ HsWindowSystem::InitializeWGLExtensions()
 }
 
 hummstrumm::engine::events::WindowEvents*
-HsWindowSystem::HsGetNextEvent()
+WindowSystem::GetNextEvent()
 {
   MSG msg = { };
 
@@ -561,7 +561,7 @@ HsWindowSystem::HsGetNextEvent()
 }
 
 void
-HsWindowSystem::PostEventMessage(UINT msg, WPARAM wParam, LPARAM lParam)
+WindowSystem::PostEventMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 {
   EventMsg *pMsg = new EventMsg;
   pMsg->msg = msg;
@@ -571,7 +571,7 @@ HsWindowSystem::PostEventMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 int
-HsWindowSystem::HsGetPendingEventsCount() const
+WindowSystem::GetPendingEventsCount() const
 {
   DWORD queueStatus = GetQueueStatus(QS_ALLINPUT);
   // The high-order word of the return value indicates the types of 
@@ -580,7 +580,7 @@ HsWindowSystem::HsGetPendingEventsCount() const
 }
 
 hummstrumm::engine::types::String
-HsWindowSystem::GetErrorMessage(hummstrumm::engine::types::String premsg, DWORD code)
+WindowSystem::GetErrorMessage(hummstrumm::engine::types::String premsg, DWORD code)
 {
 
   LPVOID lpMsgBuf;
@@ -603,11 +603,11 @@ HsWindowSystem::GetErrorMessage(hummstrumm::engine::types::String premsg, DWORD 
 }
 
 LRESULT CALLBACK
-HsWindowSystem::ProcessWindowMessages(HWND hWnd, UINT uMsg, 
+WindowSystem::ProcessWindowMessages(HWND hWnd, UINT uMsg, 
   WPARAM wParam, LPARAM lParam)
 {
 
- HsWindowSystem *pWin;
+ WindowSystem *pWin;
 
   switch (uMsg)
   {
@@ -615,7 +615,7 @@ HsWindowSystem::ProcessWindowMessages(HWND hWnd, UINT uMsg,
     case WM_CREATE:
     {
         CREATESTRUCT *pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
-        pWin = reinterpret_cast<HsWindowSystem*>(pCreate->lpCreateParams);
+        pWin = reinterpret_cast<WindowSystem*>(pCreate->lpCreateParams);
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pWin);
     }
 
@@ -644,7 +644,7 @@ HsWindowSystem::ProcessWindowMessages(HWND hWnd, UINT uMsg,
     case WM_SIZE:
     {
       LONG_PTR ptr = GetWindowLongPtr(hWnd, GWLP_USERDATA);
-      pWin = reinterpret_cast<HsWindowSystem*>(ptr);
+      pWin = reinterpret_cast<WindowSystem*>(ptr);
       // I could probably avoid having to do this only if I was able
       // to post a message to the thread message queue. Well, I'm 
       // capable of posting a message but this message is only received

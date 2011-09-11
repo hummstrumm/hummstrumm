@@ -35,7 +35,7 @@ enum netWMStates
   _NET_WM_STATE_TOGGLE
 };
 
-HsWindowSystem::HsWindowSystem()
+WindowSystem::WindowSystem()
 {
   int major;
   int minor;
@@ -73,7 +73,7 @@ HsWindowSystem::HsWindowSystem()
   InitializeGLXExtensions ();
 }
 
-HsWindowSystem::~HsWindowSystem()
+WindowSystem::~WindowSystem()
 {
   if (dpy != NULL)
     XCloseDisplay(dpy);
@@ -81,7 +81,7 @@ HsWindowSystem::~HsWindowSystem()
 
 
 void
-HsWindowSystem::HsDestroyWindow()
+WindowSystem::DestroyWindow()
 {
   glXDestroyContext(dpy, glxCtx);
 
@@ -101,7 +101,7 @@ HsWindowSystem::HsDestroyWindow()
 }
 
 void
-HsWindowSystem::InitializeGLXExtensions()
+WindowSystem::InitializeGLXExtensions()
 {
   /* Note: http://dri.freedesktop.org/wiki/glXGetProcAddressNeverReturnsNULL */
   /* Doing this is acceptable for GLX functions. See the last paragraph of misconception #3. */
@@ -135,7 +135,7 @@ HsWindowSystem::InitializeGLXExtensions()
 }
 
 bool
-HsWindowSystem::IsGLXExtensionSupported(const char* extension, const GLubyte *extensions)
+WindowSystem::IsGLXExtensionSupported(const char* extension, const GLubyte *extensions)
 {
   const GLubyte *start;
   GLubyte *where, *terminator;
@@ -162,13 +162,13 @@ HsWindowSystem::IsGLXExtensionSupported(const char* extension, const GLubyte *ex
 }
 
 void
-HsWindowSystem::HsSwapBuffers()
+WindowSystem::HsSwapBuffers()
 {
   glXSwapBuffers(dpy, winMn);
 }
 
 void
-HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
+WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
 {
   XSetWindowAttributes winAttr; 
   XVisualInfo *vi = NULL;
@@ -194,9 +194,9 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
     glXGetFBConfigAttrib(dpy, *fbconfig, GLX_BLUE_SIZE, &windowParameters.blueSize);
     glXGetFBConfigAttrib(dpy, *fbconfig, GLX_ALPHA_SIZE, &windowParameters.alphaSize);
     glXGetFBConfigAttrib(dpy, *fbconfig, GLX_DOUBLEBUFFER, &tmp);
-    windowParameters.isDoubleBuffer = (tmp != 0);
+    windowParameters.useDoubleBuffer = (tmp != 0);
     glXGetFBConfigAttrib(dpy, *fbconfig, GLX_STEREO, &tmp);
-    windowParameters.isStereo = (tmp != 0);
+    windowParameters.useStereo = (tmp != 0);
     glXGetFBConfigAttrib(dpy, *fbconfig, GLX_DEPTH_SIZE, &windowParameters.depthSize);
     glXGetFBConfigAttrib(dpy, *fbconfig, GLX_STENCIL_SIZE, &windowParameters.stencilSize);
     glXGetFBConfigAttrib(dpy, *fbconfig, GLX_ACCUM_RED_SIZE, &windowParameters.accumRedSize);
@@ -213,7 +213,7 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
     // Fallback
     bool rgba = (windowParameters.renderType == GLX_RGBA_BIT) ? true : false;
     int hasStereo = 0;
-    if (windowParameters.isStereo)
+    if (windowParameters.useStereo)
        hasStereo = GLX_STEREO;
 
     int altAttribList[] = 
@@ -222,7 +222,7 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
       GLX_BUFFER_SIZE,      windowParameters.bufferSize,
       GLX_LEVEL,            0,
       GLX_RGBA,             rgba,
-      GLX_DOUBLEBUFFER,     windowParameters.isDoubleBuffer,
+      GLX_DOUBLEBUFFER,     windowParameters.useDoubleBuffer,
       GLX_AUX_BUFFERS,      windowParameters.auxBuffers,
       GLX_RED_SIZE,         windowParameters.redSize,
       GLX_GREEN_SIZE,       windowParameters.greenSize,
@@ -246,9 +246,9 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
     glXGetConfig(dpy, vi, GLX_BLUE_SIZE, &windowParameters.blueSize);
     glXGetConfig(dpy, vi, GLX_ALPHA_SIZE, &windowParameters.alphaSize);
     glXGetConfig(dpy, vi, GLX_DOUBLEBUFFER, &tmp);
-    windowParameters.isDoubleBuffer = (tmp != 0);
+    windowParameters.useDoubleBuffer = (tmp != 0);
     glXGetConfig(dpy, vi, GLX_STEREO, &tmp);
-    windowParameters.isStereo = (tmp != 0);
+    windowParameters.useStereo = (tmp != 0);
     glXGetConfig(dpy, vi, GLX_DEPTH_SIZE, &windowParameters.depthSize);
     glXGetConfig(dpy, vi, GLX_STENCIL_SIZE, &windowParameters.stencilSize);
     glXGetConfig(dpy, vi, GLX_ACCUM_RED_SIZE, &windowParameters.accumRedSize);
@@ -331,9 +331,9 @@ HsWindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
 }
 
 void
-HsWindowSystem::HsSetMode(WindowVisualInfo &param)
+WindowSystem::HsSetMode(WindowVisualInfo &param)
 {
-  if (param.isFullscreen)
+  if (param.useFullscreen)
   {
     long atomsSize;
     Atom *atoms;
@@ -387,9 +387,10 @@ HsWindowSystem::HsSetMode(WindowVisualInfo &param)
                    False, 
                    SubstructureRedirectMask | SubstructureNotifyMask, 
                    &xev);
-    
+   
         return;
       }
+      param.useFullscreen = false;
     }
 
     // Set fullscreen (fallback)
@@ -402,7 +403,7 @@ HsWindowSystem::HsSetMode(WindowVisualInfo &param)
 
 /*
 void
-HsWindowSystem::SetWindowMode()
+WindowSystem::SetWindowMode()
 { 
   Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
   Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
@@ -427,7 +428,7 @@ HsWindowSystem::SetWindowMode()
 */
 
 hummstrumm::engine::events::WindowEvents*
-HsWindowSystem::HsGetNextEvent()
+WindowSystem::GetNextEvent()
 {
   XEvent event;
   // Blocks until an event is received
@@ -463,13 +464,13 @@ HsWindowSystem::HsGetNextEvent()
 }
 
 int
-HsWindowSystem::HsGetPendingEventsCount() const
+WindowSystem::GetPendingEventsCount() const
 {
   return XPending(dpy);
 }
 
 char *
-HsWindowSystem::GetXProperty(const Window &win, Atom property, Atom property_type, long &size) const
+WindowSystem::GetXProperty(const Window &win, Atom property, Atom property_type, long &size) const
 {
   // adapted from wmctrl source code
   Atom xa_ret_type;
@@ -513,7 +514,7 @@ HsWindowSystem::GetXProperty(const Window &win, Atom property, Atom property_typ
 }
 
 bool
-HsWindowSystem::IsNetWMCompliant() const
+WindowSystem::IsNetWMCompliant() const
 {
   long winSize;
   bool retCode = false;

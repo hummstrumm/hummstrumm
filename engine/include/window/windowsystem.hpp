@@ -43,20 +43,20 @@ namespace engine
 namespace window
 {
 
-class HsWindowSystem
+class WindowSystem
 {
   public:
-    HsWindowSystem();
+    WindowSystem();
 
-    ~HsWindowSystem();
+    ~WindowSystem();
 
-    void HsDestroyWindow();
+    void DestroyWindow();
 
     void HsCreateWindow(WindowVisualInfo &windowParameters);
 
-    hummstrumm::engine::events::WindowEvents* HsGetNextEvent();
+    hummstrumm::engine::events::WindowEvents* GetNextEvent();
 
-    int HsGetPendingEventsCount() const;
+    int GetPendingEventsCount() const;
 
     void HsSwapBuffers();
 

@@ -17,7 +17,7 @@ static GLfloat rotQuad = 0.0f;
 int64 start;
 int64 freq;
 
-HsWindowSystem* window = NULL;
+WindowSystem* window = NULL;
 WindowVisualInfo param;
 int64 TIME_FOR_EACH_TEST;
 bool isTesting = true;
@@ -104,8 +104,8 @@ void
 showParameters(WindowVisualInfo &param, const char *title)
 {
     std::cout << title << std::endl;
-    std::cout << " FullScreen : " << param.isFullscreen << std::endl;
-    std::cout << " Double Buffer : " << param.isDoubleBuffer << std::endl;
+    std::cout << " FullScreen : " << param.useFullscreen << std::endl;
+    std::cout << " Double Buffer : " << param.useDoubleBuffer << std::endl;
     std::cout << " Red Buffer Size: " << param.redSize << std::endl;
     std::cout << " Green Buffer Size: " << param.greenSize << std::endl;
     std::cout << " Blue Buffer Size: " << param.blueSize << std::endl;
@@ -135,8 +135,8 @@ runTest(int n)
   {
     case 0:
     {     
-      param.isFullscreen = false;      
-      param.isDoubleBuffer = true;
+      param.useFullscreen = false;      
+      param.useDoubleBuffer = true;
       param.forceVerticalSync = false;
       param.redSize = 8;
       param.greenSize = 8;
@@ -151,8 +151,8 @@ runTest(int n)
 
     case 1:
     {
-      param.isFullscreen = true;
-      param.isDoubleBuffer = true;
+      param.useFullscreen = true;
+      param.useDoubleBuffer = true;
       param.forceVerticalSync = true;
       param.redSize = 4;
       param.greenSize = 4;
@@ -166,8 +166,8 @@ runTest(int n)
 
     case 2:
     {
-      param.isFullscreen = true;
-      param.isDoubleBuffer = true;
+      param.useFullscreen = true;
+      param.useDoubleBuffer = true;
       param.forceVerticalSync = true;
       param.redSize = 8;
       param.greenSize = 8;
@@ -181,8 +181,8 @@ runTest(int n)
 
     case 3:
     {
-      param.isFullscreen = false;
-      param.isDoubleBuffer = true;
+      param.useFullscreen = false;
+      param.useDoubleBuffer = true;
       param.forceVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
@@ -199,8 +199,8 @@ runTest(int n)
 
     case 4:
     {
-      param.isFullscreen = true;
-      param.isDoubleBuffer = true;
+      param.useFullscreen = true;
+      param.useDoubleBuffer = true;
       param.forceVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
@@ -218,8 +218,8 @@ runTest(int n)
 
     case 5:
     {
-      param.isFullscreen = true;
-      param.isDoubleBuffer = true;
+      param.useFullscreen = true;
+      param.useDoubleBuffer = true;
       param.forceVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
@@ -262,7 +262,7 @@ checkTestIsOver()
   if ( (end - start) > TIME_FOR_EACH_TEST )
   {
     std::cout << "Test ended\n";
-    window->HsDestroyWindow();
+    window->DestroyWindow();
     runTest(++currentTest);
   }
 }
@@ -279,16 +279,16 @@ main()
   {
     std::stringstream logMessage;
     std::cout << "HUMMSTRUMM window testing with OpenGL context" << std::endl;
-    window = new HsWindowSystem;
+    window = new WindowSystem;
 
     runTest(0);
 
     while (isTesting)
     {
-      while (window->HsGetPendingEventsCount() > 0) 
+      while (window->GetPendingEventsCount() > 0) 
       {
 
-        WindowEvents *wev = window->HsGetNextEvent();
+        WindowEvents *wev = window->GetNextEvent();
         StructureEvents *wsv = NULL;
         switch(wev->getType())
         {

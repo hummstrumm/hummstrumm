@@ -182,11 +182,11 @@ class WindowVisualInfo
     unsigned short width;
 
     /// Whether the window should be created in fullscreen.
-    bool isFullscreen;
+    bool useFullscreen;
     
-    bool isDoubleBuffer;
+    bool useDoubleBuffer;
 
-    bool isStereo;
+    bool useStereo;
 
     bool useAntiAliasing;
 
@@ -223,6 +223,8 @@ class WindowVisualInfo
     int openGLMajorVer;
 
     int openGLMinorVer;
+
+    bool isDirectRendering;
 
   private:
     int* pixelDescriptor;

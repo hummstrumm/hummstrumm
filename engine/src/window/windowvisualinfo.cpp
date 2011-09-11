@@ -62,9 +62,9 @@ WindowVisualInfo::WindowVisualInfo ():
   positionY (0),
   height (600),
   width (800),
-  isFullscreen (false),
-  isDoubleBuffer (true),
-  isStereo (false),
+  useFullscreen (false),
+  useDoubleBuffer (true),
+  useStereo (false),
   #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
   renderType (WGL_TYPE_RGBA_ARB),
   #elif defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
@@ -98,9 +98,9 @@ WindowVisualInfo::WindowVisualInfo (const WindowVisualInfo &param):
   positionY (param.positionY),
   height (param.height),
   width (param.width),
-  isFullscreen (param.isFullscreen),
-  isDoubleBuffer (param.isDoubleBuffer),
-  isStereo (param.isStereo),
+  useFullscreen (param.useFullscreen),
+  useDoubleBuffer (param.useDoubleBuffer),
+  useStereo (param.useStereo),
   renderType (param.renderType),
   depthSize (param.depthSize),
   bufferSize (param.bufferSize),
@@ -168,8 +168,8 @@ WindowVisualInfo::GetPixelFormatDescriptor ()
   ATTRIB_PIXEL_ADD2 (WGL_SUPPORT_OPENGL_ARB,   GL_TRUE);
   ATTRIB_PIXEL_ADD2 (WGL_ACCELERATION_ARB,     WGL_FULL_ACCELERATION_ARB);
   ATTRIB_PIXEL_ADD2 (WGL_COLOR_BITS_ARB,       bufferSize); // minimum
-  ATTRIB_PIXEL_ADD2 (WGL_DOUBLE_BUFFER_ARB,    isDoubleBuffer); // exact
-  ATTRIB_PIXEL_ADD2 (WGL_STEREO_ARB,           isStereo); // exact
+  ATTRIB_PIXEL_ADD2 (WGL_DOUBLE_BUFFER_ARB,    useDoubleBuffer); // exact
+  ATTRIB_PIXEL_ADD2 (WGL_STEREO_ARB,           useStereo); // exact
   ATTRIB_PIXEL_ADD2 (WGL_AUX_BUFFERS_ARB,      auxBuffers);  // minimum
   ATTRIB_PIXEL_ADD2 (WGL_RED_BITS_ARB,         redSize); // minimum
   ATTRIB_PIXEL_ADD2 (WGL_GREEN_BITS_ARB,       greenSize); // minimum
@@ -196,8 +196,8 @@ WindowVisualInfo::GetPixelFormatDescriptor ()
 //  ATTRIB_PIXEL_ADD2 (GLX_DRAWABLE_TYPE,     GLX_WINDOW_BIT);
 //  ATTRIB_PIXEL_ADD2 (GLX_X_VISUAL_TYPE,     GLX_TRUE_COLOR);
   ATTRIB_PIXEL_ADD2 (GLX_BUFFER_SIZE,       bufferSize);
-  ATTRIB_PIXEL_ADD2 (GLX_DOUBLEBUFFER,      isDoubleBuffer);
-  ATTRIB_PIXEL_ADD2 (GLX_STEREO,            isStereo);
+  ATTRIB_PIXEL_ADD2 (GLX_DOUBLEBUFFER,      useDoubleBuffer);
+  ATTRIB_PIXEL_ADD2 (GLX_STEREO,            useStereo);
   ATTRIB_PIXEL_ADD2 (GLX_AUX_BUFFERS,       auxBuffers); 
   ATTRIB_PIXEL_ADD2 (GLX_RED_SIZE,          redSize);
   ATTRIB_PIXEL_ADD2 (GLX_GREEN_SIZE,        greenSize);
