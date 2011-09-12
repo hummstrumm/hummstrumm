@@ -29,8 +29,6 @@ namespace engine
 namespace window
 {
 
-using hummstrumm::engine::events::StructureEvents;
-
 WindowSystem::WindowSystem()
 {
   DWORD error;
@@ -52,7 +50,7 @@ WindowSystem::~WindowSystem()
 }
 
 void
-WindowSystem::HsDestroyWindow()
+WindowSystem::DestroyWindow()
 {
   DWORD error;
 
@@ -86,7 +84,7 @@ WindowSystem::HsDestroyWindow()
       HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
   } 
 
-  BOOL windowDestroyed = DestroyWindow(windowHandle);
+  BOOL windowDestroyed = ::DestroyWindow(windowHandle);
   if (!windowDestroyed)
   {
       windowHandle = NULL;
@@ -107,7 +105,7 @@ WindowSystem::HsDestroyWindow()
 }
 
 void
-WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
+(WindowSystem::CreateWindow)(WindowVisualInfo &windowParameters)
 {
   WNDCLASS wndAttributes;
 
@@ -135,7 +133,7 @@ WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
     hummstrumm::engine::types::String errMsg = GetErrorMessage ("RegisterClass: ",error);
     HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
   }
-  HsSetMode(windowParameters);
+  SetMode(windowParameters);
   if (windowParameters.useFullscreen)
   {
     windowStyleEx = WS_EX_APPWINDOW;
@@ -370,10 +368,10 @@ WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
 }
 
 void
-WindowSystem::HsSwapBuffers()
+WindowSystem::SwapBuffers()
 {
   DWORD error;
-  BOOL ret = SwapBuffers(deviceContext);
+  BOOL ret = ::SwapBuffers(deviceContext);
   if (!ret)
   {
     error = GetLastError();
@@ -383,8 +381,10 @@ WindowSystem::HsSwapBuffers()
 }
 
 void
-WindowSystem::HsSetMode(WindowVisualInfo &param)
+WindowSystem::SetMode(WindowVisualInfo &param)
 {
+  DWORD dwStyle;
+  dwStyle = GetWindowLong(windowHandle, GWL_STYLE);
   if (param.useFullscreen)
   {
     DEVMODE dmScreenSettings;
@@ -397,9 +397,30 @@ WindowSystem::HsSetMode(WindowVisualInfo &param)
     LONG ret = ChangeDisplaySettings(&dmScreenSettings,CDS_FULLSCREEN);
     if (ret != DISP_CHANGE_SUCCESSFUL)
     {
-      hummstrumm::engine::types::String errMsg = "Requested parameters don't support fullscreen.";
+      hummstrumm::engine::types::String errMsg = "Window doesn't support fullscreen.";
       HUMMSTRUMM_LOG (errMsg.c_str(), WARNING);
       param.useFullscreen = false;
+      return;
+    }
+    if (dwStyle & WS_OVERLAPPEDWINDOW) {
+        SetWindowLong(windowHandle, GWL_STYLE,
+                      dwStyle & ~WS_OVERLAPPEDWINDOW);
+        SetWindowPos(windowHandle, HWND_TOP,
+                     0, 0, param.width, param.height,
+                     SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+    } 
+
+  }
+  else
+  {
+    ChangeDisplaySettings(NULL,0);
+    if (!(dwStyle & WS_OVERLAPPEDWINDOW))
+    {
+      SetWindowLong(windowHandle, GWL_STYLE,
+                    dwStyle | WS_OVERLAPPEDWINDOW);
+      SetWindowPos(windowHandle, HWND_TOP, param.positionX, param.positionY, 
+                   param.width, param.height,
+                   SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
     }
   }
 }
@@ -507,7 +528,7 @@ WindowSystem::InitializeWGLExtensions()
   wglMakeCurrent (NULL,NULL);
   wglDeleteContext (renderingContext);
   ReleaseDC (windowHandle, deviceContext);
-  DestroyWindow (windowHandle); 
+  ::DestroyWindow (windowHandle); 
 }
 
 hummstrumm::engine::events::WindowEvents*
@@ -524,13 +545,26 @@ WindowSystem::GetNextEvent()
       case WM_SIZE:
       {
         msgQueue.pop();
-        return new StructureEvents(hummstrumm::engine::events::WindowEvents::WINDOW_RESIZE, LOWORD(eMsg.lparam),HIWORD(eMsg.lparam));
+        return new hummstrumm::engine::events::StructureEvents (
+          hummstrumm::engine::events::WindowEvents::WINDOW_RESIZE, 
+          LOWORD(eMsg.lparam),HIWORD(eMsg.lparam));
       }
       break;
 
       case WM_ACTIVATE:
       {
-        std::cout << "Window activate\n";          
+        msgQueue.pop();
+        DWORD state = LOWORD(eMsg.wparam);
+        if (state == 0)
+        {
+          return new hummstrumm::engine::events::StructureEvents (
+            hummstrumm::engine::events::WindowEvents::WINDOW_INACTIVE);
+        }
+        else
+        {
+          return new hummstrumm::engine::events::StructureEvents (
+            hummstrumm::engine::events::WindowEvents::WINDOW_ACTIVE);
+        }
       }
       break;
 
@@ -546,7 +580,8 @@ WindowSystem::GetNextEvent()
   {
     case WM_QUIT:
     {
-      return new StructureEvents(hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
+      return new hummstrumm::engine::events::StructureEvents(
+        hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
     }
 
     default:
@@ -628,6 +663,27 @@ WindowSystem::ProcessWindowMessages(HWND hWnd, UINT uMsg,
         return 0;
       }
       break;
+    }
+
+    case WM_ACTIVATE:
+    {
+      LONG_PTR ptr = GetWindowLongPtr(hWnd, GWLP_USERDATA);
+      pWin = reinterpret_cast<WindowSystem*>(ptr);
+
+      pWin->PostEventMessage(WM_ACTIVATE, wParam, lParam);
+      break;
+    }
+
+    case WM_DISPLAYCHANGE:
+    {
+/*
+      LONG_PTR ptr = GetWindowLongPtr(hWnd, GWLP_USERDATA);
+      pWin = reinterpret_cast<WindowSystem*>(ptr);
+      wParam = 0x1;
+      lParam = 0x0;
+      pWin->PostEventMessage(WM_ACTIVATE, wParam, lParam);
+*/
+      break; 
     }
 
     case WM_CLOSE:

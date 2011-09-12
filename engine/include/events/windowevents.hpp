@@ -62,6 +62,8 @@ class WindowEvents
     {
       WINDOW_RESIZE,     ///< Resizing the window.
       WINDOW_CLOSE,      ///< Closing the window.
+      WINDOW_ACTIVE,     ///< Window is focused.
+      WINDOW_INACTIVE,   ///< Window is not focused or minimized.
       KEY_PRESS,         ///< Key down.
       KEY_RELEASE,       ///< Key up.
       MOUSE_PRESS,       ///< Mouse button down.

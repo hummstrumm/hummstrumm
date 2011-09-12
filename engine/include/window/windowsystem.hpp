@@ -46,22 +46,91 @@ namespace window
 class WindowSystem
 {
   public:
+
+    /**
+     * Window System constructor.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     */
     WindowSystem();
 
+    /**
+     * Window System destructor.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     */
     ~WindowSystem();
 
+    /**
+     * Destroy the current window.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     */
     void DestroyWindow();
 
-    void HsCreateWindow(WindowVisualInfo &windowParameters);
+    /**
+     * Create a window with the requested window parameters.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     * @param [inout] windowParameters The requested and obtained window parameters. 
+     */
+    void (CreateWindow)(WindowVisualInfo &windowParameters);
 
+    /**
+     * Get the next window event.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     * @return A window event. 
+     */
     hummstrumm::engine::events::WindowEvents* GetNextEvent();
 
+    /**
+     * The number of events waiting to be processed. 
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     */
     int GetPendingEventsCount() const;
 
-    void HsSwapBuffers();
+    /**
+     * Exchange the front and back buffers.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     */
+    void SwapBuffers();
+
+    /**
+     * Change the current window to fullscreen or windowed mode.
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     * @param [inout] param The window parameters.
+     */
+    void SetMode(WindowVisualInfo &param);
 
   private:    
-    void HsSetMode(WindowVisualInfo &param);
 
     #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
     Display *dpy; // Pointer to a X11 display structure

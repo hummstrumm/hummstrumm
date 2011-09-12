@@ -17,10 +17,11 @@ static GLfloat rotQuad = 0.0f;
 int64 start;
 int64 freq;
 
-WindowSystem* window = NULL;
+WindowSystem* windowsystem = NULL;
 WindowVisualInfo param;
 int64 TIME_FOR_EACH_TEST;
 bool isTesting = true;
+bool shouldRender = false;
 
 unsigned short currentTest = 0;
 
@@ -40,7 +41,7 @@ resizeGL(unsigned int width, unsigned int height)
 void 
 initGL()
 {
-    glEnable(GL_MULTISAMPLE); 
+    //glEnable(GL_MULTISAMPLE); 
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);                  
@@ -159,6 +160,8 @@ runTest(int n)
       param.blueSize = 4;
       param.depthSize = 16;
       param.stencilSize = 0;
+      param.width = 1024;
+      param.height = 768;
       param.useAntiAliasing = false;
       param.samples = 0;
     }
@@ -166,7 +169,7 @@ runTest(int n)
 
     case 2:
     {
-      param.useFullscreen = true;
+      param.useFullscreen = false;
       param.useDoubleBuffer = true;
       param.forceVerticalSync = true;
       param.redSize = 8;
@@ -174,6 +177,8 @@ runTest(int n)
       param.blueSize = 8;
       param.depthSize = 24;
       param.stencilSize = 8;
+      param.width = 800;
+      param.height = 600;
       param.useAntiAliasing = true;
       param.samples = 4;
     }
@@ -235,6 +240,22 @@ runTest(int n)
     } 
     break;
 
+    case 6:
+    {
+      param.useFullscreen = false;
+      param.width = 800;
+      param.height = 600;
+    }
+    break;
+
+    case 7:
+    {
+      param.useFullscreen = true;
+      param.width = 640;
+      param.height = 480;
+    }
+    break;
+
     default:   
       isTesting = false;
       break;
@@ -245,9 +266,12 @@ runTest(int n)
   {
     start = hummstrumm::engine::core::Engine::
       GetEngine ()->GetClock ()->GetHighResolutionCount();
-     std::cout << "Test #" << n << std::endl;
+    std::cout << "Test #" << n << std::endl;
     showParameters(param, "Requested parameters");
-    window->HsCreateWindow(param);
+    if ( n < 6)
+      (windowsystem->CreateWindow)(param);
+    else
+      windowsystem->SetMode(param);
     showParameters(param, "Obtained parameters");
     initGL();
   }
@@ -262,8 +286,9 @@ checkTestIsOver()
   if ( (end - start) > TIME_FOR_EACH_TEST )
   {
     std::cout << "Test ended\n";
-    window->DestroyWindow();
-    runTest(++currentTest);
+    if (++currentTest < 6)
+      windowsystem->DestroyWindow();
+    runTest(currentTest);
   }
 }
 
@@ -274,21 +299,21 @@ main()
 
   freq = engine.GetClock ()->GetHighResolutionFrequency();
 
-  TIME_FOR_EACH_TEST = 15 * engine.GetClock()->NANOSECONDS_PER_SECOND;
+  TIME_FOR_EACH_TEST = 10 * engine.GetClock()->NANOSECONDS_PER_SECOND;
   try
   {
     std::stringstream logMessage;
     std::cout << "HUMMSTRUMM window testing with OpenGL context" << std::endl;
-    window = new WindowSystem;
+    windowsystem = new WindowSystem;    
 
     runTest(0);
 
     while (isTesting)
     {
-      while (window->GetPendingEventsCount() > 0) 
+      while (windowsystem->GetPendingEventsCount() > 0) 
       {
 
-        WindowEvents *wev = window->GetNextEvent();
+        WindowEvents *wev = windowsystem->GetNextEvent();
         StructureEvents *wsv = NULL;
         switch(wev->getType())
         {
@@ -335,12 +360,24 @@ main()
               logMessage << "Window Event : MOUSE MOTION";
               break;
 
+          case WindowEvents::WINDOW_ACTIVE:
+              std::cout << "Window is active " << std::endl;
+              shouldRender = true;
+              break;
+          case WindowEvents::WINDOW_INACTIVE:
+              std::cout << "Window inactive " << std::endl;
+              shouldRender = false;
+              break;
+
           default: 
               break;
         }
       }
-      renderGL();
-      window->HsSwapBuffers();
+      if (shouldRender)
+      {
+        renderGL();
+        windowsystem->SwapBuffers();
+      }
       checkTestIsOver();
     }
   } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
