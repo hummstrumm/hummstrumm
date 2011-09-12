@@ -41,7 +41,7 @@ resizeGL(unsigned int width, unsigned int height)
 void 
 initGL()
 {
-    //glEnable(GL_MULTISAMPLE); 
+//    glEnable(GL_MULTISAMPLE); 
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);                  
@@ -305,7 +305,6 @@ main()
     std::stringstream logMessage;
     std::cout << "HUMMSTRUMM window testing with OpenGL context" << std::endl;
     windowsystem = new WindowSystem;    
-
     runTest(0);
 
     while (isTesting)

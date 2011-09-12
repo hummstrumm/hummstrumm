@@ -196,6 +196,10 @@ class WindowSystem
      */
     bool IsNetWMCompliant() const;
 
+    static int HandleGeneralXErrors(Display *, XErrorEvent *);
+
+    static int HandleIOXErrors(Display *);
+
     #endif
 
     #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS

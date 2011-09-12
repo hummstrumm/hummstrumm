@@ -44,6 +44,9 @@ WindowSystem::WindowSystem()
   if ((dpy = XOpenDisplay(NULL)) == NULL)
     HUMMSTRUMM_THROW (WindowSystem, "Unable to open a connection to the X server.\n");
 
+  XSetErrorHandler(HandleGeneralXErrors);
+  XSetIOErrorHandler(HandleIOXErrors);
+
   screen = XDefaultScreen(dpy);
   root = XRootWindow(dpy,screen);
   depth = XDefaultDepth(dpy,screen);
@@ -77,6 +80,21 @@ WindowSystem::~WindowSystem()
 {
   if (dpy != NULL)
     XCloseDisplay(dpy);
+}
+
+
+int
+WindowSystem::HandleGeneralXErrors(Display *dpy, XErrorEvent *xerr)
+{
+  char *errMsg = new char[1024];
+  XGetErrorText(dpy, xerr->error_code, errMsg, 1024);
+  HUMMSTRUMM_THROW (WindowSystem,  errMsg);
+}
+
+int
+WindowSystem::HandleIOXErrors(Display *dpy)
+{
+  HUMMSTRUMM_THROW (WindowSystem,  "X connection fatal I/O");
 }
 
 
@@ -162,13 +180,13 @@ WindowSystem::IsGLXExtensionSupported(const char* extension, const GLubyte *exte
 }
 
 void
-WindowSystem::HsSwapBuffers()
+WindowSystem::SwapBuffers()
 {
   glXSwapBuffers(dpy, winMn);
 }
 
 void
-WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
+WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
 {
   XSetWindowAttributes winAttr; 
   XVisualInfo *vi = NULL;
@@ -286,6 +304,7 @@ WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
                        StructureNotifyMask  |
                        PointerMotionMask    |
                        KeyReleaseMask       |
+                       FocusChangeMask      |
                        ButtonReleaseMask;
 
 
@@ -327,11 +346,11 @@ WindowSystem::HsCreateWindow(WindowVisualInfo &windowParameters)
   if ( swapIntervalAddr != NULL)
     swapIntervalAddr (windowParameters.forceVerticalSync);
 
-  HsSetMode(windowParameters);
+  SetMode(windowParameters);
 }
 
 void
-WindowSystem::HsSetMode(WindowVisualInfo &param)
+WindowSystem::SetMode(WindowVisualInfo &param)
 {
   if (param.useFullscreen)
   {
@@ -398,34 +417,29 @@ WindowSystem::HsSetMode(WindowVisualInfo &param)
     XGetWindowAttributes(dpy, root, &xwa);
     XMoveResizeWindow(dpy,winMn,0,0,xwa.width, xwa.height);
   }
+  else
+  {
+    Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
+    Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
 
+    XEvent xev;
+    xev.xclient.type=ClientMessage;
+    xev.xclient.serial = 0;
+    xev.xclient.send_event=True;
+    xev.xclient.window=winMn;
+    xev.xclient.message_type=wmState;
+    xev.xclient.format=32;
+    xev.xclient.data.l[0] = 0;
+    xev.xclient.data.l[1] = fullScreen;
+    xev.xclient.data.l[2] = 0;
+  
+    XSendEvent(dpy, 
+               root, 
+               False, 
+               SubstructureRedirectMask | SubstructureNotifyMask, 
+               &xev);
+  }
 }
-
-/*
-void
-WindowSystem::SetWindowMode()
-{ 
-  Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
-  Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
-
-  XEvent xev;
-  xev.xclient.type=ClientMessage;
-  xev.xclient.serial = 0;
-  xev.xclient.send_event=True;
-  xev.xclient.window=winMn;
-  xev.xclient.message_type=wmState;
-  xev.xclient.format=32;
-  xev.xclient.data.l[0] = 0;
-  xev.xclient.data.l[1] = fullScreen;
-  xev.xclient.data.l[2] = 0;
-
-  XSendEvent(dpy, 
-             root, 
-             False, 
-             SubstructureRedirectMask | SubstructureNotifyMask, 
-             &xev);
-}
-*/
 
 hummstrumm::engine::events::WindowEvents*
 WindowSystem::GetNextEvent()
@@ -448,6 +462,14 @@ WindowSystem::GetNextEvent()
           hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
       }
       break;
+
+    case FocusIn:
+      return new hummstrumm::engine::events::StructureEvents(
+        hummstrumm::engine::events::WindowEvents::WINDOW_ACTIVE);
+ 
+    case FocusOut:
+      return new hummstrumm::engine::events::StructureEvents(
+        hummstrumm::engine::events::WindowEvents::WINDOW_INACTIVE);
 
     case Expose:
       break;
