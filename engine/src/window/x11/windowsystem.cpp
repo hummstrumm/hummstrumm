@@ -73,6 +73,11 @@ WindowSystem::WindowSystem()
   chooseFBConfigAddr = NULL;
   makeContextCurrentAddr = NULL;
 
+  supportedSizes = XRRSizes(dpy, screen, &numSupportedSizes);
+  screenConfigInformation = XRRGetScreenInfo(dpy, root);
+  originalRate = XRRConfigCurrentRate(screenConfigInformation);
+  originalSizeID = XRRConfigCurrentConfiguration(screenConfigInformation, &originalRotation);
+
   InitializeGLXExtensions ();
 }
 
@@ -101,6 +106,9 @@ WindowSystem::HandleIOXErrors(Display *dpy)
 void
 WindowSystem::DestroyWindow()
 {
+
+  XRRSetScreenConfigAndRate(dpy, screenConfigInformation, root,originalSizeID, originalRotation, originalRate, CurrentTime);
+
   glXDestroyContext(dpy, glxCtx);
 
   if (dpy != 0 && winMn != 0)
@@ -251,7 +259,7 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
       GLX_ACCUM_RED_SIZE,   windowParameters.accumRedSize,
       GLX_ACCUM_BLUE_SIZE,  windowParameters.accumBlueSize,
       GLX_ACCUM_GREEN_SIZE, windowParameters.accumGreenSize,
-      GLX_SAMPLE_BUFFERS,   (windowParameters.samples > 0) ? 1 : 0,
+      GLX_SAMPLE_BUFFERS,   (windowParameters.useAntiAliasing) ? 1 : 0,
       GLX_SAMPLES,          windowParameters.samples,
       hasStereo, 
       0
@@ -349,6 +357,19 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
   SetMode(windowParameters);
 }
 
+int
+WindowSystem::IsResolutionSupported(unsigned int w, unsigned int h) const
+{
+  for (int j = 0; j < numSupportedSizes; j++)
+  {
+    if (supportedSizes[j].width == w && supportedSizes[j].height == h)
+    {
+      return j;
+    }
+  }
+  return -1;
+}
+
 void
 WindowSystem::SetMode(WindowVisualInfo &param)
 {
@@ -359,7 +380,18 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     XWindowAttributes xwa;
     bool netWMFullscreen = false;
 
-    //The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
+    int resID = IsResolutionSupported(param.width, param.height);
+
+    if (resID == -1)
+    {
+        param.useFullscreen = false;
+        XMoveResizeWindow(dpy,winMn,param.positionX,param.positionY,param.width, param.height);
+        return;
+    }
+
+    XRRSetScreenConfig(dpy, screenConfigInformation, root, resID, RR_Rotate_0, CurrentTime);
+
+    // The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
     // should fill the entire screen and have no window decorations. Additionally 
     // the Window Manager is responsible for restoring the original geometry after 
     // a switch from fullscreen back to normal window. For example, a presentation 
@@ -419,6 +451,8 @@ WindowSystem::SetMode(WindowVisualInfo &param)
   }
   else
   {
+    XRRSetScreenConfigAndRate(dpy, screenConfigInformation, root,originalSizeID, originalRotation, originalRate, CurrentTime);
+
     Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
     Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
 
@@ -438,6 +472,9 @@ WindowSystem::SetMode(WindowVisualInfo &param)
                False, 
                SubstructureRedirectMask | SubstructureNotifyMask, 
                &xev);
+
+    XMoveResizeWindow(dpy,winMn,param.positionX,param.positionY,param.width, param.height);
+
   }
 }
 

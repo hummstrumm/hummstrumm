@@ -19,7 +19,7 @@
 /**
  * Defines events used by the window system.
  * 
- * @file    events/windowEvents.hpp
+ * @file    events/windowevents.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-09-25
  */

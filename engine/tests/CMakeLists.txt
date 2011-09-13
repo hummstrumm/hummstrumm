@@ -26,6 +26,7 @@ set (hummstrummengine_LIBS hummstrummengine
 
 if (HUMMSTRUMM_WINDOWSYSTEM_X11)
   list (APPEND hummstrummengine_LIBS ${X11_LIBRARIES})
+  list (APPEND hummstrummengine_LIBS ${X11_Xrandr_LIB})
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_LIBS rt)
@@ -35,9 +36,9 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 include_directories (${hummstrummengine_INCLUDE})
-if (HUMMSTRUMM_WINDOWSYSTEM_X11)
-  include_directories (${X11_X11_INCLUDE_PATH})
-endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+#if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+#  include_directories (${X11_X11_INCLUDE_PATH})
+#endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
 add_executable(test_engine_core core.cpp)
 target_link_libraries(test_engine_core ${hummstrummengine_LIBS})

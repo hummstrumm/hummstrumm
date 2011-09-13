@@ -84,7 +84,7 @@ class WindowSystem
      * @date 2011-08-16
      * @since 0.4
      *
-     * @param [inout] windowParameters The requested and obtained window parameters. 
+     * @param [in,out] windowParameters The requested and obtained window parameters. 
      */
     void (CreateWindow)(WindowVisualInfo &windowParameters);
 
@@ -126,7 +126,7 @@ class WindowSystem
      * @date 2011-08-16
      * @since 0.4
      *
-     * @param [inout] param The window parameters.
+     * @param [in,out] param The window parameters.
      */
     void SetMode(WindowVisualInfo &param);
 
@@ -149,6 +149,14 @@ class WindowSystem
     PFNGLXMAKECONTEXTCURRENTPROC makeContextCurrentAddr;
     PFNGLXCREATECONTEXTATTRIBSARBPROC createContextAttribsAddr;
 
+    // Xrandr (change resolution) specific
+    XRRScreenSize* supportedSizes;
+    int numSupportedSizes;
+
+    XRRScreenConfiguration* screenConfigInformation;
+    short originalRate;
+    Rotation originalRotation;
+    SizeID originalSizeID;
     /**
      * Initialize the GLX Extensions.
      *
@@ -199,6 +207,8 @@ class WindowSystem
     static int HandleGeneralXErrors(Display *, XErrorEvent *);
 
     static int HandleIOXErrors(Display *);
+
+    int IsResolutionSupported(unsigned int w, unsigned int h) const;
 
     #endif
 

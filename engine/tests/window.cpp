@@ -256,6 +256,14 @@ runTest(int n)
     }
     break;
 
+    case 8:
+    {
+      param.useFullscreen = false;
+      param.width = 640;
+      param.height = 480;
+    }
+    break;
+
     default:   
       isTesting = false;
       break;
@@ -269,9 +277,15 @@ runTest(int n)
     std::cout << "Test #" << n << std::endl;
     showParameters(param, "Requested parameters");
     if ( n < 6)
+    {
+      std::cout << "Created new window\n";
       (windowsystem->CreateWindow)(param);
+    }
     else
+    {
+      std::cout << "Reusing same window\n";
       windowsystem->SetMode(param);
+    }
     showParameters(param, "Obtained parameters");
     initGL();
   }
@@ -287,7 +301,10 @@ checkTestIsOver()
   {
     std::cout << "Test ended\n";
     if (++currentTest < 6)
+    {
+      std::cout << "Destroyed window\n";
       windowsystem->DestroyWindow();
+    }
     runTest(currentTest);
   }
 }
