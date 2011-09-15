@@ -105,25 +105,32 @@ void
 showParameters(WindowVisualInfo &param, const char *title)
 {
     std::cout << title << std::endl;
-    std::cout << " FullScreen : " << param.useFullscreen << std::endl;
-    std::cout << " Double Buffer : " << param.useDoubleBuffer << std::endl;
-    std::cout << " Red Buffer Size: " << param.redSize << std::endl;
-    std::cout << " Green Buffer Size: " << param.greenSize << std::endl;
-    std::cout << " Blue Buffer Size: " << param.blueSize << std::endl;
-    std::cout << " Depth Buffer Size: " << param.depthSize << std::endl;
-    std::cout << " Vertical Sync: " << param.forceVerticalSync << std::endl;
+    std::cout << " Fullscreen : " << param.useFullscreen << std::endl;
+    std::cout << " Double buffer : " << param.useDoubleBuffer << std::endl;
+    std::cout << " Red buffer size: " << param.redSize << std::endl;
+    std::cout << " Green buffer size: " << param.greenSize << std::endl;
+    std::cout << " Blue buffer size: " << param.blueSize << std::endl;
+    std::cout << " Depth buffer size: " << param.depthSize << std::endl;
+    std::cout << " Vertical sync: " << param.useVerticalSync << std::endl;
     std::cout << " Width : " << param.width << std::endl;
     std::cout << " Height : " << param.height << std::endl;
     std::cout << " Position : " << param.positionX << "," << param.positionY << std::endl;
-    std::cout << " Alpha Size: " << param.alphaSize << std::endl;
-    std::cout << " AntiAliasing : " << param.useAntiAliasing << std::endl;
+    std::cout << " Alpha size: " << param.alphaSize << std::endl;
+    std::cout << " Anti-Aliasing : " << param.useAntiAliasing << std::endl;
     if (param.useAntiAliasing)
       std::cout << " Samples : " << param.samples << std::endl;
     if (param.openGLMajorVer != -1)
-      std::cout << " Context Version: " << param.openGLMajorVer
+      std::cout << " Context version: " << param.openGLMajorVer
                 << "."
                 << param.openGLMinorVer
                 << std::endl;
+    std::cout << " Offscreen rendering : " << param.useOffScreenRendering << std::endl;
+    if (param.useOffScreenRendering)
+    {
+      std::cout << " Offscreen buffer width : " << param.offscreenBufferWidth << std::endl;
+      std::cout << " Offscreen buffer height : " << param.offscreenBufferHeight << std::endl;
+      std::cout << " Using largest buffer available: " << param.offscreenUseLargestBufferAvailable << std::endl;
+    }
 }
   
 void
@@ -138,7 +145,7 @@ runTest(int n)
     {     
       param.useFullscreen = false;      
       param.useDoubleBuffer = true;
-      param.forceVerticalSync = false;
+      param.useVerticalSync = false;
       param.redSize = 8;
       param.greenSize = 8;
       param.blueSize = 8;
@@ -146,6 +153,10 @@ runTest(int n)
       param.depthSize = 24;
       param.stencilSize = 8;
       param.useAntiAliasing = true;
+      param.useOffScreenRendering = true;
+      param.offscreenBufferWidth = 9999990;
+      param.offscreenBufferHeight = 9999990;
+      param.offscreenUseLargestBufferAvailable = true;
       param.samples = 8;
     }
     break;
@@ -154,7 +165,7 @@ runTest(int n)
     {
       param.useFullscreen = true;
       param.useDoubleBuffer = true;
-      param.forceVerticalSync = true;
+      param.useVerticalSync = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
@@ -171,7 +182,7 @@ runTest(int n)
     {
       param.useFullscreen = false;
       param.useDoubleBuffer = true;
-      param.forceVerticalSync = true;
+      param.useVerticalSync = true;
       param.redSize = 8;
       param.greenSize = 8;
       param.blueSize = 8;
@@ -188,7 +199,7 @@ runTest(int n)
     {
       param.useFullscreen = false;
       param.useDoubleBuffer = true;
-      param.forceVerticalSync = false;
+      param.useVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
@@ -206,7 +217,7 @@ runTest(int n)
     {
       param.useFullscreen = true;
       param.useDoubleBuffer = true;
-      param.forceVerticalSync = false;
+      param.useVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
@@ -225,7 +236,7 @@ runTest(int n)
     {
       param.useFullscreen = true;
       param.useDoubleBuffer = true;
-      param.forceVerticalSync = false;
+      param.useVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;

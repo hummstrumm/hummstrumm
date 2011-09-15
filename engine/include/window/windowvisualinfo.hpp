@@ -65,6 +65,8 @@ class WindowVisualInfo
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-09-28
      * @since 0.3
+     *
+     * @param [in] param A reference to another WindowVisualInfo
      */
     WindowVisualInfo (const WindowVisualInfo &param);
 
@@ -88,10 +90,10 @@ class WindowVisualInfo
      *
      * @return An array of context attributes.
      */
-    int* GetContextDescriptor ();
+    int* GetContextAttributes ();
 
     /**
-     * Set the WGL/GLX context attributes. This gives the power to the caller
+     * Set the WGL/GLX context attributes. This gives the ability to the caller
      * to set the context attributes to its own liking. For example, 
      * the caller might want to disable or enable some specific feature 
      * that is not provided in the class data members.
@@ -108,16 +110,16 @@ class WindowVisualInfo
      * @date 2010-09-28
      * @since 0.3
      *
-     * @param [in] ctx An array of WGL/GLX context attributes.
-     * @param [in] ctxSize The attributes size. The descriptor must be equal 
+     * @param [in] attrib An array of WGL/GLX context attributes.
+     * @param [in] attribSize The attributes size. The attributes must be equal 
      * or less than ATTRIB_MAX to succeed.
      *
-     * @return Whether the descriptor was successfully set.
+     * @return Whether the attributes were successfully set.
      */
-    bool SetContextDescriptor (const int* ctx, unsigned short ctxSize);
+    bool SetContextAttributes (const int* attrib, unsigned short attribSize);
 
     /**
-     * Get the pixel format descriptor in WGL/GLX format.
+     * Get the pixel format attributes in WGL/GLX format.
      * The returned format is an array of (attrib, value) pairs.
      * (attrib1, value1, attrib2, value2, .., .., attribN, valueN)
      *
@@ -125,13 +127,16 @@ class WindowVisualInfo
      * @date 2010-09-28
      * @since 0.3
      *
+     * @param [in] offscreen Indicates whether we want the pixel attributes for 
+     * the offscreen or window rendering.
+     *
      * @return The pixel format attributes.
      */
-    int* GetPixelFormatDescriptor ();
+    int* GetPixelFormatAttributes (bool offscreen);
 
     /**
-     * Set the WGL/GLX pixel format descriptor. This gives the power to the 
-     * caller to set the descriptor to its own liking. For example, the
+     * Set the WGL/GLX pixel format attributes. This gives the ability to the 
+     * caller to set the attributes to its own liking. For example, the
      * caller might want to disable or enable some specific feature that is 
      * not provided in the class data members. 
      *
@@ -139,7 +144,7 @@ class WindowVisualInfo
      * (attrib1, value1, attrib2, value2, .., .., attribN, valueN)
      *
      * Only supported in Windows if wglChoosePixelFormatARB is available.
-     * If that is not available then setting the descriptor manually has
+     * If that is not available then setting the attributes manually has
      * no influence because the system will use the old way
      * (a.k.a PIXELFORMATDESCRIPTOR).
      *
@@ -147,13 +152,13 @@ class WindowVisualInfo
      * @date 2010-09-28
      * @since 0.3
      *
-     * @param [in] desc An array of attributes.
-     * @param [in] descSize The descriptor size. The descriptor must be equal 
+     * @param [in] attrib An array of attributes.
+     * @param [in] attribSize The attributes size. The attributes must be equal 
      * or less than ATTRIB_MAX.
      *
-     * @return Whether the descriptor was successfully set.
+     * @return Whether the attributes were successfully set.
      */
-    bool SetPixelFormatDescriptor (const int* desc, unsigned short descSize);
+    bool SetPixelFormatAttributes (const int* attrib, unsigned short attribSize);
 
     /**
      * Get the corresponding WGL/GLX parameters of the class data members.
@@ -190,7 +195,9 @@ class WindowVisualInfo
 
     bool useAntiAliasing;
 
-    bool forceVerticalSync;
+    bool useVerticalSync;
+
+    bool useOffScreenRendering;
 
     int renderType;
 
@@ -224,11 +231,15 @@ class WindowVisualInfo
 
     int openGLMinorVer;
 
-    bool isDirectRendering;
+    unsigned int offscreenBufferWidth;
+    
+    unsigned int offscreenBufferHeight;
+
+    bool offscreenUseLargestBufferAvailable;
 
   private:
-    int* pixelDescriptor;
-    int* contextDescriptor; 
+    int* pixelAttributes;
+    int* contextAttributes;
 };
 
 }

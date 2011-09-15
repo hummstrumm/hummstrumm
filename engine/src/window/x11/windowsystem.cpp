@@ -35,6 +35,8 @@ enum netWMStates
   _NET_WM_STATE_TOGGLE
 };
 
+WindowSystem* WindowSystem::runningInstance = NULL;
+
 WindowSystem::WindowSystem()
 {
   int major;
@@ -50,6 +52,9 @@ WindowSystem::WindowSystem()
   screen = XDefaultScreen(dpy);
   root = XRootWindow(dpy,screen);
   depth = XDefaultDepth(dpy,screen);
+
+  windowContext = 0;
+  pbufferContext = 0;
 
   if (!glXQueryExtension(dpy, NULL, NULL)) 
     HUMMSTRUMM_THROW (WindowSystem, "GLX extension is not available on the X server.");
@@ -72,6 +77,8 @@ WindowSystem::WindowSystem()
   createContextAttribsAddr = NULL;
   chooseFBConfigAddr = NULL;
   makeContextCurrentAddr = NULL;
+  createPbufferAddr = NULL;
+  destroyPbufferAddr = NULL;
 
   supportedSizes = XRRSizes(dpy, screen, &numSupportedSizes);
   screenConfigInformation = XRRGetScreenInfo(dpy, root);
@@ -79,6 +86,8 @@ WindowSystem::WindowSystem()
   originalSizeID = XRRConfigCurrentConfiguration(screenConfigInformation, &originalRotation);
 
   InitializeGLXExtensions ();
+
+  runningInstance = this;
 }
 
 WindowSystem::~WindowSystem()
@@ -87,32 +96,62 @@ WindowSystem::~WindowSystem()
     XCloseDisplay(dpy);
 }
 
-
 int
 WindowSystem::HandleGeneralXErrors(Display *dpy, XErrorEvent *xerr)
 {
+
+  if (runningInstance != NULL)
+  {
+    XRRSetScreenConfigAndRate(dpy, 
+                              runningInstance->screenConfigInformation, 
+                              runningInstance->root,
+                              runningInstance->originalSizeID, 
+                              runningInstance->originalRotation, 
+                              runningInstance->originalRate, 
+                              CurrentTime);
+  }
+
   char *errMsg = new char[1024];
   XGetErrorText(dpy, xerr->error_code, errMsg, 1024);
-  HUMMSTRUMM_THROW (WindowSystem,  errMsg);
+  HUMMSTRUMM_THROW (WindowSystem, errMsg);
 }
 
 int
 WindowSystem::HandleIOXErrors(Display *dpy)
 {
+  if (runningInstance != NULL)
+  {
+    XRRSetScreenConfigAndRate(dpy, 
+                              runningInstance->screenConfigInformation, 
+                              runningInstance->root,
+                              runningInstance->originalSizeID, 
+                              runningInstance->originalRotation, 
+                              runningInstance->originalRate, 
+                              CurrentTime);
+  }
+
   HUMMSTRUMM_THROW (WindowSystem,  "X connection fatal I/O");
 }
-
 
 void
 WindowSystem::DestroyWindow()
 {
-
   XRRSetScreenConfigAndRate(dpy, screenConfigInformation, root,originalSizeID, originalRotation, originalRate, CurrentTime);
 
-  glXDestroyContext(dpy, glxCtx);
+  // Release the current context first
+  glXMakeCurrent(dpy, None, NULL);
 
-  if (dpy != 0 && winMn != 0)
-    XDestroyWindow(dpy, winMn);
+  if (pbufferContext != 0)
+  {
+    glXDestroyContext(dpy, pbufferContext);
+    destroyPbufferAddr(dpy, pbuffer);
+  }
+  
+  if (windowContext != 0)
+    glXDestroyContext(dpy, windowContext);
+
+  if (dpy != 0 && window != 0)
+    XDestroyWindow(dpy, window);
   else
   {
     std::stringstream message;
@@ -120,7 +159,7 @@ WindowSystem::DestroyWindow()
     message << "Cannot destroy window ";
     message << "Display is " << dpy;
     message << " and is ";
-    message << "Window " << winMn;
+    message << "Window " << window;
     HUMMSTRUMM_LOG(message.str().c_str(),WARNING);
   }
 
@@ -158,6 +197,11 @@ WindowSystem::InitializeGLXExtensions()
   makeContextCurrentAddr = (PFNGLXMAKECONTEXTCURRENTPROC)
                             glXGetProcAddressARB ((const GLubyte *) "glXMakeContextCurrent");
 
+  createPbufferAddr = (PFNGLXCREATEPBUFFERPROC)
+                       glXGetProcAddressARB ((const GLubyte *) "glXCreatePbuffer");
+
+  destroyPbufferAddr = (PFNGLXDESTROYPBUFFERPROC)
+                        glXGetProcAddressARB ((const GLubyte *) "glXDestroyPbuffer");
 }
 
 bool
@@ -188,9 +232,32 @@ WindowSystem::IsGLXExtensionSupported(const char* extension, const GLubyte *exte
 }
 
 void
+WindowSystem::SetContextCurrent(Context &ctx)
+{
+  if (ctx == PBUFFER && pbufferContext != 0)
+  {
+    if (makeContextCurrentAddr != NULL)
+    {
+      makeContextCurrentAddr(dpy, pbuffer, pbuffer, pbufferContext);
+    }
+    else
+      glXMakeCurrent(dpy,pbuffer,pbufferContext);
+  }
+  else
+  {
+    if (makeContextCurrentAddr != NULL && windowContext != 0)
+    {
+      makeContextCurrentAddr(dpy, window, window, windowContext);
+    }
+    else
+      glXMakeCurrent(dpy,window,windowContext);
+  }
+}
+
+void
 WindowSystem::SwapBuffers()
 {
-  glXSwapBuffers(dpy, winMn);
+  glXSwapBuffers(dpy, window);
 }
 
 void
@@ -202,7 +269,7 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
   int nelements;
   const int* attribList = NULL;
 
-  attribList = windowParameters.GetPixelFormatDescriptor();
+  attribList = windowParameters.GetPixelFormatAttributes(false);
   if (attribList == NULL)
     HUMMSTRUMM_THROW (WindowSystem, "Unable to get window parameters\n");
 
@@ -211,7 +278,7 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
     fbconfig = chooseFBConfigAddr(dpy,screen,attribList,&nelements);
 
     if (fbconfig == NULL)
-      HUMMSTRUMM_THROW (WindowSystem, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes.");
+      HUMMSTRUMM_THROW (WindowSystem, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes for window rendering");
 
     vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
     int tmp;
@@ -290,16 +357,15 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
 
   if (createContextAttribsAddr != NULL && chooseFBConfigAddr != NULL)
   {
-    const int *ctxAttributes = windowParameters.GetContextDescriptor();
-    glxCtx = createContextAttribsAddr(dpy, *fbconfig, NULL, true, ctxAttributes);
+    const int *ctxAttributes = windowParameters.GetContextAttributes();
+    windowContext = createContextAttribsAddr(dpy, *fbconfig, NULL, true, ctxAttributes);
   }
   else
   {
-    glxCtx = glXCreateContext(dpy,vi,0,GL_TRUE);
+    windowContext = glXCreateContext(dpy,vi,0,GL_TRUE);
   }
 
-  if (fbconfig != NULL)
-    XFree(fbconfig);
+  XFree(fbconfig);
 
   Screen* scr = DefaultScreenOfDisplay(dpy);
 
@@ -316,7 +382,7 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
                        ButtonReleaseMask;
 
 
-  winMn = XCreateWindow(dpy, 
+  window = XCreateWindow(dpy, 
                         root, windowParameters.positionX, windowParameters.positionY, 
                         windowParameters.width, windowParameters.height, 
                         0, vi->depth, InputOutput, 
@@ -327,34 +393,105 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
 
   XFree(vi);
 
-  if (winMn == 0)
+  if (window == 0)
     HUMMSTRUMM_THROW (WindowSystem, "Unable to create an X11 window\n");
 
-  XStoreName(dpy, winMn, windowParameters.name.c_str());
+  XStoreName(dpy, window, windowParameters.name.c_str());
 
   Atom wndName = XInternAtom(dpy, "XA_WM_NAME", False);
 
-  XSetWMProtocols(dpy,winMn, &wndDelete, 1);
+  XSetWMProtocols(dpy,window, &wndDelete, 1);
 
-  XMapWindow(dpy,winMn);
-  XMapRaised(dpy,winMn);
+  XMapWindow(dpy,window);
+  XMapRaised(dpy,window);
 
   if (makeContextCurrentAddr != NULL)
   {
-    makeContextCurrentAddr(dpy, winMn, winMn, glxCtx);
+    makeContextCurrentAddr(dpy, window, window, windowContext);
   }
   else
-    glXMakeCurrent(dpy,winMn,glxCtx);
+    glXMakeCurrent(dpy,window,windowContext);
 
-  if (glXIsDirect(dpy,glxCtx))
+  if (glXIsDirect(dpy,windowContext))
     HUMMSTRUMM_LOG("DRI enabled",MESSAGE);
   else
     HUMMSTRUMM_LOG("DRI not enabled",MESSAGE);
 
   if ( swapIntervalAddr != NULL)
-    swapIntervalAddr (windowParameters.forceVerticalSync);
+    swapIntervalAddr (windowParameters.useVerticalSync);
 
   SetMode(windowParameters);
+
+  // Create offscreen rendering and share it with the window context
+  if (windowParameters.useOffScreenRendering)
+  {
+    std::cout << "Creating pixel buffer for offscreen rendering\n";
+    if (createPbufferAddr == NULL || destroyPbufferAddr == NULL)
+    {
+      windowParameters.useOffScreenRendering = false;
+      return;
+    }
+
+    attribList = windowParameters.GetPixelFormatAttributes(true);
+    if (attribList == NULL)
+    {
+      windowParameters.useOffScreenRendering = false;
+      return;
+    }
+
+    if (chooseFBConfigAddr != NULL)
+    {
+      fbconfig = chooseFBConfigAddr(dpy,screen,attribList,&nelements);
+
+      if (fbconfig == NULL)
+      {
+        windowParameters.useOffScreenRendering = false;
+        return;
+      }
+ 
+      vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
+    }
+    else
+    {
+      windowParameters.useOffScreenRendering = false;
+      return;
+    }
+
+    if (vi == NULL)
+    {
+      windowParameters.useOffScreenRendering = false;
+      XFree(fbconfig);
+      return;
+    }
+
+    int pbufferAttrib[] =
+    {
+      GLX_PBUFFER_WIDTH, windowParameters.offscreenBufferWidth,
+      GLX_PBUFFER_HEIGHT, windowParameters.offscreenBufferHeight,
+      GLX_LARGEST_PBUFFER, windowParameters.offscreenUseLargestBufferAvailable, 
+      None
+    };
+
+    pbuffer = glXCreatePbuffer(dpy, *fbconfig, pbufferAttrib);
+
+    if (createContextAttribsAddr != NULL && chooseFBConfigAddr != NULL)
+    {
+      const int *ctxAttributes = windowParameters.GetContextAttributes();
+      pbufferContext = createContextAttribsAddr(dpy, *fbconfig, windowContext, true, ctxAttributes);
+    }
+    else
+    {
+      pbufferContext = glXCreateContext (dpy, vi, windowContext, true);
+    }
+
+    glXQueryDrawable(dpy, pbuffer, GLX_WIDTH, &windowParameters.offscreenBufferWidth);
+    glXQueryDrawable(dpy, pbuffer, GLX_HEIGHT, &windowParameters.offscreenBufferHeight);
+    unsigned int tmp;
+    glXQueryDrawable(dpy, pbuffer, GLX_LARGEST_PBUFFER, &tmp);
+    windowParameters.offscreenUseLargestBufferAvailable = (tmp != 0);
+    XFree(fbconfig);
+    XFree(vi);
+  }  
 }
 
 int
@@ -385,11 +522,20 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     if (resID == -1)
     {
         param.useFullscreen = false;
-        XMoveResizeWindow(dpy,winMn,param.positionX,param.positionY,param.width, param.height);
+        XMoveResizeWindow(dpy,window,param.positionX,param.positionY,param.width, param.height);
         return;
     }
 
     XRRSetScreenConfig(dpy, screenConfigInformation, root, resID, RR_Rotate_0, CurrentTime);
+
+    unsigned int tmp;
+    glXQueryDrawable(dpy, pbuffer, GLX_PRESERVED_CONTENTS, &tmp);
+    if (tmp)
+    {
+      std::cout << "Contents have been preserved!!!!!!\n";
+    }
+    else
+      std::cout << "Contents have not been preserved!!!!!!\n";
 
     // The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
     // should fill the entire screen and have no window decorations. Additionally 
@@ -424,7 +570,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
         xev.xclient.type = ClientMessage;
         xev.xclient.serial = 0;
         xev.xclient.send_event = True;
-        xev.xclient.window = winMn;
+        xev.xclient.window = window;
         xev.xclient.message_type = wmState;
         xev.xclient.format = 32;
         xev.xclient.data.l[0] = _NET_WM_STATE_ADD;
@@ -447,7 +593,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     // Set fullscreen (fallback)
     HUMMSTRUMM_LOG("The Window Manager doesn't support NETWM. Using fullscreen fallback mode",WARNING);
     XGetWindowAttributes(dpy, root, &xwa);
-    XMoveResizeWindow(dpy,winMn,0,0,xwa.width, xwa.height);
+    XMoveResizeWindow(dpy,window,0,0,xwa.width, xwa.height);
   }
   else
   {
@@ -460,7 +606,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     xev.xclient.type=ClientMessage;
     xev.xclient.serial = 0;
     xev.xclient.send_event=True;
-    xev.xclient.window=winMn;
+    xev.xclient.window=window;
     xev.xclient.message_type=wmState;
     xev.xclient.format=32;
     xev.xclient.data.l[0] = 0;
@@ -473,7 +619,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
                SubstructureRedirectMask | SubstructureNotifyMask, 
                &xev);
 
-    XMoveResizeWindow(dpy,winMn,param.positionX,param.positionY,param.width, param.height);
+    XMoveResizeWindow(dpy,window,param.positionX,param.positionY,param.width, param.height);
 
   }
 }

@@ -43,6 +43,12 @@ namespace engine
 namespace window
 {
 
+enum Context
+{
+  WINDOW,
+  PBUFFER,
+};
+
 class WindowSystem
 {
   public:
@@ -130,15 +136,21 @@ class WindowSystem
      */
     void SetMode(WindowVisualInfo &param);
 
+    void SetContextCurrent(Context &ctx);
+
   private:    
 
+    static WindowSystem* runningInstance;
     #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
     Display *dpy; // Pointer to a X11 display structure
-    Window  root; // Root window
+    Window root; // Root window
+    Window window; // Current window
     int screen;   // Default screen
     int depth;    // The depth of the default root window for default screen
-    Window winMn; // Current window
-    GLXContext glxCtx;
+
+    GLXContext windowContext;
+    GLXContext pbufferContext;
+    GLXPbuffer pbuffer;
     
     Atom wndProtocols;
     Atom wndDelete;
@@ -149,14 +161,18 @@ class WindowSystem
     PFNGLXMAKECONTEXTCURRENTPROC makeContextCurrentAddr;
     PFNGLXCREATECONTEXTATTRIBSARBPROC createContextAttribsAddr;
 
-    // Xrandr (change resolution) specific
+    // Xrandr specific
     XRRScreenSize* supportedSizes;
-    int numSupportedSizes;
-
     XRRScreenConfiguration* screenConfigInformation;
-    short originalRate;
     Rotation originalRotation;
     SizeID originalSizeID;
+    short originalRate;
+    int numSupportedSizes;
+
+    // PBuffer
+    PFNGLXCREATEPBUFFERPROC createPbufferAddr;
+    PFNGLXDESTROYPBUFFERPROC destroyPbufferAddr;
+
     /**
      * Initialize the GLX Extensions.
      *
@@ -204,9 +220,9 @@ class WindowSystem
      */
     bool IsNetWMCompliant() const;
 
-    static int HandleGeneralXErrors(Display *, XErrorEvent *);
+    static int HandleGeneralXErrors(Display *dpy, XErrorEvent *xerr);
 
-    static int HandleIOXErrors(Display *);
+    static int HandleIOXErrors(Display *dpy);
 
     int IsResolutionSupported(unsigned int w, unsigned int h) const;
 

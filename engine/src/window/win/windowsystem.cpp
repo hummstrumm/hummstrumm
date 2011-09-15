@@ -186,7 +186,7 @@ void
   if (wglChoosePixelFormatARB != NULL && wglGetPixelFormatAttribivARB != NULL) 
   { 
     UINT matchedFormats;
-    const int* descriptor = windowParameters.GetPixelFormatDescriptor();
+    const int* descriptor = windowParameters.GetPixelFormatAttributes(false);
     BOOL ret = wglChoosePixelFormatARB(deviceContext, descriptor, NULL, 1 , &pixelFormat, &matchedFormats);
     if (!ret)
     {
@@ -299,7 +299,7 @@ void
 
   if (wglCreateContextAttribsARB != NULL)
   {
-    const int* ctxAttribs = windowParameters.GetContextDescriptor();
+    const int* ctxAttribs = windowParameters.GetContextAttributes();
     renderingContext = wglCreateContextAttribsARB(deviceContext, 0, ctxAttribs); 
     if (renderingContext == NULL)
     {
@@ -341,7 +341,7 @@ void
 
   if (wglSwapIntervalEXT != NULL)
   {
-    BOOL ret = wglSwapIntervalEXT (windowParameters.forceVerticalSync);
+    BOOL ret = wglSwapIntervalEXT (windowParameters.useVerticalSync);
     if (!ret)
     {
       DWORD error = GetLastError();
