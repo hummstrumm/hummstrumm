@@ -139,7 +139,6 @@ class WindowSystem
     void SetContextCurrent(Context &ctx);
 
   private:    
-
     static WindowSystem* runningInstance;
     #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
     Display *dpy; // Pointer to a X11 display structure
@@ -225,6 +224,10 @@ class WindowSystem
     static int HandleIOXErrors(Display *dpy);
 
     int IsResolutionSupported(unsigned int w, unsigned int h) const;
+
+    void CreatePbuffer(WindowVisualInfo &param);
+
+    void DestroyPbuffer();
 
     #endif
 

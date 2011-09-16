@@ -154,8 +154,8 @@ runTest(int n)
       param.stencilSize = 8;
       param.useAntiAliasing = true;
       param.useOffScreenRendering = true;
-      param.offscreenBufferWidth = 9999990;
-      param.offscreenBufferHeight = 9999990;
+      param.offscreenBufferWidth = 256;
+      param.offscreenBufferHeight = 256;
       param.offscreenUseLargestBufferAvailable = true;
       param.samples = 8;
     }

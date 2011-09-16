@@ -141,12 +141,8 @@ WindowSystem::DestroyWindow()
   // Release the current context first
   glXMakeCurrent(dpy, None, NULL);
 
-  if (pbufferContext != 0)
-  {
-    glXDestroyContext(dpy, pbufferContext);
-    destroyPbufferAddr(dpy, pbuffer);
-  }
-  
+  DestroyPbuffer(); 
+
   if (windowContext != 0)
     glXDestroyContext(dpy, windowContext);
 
@@ -162,7 +158,96 @@ WindowSystem::DestroyWindow()
     message << "Window " << window;
     HUMMSTRUMM_LOG(message.str().c_str(),WARNING);
   }
+}
 
+void
+WindowSystem::DestroyPbuffer()
+{
+  if (pbufferContext != 0)
+  {
+    glXDestroyContext(dpy, pbufferContext);
+    destroyPbufferAddr(dpy, pbuffer);
+  }
+}
+
+void
+WindowSystem::CreatePbuffer(WindowVisualInfo &param)
+{
+  XVisualInfo *vi = NULL;
+  GLXFBConfig *fbconfig = NULL;
+  const int* attribList = NULL;
+  int nelements;
+
+  // Create offscreen rendering and share it with the window context
+  if (param.useOffScreenRendering)
+  {
+    std::cout << "Creating pixel buffer for offscreen rendering\n";
+    if (createPbufferAddr == NULL || destroyPbufferAddr == NULL)
+    {
+      param.useOffScreenRendering = false;
+      return;
+    }
+
+    attribList = param.GetPixelFormatAttributes(true);
+    if (attribList == NULL)
+    {
+      param.useOffScreenRendering = false;
+      return;
+    }
+
+    if (chooseFBConfigAddr != NULL)
+    {
+      fbconfig = chooseFBConfigAddr(dpy,screen,attribList,&nelements);
+
+      if (fbconfig == NULL)
+      {
+        param.useOffScreenRendering = false;
+        return;
+      }
+ 
+      vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
+    }
+    else
+    {
+      param.useOffScreenRendering = false;
+      return;
+    }
+
+    if (vi == NULL)
+    {
+      param.useOffScreenRendering = false;
+      XFree(fbconfig);
+      return;
+    }
+
+    int pbufferAttrib[] =
+    {
+      GLX_PBUFFER_WIDTH, param.offscreenBufferWidth,
+      GLX_PBUFFER_HEIGHT, param.offscreenBufferHeight,
+      GLX_LARGEST_PBUFFER, param.offscreenUseLargestBufferAvailable, 
+      None
+    };
+
+    pbuffer = glXCreatePbuffer(dpy, *fbconfig, pbufferAttrib);
+
+    if (createContextAttribsAddr != NULL && chooseFBConfigAddr != NULL)
+    {
+      const int *ctxAttributes = param.GetContextAttributes();
+      pbufferContext = createContextAttribsAddr(dpy, *fbconfig, windowContext, true, ctxAttributes);
+    }
+    else
+    {
+      pbufferContext = glXCreateContext (dpy, vi, windowContext, true);
+    }
+
+    glXQueryDrawable(dpy, pbuffer, GLX_WIDTH, &param.offscreenBufferWidth);
+    glXQueryDrawable(dpy, pbuffer, GLX_HEIGHT, &param.offscreenBufferHeight);
+    unsigned int tmp;
+    glXQueryDrawable(dpy, pbuffer, GLX_LARGEST_PBUFFER, &tmp);
+    param.offscreenUseLargestBufferAvailable = (tmp != 0);
+    XFree(fbconfig);
+    XFree(vi);
+  } 
 }
 
 void
@@ -257,7 +342,10 @@ WindowSystem::SetContextCurrent(Context &ctx)
 void
 WindowSystem::SwapBuffers()
 {
-  glXSwapBuffers(dpy, window);
+  GLXDrawable currentDrawable = glXGetCurrentDrawable();
+  if (currentDrawable == NULL)
+    return;
+  glXSwapBuffers(dpy, currentDrawable);
 }
 
 void
@@ -420,78 +508,9 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
   if ( swapIntervalAddr != NULL)
     swapIntervalAddr (windowParameters.useVerticalSync);
 
-  SetMode(windowParameters);
-
-  // Create offscreen rendering and share it with the window context
-  if (windowParameters.useOffScreenRendering)
-  {
-    std::cout << "Creating pixel buffer for offscreen rendering\n";
-    if (createPbufferAddr == NULL || destroyPbufferAddr == NULL)
-    {
-      windowParameters.useOffScreenRendering = false;
-      return;
-    }
-
-    attribList = windowParameters.GetPixelFormatAttributes(true);
-    if (attribList == NULL)
-    {
-      windowParameters.useOffScreenRendering = false;
-      return;
-    }
-
-    if (chooseFBConfigAddr != NULL)
-    {
-      fbconfig = chooseFBConfigAddr(dpy,screen,attribList,&nelements);
-
-      if (fbconfig == NULL)
-      {
-        windowParameters.useOffScreenRendering = false;
-        return;
-      }
+  CreatePbuffer(windowParameters);
  
-      vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
-    }
-    else
-    {
-      windowParameters.useOffScreenRendering = false;
-      return;
-    }
-
-    if (vi == NULL)
-    {
-      windowParameters.useOffScreenRendering = false;
-      XFree(fbconfig);
-      return;
-    }
-
-    int pbufferAttrib[] =
-    {
-      GLX_PBUFFER_WIDTH, windowParameters.offscreenBufferWidth,
-      GLX_PBUFFER_HEIGHT, windowParameters.offscreenBufferHeight,
-      GLX_LARGEST_PBUFFER, windowParameters.offscreenUseLargestBufferAvailable, 
-      None
-    };
-
-    pbuffer = glXCreatePbuffer(dpy, *fbconfig, pbufferAttrib);
-
-    if (createContextAttribsAddr != NULL && chooseFBConfigAddr != NULL)
-    {
-      const int *ctxAttributes = windowParameters.GetContextAttributes();
-      pbufferContext = createContextAttribsAddr(dpy, *fbconfig, windowContext, true, ctxAttributes);
-    }
-    else
-    {
-      pbufferContext = glXCreateContext (dpy, vi, windowContext, true);
-    }
-
-    glXQueryDrawable(dpy, pbuffer, GLX_WIDTH, &windowParameters.offscreenBufferWidth);
-    glXQueryDrawable(dpy, pbuffer, GLX_HEIGHT, &windowParameters.offscreenBufferHeight);
-    unsigned int tmp;
-    glXQueryDrawable(dpy, pbuffer, GLX_LARGEST_PBUFFER, &tmp);
-    windowParameters.offscreenUseLargestBufferAvailable = (tmp != 0);
-    XFree(fbconfig);
-    XFree(vi);
-  }  
+  SetMode(windowParameters);
 }
 
 int
@@ -527,15 +546,6 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     }
 
     XRRSetScreenConfig(dpy, screenConfigInformation, root, resID, RR_Rotate_0, CurrentTime);
-
-    unsigned int tmp;
-    glXQueryDrawable(dpy, pbuffer, GLX_PRESERVED_CONTENTS, &tmp);
-    if (tmp)
-    {
-      std::cout << "Contents have been preserved!!!!!!\n";
-    }
-    else
-      std::cout << "Contents have not been preserved!!!!!!\n";
 
     // The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
     // should fill the entire screen and have no window decorations. Additionally 
@@ -585,6 +595,17 @@ WindowSystem::SetMode(WindowVisualInfo &param)
                    SubstructureRedirectMask | SubstructureNotifyMask, 
                    &xev);
    
+        if (param.useOffScreenRendering)
+        {
+          unsigned int state;
+          glXQueryDrawable(dpy, pbuffer, GLX_PRESERVED_CONTENTS, &state);
+          if (state == 0)
+          {
+            std::cout << "Pbuffer contents have been lost!\n";
+            DestroyPbuffer();
+            CreatePbuffer(param);   
+          }
+        }
         return;
       }
       param.useFullscreen = false;
