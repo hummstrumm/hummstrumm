@@ -146,18 +146,18 @@ runTest(int n)
       param.useFullscreen = false;      
       param.useDoubleBuffer = true;
       param.useVerticalSync = false;
-      param.redSize = 8;
-      param.greenSize = 8;
-      param.blueSize = 8;
-      param.alphaSize = 8;
-      param.depthSize = 24;
-      param.stencilSize = 8;
+      param.redSize = 1;
+      param.greenSize = 1;
+      param.blueSize = 1;
+      param.alphaSize = 1;
+      param.depthSize = 16;
+      param.stencilSize = 1;
       param.useAntiAliasing = true;
       param.useOffScreenRendering = true;
       param.offscreenBufferWidth = 256;
       param.offscreenBufferHeight = 256;
       param.offscreenUseLargestBufferAvailable = true;
-      param.samples = 8;
+      param.samples = 2;
     }
     break;
 
@@ -183,15 +183,15 @@ runTest(int n)
       param.useFullscreen = false;
       param.useDoubleBuffer = true;
       param.useVerticalSync = true;
-      param.redSize = 8;
-      param.greenSize = 8;
-      param.blueSize = 8;
-      param.depthSize = 24;
-      param.stencilSize = 8;
+      param.redSize = 1;
+      param.greenSize = 1;
+      param.blueSize = 1;
+      param.depthSize = 16;
+      param.stencilSize = 1;
       param.width = 800;
       param.height = 600;
       param.useAntiAliasing = true;
-      param.samples = 4;
+      param.samples = 2;
     }
     break;
 

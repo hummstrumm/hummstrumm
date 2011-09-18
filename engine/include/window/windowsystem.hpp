@@ -25,7 +25,7 @@
 #include <gl\gl.h>
 #endif
 
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#if defined (HUMMSTRUMM_PLATFORM_GNULINUX) || defined (HUMMSTRUMM_PLATFORM_BSD)
 #include <climits>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
