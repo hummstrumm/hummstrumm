@@ -268,7 +268,6 @@ class WindowSystem;
 #endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-#  define WIN32_LEAN_AND_MEAN
 #  define NOMINMAX
 // Microsoft has deprecated CRT functions as "insecure".  Hah, good one guys.
 #  pragma warning(disable:4996)
