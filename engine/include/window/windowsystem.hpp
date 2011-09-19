@@ -19,13 +19,13 @@
 #ifndef HUMMSTRUMM_ENGINE_WINDOW_SYSTEM
 #define HUMMSTRUMM_ENGINE_WINDOW_SYSTEM
 
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #include <windows.h>
 #include <queue>
 #include <gl\gl.h>
 #endif
 
-#if defined (HUMMSTRUMM_PLATFORM_GNULINUX) || defined (HUMMSTRUMM_PLATFORM_BSD)
+#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
 #include <climits>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>

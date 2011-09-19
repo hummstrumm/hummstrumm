@@ -247,7 +247,7 @@ runTest(int n)
       param.openGLMinorVer = 1;
       param.stencilSize = 8;
       param.useAntiAliasing = true;
-      param.samples = 8;
+      param.samples = 2;
     } 
     break;
 

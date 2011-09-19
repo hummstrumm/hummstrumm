@@ -26,6 +26,7 @@ cmake_minimum_required (VERSION 2.6.3)
 
 set (CMAKE_MODULE_PATH ${hummstrumm_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
+include (CompilerChecks)
 include (CheckClone)
 include (Defaults)
 include (Version)

@@ -24,7 +24,9 @@
 #include <cstring>
 #include <cstdlib>
 #include <sys/sysctl.h>
+#ifdef HAVE_CPUID_H
 #include "cpuid.h"
+#endif
 
 namespace hummstrumm
 {
@@ -109,6 +111,7 @@ Processors::Processors (void)
           if (std::strcmp (name, "amd64") == 0 ||
               std::strcmp (name, "i386") == 0)
             {
+#ifdef HAVE_CPUID_H
               // These processors could have SSE.  Use a compiler intrinsic to
               // determine.
               unsigned int regA, regB, regC, regD;
@@ -119,6 +122,14 @@ Processors::Processors (void)
               this->sse3Support  = regC & bit_SSE3;
               this->sse2Support  = regD & bit_SSE2;
               this->sseSupport   = regD & bit_SSE;
+#else // #ifdef HAVE_CPUID_H
+              this->sse42Support = 0;
+              this->sse41Support = 0;
+              this->sse3Support  = 0;
+              this->sse2Support  = 0;
+              this->sseSupport   = 0;
+#endif // #ifdef HAVE_CPUID_H
+              
             }
         }
       delete [] name;
