@@ -136,23 +136,32 @@ class WindowSystem
      */
     void SetMode(WindowVisualInfo &param);
 
+    /**
+     * Change the current context
+     *
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+     * @date 2011-08-16
+     * @since 0.4
+     *
+     * @param [in,out] ctx The context to change to.
+     */
     void SetContextCurrent(Context &ctx);
 
   private:    
     static WindowSystem* runningInstance;
     #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-    Display *dpy; // Pointer to a X11 display structure
-    Window root; // Root window
-    Window window; // Current window
-    int screen;   // Default screen
-    int depth;    // The depth of the default root window for default screen
+    Display *dpy;   // Pointer to a X11 display structure
+    Window root;    // Root window
+    Window window;  // Current window
+    int screen;     // Default screen
+    int depth;      // The depth of the default root window for default screen
 
-    GLXContext windowContext;
-    GLXContext pbufferContext;
-    GLXPbuffer pbuffer;
+    GLXContext windowContext;  // Window context 
+    GLXContext pbufferContext; // Pbuffer context
+    GLXPbuffer pbuffer;        // Pbuffer
     
-    Atom wndProtocols;
-    Atom wndDelete;
+    Atom wndProtocols;         // Window protocols X11 atom 
+    Atom wndDelete;            // Window delete X11 atom
 
     // GLX Extensions
     PFNGLXSWAPINTERVALSGIPROC swapIntervalAddr;
@@ -219,14 +228,69 @@ class WindowSystem
      */
     bool IsNetWMCompliant() const;
 
+    /**
+     * Error handler for XSetErrorHandler.
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-09-24
+     * @since 0.4
+     *
+     * @param [in] dpy Pointer to Display
+     * @param [in] xerr The X11 error.
+     *
+     * @return The return value is irrelevant and not used. 
+     */
     static int HandleGeneralXErrors(Display *dpy, XErrorEvent *xerr);
 
+    /**
+     * Error handler for XSetIOErrorHandler. 
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-09-24
+     * @since 0.4
+     *
+     * @param [in] dpy Pointer to Display
+     *
+     * @return The return value is irrelevant and not used.
+     * This is assumed to be a fatal condition, and the called routine 
+     * should not return. If the I/O error handler does return, the client 
+     * process exits.  
+     */
     static int HandleIOXErrors(Display *dpy);
 
+    /**
+     * Check if the desired resolution is supported
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-09-24
+     * @since 0.4
+     *
+     * @param [in] w Desired width
+     * @param [in] h Desired height
+     *
+     * @return Returns -1 if not supported or a index of supportedSizes array.
+     */
     int IsResolutionSupported(unsigned int w, unsigned int h) const;
 
+    /**
+     * Create a pbuffer based on windowvisualinfo parameters
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-09-24
+     * @since 0.4
+     *
+     * @param [in] param WindowVisualInfo parameters
+     */
     void CreatePbuffer(WindowVisualInfo &param);
 
+    /**
+     * Destroy a Pbuffer
+     *
+     * @author Ricardo Tiago <Rtiago@gmail.com>
+     * @date 2011-09-24
+     * @since 0.4
+     *
+     */
     void DestroyPbuffer();
 
     #endif
