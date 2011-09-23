@@ -54,17 +54,17 @@ class PlaneTest : public CppUnit::TestFixture
       
       Plane3D <float> p (p1, p2, p3);
 
-      CPPUNIT_ASSERT_EQUAL ( -12.0f, p.normal.x  );
-      CPPUNIT_ASSERT_EQUAL (   3.0f, p.normal.y  );
-      CPPUNIT_ASSERT_EQUAL ( -18.0f, p.normal.z  );
+      CPPUNIT_ASSERT_EQUAL ( -12.0f, p.normal.coord.x  );
+      CPPUNIT_ASSERT_EQUAL (   3.0f, p.normal.coord.y  );
+      CPPUNIT_ASSERT_EQUAL ( -18.0f, p.normal.coord.z  );
       CPPUNIT_ASSERT_EQUAL ( 129.0f, p.d  );
 
       p.Normalize();
 
       Plane3D  <float> q (1.0f, 2.0f, 2.0f, 6.0f);
-      CPPUNIT_ASSERT_EQUAL ( 1.0f, q.normal.x  );
-      CPPUNIT_ASSERT_EQUAL ( 2.0f, q.normal.y  );
-      CPPUNIT_ASSERT_EQUAL ( 2.0f, q.normal.z  );
+      CPPUNIT_ASSERT_EQUAL ( 1.0f, q.normal.coord.x  );
+      CPPUNIT_ASSERT_EQUAL ( 2.0f, q.normal.coord.y  );
+      CPPUNIT_ASSERT_EQUAL ( 2.0f, q.normal.coord.z  );
       CPPUNIT_ASSERT_EQUAL ( 6.0f, q.d  );
 
       Vector3D <float> point (3.0f, 1.0f, 0.5f);
@@ -123,7 +123,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION ( SegmentTest );
 CPPUNIT_TEST_SUITE_REGISTRATION ( BoundingSphereTest );
 
 int
-main (int argc, char **argv)
+main ()
 {
   CppUnit::TestResult controller;
   CppUnit::TestResultCollector result;

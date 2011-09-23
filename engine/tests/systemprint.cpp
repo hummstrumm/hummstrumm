@@ -22,7 +22,7 @@
 using namespace hummstrumm::engine::system;
 
 int
-main (int argc, char **argv)
+main ()
 {
   hummstrumm::engine::core::Engine engine;
 

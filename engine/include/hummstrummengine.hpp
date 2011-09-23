@@ -33,7 +33,7 @@
  * @mainpage
  * @image html logo-large.png
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @author Ricardo Tiago <rtiago.mendes@gmail.com>
+ * @author Ricardo Tiago <RTiago@gmail.com>
  * @date 2011-08-03
  *
  * @section overview Overview
@@ -185,22 +185,6 @@ class AllocationTable;
 }
 
 /**
- * The namespace for throwable exceptions.  These classes work together with
- * those of the debug namespace to help produce robust code,
- */
-namespace error
-{
-class Error;
-class OutOfMemory;
-class OutOfRange;
-class DivisionByZero;
-class Unicode;
-class MemoryCorruption;
-class InvalidParam;
-class Iterator;
-}
-
-/**
  * The namespace for any direct wrapper of a system concept that does not fit
  * elsewhere in the engine.
  */
@@ -229,6 +213,23 @@ class Number;
 }
 
 /**
+ * The namespace for throwable exceptions.  These classes work together with
+ * those of the debug namespace to help produce robust code,
+ */
+namespace error
+{
+class Error;
+class OutOfMemory;
+class OutOfRange;
+class DivisionByZero;
+class Unicode;
+class MemoryCorruption;
+class InvalidParam;
+class Iterator;
+class WindowSystem;
+}
+
+/**
  * The namespace for input/output streams.  This namespace contains memory,
  * terminal, file, string, and null streams buffers and stream classes.
  */
@@ -247,19 +248,12 @@ class MouseEvents;
 }
 
 /**
- * The namespace for the renderer system.
+ * The namespace for the window system.
  */
-namespace renderer
+namespace window
 {
-struct WindowParameters;
+class WindowVisualInfo;
 class WindowSystem;
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-struct WindowGLXParam;
-class WindowX11;
-#endif
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-struct WindowWGLParam;
-#endif
 }
 
 }
@@ -279,23 +273,33 @@ struct WindowWGLParam;
 #  pragma warning(disable:4996)
 #  pragma warning(push)
 #  pragma warning(disable:4290)
+// To avoid the do-while(false) trick warnings from the MSVC compiler 
+// Credit to Charles Nicholson from cnicholson.net
+#  define MULTI_LINE_MACRO_BEGIN do { 
+#  define MULTI_LINE_MACRO_END \
+    __pragma(warning(push)) \
+   	__pragma(warning(disable:4127)) \
+    } while(0) \
+    __pragma(warning(pop))
+#  endif
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include <hummstrummengine/types/inttypes.hpp>
 #  include <hummstrummengine/debug/utils.hpp>
+#  include <hummstrummengine/core/allocationtable.hpp>
+#  include <hummstrummengine/core/object.hpp>
+#  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/error/error.hpp>
 #  include <hummstrummengine/error/generic.hpp>
 #  include <hummstrummengine/error/outofmemory.hpp>
 #  include <hummstrummengine/error/outofrange.hpp>
+#  include <hummstrummengine/error/windowsystem.hpp>
 #  include <hummstrummengine/error/divisionbyzero.hpp>
 #  include <hummstrummengine/error/unicode.hpp>
 #  include <hummstrummengine/error/memorycorruption.hpp>
 #  include <hummstrummengine/error/invalidparam.hpp>
 #  include <hummstrummengine/error/iterator.hpp>
-#  include <hummstrummengine/core/allocationtable.hpp>
-#  include <hummstrummengine/core/object.hpp>
-#  include <hummstrummengine/core/type.hpp>
 #  include <hummstrummengine/core/pointer.hpp>
 #  include <hummstrummengine/system/platform.hpp>
 #  include <hummstrummengine/system/endianness.hpp>
@@ -314,18 +318,9 @@ struct WindowWGLParam;
 #  include <hummstrummengine/math/vector.hpp>
 #  include <hummstrummengine/math/matrice.hpp>
 #  include <hummstrummengine/math/quaternion.hpp>
-#  include <hummstrummengine/events/windowEvents.hpp>
-#  include <hummstrummengine/renderer/windowSystem.hpp>
-#  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#    include <hummstrummengine/renderer/windowX11.hpp>
-#  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include <hummstrummengine/renderer/windowParameters.hpp>
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include <hummstrummengine/renderer/windowGLXParam.hpp>
-#endif
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include <hummstrummengine/renderer/windowWGLParam.hpp>
-#endif
+#  include <hummstrummengine/events/windowevents.hpp>
+#  include <hummstrummengine/window/windowvisualinfo.hpp>
+#  include <hummstrummengine/window/windowsystem.hpp>
 // This has to go last.
 #  include <hummstrummengine/core/engine.hpp>
 // Template and Inline implementations now...
@@ -334,18 +329,19 @@ struct WindowWGLParam;
 #else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
 #  include "types/inttypes.hpp"
 #  include "debug/utils.hpp"
+#  include "core/object.hpp"
+#  include "core/type.hpp"
 #  include "error/error.hpp"
 #  include "error/generic.hpp"
 #  include "error/outofmemory.hpp"
 #  include "error/outofrange.hpp"
 #  include "error/divisionbyzero.hpp"
+#  include "error/windowsystem.hpp"
 #  include "error/unicode.hpp"
 #  include "error/memorycorruption.hpp"
 #  include "error/invalidparam.hpp"
 #  include "error/iterator.hpp"
 #  include "core/allocationtable.hpp"
-#  include "core/object.hpp"
-#  include "core/type.hpp"
 #  include "core/pointer.hpp"
 #  include "system/platform.hpp"
 #  include "system/endianness.hpp"
@@ -365,18 +361,9 @@ struct WindowWGLParam;
 #  include "geometry/segment.hpp"
 #  include "geometry/boundingbox.hpp"
 #  include "geometry/boundingsphere.hpp"
-#  include "events/windowEvents.hpp"
-#  include "renderer/windowSystem.hpp"
-#  ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#    include "renderer/windowX11.hpp"
-#  endif // #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include "renderer/windowParameters.hpp"
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
-#  include "renderer/windowGLXParam.hpp"
-#endif
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-#  include "renderer/windowWGLParam.hpp"
-#endif
+#  include "events/windowevents.hpp"
+#  include "window/windowvisualinfo.hpp"
+#  include "window/windowsystem.hpp"
 // This has to go last.
 #  include "core/engine.hpp"
 // Template and Inline implementations now...
@@ -389,6 +376,4 @@ struct WindowWGLParam;
 #  ifdef HUMMSTRUMM_ENGINE_SOURCE
 #    pragma warning(disable:4290)
 #  endif // #ifdef HUMMSTRUMM_ENGINE_SOURCE
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-
 #endif // #ifndef HUMMSTRUMM_ENGINE

@@ -22,7 +22,7 @@
 #include "hummstrummengine.hpp"
 
 int
-main (int argc, char **argv)
+main ()
 {
   hummstrumm::engine::core::Engine engine;
   

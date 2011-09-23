@@ -26,6 +26,7 @@ cmake_minimum_required (VERSION 2.6.3)
 
 set (CMAKE_MODULE_PATH ${hummstrumm_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
+include (CompilerChecks)
 include (CheckClone)
 include (Defaults)
 include (Version)
@@ -45,9 +46,10 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
   set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
-  set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W 4")
+  # Seems like CMAKE_CXX_FLAGS already sets "/W3" by default
+  string (REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+  set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W4")
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
-
 
 # Test for SIMD
 set (HUMMSTRUMM_USE_SSE ON CACHE BOOL

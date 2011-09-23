@@ -14,15 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# CheckX11.cmake -- Look for X11 files if we need them.
+# CompilerChecks.cmake -- Makes sure that the compiler supports various headers,
+#                         functions, and features.
 
-# We need X11 if we're building for it.
-if (HUMMSTRUMM_WINDOWSYSTEM_X11)
-  find_package(X11)
-  if (NOT X11_FOUND)
-    message (FATAL_ERROR "Failed to find X11 required development files.")
-  endif (NOT X11_FOUND)
-  if (NOT X11_Xrandr_FOUND)
-    message (FATAL_ERROR "Failed to find Xrandr required development files.")
-  endif (NOT X11_Xrandr_FOUND)
-endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+include (CheckIncludeFiles)
+
+check_include_files (cpuid.h HAVE_CPUID_H)

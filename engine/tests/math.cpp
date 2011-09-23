@@ -64,9 +64,9 @@ class QuaternionsTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (QuatMagnitude(q0Expected) == 1);
       q0Expected = q1*q2;
       CPPUNIT_ASSERT_DOUBLES_EQUAL (-17, q0Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 16, q0Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 47, q0Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (  0, q0Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 16, q0Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 47, q0Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (  0, q0Expected.v.coord.z, 0.01);
 
     }
 
@@ -92,70 +92,70 @@ class QuaternionsTest : public CppUnit::TestFixture
 
       q0Expected = QuatLog (q0);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 1.7006,   q0Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.200991, q0Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.401982, q0Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.602974, q0Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.200991, q0Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.401982, q0Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.602974, q0Expected.v.coord.z, 0.01);
 
       q1Expected = QuatLog (q1);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, q1Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, q1Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, q1Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, q1Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, q1Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, q1Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0, q1Expected.v.coord.z, 0.01);
 
       q2Expected = QuatLog (q2);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.693147, q2Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q2Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q2Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q2Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q2Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q2Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q2Expected.v.coord.z, 0.01);
 
       q3Expected = QuatLog (q3);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q3Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 1.5708,   q3Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q3Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q3Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 1.5708,   q3Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q3Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q3Expected.v.coord.z, 0.01);
 
       q4Expected = QuatLog (q4);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.693147, q4Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 1.5708,   q4Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q4Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q4Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 1.5708,   q4Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q4Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0,        q4Expected.v.coord.z, 0.01);
 
       q5Expected = QuatLog (q5);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.693147, q5Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,   q5Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,   q5Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,   q5Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,   q5Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,   q5Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,   q5Expected.v.coord.z, 0.01);
 
       q6Expected = QuatLog (q6);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 1.79176, q6Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,  q6Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,  q6Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,  q6Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,  q6Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,  q6Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( 0.6046,  q6Expected.v.coord.z, 0.01);
 
       q7Expected = QuatLog (q7);
       CPPUNIT_ASSERT_DOUBLES_EQUAL ( 2.07944, q7Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1.2092, q7Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1.2092, q7Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1.2092, q7Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1.2092, q7Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1.2092, q7Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1.2092, q7Expected.v.coord.z, 0.01);
 
       q0Expected = QuatExp (QuatLog (q0));
       CPPUNIT_ASSERT_DOUBLES_EQUAL (q0.w,   q0Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (q0.v.x, q0Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (q0.v.y, q0Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (q0.v.z, q0Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (q0.v.coord.x, q0Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (q0.v.coord.y, q0Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (q0.v.coord.z, q0Expected.v.coord.z, 0.01);
 
       q0Expected = QuatLog (QuatExp (q0));
       CPPUNIT_ASSERT_DOUBLES_EQUAL (4,         q0Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (-0.679252, q0Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (-1.3585,   q0Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (-2.03776,  q0Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (-0.679252, q0Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (-1.3585,   q0Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (-2.03776,  q0Expected.v.coord.z, 0.01);
 
 
       q0Expected = QuatPow (q0,q0);
       CPPUNIT_ASSERT_DOUBLES_EQUAL (-53.8975, q0Expected.w,   0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (0.772254, q0Expected.v.x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (1.54451,  q0Expected.v.y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (2.31676,  q0Expected.v.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (0.772254, q0Expected.v.coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (1.54451,  q0Expected.v.coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (2.31676,  q0Expected.v.coord.z, 0.01);
 
       q0Expected = QuatPow (q0,exponent);      
     }
@@ -189,33 +189,33 @@ class MatricesTest : public CppUnit::TestFixture
       Matrix3D <float> m3_1;
       Matrix4D <float> m4_1;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_1[0].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_1[0].y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_1[1].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_1[1].y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_1[0].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_1[0].coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_1[1].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_1[1].coord.y, 0.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( m3_1[0].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[0].y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[0].z, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[1].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[1].y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[1].z, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[2].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[2].y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_1[2].z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[0].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[0].coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[0].coord.z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[1].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[1].coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[1].coord.z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[2].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[2].coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_1[2].coord.z, 0.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( m4_1[0].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[0].y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[0].z, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[0].w, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[1].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[1].y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[1].z, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[1].w, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[2].x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[2].y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[2].z, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_1[2].w, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[0].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[0].coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[0].coord.z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[0].coord.w, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[1].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[1].coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[1].coord.z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[1].coord.w, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[2].coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[2].coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[2].coord.z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_1[2].coord.w, 0.0f );
 
 
       Matrix2D <float> m2_2 (2, 3,
@@ -230,37 +230,37 @@ class MatricesTest : public CppUnit::TestFixture
                               -1.4f, -20.1f,  -300, -41.23f,
                                  0,  -678, -1.02f,    -10  );
 
-      CPPUNIT_ASSERT_EQUAL ( m2_2[0].x,  2.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_2[0].y,  3.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_2[1].x,  4.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_2[1].y,  5.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_2[0].coord.x,  2.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_2[0].coord.y,  3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_2[1].coord.x,  4.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_2[1].coord.y,  5.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( m3_2[0].x,  2.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[0].y,  3.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[0].z,  4.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[1].x,  5.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[1].y,  6.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[1].z,  7.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[2].x, -1.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[2].y, -2.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_2[2].z, -3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[0].coord.x,  2.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[0].coord.y,  3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[0].coord.z,  4.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[1].coord.x,  5.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[1].coord.y,  6.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[1].coord.z,  7.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[2].coord.x, -1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[2].coord.y, -2.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_2[2].coord.z, -3.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( m4_2[0].x,    2.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[0].y,    3.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[0].z,    4.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[0].w,    5.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[1].x,  -0.01f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[1].y,    0.5f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[1].z,   3.24f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[1].w,   -3.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[2].x,   -1.4f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[2].y,  -20.1f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[2].z, -300.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[2].w, -41.23f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[3].x,    0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[3].y, -678.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[3].z,  -1.02f );
-      CPPUNIT_ASSERT_EQUAL ( m4_2[3].w,  -10.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[0].coord.x,    2.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[0].coord.y,    3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[0].coord.z,    4.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[0].coord.w,    5.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[1].coord.x,  -0.01f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[1].coord.y,    0.5f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[1].coord.z,   3.24f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[1].coord.w,   -3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[2].coord.x,   -1.4f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[2].coord.y,  -20.1f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[2].coord.z, -300.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[2].coord.w, -41.23f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[3].coord.x,    0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[3].coord.y, -678.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[3].coord.z,  -1.02f );
+      CPPUNIT_ASSERT_EQUAL ( m4_2[3].coord.w,  -10.0f );
 
       Vector2D <float> v1 ( 6, 7);
       Vector2D <float> v2 ( 9, 0);
@@ -281,78 +281,78 @@ class MatricesTest : public CppUnit::TestFixture
 
       Matrix4D <float> m4_3 ( v4_1, v4_2, v4_3, v4_4);
 
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].x,  6.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].y,  7.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].x,  9.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].y,  0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.x,  6.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.y,  7.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.x,  9.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.y,  0.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( m3_3[0].x,  6.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[0].y,  7.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[0].z,  8.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[1].x,  9.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[1].y,  0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[1].z, -1.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[2].x,-10.0f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[2].y,-0.01f );
-      CPPUNIT_ASSERT_EQUAL ( m3_3[2].z, -0.1f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[0].coord.x,  6.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[0].coord.y,  7.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[0].coord.z,  8.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[1].coord.x,  9.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[1].coord.y,  0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[1].coord.z, -1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[2].coord.x,-10.0f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[2].coord.y,-0.01f );
+      CPPUNIT_ASSERT_EQUAL ( m3_3[2].coord.z, -0.1f );
 
-      CPPUNIT_ASSERT_EQUAL ( m4_3[0].x,   6.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[0].y,   7.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[0].z,   8.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[0].w,  -1.3f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[1].x,   9.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[1].y,   0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[1].z,  -1.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[1].w,  -3.1f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[2].x, -10.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[2].y, -0.01f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[2].z,  -0.1f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[2].w,  -4.2f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[3].x,  -0.1f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[3].y,-134.0f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[3].z,  -1.9f );
-      CPPUNIT_ASSERT_EQUAL ( m4_3[3].w,  -5.5f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[0].coord.x,   6.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[0].coord.y,   7.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[0].coord.z,   8.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[0].coord.w,  -1.3f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[1].coord.x,   9.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[1].coord.y,   0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[1].coord.z,  -1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[1].coord.w,  -3.1f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[2].coord.x, -10.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[2].coord.y, -0.01f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[2].coord.z,  -0.1f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[2].coord.w,  -4.2f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[3].coord.x,  -0.1f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[3].coord.y,-134.0f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[3].coord.z,  -1.9f );
+      CPPUNIT_ASSERT_EQUAL ( m4_3[3].coord.w,  -5.5f );
 
       // copy constructor
       Matrix2D <float> m2_4 (m2_3);
 
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].x, m2_3[0].x );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].y, m2_3[0].y );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].x, m2_3[1].x );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].y, m2_3[1].y );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.x, m2_3[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.y, m2_3[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.x, m2_3[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.y, m2_3[1].coord.y );
 
        // copy constructor
       Matrix3D <float> m3_4 (m3_3);
 
-      CPPUNIT_ASSERT_EQUAL ( m3_4[0].x, m3_3[0].x );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[0].y, m3_3[0].y );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[0].z, m3_3[0].z );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[1].x, m3_3[1].x );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[1].y, m3_3[1].y );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[1].z, m3_3[1].z );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[2].x, m3_3[2].x );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[2].y, m3_3[2].y );
-      CPPUNIT_ASSERT_EQUAL ( m3_4[2].z, m3_3[2].z );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[0].coord.x, m3_3[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[0].coord.y, m3_3[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[0].coord.z, m3_3[0].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[1].coord.x, m3_3[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[1].coord.y, m3_3[1].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[1].coord.z, m3_3[1].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[2].coord.x, m3_3[2].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[2].coord.y, m3_3[2].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m3_4[2].coord.z, m3_3[2].coord.z );
 
       // copy constructor
       Matrix4D <float> m4_4 (m4_3);
 
-      CPPUNIT_ASSERT_EQUAL ( m4_4[0].x, m4_3[0].x );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[0].y, m4_3[0].y );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[0].z, m4_3[0].z );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[0].w, m4_3[0].w );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[1].x, m4_3[1].x );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[1].y, m4_3[1].y );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[1].z, m4_3[1].z );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[1].w, m4_3[1].w );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[2].x, m4_3[2].x );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[2].y, m4_3[2].y );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[2].z, m4_3[2].z );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[2].w, m4_3[2].w );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[3].x, m4_3[3].x );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[3].y, m4_3[3].y );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[3].z, m4_3[3].z );
-      CPPUNIT_ASSERT_EQUAL ( m4_4[3].w, m4_3[3].w );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[0].coord.x, m4_3[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[0].coord.y, m4_3[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[0].coord.z, m4_3[0].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[0].coord.w, m4_3[0].coord.w );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[1].coord.x, m4_3[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[1].coord.y, m4_3[1].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[1].coord.z, m4_3[1].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[1].coord.w, m4_3[1].coord.w );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[2].coord.x, m4_3[2].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[2].coord.y, m4_3[2].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[2].coord.z, m4_3[2].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[2].coord.w, m4_3[2].coord.w );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[3].coord.x, m4_3[3].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[3].coord.y, m4_3[3].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[3].coord.z, m4_3[3].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( m4_4[3].coord.w, m4_3[3].coord.w );
      
     }
 
@@ -362,10 +362,10 @@ class MatricesTest : public CppUnit::TestFixture
       Matrix2D <float> m2_4;
       m2_4 = m2_3;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].x, m2_3[0].x );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].y, m2_3[0].y );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].x, m2_3[1].x );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].y, m2_3[1].y );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.x, m2_3[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.y, m2_3[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.x, m2_3[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.y, m2_3[1].coord.y );
 
     }
 
@@ -397,10 +397,10 @@ class MatricesTest : public CppUnit::TestFixture
 
       m2_4 = -m2_3;  
 
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].x, -3.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].y, -4.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].x,  1.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].y,  5.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.x, -3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.y, -4.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.x,  1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.y,  5.0f );
      
     }
 
@@ -411,18 +411,18 @@ class MatricesTest : public CppUnit::TestFixture
       Matrix2D <float> m2_4 ( 2,  1,  3,  6);
       m2_4 = m2_4 - m2_3;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].x, -1.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].y, -3.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].x,  4.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].y, 11.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.x, -1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.y, -3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.x,  4.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.y, 11.0f );
 
       Matrix2D <float> m2_5 ( -1, -1, -1, 0);
       m2_5 -= m2_4;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_5[0].x,  0.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_5[0].y,  2.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_5[1].x, -5.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_5[1].y, -11.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[0].coord.x,  0.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[0].coord.y,  2.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[1].coord.x, -5.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[1].coord.y, -11.0f );
 
     }
 
@@ -433,18 +433,18 @@ class MatricesTest : public CppUnit::TestFixture
       Matrix2D <float> m2_4 ( 2,  1,  3,  6);
       m2_4 = m2_4 + m2_3;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].x, 5.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[0].y, 5.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].x, 2.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_4[1].y, 1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.x, 5.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[0].coord.y, 5.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.x, 2.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_4[1].coord.y, 1.0f );
 
       Matrix2D <float> m2_5 ( -1, -1, -1, 0);
       m2_5 += m2_4;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_5[0].x, 4.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_5[0].y, 4.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_5[1].x, 1.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_5[1].y, 1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[0].coord.x, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[0].coord.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[1].coord.x, 1.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_5[1].coord.y, 1.0f );
 
       m2_5 = m2_4 + m2_3;
 
@@ -457,39 +457,39 @@ class MatricesTest : public CppUnit::TestFixture
       float scalar = 3;
       m2_3 = m2_3 * scalar;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].x,   9.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].y,  12.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].x,  -3.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].y, -15.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.x,   9.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.y,  12.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.x,  -3.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.y, -15.0f );
 
       m2_3 *= scalar;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].x,  27.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].y,  36.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].x,  -9.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].y, -45.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.x,  27.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.y,  36.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.x,  -9.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.y, -45.0f );
 
       m2_3 = scalar * m2_3;
 
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].x,   81.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[0].y,  108.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].x,  -27.0f );
-      CPPUNIT_ASSERT_EQUAL ( m2_3[1].y, -135.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.x,   81.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[0].coord.y,  108.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.x,  -27.0f );
+      CPPUNIT_ASSERT_EQUAL ( m2_3[1].coord.y, -135.0f );
 
       // Matrix multiplcation
       Matrix2D<float> m2_4 (4, 5, 6, -0.5);
       Matrix2D<float> m2_5;
 
       m2_5 = m2_3*m2_4;
-      CPPUNIT_ASSERT_EQUAL (  972.0f, m2_5[0].x );
-      CPPUNIT_ASSERT_EQUAL (  351.0f, m2_5[0].y );
-      CPPUNIT_ASSERT_EQUAL ( -918.0f, m2_5[1].x );
-      CPPUNIT_ASSERT_EQUAL (  -67.5f, m2_5[1].y );
+      CPPUNIT_ASSERT_EQUAL (  972.0f, m2_5[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL (  351.0f, m2_5[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( -918.0f, m2_5[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL (  -67.5f, m2_5[1].coord.y );
       m2_5 *= m2_4;
-      CPPUNIT_ASSERT_EQUAL (   5994.0f,  m2_5[0].x );
-      CPPUNIT_ASSERT_EQUAL (   4684.5f,  m2_5[0].y );
-      CPPUNIT_ASSERT_EQUAL (  -4077.0f,  m2_5[1].x );
-      CPPUNIT_ASSERT_EQUAL ( -4556.250f, m2_5[1].y );
+      CPPUNIT_ASSERT_EQUAL (   5994.0f,  m2_5[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL (   4684.5f,  m2_5[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL (  -4077.0f,  m2_5[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( -4556.250f, m2_5[1].coord.y );
 
 
       Matrix3D<float> m3_1 ( 3,  6,  1,
@@ -501,26 +501,26 @@ class MatricesTest : public CppUnit::TestFixture
                             -1, -1,  9);
       Matrix3D<float> m3_0;
       m3_0 = m3_1*m3_2;
-      CPPUNIT_ASSERT_EQUAL (  38.0f, m3_0[0].x );
-      CPPUNIT_ASSERT_EQUAL (  32.0f, m3_0[0].y );
-      CPPUNIT_ASSERT_EQUAL ( -18.0f, m3_0[0].z );
-      CPPUNIT_ASSERT_EQUAL (  37.0f, m3_0[1].x );
-      CPPUNIT_ASSERT_EQUAL (  39.0f, m3_0[1].y );
-      CPPUNIT_ASSERT_EQUAL ( -56.0f, m3_0[1].z );
-      CPPUNIT_ASSERT_EQUAL ( -26.0f, m3_0[2].x );
-      CPPUNIT_ASSERT_EQUAL ( -22.0f, m3_0[2].y );
-      CPPUNIT_ASSERT_EQUAL (  95.0f, m3_0[2].z );
+      CPPUNIT_ASSERT_EQUAL (  38.0f, m3_0[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL (  32.0f, m3_0[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( -18.0f, m3_0[0].coord.z );
+      CPPUNIT_ASSERT_EQUAL (  37.0f, m3_0[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL (  39.0f, m3_0[1].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( -56.0f, m3_0[1].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( -26.0f, m3_0[2].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( -22.0f, m3_0[2].coord.y );
+      CPPUNIT_ASSERT_EQUAL (  95.0f, m3_0[2].coord.z );
 
       m3_0 *= m3_2;
-      CPPUNIT_ASSERT_EQUAL (  336.0f, m3_0[0].x );
-      CPPUNIT_ASSERT_EQUAL (  348.0f, m3_0[0].y );
-      CPPUNIT_ASSERT_EQUAL ( -284.0f, m3_0[0].z );
-      CPPUNIT_ASSERT_EQUAL (  397.0f, m3_0[1].x );
-      CPPUNIT_ASSERT_EQUAL (  393.0f, m3_0[1].y );
-      CPPUNIT_ASSERT_EQUAL ( -662.0f, m3_0[1].z );
-      CPPUNIT_ASSERT_EQUAL ( -313.0f, m3_0[2].x );
-      CPPUNIT_ASSERT_EQUAL ( -321.0f, m3_0[2].y );
-      CPPUNIT_ASSERT_EQUAL (  939.0f, m3_0[2].z );
+      CPPUNIT_ASSERT_EQUAL (  336.0f, m3_0[0].coord.x );
+      CPPUNIT_ASSERT_EQUAL (  348.0f, m3_0[0].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( -284.0f, m3_0[0].coord.z );
+      CPPUNIT_ASSERT_EQUAL (  397.0f, m3_0[1].coord.x );
+      CPPUNIT_ASSERT_EQUAL (  393.0f, m3_0[1].coord.y );
+      CPPUNIT_ASSERT_EQUAL ( -662.0f, m3_0[1].coord.z );
+      CPPUNIT_ASSERT_EQUAL ( -313.0f, m3_0[2].coord.x );
+      CPPUNIT_ASSERT_EQUAL ( -321.0f, m3_0[2].coord.y );
+      CPPUNIT_ASSERT_EQUAL (  939.0f, m3_0[2].coord.z );
 
       Matrix4D <float> m4_4 (3, 4, -1, -0.5f,
                             -5, 3,  2,    2,
@@ -535,47 +535,47 @@ class MatricesTest : public CppUnit::TestFixture
       Matrix4D <float> m4_6;
       m4_6 = m4_4*m4_5;
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].x, 1, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].y, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].z, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].w, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].coord.x, 1, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].coord.y, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].coord.z, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[0].coord.w, 0, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].x, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].y, 1, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].z, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].w, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].coord.x, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].coord.y, 1, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].coord.z, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[1].coord.w, 0, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].x, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].y, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].z, 1, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].w, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].coord.x, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].coord.y, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].coord.z, 1, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[2].coord.w, 0, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].x, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].y, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].z, 0, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].w, 1, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].coord.x, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].coord.y, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].coord.z, 0, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_6[3].coord.w, 1, 0.01);
 
       m4_6 *= m4_4; // precision loss
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].x, m4_6[0].x, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].y, m4_6[0].y, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].z, m4_6[0].z, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].w, m4_6[0].w, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.x, m4_6[0].coord.x, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.y, m4_6[0].coord.y, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.z, m4_6[0].coord.z, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.w, m4_6[0].coord.w, 0.05);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].x, m4_6[1].x, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].y, m4_6[1].y, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].z, m4_6[1].z, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].w, m4_6[1].w, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.x, m4_6[1].coord.x, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.y, m4_6[1].coord.y, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.z, m4_6[1].coord.z, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.w, m4_6[1].coord.w, 0.05);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].x, m4_6[2].x, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].y, m4_6[2].y, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].z, m4_6[2].z, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].w, m4_6[2].w, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.x, m4_6[2].coord.x, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.y, m4_6[2].coord.y, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.z, m4_6[2].coord.z, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.w, m4_6[2].coord.w, 0.05);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].x, m4_6[3].x, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].y, m4_6[3].y, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].z, m4_6[3].z, 0.05);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].w, m4_6[3].w, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.x, m4_6[3].coord.x, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.y, m4_6[3].coord.y, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.z, m4_6[3].coord.z, 0.05);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.w, m4_6[3].coord.w, 0.05);
 
 
     }
@@ -587,18 +587,18 @@ class MatricesTest : public CppUnit::TestFixture
       float divisor = 2;
       m2_3 = m2_3 / divisor;
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (  3/divisor, m2_3[0].x, 0.01 );
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (  4/divisor, m2_3[0].y, 0.01 );
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1/divisor, m2_3[1].x, 0.01 );
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -5/divisor, m2_3[1].y, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (  3/divisor, m2_3[0].coord.x, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (  4/divisor, m2_3[0].coord.y, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -1/divisor, m2_3[1].coord.x, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( -5/divisor, m2_3[1].coord.y, 0.01 );
 
       Matrix2D <float> m2_4 (-0.5, 67, -7, 2);
       m2_4 /= divisor;
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (-0.5/divisor, m2_4[0].x, 0.01 );
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (  67/divisor, m2_4[0].y, 0.01 );
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (  -7/divisor, m2_4[1].x, 0.01 );
-      CPPUNIT_ASSERT_DOUBLES_EQUAL (   2/divisor, m2_4[1].y, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (-0.5/divisor, m2_4[0].coord.x, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (  67/divisor, m2_4[0].coord.y, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (  -7/divisor, m2_4[1].coord.x, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL (   2/divisor, m2_4[1].coord.y, 0.01 );
    
     }
 
@@ -664,42 +664,42 @@ class MatricesTest : public CppUnit::TestFixture
       m3_4Inv = Mat3DInverse(m3_4);
       m4_4Inv = Mat4DInverse(m4_4);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[0].x, m2_4Inv[0].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[0].y, m2_4Inv[0].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[1].x, m2_4Inv[1].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[1].y, m2_4Inv[1].y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[0].coord.x, m2_4Inv[0].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[0].coord.y, m2_4Inv[0].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[1].coord.x, m2_4Inv[1].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_3[1].coord.y, m2_4Inv[1].coord.y, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[0].x, m3_4Inv[0].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[0].y, m3_4Inv[0].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[0].z, m3_4Inv[0].z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[0].coord.x, m3_4Inv[0].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[0].coord.y, m3_4Inv[0].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[0].coord.z, m3_4Inv[0].coord.z, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[1].x, m3_4Inv[1].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[1].y, m3_4Inv[1].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[1].z, m3_4Inv[1].z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[1].coord.x, m3_4Inv[1].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[1].coord.y, m3_4Inv[1].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[1].coord.z, m3_4Inv[1].coord.z, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[2].x, m3_4Inv[2].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[2].y, m3_4Inv[2].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[2].z, m3_4Inv[2].z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[2].coord.x, m3_4Inv[2].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[2].coord.y, m3_4Inv[2].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_5[2].coord.z, m3_4Inv[2].coord.z, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].x, m4_4Inv[0].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].y, m4_4Inv[0].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].z, m4_4Inv[0].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].w, m4_4Inv[0].w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].coord.x, m4_4Inv[0].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].coord.y, m4_4Inv[0].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].coord.z, m4_4Inv[0].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[0].coord.w, m4_4Inv[0].coord.w, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].x, m4_4Inv[1].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].y, m4_4Inv[1].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].z, m4_4Inv[1].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].w, m4_4Inv[1].w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].coord.x, m4_4Inv[1].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].coord.y, m4_4Inv[1].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].coord.z, m4_4Inv[1].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[1].coord.w, m4_4Inv[1].coord.w, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].x, m4_4Inv[2].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].y, m4_4Inv[2].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].z, m4_4Inv[2].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].w, m4_4Inv[2].w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].coord.x, m4_4Inv[2].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].coord.y, m4_4Inv[2].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].coord.z, m4_4Inv[2].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[2].coord.w, m4_4Inv[2].coord.w, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].x, m4_4Inv[3].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].y, m4_4Inv[3].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].z, m4_4Inv[3].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].w, m4_4Inv[3].w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].coord.x, m4_4Inv[3].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].coord.y, m4_4Inv[3].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].coord.z, m4_4Inv[3].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_5[3].coord.w, m4_4Inv[3].coord.w, 0.01);
 
     }
     void testTranspose ()
@@ -732,42 +732,42 @@ class MatricesTest : public CppUnit::TestFixture
       m2_4t = Mat2DTranspose(m2_4);
       m3_4t = Mat3DTranspose(m3_4);
       m4_4t = Mat4DTranspose(m4_4);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[0].x, m2_4t[0].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[0].y, m2_4t[1].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[1].x, m2_4t[0].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[1].y, m2_4t[1].y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[0].coord.x, m2_4t[0].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[0].coord.y, m2_4t[1].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[1].coord.x, m2_4t[0].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m2_4[1].coord.y, m2_4t[1].coord.y, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[0].x, m3_4t[0].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[0].y, m3_4t[1].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[0].z, m3_4t[2].x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[0].coord.x, m3_4t[0].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[0].coord.y, m3_4t[1].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[0].coord.z, m3_4t[2].coord.x, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[1].x, m3_4t[0].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[1].y, m3_4t[1].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[1].z, m3_4t[2].y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[1].coord.x, m3_4t[0].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[1].coord.y, m3_4t[1].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[1].coord.z, m3_4t[2].coord.y, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[2].x, m3_4t[0].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[2].y, m3_4t[1].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[2].z, m3_4t[2].z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[2].coord.x, m3_4t[0].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[2].coord.y, m3_4t[1].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m3_4[2].coord.z, m3_4t[2].coord.z, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].x, m4_4t[0].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].y, m4_4t[1].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].z, m4_4t[2].x, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].w, m4_4t[3].x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.x, m4_4t[0].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.y, m4_4t[1].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.z, m4_4t[2].coord.x, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[0].coord.w, m4_4t[3].coord.x, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].x, m4_4t[0].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].y, m4_4t[1].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].z, m4_4t[2].y, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].w, m4_4t[3].y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.x, m4_4t[0].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.y, m4_4t[1].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.z, m4_4t[2].coord.y, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[1].coord.w, m4_4t[3].coord.y, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].x, m4_4t[0].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].y, m4_4t[1].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].z, m4_4t[2].z, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].w, m4_4t[3].z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.x, m4_4t[0].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.y, m4_4t[1].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.z, m4_4t[2].coord.z, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[2].coord.w, m4_4t[3].coord.z, 0.01);
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].x, m4_4t[0].w, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].y, m4_4t[1].w, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].z, m4_4t[2].w, 0.01);
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].w, m4_4t[3].w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.x, m4_4t[0].coord.w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.y, m4_4t[1].coord.w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.z, m4_4t[2].coord.w, 0.01);
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( m4_4[3].coord.w, m4_4t[3].coord.w, 0.01);
 
     }
 };
@@ -806,20 +806,20 @@ class VectorTest : public CppUnit::TestFixture
       Vector4D <float> v4_1 ( 3.0f, 4.0f, 1.0f, -0.5f );
 
 
-      CPPUNIT_ASSERT_EQUAL ( v2_0.x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_0.y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_1.x, 3.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_1.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_0.coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_0.coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_1.coord.x, 3.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_1.coord.y, 4.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( v4_0.x, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_0.y, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_0.z, 0.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_0.w, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_0.coord.x, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_0.coord.y, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_0.coord.z, 0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_0.coord.w, 0.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( v4_1.x, 3.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_1.y, 4.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_1.z, 1.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_1.w, -0.5f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.x, 3.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.z, 1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.w, -0.5f );
 
 
     }
@@ -834,13 +834,13 @@ class VectorTest : public CppUnit::TestFixture
       Vector4D <float> v4_1 ( 3.0f, 4.0f, 1.0f, -0.5f );
       Vector4D <float> v4_2 ( v4_1 );
 
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x, 3.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.x, 3.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.y, 4.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( v4_2.x, 3.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.y, 4.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.z, 1.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.w, -.5f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.x, 3.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.z, 1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.w, -.5f );
 
     }
 
@@ -852,13 +852,13 @@ class VectorTest : public CppUnit::TestFixture
       Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, -0.5f);
       Vector4D <float> v4_1 = v4_0;
 
-      CPPUNIT_ASSERT_EQUAL ( v2_1.x, -4.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_1.y,  5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_1.coord.x, -4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_1.coord.y,  5.0f );
 
-      CPPUNIT_ASSERT_EQUAL ( v4_1.x, -4.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_1.y,  5.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_1.z,  1.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_1.w,  -.5f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.x, -4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.y,  5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.z,  1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_1.coord.w,  -.5f );
     }
 
     void testEquality ()
@@ -896,14 +896,14 @@ class VectorTest : public CppUnit::TestFixture
       Vector4D <float> v4_2;
  
       v2_2 = v2_0 - v2_1;
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x, -7.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y, -5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.x, -7.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.y, -5.0f );
 
       v4_2 = v4_0 - v4_1;
-      CPPUNIT_ASSERT_EQUAL ( v4_2.x, -7.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.y, -5.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.z,  0.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.w, -0.5f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.x, -7.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.y, -5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.z,  0.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.w, -0.5f );
 
     }
 
@@ -916,14 +916,14 @@ class VectorTest : public CppUnit::TestFixture
       Vector4D <float> v4_2;
   
       v2_2 = -v2_0;
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x,  4.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y, -5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.x,  4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.y, -5.0f );
 
       v4_2 = -v4_0;
-      CPPUNIT_ASSERT_EQUAL ( v4_2.x, 4.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.y, -5.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.z, -1.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.w,  1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.x, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.y, -5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.z, -1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.w,  1.0f );
 
     }
 
@@ -935,8 +935,8 @@ class VectorTest : public CppUnit::TestFixture
       Vector2D <float> v2_2;
   
       v2_2 = v2_0 + v2_1;
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x, -1.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y, 15.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.x, -1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.y, 15.0f );
     }
 
     void testDivision ()
@@ -950,14 +950,14 @@ class VectorTest : public CppUnit::TestFixture
       float scalar = 2.0f;
   
       v2_2 = v2_0 / scalar;
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x, -2.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y,  5.0f/scalar );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.x, -2.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.y,  5.0f/scalar );
 
       v4_2 = v4_0 / scalar;
-      CPPUNIT_ASSERT_EQUAL ( v4_2.x, -2.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.y,  5.0f/scalar );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.z,  1.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.w,  -0.5f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.x, -2.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.y,  5.0f/scalar );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.z,  1.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.w,  -0.5f );
 
     }
 
@@ -972,14 +972,14 @@ class VectorTest : public CppUnit::TestFixture
       float scalar = 2.0f;
   
       v2_2 = scalar * v2_0;
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x, -8.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y, 10.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.x, -8.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.y, 10.0f );
 
       v4_2 = scalar * v4_0;
-      CPPUNIT_ASSERT_EQUAL ( v4_2.x, -8.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.y, 10.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.z, 4.0f );
-      CPPUNIT_ASSERT_EQUAL ( v4_2.w, -2.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.x, -8.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.y, 10.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.z, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v4_2.coord.w, -2.0f );
 
     }
 
@@ -991,8 +991,8 @@ class VectorTest : public CppUnit::TestFixture
       float expectedX = (1/sqrt(41.0f))*-4.0f;
       float expectedY = (1/sqrt(41.0f))*5.0f;
 
-      CPPUNIT_ASSERT_EQUAL ( v2_0.x, expectedX );
-      CPPUNIT_ASSERT_EQUAL ( v2_0.y, expectedY );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( v2_0.coord.x, expectedX, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( v2_0.coord.y, expectedY, 0.01 );
 
       Vector4D <float> v4_0 ( -4.0f, 5.0f, 1.0f, 0.5f);
       v4_0.Normalize ();
@@ -1000,8 +1000,8 @@ class VectorTest : public CppUnit::TestFixture
       expectedX = (1/sqrt(41.0f))*-4.0f;
       expectedY = (1/sqrt(41.0f))*5.0f;
 
-      CPPUNIT_ASSERT_EQUAL ( v2_0.x, expectedX );
-      CPPUNIT_ASSERT_EQUAL ( v2_0.y, expectedY );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( v2_0.coord.x, expectedX, 0.01 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( v2_0.coord.y, expectedY, 0.01 );
 
     }
 
@@ -1011,22 +1011,22 @@ class VectorTest : public CppUnit::TestFixture
       Vector2D <float> v2_2;
 
       v2_2 = Vec2DPerpendicular (v2_0);
-      CPPUNIT_ASSERT_EQUAL ( v2_2.x, 5.0f );
-      CPPUNIT_ASSERT_EQUAL ( v2_2.y, 4.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.x, 5.0f );
+      CPPUNIT_ASSERT_EQUAL ( v2_2.coord.y, 4.0f );
     }
 
     void testUnitPerpendicular ()
     {
       Vector2D <float> v2_0 (-4.0f,5.0f);
       Vector2D <float> v2_2;
-      float mag = sqrt ( v2_0.x*v2_0.x + v2_0.y*v2_0.y ); 
+      float mag = sqrt ( v2_0.coord.x*v2_0.coord.x + v2_0.coord.y*v2_0.coord.y ); 
       v2_2 = Vec2DUnitPerpendicular (v2_0);
 
       float expectedX = 5.0f/mag;
       float expectedY = 4.0f/mag;
 
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedX, v2_2.x , 0.0001 );
-      CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedY, v2_2.y , 0.0001 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedX, v2_2.coord.x , 0.0001 );
+      CPPUNIT_ASSERT_DOUBLES_EQUAL ( expectedY, v2_2.coord.y , 0.0001 );
     }
 /*
     void testOrthonormalize ()
@@ -1121,7 +1121,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION ( MatricesTest );
 CPPUNIT_TEST_SUITE_REGISTRATION ( QuaternionsTest );
 
 int
-main (int argc, char **argv)
+main ()
 {
   CppUnit::TestResult controller;
   CppUnit::TestResultCollector result;

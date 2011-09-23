@@ -20,6 +20,7 @@
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  */
 
+#include <stdio.h>
 #ifdef HUMMSTRUMM_PLATFORM_GNULINUX
 #include "cpuid.h"
 #endif
@@ -43,7 +44,7 @@ main(int argc, char **argv)
       return 1;
   }
   #elif HUMMSTRUMM_PLATFORM_WINDOWS
-  int CPUInfo[4] = {-1}
+  int CPUInfo[4] = {-1};
   __cpuid(CPUInfo, 1);
   if (CPUInfo[3] & (1 << 25))
     return 1; // SSE

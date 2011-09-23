@@ -1,3 +1,4 @@
+// -*- c++ -*-
 /* Humm and Strumm Video Game
  * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
  *
@@ -14,34 +15,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #define HUMMSTRUMM_ENGINE_SOURCE
-#include <iostream>
+
 #include "hummstrummengine.hpp"
 
-using namespace hummstrumm::engine::system;
-using namespace hummstrumm::engine::types;
-
-int
-main ()
+namespace hummstrumm
 {
-  int64 start = 0, end = 0;
-  int64 freq = 0;
-  hummstrumm::engine::core::Engine engine;
+namespace engine
+{
+namespace error
+{
 
-  const int64 TIME_FOR_EACH_TEST = 2 *
-    engine.GetClock ()->NANOSECONDS_PER_SECOND;
 
-  start = engine.GetClock ()->GetHighResolutionCount ();
-  freq  = engine.GetClock ()->GetHighResolutionFrequency();
+WindowSystem::WindowSystem (const char *fileName, unsigned int lineNumber,
+                            const char *function, const char *text)
+  : Error (fileName, lineNumber, function, text,
+           "The Window System has encountered an error.")
+{}
 
-  std::cout << "This test should run for exactly 2 seconds!\n";
-  std::cout << "There are " << freq << " ns between ticks.\n";
+WindowSystem::~WindowSystem (void)
+{}
 
-  do
-    {
-      end = engine.GetClock ()->GetHighResolutionCount();
-    }
-  while ((end - start) < TIME_FOR_EACH_TEST);
-  return 0;
+
+}
+}
 }

@@ -318,10 +318,10 @@ namespace math
  * @param [in]  rin  The input register.
  * @param [out] rout The output register.
  */
-#define SIMD_ADD_REGISTER(rin,rout)                           \
-  __m128 shf_in = _mm_shuffle_ps(rin,rin,0b00110001);         \
-  __m128 add_in; SIMD_ADD_PS(rin,shf_in, add_in);             \
-  __m128 shf_add = _mm_shuffle_ps(add_in,add_in,0b00000010);  \
+#define SIMD_ADD_REGISTER(rin,rout)                                       \
+  __m128 shf_in = _mm_shuffle_ps(rin,rin,_MM_SHUFFLE(1,0,3,2));           \
+  __m128 add_in; SIMD_ADD_PS(rin,shf_in, add_in);                         \
+  __m128 shf_add = _mm_shuffle_ps(add_in,add_in,_MM_SHUFFLE(2,3,0,1));    \
   SIMD_ADD_PS(shf_add, add_in, rout);
 
 // out = s*in[0..31], s*in[32..63], s*in[64..95], s*in[96..127]
@@ -339,7 +339,7 @@ namespace math
  * @param [out] rout The output register.
  */
 #define SIMD_MULT_SCALAR(rin, s, rout)                 \
-  __m128 mulr; SIMD_SET_PS_2(s, mulr);                   \
+  __m128 mulr; SIMD_SET_PS_2(s, mulr);                 \
   SIMD_MUL_PS(rin,mulr, rout);
 
 // out = in[0..31]/s, s*in[32..63]/s, s*in[64..95]/s, s*in[96..127]/s
@@ -395,6 +395,7 @@ namespace math
  */
 #define SIMD_DOT_SSE_4(rin0, rin1, rout)  \
   rout = _mm_dp_ps(rin0, rin1, 0xf1);     \
+
 /**
  * @def SIMD_DOT
  *
@@ -411,6 +412,25 @@ namespace math
 #define SIMD_DOT(rin0, rin1, rout)                  \
   __m128 mulr; SIMD_MUL_PS(rin0,rin1, mulr);        \
   SIMD_ADD_REGISTER(mulr,rout);
+
+/**
+ * @def SIMD_DISTANCE
+ *
+ * Calculate the distance between two vector registers.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date   2010-18-19
+ * @since  0.3
+ *
+ * @param [in]  rin0 The first input register.
+ * @param [in]  rin1 The second input register.
+ * @param [out] rout The output register.
+ */
+#define SIMD_DISTANCE(rin0, rin1, rout)           \
+  __m128 tmp1; SIMD_SUB_PS(rin0, rin1, tmp1);     \
+  __m128 tmp2; SIMD_MUL_PS(tmp1, tmp1, tmp2);     \
+  SIMD_ADD_REGISTER(tmp2, tmp1);                  \
+  SIMD_SQRT_SS(tmp1, rout);
 
 #endif
 

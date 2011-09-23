@@ -99,10 +99,10 @@ class Matrix2D
      */
     Matrix2D (const T &x1, const T &y1, const T &x2, const T &y2)
     {
-      mat2[0].x = x1;
-      mat2[0].y = y1;
-      mat2[1].x = x2;
-      mat2[1].y = y2;
+      mat2[0].coord.x = x1;
+      mat2[0].coord.y = y1;
+      mat2[1].coord.x = x2;
+      mat2[1].coord.y = y2;
     }
 
     /** 
@@ -441,17 +441,17 @@ class Matrix3D
               const T &x2, const T &y2, const T &z2,
               const T &x3, const T &y3, const T &z3)
     {
-      mat3[0].x = x1;
-      mat3[0].y = y1;
-      mat3[0].z = z1;
+      mat3[0].coord.x = x1;
+      mat3[0].coord.y = y1;
+      mat3[0].coord.z = z1;
 
-      mat3[1].x = x2;
-      mat3[1].y = y2;
-      mat3[1].z = z2;
+      mat3[1].coord.x = x2;
+      mat3[1].coord.y = y2;
+      mat3[1].coord.z = z2;
 
-      mat3[2].x = x3;
-      mat3[2].y = y3;
-      mat3[2].z = z3;
+      mat3[2].coord.x = x3;
+      mat3[2].coord.y = y3;
+      mat3[2].coord.z = z3;
     }
 
     /** 
@@ -467,17 +467,17 @@ class Matrix3D
 
     Matrix3D (const Quaternion<T> &q)
     {
-      mat3[0].x = 1-2*q.v.y*q.v.y - 2*q.v.z*q.v.z;
-      mat3[0].y = 2*q.v.x*q.v.y + 2*q.w*q.v.z;
-      mat3[0].z = 2*q.v.x*q.v.z - 2*q.w*q.v.y;
+      mat3[0].coord.x = 1 - 2*q.v.coord.y*q.v.coord.y - 2*q.v.coord.z*q.v.coord.z;
+      mat3[0].coord.y = 2*q.v.coord.x*q.v.coord.y + 2*q.coord.w*q.v.coord.z;
+      mat3[0].coord.z = 2*q.v.coord.x*q.v.coord.z - 2*q.coord.w*q.v.coord.y;
 
-      mat3[1].x = 2*q.v.x*q.v.y - 2*q.w*q.v.z;
-      mat3[1].y = 1-2*q.v.x*q.v.x - 2*q.v.z*q.v.z;
-      mat3[1].z = 2*q.v.y*q.v.z + 2*q.w*q.v.x;
+      mat3[1].coord.x = 2*q.v.coord.x*q.v.coord.y - 2*q.coord.w*q.v.coord.z;
+      mat3[1].coord.y = 1 - 2*q.v.coord.x*q.v.coord.x - 2*q.v.coord.z*q.v.coord.z;
+      mat3[1].coord.z = 2*q.v.coord.y*q.v.coord.z + 2*q.coord.w*q.v.coord.x;
 
-      mat3[2].x = 2*q.v.x*q.v.z + 2*q.w*q.v.y;
-      mat3[2].y = 2*q.v.y*q.v.z - 2*q.w*q.v.x;
-      mat3[2].z = 1-2*q.v.x*q.v.x - 2*q.v.y*q.v.y;
+      mat3[2].coord.x = 2*q.v.coord.x*q.v.coord.z + 2*q.coord.w*q.v.coord.y;
+      mat3[2].coord.y = 2*q.v.coord.y*q.v.coord.z - 2*q.coord.w*q.v.coord.x;
+      mat3[2].coord.z = 1 - 2*q.v.coord.x*q.v.coord.x - 2*q.v.coord.y*q.v.coord.y;
     }
 
     /** 
@@ -830,25 +830,25 @@ class Matrix4D
               const T &x3, const T &y3, const T &z3, const T &w3,
               const T &x4, const T &y4, const T &z4, const T &w4)
     {
-      mat4[0].x = x1;
-      mat4[0].y = y1;
-      mat4[0].z = z1;
-      mat4[0].w = w1;
+      mat4[0].coord.x = x1;
+      mat4[0].coord.y = y1;
+      mat4[0].coord.z = z1;
+      mat4[0].coord.w = w1;
 
-      mat4[1].x = x2;
-      mat4[1].y = y2;
-      mat4[1].z = z2;
-      mat4[1].w = w2;
+      mat4[1].coord.x = x2;
+      mat4[1].coord.y = y2;
+      mat4[1].coord.z = z2;
+      mat4[1].coord.w = w2;
 
-      mat4[2].x = x3;
-      mat4[2].y = y3;
-      mat4[2].z = z3;
-      mat4[2].w = w3;
+      mat4[2].coord.x = x3;
+      mat4[2].coord.y = y3;
+      mat4[2].coord.z = z3;
+      mat4[2].coord.w = w3;
 
-      mat4[3].x = x4;
-      mat4[3].y = y4;
-      mat4[3].z = z4;
-      mat4[3].w = w4;
+      mat4[3].coord.x = x4;
+      mat4[3].coord.y = y4;
+      mat4[3].coord.z = z4;
+      mat4[3].coord.w = w4;
     }
 
     /** 
@@ -1175,18 +1175,18 @@ template <typename T>
 Matrix2D<T>
 Matrix2D<T>::operator * (const Matrix2D<T> &m) const
 {
-  return Matrix2D<T> (mat2[0].x*m[0].x + mat2[0].y*m[1].x,
-                      mat2[0].x*m[0].y + mat2[0].y*m[1].y,
-                      mat2[1].x*m[0].x + mat2[1].y*m[1].x,
-                      mat2[1].x*m[0].y + mat2[1].y*m[1].y);
+  return Matrix2D<T> (mat2[0].coord.x*m[0].coord.x + mat2[0].coord.y*m[1].coord.x,
+                      mat2[0].coord.x*m[0].coord.y + mat2[0].coord.y*m[1].coord.y,
+                      mat2[1].coord.x*m[0].coord.x + mat2[1].coord.y*m[1].coord.x,
+                      mat2[1].coord.x*m[0].coord.y + mat2[1].coord.y*m[1].coord.y);
 }
 
 template <typename T>
 Vector2D<T>
 Matrix2D<T>::operator * (const Vector2D<T> &v) const
 {
-  return Vector2D<T> (mat2[0].x*v.x + mat2[0].y*v.y,
-                      mat2[1].x*v.x + mat2[1].y*v.y);
+  return Vector2D<T> (mat2[0].coord.x*v.coord.x + mat2[0].coord.y*v.coord.y,
+                      mat2[1].coord.x*v.coord.x + mat2[1].coord.y*v.coord.y);
 }
 
 template <typename T>
@@ -1241,10 +1241,10 @@ Matrix2D<T> &
 Matrix2D<T>::operator *= (const Matrix2D<T> &m)
 {
   Matrix2D tmp (*this);
-  mat2[0].x = tmp[0].x*m[0].x + tmp[0].y*m[1].x;
-  mat2[0].y = tmp[0].x*m[0].y + tmp[0].y*m[1].y;
-  mat2[1].x = tmp[1].x*m[0].x + tmp[1].y*m[1].x;
-  mat2[1].y = tmp[1].x*m[0].y + tmp[1].y*m[1].y;
+  mat2[0].coord.x = tmp[0].coord.x*m[0].coord.x + tmp[0].coord.y*m[1].coord.x;
+  mat2[0].coord.y = tmp[0].coord.x*m[0].coord.y + tmp[0].coord.y*m[1].coord.y;
+  mat2[1].coord.x = tmp[1].coord.x*m[0].coord.x + tmp[1].coord.y*m[1].coord.x;
+  mat2[1].coord.y = tmp[1].coord.x*m[0].coord.y + tmp[1].coord.y*m[1].coord.y;
   return *this;
 }
 
@@ -1265,16 +1265,16 @@ template <typename T>
 void
 Matrix2D<T>::Identity ()
 {
-  mat2[0].x = mat2[1].y = 1;
-  mat2[0].y = 0;
-  mat2[1].x = 0;
+  mat2[0].coord.x = mat2[1].coord.y = 1;
+  mat2[0].coord.y = 0;
+  mat2[1].coord.x = 0;
 }
 
 template <typename T>
 T
 Matrix2D<T>::Determinant () const
 {
-  return mat2[0].x * mat2[1].y - mat2[0].y * mat2[1].x;
+  return mat2[0].coord.x * mat2[1].coord.y - mat2[0].coord.y * mat2[1].coord.x;
 }
 
 // Matrix 3D
@@ -1334,24 +1334,48 @@ template <typename T>
 Matrix3D<T>
 Matrix3D<T>::operator * (const Matrix3D<T> &m) const
 {
-  return Matrix3D<T> ( mat3[0].x*m[0].x + mat3[0].y*m[1].x + mat3[0].z*m[2].x,
-                       mat3[0].x*m[0].y + mat3[0].y*m[1].y + mat3[0].z*m[2].y,
-                       mat3[0].x*m[0].z + mat3[0].y*m[1].z + mat3[0].z*m[2].z,
-                       mat3[1].x*m[0].x + mat3[1].y*m[1].x + mat3[1].z*m[2].x,
-                       mat3[1].x*m[0].y + mat3[1].y*m[1].y + mat3[1].z*m[2].y,
-                       mat3[1].x*m[0].z + mat3[1].y*m[1].z + mat3[1].z*m[2].z,
-                       mat3[2].x*m[0].x + mat3[2].y*m[1].x + mat3[2].z*m[2].x,
-                       mat3[2].x*m[0].y + mat3[2].y*m[1].y + mat3[2].z*m[2].y,
-                       mat3[2].x*m[0].z + mat3[2].y*m[1].z + mat3[2].z*m[2].z);
+  return Matrix3D<T> ( mat3[0].coord.x*m[0].coord.x 
+                     + mat3[0].coord.y*m[1].coord.x 
+                     + mat3[0].coord.z*m[2].coord.x,
+                       mat3[0].coord.x*m[0].coord.y 
+                     + mat3[0].coord.y*m[1].coord.y 
+                     + mat3[0].coord.z*m[2].coord.y,
+                       mat3[0].coord.x*m[0].coord.z 
+                     + mat3[0].coord.y*m[1].coord.z 
+                     + mat3[0].coord.z*m[2].coord.z,
+                       mat3[1].coord.x*m[0].coord.x 
+                     + mat3[1].coord.y*m[1].coord.x 
+                     + mat3[1].coord.z*m[2].coord.x,
+                       mat3[1].coord.x*m[0].coord.y 
+                     + mat3[1].coord.y*m[1].coord.y 
+                     + mat3[1].coord.z*m[2].coord.y,
+                       mat3[1].coord.x*m[0].coord.z 
+                     + mat3[1].coord.y*m[1].coord.z 
+                     + mat3[1].coord.z*m[2].coord.z,
+                       mat3[2].coord.x*m[0].coord.x 
+                     + mat3[2].coord.y*m[1].coord.x 
+                     + mat3[2].coord.z*m[2].coord.x,
+                       mat3[2].coord.x*m[0].coord.y 
+                     + mat3[2].coord.y*m[1].coord.y 
+                     + mat3[2].coord.z*m[2].coord.y,
+                       mat3[2].coord.x*m[0].coord.z 
+                     + mat3[2].coord.y*m[1].coord.z 
+                     + mat3[2].coord.z*m[2].coord.z);
 }
 
 template <typename T>
 Vector3D<T>
 Matrix3D<T>::operator * (const Vector3D<T> &v) const
 {
-  return Vector3D<T> (mat3[0].x*v.x + mat3[0].y*v.y + mat3[0].z*v.z,
-                      mat3[1].x*v.x + mat3[1].y*v.y + mat3[1].z*v.z,
-                      mat3[2].x*v.x + mat3[2].y*v.y + mat3[2].z*v.z);
+  return Vector3D<T> (mat3[0].coord.x*v.coord.x 
+                    + mat3[0].coord.y*v.coord.y 
+                    + mat3[0].coord.z*v.coord.z,
+                      mat3[1].coord.x*v.coord.x 
+                    + mat3[1].coord.y*v.coord.y 
+                    + mat3[1].coord.z*v.coord.z,
+                      mat3[2].coord.x*v.coord.x 
+                    + mat3[2].coord.y*v.coord.y 
+                    + mat3[2].coord.z*v.coord.z);
 }
 
 template <typename T>
@@ -1410,15 +1434,33 @@ Matrix3D<T> &
 Matrix3D<T>::operator *= (const Matrix3D<T> &m)
 {
   Matrix3D tmp(*this);
-  mat3[0].x = tmp[0].x*m[0].x + tmp[0].y*m[1].x + tmp[0].z*m[2].x;
-  mat3[0].y = tmp[0].x*m[0].y + tmp[0].y*m[1].y + tmp[0].z*m[2].y;
-  mat3[0].z = tmp[0].x*m[0].z + tmp[0].y*m[1].z + tmp[0].z*m[2].z;
-  mat3[1].x = tmp[1].x*m[0].x + tmp[1].y*m[1].x + tmp[1].z*m[2].x;
-  mat3[1].y = tmp[1].x*m[0].y + tmp[1].y*m[1].y + tmp[1].z*m[2].y;
-  mat3[1].z = tmp[1].x*m[0].z + tmp[1].y*m[1].z + tmp[1].z*m[2].z;
-  mat3[2].x = tmp[2].x*m[0].x + tmp[2].y*m[1].x + tmp[2].z*m[2].x;
-  mat3[2].y = tmp[2].x*m[0].y + tmp[2].y*m[1].y + tmp[2].z*m[2].y;
-  mat3[2].z = tmp[2].x*m[0].z + tmp[2].y*m[1].z + tmp[2].z*m[2].z;
+  mat3[0].coord.x = tmp[0].coord.x*m[0].coord.x 
+                  + tmp[0].coord.y*m[1].coord.x 
+                  + tmp[0].coord.z*m[2].coord.x;
+  mat3[0].coord.y = tmp[0].coord.x*m[0].coord.y 
+                  + tmp[0].coord.y*m[1].coord.y 
+                  + tmp[0].coord.z*m[2].coord.y;
+  mat3[0].coord.z = tmp[0].coord.x*m[0].coord.z 
+                  + tmp[0].coord.y*m[1].coord.z 
+                  + tmp[0].coord.z*m[2].coord.z;
+  mat3[1].coord.x = tmp[1].coord.x*m[0].coord.x 
+                  + tmp[1].coord.y*m[1].coord.x 
+                  + tmp[1].coord.z*m[2].coord.x;
+  mat3[1].coord.y = tmp[1].coord.x*m[0].coord.y 
+                  + tmp[1].coord.y*m[1].coord.y 
+                  + tmp[1].coord.z*m[2].coord.y;
+  mat3[1].coord.z = tmp[1].coord.x*m[0].coord.z 
+                  + tmp[1].coord.y*m[1].coord.z 
+                  + tmp[1].coord.z*m[2].coord.z;
+  mat3[2].coord.x = tmp[2].coord.x*m[0].coord.x 
+                  + tmp[2].coord.y*m[1].coord.x 
+                  + tmp[2].coord.z*m[2].coord.x;
+  mat3[2].coord.y = tmp[2].coord.x*m[0].coord.y 
+                  + tmp[2].coord.y*m[1].coord.y 
+                  + tmp[2].coord.z*m[2].coord.y;
+  mat3[2].coord.z = tmp[2].coord.x*m[0].coord.z 
+                  + tmp[2].coord.y*m[1].coord.z 
+                  + tmp[2].coord.z*m[2].coord.z;
   return *this;
 }
 
@@ -1441,10 +1483,10 @@ template <typename T>
 void
 Matrix3D<T>::Identity ()
 {
-  mat3[0].x = mat3[1].y = mat3[2].z = 1;
-  mat3[0].y = mat3[0].z = 0;
-  mat3[1].x = mat3[1].z = 0;
-  mat3[2].x = mat3[2].y = 0;
+  mat3[0].coord.x = mat3[1].coord.y = mat3[2].coord.z = 1;
+  mat3[0].coord.y = mat3[0].coord.z = 0;
+  mat3[1].coord.x = mat3[1].coord.z = 0;
+  mat3[2].coord.x = mat3[2].coord.y = 0;
 }
 
 template <typename T>
@@ -1522,48 +1564,92 @@ template <typename T>
 Matrix4D<T>
 Matrix4D<T>::operator * (const Matrix4D<T> &m) const
 {
-  return Matrix4D<T> ( mat4[0].x*m[0].x + mat4[0].y*m[1].x + mat4[0].z*m[2].x 
-                       + mat4[0].w*m[3].x,
-                       mat4[0].x*m[0].y + mat4[0].y*m[1].y + mat4[0].z*m[2].y 
-                       + mat4[0].w*m[3].y,
-                       mat4[0].x*m[0].z + mat4[0].y*m[1].z + mat4[0].z*m[2].z 
-                       + mat4[0].w*m[3].z,
-                       mat4[0].x*m[0].w + mat4[0].y*m[1].w + mat4[0].z*m[2].w 
-                       + mat4[0].w*m[3].w, 
-                       mat4[1].x*m[0].x + mat4[1].y*m[1].x + mat4[1].z*m[2].x 
-                       + mat4[1].w*m[3].x,
-                       mat4[1].x*m[0].y + mat4[1].y*m[1].y + mat4[1].z*m[2].y 
-                       + mat4[1].w*m[3].y,
-                       mat4[1].x*m[0].z + mat4[1].y*m[1].z + mat4[1].z*m[2].z 
-                       + mat4[1].w*m[3].z,
-                       mat4[1].x*m[0].w + mat4[1].y*m[1].w + mat4[1].z*m[2].w 
-                       + mat4[1].w*m[3].w,
-                       mat4[2].x*m[0].x + mat4[2].y*m[1].x + mat4[2].z*m[2].x 
-                       + mat4[2].w*m[3].x,
-                       mat4[2].x*m[0].y + mat4[2].y*m[1].y + mat4[2].z*m[2].y 
-                       + mat4[2].w*m[3].y,
-                       mat4[2].x*m[0].z + mat4[2].y*m[1].z + mat4[2].z*m[2].z 
-                       + mat4[2].w*m[3].z,
-                       mat4[2].x*m[0].w + mat4[2].y*m[1].w + mat4[2].z*m[2].w 
-                       + mat4[2].w*m[3].w,
-                       mat4[3].x*m[0].x + mat4[3].y*m[1].x + mat4[3].z*m[2].x 
-                       + mat4[3].w*m[3].x,
-                       mat4[3].x*m[0].y + mat4[3].y*m[1].y + mat4[3].z*m[2].y 
-                       + mat4[3].w*m[3].y,
-                       mat4[3].x*m[0].z + mat4[3].y*m[1].z + mat4[3].z*m[2].z 
-                       + mat4[3].w*m[3].z,
-                       mat4[3].x*m[0].w + mat4[3].y*m[1].w + mat4[3].z*m[2].w 
-                       + mat4[3].w*m[3].w);
+  return Matrix4D<T> ( mat4[0].coord.x*m[0].coord.x 
+                     + mat4[0].coord.y*m[1].coord.x 
+                     + mat4[0].coord.z*m[2].coord.x 
+                     + mat4[0].coord.w*m[3].coord.x,
+                       mat4[0].coord.x*m[0].coord.y 
+                     + mat4[0].coord.y*m[1].coord.y 
+                     + mat4[0].coord.z*m[2].coord.y 
+                     + mat4[0].coord.w*m[3].coord.y,
+                       mat4[0].coord.x*m[0].coord.z 
+                     + mat4[0].coord.y*m[1].coord.z 
+                     + mat4[0].coord.z*m[2].coord.z 
+                     + mat4[0].coord.w*m[3].coord.z,
+                       mat4[0].coord.x*m[0].coord.w 
+                     + mat4[0].coord.y*m[1].coord.w 
+                     + mat4[0].coord.z*m[2].coord.w 
+                     + mat4[0].coord.w*m[3].coord.w, 
+                       mat4[1].coord.x*m[0].coord.x 
+                     + mat4[1].coord.y*m[1].coord.x 
+                     + mat4[1].coord.z*m[2].coord.x 
+                     + mat4[1].coord.w*m[3].coord.x,
+                       mat4[1].coord.x*m[0].coord.y 
+                     + mat4[1].coord.y*m[1].coord.y 
+                     + mat4[1].coord.z*m[2].coord.y 
+                     + mat4[1].coord.w*m[3].coord.y,
+                       mat4[1].coord.x*m[0].coord.z 
+                     + mat4[1].coord.y*m[1].coord.z 
+                     + mat4[1].coord.z*m[2].coord.z 
+                     + mat4[1].coord.w*m[3].coord.z,
+                       mat4[1].coord.x*m[0].coord.w 
+                     + mat4[1].coord.y*m[1].coord.w 
+                     + mat4[1].coord.z*m[2].coord.w 
+                     + mat4[1].coord.w*m[3].coord.w,
+                       mat4[2].coord.x*m[0].coord.x 
+                     + mat4[2].coord.y*m[1].coord.x 
+                     + mat4[2].coord.z*m[2].coord.x 
+                     + mat4[2].coord.w*m[3].coord.x,
+                       mat4[2].coord.x*m[0].coord.y 
+                     + mat4[2].coord.y*m[1].coord.y 
+                     + mat4[2].coord.z*m[2].coord.y 
+                     + mat4[2].coord.w*m[3].coord.y,
+                       mat4[2].coord.x*m[0].coord.z 
+                     + mat4[2].coord.y*m[1].coord.z 
+                     + mat4[2].coord.z*m[2].coord.z 
+                     + mat4[2].coord.w*m[3].coord.z,
+                       mat4[2].coord.x*m[0].coord.w 
+                     + mat4[2].coord.y*m[1].coord.w 
+                     + mat4[2].coord.z*m[2].coord.w 
+                     + mat4[2].coord.w*m[3].coord.w,
+                       mat4[3].coord.x*m[0].coord.x 
+                     + mat4[3].coord.y*m[1].coord.x 
+                     + mat4[3].coord.z*m[2].coord.x 
+                     + mat4[3].coord.w*m[3].coord.x,
+                       mat4[3].coord.x*m[0].coord.y 
+                     + mat4[3].coord.y*m[1].coord.y 
+                     + mat4[3].coord.z*m[2].coord.y 
+                     + mat4[3].coord.w*m[3].coord.y,
+                       mat4[3].coord.x*m[0].coord.z 
+                     + mat4[3].coord.y*m[1].coord.z 
+                     + mat4[3].coord.z*m[2].coord.z 
+                     + mat4[3].coord.w*m[3].coord.z,
+                       mat4[3].coord.x*m[0].coord.w 
+                     + mat4[3].coord.y*m[1].coord.w 
+                     + mat4[3].coord.z*m[2].coord.w 
+                     + mat4[3].coord.w*m[3].coord.w);
 }
 
 template <typename T>
 Vector4D<T>
 Matrix4D<T>::operator * (const Vector4D<T> &v) const
 {
-  return Vector4D<T> (mat4[0].x*v.x + mat4[0].y*v.y + mat4[0].z*v.z + mat4[0].w*v.w,
-                      mat4[1].x*v.x + mat4[1].y*v.y + mat4[1].z*v.z + mat4[1].w*v.w,
-                      mat4[2].x*v.x + mat4[2].y*v.y + mat4[2].z*v.z + mat4[2].w*v.w,
-                      mat4[3].x*v.x + mat4[3].y*v.y + mat4[3].z*v.z + mat4[3].w*v.w);
+  return Vector4D<T> (mat4[0].coord.x*v.coord.x 
+                    + mat4[0].coord.y*v.coord.y 
+                    + mat4[0].coord.z*v.coord.z 
+                    + mat4[0].coord.w*v.coord.w,
+                      mat4[1].coord.x*v.coord.x 
+                    + mat4[1].coord.y*v.coord.y 
+                    + mat4[1].coord.z*v.coord.z 
+                    + mat4[1].coord.w*v.coord.w,
+                      mat4[2].coord.x*v.coord.x 
+                    + mat4[2].coord.y*v.coord.y 
+                    + mat4[2].coord.z*v.coord.z 
+                    + mat4[2].coord.w*v.coord.w,
+                      mat4[3].coord.x*v.coord.x 
+                    + mat4[3].coord.y*v.coord.y 
+                    + mat4[3].coord.z*v.coord.z 
+                    + mat4[3].coord.w*v.coord.w);
 }
 
 template <typename T>
@@ -1615,38 +1701,70 @@ Matrix4D<T> &
 Matrix4D<T>::operator *= (const Matrix4D<T> &m)
 {
   Matrix4D tmp(*this);
-  mat4[0].x = tmp[0].x*m[0].x + tmp[0].y*m[1].x + tmp[0].z*m[2].x 
-              + tmp[0].w*m[3].x;
-  mat4[0].y = tmp[0].x*m[0].y + tmp[0].y*m[1].y + tmp[0].z*m[2].y 
-              + tmp[0].w*m[3].y;
-  mat4[0].z = tmp[0].x*m[0].z + tmp[0].y*m[1].z + tmp[0].z*m[2].z 
-              + tmp[0].w*m[3].z;
-  mat4[0].w = tmp[0].x*m[0].w + tmp[0].y*m[1].w + tmp[0].z*m[2].w 
-              + tmp[0].w*m[3].w; 
-  mat4[1].x = tmp[1].x*m[0].x + tmp[1].y*m[1].x + tmp[1].z*m[2].x 
-              + tmp[1].w*m[3].x;
-  mat4[1].y = tmp[1].x*m[0].y + tmp[1].y*m[1].y + tmp[1].z*m[2].y 
-              + tmp[1].w*m[3].y;
-  mat4[1].z = tmp[1].x*m[0].z + tmp[1].y*m[1].z + tmp[1].z*m[2].z 
-              + tmp[1].w*m[3].z;
-  mat4[1].w = tmp[1].x*m[0].w + tmp[1].y*m[1].w + tmp[1].z*m[2].w 
-              + tmp[1].w*m[3].w;
-  mat4[2].x = tmp[2].x*m[0].x + tmp[2].y*m[1].x + tmp[2].z*m[2].x 
-              + tmp[2].w*m[3].x;
-  mat4[2].y = tmp[2].x*m[0].y + tmp[2].y*m[1].y + tmp[2].z*m[2].y 
-              + tmp[2].w*m[3].y;
-  mat4[2].z = tmp[2].x*m[0].z + tmp[2].y*m[1].z + tmp[2].z*m[2].z 
-              + tmp[2].w*m[3].z;
-  mat4[2].w = tmp[2].x*m[0].w + tmp[2].y*m[1].w + tmp[2].z*m[2].w 
-              + tmp[2].w*m[3].w;
-  mat4[3].x = tmp[3].x*m[0].x + tmp[3].y*m[1].x + tmp[3].z*m[2].x 
-              + tmp[3].w*m[3].x;
-  mat4[3].y = tmp[3].x*m[0].y + tmp[3].y*m[1].y + tmp[3].z*m[2].y 
-              + tmp[3].w*m[3].y;
-  mat4[3].z = tmp[3].x*m[0].z + tmp[3].y*m[1].z + tmp[3].z*m[2].z 
-              + tmp[3].w*m[3].z;
-  mat4[3].w = tmp[3].x*m[0].w + tmp[3].y*m[1].w + tmp[3].z*m[2].w 
-              + tmp[3].w*m[3].w;
+  mat4[0].coord.x = tmp[0].coord.x*m[0].coord.x 
+                  + tmp[0].coord.y*m[1].coord.x 
+                  + tmp[0].coord.z*m[2].coord.x 
+                  + tmp[0].coord.w*m[3].coord.x;
+  mat4[0].coord.y = tmp[0].coord.x*m[0].coord.y 
+                  + tmp[0].coord.y*m[1].coord.y 
+                  + tmp[0].coord.z*m[2].coord.y 
+                  + tmp[0].coord.w*m[3].coord.y;
+  mat4[0].coord.z = tmp[0].coord.x*m[0].coord.z 
+                  + tmp[0].coord.y*m[1].coord.z 
+                  + tmp[0].coord.z*m[2].coord.z 
+                  + tmp[0].coord.w*m[3].coord.z;
+  mat4[0].coord.w = tmp[0].coord.x*m[0].coord.w 
+                  + tmp[0].coord.y*m[1].coord.w 
+                  + tmp[0].coord.z*m[2].coord.w 
+                  + tmp[0].coord.w*m[3].coord.w; 
+  mat4[1].coord.x = tmp[1].coord.x*m[0].coord.x 
+                  + tmp[1].coord.y*m[1].coord.x 
+                  + tmp[1].coord.z*m[2].coord.x 
+                  + tmp[1].coord.w*m[3].coord.x;
+  mat4[1].coord.y = tmp[1].coord.x*m[0].coord.y 
+                  + tmp[1].coord.y*m[1].coord.y 
+                  + tmp[1].coord.z*m[2].coord.y 
+                  + tmp[1].coord.w*m[3].coord.y;
+  mat4[1].coord.z = tmp[1].coord.x*m[0].coord.z 
+                  + tmp[1].coord.y*m[1].coord.z 
+                  + tmp[1].coord.z*m[2].coord.z 
+                  + tmp[1].coord.w*m[3].coord.z;
+  mat4[1].coord.w = tmp[1].coord.x*m[0].coord.w 
+                  + tmp[1].coord.y*m[1].coord.w 
+                  + tmp[1].coord.z*m[2].coord.w 
+                  + tmp[1].coord.w*m[3].coord.w;
+  mat4[2].coord.x = tmp[2].coord.x*m[0].coord.x 
+                  + tmp[2].coord.y*m[1].coord.x 
+                  + tmp[2].coord.z*m[2].coord.x 
+                  + tmp[2].coord.w*m[3].coord.x;
+  mat4[2].coord.y = tmp[2].coord.x*m[0].coord.y 
+                  + tmp[2].coord.y*m[1].coord.y 
+                  + tmp[2].coord.z*m[2].coord.y 
+                  + tmp[2].coord.w*m[3].coord.y;
+  mat4[2].coord.z = tmp[2].coord.x*m[0].coord.z 
+                  + tmp[2].coord.y*m[1].coord.z 
+                  + tmp[2].coord.z*m[2].coord.z 
+                  + tmp[2].coord.w*m[3].coord.z;
+  mat4[2].coord.w = tmp[2].coord.x*m[0].coord.w 
+                  + tmp[2].coord.y*m[1].coord.w 
+                  + tmp[2].coord.z*m[2].coord.w 
+                  + tmp[2].coord.w*m[3].coord.w;
+  mat4[3].coord.x = tmp[3].coord.x*m[0].coord.x 
+                  + tmp[3].coord.y*m[1].coord.x 
+                  + tmp[3].coord.z*m[2].coord.x 
+                  + tmp[3].coord.w*m[3].coord.x;
+  mat4[3].coord.y = tmp[3].coord.x*m[0].coord.y 
+                  + tmp[3].coord.y*m[1].coord.y 
+                  + tmp[3].coord.z*m[2].coord.y 
+                  + tmp[3].coord.w*m[3].coord.y;
+  mat4[3].coord.z = tmp[3].coord.x*m[0].coord.z 
+                  + tmp[3].coord.y*m[1].coord.z 
+                  + tmp[3].coord.z*m[2].coord.z 
+                  + tmp[3].coord.w*m[3].coord.z;
+  mat4[3].coord.w = tmp[3].coord.x*m[0].coord.w 
+                  + tmp[3].coord.y*m[1].coord.w 
+                  + tmp[3].coord.z*m[2].coord.w 
+                  + tmp[3].coord.w*m[3].coord.w;
   return *this;
 }
 
@@ -1681,32 +1799,37 @@ template <typename T>
 void
 Matrix4D<T>::Identity ()
 {
-  mat4[0].x = mat4[1].y = mat4[2].z = mat4[3].w = 1;
-  mat4[0].y = mat4[0].z = mat4[0].w = 0;
-  mat4[1].x = mat4[1].z = mat4[1].w = 0;
-  mat4[2].x = mat4[2].y = mat4[2].w = 0;
-  mat4[3].x = mat4[3].y = mat4[3].z = 0;
+  mat4[0].coord.x = mat4[1].coord.y = mat4[2].coord.z = mat4[3].coord.w = 1;
+  mat4[0].coord.y = mat4[0].coord.z = mat4[0].coord.w = 0;
+  mat4[1].coord.x = mat4[1].coord.z = mat4[1].coord.w = 0;
+  mat4[2].coord.x = mat4[2].coord.y = mat4[2].coord.w = 0;
+  mat4[3].coord.x = mat4[3].coord.y = mat4[3].coord.z = 0;
 }
 
 template <typename T>
 T
 Matrix4D<T>::Determinant () const
 {
-  return mat4[0].x*(mat4[1].y*(mat4[2].z*mat4[3].w - mat4[2].w*mat4[3].z)
-                    + mat4[1].z*(mat4[2].w*mat4[3].y - mat4[2].y*mat4[3].w)
-                    + mat4[1].w*(mat4[2].y*mat4[3].z - mat4[2].z*mat4[3].y))
-
-                    - mat4[0].y*(mat4[1].x*(mat4[2].z*mat4[3].w - mat4[2].w*mat4[3].z)
-                    + mat4[1].z*(mat4[2].w*mat4[3].x - mat4[2].x*mat4[3].w)
-                    + mat4[1].w*(mat4[2].x*mat4[3].z - mat4[2].z*mat4[3].x))
-  
-                    + mat4[0].z*(mat4[1].x*(mat4[2].y*mat4[3].w - mat4[2].w*mat4[3].y)
-                    + mat4[1].y*(mat4[2].w*mat4[3].x - mat4[2].x*mat4[3].w)
-                    + mat4[1].w*(mat4[2].x*mat4[3].y - mat4[2].y*mat4[3].x))
- 
-                    - mat4[0].w*(mat4[1].x*(mat4[2].y*mat4[3].z - mat4[2].z*mat4[3].y)
-                    + mat4[1].y*(mat4[2].z*mat4[3].x - mat4[2].x*mat4[3].z)
-                    + mat4[1].z*(mat4[2].x*mat4[3].y - mat4[2].y*mat4[3].x));
+  return mat4[0].coord.x*(
+             mat4[1].coord.y*(mat4[2].coord.z*mat4[3].coord.w - mat4[2].coord.w*mat4[3].coord.z)
+           + mat4[1].coord.z*(mat4[2].coord.w*mat4[3].coord.y - mat4[2].coord.y*mat4[3].coord.w)
+           + mat4[1].coord.w*(mat4[2].coord.y*mat4[3].coord.z - mat4[2].coord.z*mat4[3].coord.y)
+       )
+       - mat4[0].coord.y*(
+             mat4[1].coord.x*(mat4[2].coord.z*mat4[3].coord.w - mat4[2].coord.w*mat4[3].coord.z)
+           + mat4[1].coord.z*(mat4[2].coord.w*mat4[3].coord.x - mat4[2].coord.x*mat4[3].coord.w)
+           + mat4[1].coord.w*(mat4[2].coord.x*mat4[3].coord.z - mat4[2].coord.z*mat4[3].coord.x)
+       )
+       + mat4[0].coord.z*(
+             mat4[1].coord.x*(mat4[2].coord.y*mat4[3].coord.w - mat4[2].coord.w*mat4[3].coord.y)
+           + mat4[1].coord.y*(mat4[2].coord.w*mat4[3].coord.x - mat4[2].coord.x*mat4[3].coord.w)
+           + mat4[1].coord.w*(mat4[2].coord.x*mat4[3].coord.y - mat4[2].coord.y*mat4[3].coord.x)
+       )
+       - mat4[0].coord.w*(
+             mat4[1].coord.x*(mat4[2].coord.y*mat4[3].coord.z - mat4[2].coord.z*mat4[3].coord.y)
+           + mat4[1].coord.y*(mat4[2].coord.z*mat4[3].coord.x - mat4[2].coord.x*mat4[3].coord.z)
+           + mat4[1].coord.z*(mat4[2].coord.x*mat4[3].coord.y - mat4[2].coord.y*mat4[3].coord.x)
+       );
 }
 
 // non member functions declarations
@@ -1875,14 +1998,14 @@ Mat2DInverse (const Matrix2D<T> &m)
   if (mDet == 0)
     HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
  
-  return Matrix2D<T> (m[1].y, -m[0].y, -m[1].x, m[0].x)/mDet;
+  return Matrix2D<T> (m[1].coord.y, -m[0].coord.y, -m[1].coord.x, m[0].coord.x)/mDet;
 }
 
 template <typename T>
 Matrix2D<T>
 Mat2DTranspose (const Matrix2D<T> &m)
 {
-  return Matrix2D<T> (m[0].x, m[1].x, m[0].y, m[1].y);
+  return Matrix2D<T> (m[0].coord.x, m[1].coord.x, m[0].coord.y, m[1].coord.y);
 }
 
 
@@ -1901,24 +2024,24 @@ Mat3DInverse (const Matrix3D<T> &m)
   if (mDet == 0)
     HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
 
-  return Matrix3D<T> (m[1].y*m[2].z - m[1].z*m[2].y, 
-                      m[0].z*m[2].y - m[0].y*m[2].z,
-                      m[0].y*m[1].z - m[0].z*m[1].y,
-                      m[1].z*m[2].x - m[1].x*m[2].z,
-                      m[0].x*m[2].z - m[0].z*m[2].x,
-                      m[0].z*m[1].x - m[0].x*m[1].z,
-                      m[1].x*m[2].y - m[1].y*m[2].x,
-                      m[0].y*m[2].x - m[0].x*m[2].y,
-                      m[0].x*m[1].y - m[0].y*m[1].x)/mDet;
+  return Matrix3D<T> (m[1].coord.y*m[2].coord.z - m[1].coord.z*m[2].coord.y, 
+                      m[0].coord.z*m[2].coord.y - m[0].coord.y*m[2].coord.z,
+                      m[0].coord.y*m[1].coord.z - m[0].coord.z*m[1].coord.y,
+                      m[1].coord.z*m[2].coord.x - m[1].coord.x*m[2].coord.z,
+                      m[0].coord.x*m[2].coord.z - m[0].coord.z*m[2].coord.x,
+                      m[0].coord.z*m[1].coord.x - m[0].coord.x*m[1].coord.z,
+                      m[1].coord.x*m[2].coord.y - m[1].coord.y*m[2].coord.x,
+                      m[0].coord.y*m[2].coord.x - m[0].coord.x*m[2].coord.y,
+                      m[0].coord.x*m[1].coord.y - m[0].coord.y*m[1].coord.x)/mDet;
 }
 
 template <typename T>
 Matrix3D<T>
 Mat3DTranspose (const Matrix3D<T> &m)
 {
-  return Matrix3D<T> (m[0].x, m[1].x, m[2].x,
-                                         m[0].y, m[1].y, m[2].y,
-                                         m[0].z, m[1].y, m[2].z);
+  return Matrix3D<T> (m[0].coord.x, m[1].coord.x, m[2].coord.x,
+                      m[0].coord.y, m[1].coord.y, m[2].coord.y,
+                      m[0].coord.z, m[1].coord.y, m[2].coord.z);
 }
 
 template <typename T>
@@ -1936,80 +2059,112 @@ Mat4DInverse (const Matrix4D<T> &m)
   if (mDet == 0)
     HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
 
-  return Matrix4D<T> ( m[1].y*m[2].z*m[3].w + m[1].z*m[2].w*m[3].y 
-                      + m[1].w*m[2].y*m[3].z
-                      - m[1].y*m[2].w*m[3].z - m[1].z*m[2].y*m[3].w 
-                      - m[1].w*m[2].z*m[3].y, 
-                      m[0].y*m[2].w*m[3].z + m[0].z*m[2].y*m[3].w 
-                      + m[0].w*m[2].z*m[3].y
-                      - m[0].y*m[2].z*m[3].w - m[0].z*m[2].w*m[3].y 
-                      - m[0].w*m[2].y*m[3].z,
-                      m[0].y*m[1].z*m[3].w + m[0].z*m[1].w*m[3].y 
-                      +  m[0].w*m[1].y*m[3].z
-                      - m[0].y*m[1].w*m[3].z - m[0].z*m[1].y*m[3].w 
-                      - m[0].w*m[1].z*m[3].y,
-                      m[0].y*m[1].w*m[2].z + m[0].z*m[1].y*m[2].w 
-                      + m[0].w*m[1].z*m[2].y 
-                      - m[0].y*m[1].z*m[2].y - m[0].z*m[1].w*m[2].y 
-                      - m[0].w*m[1].y*m[2].z,
-                      m[1].x*m[2].w*m[3].z + m[1].z*m[2].x*m[3].w 
-                      + m[1].w*m[2].z*m[3].x
-                      - m[1].x*m[2].z*m[3].w - m[1].z*m[2].w*m[3].x 
-                      - m[1].w*m[2].x*m[3].z,
-                      m[0].x*m[2].z*m[3].w + m[0].z*m[2].w*m[3].x 
-                      + m[0].w*m[2].x*m[3].z
-                      - m[0].x*m[2].w*m[3].z - m[0].z*m[2].x*m[3].w 
-                      - m[0].w*m[2].z*m[3].x,
-                      m[0].x*m[1].w*m[3].z + m[0].z*m[1].x*m[3].w 
-                      + m[0].w*m[1].z*m[3].x
-                      - m[0].x*m[1].z*m[3].w - m[0].z*m[1].w*m[3].x 
-                      - m[0].w*m[1].x*m[3].z,
-                      m[0].x*m[1].z*m[2].w + m[0].z*m[1].w*m[2].x 
-                      + m[0].w*m[1].x*m[2].z
-                      - m[0].x*m[1].w*m[2].z - m[0].z*m[1].x*m[2].w 
-                      - m[0].w*m[1].z*m[2].x,
-                      m[1].x*m[2].y*m[3].w + m[1].y*m[2].w*m[3].x 
-                      + m[1].w*m[2].x*m[3].y
-                      - m[1].x*m[2].w*m[3].y - m[1].y*m[2].x*m[3].w 
-                      - m[1].w*m[2].y*m[3].x,
-                      m[0].x*m[2].w*m[3].y + m[0].y*m[2].x*m[3].w 
-                      + m[0].w*m[2].y*m[3].x
-                      - m[0].x*m[2].y*m[3].w - m[0].y*m[2].w*m[3].x 
-                      - m[0].w*m[2].x*m[3].y,
-                      m[0].x*m[1].y*m[3].w + m[0].y*m[1].w*m[3].x 
-                      + m[0].w*m[1].x*m[3].y
-                      - m[0].x*m[1].w*m[3].y - m[0].y*m[1].x*m[3].w 
-                      - m[0].w*m[1].y*m[3].x,
-                      m[0].x*m[1].w*m[2].y + m[0].y*m[1].x*m[2].w 
-                      + m[0].w*m[1].y*m[2].x
-                      - m[0].x*m[1].y*m[2].w - m[0].y*m[1].w*m[2].x 
-                      - m[0].w*m[1].x*m[2].y,
-                      m[1].x*m[2].z*m[3].y + m[1].y*m[2].x*m[3].z 
-                      + m[1].z*m[2].y*m[3].x
-                      - m[1].x*m[2].y*m[3].z - m[1].y*m[2].z*m[3].x 
-                      - m[1].z*m[2].x*m[3].y,
-                      m[0].x*m[2].y*m[3].y + m[0].y*m[2].z*m[3].x 
-                      + m[0].z*m[2].x*m[3].y
-                      - m[0].x*m[2].z*m[3].y - m[0].y*m[2].x*m[3].z 
-                      - m[0].z*m[2].y*m[3].x,
-                      m[0].x*m[1].z*m[3].y + m[0].y*m[1].x*m[3].z 
-                      + m[0].z*m[1].y*m[3].x
-                      - m[0].x*m[1].y*m[3].z - m[0].y*m[1].z*m[3].x 
-                      - m[0].z*m[1].x*m[3].y,
-                      m[0].x*m[1].y*m[2].z + m[0].y*m[1].z*m[2].x 
-                      + m[0].z*m[1].x*m[2].y
-                      - m[0].x*m[1].z*m[2].y - m[0].y*m[1].x*m[2].z 
-                      - m[0].z*m[1].y*m[2].x)/mDet; 
+  return Matrix4D<T> ( m[1].coord.y*m[2].coord.z*m[3].coord.w 
+                     + m[1].coord.z*m[2].coord.w*m[3].coord.y 
+                     + m[1].coord.w*m[2].coord.y*m[3].coord.z
+                     - m[1].coord.y*m[2].coord.w*m[3].coord.z 
+                     - m[1].coord.z*m[2].coord.y*m[3].coord.w 
+                     - m[1].coord.w*m[2].coord.z*m[3].coord.y, 
+                       m[0].coord.y*m[2].coord.w*m[3].coord.z 
+                     + m[0].coord.z*m[2].coord.y*m[3].coord.w 
+                     + m[0].coord.w*m[2].coord.z*m[3].coord.y
+                     - m[0].coord.y*m[2].coord.z*m[3].coord.w 
+                     - m[0].coord.z*m[2].coord.w*m[3].coord.y 
+                     - m[0].coord.w*m[2].coord.y*m[3].coord.z,
+                       m[0].coord.y*m[1].coord.z*m[3].coord.w 
+                     + m[0].coord.z*m[1].coord.w*m[3].coord.y 
+                     + m[0].coord.w*m[1].coord.y*m[3].coord.z
+                     - m[0].coord.y*m[1].coord.w*m[3].coord.z 
+                     - m[0].coord.z*m[1].coord.y*m[3].coord.w 
+                     - m[0].coord.w*m[1].coord.z*m[3].coord.y,
+                       m[0].coord.y*m[1].coord.w*m[2].coord.z 
+                     + m[0].coord.z*m[1].coord.y*m[2].coord.w 
+                     + m[0].coord.w*m[1].coord.z*m[2].coord.y 
+                     - m[0].coord.y*m[1].coord.z*m[2].coord.y 
+                     - m[0].coord.z*m[1].coord.w*m[2].coord.y 
+                     - m[0].coord.w*m[1].coord.y*m[2].coord.z,
+                       m[1].coord.x*m[2].coord.w*m[3].coord.z 
+                     + m[1].coord.z*m[2].coord.x*m[3].coord.w 
+                     + m[1].coord.w*m[2].coord.z*m[3].coord.x
+                     - m[1].coord.x*m[2].coord.z*m[3].coord.w 
+                     - m[1].coord.z*m[2].coord.w*m[3].coord.x 
+                     - m[1].coord.w*m[2].coord.x*m[3].coord.z,
+                       m[0].coord.x*m[2].coord.z*m[3].coord.w 
+                     + m[0].coord.z*m[2].coord.w*m[3].coord.x 
+                     + m[0].coord.w*m[2].coord.x*m[3].coord.z
+                     - m[0].coord.x*m[2].coord.w*m[3].coord.z 
+                     - m[0].coord.z*m[2].coord.x*m[3].coord.w 
+                     - m[0].coord.w*m[2].coord.z*m[3].coord.x,
+                       m[0].coord.x*m[1].coord.w*m[3].coord.z 
+                     + m[0].coord.z*m[1].coord.x*m[3].coord.w 
+                     + m[0].coord.w*m[1].coord.z*m[3].coord.x
+                     - m[0].coord.x*m[1].coord.z*m[3].coord.w 
+                     - m[0].coord.z*m[1].coord.w*m[3].coord.x 
+                     - m[0].coord.w*m[1].coord.x*m[3].coord.z,
+                       m[0].coord.x*m[1].coord.z*m[2].coord.w 
+                     + m[0].coord.z*m[1].coord.w*m[2].coord.x 
+                     + m[0].coord.w*m[1].coord.x*m[2].coord.z
+                     - m[0].coord.x*m[1].coord.w*m[2].coord.z 
+                     - m[0].coord.z*m[1].coord.x*m[2].coord.w 
+                     - m[0].coord.w*m[1].coord.z*m[2].coord.x,
+                       m[1].coord.x*m[2].coord.y*m[3].coord.w 
+                     + m[1].coord.y*m[2].coord.w*m[3].coord.x 
+                     + m[1].coord.w*m[2].coord.x*m[3].coord.y
+                     - m[1].coord.x*m[2].coord.w*m[3].coord.y 
+                     - m[1].coord.y*m[2].coord.x*m[3].coord.w 
+                     - m[1].coord.w*m[2].coord.y*m[3].coord.x,
+                       m[0].coord.x*m[2].coord.w*m[3].coord.y 
+                     + m[0].coord.y*m[2].coord.x*m[3].coord.w 
+                     + m[0].coord.w*m[2].coord.y*m[3].coord.x
+                     - m[0].coord.x*m[2].coord.y*m[3].coord.w 
+                     - m[0].coord.y*m[2].coord.w*m[3].coord.x 
+                     - m[0].coord.w*m[2].coord.x*m[3].coord.y,
+                       m[0].coord.x*m[1].coord.y*m[3].coord.w 
+                     + m[0].coord.y*m[1].coord.w*m[3].coord.x 
+                     + m[0].coord.w*m[1].coord.x*m[3].coord.y
+                     - m[0].coord.x*m[1].coord.w*m[3].coord.y 
+                     - m[0].coord.y*m[1].coord.x*m[3].coord.w 
+                     - m[0].coord.w*m[1].coord.y*m[3].coord.x,
+                       m[0].coord.x*m[1].coord.w*m[2].coord.y 
+                     + m[0].coord.y*m[1].coord.x*m[2].coord.w 
+                     + m[0].coord.w*m[1].coord.y*m[2].coord.x
+                     - m[0].coord.x*m[1].coord.y*m[2].coord.w 
+                     - m[0].coord.y*m[1].coord.w*m[2].coord.x 
+                     - m[0].coord.w*m[1].coord.x*m[2].coord.y,
+                       m[1].coord.x*m[2].coord.z*m[3].coord.y 
+                     + m[1].coord.y*m[2].coord.x*m[3].coord.z 
+                     + m[1].coord.z*m[2].coord.y*m[3].coord.x
+                     - m[1].coord.x*m[2].coord.y*m[3].coord.z 
+                     - m[1].coord.y*m[2].coord.z*m[3].coord.x 
+                     - m[1].coord.z*m[2].coord.x*m[3].coord.y,
+                       m[0].coord.x*m[2].coord.y*m[3].coord.y 
+                     + m[0].coord.y*m[2].coord.z*m[3].coord.x 
+                     + m[0].coord.z*m[2].coord.x*m[3].coord.y
+                     - m[0].coord.x*m[2].coord.z*m[3].coord.y 
+                     - m[0].coord.y*m[2].coord.x*m[3].coord.z 
+                     - m[0].coord.z*m[2].coord.y*m[3].coord.x,
+                       m[0].coord.x*m[1].coord.z*m[3].coord.y 
+                     + m[0].coord.y*m[1].coord.x*m[3].coord.z 
+                     + m[0].coord.z*m[1].coord.y*m[3].coord.x
+                     - m[0].coord.x*m[1].coord.y*m[3].coord.z 
+                     - m[0].coord.y*m[1].coord.z*m[3].coord.x 
+                     - m[0].coord.z*m[1].coord.x*m[3].coord.y,
+                       m[0].coord.x*m[1].coord.y*m[2].coord.z 
+                     + m[0].coord.y*m[1].coord.z*m[2].coord.x 
+                     + m[0].coord.z*m[1].coord.x*m[2].coord.y
+                     - m[0].coord.x*m[1].coord.z*m[2].coord.y 
+                     - m[0].coord.y*m[1].coord.x*m[2].coord.z 
+                     - m[0].coord.z*m[1].coord.y*m[2].coord.x)/mDet; 
 }
 
 template <typename T>
 Matrix4D<T>
 Mat4DTranspose (const Matrix4D<T> &m)
 {
-  return Matrix4D<T> (m[0].x, m[1].x, m[2].x, m[3].x,
-                      m[0].y, m[1].y, m[2].y, m[3].y,
-                      m[0].z, m[1].z, m[2].z, m[3].z,
-                      m[0].w, m[1].w, m[2].w, m[3].w);
+  return Matrix4D<T> (m[0].coord.x, m[1].coord.x, m[2].coord.x, m[3].coord.x,
+                      m[0].coord.y, m[1].coord.y, m[2].coord.y, m[3].coord.y,
+                      m[0].coord.z, m[1].coord.z, m[2].coord.z, m[3].coord.z,
+                      m[0].coord.w, m[1].coord.w, m[2].coord.w, m[3].coord.w);
 }
 
 }

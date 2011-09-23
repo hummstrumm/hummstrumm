@@ -38,7 +38,6 @@ namespace engine
 namespace debug
 {
 
-
 /**
  * Provides a method by which messages can be saved to a file.  This
  * log stores information to the file immediately, so no information
@@ -240,14 +239,14 @@ class Log
  */
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_LOG(message, level)                          \
-    do {                                                          \
+      MULTI_LINE_MACRO_BEGIN                                    \
       hummstrumm::engine::core::Engine::GetEngine ()->            \
         GetLog ()->Write ((message),                              \
           __FILE__,                                               \
           __LINE__,                                               \
           __FUNCSIG__,                                            \
           hummstrumm::engine::debug::Log::LEVEL_##level);         \
-    } while (false)
+      MULTI_LINE_MACRO_END
 #else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_LOG(message, level)                          \
     do {                                                          \

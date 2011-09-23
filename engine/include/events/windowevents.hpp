@@ -19,7 +19,7 @@
 /**
  * Defines events used by the window system.
  * 
- * @file    events/windowEvents.hpp
+ * @file    events/windowevents.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-09-25
  */
@@ -33,8 +33,6 @@ namespace engine
 {
 namespace events
 {
-
-using hummstrumm::engine::renderer::WindowParameters;
 
 /**
  * The class for representing events from the window system.  This is the
@@ -62,14 +60,16 @@ class WindowEvents
      */
     enum WindowEventType
     {
-      WINDOW_RESIZE, ///< Resizing the window.
-      WINDOW_CLOSE,  ///< Closing the window.
-      KEY_PRESS,     ///< Key down.
-      KEY_RELEASE,   ///< Key up.
-      MOUSE_PRESS,   ///< Mouse button down.
-      MOUSE_RELEASE, ///< Mouse button up.
-      MOUSE_MOTION,  ///< Mouse movement.
-      NONE           ///< No event.
+      WINDOW_RESIZE,     ///< Resizing the window.
+      WINDOW_CLOSE,      ///< Closing the window.
+      WINDOW_ACTIVE,     ///< Window is focused.
+      WINDOW_INACTIVE,   ///< Window is not focused or minimized.
+      KEY_PRESS,         ///< Key down.
+      KEY_RELEASE,       ///< Key up.
+      MOUSE_PRESS,       ///< Mouse button down.
+      MOUSE_RELEASE,     ///< Mouse button up.
+      MOUSE_MOTION,      ///< Mouse movement.
+      NONE               ///< No event.
     };
 
     /**

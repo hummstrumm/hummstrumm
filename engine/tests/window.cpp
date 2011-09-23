@@ -3,31 +3,30 @@
 #include <iostream>
 #include <sstream>
 #include "hummstrummengine.hpp"
-#ifndef HUMMSTRUMM_PLATFORM_WINDOWS
-#include <unistd.h>
-#include <signal.h>
-#endif // #ifndef HUMMSTRUMM_PLATFORM_WINDOWS
-
 #include <GL/gl.h>
-#include <GL/glx.h>
 #include <GL/glu.h>
-using namespace hummstrumm::engine::renderer;
+
+using namespace hummstrumm::engine::window;
 using namespace hummstrumm::engine::system;
 using namespace hummstrumm::engine::types;
+using namespace hummstrumm::engine::events;
 using std::boolalpha;
 
 static GLfloat rotQuad = 0.0f;
-static WindowX11* xwindow;
 
 int64 start;
 int64 freq;
 
-const unsigned int TIME_FOR_EACH_TEST = 20000000000;
+WindowSystem* windowsystem = NULL;
+WindowVisualInfo param;
+int64 TIME_FOR_EACH_TEST;
 bool isTesting = true;
+bool shouldRender = false;
 
 unsigned short currentTest = 0;
 
-void resizeGL(unsigned int width, unsigned int height)
+void 
+resizeGL(unsigned int width, unsigned int height)
 {                                                     
     if (height == 0)                                  
         height = 1;
@@ -39,8 +38,10 @@ void resizeGL(unsigned int width, unsigned int height)
     glMatrixMode(GL_MODELVIEW);
 }                                                                         
  
-void initGL()
-{            
+void 
+initGL()
+{
+//    glEnable(GL_MULTISAMPLE); 
     glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);                  
@@ -52,7 +53,8 @@ void initGL()
 
 }                                                               
  
-void renderGL()
+void 
+renderGL()
 {              
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();                                  
@@ -97,73 +99,205 @@ void renderGL()
         glVertex3f(-1.0f, -1.0f, 1.0f);                
     glEnd();                                           
     rotQuad += 0.1f;     
-}  
+}
 
 void
-initializeTest(int n)
+showParameters(WindowVisualInfo &param, const char *title)
+{
+    std::cout << title << std::endl;
+    std::cout << " Fullscreen : " << param.useFullscreen << std::endl;
+    std::cout << " Double buffer : " << param.useDoubleBuffer << std::endl;
+    std::cout << " Red buffer size: " << param.redSize << std::endl;
+    std::cout << " Green buffer size: " << param.greenSize << std::endl;
+    std::cout << " Blue buffer size: " << param.blueSize << std::endl;
+    std::cout << " Depth buffer size: " << param.depthSize << std::endl;
+    std::cout << " Vertical sync: " << param.useVerticalSync << std::endl;
+    std::cout << " Width : " << param.width << std::endl;
+    std::cout << " Height : " << param.height << std::endl;
+    std::cout << " Position : " << param.positionX << "," << param.positionY << std::endl;
+    std::cout << " Alpha size: " << param.alphaSize << std::endl;
+    std::cout << " Anti-Aliasing : " << param.useAntiAliasing << std::endl;
+    if (param.useAntiAliasing)
+      std::cout << " Samples : " << param.samples << std::endl;
+    if (param.openGLMajorVer != -1)
+      std::cout << " Context version: " << param.openGLMajorVer
+                << "."
+                << param.openGLMinorVer
+                << std::endl;
+    std::cout << " Offscreen rendering : " << param.useOffScreenRendering << std::endl;
+    if (param.useOffScreenRendering)
+    {
+      std::cout << " Offscreen buffer width : " << param.offscreenBufferWidth << std::endl;
+      std::cout << " Offscreen buffer height : " << param.offscreenBufferHeight << std::endl;
+      std::cout << " Using largest buffer available: " << param.offscreenUseLargestBufferAvailable << std::endl;
+    }
+}
+  
+void
+runTest(int n)
 {
 
   std::cout << boolalpha;
 
-  WindowGLXParam param;
-
   switch(n)
   {
     case 0:
-    {
-      param.fullscreen = false;
-      param.doubleBuffer = true;
-      param.redSize = 4;
-      param.greenSize = 4;
-      param.blueSize = 4;
+    {     
+      param.useFullscreen = false;      
+      param.useDoubleBuffer = true;
+      param.useVerticalSync = false;
+      param.redSize = 1;
+      param.greenSize = 1;
+      param.blueSize = 1;
+      param.alphaSize = 1;
       param.depthSize = 16;
+      param.stencilSize = 1;
+      param.useAntiAliasing = true;
+      param.useOffScreenRendering = true;
+      param.offscreenBufferWidth = 256;
+      param.offscreenBufferHeight = 256;
+      param.offscreenUseLargestBufferAvailable = true;
+      param.samples = 2;
     }
     break;
 
     case 1:
     {
-      param.fullscreen = true;
-      param.doubleBuffer = true;
+      param.useFullscreen = true;
+      param.useDoubleBuffer = true;
+      param.useVerticalSync = true;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
-      param.depthSize = 16;     
+      param.depthSize = 16;
+      param.stencilSize = 0;
+      param.width = 1024;
+      param.height = 768;
+      param.useAntiAliasing = false;
+      param.samples = 0;
     }
     break;
 
     case 2:
     {
-      param.fullscreen = false;
-      param.doubleBuffer = true;
+      param.useFullscreen = false;
+      param.useDoubleBuffer = true;
+      param.useVerticalSync = true;
+      param.redSize = 1;
+      param.greenSize = 1;
+      param.blueSize = 1;
+      param.depthSize = 16;
+      param.stencilSize = 1;
+      param.width = 800;
+      param.height = 600;
+      param.useAntiAliasing = true;
+      param.samples = 2;
+    }
+    break;
+
+    case 3:
+    {
+      param.useFullscreen = false;
+      param.useDoubleBuffer = true;
+      param.useVerticalSync = false;
       param.redSize = 4;
       param.greenSize = 4;
       param.blueSize = 4;
       param.depthSize = 16;
+      param.useAntiAliasing = false;
+      param.samples = 0;
+      param.stencilSize = 0;
 
       param.width = 200;
       param.height = 200;
     } 
     break;
 
-    default:
+    case 4:
+    {
+      param.useFullscreen = true;
+      param.useDoubleBuffer = true;
+      param.useVerticalSync = false;
+      param.redSize = 4;
+      param.greenSize = 4;
+      param.blueSize = 4;
+      param.depthSize = 16;
+      param.width = 500;
+      param.height = 200;
+      param.useAntiAliasing = false;
+      param.samples = 0;
+      param.stencilSize = 0;
+      param.openGLMajorVer = 1;
+      param.openGLMinorVer = 0;
+    } 
+    break;
+
+    case 5:
+    {
+      param.useFullscreen = true;
+      param.useDoubleBuffer = true;
+      param.useVerticalSync = false;
+      param.redSize = 4;
+      param.greenSize = 4;
+      param.blueSize = 4;
+      param.depthSize = 16;
+      param.width = 1024;
+      param.height = 768;
+      param.openGLMajorVer = 3;
+      param.openGLMinorVer = 1;
+      param.stencilSize = 8;
+      param.useAntiAliasing = true;
+      param.samples = 2;
+    } 
+    break;
+
+    case 6:
+    {
+      param.useFullscreen = false;
+      param.width = 800;
+      param.height = 600;
+    }
+    break;
+
+    case 7:
+    {
+      param.useFullscreen = true;
+      param.width = 640;
+      param.height = 480;
+    }
+    break;
+
+    case 8:
+    {
+      param.useFullscreen = false;
+      param.width = 640;
+      param.height = 480;
+    }
+    break;
+
+    default:   
       isTesting = false;
       break;
+
   }
-  start = hummstrumm::engine::core::Engine::
-    GetEngine ()->GetClock ()->GetHighResolutionCount();
 
   if (isTesting)
   {
-
+    start = hummstrumm::engine::core::Engine::
+      GetEngine ()->GetClock ()->GetHighResolutionCount();
     std::cout << "Test #" << n << std::endl;
-    std::cout << " FullScreen : " << param.fullscreen << std::endl;
-    std::cout << " Double Buffer : " << param.doubleBuffer << std::endl;
-    std::cout << " Red Buffer Size: " << param.redSize << std::endl;
-    std::cout << " Green Buffer Size: " << param.greenSize << std::endl;
-    std::cout << " Blue Buffer Size: " << param.blueSize << std::endl;
-    std::cout << " Depth Buffer Size: " << param.depthSize << std::endl;
-
-    xwindow->CreateWindow(param);
+    showParameters(param, "Requested parameters");
+    if ( n < 6)
+    {
+      std::cout << "Created new window\n";
+      (windowsystem->CreateWindow)(param);
+    }
+    else
+    {
+      std::cout << "Reusing same window\n";
+      windowsystem->SetMode(param);
+    }
+    showParameters(param, "Obtained parameters");
     initGL();
   }
 }
@@ -174,50 +308,43 @@ checkTestIsOver()
   int64 end = hummstrumm::engine::core::Engine::
     GetEngine ()->GetClock ()->GetHighResolutionCount();
 
-  while( (end - start)/freq > TIME_FOR_EACH_TEST )
+  if ( (end - start) > TIME_FOR_EACH_TEST )
   {
     std::cout << "Test ended\n";
-    xwindow->DestroyWindow();
-    initializeTest(++currentTest);
+    if (++currentTest < 6)
+    {
+      std::cout << "Destroyed window\n";
+      windowsystem->DestroyWindow();
+    }
+    runTest(currentTest);
   }
 }
-
 
 int
 main()
 {
-
-  std::cout << "This test will assess the hummstrumm window system in fullscreen and "
-               "in windowed mode." << std::endl;
-  std::cout << "There is a remote possibility that the test might fail and leave your system "
-               "in an unstable state." << std::endl;
-  std::cout << std::endl;
-//  std::cout << "Press ENTER to continue or any other key to exit" << std::endl;
-//  if (std::cin.get() != '\n')
-//    exit(0);
-
   hummstrumm::engine::core::Engine engine;
 
   freq = engine.GetClock ()->GetHighResolutionFrequency();
 
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+  TIME_FOR_EACH_TEST = 10 * engine.GetClock()->NANOSECONDS_PER_SECOND;
   try
   {
     std::stringstream logMessage;
-    std::cout << "X11 windows testing with OpenGL/GLX context" << std::endl;
-    xwindow = new WindowX11;
+    std::cout << "HUMMSTRUMM window testing with OpenGL context" << std::endl;
+    windowsystem = new WindowSystem;    
+    runTest(0);
 
-    initializeTest(0);
-
-    while (1)
+    while (isTesting)
     {
-      while (xwindow->GetPendingEventsCount() > 0) 
+      while (windowsystem->GetPendingEventsCount() > 0) 
       {
-        WindowEvents *wev = xwindow->GetNextEvent();
+
+        WindowEvents *wev = windowsystem->GetNextEvent();
         StructureEvents *wsv = NULL;
         switch(wev->getType())
         {
-          case WindowEvents::WINDOW_RESIZE: 
+          case WindowEvents::WINDOW_RESIZE:
               wsv = (StructureEvents *) wev;
               logMessage.str("");
               logMessage << "Window Event : RESIZE ( w ";
@@ -229,7 +356,7 @@ main()
               resizeGL(wsv->GetWidth(), wsv->GetHeight());
               break;
 
-          case WindowEvents::WINDOW_CLOSE: 
+          case WindowEvents::WINDOW_CLOSE:
               logMessage.str("");
               logMessage << "Window Event : CLOSE";
               HUMMSTRUMM_LOG(logMessage.str().c_str(), MESSAGE);
@@ -260,34 +387,30 @@ main()
               logMessage << "Window Event : MOUSE MOTION";
               break;
 
+          case WindowEvents::WINDOW_ACTIVE:
+              std::cout << "Window is active " << std::endl;
+              shouldRender = true;
+              break;
+          case WindowEvents::WINDOW_INACTIVE:
+              std::cout << "Window inactive " << std::endl;
+              shouldRender = false;
+              break;
+
           default: 
               break;
         }
       }
-      if (!isTesting)
-        break;
-
-      renderGL();
-      xwindow->SwapBuffers();
+      if (shouldRender)
+      {
+        renderGL();
+        windowsystem->SwapBuffers();
+      }
       checkTestIsOver();
     }
-
-  } catch (HUMMSTRUMM_ERRORNAME(Error) &e)
+  } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
   {
-    std::cout << "Test #" << currentTest << " failed";
-
-    std::cout << "An error has occured in " << e.GetFileName ()
-              << " at line "                << e.GetLineNumber ()
-              << " from the function "      << e.GetFunction ()
-              << ":\n\n"                    << e.GetText () << "\n";
-
-    return 0;
-  }
-  #endif
-  
-  #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
-  std::cout << "Win32 window with OpenGL/WGL context" << std::endl;
-  #endif
-
+    std::cout << "Test #" << currentTest << " failed\n";    
+    return -1;
+  }  
   return 0;
 }

@@ -30,6 +30,7 @@ set (hummstrummengine_SRCS
   src/error/unicode.cpp
   src/error/memorycorruption.cpp
   src/error/invalidparam.cpp
+  src/error/windowsystem.cpp
   src/error/iterator.cpp
   src/core/type.cpp
   src/core/object.cpp
@@ -37,9 +38,14 @@ set (hummstrummengine_SRCS
   src/core/engine.cpp
   src/types/number.cpp
   src/system/endianness.cpp
-  src/math/vector.cpp
   src/types/inttypes.cpp
-  src/events/windowEvents.cpp)
+  src/events/windowevents.cpp
+  src/window/windowvisualinfo.cpp)
+
+if (HUMMSTRUMM_HAVE_SSE_SUPPORT)
+  list (APPEND hummstrummengine_SRCS
+        src/math/vector.cpp)
+endif (HUMMSTRUMM_HAVE_SSE_SUPPORT)
 
 # Windows-Only Source Files
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
@@ -68,18 +74,15 @@ if (HUMMSTRUMM_PLATFORM_BSD)
         src/system/bsd/clock.cpp)
 endif (HUMMSTRUMM_PLATFORM_BSD)
 
-# Windows-only Window System Files
-if (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
-#  list (APPEND hummstrummengine_SRCS
-#        src/renderer/windowWindows.cpp) # Or whatever.
-endif (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
-
-# X11-only Window System Files
 if (HUMMSTRUMM_WINDOWSYSTEM_X11)
   list (APPEND hummstrummengine_SRCS
-        src/renderer/windowX11.cpp)
+        src/window/x11/windowsystem.cpp)
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
+if (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+  list (APPEND hummstrummengine_SRCS
+        src/window/win/windowsystem.cpp)
+endif (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
 
 
 # Set include dirs

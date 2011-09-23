@@ -16,7 +16,6 @@ TestSuiteBuilderContextBase::TestSuiteBuilderContextBase(
 {
 }
 
-
 TestSuiteBuilderContextBase::~TestSuiteBuilderContextBase()
 {
 }

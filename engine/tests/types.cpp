@@ -590,7 +590,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION ( NumberTest );
 
 
 int
-main (int argc, char **argv)
+main ()
 {
   CppUnit::TestResult controller;
   CppUnit::TestResultCollector result;
