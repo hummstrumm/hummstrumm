@@ -409,8 +409,12 @@ main()
     }
   } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
   {
-    std::cout << "Test #" << currentTest << " failed\n";    
+    std::cout << "Test #" << currentTest << " failed\n";
+    std::cout << "\t" << e.GetText () << "\n";
+    std::cout << "\tOccured in " << e.GetFunction () << "\n";
+    std::cout << "\tFile: " << e.GetFileName ()
+              << ", Line: " << e.GetLineNumber () << "\n";
     return -1;
-  }  
+  }
   return 0;
 }
