@@ -18,9 +18,12 @@
 # mode.
 
 
-# Make sure that we are in a working copy.
+# Make sure that we are in a Git clone.
 if (NOT HUMMSTRUMM_IN_CLONE)
-  message (FATAL_ERROR "This source tree doesn't seem to be a Git clone.  Git clones are required in maintainer mode.  Are you sure you want to be in maintainer mode?")
+  message (WARNING "Not in a Git clone...turning Maintainer Mode off.")
+  set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
+       "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
+  return ()
 endif (NOT HUMMSTRUMM_IN_CLONE)
 
 
@@ -31,15 +34,21 @@ mark_as_advanced (CPACK_COMMAND)
 if (CPACK_COMMAND)
   message (STATUS "Found CPack: ${CPACK_COMMAND}")
 else ()
- message (FATAL_ERROR "CPack was not found.  CPack is only required in maintainer mode.  Are you sure you want to be in maintainer mode?")
+  message (WARNING "CPack not found...turning Maintainer Mode off.")
+  set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
+       "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
+  return ()
 endif ()
 
 
-# Find Subversion
+# Find Git
 find_package (Git)
 if (GIT_FOUND)
 else ()
-  message (FATAL_ERROR "Git was not found. Git is only required in maintainer mode.  Are you sure want to be in maintainer mode?")
+  message (WARNING "Git not found...turning Maintainer Mode off.")
+  set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
+       "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
+  return ()
 endif ()
 
 
@@ -48,5 +57,11 @@ find_package (Perl 5)
 if (PERL_FOUND)
   message (STATUS "Found Perl 5: ${PERL_EXECUTABLE}")
 else ()
-  message (FATAL_ERROR "Perl 5 was not found. Perl is only required in maintainer mode.  Are you sure want to be in maintainer mode?")
+  message (WARNING "Perl 5 not found...turning Maintainer Mode off.")
+  set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
+       "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
+  return ()
 endif ()
+
+set (HUMMSTRUMM_MAINTAINER_MODE ON CACHE BOOL
+       "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
