@@ -343,7 +343,7 @@ void
 WindowSystem::SwapBuffers()
 {
   GLXDrawable currentDrawable = glXGetCurrentDrawable();
-  if (currentDrawable == NULL)
+  if (currentDrawable == 0)
     return;
   glXSwapBuffers(dpy, currentDrawable);
 }
