@@ -20,7 +20,7 @@
 
 # Make sure that we are in a Git clone.
 if (NOT HUMMSTRUMM_IN_CLONE)
-  message (WARNING "Not in a Git clone...turning Maintainer Mode off.")
+  message (MESSAGE "Not in a Git clone...turning Maintainer Mode off.")
   set (HUMMSTRUMM_MAINTAINER_MODE OFF CACHE BOOL
        "In maintainer mode, extra controls are added that are useful in releasing packaging the project.")
   return ()

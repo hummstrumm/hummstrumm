@@ -37,7 +37,7 @@ set (CPACK_PACKAGE_VERSION_MINOR ${HUMMSTRUMM_VERSION_MINOR})
 set (CPACK_PACKAGE_VERSION_PATCH 0)
 
 
-set (CPACK_SOURCE_IGNORE_FILES "/.svn/"
+set (CPACK_SOURCE_IGNORE_FILES "/.git/"
                                "/build/"
                                "~$"
                                "~.*"
