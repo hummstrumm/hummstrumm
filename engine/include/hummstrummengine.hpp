@@ -125,6 +125,7 @@ namespace engine
 namespace debug
 {
 class Log;
+class Loggable;
 class Profiler;
 }
 
@@ -308,6 +309,7 @@ class WindowSystem;
 #  include <hummstrummengine/system/clock.hpp>
 #  include <hummstrummengine/types/number.hpp>
 #  include <hummstrummengine/debug/log.hpp>
+#  include <hummstrummengine/debug/loggable.hpp>
 #  include <hummstrummengine/debug/profiler.hpp>
 #  include <hummstrummengine/geometry/plane.hpp>
 #  include <hummstrummengine/geometry/geomutils.hpp>
@@ -350,6 +352,7 @@ class WindowSystem;
 #  include "system/clock.hpp"
 #  include "types/number.hpp"
 #  include "debug/log.hpp"
+#  include "debug/loggable.hpp"
 #  include "debug/profiler.hpp"
 #  include "math/simd.hpp"
 #  include "math/mathutils.hpp"
