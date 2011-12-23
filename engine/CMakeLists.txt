@@ -38,7 +38,6 @@ set (hummstrummengine_SRCS
   src/core/engine.cpp
   src/types/number.cpp
   src/system/endianness.cpp
-  src/types/inttypes.cpp
   src/events/windowevents.cpp
   src/window/windowvisualinfo.cpp)
 

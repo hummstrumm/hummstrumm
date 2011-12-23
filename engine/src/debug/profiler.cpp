@@ -40,8 +40,8 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::O
   : startTime (0),
     reportInUnit (reportIn),
     writeTo (out),
-    lowestTime (hummstrumm::engine::types::INT64_MAX), // So the first time will
-                                                       // always be faster.
+    // So the first time will always be faster.
+    lowestTime (std::numeric_limits<hummstrumm::engine::types::int64>::max ()),
     averageTime (0),
     numberOfRuns (0)
 {
@@ -75,10 +75,11 @@ Profiler::Iterate (void)
       // constants from our <types/inttypes.hpp> header file.  Hopefully we
       // won't go through two of these, or something is really wrong.
       hummstrumm::engine::types::int64 endTimeOverflowAmount =
-        endTime - hummstrumm::engine::types::INT64_MIN;
+        endTime - std::numeric_limits<hummstrumm::engine::types::int64>::max ();
       
       hummstrumm::engine::types::int64 startTimeOverflowAmount =
-        hummstrumm::engine::types::INT64_MIN - this->startTime;
+        std::numeric_limits<hummstrumm::engine::types::int64>::min () -
+        this->startTime;
 
       // The difference is their sum.
       difference = startTimeOverflowAmount + endTimeOverflowAmount;

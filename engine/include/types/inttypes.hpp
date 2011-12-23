@@ -27,6 +27,8 @@
 #ifndef HUMMSTRUMM_ENGINE_TYPES_INTTYPES
 #define HUMMSTRUMM_ENGINE_TYPES_INTTYPES
 
+#include <limits>
+
 #if defined(HUMMSTRUMM_PLATFORM_GNULINUX) || defined (HUMMSTRUMM_PLATFORM_BSD)
 #  include <inttypes.h>
 #endif
@@ -106,79 +108,6 @@ typedef int64_t  int64;
 typedef uint64_t uint64;
 
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-
-/**
- * The minimum value of an int16.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const int16 INT16_MIN;
-/**
- * The maximum value of an int16.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const int16 INT16_MAX;
-/**
- * The maximum value of an uint16.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const uint16 UINT16_MAX;
-/**
- * The minimum value of an int32.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const int32 INT32_MIN;
-/**
- * The maximum value of an int32.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const int32 INT32_MAX;
-/**
- * The maximum value of an uint32.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const uint32 UINT32_MAX;
-/**
- * The minimum value of an int64.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const int64 INT64_MIN;
-/**
- * The maximum value of an int64.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const int64 INT64_MAX;
-/**
- * The maximum value of an uint64.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-03-15
- * @since 0.2
- */
-extern const uint64 UINT64_MAX;
 
 
 }
