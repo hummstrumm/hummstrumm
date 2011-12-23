@@ -42,6 +42,29 @@
 
 
 /**
+ * Returns an error on compile if the given condition is false.
+ *
+ * @def    HUMMSTRUMM_STATIC_ASSERT
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2011-12-23
+ * @since  0.5
+ *
+ * @param [in] condition The condition to check for truth.
+ * @param [in] message   The message to affix to the error.
+ */
+#if HUMMSTRUMM_HAVE_NATIVE_STATIC_ASSERT
+#  define HUMMSTRUMM_STATIC_ASSERT(condition, message) \
+  static_assert (condition, message)
+#else
+template <bool condition> struct StaticAssertionFailed;
+template <> struct StaticAssertionFailed<true> {};
+#  define HUMMSTRUMM_STATIC_ASSERT(condition, message) \
+  StaticAssertionFailed<(condition) && message>        \
+    static_assert_##__COUNTER__##_no_clash__;
+#endif
+
+
+/**
  * Aborts the program with a nonzero return value.
  *
  * This is only available in a debug build.
