@@ -65,6 +65,11 @@ set (HUMMSTRUMM_LOG_LOGLEVEL MESSAGE CACHE STRING
      "The minimum level of messages.")
 
 
+# C++11
+set (HUMMSTRUMM_USE_CPP11 ON CACHE BOOL
+     "Attempt to use features from the new C++11 standard.")
+
+
 # Add debug definitions.
 # Use -DCMAKE_BUILD_TYPE=Debug with the cmake command to use them.
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR

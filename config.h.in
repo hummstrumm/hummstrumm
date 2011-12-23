@@ -26,6 +26,9 @@
 // Compiler Checks
 #cmakedefine HAVE_CPUID_H
 
+// C++11
+#cmakedefine HUMMSTRUMM_USE_CPP11
+
 // Platforms
 #cmakedefine HUMMSTRUMM_PLATFORM_WINDOWS
 #cmakedefine HUMMSTRUMM_PLATFORM_GNULINUX

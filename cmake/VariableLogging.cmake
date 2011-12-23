@@ -28,6 +28,11 @@ message (STATUS "        Building for ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCES
 message (STATUS "")
 message (STATUS "        Features enabled:")
 
+# Are compiling with C++11 support?
+if (HUMMSTRUMM_USE_CPP11)
+  message (STATUS "          * C++11 support (experimental in many compilers)")
+endif (HUMMSTRUMM_USE_CPP11)
+
 # Are we in maintainer mode?
 if (HUMMSTRUMM_MAINTAINER_MODE)
   message (STATUS "          * Maintainer mode")

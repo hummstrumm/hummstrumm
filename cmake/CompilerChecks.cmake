@@ -18,5 +18,6 @@
 #                         functions, and features.
 
 include (CheckIncludeFiles)
+include (CheckCpp11)
 
 check_include_files (cpuid.h HAVE_CPUID_H)
