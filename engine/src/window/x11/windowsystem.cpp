@@ -561,7 +561,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
       Atom netSupported = XInternAtom(dpy,"_NET_SUPPORTED", False);
       Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
       Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
-      if ( atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize))
+      if ((atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize)))
       {
        for (unsigned i = 0; i < atomsSize; i++)
         {
@@ -746,7 +746,7 @@ WindowSystem::IsNetWMCompliant() const
   bool retCode = false;
   Window *win = NULL;
   Atom netWMSupport = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK",False);
-  if (win = (Window *) GetXProperty(root, netWMSupport, XA_WINDOW, winSize))
+  if ((win = (Window *) GetXProperty(root, netWMSupport, XA_WINDOW, winSize)))
     retCode = true;
   delete [] win;
   return retCode;
