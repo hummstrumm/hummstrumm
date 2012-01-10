@@ -88,7 +88,7 @@ class Log
      * @return The Log created by the game engine.
      */
     static Log &GetLog (void)
-      throw (HUMMSTRUMM_ERRORNAME (Generic));
+      throw (hummstrumm::engine::error::Generic);
 
     /**
      * Returns the name of the file to which the log is written.
@@ -164,7 +164,7 @@ class Log
      * @param [in] minimumLevel The minimum level of log messages.
      */
     Log (hummstrumm::engine::types::String fileName, Level minimumLevel)
-      throw (HUMMSTRUMM_ERRORNAME(Generic));
+      throw (hummstrumm::engine::error::Generic);
     /**
      * Destructs a Log.  The log footer is written, and then the log file is
      * closed.
@@ -239,7 +239,7 @@ class Log
  */
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_LOG(message, level)                          \
-      MULTI_LINE_MACRO_BEGIN                                    \
+      MULTI_LINE_MACRO_BEGIN                                      \
       hummstrumm::engine::core::Engine::GetEngine ()->            \
         GetLog ()->Write ((message),                              \
           __FILE__,                                               \

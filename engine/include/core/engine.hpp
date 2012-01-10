@@ -58,7 +58,7 @@ class Engine
      * @since  0.3
      */
     Engine (void)
-      throw (HUMMSTRUMM_ERRORNAME(Generic));
+      throw (hummstrumm::engine::error::Generic);
     virtual ~Engine (void);
 
     /**

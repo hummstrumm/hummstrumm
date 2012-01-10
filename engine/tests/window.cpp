@@ -407,7 +407,7 @@ main()
       }
       checkTestIsOver();
     }
-  } catch (HUMMSTRUMM_ERRORNAME(WindowSystem) &e)
+  } catch (hummstrumm::engine::error::WindowSystem &e)
   {
     std::cout << "Test #" << currentTest << " failed\n";
     std::cout << "\t" << e.GetText () << "\n";

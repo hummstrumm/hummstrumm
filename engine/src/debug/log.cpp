@@ -35,7 +35,7 @@ Log::theLog = 0;
 
 Log::Log (hummstrumm::engine::types::String fileName,
           Level minimumLevel)
-  throw (HUMMSTRUMM_ERRORNAME (Generic))
+throw (hummstrumm::engine::error::Generic)
   : fileName (fileName),
     minimumLevel (minimumLevel),
     logFile (0),
@@ -166,7 +166,7 @@ Log::OutputFooter (void)
 
 Log &
 Log::GetLog (void)
-  throw (HUMMSTRUMM_ERRORNAME(Generic))
+  throw (hummstrumm::engine::error::Generic)
 {
   if (theLog == 0)
     {
