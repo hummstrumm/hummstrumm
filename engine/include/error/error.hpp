@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ namespace error
  */
 class Error
 {
-  public:
+  protected:
     /**
      * Constructs an Error object to be thrown to an error handler.
      *
@@ -86,6 +86,7 @@ class Error
      */
     virtual ~Error (void);
 
+  public:
     /**
      * Returns the name of the file in which the error occured.
      *
@@ -155,20 +156,6 @@ class Error
 }
 
 
-/**
- * Expands an exception name.  It adds the namespace prefixes to the name.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-11-09
- * @since  0.3
- *
- * @param [in] exceptionName The name of the Error exception to throw.  This
- * does not include any namespace prefix.
- */
-#define HUMMSTRUMM_ERRORNAME(exceptionName) \
-  hummstrumm::engine::error::exceptionName
-
-
 
 /**
  * @def HUMMSTRUMM_THROW
@@ -187,18 +174,18 @@ class Error
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_THROW(exceptionName, text)                       \
     do {                                                              \
-      throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__,            \
-                                                 __LINE__,            \
-                                                 __FUNCSIG__,         \
-                                                 text);               \
+      throw hummstrumm::engine::error::exceptionName (__FILE__,       \
+                                                      __LINE__,       \
+                                                      __FUNCSIG__,    \
+                                                      text);          \
     } while (false)
 #else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-  #define HUMMSTRUMM_THROW(exceptionName, text)                       \
-    do {                                                              \
-      throw HUMMSTRUMM_ERRORNAME(exceptionName) (__FILE__,            \
-                                                 __LINE__,            \
-                                                 __PRETTY_FUNCTION__, \
-                                                 text);               \
+  #define HUMMSTRUMM_THROW(exceptionName, text)                            \
+    do {                                                                   \
+      throw hummstrumm::engine::error::exceptionName (__FILE__,            \
+                                                      __LINE__,            \
+                                                      __PRETTY_FUNCTION__, \
+                                                      text);               \
     } while (false)
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 

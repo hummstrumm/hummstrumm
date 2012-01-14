@@ -1,5 +1,5 @@
 # Humm and Strumm Video Game
-# Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ message (STATUS "        ${HUMMSTRUMM_DESCRIPTION}")
 message (STATUS "        ${HUMMSTRUMM_VENDOR} <${HUMMSTRUMM_WEBSITE}>")
 message (STATUS "")
 message (STATUS "        In ${CMAKE_BUILD_TYPE} mode")
-message (STATUS "        Building for ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}")
+message (STATUS "        Building with ${CMAKE_CXX_COMPILER_ID} compiler for ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}")
 message (STATUS "")
 message (STATUS "        Features enabled:")
 
@@ -69,9 +69,8 @@ endif (HUMMSTRUMM_HAVE_SSE_SUPPORT)
 
 message (STATUS "")
 message (STATUS "        This is the ${HUMMSTRUMM_VERSION} release of ${HUMMSTRUMM_NAME}.")
-message (STATUS "        For a complete list of changes in this release, see the packaged")
-message (STATUS "        NEWS file.")
+message (STATUS "        For a list of changes in this release, see the packaged NEWS file.")
 message (STATUS "        For help with installation, see the packaged INSTALL file.")
-message (STATUS "        To know your rights, see the packaged COPYING file.")
+message (STATUS "        For your legal rights, see the packaged COPYING file.")
 message (STATUS "        For more information, see the packaged README file.")
 message (STATUS "")

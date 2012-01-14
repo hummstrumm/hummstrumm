@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

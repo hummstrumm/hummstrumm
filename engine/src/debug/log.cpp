@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define HUMMSTRUMM_ENGINE_SOURCE
 
 #include "hummstrummengine.hpp"
 
@@ -35,7 +34,7 @@ Log::theLog = 0;
 
 Log::Log (hummstrumm::engine::types::String fileName,
           Level minimumLevel)
-  throw (HUMMSTRUMM_ERRORNAME (Generic))
+throw (hummstrumm::engine::error::Generic)
   : fileName (fileName),
     minimumLevel (minimumLevel),
     logFile (0),
@@ -166,7 +165,7 @@ Log::OutputFooter (void)
 
 Log &
 Log::GetLog (void)
-  throw (HUMMSTRUMM_ERRORNAME(Generic))
+  throw (hummstrumm::engine::error::Generic)
 {
   if (theLog == 0)
     {

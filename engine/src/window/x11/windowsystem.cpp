@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2011, the people listed in the AUTHORS file.
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,9 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define HUMMSTRUMM_ENGINE_SOURCE
-
 #include "hummstrummengine.hpp"
+
 #include <sstream>
 
 namespace hummstrumm
@@ -561,7 +560,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
       Atom netSupported = XInternAtom(dpy,"_NET_SUPPORTED", False);
       Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
       Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
-      if ( atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize))
+      if ((atoms = (Atom *) GetXProperty(root, netSupported, XA_ATOM, atomsSize)))
       {
        for (unsigned i = 0; i < atomsSize; i++)
         {
@@ -746,7 +745,7 @@ WindowSystem::IsNetWMCompliant() const
   bool retCode = false;
   Window *win = NULL;
   Atom netWMSupport = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK",False);
-  if (win = (Window *) GetXProperty(root, netWMSupport, XA_WINDOW, winSize))
+  if ((win = (Window *) GetXProperty(root, netWMSupport, XA_WINDOW, winSize)))
     retCode = true;
   delete [] win;
   return retCode;

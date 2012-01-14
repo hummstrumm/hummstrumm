@@ -1,6 +1,6 @@
 // -*- c++ -*-
 /* Humm and Strumm Video Game
- * Copyright (C) 2008-2011, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define HUMMSTRUMM_ENGINE_SOURCE
 
 #include "hummstrummengine.hpp"
 
@@ -32,7 +31,7 @@ Engine::theEngine = 0;
 
 
 Engine::Engine (void)
-  throw (HUMMSTRUMM_ERRORNAME(Generic)) try
+  throw (hummstrumm::engine::error::Generic) try
 {
   std::cout << "Humm and Strumm Game Engine initializing...\n\n";
 
@@ -52,7 +51,7 @@ Engine::Engine (void)
       this->log = new hummstrumm::engine::debug::Log (HUMMSTRUMM_LOG_FILENAME,
                     hummstrumm::engine::debug::Log::HUMMSTRUMM_LOG_LOGLEVEL);
     }
-  catch (HUMMSTRUMM_ERRORNAME(Generic) e)
+  catch (hummstrumm::engine::error::Generic e)
     {
       // We couldn't open the log.  Kind of evil, but we should still be able
       // to run the game.  Just warn the user of this, and continue on.  Our
