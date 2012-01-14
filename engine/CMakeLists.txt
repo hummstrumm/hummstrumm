@@ -148,18 +148,14 @@ endif (HUMMSTRUMM_BUILD_DOCS)
 
 
 # Install header files.
-install (FILES include/hummstrummengine.hpp
-         DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
-install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
-         DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
 install (DIRECTORY include/
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS}
          FILES_MATCHING PATTERN "*.h"
                         PATTERN "*.hpp"
                         PATTERN "*.inl"
-                        PATTERN "hummstrummengine.hpp" EXCLUDE
                         REGEX "/*[.]svn" EXCLUDE)
-
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
+         DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
 
 set (HUMMSTRUMM_PKGCONFIG_FILENAME hummstrummengine-${HUMMSTRUMM_VERSION}.pc)
 
