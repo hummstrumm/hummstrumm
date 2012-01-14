@@ -261,12 +261,7 @@ class WindowSystem;
 
 }
 
-
-#ifndef HUMMSTRUMM_ENGINE_SOURCE
-#  include <hummstrummengine/config.h>
-#else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
-#  include "config.h"
-#endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+#include "config.h"
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  define NOMINMAX
@@ -285,98 +280,51 @@ class WindowSystem;
 #  endif
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
-#ifndef HUMMSTRUMM_ENGINE_SOURCE
-#  include <hummstrummengine/types/inttypes.hpp>
-#  include <hummstrummengine/debug/utils.hpp>
-#  include <hummstrummengine/core/allocationtable.hpp>
-#  include <hummstrummengine/core/object.hpp>
-#  include <hummstrummengine/core/type.hpp>
-#  include <hummstrummengine/error/error.hpp>
-#  include <hummstrummengine/error/generic.hpp>
-#  include <hummstrummengine/error/outofmemory.hpp>
-#  include <hummstrummengine/error/outofrange.hpp>
-#  include <hummstrummengine/error/windowsystem.hpp>
-#  include <hummstrummengine/error/divisionbyzero.hpp>
-#  include <hummstrummengine/error/unicode.hpp>
-#  include <hummstrummengine/error/memorycorruption.hpp>
-#  include <hummstrummengine/error/invalidparam.hpp>
-#  include <hummstrummengine/error/iterator.hpp>
-#  include <hummstrummengine/core/pointer.hpp>
-#  include <hummstrummengine/system/platform.hpp>
-#  include <hummstrummengine/system/endianness.hpp>
-#  include <hummstrummengine/system/processors.hpp>
-#  include <hummstrummengine/system/memory.hpp>
-#  include <hummstrummengine/system/clock.hpp>
-#  include <hummstrummengine/types/number.hpp>
-#  include <hummstrummengine/debug/log.hpp>
-#  include <hummstrummengine/debug/loggable.hpp>
-#  include <hummstrummengine/debug/profiler.hpp>
-#  include <hummstrummengine/geometry/plane.hpp>
-#  include <hummstrummengine/geometry/geomutils.hpp>
-#  include <hummstrummengine/geometry/segment.hpp>
-#  include <hummstrummengine/geometry/boundingbox.hpp>
-#  include <hummstrummengine/geometry/boundingsphere.hpp>
-#  include <hummstrummengine/math/simd.hpp>
-#  include <hummstrummengine/math/vector.hpp>
-#  include <hummstrummengine/math/matrice.hpp>
-#  include <hummstrummengine/math/quaternion.hpp>
-#  include <hummstrummengine/events/windowevents.hpp>
-#  include <hummstrummengine/window/windowvisualinfo.hpp>
-#  include <hummstrummengine/window/windowsystem.hpp>
+#include "types/inttypes.hpp"
+#include "debug/utils.hpp"
+#include "core/object.hpp"
+#include "core/type.hpp"
+#include "error/error.hpp"
+#include "error/generic.hpp"
+#include "error/outofmemory.hpp"
+#include "error/outofrange.hpp"
+#include "error/divisionbyzero.hpp"
+#include "error/windowsystem.hpp"
+#include "error/unicode.hpp"
+#include "error/memorycorruption.hpp"
+#include "error/invalidparam.hpp"
+#include "error/iterator.hpp"
+#include "core/allocationtable.hpp"
+#include "core/pointer.hpp"
+#include "system/platform.hpp"
+#include "system/endianness.hpp"
+#include "system/processors.hpp"
+#include "system/memory.hpp"
+#include "system/clock.hpp"
+#include "types/number.hpp"
+#include "debug/log.hpp"
+#include "debug/loggable.hpp"
+#include "debug/profiler.hpp"
+#include "math/simd.hpp"
+#include "math/mathutils.hpp"
+#include "math/vector.hpp"
+#include "math/matrice.hpp"
+#include "math/quaternion.hpp"
+#include "geometry/geomutils.hpp"
+#include "geometry/plane.hpp"
+#include "geometry/segment.hpp"
+#include "geometry/boundingbox.hpp"
+#include "geometry/boundingsphere.hpp"
+#include "events/windowevents.hpp"
+#include "window/windowvisualinfo.hpp"
+#include "window/windowsystem.hpp"
 // This has to go last.
-#  include <hummstrummengine/core/engine.hpp>
+#include "core/engine.hpp"
 // Template and Inline implementations now...
-#  include <hummstrummengine/core/pointer.inl>
-#  include <hummstrummengine/system/endianness.inl>
-#else  // #ifndef HUMMSTRUMM_ENGINE_SOURCE
-#  include "types/inttypes.hpp"
-#  include "debug/utils.hpp"
-#  include "core/object.hpp"
-#  include "core/type.hpp"
-#  include "error/error.hpp"
-#  include "error/generic.hpp"
-#  include "error/outofmemory.hpp"
-#  include "error/outofrange.hpp"
-#  include "error/divisionbyzero.hpp"
-#  include "error/windowsystem.hpp"
-#  include "error/unicode.hpp"
-#  include "error/memorycorruption.hpp"
-#  include "error/invalidparam.hpp"
-#  include "error/iterator.hpp"
-#  include "core/allocationtable.hpp"
-#  include "core/pointer.hpp"
-#  include "system/platform.hpp"
-#  include "system/endianness.hpp"
-#  include "system/processors.hpp"
-#  include "system/memory.hpp"
-#  include "system/clock.hpp"
-#  include "types/number.hpp"
-#  include "debug/log.hpp"
-#  include "debug/loggable.hpp"
-#  include "debug/profiler.hpp"
-#  include "math/simd.hpp"
-#  include "math/mathutils.hpp"
-#  include "math/vector.hpp"
-#  include "math/matrice.hpp"
-#  include "math/quaternion.hpp"
-#  include "geometry/geomutils.hpp"
-#  include "geometry/plane.hpp"
-#  include "geometry/segment.hpp"
-#  include "geometry/boundingbox.hpp"
-#  include "geometry/boundingsphere.hpp"
-#  include "events/windowevents.hpp"
-#  include "window/windowvisualinfo.hpp"
-#  include "window/windowsystem.hpp"
-// This has to go last.
-#  include "core/engine.hpp"
-// Template and Inline implementations now...
-#  include "core/pointer.inl"
-#  include "system/endianness.inl"
-#endif // #ifndef HUMMSTRUMM_ENGINE_SOURCE
+#include "core/pointer.inl"
+#include "system/endianness.inl"
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  pragma warning(pop)
-#  ifdef HUMMSTRUMM_ENGINE_SOURCE
-#    pragma warning(disable:4290)
-#  endif // #ifdef HUMMSTRUMM_ENGINE_SOURCE
+#  pragma warning(disable:4290)
 #endif // #ifndef HUMMSTRUMM_ENGINE
