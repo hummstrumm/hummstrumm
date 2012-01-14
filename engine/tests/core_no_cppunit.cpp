@@ -1,5 +1,3 @@
-#define HUMMSTRUMM_ENGINE_SOURCE
-
 #include "hummstrummengine.hpp"
 
 #include <iostream>
