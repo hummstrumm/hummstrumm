@@ -61,8 +61,9 @@ main ()
   std::cout << "\n\n";
 
 
-  std::cout << engine.GetMemory ()->GetFreeMemory ()  << "b out of "
-            << engine.GetMemory ()->GetTotalMemory () << "b of memory free.\n";
+  std::cout << engine.GetMemory ()->GetFreeMemory ()  << " kb out of "
+            << engine.GetMemory ()->GetTotalMemory () << " kb of memory free."
+            << "\n";
   
   return 0;
 }
