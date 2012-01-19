@@ -44,6 +44,10 @@ add_executable(test_engine_core core.cpp)
 target_link_libraries(test_engine_core ${hummstrummengine_LIBS})
 add_test (NAME test_engine_core COMMAND test_engine_core)
 
+add_executable(test_engine_error error.cpp)
+target_link_libraries(test_engine_error ${hummstrummengine_LIBS})
+add_test (NAME test_engine_error COMMAND test_engine_error)
+
 add_executable(test_engine_log log.cpp)
 target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
 add_test (NAME test_engine_log COMMAND test_engine_log)
