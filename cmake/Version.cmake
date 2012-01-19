@@ -18,7 +18,7 @@
 
 # Only edit the ones below:
 set (HUMMSTRUMM_VERSION_MAJOR "0")
-set (HUMMSTRUMM_VERSION_MINOR "4")
+set (HUMMSTRUMM_VERSION_MINOR "5")
 set (HUMMSTRUMM_NAME "Humm and Strumm")
 set (HUMMSTRUMM_NAME_SHORT "hummstrumm")
 set (HUMMSTRUMM_VENDOR "The Humm and Strumm Project")
