@@ -39,6 +39,13 @@
 #cmakedefine HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
 #cmakedefine HUMMSTRUMM_WINDOWSYSTEM_X11
 
+// Compilers
+#cmakedefine HUMMSTRUMM_COMPILER_MSVC
+#cmakedefine HUMMSTRUMM_COMPILER_GCC
+#cmakedefine HUMMSTRUMM_COMPILER_CLANG
+#cmakedefine HUMMSTRUMM_COMPILER_GENERIC
+
+
 #cmakedefine HUMMSTRUMM_HAVE_SSE_SUPPORT
 
 // File name of the log.
