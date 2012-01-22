@@ -1,8 +1,8 @@
 Humm and Strumm README File
 **********************************************************************
 
-Copyright (C) 2008-2012, the people  listed in the AUTHORS file.  This
-file is  licensed under a Creative  Commons Attribution-ShareAlike 3.0
+Copyright (C) 2008-2012, the people listed in the AUTHORS file.  This
+file is licensed under a Creative Commons Attribution-ShareAlike 3.0
 Unported License.
 
 
@@ -12,13 +12,13 @@ Overview
 ======================================================================
 
 Humm and Strumm is a 3D Adventure Game in which two players set out to
-stop the evil Dr. Geoff from taking over the world. Humm and Strumm is
-released as Free Software.
+stop the evil Dr. Geoff from taking over the world.  Humm and Strumm
+is released as Free Software.
 
 You can find our home page here:
   <http://hummstrumm.blogspot.com>
 
-Our  home page  has news  updates, new  downloads,  documentation, and
+Our home page has news updates, new downloads, documentation, and
 links to all parts of the project.
 
 
@@ -44,26 +44,26 @@ Licenses
 Code License
 ----------------------------------------------------------------------
 
-This code is  free software; you can redistribute  it and/or modify it
-under the terms of the GNU  General Public License as published by the
+This code is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-This  code is  distributed in  the hope  that it  will be  useful, but
-WITHOUT   ANY  WARRANTY;  without   even  the   implied  warranty   of
-MERCHANTABILITY  or FITNESS  FOR  A  PARTICULAR PURPOSE.  See  the GNU
+This code is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-You  should have receives  a copy  of the  GNU General  Public License
+You should have receives a copy of the GNU General Public License
 along with this code.  If not, see <http://www.gnu.org/licenses/>.
 
 
 Content License
 ----------------------------------------------------------------------
 
-The  other   content, including images,  documentation  files, Doxygen
-documentation, and   music, is  licensed  under   a  Creative  Commons
-Attribution-ShareAlike    Unported    License    3.0,  available    at
+The other content, including images, documentation files, Doxygen
+documentation, and music, is licensed under a Creative Commons
+Attribution-ShareAlike Unported License 3.0, available at
 <http://creativecommons.org/licenses/by-sa/3.0/>.
 
 
@@ -101,7 +101,7 @@ GNU/Linux
 
 Software Requirements:
   * A modern Linux kernel
-  * g++ 4.4 or later
+  * A C++ compiler (GCC 4.4+ and Clang have been tested)
   * CMake, 2.6 or later
   * X11 development files
   * CPPUnit (optional)
@@ -117,7 +117,7 @@ Minimum Harware:
 ----------------------------------------------------------------------
 
 Software Requirements
-  * g++ 4.4 or later
+  * A C++ compiler (GCC 4.4+ and Clang have been tested)
   * CMake, 2.6 or later
   * X11 development files
   * CPPUnit (optional)
@@ -132,10 +132,10 @@ Minimum Harware:
 Other Platforms
 ----------------------------------------------------------------------
 
-Humm and Strumm was written  with cross-platform usability in mind, to
-ease  the  porting  of  it  to other  platforms.   However,  we  don't
-currently have  testing computers for  other platforms, so  any system
-besides those  enumerated above are not officially  supported.  If you
+Humm and Strumm was written with cross-platform usability in mind, to
+ease the porting of it to other platforms.  However, we don't
+currently have testing computers for other platforms, so any system
+besides those enumerated above are not officially supported.  If you
 want to help out, contact us and arrange to become the official tester
 for your platform.
 
@@ -165,7 +165,7 @@ Directory Structure
 Installation
 ======================================================================
 
-Please see  the file  INSTALL for instructions  on how to  install the
+Please see the file INSTALL for instructions on how to install the
 software.
 
 
@@ -174,7 +174,7 @@ software.
 Release Notes
 ======================================================================
 
-The file NEWS  contains important changes that may  affect the user of
+The file NEWS contains important changes that may affect the user of
 the software.
 
 
@@ -183,7 +183,7 @@ the software.
 Credits
 ======================================================================
 
-Please see the  files AUTHORS and THANKS for all  the people that have
+Please see the files AUTHORS and THANKS for all the people that have
 helped make the Humm and Strumm game possible.
 
 
@@ -192,18 +192,18 @@ helped make the Humm and Strumm game possible.
 Bug Reports
 ======================================================================
 
-The Humm and  Strumm game uses the Google  Code issue tracking system.
-You       can       find        the       issue       tracker       at
-<http://code.google.com/p/hummstrumm/issues/list>.  You  can  sort the
+The Humm and Strumm game uses the Google Code issue tracking system.
+You can find the issue tracker at
+<http://code.google.com/p/hummstrumm/issues/list>.  You can sort the
 list by clicking on the column headers at the top of the list.
 
-If you  find a  bug in  the  Humm and  Strumm game, be sure  to search
-through the  existing bugs to  see if the  problem you are  seeing has
+If you find a bug in the Humm and Strumm game, be sure to search
+through the existing bugs to see if the problem you are seeing has
 already been entered into the bug database.  If you find that an entry
 already exists for the bug you are seeing, do not enter it again.
 
-To enter  in a  new bug  you will also  be required  to have  a Google
-account.  Fill  out   the template, and  be  sure   to tag  the  issue
+To enter in a new bug you will also be required to have a Google
+account.  Fill out the template, and be sure to tag the issue
 appropriately using the input boxes below the main entry box.
 
 
@@ -212,8 +212,8 @@ appropriately using the input boxes below the main entry box.
 Feature Requests
 ======================================================================
 
-The  Google  Code   issue  tracker  is  also  used   for  new  feature
-requests. Use  the above guidelines  for bugs (i.e., look  for already
-existing requests).  The only difference   between a bug report  and a
-feature  request   is  that   a  feature  request   has  a   value  of
-"Type-Enhancement" in the tag fields.
+The Google Code issue tracker is also used for new feature requests.
+Use the above guidelines for bugs (i.e., look for already existing
+requests).  The only difference between a bug report and a feature
+request is that a feature request has a value of "Type-Enhancement" in
+the tag fields.
