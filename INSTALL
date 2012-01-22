@@ -1,8 +1,8 @@
 Humm and Strumm Installation Instructions
 **********************************************************************
 
-Copyright (C) 2008-2012, the people  listed in the AUTHORS file.  This
-file is licensed under  a Creative Commons Attribution-Share Alike 3.0
+Copyright (C) 2008-2012, the people listed in the AUTHORS file.  This
+file is licensed under a Creative Commons Attribution-Share Alike 3.0
 Unported License.
 
 
@@ -12,15 +12,15 @@ Basic Installation
 ======================================================================
 
 The most basic way to install the Humm and Strumm video game is to use
-the  packages  available  for  download  on our  website.  We  provide
-a Windows installer, and both Debian and RedHat packages.
+the packages available for download on our website.  We provide a
+Windows installer, and both Debian and RedHat packages.
 
 
 Windows Installer
 ----------------------------------------------------------------------
 
-To  install  on  Windows,  download  the  latest  installer  from  the
-downloads  page.   This installer  will  connect  to  the internet  to
+To install on Windows, download the latest installer from the
+downloads page.  This installer will connect to the internet to
 download additional resources, and will alert you when it does.
 
 TODO: Add specific installation instructions.
@@ -29,8 +29,8 @@ TODO: Add specific installation instructions.
 GNU/Linux Packages
 ---------------------------------------------------------------------
 
-The website also  has Debian and RedHat packages  for GNU/Linux users.
-You  will need  to  install both  the  main package  and the  resource
+The website also has Debian and RedHat packages for GNU/Linux users.
+You will need to install both the main package and the resource
 package(s) to have the complete game.
 
 TODO: Add specific installation instructions.
@@ -44,22 +44,21 @@ Advanced Installation
 If you are more of the hacker type, you can compile the game yourself.
 We provide compressed archives of the source code and the resources.
 
-To   compile,  you   will   need   CMake,  available   for   free   at
+To compile, you will need CMake, available for free at
 <http://www.cmake.org/>.
 
-The basic instructions for generating  build files are the same on all
-systems.  If  you run  the following  command,  a  set of  build files
-that can be  used to build  Humm and Strumm  on  your  system  will be
-generated:
+The basic instructions for generating build files are the same on all
+systems.  If you run the following command, a set of build files that
+can be used to build Humm and Strumm on your system will be generated:
 
   $ cmake .
 
-Then, you can build the game  using the build system installed on your
+Then, you can build the game using the build system installed on your
 computer (usually make for GNU systems or nmake/MSVC++ for Windows).
 
-If you want to customise the  package before you build it, you can use
-the CMake cache, which contains  build variables.  CMake comes with an
-interactive  mode, which  allows   you to  configure  these  variables
+If you want to customize the package before you build it, you can use
+the CMake cache, which contains build variables.  CMake comes with an
+interactive mode, which allows you to configure these variables
 yourself.  Run interactive mode with the following command:
 
   $ cmake -i .
@@ -72,5 +71,5 @@ Or the GUI interface to CMake.
 
   $ cmake-gui .
 
-These will  allow you  to  change the  variables.  After this, you can
+These will allow you to change the variables.  After this, you can
 continue through the build platform.
