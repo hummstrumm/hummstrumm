@@ -1,3 +1,4 @@
+// -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Video Game
  * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
  *
