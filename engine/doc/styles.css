@@ -525,3 +525,9 @@ address {
 	font-style: normal;
 	color: #333;
 }
+
+.headertitle {
+	text-align: center;
+	font-style: bold;
+	font-size: 200%;
+}
