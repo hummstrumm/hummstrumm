@@ -1,5 +1,5 @@
-To save space, the Subversion repository SHOULD NOT contain the doxygen
-documentation.  Do not commit the documentation to the repository!
+To save space, the Git repository SHOULD NOT contain the doxygen documentation.
+Do not commit the documentation to the repository!
 
 If you want to view the documentation, please run make doc in the trunk
 directory.  You will need doxygen installed to do this.
