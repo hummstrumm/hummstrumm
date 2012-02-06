@@ -22,4 +22,4 @@ Description: The game engine of the Humm and Strumm video game.
 Requires: x11, gl
 Version: @HUMMSTRUMM_VERSION@
 Libs: -L${libdir} -lhummstrummengine -lrt
-Cflags: -I${includedir}
+Cflags: -I${includedir} -msse4.1
