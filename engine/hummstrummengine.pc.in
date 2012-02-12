@@ -14,12 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-libdir=@CMAKE_INSTALL_PREFIX@/@HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES@
-includedir=@CMAKE_INSTALL_PREFIX@/@HUMMSTRUMM_ENGINE_INSTALL_HEADERS@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+includedir=${prefix}/@HUMMSTRUMM_ENGINE_INSTALL_HEADERS@
+libdir=${exec_prefix}/@HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES@
 
-Name: Humm and Strumm Game Engine
+Name: hummstrummengine
 Description: The game engine of the Humm and Strumm video game.
-Requires: x11, gl
+Requires: x11, gl, glu
 Version: @HUMMSTRUMM_VERSION@
-Libs: -L${libdir} -lhummstrummengine -lrt
-Cflags: -I${includedir} -msse4.1
+Libs: -L${libdir} -lhummstrummengine
+Libs.private: -lrt
+Cflags: -I${includedir}
