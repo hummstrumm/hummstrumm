@@ -20,7 +20,7 @@
  * Defines events used by the window system.
  * 
  * @file    events/windowevents.hpp
- * @author  Ricardo Tiago <Rtiago@gmail.com>
+ * @author  Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date    2010-09-25
  */
 
@@ -39,7 +39,7 @@ namespace events
  * superclass of all separate window events.
  *
  * @version 0.3
- * @author  Ricardo Tiago <RTiago@gmail.com>
+ * @author  Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date    2011-01-07
  * @since   0.3
  *
@@ -54,7 +54,7 @@ class WindowEvents
      * codebase currently handles.
      *
      * @version 0.3
-     * @author  Ricardo Tiago <RTiago@gmail.com>
+     * @author  Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date    2011-01-07
      * @since   0.3
      */
@@ -75,7 +75,7 @@ class WindowEvents
     /**
      * Constructs a new WindowEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      */
@@ -84,7 +84,7 @@ class WindowEvents
     /**
      * Destructs an existing WindowEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      */
@@ -93,7 +93,7 @@ class WindowEvents
     /**
      * Retrieves the type of the WindowEvent emitted.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      *
@@ -112,7 +112,7 @@ class WindowEvents
  * to direct user input.
  *
  * @version 0.3
- * @author  Ricardo Tiago <RTiago@gmail.com>
+ * @author  Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date    2011-01-07
  * @since   0.3
  */
@@ -122,7 +122,7 @@ class StructureEvents: public WindowEvents
     /**
      * Constructs a new StructureEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      *
@@ -132,7 +132,7 @@ class StructureEvents: public WindowEvents
     /**
      * Constructs a new StructureEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      *
@@ -144,7 +144,7 @@ class StructureEvents: public WindowEvents
     /**
      * Destructs an existing StructureEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      */
@@ -153,7 +153,7 @@ class StructureEvents: public WindowEvents
     /**
      * Returns the new width of the window, if applicable.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      *
@@ -163,7 +163,7 @@ class StructureEvents: public WindowEvents
     /**
      * Returns the new height. of the window, if applicable.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      *
@@ -182,7 +182,7 @@ class StructureEvents: public WindowEvents
  * Represents window events due to user input via the keyboard.
  *
  * @version 0.3
- * @author  Ricardo Tiago <RTiago@gmail.com>
+ * @author  Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date    2011-01-07
  * @since   0.3
  */
@@ -192,7 +192,7 @@ class KeyboardEvents: public WindowEvents
     /**
      * Constructs a new KeyboardEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      *
@@ -202,7 +202,7 @@ class KeyboardEvents: public WindowEvents
     /**
      * Destructs an existing KeyboardEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      */
@@ -213,7 +213,7 @@ class KeyboardEvents: public WindowEvents
  * Represents window events due to user input via the mouse.
  *
  * @version 0.3
- * @author  Ricardo Tiago <RTiago@gmail.com>
+ * @author  Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date    2011-01-07
  * @since   0.3
  */
@@ -223,7 +223,7 @@ class MouseEvents: public WindowEvents
     /**
      * Constructs a new MouseEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      *
@@ -233,7 +233,7 @@ class MouseEvents: public WindowEvents
     /**
      * Destructs an existing MouseEvents object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-01-07
      * @since  0.3
      */

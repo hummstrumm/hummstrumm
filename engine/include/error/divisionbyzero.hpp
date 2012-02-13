@@ -20,7 +20,7 @@
  * Defines the DivisionByZero exception class.
  *
  * @file   error/divisionbyzero.hpp
- * @author Ricardo Tiago <RTiago@gmail.com>
+ * @author Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date   2010-05-09
  */
 
@@ -38,7 +38,7 @@ namespace error
  * The error for divisions or modulo operations in which the divisor of the
  * expression is 0.
  *
- * @author Ricardo Tiago <RTiago@gmail.com>
+ * @author Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date 2010-05-28
  * @since 0.2
  */
@@ -49,7 +49,7 @@ class DivisionByZero: public Error
     /**
      * Constructs an DivisionByZero object to be thrown to an error handler.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date 2010-11-22
      * @since 0.2
      *
@@ -63,7 +63,7 @@ class DivisionByZero: public Error
     /**
      * Destructs an DivisionByZero object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date 2010-05-28
      * @since 0.2
      */

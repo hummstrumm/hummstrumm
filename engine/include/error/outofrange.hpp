@@ -20,7 +20,7 @@
  * Defines the OutOfRange exception class.
  *
  * @file   error/outofrange.hpp
- * @author Ricardo Tiago <RTiago@gmail.com>
+ * @author Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date   2010-05-09
  */
 
@@ -39,7 +39,7 @@ namespace error
  * The error for when a parameter that is out of a specified range is passed to
  * a method.
  *
- * @author Ricardo Tiago <RTiago@gmail.com>
+ * @author Ricardo Tiago <rtiago.mendes@gmail.com>
  * @date 2010-05-28
  * @since 0.2
  */
@@ -50,7 +50,7 @@ class OutOfRange: public Error
     /**
      * Constructs an OutOfRange object to be thrown to an error handler.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date 2010-11-22
      * @since 0.2
      *
@@ -64,7 +64,7 @@ class OutOfRange: public Error
     /**
      * Destructs an OutOfRange object.
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date 2010-05-28
      * @since 0.2
      */

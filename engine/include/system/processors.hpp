@@ -129,7 +129,7 @@ class Processors
     /**
      * Returns whether the system supports Streaming SIMD Extensions 3 (SSE3).
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-03-27
      * @since  0.3
      *
@@ -141,7 +141,7 @@ class Processors
     /**
      * Returns whether the system supports Streaming SIMD Extensions 4.1 (SSE4).
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-03-27
      * @since  0.3
      *
@@ -153,7 +153,7 @@ class Processors
     /**
      * Returns whether the system supports Streaming SIMD Extensions 4.2 (SSE4).
      *
-     * @author Ricardo Tiago <RTiago@gmail.com>
+     * @author Ricardo Tiago <rtiago.mendes@gmail.com>
      * @date   2011-03-27
      * @since  0.3
      *
