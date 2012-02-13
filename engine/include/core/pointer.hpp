@@ -174,8 +174,8 @@ class Pointer : public Object
     inline DereferenceType operator* (void) const;
     
     /**
-     * Returns a refence to the Pointer object's Object.  If the pointer is not
-     * valid, and exception will be thrown.
+     * Returns whether the Pointer object is valid (that is, whether it is not a
+     * null pointer).
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date 2009-10-11

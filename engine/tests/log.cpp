@@ -19,11 +19,20 @@
 #include <iostream>
 
 #include "hummstrummengine.hpp"
+using namespace hummstrumm::engine;
 
 int
 main ()
 {
-  hummstrumm::engine::core::Engine engine;
+  core::Engine::Configuration params;
+  params.log = new debug::Log ("test-the-engine.log",
+                               debug::Log::LEVEL_MESSAGE);
+
+  core::Engine engine (params);
+
+  debug::Log log ("another-log.log", debug::Log::LEVEL_ERROR);
+  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", MESSAGE);
+  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", ERROR);
   
   HUMMSTRUMM_LOG ("Testing...", MESSAGE);
   HUMMSTRUMM_LOG ("Testing...", ERROR);

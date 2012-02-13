@@ -35,6 +35,10 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
   add_definitions("-msse4.1")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
+if (HUMMSTRUMM_COMPILER_GCC)
+  add_definitions("-g")
+endif (HUMMSTRUMM_COMPILER_GCC)
+
 include_directories (${hummstrummengine_INCLUDE})
 #if (HUMMSTRUMM_WINDOWSYSTEM_X11)
 #  include_directories (${X11_X11_INCLUDE_PATH})

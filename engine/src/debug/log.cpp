@@ -28,8 +28,8 @@ namespace debug
 {
 
 
-Log *
-Log::theLog = 0;
+HUMMSTRUMM_IMPLEMENT_TYPE (hummstrumm::engine::debug::Log,
+                           hummstrumm::engine::core::Object)
 
 
 Log::Log (hummstrumm::engine::types::String fileName,
@@ -40,12 +40,6 @@ throw (hummstrumm::engine::error::Generic)
     logFile (0),
     currentId (0)
 {
-  // Make sure this is the only Log.  Throw an error otherwise.
-  if (theLog != 0)
-    {
-      HUMMSTRUMM_THROW (Generic, "A second log is being created.");
-    }
-
   // Print to console.
   std::printf ("Opening log...");
 
@@ -68,14 +62,11 @@ throw (hummstrumm::engine::error::Generic)
       return;
     }
 
-  // Print the XML header.
+  // Print the XML header
   OutputHeader ();
 
   // Alert the user we've created the log.
   std::printf ("done\n");
-
-  // Set the singleton pointer to this object.
-  theLog = this;
 }
 
 
@@ -92,6 +83,19 @@ Log::~Log (void)
 
 void
 Log::OutputHeader (void)
+  throw ()
+{
+  std::fprintf (this->logFile, "<?xml version=\"1.1\" encoding=\"utf-8\"?>\n\n"
+                                "<log>\n\n");
+  if (hummstrumm::engine::core::Engine::GetEngine ())
+    {
+      OutputSystemInfo ();
+    }
+}
+
+
+void
+Log::OutputSystemInfo (void)
   throw ()
 {
   // Get the string for the minimum level for events in the log.
@@ -134,8 +138,6 @@ Log::OutputHeader (void)
 
   // Print it all out.
   std::fprintf (this->logFile,
-                "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n"
-                "<log>\n\n"
                 "<header>\n"
                 "  <timestamp time=\"0\" date=\"0\" />\n"
                 "  <level>%s</level>\n"
@@ -160,19 +162,6 @@ Log::OutputFooter (void)
   std::fprintf (this->logFile,
                 "\n\n</log>");
   std::fflush (this->logFile);
-}
-  
-
-Log &
-Log::GetLog (void)
-  throw (hummstrumm::engine::error::Generic)
-{
-  if (theLog == 0)
-    {
-      HUMMSTRUMM_THROW (Generic, "A log hasn't yet been created.");
-    }
-  
-  return *theLog;
 }
 
 hummstrumm::engine::types::String

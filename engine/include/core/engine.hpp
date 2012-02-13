@@ -37,21 +37,35 @@ namespace core
 {
 
 /**
- * The class that manages the basic structure of the engine.
- *
- * The engine-wide, automatically created log is contained here.
+ * The class that manages the basic structure of the engine.  This class manages
+ * the game loop, holds the engine wide log, and provides system information.
  *
  * @version 0.3
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date 2010-11-22
- * @since 0.3
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2010-11-22
+ * @since   0.3
  */
 class Engine
 {
   public:
     /**
-     * Initializes the entire Humm and Strumm Engine.  A log file is created.
-     * The Heap is initialized.
+     * The parameters with which to initialize the Engine.  This is passed to
+     * the Engine during its initialization phase.
+     *
+     * @version 0.5
+     * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date    2012-02-13
+     * @since   0.5
+     */
+    struct Configuration
+    {
+        /// A file to which, by default, to log engine messages.
+        hummstrumm::engine::debug::Log::Ptr log;
+    };
+
+    /**
+     * Initializes the entire Humm and Strumm Engine with default parameters.
+     * A new log is created and the Heap is initialized.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-11-22
@@ -59,6 +73,23 @@ class Engine
      */
     Engine (void)
       throw (hummstrumm::engine::error::Generic);
+    /**
+     * Initializes the entire Humm and Strumm Engine with specified parameters.
+     * The Heap is initialized.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-02-13
+     * @since  0.5
+     */
+    Engine (const Configuration &params)
+      throw (hummstrumm::engine::error::Generic);
+    /**
+     * Shuts down the Humm and Strumm Engine.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-02-13
+     * @since  0.5
+     */
     virtual ~Engine (void);
 
     /**
@@ -83,7 +114,7 @@ class Engine
      *
      * @return The Log object.
      */
-    hummstrumm::engine::debug::Log *GetLog (void)
+    hummstrumm::engine::debug::Log::Ptr GetLog (void)
       throw ();
     /**
      * Returns the Platform.
@@ -143,7 +174,7 @@ class Engine
 
   private:
     /// The engine-wide log.
-    hummstrumm::engine::debug::Log *log;
+    hummstrumm::engine::debug::Log::Ptr log;
     /// Platform information.
     hummstrumm::engine::system::Platform *platform;
     /// Processor information.

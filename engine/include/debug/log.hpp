@@ -41,23 +41,21 @@ namespace debug
 /**
  * Provides a method by which messages can be saved to a file.  This
  * log stores information to the file immediately, so no information
- * is lost.  A log file is already created by the library, so you
- * cannot create one yourself.  The class is of the singleton
- * pattern.  The Log object can be retrieved using the Log::GetLog()
- * method.
+ * is lost.
  *
- * Log messages can either be saved in a human-readable text format,
- * with each message on a new line, or in a machine-readable XML based
- * format.
+ * Log messages are stored in an XML file format.  The Humm and Strumm
+ * Engine includes XSLT (XML Stylesheet Language - Transform) style
+ * sheets with which one can transform this into plain text, static
+ * HTML, or dynamic HTML.
  *
- * @version 0.3
+ * @version 0.5
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date    2010-11-09
+ * @date    2012-02-13
  * @since   0.3
  */
-class Log
+class Log : public hummstrumm::engine::core::Object
 {
-    /// Engine needs to create the log.  But no one else can.
+    HUMMSTRUMM_DECLARE_TYPE (Log)
     friend class hummstrumm::engine::core::Engine;
     
   public:
@@ -79,16 +77,30 @@ class Log
     };
 
     /**
-     * Returns the game engine Log, as per the singleton pattern.
-     * 
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-04
-     * @since  0.2
+     * Constructs a Log.  This will open a file and immediately will
+     * be ready to write a message.  A header will also be written.
      *
-     * @return The Log created by the game engine.
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-02-13
+     * @since  0.5
+     *
+     * @param [in] fileName     The name of the file to which to write the log
+     * message.
+     * @param [in] minimumLevel The minimum level of log messages.
      */
-    static Log &GetLog (void)
+    Log (hummstrumm::engine::types::String fileName =
+           hummstrumm::engine::types::String ("hummstrummengine.log"),
+         Level minimumLevel = LEVEL_MESSAGE)
       throw (hummstrumm::engine::error::Generic);
+    /**
+     * Destructs a Log.  The log footer is written, and then the log file is
+     * closed.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-02-13
+     * @since  0.5
+     */
+    virtual ~Log (void);
 
     /**
      * Returns the name of the file to which the log is written.
@@ -152,44 +164,36 @@ class Log
 
   private:
     /**
-     * Constructs a Log.  This will open a file and immediately will
-     * be ready to write a message.  A header will also be written.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-09-11
-     * @since  0.2
-     *
-     * @param [in] fileName    The name of the file to which to write the log
-     * message.
-     * @param [in] minimumLevel The minimum level of log messages.
-     */
-    Log (hummstrumm::engine::types::String fileName, Level minimumLevel)
-      throw (hummstrumm::engine::error::Generic);
-    /**
-     * Destructs a Log.  The log footer is written, and then the log file is
-     * closed.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-09-11
-     * @since  0.2
-     */
-    virtual ~Log (void);
-
-    /**
      * Writes the XML header out to the log.  This is necessary before any of
      * the events in the log are sent out.  This method is called only from the
      * constructor; you don't have to worry about calling it yourself.
      *
-     * The header consists of the <?xml ... ?> declaration, the openning tag of
-     * the <log> element, and the <header> block of the file.  The <header>
-     * block includes system information, information about the log level of the
-     * log, and information about the time at which the run was started.
+     * The header consists of the <?xml ... ?> declaration, the opening tag of
+     * the <log> element, and, if the engine has been built yet, the <header>
+     * block of the file.  The <header> block includes system information,
+     * information about the log level of the log, and information about the
+     * time at which the run was started.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-11-09
      * @since  0.3
      */
     void OutputHeader (void)
+      throw ();
+    /**
+     * Writes the <header> block to the log file.  The <header> block includes
+     * system information, information about the log level of the log, and
+     * information about the time at which the run was started.
+     *
+     * This method is called by either the constructor or the engine itself,
+     * depending on whether the engine has been initialized at the time of
+     * construction.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-02-13
+     * @since  0.5
+     */
+    void OutputSystemInfo (void)
       throw ();
     /**
      * Writes the XML footer out to the log.  This is necessary before the log
@@ -217,12 +221,44 @@ class Log
       throw ();
     
     hummstrumm::engine::types::String fileName; ///< The name of the log file.
-    bool        isXmlMode;    ///< Whether the log is in XML mode.
     FILE       *logFile;      ///< The actual file handle.
     Level       minimumLevel; ///< The minimum level of log messages.
     int         currentId;    ///< The ID of the last written message.
-    static Log *theLog;       ///< The global Log.
 };
+
+/**
+ * @def HUMMSTRUMM_LOG_USING
+ * Logs a message from the engine into a specific log.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-02-13
+ * @since  0.5
+ *
+ * @param [in] log     The log to which to write the message.
+ * @param [in] message The text to write to the log.
+ * @param [in] level   A constant describing the type of message.
+ *
+ * @see Log
+ */
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_LOG_USING(log, message, level)               \
+      MULTI_LINE_MACRO_BEGIN                                      \
+      (log).Write ((message),                                     \
+          __FILE__,                                               \
+          __LINE__,                                               \
+          __FUNCSIG__,                                            \
+          hummstrumm::engine::debug::Log::LEVEL_##level);         \
+      MULTI_LINE_MACRO_END
+#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_LOG_USING(log, message, level)               \
+    do {                                                          \
+      (log).Write ((message),                                     \
+          __FILE__,                                               \
+          __LINE__,                                               \
+          __PRETTY_FUNCTION__,                                    \
+          hummstrumm::engine::debug::Log::LEVEL_##level);         \
+    } while (false)
+#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 /**
  * @def HUMMSTRUMM_LOG
@@ -237,27 +273,12 @@ class Log
  *
  * @see Log
  */
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-  #define HUMMSTRUMM_LOG(message, level)                          \
-      MULTI_LINE_MACRO_BEGIN                                      \
-      hummstrumm::engine::core::Engine::GetEngine ()->            \
-        GetLog ()->Write ((message),                              \
-          __FILE__,                                               \
-          __LINE__,                                               \
-          __FUNCSIG__,                                            \
-          hummstrumm::engine::debug::Log::LEVEL_##level);         \
-      MULTI_LINE_MACRO_END
-#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-  #define HUMMSTRUMM_LOG(message, level)                          \
-    do {                                                          \
-      hummstrumm::engine::core::Engine::GetEngine ()->            \
-        GetLog ()->Write ((message),                              \
-          __FILE__,                                               \
-          __LINE__,                                               \
-          __PRETTY_FUNCTION__,                                    \
-          hummstrumm::engine::debug::Log::LEVEL_##level);         \
-    } while (false)
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#define HUMMSTRUMM_LOG(message, level)                                        \
+  do {                                                                        \
+    if (hummstrumm::engine::core::Engine::GetEngine ()->GetLog ().IsValid ()) \
+      HUMMSTRUMM_LOG_USING (*hummstrumm::engine::core::Engine::GetEngine ()-> \
+                            GetLog (), message, level);                       \
+  } while (false)
 
 }
 }

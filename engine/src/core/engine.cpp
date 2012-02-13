@@ -56,7 +56,7 @@ Engine::Engine (void)
       // We couldn't open the log.  Kind of evil, but we should still be able
       // to run the game.  Just warn the user of this, and continue on.  Our
       // logging functionality is smart enough to realize that the log file
-      // doesn't exist and to instead use only standard out.
+      // doesn't exist and to instead use only stdout.
       HUMMSTRUMM_LOG ("Log support has been disabled due to REASON.", WARNING);
       this->log = 0;
     }
@@ -70,12 +70,41 @@ catch (...)
   }
 
 
+Engine::Engine (const Engine::Configuration &params)
+  throw (hummstrumm::engine::error::Generic) try
+{
+  std::cout << "Humm and Strumm Game Engine initializing...\n\n";
+
+  // Set the engine pointer.
+  theEngine = this;
+
+  // Get system attributes.
+  this->platform   = new hummstrumm::engine::system::Platform;
+  this->processors = new hummstrumm::engine::system::Processors;
+  this->memory     = new hummstrumm::engine::system::Memory;
+  this->endianness = new hummstrumm::engine::system::Endianness;
+  this->clock      = new hummstrumm::engine::system::Clock;
+  
+  // Use the given log.
+  this->log = params.log;
+  // Print the XML header.
+  log->OutputSystemInfo ();
+
+  HUMMSTRUMM_LOG ("Humm and Strumm Game Engine up and running.", SUCCESS);
+  std::cout << "-------------------------------------------\n\n";
+}
+catch (...)
+  {
+    theEngine = 0;
+    throw;
+  }
+
+
 Engine::~Engine (void)
 {
   std::cout << "\n\n-------------------------------\n"
             << "Engine going down!\n\n";
   HUMMSTRUMM_LOG ("Engine going down!", MESSAGE);
-  delete this->log;
   delete this->clock;
   delete this->endianness;
   delete this->memory;
@@ -92,7 +121,7 @@ Engine::GetEngine (void)
 }
 
 
-hummstrumm::engine::debug::Log *
+hummstrumm::engine::debug::Log::Ptr
 Engine::GetLog (void)
   throw ()
 {
