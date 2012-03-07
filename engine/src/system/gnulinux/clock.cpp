@@ -20,6 +20,8 @@
 
 #include <sys/time.h>
 
+using hummstrumm::engine::types::uint64;
+
 namespace hummstrumm
 {
 namespace engine
@@ -27,29 +29,22 @@ namespace engine
 namespace system
 {
 
-hummstrumm::engine::types::uint64
-Clock::NANOSECONDS_PER_SECOND = 1000000000;
+uint64 Clock::NANOSECONDS_PER_SECOND = 1000000000;
 
 
 Clock::Clock (void)
   throw ()
   : frequency (0)
 {
-  try
+  // Get clock frequency.
+  timespec monotonicResolution;
+  if (-1 == clock_getres (CLOCK_MONOTONIC, &monotonicResolution))
     {
-      // Get clock frequency.
-      timespec monotonicResolution;
-      if (-1 == clock_getres (CLOCK_MONOTONIC, &monotonicResolution))
-        {
-          // I guess we don't have a monotonic clock.
-          clock_getres (CLOCK_REALTIME, &monotonicResolution);
-        }
-      this->frequency = monotonicResolution.tv_sec * NANOSECONDS_PER_SECOND +
-                        monotonicResolution.tv_nsec;
+      // I guess we don't have a monotonic clock.
+      clock_getres (CLOCK_REALTIME, &monotonicResolution);
     }
-  catch (int i)
-    {
-    }
+  this->frequency = monotonicResolution.tv_sec * NANOSECONDS_PER_SECOND +
+                    monotonicResolution.tv_nsec;
 }
 
 
@@ -58,7 +53,7 @@ Clock::~Clock (void)
 }
 
 
-hummstrumm::engine::types::uint64
+uint64
 Clock::GetHighResolutionCount (void)
   const throw ()
 {
@@ -75,11 +70,23 @@ Clock::GetHighResolutionCount (void)
 }
 
 
-hummstrumm::engine::types::uint64
+uint64
 Clock::GetHighResolutionFrequency (void)
   const throw ()
 {
   return this->frequency;
+}
+
+
+uint64
+Clock::GetMillisecondsSinceEpoch (void)
+  const throw ()
+{
+  // Very similar to above, but lacks the guarantee that it will never change.
+  timespec realtimeClock;
+  clock_gettime (CLOCK_REALTIME, &realtimeClock);
+  return (realtimeClock.tv_sec * NANOSECONDS_PER_SECOND +
+          realtimeClock.tv_nsec) / 1000000;
 }
 
 

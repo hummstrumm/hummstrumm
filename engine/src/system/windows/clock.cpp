@@ -20,6 +20,8 @@
 
 #include <windows.h>
 
+using hummstrumm::engine::types::uint64;
+
 namespace hummstrumm
 {
 namespace engine
@@ -27,8 +29,7 @@ namespace engine
 namespace system
 {
 
-hummstrumm::engine::types::uint64
-Clock::NANOSECONDS_PER_SECOND = 1000000000;
+uint64 Clock::NANOSECONDS_PER_SECOND = 1000000000;
 
 
 Clock::Clock (void)
@@ -48,7 +49,7 @@ Clock::Clock (void)
   else
     {
       this->frequency = NANOSECONDS_PER_SECOND /
-        static_cast <hummstrumm::engine::types::uint64> (freq.QuadPart);
+        static_cast <uint64> (freq.QuadPart);
     }
 }
 
@@ -58,7 +59,7 @@ Clock::~Clock (void)
 }
 
 
-hummstrumm::engine::types::uint64
+uint64
 Clock::GetHighResolutionCount (void)
   const throw ()
 {
@@ -67,18 +68,44 @@ Clock::GetHighResolutionCount (void)
   // Get the timer's value.
   QueryPerformanceCounter (&time);
 
-  return static_cast<hummstrumm::engine::types::uint64> (time.QuadPart) *
-    this->frequency;
+  return static_cast<uint64> (time.QuadPart) * this->frequency;
 }
 
 
-hummstrumm::engine::types::uint64
+uint64
 Clock::GetHighResolutionFrequency (void)
   const throw ()
 {
   return this->frequency;
 }
 
+
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms724284.aspx
+//
+// The Microsoft Windows epoch is 1601-01-01.  Because why not.
+//
+// This date was in the Julian calendar.  Which makes it even worse, because of
+// semantics not defined in the Windows documentation.
+//
+// Subtract this from milliseconds to get right answer.
+static const uint64 WIN_EPOCH_TO_UNIX_EPOCH = 11643609600000;
+
+
+uint64
+Clock::GetMillisecondsSinceEpoch (void)
+  const throw ()
+{
+  // Windows is silly.
+  FILETIME time;
+  ULARGE_INTEGER asLargeInteger;
+ 
+  GetSystemTimeAsFileTime (&time);
+  asLargeInteger.LowPart  = milliseconds.dwLowDateTime;
+  asLargeInteger.HighPart = milliseconds.dwHighDateTime;
+
+  return static_cast<uint64> (asLargeInteger.QuadPart) / 10000 +
+    WIN_EPOCH_TO_UNIX_EPOCH;
+}
 
 }
 }

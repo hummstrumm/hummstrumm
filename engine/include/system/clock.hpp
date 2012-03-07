@@ -99,6 +99,19 @@ class Clock
     hummstrumm::engine::types::uint64 GetHighResolutionFrequency (void)
       const throw ();
 
+    /**
+     * Returns the number of milliseconds that have passed since the UNIX epoch,
+     * 1970-01-01T00:00:00.000Z.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-02-16
+     * @since  0.5
+     *
+     * @return Time passed from the epoch, in milliseconds.
+     */
+    hummstrumm::engine::types::uint64 GetMillisecondsSinceEpoch (void)
+      const throw ();
+
     /// The number of nanoseconds in a second.
     static hummstrumm::engine::types::uint64 NANOSECONDS_PER_SECOND;
 
