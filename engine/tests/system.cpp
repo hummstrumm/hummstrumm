@@ -79,8 +79,35 @@ class EndiannessTest : public CppUnit::TestFixture
 
 };
 
+class ClockTest : public CppUnit::TestFixture
+{
+  CPPUNIT_TEST_SUITE ( ClockTest );
+  CPPUNIT_TEST ( testEpochMilliseconds );
+  CPPUNIT_TEST_SUITE_END ();
+
+  public:
+
+    void setUp () {}
+
+    void tearDown () {}
+
+    void testEpochMilliseconds ()
+    {
+      Clock c;
+      hummstrumm::engine::types::uint64 time = c.GetMillisecondsSinceEpoch ();
+
+      while (time == c.GetMillisecondsSinceEpoch ());
+      
+      CPPUNIT_ASSERT ( time < c.GetMillisecondsSinceEpoch () );
+    }
+
+  private:
+
+};
+
 
 CPPUNIT_TEST_SUITE_REGISTRATION ( EndiannessTest );
+CPPUNIT_TEST_SUITE_REGISTRATION ( ClockTest );
 
 
 int
