@@ -214,6 +214,16 @@ class Number;
 }
 
 /**
+ * The namespace for date and time related classes.  The main requirement for
+ * these classes are that they be programmer-friendly, not that they be
+ * comprehensive.
+ */
+namespace date
+{
+class Timezone;
+}
+
+/**
  * The namespace for throwable exceptions.  These classes work together with
  * those of the debug namespace to help produce robust code,
  */
@@ -301,6 +311,7 @@ class WindowSystem;
 #include "system/processors.hpp"
 #include "system/memory.hpp"
 #include "system/clock.hpp"
+#include "date/timezone.hpp"
 #include "types/number.hpp"
 #include "debug/log.hpp"
 #include "debug/loggable.hpp"
