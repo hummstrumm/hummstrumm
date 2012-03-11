@@ -112,6 +112,20 @@ class Clock
     hummstrumm::engine::types::uint64 GetMillisecondsSinceEpoch (void)
       const throw ();
 
+    /**
+     * Returns the difference between UTC and the local timezone in minutes.  In
+     * order to calculate the local time from UTC, one must add this bias to
+     * UTC.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-03-11
+     * @since  0.5
+     *
+     * @return The bias between UTC and the local timezone.
+     */
+    int GetTimezoneBias (void)
+      const throw ();
+
     /// The number of nanoseconds in a second.
     static hummstrumm::engine::types::uint64 NANOSECONDS_PER_SECOND;
 

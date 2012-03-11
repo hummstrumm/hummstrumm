@@ -63,7 +63,7 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
         src/system/gnulinux/processors.cpp
         src/system/gnulinux/memory.cpp
         src/system/gnulinux/platform.cpp
-        src/system/gnulinux/clock.cpp
+        src/system/posix/clock.cpp
         src/date/posix/timezone.cpp)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
@@ -73,7 +73,7 @@ if (HUMMSTRUMM_PLATFORM_BSD)
         src/system/bsd/processors.cpp
         src/system/bsd/memory.cpp
         src/system/bsd/platform.cpp
-        src/system/bsd/clock.cpp
+        src/system/posix/clock.cpp
         src/date/posix/timezone.cpp)
 endif (HUMMSTRUMM_PLATFORM_BSD)
 

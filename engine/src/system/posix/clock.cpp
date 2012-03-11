@@ -19,6 +19,7 @@
 #include "hummstrummengine.hpp"
 
 #include <sys/time.h>
+#include <time.h>
 
 using hummstrumm::engine::types::uint64;
 
@@ -36,6 +37,9 @@ Clock::Clock (void)
   throw ()
   : frequency (0)
 {
+  // Set timezone information.
+  tzset ();
+
   // Get clock frequency.
   timespec monotonicResolution;
   if (-1 == clock_getres (CLOCK_MONOTONIC, &monotonicResolution))
@@ -87,6 +91,14 @@ Clock::GetMillisecondsSinceEpoch (void)
   clock_gettime (CLOCK_REALTIME, &realtimeClock);
   return (realtimeClock.tv_sec * NANOSECONDS_PER_SECOND +
           realtimeClock.tv_nsec) / 1000000;
+}
+
+
+int
+Clock::GetTimezoneBias (void)
+  const throw ()
+{
+  return timezone / 60;
 }
 
 

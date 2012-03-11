@@ -107,6 +107,19 @@ Clock::GetMillisecondsSinceEpoch (void)
     WIN_EPOCH_TO_UNIX_EPOCH;
 }
 
+
+int
+Clock::GetTimezoneBias (void)
+  const throw ()
+{
+  TIME_ZONE_INFORMATION tz;
+  DWORD dwRange = GetTimeZoneInfo (&tz);
+
+  return tz.Bias + (dwRange == TIME_ZONE_ID_STANDARD) ? tz.StandardBias : 0 +
+                   (dwRange == TIME_ZONE_ID_DAYLIGHT) ? tz.DaylightBias : 0;
+}
+
+
 }
 }
 }
