@@ -37,6 +37,7 @@ set (hummstrummengine_SRCS
   src/core/allocationtable.cpp
   src/core/engine.cpp
   src/types/number.cpp
+  src/date/timezone.cpp
   src/system/endianness.cpp
   src/events/windowevents.cpp
   src/window/windowvisualinfo.cpp)
@@ -52,7 +53,8 @@ if (HUMMSTRUMM_PLATFORM_WINDOWS)
         src/system/windows/processors.cpp
         src/system/windows/memory.cpp
         src/system/windows/platform.cpp
-        src/system/windows/clock.cpp)
+        src/system/windows/clock.cpp
+        src/date/windows/timezone.cpp)
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
 # GNU/Linux-only Source Files
@@ -61,7 +63,8 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
         src/system/gnulinux/processors.cpp
         src/system/gnulinux/memory.cpp
         src/system/gnulinux/platform.cpp
-        src/system/gnulinux/clock.cpp)
+        src/system/gnulinux/clock.cpp
+        src/date/posix/timezone.cpp)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 # *BSD-only Source Files
@@ -70,7 +73,8 @@ if (HUMMSTRUMM_PLATFORM_BSD)
         src/system/bsd/processors.cpp
         src/system/bsd/memory.cpp
         src/system/bsd/platform.cpp
-        src/system/bsd/clock.cpp)
+        src/system/bsd/clock.cpp
+        src/date/posix/timezone.cpp)
 endif (HUMMSTRUMM_PLATFORM_BSD)
 
 if (HUMMSTRUMM_WINDOWSYSTEM_X11)
