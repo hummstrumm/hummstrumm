@@ -56,6 +56,10 @@ add_executable(test_engine_log log.cpp)
 target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
 add_test (NAME test_engine_log COMMAND test_engine_log)
 
+add_executable(test_engine_date date.cpp)
+target_link_libraries(test_engine_date ${hummstrummengine_LIBS})
+add_test(NAME test_engine_date COMMAND test_engine_date)
+
 add_executable(test_engine_math math.cpp)
 target_link_libraries(test_engine_math ${hummstrummengine_LIBS})
 add_test (NAME test_engine_math COMMAND test_engine_math)
