@@ -78,6 +78,25 @@ class Timezone : public hummstrumm::engine::core::Object
      * @param [in] offset The offset from UTC.
      */
     explicit Timezone (const DateDuration &offset);
+    /**
+     * Constructs a new Timezone object initialized to the value in another
+     * Timezone object.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-03-11
+     * @since  0.5
+     *
+     * @param [in] timezone The offset from UTC.
+     */
+    Timezone (const Timezone &timezone);
+    /**
+     * Destructs an existing Timezone object.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-03-11
+     * @since  0.5
+     */
+    virtual ~Timezone (void);
 
     /**
      * Assigns a value to this Timezone.
