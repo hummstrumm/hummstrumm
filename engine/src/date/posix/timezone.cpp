@@ -18,6 +18,8 @@
 
 #include "hummstrummengine.hpp"
 
+#include <time.h>
+
 namespace hummstrumm
 {
 namespace engine
@@ -27,8 +29,8 @@ namespace date
 
 
 Timezone::Timezone (void)
-  : offset (0)
-{ /* stub */ }
+  : offset (timezone / 60)
+{ }
 
 
 }
