@@ -29,6 +29,13 @@ namespace date
 HUMMSTRUMM_IMPLEMENT_TYPE(hummstrumm::engine::date::Timezone,
                           hummstrumm::engine::core::Object)
 
+Timezone::Timezone (void)
+: offset ((hummstrumm::engine::core::Engine::GetEngine ()) ?
+            hummstrumm::engine::core::Engine::GetEngine ()->
+              GetClock ()->GetTimezoneBias () :
+            0)
+{}
+
 
 Timezone::Timezone (const DateDuration &duration)
   : offset (duration)
