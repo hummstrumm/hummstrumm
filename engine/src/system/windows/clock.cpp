@@ -100,8 +100,8 @@ Clock::GetMillisecondsSinceEpoch (void)
   ULARGE_INTEGER asLargeInteger;
  
   GetSystemTimeAsFileTime (&time);
-  asLargeInteger.LowPart  = milliseconds.dwLowDateTime;
-  asLargeInteger.HighPart = milliseconds.dwHighDateTime;
+  asLargeInteger.LowPart  = time.dwLowDateTime;
+  asLargeInteger.HighPart = time.dwHighDateTime;
 
   return static_cast<uint64> (asLargeInteger.QuadPart) / 10000 +
     WIN_EPOCH_TO_UNIX_EPOCH;
@@ -113,7 +113,7 @@ Clock::GetTimezoneBias (void)
   const throw ()
 {
   TIME_ZONE_INFORMATION tz;
-  DWORD dwRange = GetTimeZoneInfo (&tz);
+  DWORD dwRange = GetTimeZoneInformation (&tz);
 
   return tz.Bias + (dwRange == TIME_ZONE_ID_STANDARD) ? tz.StandardBias : 0 +
                    (dwRange == TIME_ZONE_ID_DAYLIGHT) ? tz.DaylightBias : 0;

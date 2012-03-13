@@ -56,6 +56,7 @@ Timezone::operator= (const Timezone &timezone)
   throw ()
 {
   offset = timezone.offset;
+  return *this;
 }
 
 
