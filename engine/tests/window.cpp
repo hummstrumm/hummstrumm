@@ -368,14 +368,16 @@ main()
               logMessage << ", h ";
               logMessage << wsv->GetHeight();
               logMessage << " )";
-              HUMMSTRUMM_LOG(logMessage.str().c_str(), MESSAGE);
+              HUMMSTRUMM_LOG(logMessage.str().c_str(), 
+                 hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
               resizeGL(wsv->GetWidth(), wsv->GetHeight());
               break;
 
           case WindowEvents::WINDOW_CLOSE:
               logMessage.str("");
               logMessage << "Window Event : CLOSE";
-              HUMMSTRUMM_LOG(logMessage.str().c_str(), MESSAGE);
+              HUMMSTRUMM_LOG(logMessage.str().c_str(),
+                             hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
               break;
 
           case WindowEvents::KEY_PRESS:

@@ -57,11 +57,13 @@ Engine::Engine (void)
       // to run the game.  Just warn the user of this, and continue on.  Our
       // logging functionality is smart enough to realize that the log file
       // doesn't exist and to instead use only stdout.
-      HUMMSTRUMM_LOG ("Log support has been disabled due to REASON.", WARNING);
+      HUMMSTRUMM_LOG ("Log support has been disabled due to REASON.",
+                      hummstrumm::engine::debug::Log::LEVEL_WARNING);
       this->log = 0;
     }
 
-  HUMMSTRUMM_LOG ("Humm and Strumm Game Engine up and running.", SUCCESS);
+  HUMMSTRUMM_LOG ("Humm and Strumm Game Engine up and running.",
+                   hummstrumm::engine::debug::Log::LEVEL_SUCCESS);
   std::cout << "-------------------------------------------\n\n";
 }
 catch (...)
@@ -90,7 +92,8 @@ Engine::Engine (const Engine::Configuration &params)
   // Print the XML header.
   log->OutputSystemInfo ();
 
-  HUMMSTRUMM_LOG ("Humm and Strumm Game Engine up and running.", SUCCESS);
+  HUMMSTRUMM_LOG ("Humm and Strumm Game Engine up and running.",
+                  hummstrumm::engine::debug::Log::LEVEL_SUCCESS);
   std::cout << "-------------------------------------------\n\n";
 }
 catch (...)
@@ -104,7 +107,8 @@ Engine::~Engine (void)
 {
   std::cout << "\n\n-------------------------------\n"
             << "Engine going down!\n\n";
-  HUMMSTRUMM_LOG ("Engine going down!", MESSAGE);
+  HUMMSTRUMM_LOG ("Engine going down!",
+                  hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
   delete this->clock;
   delete this->endianness;
   delete this->memory;

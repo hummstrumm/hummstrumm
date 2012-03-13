@@ -53,7 +53,7 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::O
   message += "'' started.";
 
   // Log it.
-  HUMMSTRUMM_LOG (message, MESSAGE);
+  HUMMSTRUMM_LOG (message, Log::LEVEL_MESSAGE);
 }
 
 void
@@ -137,7 +137,7 @@ Profiler::~Profiler (void)
   if (this->writeTo == LOGGER_AND_CONSOLE)
     {
       // Write it out.
-      HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);      
+      HUMMSTRUMM_LOG (message.str ().c_str (), Log::LEVEL_MESSAGE);      
       std::cout << message.str() << std::endl;
     }
   else if (this->writeTo == CONSOLE)
@@ -146,7 +146,7 @@ Profiler::~Profiler (void)
     }
   else if (this->writeTo == LOGGER)
     {
-      HUMMSTRUMM_LOG (message.str ().c_str (), MESSAGE);
+      HUMMSTRUMM_LOG (message.str ().c_str (), Log::LEVEL_MESSAGE);
     }
   else
     {

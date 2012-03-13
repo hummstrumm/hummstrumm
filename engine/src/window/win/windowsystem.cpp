@@ -62,14 +62,16 @@ WindowSystem::DestroyWindow()
     {
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
-      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
+      HUMMSTRUMM_LOG(errMsg.c_str(),
+                     hummstrumm::engine::debug::Log::LEVEL_WARNING);
     }
     BOOL ctxDeleted = wglDeleteContext(renderingContext);
     if (!ctxDeleted)
     {
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglDeleteContext: ",error);
-      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
+      HUMMSTRUMM_LOG(errMsg.c_str(),
+                     hummstrumm::engine::debug::Log::LEVEL_WARNING);
     }  
     renderingContext = NULL; 
   }
@@ -80,7 +82,8 @@ WindowSystem::DestroyWindow()
       deviceContext = NULL;
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("ReleaseDC: ",error);
-      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
+      HUMMSTRUMM_LOG(errMsg.c_str(),
+                     hummstrumm::engine::debug::Log::LEVEL_WARNING);
   } 
 
   BOOL windowDestroyed = ::DestroyWindow(windowHandle);
@@ -89,7 +92,8 @@ WindowSystem::DestroyWindow()
       windowHandle = NULL;
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("DestroyWindow: ",error);
-      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
+      HUMMSTRUMM_LOG(errMsg.c_str(),
+                     hummstrumm::engine::debug::Log::LEVEL_WARNING);
   }
 
   BOOL classUnregistered = UnregisterClass("HummstrummWindow",moduleHandle);
@@ -98,7 +102,8 @@ WindowSystem::DestroyWindow()
       moduleHandle = NULL; 
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("UnregisteredClass: ",error);
-      HUMMSTRUMM_LOG(errMsg.c_str(), WARNING);
+      HUMMSTRUMM_LOG(errMsg.c_str(),
+                     hummstrumm::engine::debug::Log::LEVEL_WARNING);
   }
 
 }
@@ -397,7 +402,8 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     if (ret != DISP_CHANGE_SUCCESSFUL)
     {
       hummstrumm::engine::types::String errMsg = "Window doesn't support fullscreen.";
-      HUMMSTRUMM_LOG (errMsg.c_str(), WARNING);
+      HUMMSTRUMM_LOG (errMsg.c_str(),
+                     hummstrumm::engine::debug::Log::LEVEL_WARNING);
       param.useFullscreen = false;
       return;
     }
@@ -509,7 +515,8 @@ WindowSystem::InitializeWGLExtensions()
     message.str("");
     message << "Supported WGL ARB Extensions : ";
     message << extensionsARB;
-    HUMMSTRUMM_LOG(message.str().c_str(), MESSAGE);
+    HUMMSTRUMM_LOG(message.str().c_str(),
+                   hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
   }
 
   wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)
@@ -521,7 +528,8 @@ WindowSystem::InitializeWGLExtensions()
     message.str("");
     message << "Supported WGL EXT Extensions : ";
     message << extensionsEXT;
-    HUMMSTRUMM_LOG(message.str().c_str(), MESSAGE);
+    HUMMSTRUMM_LOG(message.str().c_str(),
+                   hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
   }
 
   wglMakeCurrent (NULL,NULL);

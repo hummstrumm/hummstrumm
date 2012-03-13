@@ -31,12 +31,12 @@ main ()
   core::Engine engine (params);
 
   debug::Log log ("another-log.log", debug::Log::LEVEL_ERROR);
-  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", MESSAGE);
-  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", ERROR);
+  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", debug::Log::LEVEL_MESSAGE);
+  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", debug::Log::LEVEL_ERROR);
   
-  HUMMSTRUMM_LOG ("Testing...", MESSAGE);
-  HUMMSTRUMM_LOG ("Testing...", ERROR);
-  HUMMSTRUMM_LOG ("Testing...", WARNING);
+  HUMMSTRUMM_LOG ("Testing...", debug::Log::LEVEL_MESSAGE);
+  HUMMSTRUMM_LOG ("Testing...", debug::Log::LEVEL_ERROR);
+  HUMMSTRUMM_LOG ("Testing...", debug::Log::LEVEL_WARNING);
 
   return 0;
 }

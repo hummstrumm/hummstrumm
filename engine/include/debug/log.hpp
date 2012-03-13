@@ -247,7 +247,7 @@ class Log : public hummstrumm::engine::core::Object
           __FILE__,                                               \
           __LINE__,                                               \
           __FUNCSIG__,                                            \
-          hummstrumm::engine::debug::Log::LEVEL_##level);         \
+          level);                                                 \
       MULTI_LINE_MACRO_END
 #else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_LOG_USING(log, message, level)               \
@@ -256,7 +256,7 @@ class Log : public hummstrumm::engine::core::Object
           __FILE__,                                               \
           __LINE__,                                               \
           __PRETTY_FUNCTION__,                                    \
-          hummstrumm::engine::debug::Log::LEVEL_##level);         \
+          level);                                                 \
     } while (false)
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 

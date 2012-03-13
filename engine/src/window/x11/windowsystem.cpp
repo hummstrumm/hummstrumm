@@ -70,7 +70,8 @@ WindowSystem::WindowSystem()
   message << major;
   message << ".";
   message << minor;
-  HUMMSTRUMM_LOG(message.str().c_str(),MESSAGE);
+  HUMMSTRUMM_LOG(message.str().c_str(),
+                 hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
 
   swapIntervalAddr = NULL;
   createContextAttribsAddr = NULL;
@@ -155,7 +156,8 @@ WindowSystem::DestroyWindow()
     message << "Display is " << dpy;
     message << " and is ";
     message << "Window " << window;
-    HUMMSTRUMM_LOG(message.str().c_str(),WARNING);
+    HUMMSTRUMM_LOG(message.str().c_str(),
+                 hummstrumm::engine::debug::Log::LEVEL_WARNING);
   }
 }
 
@@ -261,7 +263,8 @@ WindowSystem::InitializeGLXExtensions()
   message.str("");
   message << "Available GLX extensions: ";
   message << extensions; 
-  HUMMSTRUMM_LOG(message.str().c_str(),MESSAGE); 
+  HUMMSTRUMM_LOG(message.str().c_str(),
+                 hummstrumm::engine::debug::Log::LEVEL_MESSAGE); 
 
   if (IsGLXExtensionSupported("GLX_SGI_swap_control",(const GLubyte *) extensions))
   {
@@ -500,9 +503,11 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
     glXMakeCurrent(dpy,window,windowContext);
 
   if (glXIsDirect(dpy,windowContext))
-    HUMMSTRUMM_LOG("DRI enabled",MESSAGE);
+    HUMMSTRUMM_LOG("DRI enabled",
+                   hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
   else
-    HUMMSTRUMM_LOG("DRI not enabled",MESSAGE);
+    HUMMSTRUMM_LOG("DRI not enabled",
+                   hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
 
   if ( swapIntervalAddr != NULL)
     swapIntervalAddr (windowParameters.useVerticalSync);
@@ -611,7 +616,8 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     }
 
     // Set fullscreen (fallback)
-    HUMMSTRUMM_LOG("The Window Manager doesn't support NETWM. Using fullscreen fallback mode",WARNING);
+    HUMMSTRUMM_LOG("The Window Manager doesn't support NETWM. Using fullscreen fallback mode",
+                   hummstrumm::engine::debug::Log::LEVEL_WARNING);
     XGetWindowAttributes(dpy, root, &xwa);
     XMoveResizeWindow(dpy,window,0,0,xwa.width, xwa.height);
   }
