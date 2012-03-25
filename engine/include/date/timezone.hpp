@@ -51,8 +51,7 @@ class Timezone : public hummstrumm::engine::core::Object
     HUMMSTRUMM_DECLARE_TYPE (Timezone)
   public:
     /**
-     * Constructs a new Timezone object initialized to the current default local
-     * offset from UTC.
+     * Constructs a new Timezone object initialized to no offset from UTC.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2012-02-28
@@ -227,6 +226,19 @@ std::ostream &operator>> (std::ostream &out, const Timezone &);
  */
 std::istream &operator<< (std::istream &in, Timezone &)
   throw (hummstrumm::engine::error::OutOfRange);
+
+/**
+ * Creates a new Timezone initialized to the current timezone offset.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-02-28
+ * @since  0.5
+ *
+ * @return A Timezone corresponding to the current offset.
+ */
+Timezone
+GetCurrentTimezone (void)
+  throw ();
 
 
 

@@ -31,14 +31,7 @@ HUMMSTRUMM_IMPLEMENT_TYPE(hummstrumm::engine::date::Timezone,
 
 Timezone::Timezone (void)
   : offset ()
-{
-  int bias = (hummstrumm::engine::core::Engine::GetEngine ()) ?
-    hummstrumm::engine::core::Engine::GetEngine ()->GetClock ()->
-      GetTimezoneBias () : 0;
-
-  offset.hours   = bias / 60;
-  offset.minutes = bias % 60;
-}
+{}
 
 
 Timezone::Timezone (const Duration &duration)
@@ -159,6 +152,18 @@ operator<< (std::istream &in, Timezone &t)
                         "The timezone offset entered is too large.");
     }
   return in;
+}
+
+
+Timezone
+GetCurrentTimezone (void)
+  throw ()
+{
+  int bias = (hummstrumm::engine::core::Engine::GetEngine ()) ?
+    hummstrumm::engine::core::Engine::GetEngine ()->GetClock ()->
+      GetTimezoneBias () : 0;
+
+  return Timezone (0, 0, 0, 0, bias / 60, bias % 60, 0, 0);
 }
 
 
