@@ -192,7 +192,7 @@ inline Duration &operator+= (Duration &, const Duration &) throw ();
  * @date   2012-03-23
  * @since  0.5
  * 
- * @return The sum.
+ * @return The difference.
  */
 inline Duration &operator-= (Duration &, const Duration &) throw ();
 
