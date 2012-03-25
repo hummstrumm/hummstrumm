@@ -109,6 +109,43 @@ typedef uint64_t uint64;
 
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
+/**
+ * A cross-platform type that represents the signed native type of the system
+ * (since, unfortunately, @c int doesn't do that on all systems).
+ *
+ * @typedef intNatural
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date 2012-03-25
+ * @since 0.5
+ */
+/**
+ * A cross-platform type that represents the unsigned native type of the system
+ * (since, unfortunately, @c int doesn't do that on all systems).
+ *
+ * @typedef uintNatural
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date 2012-03-25
+ * @since 0.5
+ */
+
+#if defined (HUMMSTRUMM_ARCHITECTURE_64)
+
+typedef int64  intNatural;
+typedef uint64 uintNatural;
+
+#elif defined (HUMMSTRUMM_ARCHITECTURE_32)
+
+typedef int32  intNatural;
+typedef uint32 uintNatural;
+
+#else // Just guess
+
+typedef signed   intNatural;
+typedef unsigned uintNatural;
+
+#endif // #if defined (HUMMSTRUMM_ARCHITECTURE_64)
+
+
 
 }
 }
