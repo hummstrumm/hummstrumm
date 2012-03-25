@@ -104,7 +104,9 @@ Reduce (Duration d)
   // There are 60 min per hr.
   d.hours += d.minutes / 60;
   d.minutes %= 60;
-  // Note: We can't reduce times to days because of daylight savings time.
+  // There are 24 hr per day.
+  d.days += d.hours / 24;
+  d.hours %= 24;
   // There are 7 days per week.
   d.weeks += d.days / 7;
   d.days %= 7;
