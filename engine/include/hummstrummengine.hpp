@@ -221,6 +221,7 @@ class Number;
 namespace date
 {
 class Timezone;
+class Duration;
 }
 
 /**
@@ -311,6 +312,7 @@ class WindowSystem;
 #include "system/processors.hpp"
 #include "system/memory.hpp"
 #include "system/clock.hpp"
+#include "date/duration.hpp"
 #include "date/timezone.hpp"
 #include "types/number.hpp"
 #include "debug/log.hpp"
@@ -334,6 +336,7 @@ class WindowSystem;
 // Template and Inline implementations now...
 #include "core/pointer.inl"
 #include "system/endianness.inl"
+#include "date/duration.inl"
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  pragma warning(pop)

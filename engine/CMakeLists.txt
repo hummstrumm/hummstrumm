@@ -38,6 +38,7 @@ set (hummstrummengine_SRCS
   src/core/engine.cpp
   src/types/number.cpp
   src/date/timezone.cpp
+  src/date/duration.cpp
   src/system/endianness.cpp
   src/events/windowevents.cpp
   src/window/windowvisualinfo.cpp)
