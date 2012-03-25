@@ -76,10 +76,6 @@ add_executable(test_engine_systemprint systemprint.cpp)
 target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
 add_test (NAME test_engine_systemprint COMMAND test_engine_systemprint)
 
-add_executable(test_engine_types types.cpp)
-target_link_libraries(test_engine_types ${hummstrummengine_LIBS})
-add_test (NAME test_engine_types COMMAND test_engine_types)
-
 add_executable(test_engine_geometry geometry.cpp)
 target_link_libraries(test_engine_geometry ${hummstrummengine_LIBS})
 add_test (NAME test_engine_geometry COMMAND test_engine_geometry)

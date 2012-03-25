@@ -36,7 +36,6 @@ set (hummstrummengine_SRCS
   src/core/object.cpp
   src/core/allocationtable.cpp
   src/core/engine.cpp
-  src/types/number.cpp
   src/date/timezone.cpp
   src/date/duration.cpp
   src/system/endianness.cpp
