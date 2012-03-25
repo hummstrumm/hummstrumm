@@ -163,7 +163,7 @@ GetCurrentTimezone (void)
     hummstrumm::engine::core::Engine::GetEngine ()->GetClock ()->
       GetTimezoneBias () : 0;
 
-  return Timezone (0, 0, 0, 0, bias / 60, bias % 60, 0, 0);
+  return Timezone (Duration (0, 0, 0, 0, bias / 60, bias % 60, 0, 0));
 }
 
 
