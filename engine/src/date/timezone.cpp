@@ -30,16 +30,33 @@ HUMMSTRUMM_IMPLEMENT_TYPE(hummstrumm::engine::date::Timezone,
                           hummstrumm::engine::core::Object)
 
 Timezone::Timezone (void)
-: offset ((hummstrumm::engine::core::Engine::GetEngine ()) ?
-            hummstrumm::engine::core::Engine::GetEngine ()->
-              GetClock ()->GetTimezoneBias () :
-            0)
-{}
+  : offset ()
+{
+  int bias = (hummstrumm::engine::core::Engine::GetEngine ()) ?
+    hummstrumm::engine::core::Engine::GetEngine ()->GetClock ()->
+      GetTimezoneBias () : 0;
+
+  offset.hours   = bias / 60;
+  offset.minutes = bias % 60;
+}
 
 
-Timezone::Timezone (const DateDuration &duration)
-  : offset (duration)
-{}
+Timezone::Timezone (const Duration &duration)
+  throw (hummstrumm::engine::error::OutOfRange)
+  : offset (Reduce (duration))
+{
+  if (offset.years != 0 || offset.months != 0 || offset.weeks != 0 ||
+      offset.days != 0  ||
+      offset.hours*60 + offset.minutes > 12*60 ||
+      offset.hours*60 + offset.minutes < -12*60)
+    {
+      HUMMSTRUMM_THROW (OutOfRange,
+                        "The timezone offset is too large.");
+    }
+
+  offset.seconds = 0;
+  offset.milliseconds = 0;
+}
 
 
 Timezone::Timezone (const Timezone &timezone)
@@ -60,7 +77,7 @@ Timezone::operator= (const Timezone &timezone)
 }
 
 
-DateDuration
+Duration
 Timezone::GetOffset (void)
   const throw ()
 {
@@ -88,7 +105,8 @@ bool
 operator< (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset < b.offset;
+  return a.offset.hours*60 + a.offset.minutes <
+         b.offset.hours*60 + b.offset.minutes;
 }
 
 
@@ -96,7 +114,8 @@ bool
 operator<= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset <= b.offset;
+  return a.offset.hours*60 + a.offset.minutes <=
+         b.offset.hours*60 + b.offset.minutes;
 }
 
 
@@ -104,7 +123,8 @@ bool
 operator> (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset > b.offset;
+  return a.offset.hours*60 + a.offset.minutes >
+         b.offset.hours*60 + b.offset.minutes;
 }
 
 
@@ -112,7 +132,33 @@ bool
 operator>= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset >= b.offset;
+  return a.offset.hours*60 + a.offset.minutes >=
+         b.offset.hours*60 + b.offset.minutes;
+}
+
+
+std::ostream &
+operator>> (std::ostream &out, const Timezone &t)
+{
+  out << t.offset.hours << ":" << t.offset.minutes << " from UTC";
+  return out;
+}
+
+
+std::istream &
+operator<< (std::istream &in, Timezone &t)
+  throw (hummstrumm::engine::error::OutOfRange)
+{
+  in >> t.offset.hours;
+  in >> t.offset.minutes;
+
+  if (t.offset.hours*60 + t.offset.minutes > 12*60 ||
+      t.offset.hours*60 + t.offset.minutes < 12*60)
+    {
+      HUMMSTRUMM_THROW (OutOfRange,
+                        "The timezone offset entered is too large.");
+    }
+  return in;
 }
 
 

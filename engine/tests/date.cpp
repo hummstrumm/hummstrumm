@@ -44,18 +44,22 @@ class TimezoneTest : public CppUnit::TestFixture
   public:
     void setUp (void)
     {
-      utc        = new Timezone (0);
-      utcMinus10 = new Timezone (-10*60);
-      utcPlus4   = new Timezone (4*60);
-      utcPlus1   = new Timezone (1*60);
+      utc        = new Timezone (Duration ());
+      utcMinus10 = new Timezone (Duration (0, 0, 0, 0, -10, 0, 0, 0));
+      utcPlus4   = new Timezone (Duration (0, 0, 0, 0, 4, 0, 0, 0));
+      utcPlus1   = new Timezone (Duration (0, 0, 0, 0, 1, 0, 0, 0));
     }
 
     void testStorage (void)
     {
-      CPPUNIT_ASSERT_EQUAL (utc->GetOffset (),        0);
-      CPPUNIT_ASSERT_EQUAL (utcMinus10->GetOffset (), -10*60);
-      CPPUNIT_ASSERT_EQUAL (utcPlus4->GetOffset (),   4*60);
-      CPPUNIT_ASSERT_EQUAL (utcPlus1->GetOffset (),   1*60);
+      CPPUNIT_ASSERT_EQUAL (utc->GetOffset (),
+                            Duration ());
+      CPPUNIT_ASSERT_EQUAL (utcMinus10->GetOffset (),
+                            Duration (0, 0, 0, 0, -10, 0, 0, 0));
+      CPPUNIT_ASSERT_EQUAL (utcPlus4->GetOffset (),
+                            Duration (0, 0, 0, 0, 4, 0, 0, 0));
+      CPPUNIT_ASSERT_EQUAL (utcPlus1->GetOffset (),
+                            Duration (0, 0, 0, 0, 1, 0, 0, 0));
     }
 
     void testCompare (void)

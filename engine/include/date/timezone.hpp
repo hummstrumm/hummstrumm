@@ -36,14 +36,6 @@ namespace engine
 namespace date
 {
 
-/**
- * For now, we'll just implement the Timezone in terms of ints, which represent
- * minutes.  That's all we need at the moment.
- *
- * @deprecated
- */
-typedef int DateDuration;
-
 
 /**
  * Holds a timezone offset from UTC.  For simplicity, Timezone objects are
@@ -69,15 +61,21 @@ class Timezone : public hummstrumm::engine::core::Object
     Timezone (void);
     /**
      * Constructs a new Timezone object initialized to a specific offset from
-     * UTC.
+     * UTC.  The Duration object is reduced with Reduce(Duration) and then only
+     * the minute and hour fields are used.  If the Duration offset is more than
+     * 12 hours (either before or after UTC), an InvalidParameter exception will
+     * be thrown.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2012-02-28
      * @since  0.5
      *
      * @param [in] offset The offset from UTC.
+     *
+     * @throw OutOfRange If the timezone offset is impossible.
      */
-    explicit Timezone (const DateDuration &offset);
+    explicit Timezone (const Duration &offset)
+      throw (hummstrumm::engine::error::OutOfRange);
     /**
      * Constructs a new Timezone object initialized to the value in another
      * Timezone object.
@@ -117,10 +115,9 @@ class Timezone : public hummstrumm::engine::core::Object
      * @date   2012-02-28
      * @since  0.5
      *
-     * @return A DateDuration representing the current timezone's offet from
-     * UTC.
+     * @return A Duration representing the current timezone's offset from UTC.
      */
-    DateDuration GetOffset (void)
+    Duration GetOffset (void)
       const throw ();
 
     friend bool operator== (const Timezone &, const Timezone &) throw ();
@@ -129,9 +126,13 @@ class Timezone : public hummstrumm::engine::core::Object
     friend bool operator<= (const Timezone &, const Timezone &) throw ();
     friend bool operator>  (const Timezone &, const Timezone &) throw ();
     friend bool operator>= (const Timezone &, const Timezone &) throw ();
+
+    friend std::ostream &operator>> (std::ostream &out, const Timezone &);
+    friend std::istream &operator<< (std::istream &in, Timezone &)
+      throw (hummstrumm::engine::error::OutOfRange);
     
   private:
-    DateDuration offset;
+    Duration offset;
 };
 
 
@@ -197,6 +198,37 @@ bool operator> (const Timezone &, const Timezone &) throw ();
  * @return Whether the the second Timezone is less than the Timezone
  */
 bool operator>= (const Timezone &, const Timezone &) throw ();
+
+/**
+ * Prints the Timezone to an output stream.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-03-24
+ * @since  0.5
+ *
+ * @param [in] out The stream to write to.
+ *
+ * @return The output stream.
+ */
+std::ostream &operator>> (std::ostream &out, const Timezone &);
+/**
+ * Sets a Timezone from an input stream.  This stream must be two integers, a
+ * valid hour amount and a minute amount.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-03-24
+ * @since  0.5
+ *
+ * @param [in] in The stream to read from.
+ *
+ * @return The input stream.
+ *
+ * @throw OutOfRange If the stream gives a timezone offset that is impossible.
+ */
+std::istream &operator<< (std::istream &in, Timezone &)
+  throw (hummstrumm::engine::error::OutOfRange);
+
+
 
 
 }
