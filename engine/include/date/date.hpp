@@ -79,7 +79,7 @@ class Date : public hummstrumm::engine::core::Object
      * @param [in] ms The number of milliseconds since the UNIX epoch that this
      *                Date object should hold.
      */
-    Date (hummstrumm::engine::types::intNatural ms);
+    explicit Date (hummstrumm::engine::types::uintNatural ms);
     /**
      * Constructs a new Date object initialized to a specific date/time
      * combination.
@@ -96,6 +96,9 @@ class Date : public hummstrumm::engine::core::Object
      * @param [in] second      The specific second (\f$ 0\leq x<60\f$).
      * @param [in] millisecond The specific millisecond (\f$ 0\leq x<1000\f$).
      *
+     * @throw OutOfRange When the given values are not in a range that makes
+     *                   sense for dates, or are too large for the system.
+     *
      * @warning The exact maximum date that can be held by this class is
      * dependent on the natural size of a @c time_t on the system on which the
      * engine was compiled.  On 32-bit systems, this is likely \f$ 2^{32}\f$
@@ -108,7 +111,7 @@ class Date : public hummstrumm::engine::core::Object
           unsigned hour,
           unsigned minute,
           unsigned second,
-          unsigned millisecond);
+          unsigned millisecond) throw (hummstrumm::engine::error::OutOfRange);
     /**
      * Destructs an existing Date object.
      *
@@ -131,7 +134,7 @@ class Date : public hummstrumm::engine::core::Object
      * @note Because the engine currently stores times in this way, this is a
      * fast method.  Do not depend on this being the case in the future.
      */
-    inline hummstrumm::engine::types::intNatural
+    inline hummstrumm::engine::types::uintNatural
     GetMillisecondsSinceEpoch (void)
       const throw ();
 
@@ -244,7 +247,7 @@ class Date : public hummstrumm::engine::core::Object
   
   private:
     /** The number of elapsed milliseconds since the UNIX epoch. */
-    hummstrumm::engine::types::intNatural millisecondsSinceEpoch;
+    hummstrumm::engine::types::uintNatural millisecondsSinceEpoch;
 };
 
 
@@ -320,12 +323,17 @@ inline bool operator<= (const Date &, const Date &) throw ();
  * @since  0.5
  * 
  * @return The new Date after the given Duration
+ *
+ * @throw OutOfRange If the resulting Date is too large or before the UNIX
+ *                   epoch.
  */
-Date operator+ (const Date &, const Duration &) throw ();
+Date operator+ (const Date &, Duration)
+  throw (hummstrumm::engine::error::OutOfRange);
 /**
  * @copydoc operator+ (const Date &, const Duration &)
  */
-Date operator+ (const Duration &, const Date &) throw ();
+Date operator+ (const Duration &, const Date &)
+  throw (hummstrumm::engine::error::OutOfRange);
 /**
  * Subtracts a Duration from a Date object and places the result in a temporary
  * object.
@@ -335,8 +343,12 @@ Date operator+ (const Duration &, const Date &) throw ();
  * @since  0.5
  * 
  * @return The new Date before the given Duration.
+ *
+ * @throw OutOfRange If the resulting Date is too large or before the UNIX
+ *                   epoch.
  */
-Date operator- (const Date &, const Duration &) throw ();
+Date operator- (const Date &, const Duration &)
+  throw (hummstrumm::engine::error::OutOfRange);
 
 /**
  * Subtracts a Date from another Date and places the result in a temporary
@@ -358,8 +370,12 @@ Duration operator- (const Date &, const Date &) throw ();
  * @since  0.5
  * 
  * @return The sum.
+ *
+ * @throw OutOfRange If the resulting Date is too large or before the UNIX
+ *                   epoch.
  */
-inline Date &operator+= (Date &, const Duration &) throw ();
+inline Date &operator+= (Date &, const Duration &)
+  throw (hummstrumm::engine::error::OutOfRange);
 /**
  * Subtracts a Duration from a Date and sets the latter to the result.
  *
@@ -368,8 +384,12 @@ inline Date &operator+= (Date &, const Duration &) throw ();
  * @since  0.5
  * 
  * @return The difference.
+ *
+ * @throw OutOfRange If the resulting Date is too large or before the UNIX
+ *                   epoch.
  */
-inline Date &operator-= (Date &, const Duration &) throw ();
+inline Date &operator-= (Date &, const Duration &)
+  throw (hummstrumm::engine::error::OutOfRange);
 
 /**
  * Prints the Date to an output stream in ISO 8601 format.
@@ -395,8 +415,14 @@ std::ostream &operator<< (std::ostream &out, const Date &);
  * @param [in] in The stream to read from.
  *
  * @return The input stream.
+ *
+ * @throw Generic    If the stream is malformed.
+ * @throw OutOfRange If the resulting Date is too large or before the UNIX
+ *                   epoch.
  */
-std::istream &operator>> (std::istream &in, Date &);
+std::istream &operator>> (std::istream &in, Date &)
+  throw (hummstrumm::engine::error::Generic,
+         hummstrumm::engine::error::OutOfRange);
 
 /**
  * Gives a Date that is equivalent to a UTC Date with a given Timezone offset.
@@ -405,9 +431,16 @@ std::istream &operator>> (std::istream &in, Date &);
  * @date   2012-03-25
  * @since  0.5
  *
+ * @param [in] inUtc         The Date in UTC.
+ * @param [in] offsetFromUtc The Timezone to convert to.
+ *
  * @return The reduced Duration.
+ *
+ * @throw OutOfRange If the resulting Date is too large or before the UNIX
+ *                   epoch.
  */
-Date ConvertWithTimezone (const Date &inUTC, const Timezone &offsetFromUTC);
+Date ConvertWithTimezone (const Date &inUtc, const Timezone &offsetFromUtc)
+  throw (hummstrumm::engine::error::OutOfRange);
 /**
  * Returns the difference between two dates in milliseconds.
  *
@@ -418,8 +451,36 @@ Date ConvertWithTimezone (const Date &inUTC, const Timezone &offsetFromUTC);
  * @return The number of milliseconds that elapsed from the second Date until
  * the first.
  */
-inline hummstrumm::engine::types::intNatural
-DifferenceInMilliseconds (const Date &, const Date &);
+inline hummstrumm::engine::types::uintNatural
+DifferenceInMilliseconds (const Date &, const Date &)
+  throw ();
+
+/**
+ * Returns whether the year held in the Date is a leap year.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-03-25
+ * @since  0.5
+ *
+ * @return Whether the year of a Date is a leap year or not.
+ */
+inline bool IsLeapYear (const Date &) throw ();
+/**
+ * Returns whether a year is a leap year.
+ *
+ * @author Patrick M. Niedzielski <Patrick Niedzielski@gmail.com>
+ * @date   2012-03-25
+ * @since  0.5
+ *
+ * @param [in] year The year to check.
+ *
+ * @return Whether the year is a leap year or not.
+ *
+ * @throw OutOfRange If the year is 0, which doesn't exist.
+ */
+inline bool IsLeapYear (unsigned year) throw ();
+
+Date GetLocalDate (void) throw ();
 
 /**
  * Holds a day of the seven day week.
@@ -431,16 +492,25 @@ DifferenceInMilliseconds (const Date &, const Date &);
  */
 enum DayOfWeek
 {
+  SUNDAY,    /**< Sunday.    **/
   MONDAY,    /**< Monday.    **/
   TUESDAY,   /**< Tuesday.   **/
   WEDNESDAY, /**< Wednesday. **/
   THURSDAY,  /**< Thursday.  **/
   FRIDAY,    /**< Friday.    **/
   SATURDAY,  /**< Saturday.  **/
-  SUNDAY,    /**< Sunday.    **/
 };
 
-DayOfWeek FindDayOfWeek (const Date &);
+/**
+ * Returns the day of the week held by the Date.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-03-25
+ * @since  0.5
+ *
+ * @return The day of the week (e.g., Sunday, Monday, ...)
+ */
+DayOfWeek FindDayOfWeek (const Date &) throw ();
 
 
 }
