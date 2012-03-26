@@ -206,11 +206,7 @@ class Clock;
  */
 namespace types
 {
-class Date;
-//class Character;
-//class String;
 typedef std::string String;
-class Number;
 }
 
 /**
@@ -316,7 +312,6 @@ class WindowSystem;
 #include "date/duration.hpp"
 #include "date/timezone.hpp"
 #include "date/date.hpp"
-#include "types/number.hpp"
 #include "debug/log.hpp"
 #include "debug/loggable.hpp"
 #include "debug/profiler.hpp"
