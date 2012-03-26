@@ -12,8 +12,8 @@ Basic Installation
 ======================================================================
 
 The most basic way to install the Humm and Strumm video game is to use
-the packages available for download on our website.  We provide a
-Windows installer, and both Debian and RedHat packages.
+the packages available for download on our website.  We will provide a
+Windows installer at a later date.
 
 
 Windows Installer
@@ -22,16 +22,6 @@ Windows Installer
 To install on Windows, download the latest installer from the
 downloads page.  This installer will connect to the internet to
 download additional resources, and will alert you when it does.
-
-TODO: Add specific installation instructions.
-
-
-GNU/Linux Packages
----------------------------------------------------------------------
-
-The website also has Debian and RedHat packages for GNU/Linux users.
-You will need to install both the main package and the resource
-package(s) to have the complete game.
 
 TODO: Add specific installation instructions.
 
@@ -73,3 +63,7 @@ Or the GUI interface to CMake.
 
 These will allow you to change the variables.  After this, you can
 continue through the build platform.
+
+
+NOTE: The test_engine_window test might not function properly on your
+system.  That is our next goal.

@@ -30,9 +30,9 @@ Features
   * Object/Type System
   * Smart Pointers
   * Vector Math System
-  * Debug Utilities
-  * Basic Data Type Wrappers
+  * Debug Utilities -- Logging and Profiling
   * X11 and Win32 Native Windowing
+  * Date/Time Utilities.
 
 
 
@@ -105,7 +105,7 @@ Software Requirements:
   * CMake, 2.6 or later
   * X11 development files
   * CPPUnit (optional)
-  * Doxygen (optional)
+  * Doxygen and LaTeX (optional)
 
 Minimum Harware:
   * Intel-compatible processor (x86 or AMD 64 compatible)
@@ -121,7 +121,7 @@ Software Requirements
   * CMake, 2.6 or later
   * X11 development files
   * CPPUnit (optional)
-  * Doxygen (optional)
+  * Doxygen and LaTeX (optional)
 
 Minimum Harware:
   * Intel-compatible processor (x86 or AMD 64 compatible)

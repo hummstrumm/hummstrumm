@@ -11,6 +11,18 @@ with the most recent release.
 
 
 
+Humm and Strumm, version 0.5
+======================================================================
+
+  * Date/Time functionality added.
+  * Logging made more flexible.
+  * Compiler checks for C++11 and support for Clang compiler.
+  * Stability fixes.
+  * Number class removed.
+
+
+
+
 
 Humm and Strumm, version 0.4
 ======================================================================
