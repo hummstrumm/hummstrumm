@@ -198,7 +198,7 @@ bool operator>= (const Timezone &, const Timezone &) throw ();
  *
  * @return The output stream.
  */
-std::ostream &operator>> (std::ostream &out, const Timezone &);
+std::ostream &operator<< (std::ostream &out, const Timezone &);
 /**
  * Sets a Timezone from an input stream.  This stream must be two integers, a
  * valid hour amount and a minute amount.
@@ -213,7 +213,7 @@ std::ostream &operator>> (std::ostream &out, const Timezone &);
  *
  * @throw OutOfRange If the stream gives a timezone offset that is impossible.
  */
-std::istream &operator<< (std::istream &in, Timezone &)
+std::istream &operator>> (std::istream &in, Timezone &)
   throw (hummstrumm::engine::error::OutOfRange);
 
 /**

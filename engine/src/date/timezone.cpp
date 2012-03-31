@@ -17,6 +17,11 @@
  */
 
 #include "hummstrummengine.hpp"
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <algorithm>
+#include <cmath>
 
 namespace hummstrumm
 {
@@ -131,21 +136,40 @@ operator>= (const Timezone &a, const Timezone &b)
 
 
 std::ostream &
-operator>> (std::ostream &out, const Timezone &t)
+operator<< (std::ostream &out, const Timezone &t)
 {
-  out << t.GetOffset ().hours << ":" << t.GetOffset ().minutes << " from UTC";
+  if (t.GetOffset ().hours == 0 && t.GetOffset ().minutes == 0)
+    {
+      out << "Z";
+    }
+  else
+    {
+      char sign = (t.GetOffset ().hours*60 + t.GetOffset ().minutes < 0) ?
+        '-' : '+';
+
+      char fillChar = out.fill ();
+      out << std::setfill ('0') << sign
+          << std::setw (2) << std::abs (t.GetOffset ().hours) << ":"
+          << std::setw (2) << std::abs (t.GetOffset ().minutes);
+    }
+
   return out;
 }
 
 
 std::istream &
-operator<< (std::istream &in, Timezone &t)
+operator>> (std::istream &in, Timezone &t)
   throw (hummstrumm::engine::error::OutOfRange)
 {
   Duration temp;
 
-  in >> temp.hours;
-  in >> temp.minutes;
+  std::string input;
+  in >> input;
+  std::replace (input.begin (), input.end (), ':', ' ');
+  std::stringstream inputStream (input);
+
+  inputStream >> temp.hours;
+  inputStream >> temp.minutes;
 
   t = Timezone (temp);
   return in;

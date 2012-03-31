@@ -34,6 +34,7 @@ class TimezoneTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testStorage);
     CPPUNIT_TEST (testCompare);
     CPPUNIT_TEST (testSet);
+    CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
     Timezone::Ptr utc;
@@ -119,6 +120,30 @@ class TimezoneTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (test == *utcMinus10);
     }
 
+    void testSerialization (void)
+    {
+      std::ostringstream ss1;
+      ss1 << *utc;
+      CPPUNIT_ASSERT (ss1.str () == "Z");
+      ss1.str (""); ss1 << *utcMinus10;
+      CPPUNIT_ASSERT (ss1.str () == "-10:00");
+      ss1.str (""); ss1 << *utcPlus4;
+      CPPUNIT_ASSERT (ss1.str () == "+04:00");
+      ss1.str (""); ss1 << *utcPlus1;
+      CPPUNIT_ASSERT (ss1.str () == "+01:00");
+
+      Timezone t;
+      std::istringstream ss2;
+      ss2.str ("Z -10:00 +04:00 +01:00");
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utc);
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utcMinus10);
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utcPlus4);
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utcPlus1);
+    }
 };
 
 
