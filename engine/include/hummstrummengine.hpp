@@ -125,7 +125,6 @@ namespace engine
 namespace debug
 {
 class Log;
-class Loggable;
 class Profiler;
 }
 
@@ -313,7 +312,6 @@ class WindowSystem;
 #include "date/timezone.hpp"
 #include "date/date.hpp"
 #include "debug/log.hpp"
-#include "debug/loggable.hpp"
 #include "debug/profiler.hpp"
 #include "math/simd.hpp"
 #include "math/mathutils.hpp"
