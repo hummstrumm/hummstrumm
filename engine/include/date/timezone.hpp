@@ -45,6 +45,10 @@ namespace date
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date    2012-02-28
  * @since   0.5
+ *
+ * @invariant The timezone offset will be represented only in hours and minutes,
+ * with hours and minutes being within the valid ranges of one day and each
+ * being the same sign as the other.
  */
 class Timezone : public hummstrumm::engine::core::Object
 {
@@ -62,8 +66,8 @@ class Timezone : public hummstrumm::engine::core::Object
      * Constructs a new Timezone object initialized to a specific offset from
      * UTC.  The Duration object is reduced with Reduce(Duration) and then only
      * the minute and hour fields are used.  If the Duration offset is more than
-     * 12 hours (either before or after UTC), an InvalidParameter exception will
-     * be thrown.
+     * 12 hours (either before or after UTC), an OutOfRange exception will be
+     * thrown.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2012-02-28

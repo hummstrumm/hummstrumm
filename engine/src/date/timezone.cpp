@@ -43,13 +43,25 @@ Timezone::Timezone (const Duration &duration)
   throw (hummstrumm::engine::error::OutOfRange)
   : offset (Reduce (duration))
 {
-  if (offset.years != 0 || offset.months != 0 || offset.weeks != 0 ||
-      offset.days != 0  ||
+  if (offset.years != 0 || offset.months  != 0 || offset.weeks        != 0 ||
+      offset.days  != 0 ||
       offset.hours*60 + offset.minutes > 12*60 ||
       offset.hours*60 + offset.minutes < -12*60)
     {
       HUMMSTRUMM_THROW (OutOfRange,
                         "The timezone offset is too large.");
+    }
+
+  // Normalize such that both carry the same sign.
+  if (offset.hours < 0 && offset.minutes > 0)
+    {
+      ++offset.hours;
+      offset.minutes = 60 - offset.minutes;
+    }
+  else if (offset.hours > 0 && offset.minutes < 0)
+    {
+      --offset.hours;
+      offset.minutes += 60;
     }
 
   offset.seconds = 0;
@@ -144,8 +156,8 @@ operator<< (std::ostream &out, const Timezone &t)
     }
   else
     {
-      char sign = (t.GetOffset ().hours*60 + t.GetOffset ().minutes < 0) ?
-        '-' : '+';
+      // Since both carry the same sign, check one.
+      char sign = (t.GetOffset ().hours < 0) ? '-' : '+';
 
       char fillChar = out.fill ();
       out << std::setfill ('0') << sign
