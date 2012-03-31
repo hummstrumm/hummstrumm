@@ -118,17 +118,6 @@ class Timezone : public hummstrumm::engine::core::Object
      */
     Duration GetOffset (void)
       const throw ();
-
-    friend bool operator== (const Timezone &, const Timezone &) throw ();
-    friend bool operator!= (const Timezone &, const Timezone &) throw ();
-    friend bool operator<  (const Timezone &, const Timezone &) throw ();
-    friend bool operator<= (const Timezone &, const Timezone &) throw ();
-    friend bool operator>  (const Timezone &, const Timezone &) throw ();
-    friend bool operator>= (const Timezone &, const Timezone &) throw ();
-
-    friend std::ostream &operator>> (std::ostream &out, const Timezone &);
-    friend std::istream &operator<< (std::istream &in, Timezone &)
-      throw (hummstrumm::engine::error::OutOfRange);
     
   private:
     Duration offset;

@@ -82,7 +82,7 @@ bool
 operator== (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset == b.offset;
+  return a.GetOffset () == b.GetOffset ();
 }
 
 
@@ -90,7 +90,7 @@ bool
 operator!= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset != b.offset;
+  return a.GetOffset () != b.GetOffset ();
 }
 
 
@@ -98,8 +98,8 @@ bool
 operator< (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes <
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes <
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
@@ -107,8 +107,8 @@ bool
 operator<= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes <=
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes <=
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
@@ -116,8 +116,8 @@ bool
 operator> (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes >
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes >
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
@@ -125,15 +125,15 @@ bool
 operator>= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes >=
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes >=
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
 std::ostream &
 operator>> (std::ostream &out, const Timezone &t)
 {
-  out << t.offset.hours << ":" << t.offset.minutes << " from UTC";
+  out << t.GetOffset ().hours << ":" << t.GetOffset ().minutes << " from UTC";
   return out;
 }
 
@@ -142,15 +142,12 @@ std::istream &
 operator<< (std::istream &in, Timezone &t)
   throw (hummstrumm::engine::error::OutOfRange)
 {
-  in >> t.offset.hours;
-  in >> t.offset.minutes;
+  Duration temp;
 
-  if (t.offset.hours*60 + t.offset.minutes > 12*60 ||
-      t.offset.hours*60 + t.offset.minutes < 12*60)
-    {
-      HUMMSTRUMM_THROW (OutOfRange,
-                        "The timezone offset entered is too large.");
-    }
+  in >> temp.hours;
+  in >> temp.minutes;
+
+  t = Timezone (temp);
   return in;
 }
 
