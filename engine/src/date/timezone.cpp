@@ -43,8 +43,7 @@ Timezone::Timezone (const Duration &duration)
   throw (hummstrumm::engine::error::OutOfRange)
   : offset (Reduce (duration))
 {
-  if (offset.years != 0 || offset.months  != 0 || offset.weeks        != 0 ||
-      offset.days  != 0 ||
+  if (offset.years != 0 || offset.months  != 0 || offset.days  != 0 ||
       offset.hours*60 + offset.minutes > 12*60 ||
       offset.hours*60 + offset.minutes < -12*60)
     {
