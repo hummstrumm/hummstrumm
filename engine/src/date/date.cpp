@@ -302,7 +302,7 @@ operator+ (const Date &a, Duration b)
 
   signed years        = a.GetYear () + b.years;
   signed months       = a.GetMonth () + b.months;
-  signed days         = a.GetDay () + b.weeks * 7 + b.days;
+  signed days         = a.GetDay () + b.days;
   signed hours        = a.GetHour () + b.hours;
   signed minutes      = a.GetMinute () + b.minutes;
   signed seconds      = a.GetSecond () + b.seconds;

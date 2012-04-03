@@ -33,7 +33,7 @@ HUMMSTRUMM_IMPLEMENT_TYPE (Duration, Object)
 Duration::Duration (void)
 {
   // Just set everything to zero.
-  years = months = weeks = days = hours = minutes = seconds = milliseconds = 0;
+  years = months = days = hours = minutes = seconds = milliseconds = 0;
 }
 
 
@@ -48,8 +48,7 @@ Duration::Duration (int years,
 {
   this->years        = years;
   this->months       = months;
-  this->weeks        = weeks;
-  this->days         = days;
+  this->days         = days + weeks*7;
   this->hours        = hours;
   this->minutes      = minutes;
   this->seconds      = seconds;
@@ -60,24 +59,22 @@ Duration::Duration (int years,
 std::ostream &
 operator<< (std::ostream &out, const Duration &d)
 {
-  out << d.years        << " year(s), "
-      << d.months       << " month(s), "
-      << d.weeks        << " week(s), "
-      << d.days         << " day(s), "
-      << d.hours        << " hour(s), "
-      << d.minutes      << " minute(s), "
-      << d.seconds      << " second(s), "
-      << d.milliseconds << " millisecond(s)";
-  return out;
+   out << d.years        << " year(s), "
+       << d.months       << " month(s), "
+       << d.days         << " day(s), "
+       << d.hours        << " hour(s), "
+       << d.minutes      << " minute(s), "
+       << d.seconds      << " second(s), "
+       << d.milliseconds << " millisecond(s)";
+   return out;
 }
 
 
 std::istream &
 operator>> (std::istream &in, Duration &d)
-{
+{  
   in >> d.years;
   in >> d.months;
-  in >> d.weeks;
   in >> d.days;
   in >> d.hours;
   in >> d.minutes;
@@ -107,15 +104,6 @@ Reduce (Duration d)
   // There are 24 hr per day.
   d.days += d.hours / 24;
   d.hours %= 24;
-  // There are 7 days per week.
-  d.weeks += d.days / 7;
-  d.days %= 7;
-
-  if (d.weeks != 0 && d.days < 0)
-    {
-      --d.weeks;
-      d.days += 7;
-    }
 
   // I'm not sure why, but I can't think of a nicer way to do this.
 

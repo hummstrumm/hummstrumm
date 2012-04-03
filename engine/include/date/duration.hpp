@@ -121,7 +121,6 @@ struct Duration : public hummstrumm::engine::core::Object
     
     int years;        /**< The year interval         **/
     int months;       /**< The months interval       **/
-    int weeks;        /**< The weeks interval        **/
     int days;         /**< The days interval         **/
     int hours;        /**< The hours interval        **/
     int minutes;      /**< The minutes interval      **/

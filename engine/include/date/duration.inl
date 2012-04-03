@@ -38,7 +38,6 @@ operator== (const Duration &a, const Duration &b)
 {
   return a.years        == b.years        &&
          a.months       == b.months       &&
-         a.weeks        == b.weeks        &&
          a.days         == b.days         &&
          a.hours        == b.hours        &&
          a.minutes      == b.minutes      &&
@@ -84,7 +83,6 @@ operator+= (Duration &a, const Duration &b)
 {
   a.years        += b.years;
   a.months       += b.months;
-  a.weeks        += b.weeks;
   a.days         += b.days;
   a.hours        += b.hours;
   a.minutes      += b.minutes;
@@ -111,7 +109,6 @@ operator- (const Duration &a)
   Duration temp (a);
   temp.years        = -temp.years;
   temp.months       = -temp.months;
-  temp.weeks        = -temp.weeks;
   temp.days         = -temp.days;
   temp.hours        = -temp.hours;
   temp.minutes      = -temp.minutes;
