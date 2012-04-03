@@ -17,6 +17,7 @@
  */
 
 #include <hummstrummengine.hpp>
+#include <iomanip>
 
 using namespace hummstrumm::engine::core;
 
