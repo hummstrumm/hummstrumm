@@ -20,6 +20,8 @@
 #include <limits>
 #include <iomanip>
 #include <cstdlib>
+#include <algorithm>
+#include <sstream>
 using namespace hummstrumm::engine::core;
 using namespace hummstrumm::engine::types;
 using namespace hummstrumm::engine::error;
@@ -457,7 +459,7 @@ operator<< (std::ostream &out, const Date &d)
       << std::setw (2) << d.GetDay () << "T"
       << std::setw (2) << d.GetHour () << ":"
       << std::setw (2) << d.GetMinute () << ":"
-      << std::setw (2) << d.GetSecond () << "."
+      << std::setw (2) << d.GetSecond () << ","
       << std::setw (3) << d.GetMillisecond ();
   out.fill (fillChar);
   return out;
@@ -468,55 +470,45 @@ std::istream &
 operator>> (std::istream &in, Date &d)
   throw (Generic, OutOfRange)
 {
-  char input[5]; // Years are 4 chars long, everything else is less.  Remember
-                 // the null character at the end.
   signed year, month, day, hour, minute, second, millisecond;
+  char c;
+
+  std::string input;
+  in >> input;
+  std::replace (input.begin (), input.end (), ',', '.');
+  std::stringstream inputStream (input);
 
   // Year
-  in.get (input, 4, '-');
-  year = atoi (input);
-  // Make sure that the next character is actually a '-'.
-  if ('-' != in.get ())
-    HUMMSTRUMM_THROW (Generic, "The date was malformed.");
+  inputStream >> year >> c;
+  if (c != '-')
+    HUMMSTRUMM_THROW (Generic, "Date malformed.");
 
   // Month
-  in.get (input, 2, '-');
-  month = atoi (input);
-  // Make sure that the next character is actually a '-'.
-  if ('-' != in.get ())
-    HUMMSTRUMM_THROW (Generic, "The date was malformed.");
+  inputStream >> month >> c;
+  if (c != '-')
+    HUMMSTRUMM_THROW (Generic, "Date malformed.");
 
   // Day
-  in.get (input, 2, 'T');
-  day = atoi (input);
-  // Make sure that the next character is actually a 'T'.
-  if ('T' != in.get ())
-    HUMMSTRUMM_THROW (Generic, "The date was malformed.");
+  inputStream >> day >> c;
+  if (c != 'T')
+    HUMMSTRUMM_THROW (Generic, "Date malformed.");
 
   // Hour
-  in.get (input, 2, ':');
-  hour = atoi (input);
-  // Make sure that the next character is actually a ':'.
-  if (':' != in.get ())
-    HUMMSTRUMM_THROW (Generic, "The date was malformed.");
+  inputStream >> hour >> c;
+  if (c != ':')
+    HUMMSTRUMM_THROW (Generic, "Date malformed.");
 
   // Minute
-  in.get (input, 2, ':');
-  minute = atoi (input);
-  // Make sure that the next character is actually a ':'.
-  if (':' != in.get ())
-    HUMMSTRUMM_THROW (Generic, "The date was malformed.");
+  inputStream >> minute >> c;
+  if (c != ':')
+    HUMMSTRUMM_THROW (Generic, "Date malformed.");
 
-  // Second
-  in.get (input, 2, '.');
-  second = atoi (input);
-  // Make sure that the next character is actually a '.'.
-  if ('.' != in.get ())
-    HUMMSTRUMM_THROW (Generic, "The date was malformed.");
-
-  // Millisecond
-  in.get (input, 3);
-  year = atoi (input);
+  // Second and millisecond
+  float s;
+  inputStream >> s;
+  second = (int)s;
+  s -= second;
+  millisecond = (int)(s*1000+0.5);
 
   d = Date (year, month, day, hour, minute, second, millisecond);
 

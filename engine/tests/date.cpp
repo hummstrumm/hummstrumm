@@ -302,6 +302,7 @@ class DateTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testCompare);
     CPPUNIT_TEST (testSet);
     CPPUNIT_TEST (testArithmetic);
+    CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
     Date::Ptr d1, d2, d3, d4, d5, d6;
@@ -516,6 +517,37 @@ class DateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (*d6 + dur1 == Date (4526, 12, 25, 18, 45, 7, 7));
       CPPUNIT_ASSERT (*d6 + dur2 == Date (4520, 12, 25, 18, 45, 7, 2));
       CPPUNIT_ASSERT (*d6 + dur3 == Date (4523, 8, 21, 6, 47, 6, 47));
+    }
+
+    void testSerialization (void)
+    {
+      std::ostringstream ss1;
+      ss1 << *d1;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00,000");
+      ss1.str (""); ss1 << *d2;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00,000");
+      ss1.str (""); ss1 << *d3;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T20:07:43,437");
+      ss1.str (""); ss1 << *d4;
+      CPPUNIT_ASSERT (ss1.str () == "2012-03-25T00:37:10,254");
+      ss1.str (""); ss1 << *d5;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00,000");
+      ss1.str (""); ss1 << *d6;
+      CPPUNIT_ASSERT (ss1.str () == "4521-12-25T18:45:07,002");
+
+      Date d;
+      std::istringstream ss2;
+      ss2.str ("1984-05-14T12:00:00,0 20451-09-30T00:04:15,5 "
+               "1970-01-01T00:00:00 2011-04-03T14:58:33,48");
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Date (1984, 5, 14, 12, 0, 0, 0));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Date (20451, 9, 30, 0, 4, 15, 500));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Date ());
+      ss2 >> d;
+      std::cerr << d << std::flush;
+      CPPUNIT_ASSERT (d == Date (2011, 4, 3, 14, 58, 33, 480));
     }
 
 };
