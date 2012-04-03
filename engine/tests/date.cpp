@@ -546,7 +546,6 @@ class DateTest : public CppUnit::TestFixture
       ss2 >> d;
       CPPUNIT_ASSERT (d == Date ());
       ss2 >> d;
-      std::cerr << d << std::flush;
       CPPUNIT_ASSERT (d == Date (2011, 4, 3, 14, 58, 33, 480));
     }
 
