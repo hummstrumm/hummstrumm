@@ -454,12 +454,12 @@ operator<< (std::ostream &out, const Date &d)
   // We change the fill character, but we don't want the change to leave this
   // method.
   char fillChar = out.fill ();
-  out << std::setfill ('0') << std::setw (4) << d.GetYear ()  << "-"
-      << std::setw (2) << d.GetMonth () << "-"
-      << std::setw (2) << d.GetDay () << "T"
-      << std::setw (2) << d.GetHour () << ":"
-      << std::setw (2) << d.GetMinute () << ":"
-      << std::setw (2) << d.GetSecond () << ","
+  out << std::setfill ('0') << std::setw (4) << d.GetYear ()  << '-'
+      << std::setw (2) << d.GetMonth () << '-'
+      << std::setw (2) << d.GetDay () << 'T'
+      << std::setw (2) << d.GetHour () << ':'
+      << std::setw (2) << d.GetMinute () << ':'
+      << std::setw (2) << d.GetSecond () << ','
       << std::setw (3) << d.GetMillisecond ();
   out.fill (fillChar);
   return out;
