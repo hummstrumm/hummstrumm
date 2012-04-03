@@ -349,7 +349,7 @@ class DateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (d3->GetMonth () == 1);
       CPPUNIT_ASSERT (d3->GetDay () == 1);
       CPPUNIT_ASSERT (d3->GetHour () == 20);
-      CPPUNIT_ASSERT (d3->GetMinute () == 07);
+      CPPUNIT_ASSERT (d3->GetMinute () == 7);
       CPPUNIT_ASSERT (d3->GetSecond () == 43);
       CPPUNIT_ASSERT (d3->GetMillisecond () == 437);
 
