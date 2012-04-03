@@ -162,6 +162,7 @@ operator<< (std::ostream &out, const Timezone &t)
       out << std::setfill ('0') << sign
           << std::setw (2) << std::abs (t.GetOffset ().hours) << ':'
           << std::setw (2) << std::abs (t.GetOffset ().minutes);
+      out.fill (fillChar);
     }
 
   return out;
