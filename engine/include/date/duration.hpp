@@ -67,6 +67,10 @@ namespace date
  * @see operator+= (Duration &, const Duration &)
  * @see operator-= (Duration &, const Duration &)
  * @see operator- (const Duration &)
+ * @see operator<< (const ostream &, const Duration &)
+ * @see operator>> (const istream &, const Duration &)
+ * @see Reduce (const Duration &)
+ * @see ReduceEquals (const Duration &, const Duration &)
  *
  * @note There are no invariants in a duration (durations of time have no
  * restrictions outside the standard ones of a @c int ), so all the members are
