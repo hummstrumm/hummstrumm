@@ -154,6 +154,7 @@ class DurationTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSet);
     CPPUNIT_TEST (testAddition);
     CPPUNIT_TEST (testNegation);
+    CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
     Duration::Ptr d1, d2, d3, d4, d5, d6;
@@ -289,6 +290,35 @@ class DurationTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (-(-*d4) == *d4);
 
       CPPUNIT_ASSERT (*d6 - *d3 == *d6 + -*d3);
+    }
+
+    void testSerialization (void)
+    {
+      std::ostringstream ss1;
+      ss1 << *d1;
+      CPPUNIT_ASSERT (ss1.str () == "D0Y");
+      ss1.str (""); ss1 << *d2;
+      CPPUNIT_ASSERT (ss1.str () == "D0Y");
+      ss1.str (""); ss1 << *d3;
+      CPPUNIT_ASSERT (ss1.str () == "D1Y");
+      ss1.str (""); ss1 << *d4;
+      CPPUNIT_ASSERT (ss1.str () == "D12M");
+      ss1.str (""); ss1 << *d5;
+      CPPUNIT_ASSERT (ss1.str () == "DT52H");
+      ss1.str (""); ss1 << *d6;
+      CPPUNIT_ASSERT (ss1.str () == "DT52H");
+
+      Duration d;
+      std::istringstream ss2;
+      ss2.str ("D0Y D1Y-51DT0,5S DT5H48M-56,456S DT-0,56S");
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration ());
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration (1, 0, 0, -51, 0, 0, 0, 500));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration (0, 0, 0, 0, 5, 48, -56, -456));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration (0, 0, 0, 0, 0, 0, 0, -560));
     }
 
 };
