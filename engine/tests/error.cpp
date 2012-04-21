@@ -32,11 +32,19 @@ using namespace hummstrumm::engine::error;
 
 class ErrorTest : public CppUnit::TestFixture
 {
-  CPPUNIT_TEST_SUITE ( ErrorTest );
-  CPPUNIT_TEST_EXCEPTION( testThrowOutOfMemoryError, OutOfMemory);
-  CPPUNIT_TEST_EXCEPTION( testThrowInvalidParamError,InvalidParam);
-  CPPUNIT_TEST ( testErrorData );
-  CPPUNIT_TEST_SUITE_END ();
+    CPPUNIT_TEST_SUITE (ErrorTest);
+    CPPUNIT_TEST (testData);
+    // Uncomment if you want to test serialization.
+//    CPPUNIT_TEST ( testSerialization );
+    CPPUNIT_TEST_EXCEPTION (testThrowDivisionByZeroError, DivisionByZero);
+    CPPUNIT_TEST_EXCEPTION (testThrowInvalidParamError, InvalidParam);
+    CPPUNIT_TEST_EXCEPTION (testThrowOutOfMemoryError, OutOfMemory);
+    CPPUNIT_TEST_EXCEPTION (testThrowWindowSystemError, WindowSystem);
+    CPPUNIT_TEST_EXCEPTION (testThrowOutOfRangeError, OutOfRange);
+    CPPUNIT_TEST_EXCEPTION (testThrowGenericError, Generic);
+    CPPUNIT_TEST_EXCEPTION (testThrowMemoryCorruptionError, MemoryCorruption);
+    CPPUNIT_TEST_EXCEPTION (testThrowUnicodeError, Unicode);
+    CPPUNIT_TEST_SUITE_END ();
 
   public:
 
@@ -44,9 +52,9 @@ class ErrorTest : public CppUnit::TestFixture
 
     void tearDown () {}
 
-    void testThrowOutOfMemoryError ()
+    void testThrowDivisionByZeroError ()
     {
-      HUMMSTRUMM_THROW (OutOfMemory, "I'm out of memory!");
+      HUMMSTRUMM_THROW (DivisionByZero, "Undefined?  Ask Webster.");
     }
 
     void testThrowInvalidParamError ()
@@ -54,7 +62,37 @@ class ErrorTest : public CppUnit::TestFixture
       HUMMSTRUMM_THROW (InvalidParam, "Can't do that, man.");
     }
 
-    void testErrorData ()
+    void testThrowOutOfMemoryError ()
+    {
+      HUMMSTRUMM_THROW (OutOfMemory, "I'm out of memory!");
+    }
+
+    void testThrowWindowSystemError ()
+    {
+      HUMMSTRUMM_THROW (WindowSystem, "Something went wrong with the windows.");
+    }
+
+    void testThrowOutOfRangeError ()
+    {
+      HUMMSTRUMM_THROW (OutOfRange, "Keep track of your array indices.");
+    }
+
+    void testThrowGenericError ()
+    {
+      HUMMSTRUMM_THROW (Generic, "I'm just throwing an error to spite you.");
+    }
+
+    void testThrowMemoryCorruptionError ()
+    {
+      HUMMSTRUMM_THROW (MemoryCorruption, "Someone really screwed up.");
+    }
+
+    void testThrowUnicodeError ()
+    {
+      HUMMSTRUMM_THROW (Unicode, "Unicode nun ne bonas, ĉu?");
+    }
+
+    void testData ()
     {
       Generic error ("filename.txt", 51, "testFunction()", "This is a test");
 
@@ -62,6 +100,14 @@ class ErrorTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT( 0 == strcmp (error.GetFunction (), "testFunction()") );
       CPPUNIT_ASSERT( 0 == strcmp (error.GetText (), "This is a test") );
       CPPUNIT_ASSERT( error.GetLineNumber () == 51 );
+    }
+
+    void testSerialization ()
+    {
+      Generic error1 ("hello.cpp", 52, "main()", "Test error.");
+      Generic error2 ("none", 45, "Foo::Bar(int)", "Another error.");
+
+      std::cerr << error1 << std::endl << error2 << std::endl;
     }
 
   private:

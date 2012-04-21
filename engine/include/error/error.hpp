@@ -50,11 +50,14 @@ namespace error
  * can use the standard C++ throw mechanism,  it is recomended that you use the
  * THROW macro to aid in this.
  *
+ * @version 0.5
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-01-31
  * @since  0.1
  *
  * @see HUMMSTRUMM_THROW
+ *
+ * @invariant The Error will remain immutable throughout its life time.
  */
 class Error
 {
@@ -150,6 +153,18 @@ class Error
     const char *text;             /**< A specific description of the Error. */
     const char *description;      /**< A general description of the Error. */
 };
+
+/**
+ * Output the text of an Error to a stream.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-04-05
+ * @since  0.6
+ *
+ * @return The stream object, after the Error has been written.
+ */
+std::ostream &
+operator<< (std::ostream &, const Error &);
 
 }
 }

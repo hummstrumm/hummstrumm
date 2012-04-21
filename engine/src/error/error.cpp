@@ -80,6 +80,16 @@ Error::GetFunction (void)
 }
 
 
+std::ostream &
+operator<< (std::ostream &out, const Error &e)
+{
+  out << e.GetFileName () << ':' << e.GetLineNumber () << " in " <<
+    e.GetFunction () << ": " << e.GetDescription () << " " << e.GetText ();
+
+  return out;
+}
+
+
 }
 }
 }
