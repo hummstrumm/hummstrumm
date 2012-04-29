@@ -17,7 +17,7 @@
  */
 
 /**
- * Class(es) to represent a plane. 
+ * Class to represent a plane.
  *
  * @file    geometry/plane.hpp
  * @author  Ricardo Tiago <Rtiago@gmail.com>
@@ -35,8 +35,6 @@ namespace engine
 namespace geometry
 {
 
-using hummstrumm::engine::math::Vector3D;
-
 /**
  * A plane in three dimensions.  Planes are flat surfaces that extend infinitely
  * along two of their relative axis. In three dimensions, the implicit form of a
@@ -45,8 +43,7 @@ using hummstrumm::engine::math::Vector3D;
  *
  * \f$ ax + by + cz = d\f$
  *
- * \f$ p\cdot n = d\f$ where \f$ n = <a,b,c>\f$, and it's called the plane
- * normal.
+ * \f$ p\cdot n = d\f$, where \f$ n = <a,b,c>\f$, called the plane normal.
  *
  * @version 0.3
  * @author  Ricardo Tiago <Rtiago@gmail.com>
@@ -58,7 +55,7 @@ class Plane3D
 {
   public:
     /// The normal vector of the plane.
-    Vector3D<T> normal;
+    hummstrumm::engine::math::Vector3D<T> normal;
     /// The value d in the plane equation.
     T d;
 
@@ -69,50 +66,49 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      */
-    Plane3D () : normal(0,1,0), d(0) {}
-  
+    inline Plane3D ();
+
     /**
      * Constructs a plane from a normal and d.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-05-30
      * @since 0.3
-     * 
+     *
      * @param [in] norm Plane normal
      * @param [in] d    From the above equation.
      */
-    Plane3D (const Vector3D<T> &norm, const T &d) 
-      : normal(norm), d(d) {}
-  
+    inline Plane3D (const hummstrumm::engine::math::Vector3D<T> &norm,
+                    const T &d);
+
     /**
      * Constructs a plane from given components.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-05-30
      * @since 0.3
-     * 
+     *
      * @param [in] a Component a of normal.
      * @param [in] b Component b of normal.
      * @param [in] c Component c of normal.
      * @param [in] d Component d.
      */
-    Plane3D (const T &a, const T &b, const T &c, const T &d) 
-      : normal(a,b,c), d(d) {}
-  
+    inline Plane3D (const T &a, const T &b, const T &c, const T &d);
+
     /**
      * Constructs a plane from three noncollinear points.
      *
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-05-30
      * @since 0.3
-     * 
+     *
      * @param [in] p1 A point given as vector.
      * @param [in] p2 Another point given as vector.
      * @param [in] p3 Another point given as vector.
      */
-    Plane3D (const Vector3D<T> &p1, 
-             const Vector3D<T> &p2, 
-             const Vector3D<T> &p3);
+    Plane3D (const hummstrumm::engine::math::Vector3D<T> &p1,
+             const hummstrumm::engine::math::Vector3D<T> &p2,
+             const hummstrumm::engine::math::Vector3D<T> &p3);
 
     /**
      * Constructs a plane from a point and a normal.
@@ -120,12 +116,12 @@ class Plane3D
      * @author Ricardo Tiago <Rtiago@gmail.com>
      * @date 2010-05-30
      * @since 0.3
-     * 
+     *
      * @param [in] p1 A point given as vector.
      * @param [in] norm Plane normal.
      */
-    Plane3D (const Vector3D<T> &p1, 
-             const Vector3D<T> &norm);
+    Plane3D (const hummstrumm::engine::math::Vector3D<T> &p1,
+             const hummstrumm::engine::math::Vector3D<T> &norm);
 
     /**
      * Copy constructor.
@@ -136,55 +132,33 @@ class Plane3D
      *
      * @param [in] p A plane.
      */
-    Plane3D (const Plane3D<T> &p): normal(p.normal), d(p.d) {}
-
-    /**
-     * Destructs a plane.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-05-30
-     * @since 0.3
-     */
-    ~Plane3D () {}
+    inline Plane3D (const Plane3D<T> &p);
 
      /**
-     * Assignment operator.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-05-30
-     * @since 0.3
-     *
-     * @param [in] p A plane.
-     *
-     * @return This plane.
-     */
-    Plane3D<T> &operator = (const Plane3D<T> &p);
+      * Compare if two plane3D object are equal.
+      *
+      * @author Ricardo Tiago <Rtiago@gmail.com>
+      * @date 2010-05-30
+      * @since 0.3
+      *
+      * @param [in] p A plane.
+      *
+      * @return Whether the planes are equal.
+      */
+    inline bool operator== (const Plane3D<T> &p) const;
 
      /**
-     * Compare if two plane3D object are equal.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-05-30
-     * @since 0.3
-     *
-     * @param [in] p A plane.
-     *
-     * @return Whether the planes are equal.
-     */
-    bool operator == (const Plane3D<T> &p) const;
-
-     /**
-     * Inequality operator.
-     *
-     * @author Ricardo Tiago <Rtiago@gmail.com>
-     * @date 2010-05-30
-     * @since 0.3
-     *
-     * @param [in] p A plane.
-     *
-     * @return Whether the planes are different.
-     */
-    bool operator != (const Plane3D<T> &p) const;
+      * Inequality operator.
+      *
+      * @author Ricardo Tiago <Rtiago@gmail.com>
+      * @date 2010-05-30
+      * @since 0.3
+      *
+      * @param [in] p A plane.
+      *
+      * @return Whether the planes are different.
+      */
+    inline bool operator!= (const Plane3D<T> &p) const;
 
     /**
      * Normalize the plane equation.
@@ -193,98 +167,52 @@ class Plane3D
      * @date 2010-05-30
      * @since 0.3
      */
-    void Normalize();
-   
+    void Normalize ();
+
 };
 
 
-// implementation
+/**
+ * Distance from point to plane.
+ *
+ * @author Ricardo Tiago <Rtiago@gmail.com>
+ * @date   2010-05-30
+ * @since  0.3
+ *
+ * @param [in] plane A normalized plane.
+ * @param [in] p     A point not necessarily lying on the plane.
+ *
+ * @see Plane3D
+ */
 template <typename T>
-Plane3D<T>::Plane3D (const Vector3D<T> &p1,
-                     const Vector3D<T> &p2,
-                     const Vector3D<T> &p3)
-{
-  Vector3D<T> e3 = p2 - p1;
-  Vector3D<T> e1 = p3 - p1;
-
-  normal = Vec3DCross(e3,e1);
-
-  d = Vec3DDot(p1,normal);
-}
-
-template <typename T>
-Plane3D<T>::Plane3D (const Vector3D<T> &p1, 
-                     const Vector3D<T> &norm): normal(norm)
-{
-  d = Vec3DDot(p1,norm); 
-}
-
-template <typename T>
-Plane3D<T> &
-Plane3D<T>::operator = (const Plane3D<T> &p)
-{
-  d = p.d;
-  normal = p.normal;
-  return *this;
-}
-
-template <typename T>
-bool
-Plane3D<T>::operator == (const Plane3D<T> &p) const
-{
-  return d == p.v && normal == p.normal;
-}
-
-template <typename T>
-bool
-Plane3D<T>::operator != (const Plane3D<T> &p) const
-{
-  return d != p.v || normal != p.normal;
-}
-
-template <typename T>
-void
-Plane3D<T>::Normalize ()
-{
-  T normalMag = Vec3DMagnitude(normal);
-  if (normalMag == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Plane division by zero.");
-
-  normal /= normalMag;
-  d /= normalMag;
-}
-
-// non member functions
+T 
+DistanceTo (const Plane3D<T> &plane,
+            const hummstrumm::engine::math::Vector3D<T> &p);
 
 /**
-  * Distance from point to plane.
-  *
-  * @author Ricardo Tiago <Rtiago@gmail.com>
-  * @date 2010-05-30
-  * @since 0.3
-  *
-  * @param [in] plane A normalized plane.
-  * @param [in] p     A point not necessarily lying on the plane.
-  *
-  * @see Plane3D
-  */
+ * Prints a plane to an output stream.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-04-28
+ * @since  0.6
+ */
 template <typename T>
-T
-PlaneDistanceTo(const Plane3D<T> &plane, const Vector3D<T> &p);
-
-// implementation of non member functions 
-
+std::ostream &
+operator<< (std::ostream &, Plane3D<T>);
+/**
+ * Retrieves a plane from an output stream.  The plane must be specified in the
+ * form \f$ ax+by+cz=d\f$, where the + symbols can be replaced by - symbols if
+ * the following coefficient is negative.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-04-28
+ * @since  0.6
+ */
 template <typename T>
-T
-PlaneDistanceTo(const Plane3D<T> &plane, const Vector3D<T> &p)
-{
-  return Vec3DDot(p,plane.normal) - plane.d;
-}
+std::istream &
+operator>> (std::istream &, Plane3D<T> &);
 
 
-
-
-  
 }
 }
 }

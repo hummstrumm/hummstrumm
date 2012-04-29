@@ -334,6 +334,7 @@ class WindowSystem;
 #include "date/duration.inl"
 #include "date/date.inl"
 #include "math/mathutils.inl"
+#include "geometry/plane.inl"
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  pragma warning(pop)
