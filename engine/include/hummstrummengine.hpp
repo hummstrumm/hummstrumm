@@ -333,6 +333,7 @@ class WindowSystem;
 #include "system/endianness.inl"
 #include "date/duration.inl"
 #include "date/date.inl"
+#include "math/mathutils.inl"
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  pragma warning(pop)

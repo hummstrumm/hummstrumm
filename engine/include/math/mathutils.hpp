@@ -23,6 +23,7 @@
  * @author  Ricardo Tiago <Rtiago@gmail.com>
  * @date    2010-06-10
  */
+
 #ifndef HUMMSTRUMM_ENGINE_MATH_UTILS
 #define HUMMSTRUMM_ENGINE_MATH_UTILS
 
@@ -33,22 +34,18 @@ namespace engine
 namespace math
 {
 
-/** 
- * Mathematical constants.
- *
- * @author Ricardo Tiago <Rtiago@gmail.com>
- * @date 2010-07-30
- * @since 0.3
- *
- */
 
-const float PI = 3.1415927410125732421875f;
-const float HALF_PI = 1.57079637050628662109375f;
-const float DEG_TO_RAD = PI / 180.0f;
-const float RAD_TO_DEG = 180.0f / PI;
+/// The mathematical constant \f$\pi\f$.
+extern const double PI;
+/// The mathematical constant \f$\frac{\pi}{2}\f$.
+extern const double HALF_PI;
+/// Conversion multiplier from degree to radian measure.
+extern const double DEG_TO_RAD;
+/// Conversion multiplier from radian to degree measure.
+extern const double RAD_TO_DEG;
 
 
-/** 
+/**
  * Convert from Radians to Degrees.
  *
  * @author Ricardo Tiago <Rtiago@gmail.com>
@@ -59,13 +56,9 @@ const float RAD_TO_DEG = 180.0f / PI;
  *
  * @return The angle in degrees
  */
-inline 
-float 
-RadToDeg (float radians)
-{
-  return RAD_TO_DEG * radians;  
-}
-
+template <typename T>
+inline T
+RadToDeg (T radians);
 /** 
  * Convert from Degrees to Radians
  *
@@ -77,15 +70,13 @@ RadToDeg (float radians)
  *
  * @return The angle in radians
  */
-inline 
-float 
-DegToRad (float degrees)
-{
-  return DEG_TO_RAD * degrees;
-}
+template <typename T>
+inline T
+DegToRad (T degrees);
 
 /* As explained in http://randydillon.org/Papers/2007/everfast.htm */
 #define SIGNMASK (i) (-(int) ((unsigned int) (i)) >> 31)
+
 
 }
 }

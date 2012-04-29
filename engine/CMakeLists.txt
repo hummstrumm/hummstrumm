@@ -40,6 +40,7 @@ set (hummstrummengine_SRCS
   src/date/duration.cpp
   src/date/date.cpp
   src/system/endianness.cpp
+  src/math/mathutils.cpp
   src/events/windowevents.cpp
   src/window/windowvisualinfo.cpp)
 
