@@ -149,6 +149,9 @@ operator>= (const Timezone &a, const Timezone &b)
 std::ostream &
 operator<< (std::ostream &out, const Timezone &t)
 {
+  std::locale c ("C");
+  std::locale old (out.imbue (c));
+
   if (t.GetOffset ().hours == 0 && t.GetOffset ().minutes == 0)
     {
       out << "Z";
@@ -165,6 +168,7 @@ operator<< (std::ostream &out, const Timezone &t)
       out.fill (fillChar);
     }
 
+  out.imbue (old);
   return out;
 }
 
@@ -173,6 +177,9 @@ std::istream &
 operator>> (std::istream &in, Timezone &t)
   throw (hummstrumm::engine::error::OutOfRange)
 {
+  std::locale c ("C");
+  std::locale old (in.imbue (c));
+
   Duration temp;
 
   std::string input;
@@ -184,6 +191,8 @@ operator>> (std::istream &in, Timezone &t)
   inputStream >> temp.minutes;
 
   t = Timezone (temp);
+
+  in.imbue (old);
   return in;
 }
 

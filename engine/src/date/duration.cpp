@@ -63,6 +63,9 @@ Duration::Duration (int years,
 std::ostream &
 operator<< (std::ostream &out, const Duration &d)
 {
+  std::locale c ("C");
+  std::locale old (out.imbue (c));
+
   // Check that we have some duration in the years or nothing else, which means
   // we want to explicitly say "0Y".
   out << 'D';
@@ -121,12 +124,13 @@ operator<< (std::ostream &out, const Duration &d)
       if (ms)
         {
           char fillChar = out.fill ();
-          out << ',' << std::setfill ('0') << std::setw (3) << ms;
+          out << '.' << std::setfill ('0') << std::setw (3) << ms;
           out.fill (fillChar);
         }
       out << 'S';
     }
 
+  out.imbue (old);
   return out;
 }
 
@@ -134,6 +138,9 @@ operator<< (std::ostream &out, const Duration &d)
 std::istream &
 operator>> (std::istream &inReal, Duration &d)
 {
+  std::locale cLocale ("C");
+  std::locale old (inReal.imbue (cLocale));
+
   // Here, for simplicity, we are a little more forgiving than ISO 8601.  We can
   // have multiple durations of a specific length (like, a string that contains
   // two month durations) -- they are simply added together.  Order within date
@@ -148,7 +155,6 @@ operator>> (std::istream &inReal, Duration &d)
 
   std::string input;
   inReal >> input;
-  std::replace (input.begin (), input.end (), ',', '.');
   std::stringstream in (input);
 
   // Duration strings must start with a 'D' if they represent a finite duration.
@@ -228,6 +234,7 @@ operator>> (std::istream &inReal, Duration &d)
         }
     }
 
+  inReal.imbue (old);
   return inReal;
 }
 

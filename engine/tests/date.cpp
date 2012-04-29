@@ -310,7 +310,7 @@ class DurationTest : public CppUnit::TestFixture
 
       Duration d;
       std::istringstream ss2;
-      ss2.str ("D0Y D1Y-51DT0,5S DT5H48M-56,456S DT-0,56S");
+      ss2.str ("D0Y D1Y-51DT0.5S DT5H48M-56.456S DT-0.56S");
       ss2 >> d;
       CPPUNIT_ASSERT (d == Duration ());
       ss2 >> d;
@@ -553,22 +553,22 @@ class DateTest : public CppUnit::TestFixture
     {
       std::ostringstream ss1;
       ss1 << *d1;
-      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00,000");
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
       ss1.str (""); ss1 << *d2;
-      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00,000");
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
       ss1.str (""); ss1 << *d3;
-      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T20:07:43,437");
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T20:07:43.437");
       ss1.str (""); ss1 << *d4;
-      CPPUNIT_ASSERT (ss1.str () == "2012-03-25T00:37:10,254");
+      CPPUNIT_ASSERT (ss1.str () == "2012-03-25T00:37:10.254");
       ss1.str (""); ss1 << *d5;
-      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00,000");
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
       ss1.str (""); ss1 << *d6;
-      CPPUNIT_ASSERT (ss1.str () == "4521-12-25T18:45:07,002");
+      CPPUNIT_ASSERT (ss1.str () == "4521-12-25T18:45:07.002");
 
       Date d;
       std::istringstream ss2;
-      ss2.str ("1984-05-14T12:00:00,0 20451-09-30T00:04:15,5 "
-               "1970-01-01T00:00:00 2011-04-03T14:58:33,48");
+      ss2.str ("1984-05-14T12:00:00.0 20451-09-30T00:04:15.5 "
+               "1970-01-01T00:00:00 2011-04-03T14:58:33.48");
       ss2 >> d;
       CPPUNIT_ASSERT (d == Date (1984, 5, 14, 12, 0, 0, 0));
       ss2 >> d;

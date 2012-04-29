@@ -451,6 +451,9 @@ operator- (const Date &a, const Date &b)
 std::ostream &
 operator<< (std::ostream &out, const Date &d)
 {
+  std::locale c ("C");
+  std::locale old (out.imbue (c));
+
   // We change the fill character, but we don't want the change to leave this
   // method.
   char fillChar = out.fill ();
@@ -459,9 +462,11 @@ operator<< (std::ostream &out, const Date &d)
       << std::setw (2) << d.GetDay () << 'T'
       << std::setw (2) << d.GetHour () << ':'
       << std::setw (2) << d.GetMinute () << ':'
-      << std::setw (2) << d.GetSecond () << ','
+      << std::setw (2) << d.GetSecond () << '.'
       << std::setw (3) << d.GetMillisecond ();
   out.fill (fillChar);
+
+  out.imbue (old);
   return out;
 }
 
@@ -470,12 +475,14 @@ std::istream &
 operator>> (std::istream &in, Date &d)
   throw (Generic, OutOfRange)
 {
+  std::locale cLocale ("C");
+  std::locale old (in.imbue (cLocale));
+
   signed year, month, day, hour, minute, second, millisecond;
   char c;
 
   std::string input;
   in >> input;
-  std::replace (input.begin (), input.end (), ',', '.');
   std::stringstream inputStream (input);
 
   // Year
@@ -512,6 +519,7 @@ operator>> (std::istream &in, Date &d)
 
   d = Date (year, month, day, hour, minute, second, millisecond);
 
+  in.imbue (old);
   return in;
 }
 
