@@ -17,6 +17,10 @@
  */
 
 #include <hummstrummengine.hpp>
+#include <iomanip>
+#include <cctype>
+#include <sstream>
+#include <algorithm>
 
 using namespace hummstrumm::engine::core;
 
@@ -33,7 +37,7 @@ HUMMSTRUMM_IMPLEMENT_TYPE (Duration, Object)
 Duration::Duration (void)
 {
   // Just set everything to zero.
-  years = months = weeks = days = hours = minutes = seconds = milliseconds = 0;
+  years = months = days = hours = minutes = seconds = milliseconds = 0;
 }
 
 
@@ -48,8 +52,7 @@ Duration::Duration (int years,
 {
   this->years        = years;
   this->months       = months;
-  this->weeks        = weeks;
-  this->days         = days;
+  this->days         = days + weeks*7;
   this->hours        = hours;
   this->minutes      = minutes;
   this->seconds      = seconds;
@@ -60,30 +63,179 @@ Duration::Duration (int years,
 std::ostream &
 operator<< (std::ostream &out, const Duration &d)
 {
-  out << d.years        << " year(s), "
-      << d.months       << " month(s), "
-      << d.weeks        << " week(s), "
-      << d.days         << " day(s), "
-      << d.hours        << " hour(s), "
-      << d.minutes      << " minute(s), "
-      << d.seconds      << " second(s), "
-      << d.milliseconds << " millisecond(s)";
+  std::locale c ("C");
+  std::locale old (out.imbue (c));
+
+  // Check that we have some duration in the years or nothing else, which means
+  // we want to explicitly say "0Y".
+  out << 'D';
+  if (d.years ||
+      !d.months && !d.days && !d.hours &&
+      !d.minutes && !d.seconds && !d.milliseconds)
+    {
+      out << d.years << 'Y';
+    }
+  if (d.months)
+    {
+      out << d.months << 'M';
+    }
+  if (d.days)
+    {
+      out << d.days << 'D';
+    }
+
+  // If we have a time duration as well, say that.
+  if (d.hours || d.minutes || d.seconds || d.milliseconds)
+    {
+      out << 'T';
+    }
+  if (d.hours)
+    {
+      out << d.hours << 'H';
+    }
+  if (d.minutes)
+    {
+      out << d.minutes << 'M';
+    }
+  if (d.seconds || d.milliseconds)
+    {
+      int sec, ms;
+      if (d.seconds < 0 && d.milliseconds > 0)
+        {
+          sec = d.seconds + 1;
+          ms  = 1000 - d.milliseconds;
+        }
+      else if (d.seconds > 0 && d.milliseconds < 0)
+        {
+          sec = d.seconds - 1;
+          ms  = 1000 + d.milliseconds;
+        }
+      else
+        {
+          sec = d.seconds;
+          ms  = d.milliseconds;
+        }
+
+      if (sec == 0 && ms < 0)
+        {
+          out << '-';
+        }
+      out << sec;
+      if (ms)
+        {
+          char fillChar = out.fill ();
+          out << '.' << std::setfill ('0') << std::setw (3) << ms;
+          out.fill (fillChar);
+        }
+      out << 'S';
+    }
+
+  out.imbue (old);
   return out;
 }
 
 
 std::istream &
-operator>> (std::istream &in, Duration &d)
+operator>> (std::istream &inReal, Duration &d)
 {
-  in >> d.years;
-  in >> d.months;
-  in >> d.weeks;
-  in >> d.days;
-  in >> d.hours;
-  in >> d.minutes;
-  in >> d.seconds;
-  in >> d.milliseconds;
-  return in;
+  std::locale cLocale ("C");
+  std::locale old (inReal.imbue (cLocale));
+
+  // Here, for simplicity, we are a little more forgiving than ISO 8601.  We can
+  // have multiple durations of a specific length (like, a string that contains
+  // two month durations) -- they are simply added together.  Order within date
+  // or time components also doesn't matter.
+
+  signed temp;
+  char c;
+
+  // ISO 8601 durations allow parts of the duration that we store to be left out
+  // if they are zero.
+  d = Duration ();
+
+  std::string input;
+  inReal >> input;
+  std::stringstream in (input);
+
+  // Duration strings must start with a 'D' if they represent a finite duration.
+  if (!(in >> c) || c != 'D')
+    {
+      HUMMSTRUMM_THROW (Generic, "Input stream did not contain a duration.  We "
+                                 "don't support differences between two "
+                                 "dates.");
+      // Maybe we should?
+    }
+
+  // Each field or element of the duration string has the form 'nC', where 'n'
+  // is a number of variable length and 'C' is a capital ASCII letter denoting
+  // which field of the duration the preceding number represents.
+  //
+  // So, ISO 8601 isn't clear about this.  If parts of the duration are negative
+  // (we know that sometimes they can't be normalized to be a completely
+  // positive or negative duration, due to the relative nature of temporal
+  // durations), what we do is place the negative signs inside each element of
+  // the duration:
+  //
+  //     D1Y-5DT5S -- one year, negative five days, five seconds
+  //
+  while (in.peek () != 'T' && (in >> temp))
+    {
+      // Read that next letter.
+      in >> c;
+      switch (c)
+        {
+        case 'Y': // Years
+          d.years += temp;
+          break;
+
+        case 'M': // Months
+          d.months += temp;
+          break;
+
+        case 'D': // Days
+          d.days += temp;
+          break;
+
+        default:
+          HUMMSTRUMM_THROW (Generic, "Input stream contains invalid date "
+                                     "portion of duration.");
+        }
+    }
+
+  // After the date portion, if there is a time duration, we need to see a 'T'
+  // character to denote the times.
+  if (in.get () != 'T')
+    {
+      return inReal;
+    }
+
+  // Read the time durations.
+  float temp2; // We need a float for easy millisecond reading.
+  while (in >> temp2)
+    {
+      switch (in.get ())
+        {
+        case 'H': // Hours
+          d.hours += (int)temp2;
+          break;
+
+        case 'M': // Months
+          d.minutes += (int)temp2;
+          break;
+
+        case 'S': // Seconds (with no millisecond portion)
+          d.seconds += (int)temp2;
+          d.milliseconds += (temp2 - (int)(temp2)) * 1000;
+          break;
+
+        default:
+          HUMMSTRUMM_THROW (Generic, "Input stream contains invalid time "
+                                     "portion of duration.");
+        }
+    }
+
+  inReal.imbue (old);
+  return inReal;
 }
 
 
@@ -107,15 +259,6 @@ Reduce (Duration d)
   // There are 24 hr per day.
   d.days += d.hours / 24;
   d.hours %= 24;
-  // There are 7 days per week.
-  d.weeks += d.days / 7;
-  d.days %= 7;
-
-  if (d.weeks != 0 && d.days < 0)
-    {
-      --d.weeks;
-      d.days += 7;
-    }
 
   // I'm not sure why, but I can't think of a nicer way to do this.
 

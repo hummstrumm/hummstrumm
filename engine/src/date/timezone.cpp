@@ -17,6 +17,11 @@
  */
 
 #include "hummstrummengine.hpp"
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <algorithm>
+#include <cmath>
 
 namespace hummstrumm
 {
@@ -38,13 +43,24 @@ Timezone::Timezone (const Duration &duration)
   throw (hummstrumm::engine::error::OutOfRange)
   : offset (Reduce (duration))
 {
-  if (offset.years != 0 || offset.months != 0 || offset.weeks != 0 ||
-      offset.days != 0  ||
+  if (offset.years != 0 || offset.months  != 0 || offset.days  != 0 ||
       offset.hours*60 + offset.minutes > 12*60 ||
       offset.hours*60 + offset.minutes < -12*60)
     {
       HUMMSTRUMM_THROW (OutOfRange,
                         "The timezone offset is too large.");
+    }
+
+  // Normalize such that both carry the same sign.
+  if (offset.hours < 0 && offset.minutes > 0)
+    {
+      ++offset.hours;
+      offset.minutes = 60 - offset.minutes;
+    }
+  else if (offset.hours > 0 && offset.minutes < 0)
+    {
+      --offset.hours;
+      offset.minutes += 60;
     }
 
   offset.seconds = 0;
@@ -82,7 +98,7 @@ bool
 operator== (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset == b.offset;
+  return a.GetOffset () == b.GetOffset ();
 }
 
 
@@ -90,7 +106,7 @@ bool
 operator!= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset != b.offset;
+  return a.GetOffset () != b.GetOffset ();
 }
 
 
@@ -98,8 +114,8 @@ bool
 operator< (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes <
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes <
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
@@ -107,8 +123,8 @@ bool
 operator<= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes <=
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes <=
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
@@ -116,8 +132,8 @@ bool
 operator> (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes >
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes >
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
@@ -125,32 +141,58 @@ bool
 operator>= (const Timezone &a, const Timezone &b)
   throw ()
 {
-  return a.offset.hours*60 + a.offset.minutes >=
-         b.offset.hours*60 + b.offset.minutes;
+  return a.GetOffset ().hours*60 + a.GetOffset ().minutes >=
+         b.GetOffset ().hours*60 + b.GetOffset ().minutes;
 }
 
 
 std::ostream &
-operator>> (std::ostream &out, const Timezone &t)
+operator<< (std::ostream &out, const Timezone &t)
 {
-  out << t.offset.hours << ":" << t.offset.minutes << " from UTC";
+  std::locale c ("C");
+  std::locale old (out.imbue (c));
+
+  if (t.GetOffset ().hours == 0 && t.GetOffset ().minutes == 0)
+    {
+      out << "Z";
+    }
+  else
+    {
+      // Since both carry the same sign, check one.
+      char sign = (t.GetOffset ().hours < 0) ? '-' : '+';
+
+      char fillChar = out.fill ();
+      out << std::setfill ('0') << sign
+          << std::setw (2) << std::abs (t.GetOffset ().hours) << ':'
+          << std::setw (2) << std::abs (t.GetOffset ().minutes);
+      out.fill (fillChar);
+    }
+
+  out.imbue (old);
   return out;
 }
 
 
 std::istream &
-operator<< (std::istream &in, Timezone &t)
+operator>> (std::istream &in, Timezone &t)
   throw (hummstrumm::engine::error::OutOfRange)
 {
-  in >> t.offset.hours;
-  in >> t.offset.minutes;
+  std::locale c ("C");
+  std::locale old (in.imbue (c));
 
-  if (t.offset.hours*60 + t.offset.minutes > 12*60 ||
-      t.offset.hours*60 + t.offset.minutes < 12*60)
-    {
-      HUMMSTRUMM_THROW (OutOfRange,
-                        "The timezone offset entered is too large.");
-    }
+  Duration temp;
+
+  std::string input;
+  in >> input;
+  std::replace (input.begin (), input.end (), ':', ' ');
+  std::stringstream inputStream (input);
+
+  inputStream >> temp.hours;
+  inputStream >> temp.minutes;
+
+  t = Timezone (temp);
+
+  in.imbue (old);
   return in;
 }
 

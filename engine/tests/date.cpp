@@ -34,6 +34,7 @@ class TimezoneTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testStorage);
     CPPUNIT_TEST (testCompare);
     CPPUNIT_TEST (testSet);
+    CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
     Timezone::Ptr utc;
@@ -119,6 +120,30 @@ class TimezoneTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (test == *utcMinus10);
     }
 
+    void testSerialization (void)
+    {
+      std::ostringstream ss1;
+      ss1 << *utc;
+      CPPUNIT_ASSERT (ss1.str () == "Z");
+      ss1.str (""); ss1 << *utcMinus10;
+      CPPUNIT_ASSERT (ss1.str () == "-10:00");
+      ss1.str (""); ss1 << *utcPlus4;
+      CPPUNIT_ASSERT (ss1.str () == "+04:00");
+      ss1.str (""); ss1 << *utcPlus1;
+      CPPUNIT_ASSERT (ss1.str () == "+01:00");
+
+      Timezone t;
+      std::istringstream ss2;
+      ss2.str ("Z -10:00 +04:00 +01:00");
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utc);
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utcMinus10);
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utcPlus4);
+      ss2 >> t;
+      CPPUNIT_ASSERT (t == *utcPlus1);
+    }
 };
 
 
@@ -129,6 +154,7 @@ class DurationTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSet);
     CPPUNIT_TEST (testAddition);
     CPPUNIT_TEST (testNegation);
+    CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
     Duration::Ptr d1, d2, d3, d4, d5, d6;
@@ -266,6 +292,35 @@ class DurationTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (*d6 - *d3 == *d6 + -*d3);
     }
 
+    void testSerialization (void)
+    {
+      std::ostringstream ss1;
+      ss1 << *d1;
+      CPPUNIT_ASSERT (ss1.str () == "D0Y");
+      ss1.str (""); ss1 << *d2;
+      CPPUNIT_ASSERT (ss1.str () == "D0Y");
+      ss1.str (""); ss1 << *d3;
+      CPPUNIT_ASSERT (ss1.str () == "D1Y");
+      ss1.str (""); ss1 << *d4;
+      CPPUNIT_ASSERT (ss1.str () == "D12M");
+      ss1.str (""); ss1 << *d5;
+      CPPUNIT_ASSERT (ss1.str () == "DT52H");
+      ss1.str (""); ss1 << *d6;
+      CPPUNIT_ASSERT (ss1.str () == "DT52H");
+
+      Duration d;
+      std::istringstream ss2;
+      ss2.str ("D0Y D1Y-51DT0.5S DT5H48M-56.456S DT-0.56S");
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration ());
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration (1, 0, 0, -51, 0, 0, 0, 500));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration (0, 0, 0, 0, 5, 48, -56, -456));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Duration (0, 0, 0, 0, 0, 0, 0, -560));
+    }
+
 };
 
 
@@ -277,6 +332,7 @@ class DateTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testCompare);
     CPPUNIT_TEST (testSet);
     CPPUNIT_TEST (testArithmetic);
+    CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
     Date::Ptr d1, d2, d3, d4, d5, d6;
@@ -324,7 +380,7 @@ class DateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (d3->GetMonth () == 1);
       CPPUNIT_ASSERT (d3->GetDay () == 1);
       CPPUNIT_ASSERT (d3->GetHour () == 20);
-      CPPUNIT_ASSERT (d3->GetMinute () == 07);
+      CPPUNIT_ASSERT (d3->GetMinute () == 7);
       CPPUNIT_ASSERT (d3->GetSecond () == 43);
       CPPUNIT_ASSERT (d3->GetMillisecond () == 437);
 
@@ -491,6 +547,36 @@ class DateTest : public CppUnit::TestFixture
       CPPUNIT_ASSERT (*d6 + dur1 == Date (4526, 12, 25, 18, 45, 7, 7));
       CPPUNIT_ASSERT (*d6 + dur2 == Date (4520, 12, 25, 18, 45, 7, 2));
       CPPUNIT_ASSERT (*d6 + dur3 == Date (4523, 8, 21, 6, 47, 6, 47));
+    }
+
+    void testSerialization (void)
+    {
+      std::ostringstream ss1;
+      ss1 << *d1;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
+      ss1.str (""); ss1 << *d2;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
+      ss1.str (""); ss1 << *d3;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T20:07:43.437");
+      ss1.str (""); ss1 << *d4;
+      CPPUNIT_ASSERT (ss1.str () == "2012-03-25T00:37:10.254");
+      ss1.str (""); ss1 << *d5;
+      CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
+      ss1.str (""); ss1 << *d6;
+      CPPUNIT_ASSERT (ss1.str () == "4521-12-25T18:45:07.002");
+
+      Date d;
+      std::istringstream ss2;
+      ss2.str ("1984-05-14T12:00:00.0 20451-09-30T00:04:15.5 "
+               "1970-01-01T00:00:00 2011-04-03T14:58:33.48");
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Date (1984, 5, 14, 12, 0, 0, 0));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Date (20451, 9, 30, 0, 4, 15, 500));
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Date ());
+      ss2 >> d;
+      CPPUNIT_ASSERT (d == Date (2011, 4, 3, 14, 58, 33, 480));
     }
 
 };
