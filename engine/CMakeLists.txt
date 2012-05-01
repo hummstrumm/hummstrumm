@@ -1,5 +1,5 @@
 # Humm and Strumm Video Game
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2012, the people listed in the AUTHORS file.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ set (hummstrummengine_SRCS
   src/date/duration.cpp
   src/date/date.cpp
   src/system/endianness.cpp
+  src/math/mathutils.cpp
   src/events/windowevents.cpp
   src/window/windowvisualinfo.cpp)
 
@@ -137,7 +138,7 @@ endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
 
 # Install library.
-install (TARGETS hummstrummengine 
+install (TARGETS hummstrummengine
          ARCHIVE DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES})
 
 
