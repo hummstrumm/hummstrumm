@@ -34,7 +34,7 @@ MemoryCorruption::MemoryCorruption (const char *fileName,
            "The program has encountered a corrupt memory block.", text)
 {}
 
-MemoryCorruption::~MemoryCorruption (void)
+MemoryCorruption::~MemoryCorruption ()
 {}
 
 

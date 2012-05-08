@@ -69,7 +69,7 @@ class OutOfMemory : public Error
      * @date 2010-01-31
      * @since 0.1
      */
-    virtual ~OutOfMemory (void);
+    virtual ~OutOfMemory ();
 };
 
 }

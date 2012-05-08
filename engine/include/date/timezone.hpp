@@ -61,7 +61,7 @@ class Timezone : public hummstrumm::engine::core::Object
      * @date   2012-02-28
      * @since  0.5
      */
-    Timezone (void);
+    Timezone ();
     /**
      * Constructs a new Timezone object initialized to a specific offset from
      * UTC.  The Duration object is reduced with Reduce(Duration) and then only
@@ -97,7 +97,7 @@ class Timezone : public hummstrumm::engine::core::Object
      * @date   2012-03-11
      * @since  0.5
      */
-    virtual ~Timezone (void);
+    virtual ~Timezone ();
 
     /**
      * Assigns a value to this Timezone.
@@ -120,7 +120,7 @@ class Timezone : public hummstrumm::engine::core::Object
      *
      * @return A Duration representing the current timezone's offset from UTC.
      */
-    Duration GetOffset (void)
+    Duration GetOffset ()
       const throw ();
     
   private:
@@ -230,7 +230,7 @@ std::istream &operator>> (std::istream &in, Timezone &)
  * @return A Timezone corresponding to the current offset.
  */
 Timezone
-GetCurrentTimezone (void)
+GetCurrentTimezone ()
   throw ();
 
 

@@ -138,7 +138,7 @@ class Object
      * @date 2009-09-02
      * @since 0.1
      */
-    Object (void);
+    Object ();
     /**
      * Destructs an Object.
      *
@@ -146,7 +146,7 @@ class Object
      * @date 2009-09-02
      * @since 0.1
      */
-    virtual ~Object (void);
+    virtual ~Object ();
 
     /**
      * Returns the current reference count of the Object.  This will be the
@@ -159,7 +159,7 @@ class Object
      *
      * @returns The reference count of the Object.
      */
-    unsigned int GetReferenceCount (void)
+    unsigned int GetReferenceCount ()
       const throw ();
 
     /**
@@ -174,7 +174,7 @@ class Object
      *
      * @see Type
      */
-    static const Type *GetType (void)
+    static const Type *GetType ()
       throw ();
     /**
      * Returns a new object of this class.  This method uses the default
@@ -194,7 +194,7 @@ class Object
      *
      * @todo Throw an exception if the memory allocation fails.
      */
-    static Ptr CreateNew (void)
+    static Ptr CreateNew ()
       throw ();
     /**
      * Returns a Pointer<const Object> to this Object.  There are two versions
@@ -209,7 +209,7 @@ class Object
      *
      * @see operator&
      */
-    ConstPtr GetPointer (void)
+    ConstPtr GetPointer ()
       const throw ();
     /**
      * Returns a Pointer<const Object> to this Object.  There are two versions
@@ -229,7 +229,7 @@ class Object
      *
      * @see GetPointer
      */
-     ConstPtr operator& (void)
+     ConstPtr operator& ()
        const throw ();
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
@@ -244,7 +244,7 @@ class Object
      *
      * @see operator&
      */
-    Ptr GetPointer (void)
+    Ptr GetPointer ()
       throw ();
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
@@ -264,7 +264,7 @@ class Object
      *
      * @see GetPointer
      */
-    Ptr operator& (void)
+    Ptr operator& ()
       throw ();
 
     /**
@@ -356,7 +356,7 @@ class Object
      * @date 2009-09-02
      * @since 0.1
      */
-    void AddReference (void)
+    void AddReference ()
       const throw ();
     /**
      * Drops a reference to this Object.  This decrements the reference count
@@ -369,7 +369,7 @@ class Object
      * @date 2009-09-02
      * @since 0.1
      */
-    void DropReference (void)
+    void DropReference ()
       const throw ();
     
     mutable unsigned int referenceCount;  /**< The Object's reference count. */

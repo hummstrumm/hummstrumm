@@ -70,7 +70,7 @@ class Endianness
      * @date   2010-11-27
      * @since  0.3
      */
-    Endianness (void)
+    Endianness ()
       throw ();
     /**
      * Destructs an Endianness object.
@@ -79,7 +79,7 @@ class Endianness
      * @date   2010-11-27
      * @since  0.3
      */
-    virtual ~Endianness (void);
+    virtual ~Endianness ();
 
     /**
      * Returns the system's Endianness.
@@ -90,7 +90,7 @@ class Endianness
      *
      * @return The system's byte order.
      */
-    Endian GetSystemEndianness (void)
+    Endian GetSystemEndianness ()
       const throw ();
 
 

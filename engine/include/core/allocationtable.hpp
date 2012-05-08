@@ -100,7 +100,7 @@ class AllocationTable
      * @date   2010-11-27
      * @since  0.3
      */
-    AllocationTable (void)
+    AllocationTable ()
       throw ();
     /**
      * Destructs an AllocationTable object.  All memory used in the linked list
@@ -110,7 +110,7 @@ class AllocationTable
      * @date   2010-11-27
      * @since  0.3
      */
-    virtual ~AllocationTable (void);
+    virtual ~AllocationTable ();
 
     /**
      * Adds a new Allocation to the head of the list.
@@ -183,7 +183,7 @@ class AllocationTable
          * @date   2010-11-27
          * @since  0.3
          */
-        virtual ~Allocation (void);
+        virtual ~Allocation ();
 
         void *memoryLocation;           ///< The allocated memory.
         Allocation *previousAllocation; ///< Last allocation in the list.

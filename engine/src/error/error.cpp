@@ -40,40 +40,40 @@ Error::Error (const char *fileName, unsigned int lineNumber,
 {
 }
 
-Error::~Error (void)
+Error::~Error ()
 {
 }
 
 const char *
-Error::GetFileName (void)
+Error::GetFileName ()
   const throw ()
 {
   return this->fileName;
 }
 
 unsigned int
-Error::GetLineNumber (void)
+Error::GetLineNumber ()
   const throw ()
 {
   return this->lineNumber;
 }
 
 const char *
-Error::GetText (void)
+Error::GetText ()
   const throw ()
 {
   return this->text;
 }
 
 const char *
-Error::GetDescription (void)
+Error::GetDescription ()
   const throw ()
 {
   return this->description;
 }
 
 const char *
-Error::GetFunction (void)
+Error::GetFunction ()
   const throw ()
 {
   return this->function;

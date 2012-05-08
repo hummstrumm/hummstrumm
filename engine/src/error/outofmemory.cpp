@@ -32,7 +32,7 @@ OutOfMemory::OutOfMemory (const char *fileName, unsigned int lineNumber,
            "The program has run out of memory.", text)
 {}
 
-OutOfMemory::~OutOfMemory (void)
+OutOfMemory::~OutOfMemory ()
 {}
 
 

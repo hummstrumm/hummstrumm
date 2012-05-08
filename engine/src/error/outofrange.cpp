@@ -32,7 +32,7 @@ OutOfRange::OutOfRange (const char *fileName, unsigned int lineNumber,
            "The program encountered an out of range error.", text)
 {}
 
-OutOfRange::~OutOfRange (void) {}
+OutOfRange::~OutOfRange () {}
 
 }
 }

@@ -32,7 +32,7 @@ InvalidParam::InvalidParam (const char *fileName, unsigned int lineNumber,
            "An invalid argument was passed to a method.", text)
 {}
 
-InvalidParam::~InvalidParam (void)
+InvalidParam::~InvalidParam ()
 {}
 
 

@@ -66,7 +66,7 @@ class Unicode : public Error
      * @date 2010-06-08
      * @since 0.3
      */
-    virtual ~Unicode (void);
+    virtual ~Unicode ();
 };
 
 }

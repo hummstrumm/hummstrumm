@@ -31,7 +31,7 @@ DivisionByZero::DivisionByZero (const char *fileName, unsigned int lineNumber,
            "The program encountered a division by zero.", text)
 {}
 
-DivisionByZero::~DivisionByZero (void)
+DivisionByZero::~DivisionByZero ()
 {}
 
 }

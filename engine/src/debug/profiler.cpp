@@ -57,7 +57,7 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::O
 }
 
 void
-Profiler::Iterate (void)
+Profiler::Iterate ()
   throw ()
 {
   hummstrumm::engine::core::Engine *engine =
@@ -118,7 +118,7 @@ Profiler::Iterate (void)
   this->startTime = engine->GetClock ()->GetHighResolutionCount ();
 }
 
-Profiler::~Profiler (void)
+Profiler::~Profiler ()
 {
   // Add a run.
   Iterate ();

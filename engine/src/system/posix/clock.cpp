@@ -33,7 +33,7 @@ namespace system
 uint64 Clock::NANOSECONDS_PER_SECOND = 1000000000;
 
 
-Clock::Clock (void)
+Clock::Clock ()
   throw ()
   : frequency (0)
 {
@@ -52,13 +52,13 @@ Clock::Clock (void)
 }
 
 
-Clock::~Clock (void)
+Clock::~Clock ()
 {
 }
 
 
 uint64
-Clock::GetHighResolutionCount (void)
+Clock::GetHighResolutionCount ()
   const throw ()
 {
   // Get clock count.  Try monotonic first, because it is guaranteed to keep on
@@ -75,7 +75,7 @@ Clock::GetHighResolutionCount (void)
 
 
 uint64
-Clock::GetHighResolutionFrequency (void)
+Clock::GetHighResolutionFrequency ()
   const throw ()
 {
   return this->frequency;
@@ -83,7 +83,7 @@ Clock::GetHighResolutionFrequency (void)
 
 
 uint64
-Clock::GetMillisecondsSinceEpoch (void)
+Clock::GetMillisecondsSinceEpoch ()
   const throw ()
 {
   // Very similar to above, but lacks the guarantee that it will never change.
@@ -95,7 +95,7 @@ Clock::GetMillisecondsSinceEpoch (void)
 
 
 int
-Clock::GetTimezoneBias (void)
+Clock::GetTimezoneBias ()
   const throw ()
 {
   return timezone / 60;

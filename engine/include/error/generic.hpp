@@ -66,7 +66,7 @@ class Generic : public Error
      * @date 2010-08-02
      * @since 0.3
      */
-    virtual ~Generic (void);
+    virtual ~Generic ();
 };
 
 }

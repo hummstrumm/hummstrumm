@@ -63,7 +63,7 @@ class Processors
      * @date   2010-11-27
      * @since  0.3
      */
-    Processors (void)
+    Processors ()
       throw ();
     /**
      * Destructs a Processors object.  This will free the memory used by the
@@ -73,7 +73,7 @@ class Processors
      * @date   2010-11-27
      * @since  0.3
      */
-    virtual ~Processors (void);
+    virtual ~Processors ();
 
     /**
      * Returns the number of processors on the system.  This count includes
@@ -85,7 +85,7 @@ class Processors
      *
      * @return The number of processors on the system.
      */
-    int GetNumberOfProcessors (void)
+    int GetNumberOfProcessors ()
       const throw ();
     /**
      * Returns the processor string associated with the processor index passed
@@ -112,7 +112,7 @@ class Processors
      *
      * @return If the system has SSE support.
      */
-    bool HaveSseSupport (void)
+    bool HaveSseSupport ()
       const throw ();
     /**
      * Returns whether the system supports Streaming SIMD Extensions 2 (SSE2).
@@ -123,7 +123,7 @@ class Processors
      *
      * @return If the system has SSE 2 support.
      */
-    bool HaveSse2Support (void)
+    bool HaveSse2Support ()
       const throw ();
 
     /**
@@ -135,7 +135,7 @@ class Processors
      *
      * @return If the system has SSE 3 support.
      */
-    bool HaveSse3Support (void)
+    bool HaveSse3Support ()
       const throw ();
 
     /**
@@ -147,7 +147,7 @@ class Processors
      *
      * @return If the system has SSE 4.1 support.
      */
-    bool HaveSse41Support (void)
+    bool HaveSse41Support ()
       const throw ();
 
     /**
@@ -159,7 +159,7 @@ class Processors
      *
      * @return If the system has SSE 4.2 support.
      */
-    bool HaveSse42Support (void)
+    bool HaveSse42Support ()
       const throw ();
 
   private:

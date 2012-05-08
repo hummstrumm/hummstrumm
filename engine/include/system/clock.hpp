@@ -58,7 +58,7 @@ class Clock
      * @date   2010-12-13
      * @since  0.3
      */
-    Clock (void)
+    Clock ()
       throw ();
     /**
      * Destructs a Clock object.
@@ -67,7 +67,7 @@ class Clock
      * @date   2010-12-13
      * @since  0.3
      */
-    virtual ~Clock (void);
+    virtual ~Clock ();
 
 
     /**
@@ -84,7 +84,7 @@ class Clock
      * depending on the system.  You can check the clock's frequency with the
      * GetHighResolutionFrequency() method.
      */
-    hummstrumm::engine::types::uint64 GetHighResolutionCount (void)
+    hummstrumm::engine::types::uint64 GetHighResolutionCount ()
       const throw ();
     /**
      * Returns the number of nanoseconds that pass between clicks of the high
@@ -96,7 +96,7 @@ class Clock
      *
      * @return The high resolution clock's frequency, in nanoseconds.
      */
-    hummstrumm::engine::types::uint64 GetHighResolutionFrequency (void)
+    hummstrumm::engine::types::uint64 GetHighResolutionFrequency ()
       const throw ();
 
     /**
@@ -109,7 +109,7 @@ class Clock
      *
      * @return Time passed from the epoch, in milliseconds.
      */
-    hummstrumm::engine::types::uint64 GetMillisecondsSinceEpoch (void)
+    hummstrumm::engine::types::uint64 GetMillisecondsSinceEpoch ()
       const throw ();
 
     /**
@@ -123,7 +123,7 @@ class Clock
      *
      * @return The bias between UTC and the local timezone.
      */
-    int GetTimezoneBias (void)
+    int GetTimezoneBias ()
       const throw ();
 
     /// The number of nanoseconds in a second.

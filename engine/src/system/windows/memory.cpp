@@ -30,7 +30,7 @@ namespace system
 {
 
 
-Memory::Memory (void)
+Memory::Memory ()
   throw ()
   : totalMemory (0),
     freeMemory (0)
@@ -47,19 +47,19 @@ Memory::Memory (void)
   this->freeMemory = int (memoryStatus.ullAvailPhys / 1024);
 }
 
-Memory::~Memory (void)
+Memory::~Memory ()
 {
 }
 
 int
-Memory::GetTotalMemory (void)
+Memory::GetTotalMemory ()
   const throw ()
 {
   return this->totalMemory;
 }
 
 int
-Memory::GetFreeMemory (void)
+Memory::GetFreeMemory ()
   const throw ()
 {
   return this->freeMemory;

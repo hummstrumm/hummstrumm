@@ -103,7 +103,7 @@ class Type
     Type (const hummstrumm::engine::types::String &name,
           std::size_t size,
           const Type *parent,
-          Object::Ptr (*createFunction) (void));
+          Object::Ptr (*createFunction) ());
     /**
      * Destructs a Type object for a certain Object.  Since all Type objects
      * in the Object/Type system are static members of an Object, this
@@ -113,7 +113,7 @@ class Type
      * @date 2009-09-02
      * @since 0.1
      */
-    virtual ~Type (void);
+    virtual ~Type ();
     
     /**
      * Returns the name of the Object, including a full namespace hierarchy.
@@ -124,7 +124,7 @@ class Type
      *
      * @return The name of the Object, as a String.
      */
-    const hummstrumm::engine::types::String GetName (void) const throw ();
+    const hummstrumm::engine::types::String GetName () const throw ();
     /**
      * Returns the size of the Object, in C++ bytes.
      *
@@ -134,7 +134,7 @@ class Type
      *
      * @return The size of the Object, in C++ bytes.
      */
-    std::size_t GetSize (void) const throw ();
+    std::size_t GetSize () const throw ();
     /**
      * Returns the parent Type of the Object.
      *
@@ -144,7 +144,7 @@ class Type
      *
      * @return A pointer to the parent Type of this Object.
      */
-    const Type *GetParent (void) const throw ();
+    const Type *GetParent () const throw ();
     
     /**
      * Returns whether this Object is the root of the hierarchy.
@@ -155,7 +155,7 @@ class Type
      *
      * @return Whether this Object is the root of the hierarchy.
      */
-    bool IsRoot (void) const throw ();
+    bool IsRoot () const throw ();
     /**
      * Returns whether this Object is the direct parent of another Type.
      *
@@ -287,21 +287,21 @@ class Type
      *
      * @see Object::CreateNew
      */
-    Object::Ptr Create (void)
+    Object::Ptr Create ()
       const throw ();
   
   private:
     // Hide
     Type (Type &);
     void operator= (Type &);
-    Type (void);
+    Type ();
     
     char *name;          /**< The name of the Object, including namespaces. */
     std::size_t size;    /**< The size, in bytes, of the Object. */
     const Type *parent;  /**< The parent Type of the Object. */
     /// The static creation function of the Object, which returns a
     /// Pointer<Object> to a new object.
-    Object::Ptr (*createFunction) (void);
+    Object::Ptr (*createFunction) ();
 };
 
 }
@@ -342,16 +342,16 @@ class Type
   public: \
     typedef hummstrumm::engine::core::Pointer<className> Ptr; \
     typedef hummstrumm::engine::core::Pointer<const className> ConstPtr; \
-    static hummstrumm::engine::core::Type *GetType (void) \
+    static hummstrumm::engine::core::Type *GetType () \
       throw (); \
-    static hummstrumm::engine::core::Object::Ptr CreateNew (void); \
-    ConstPtr GetPointer (void) \
+    static hummstrumm::engine::core::Object::Ptr CreateNew (); \
+    ConstPtr GetPointer () \
       const throw (); \
-    ConstPtr operator&  (void) \
+    ConstPtr operator&  () \
       const throw (); \
-    Ptr      GetPointer (void) \
+    Ptr      GetPointer () \
       throw (); \
-    Ptr      operator&  (void) \
+    Ptr      operator&  () \
       throw ();
 
 /**
@@ -384,38 +384,38 @@ class Type
     sizeof (className), parentName::GetType (), className::CreateNew); \
    \
   hummstrumm::engine::core::Type * \
-  className::GetType (void) \
+  className::GetType () \
     throw () \
   { \
     return &type_HIDDEN_; \
   } \
    \
   hummstrumm::engine::core::Object::Ptr \
-  className::CreateNew (void) \
+  className::CreateNew () \
   { \
     return new className; \
   } \
    \
   className::ConstPtr \
-  className::GetPointer (void) \
+  className::GetPointer () \
     const throw () \
   { \
     return className::ConstPtr (this); \
   } \
   className::ConstPtr \
-  className::operator& (void) \
+  className::operator& () \
     const throw () \
   { \
     return className::ConstPtr (this); \
   } \
   className::Ptr \
-  className::GetPointer (void) \
+  className::GetPointer () \
     throw () \
   { \
     return className::Ptr (this); \
   } \
   className::Ptr \
-  className::operator& (void) \
+  className::operator& () \
     throw () \
   { \
     return className::Ptr (this); \
@@ -456,7 +456,7 @@ class Type
    \
   templateDefinition \
   hummstrumm::engine::core::Type * \
-  className::GetType (void) \
+  className::GetType () \
     throw () \
   { \
     return &type_HIDDEN_; \
@@ -464,35 +464,35 @@ class Type
    \
   templateDefinition \
   hummstrumm::engine::core::Object::Ptr \
-  className::CreateNew (void) \
+  className::CreateNew () \
   { \
     return new className; \
   } \
    \
   templateDefinition \
   typename className::ConstPtr \
-  className::GetPointer (void) \
+  className::GetPointer () \
     const throw () \
   { \
     return className::Ptr (this); \
   } \
   templateDefinition \
   typename className::ConstPtr \
-  className::operator& (void)  \
+  className::operator& ()  \
     const throw () \
   { \
     return className::Ptr (this); \
   } \
   templateDefinition \
   typename className::Ptr \
-  className::GetPointer (void) \
+  className::GetPointer () \
     throw () \
   { \
     return className::Ptr (this); \
   } \
   templateDefinition \
   typename className::Ptr \
-  className::operator& (void) \
+  className::operator& () \
     throw () \
   { \
     return className::Ptr (this); \

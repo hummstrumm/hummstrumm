@@ -34,7 +34,7 @@ namespace date
 HUMMSTRUMM_IMPLEMENT_TYPE(hummstrumm::engine::date::Timezone,
                           hummstrumm::engine::core::Object)
 
-Timezone::Timezone (void)
+Timezone::Timezone ()
   : offset ()
 {}
 
@@ -73,7 +73,7 @@ Timezone::Timezone (const Timezone &timezone)
 {}
 
 
-Timezone::~Timezone (void)
+Timezone::~Timezone ()
 {}
 
 
@@ -87,7 +87,7 @@ Timezone::operator= (const Timezone &timezone)
 
 
 Duration
-Timezone::GetOffset (void)
+Timezone::GetOffset ()
   const throw ()
 {
   return offset;
@@ -198,7 +198,7 @@ operator>> (std::istream &in, Timezone &t)
 
 
 Timezone
-GetCurrentTimezone (void)
+GetCurrentTimezone ()
   throw ()
 {
   int bias = (hummstrumm::engine::core::Engine::GetEngine ()) ?

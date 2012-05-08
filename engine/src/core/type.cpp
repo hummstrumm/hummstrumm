@@ -30,7 +30,7 @@ namespace core
 Type::Type (const hummstrumm::engine::types::String &name,
             std::size_t size,
             const Type *parent,
-            Object::Ptr (*createFunction) (void))
+            Object::Ptr (*createFunction) ())
   : name (new char [name.length () + 1]),
     size (size),
     parent (parent),
@@ -42,7 +42,7 @@ Type::Type (const hummstrumm::engine::types::String &name,
 }
 
 
-Type::~Type (void)
+Type::~Type ()
 {
   // Free up the buffer.
   delete this->name;
@@ -50,7 +50,7 @@ Type::~Type (void)
     
 
 const hummstrumm::engine::types::String
-Type::GetName (void)
+Type::GetName ()
   const throw ()
 {
   return hummstrumm::engine::types::String (this->name);
@@ -58,7 +58,7 @@ Type::GetName (void)
 
 
 std::size_t
-Type::GetSize (void)
+Type::GetSize ()
   const throw ()
 {
   return this->size;
@@ -66,7 +66,7 @@ Type::GetSize (void)
 
 
 const Type *
-Type::GetParent (void)
+Type::GetParent ()
   const throw ()
 {
   return this->parent;
@@ -74,7 +74,7 @@ Type::GetParent (void)
     
 
 bool
-Type::IsRoot (void)
+Type::IsRoot ()
   const throw ()
 {
   // If we don't have a parent, we are at the root of the tree.  This should
@@ -166,7 +166,7 @@ Type::operator== (const hummstrumm::engine::types::String name) const throw ()
 
 
 Object::Ptr
-Type::Create (void) const throw ()
+Type::Create () const throw ()
 {
   // Creates a new Object with a creation function for the Object.
   if (this->createFunction)

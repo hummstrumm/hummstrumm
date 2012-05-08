@@ -30,7 +30,7 @@ namespace system
 {
 
 
-Platform::Platform (void)
+Platform::Platform ()
   throw ()
   : name (new char [256])
 {
@@ -342,14 +342,14 @@ Platform::Platform (void)
 }
 
 
-Platform::~Platform (void)
+Platform::~Platform ()
 {
   delete this->name;
 }
 
 
 char *
-Platform::GetName (void)
+Platform::GetName ()
   const throw ()
 {
   return this->name;

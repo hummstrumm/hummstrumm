@@ -32,7 +32,7 @@ namespace system
 uint64 Clock::NANOSECONDS_PER_SECOND = 1000000000;
 
 
-Clock::Clock (void)
+Clock::Clock ()
   throw ()
   : //offset (0),
     //isDaylight (0),
@@ -54,13 +54,13 @@ Clock::Clock (void)
 }
 
 
-Clock::~Clock (void)
+Clock::~Clock ()
 {
 }
 
 
 uint64
-Clock::GetHighResolutionCount (void)
+Clock::GetHighResolutionCount ()
   const throw ()
 {
   LARGE_INTEGER time;
@@ -73,7 +73,7 @@ Clock::GetHighResolutionCount (void)
 
 
 uint64
-Clock::GetHighResolutionFrequency (void)
+Clock::GetHighResolutionFrequency ()
   const throw ()
 {
   return this->frequency;
@@ -92,7 +92,7 @@ static const uint64 WIN_EPOCH_TO_UNIX_EPOCH = 11643609600000;
 
 
 uint64
-Clock::GetMillisecondsSinceEpoch (void)
+Clock::GetMillisecondsSinceEpoch ()
   const throw ()
 {
   // Windows is silly.
@@ -109,7 +109,7 @@ Clock::GetMillisecondsSinceEpoch (void)
 
 
 int
-Clock::GetTimezoneBias (void)
+Clock::GetTimezoneBias ()
   const throw ()
 {
   TIME_ZONE_INFORMATION tz;

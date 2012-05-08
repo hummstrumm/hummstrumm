@@ -26,7 +26,7 @@ namespace system
 {
 
 
-Endianness::Endianness (void)
+Endianness::Endianness ()
   throw ()
 {
   // These two have the same memory.
@@ -52,13 +52,13 @@ Endianness::Endianness (void)
 }
 
 
-Endianness::~Endianness (void)
+Endianness::~Endianness ()
 {
 }
 
 
 Endianness::Endian
-Endianness::GetSystemEndianness (void)
+Endianness::GetSystemEndianness ()
   const throw ()
 {
   return this->systemEndianness;

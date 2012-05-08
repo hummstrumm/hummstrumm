@@ -29,7 +29,7 @@ namespace system
 {
 
 
-Platform::Platform (void)
+Platform::Platform ()
   throw ()
   : name (0)
 {
@@ -55,14 +55,14 @@ Platform::Platform (void)
 }
 
 
-Platform::~Platform (void)
+Platform::~Platform ()
 {
   delete this->name;
 }
 
 
 char *
-Platform::GetName (void)
+Platform::GetName ()
   const throw ()
 {
   return this->name;

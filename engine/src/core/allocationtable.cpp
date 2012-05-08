@@ -28,7 +28,7 @@ namespace core
 {
 
 
-AllocationTable::AllocationTable (void)
+AllocationTable::AllocationTable ()
   throw ()
   : head (0),
     allocationsPool (new char [sizeof (Allocation) * 32]),
@@ -38,7 +38,7 @@ AllocationTable::AllocationTable (void)
 }
 
 
-AllocationTable::~AllocationTable (void)
+AllocationTable::~AllocationTable ()
 {
   for (Allocation *currentNode = this->head; currentNode;)
     {
@@ -153,7 +153,7 @@ AllocationTable::Allocation::Allocation (void *memoryLocation, Allocation *next)
 }
 
 
-AllocationTable::Allocation::~Allocation (void)
+AllocationTable::Allocation::~Allocation ()
 {
   if (this->previousAllocation)
     {

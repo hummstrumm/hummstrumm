@@ -45,18 +45,18 @@ AllocationTable
 Object::allocations;
 
 
-Object::Object (void)
+Object::Object ()
   : referenceCount (!allocations.CheckAndRemove
                       (reinterpret_cast<void *> (this)))
 {}
 
 
-Object::~Object (void)
+Object::~Object ()
 {}
 
 
 unsigned int
-Object::GetReferenceCount (void)
+Object::GetReferenceCount ()
   const throw ()
 {
   return this->referenceCount;
@@ -64,7 +64,7 @@ Object::GetReferenceCount (void)
 
 
 const Type *
-Object::GetType (void)
+Object::GetType ()
   throw ()
 {
   return &type_HIDDEN_;
@@ -72,7 +72,7 @@ Object::GetType (void)
 
 
 Object::Ptr
-Object::CreateNew (void)
+Object::CreateNew ()
   throw ()
 {
   return new Object ();
@@ -80,7 +80,7 @@ Object::CreateNew (void)
 
 
 Object::ConstPtr
-Object::GetPointer (void)
+Object::GetPointer ()
   const throw ()
 {
   return this;
@@ -88,7 +88,7 @@ Object::GetPointer (void)
 
 
 Object::ConstPtr
-Object::operator& (void)
+Object::operator& ()
   const throw ()
 {
   return this;
@@ -96,7 +96,7 @@ Object::operator& (void)
 
 
 Object::Ptr
-Object::GetPointer (void)
+Object::GetPointer ()
   throw ()
 {
   return this;
@@ -104,7 +104,7 @@ Object::GetPointer (void)
 
 
 Object::Ptr
-Object::operator& (void)
+Object::operator& ()
   throw ()
 {
   return this;
@@ -112,7 +112,7 @@ Object::operator& (void)
 
 
 void
-Object::AddReference (void)
+Object::AddReference ()
   const throw ()
 {
   ++(this->referenceCount);
@@ -120,7 +120,7 @@ Object::AddReference (void)
 
 
 void
-Object::DropReference (void) const throw ()
+Object::DropReference () const throw ()
 {
   --(this->referenceCount);
 }

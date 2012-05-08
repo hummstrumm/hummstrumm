@@ -32,7 +32,7 @@ Iterator::Iterator (const char *fileName, unsigned int lineNumber,
            "The program has encountered an iterator error.", text)
 {}
 
-Iterator::~Iterator (void)
+Iterator::~Iterator ()
 {}
 
 

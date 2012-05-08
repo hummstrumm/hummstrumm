@@ -58,7 +58,7 @@ class Platform
      * @note On Windows, we need make the string ourselves.  We need to remember
      * to update 
      */
-    Platform (void)
+    Platform ()
       throw ();
     /**
      * Destructs a Platform object.  Heap memory used to store the string is
@@ -68,7 +68,7 @@ class Platform
      * @date   2010-11-28
      * @since  0.3
      */
-    virtual ~Platform (void);
+    virtual ~Platform ();
 
     /**
      * Returns the name of the system's platform.
@@ -79,7 +79,7 @@ class Platform
      *
      * @return A string containing the name of the platform.
      */
-    char *GetName (void)
+    char *GetName ()
       const throw ();
 
   private:

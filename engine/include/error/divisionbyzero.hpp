@@ -67,7 +67,7 @@ class DivisionByZero: public Error
      * @date 2010-05-28
      * @since 0.2
      */
-    virtual ~DivisionByZero (void);
+    virtual ~DivisionByZero ();
 
 };
 

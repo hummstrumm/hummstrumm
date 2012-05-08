@@ -32,7 +32,7 @@ WindowSystem::WindowSystem (const char *fileName, unsigned int lineNumber,
            "The Window System has encountered an error.")
 {}
 
-WindowSystem::~WindowSystem (void)
+WindowSystem::~WindowSystem ()
 {}
 
 

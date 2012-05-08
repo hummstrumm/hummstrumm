@@ -70,7 +70,7 @@ throw (hummstrumm::engine::error::Generic)
 }
 
 
-Log::~Log (void)
+Log::~Log ()
 {
   if (this->logFile)
     {
@@ -82,7 +82,7 @@ Log::~Log (void)
 
 
 void
-Log::OutputHeader (void)
+Log::OutputHeader ()
   throw ()
 {
   std::fprintf (this->logFile, "<?xml version=\"1.1\" encoding=\"utf-8\"?>\n\n"
@@ -95,7 +95,7 @@ Log::OutputHeader (void)
 
 
 void
-Log::OutputSystemInfo (void)
+Log::OutputSystemInfo ()
   throw ()
 {
   // Get the string for the minimum level for events in the log.
@@ -156,7 +156,7 @@ Log::OutputSystemInfo (void)
 
 
 void
-Log::OutputFooter (void)
+Log::OutputFooter ()
   throw ()
 {
   std::fprintf (this->logFile,
@@ -165,14 +165,14 @@ Log::OutputFooter (void)
 }
 
 hummstrumm::engine::types::String
-Log::GetFileName (void)
+Log::GetFileName ()
   const throw ()
 {
   return this->fileName;
 }
 
 Log::Level
-Log::GetMinimumLevel (void)
+Log::GetMinimumLevel ()
   const throw ()
 {
   return this->minimumLevel;
@@ -264,7 +264,7 @@ Log::Write (hummstrumm::engine::types::String text,
 
 
 int
-Log::ReturnAndIncrementId (void)
+Log::ReturnAndIncrementId ()
   throw ()
 {
   return ++currentId;

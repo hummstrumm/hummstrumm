@@ -66,7 +66,7 @@ class Iterator : public Error
      * @date 2010-09-03
      * @since 0.3
      */
-    virtual ~Iterator (void);
+    virtual ~Iterator ();
 };
 
 }

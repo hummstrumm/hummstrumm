@@ -32,7 +32,7 @@ Unicode::Unicode (const char *fileName, unsigned int lineNumber,
            "The program has encountered a Unicode error.", text)
 {}
 
-Unicode::~Unicode (void)
+Unicode::~Unicode ()
 {}
 
 

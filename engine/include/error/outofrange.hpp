@@ -68,7 +68,7 @@ class OutOfRange: public Error
      * @date 2010-05-28
      * @since 0.2
      */
-    virtual ~OutOfRange (void);
+    virtual ~OutOfRange ();
 
 };
 

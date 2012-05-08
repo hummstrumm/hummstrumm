@@ -59,7 +59,7 @@ class Iri : public hummstrumm::engine::core::Object
      * @date   2011-12-13
      * @since  0.5
      */
-    Iri (void) throw ();
+    Iri () throw ();
     /**
      * Constructs a new Iri object initialized to a certain IRI string.
      *
@@ -87,7 +87,7 @@ class Iri : public hummstrumm::engine::core::Object
      * @date   2011-12-14
      * @since  0.5
      */
-    virtual ~Iri (void) throw ();
+    virtual ~Iri () throw ();
     
     /**
      * Casts the Iri object to a String.
@@ -98,7 +98,7 @@ class Iri : public hummstrumm::engine::core::Object
      *
      * @return The value of this Iri in a String.
      */
-    String ToString (void) const throw ();
+    String ToString () const throw ();
     
   private:
     String scheme;    /**< Scheme (also called Protocol) of the IRI */

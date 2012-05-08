@@ -67,7 +67,7 @@ class MemoryCorruption : public Error
      * @date 2010-07-25
      * @since 0.3
      */
-    virtual ~MemoryCorruption (void);
+    virtual ~MemoryCorruption ();
 };
 
 }

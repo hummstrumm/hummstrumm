@@ -51,7 +51,7 @@ FirstDayOfYear (unsigned year)
 }
 
 
-Date::Date (void)
+Date::Date ()
   : millisecondsSinceEpoch (0)
 {}
 
@@ -147,7 +147,7 @@ Date::Date (unsigned year,
 
 
 unsigned
-Date::GetYear (void)
+Date::GetYear ()
   const throw ()
 {
   uintNatural days = millisecondsSinceEpoch / MILLISECONDS_PER_DAY;
@@ -172,7 +172,7 @@ Date::GetYear (void)
 }
 
 unsigned
-Date::GetMonth (void)
+Date::GetMonth ()
   const throw ()
 {
   // Algorithm from the ECMAScript standard (ECMA-262), version 5, section
@@ -211,7 +211,7 @@ Date::GetMonth (void)
 
 
 unsigned
-Date::GetDay (void)
+Date::GetDay ()
   const throw ()
 {
   // Algorithm from the ECMAScript standard (ECMA-262), version 5, section
@@ -254,7 +254,7 @@ Date::GetDay (void)
 
 
 unsigned
-Date::GetHour (void)
+Date::GetHour ()
   const throw ()
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY / 1000 / 60 / 60;
@@ -262,7 +262,7 @@ Date::GetHour (void)
 
 
 unsigned
-Date::GetMinute (void)
+Date::GetMinute ()
   const throw ()
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY / 1000 / 60 -
@@ -271,7 +271,7 @@ Date::GetMinute (void)
 
 
 unsigned
-Date::GetSecond (void)
+Date::GetSecond ()
   const throw ()
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY / 1000 -
@@ -281,7 +281,7 @@ Date::GetSecond (void)
 
 
 unsigned
-Date::GetMillisecond (void)
+Date::GetMillisecond ()
   const throw ()
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY -
@@ -542,7 +542,7 @@ FindDayOfWeek (const Date &d)
 
 
 Date
-GetLocalDate (void)
+GetLocalDate ()
   throw ()
 {
   uintNatural ms = (hummstrumm::engine::core::Engine::GetEngine ()) ?

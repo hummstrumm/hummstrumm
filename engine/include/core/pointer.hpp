@@ -71,7 +71,7 @@ class Pointer : public Object
   private:
     static Type type_HIDDEN_;
   public:
-    static inline Type *GetType (void) throw ();
+    static inline Type *GetType () throw ();
   
   public:
     /// The type of object this Pointer can point to.
@@ -88,7 +88,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    Pointer<DataType> (void);
+    Pointer<DataType> ();
     /**
      * Constructs a Pointer object that references an Object.  This Object must
      * exist.
@@ -119,7 +119,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    virtual ~Pointer<DataType> (void);
+    virtual ~Pointer<DataType> ();
     
     /**
      * Returns a raw pointer to the Pointer object's Object, or a null pointer
@@ -131,7 +131,7 @@ class Pointer : public Object
      *
      * @return The raw pointer of the Pointer.
      */
-    inline PointerType GetObjectPointer (void) const throw ();
+    inline PointerType GetObjectPointer () const throw ();
     /**
      * Returns a raw pointer to the Pointer object's Object, or a null pointer
      * if the Pointer is null.  This allows the user to access the members of
@@ -143,7 +143,7 @@ class Pointer : public Object
      *
      * @return The raw pointer of the Pointer.
      */
-    inline PointerType operator-> (void) const throw ();
+    inline PointerType operator-> () const throw ();
     
     /**
      * Returns a refence to the Pointer object's Object.  If the pointer is not
@@ -157,7 +157,7 @@ class Pointer : public Object
      *
      * @todo Throw exception.
      */
-    inline DereferenceType GetObject (void) const;
+    inline DereferenceType GetObject () const;
     /**
      * Returns a refence to the Pointer object's Object.  This allows the user
      * to dereference the Pointer as if it were a raw pointer.  If the pointer
@@ -171,7 +171,7 @@ class Pointer : public Object
      *
      * @todo Throw exception.
      */
-    inline DereferenceType operator* (void) const;
+    inline DereferenceType operator* () const;
     
     /**
      * Returns whether the Pointer object is valid (that is, whether it is not a
@@ -181,7 +181,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    inline bool IsValid (void) const throw ();
+    inline bool IsValid () const throw ();
     
     /**
      * Converts the Pointer of a certain type to another type in a valid
@@ -193,7 +193,7 @@ class Pointer : public Object
      * @since 0.1
      */
     template <typename NewType>
-    operator Pointer<NewType> (void) const throw ();
+    operator Pointer<NewType> () const throw ();
 
     /**
      * Changes the Pointer object's Object to that of another Pointer object.

@@ -31,7 +31,7 @@ namespace system
 {
 
 
-Processors::Processors (void)
+Processors::Processors ()
   throw ()
   : numberOfProcessors (0),
     processorStrings (0),
@@ -253,7 +253,7 @@ Processors::Processors (void)
 }
 
 
-Processors::~Processors (void)
+Processors::~Processors ()
 {
   for (int i = 0; i < this->numberOfProcessors; ++i)
     {
@@ -265,7 +265,7 @@ Processors::~Processors (void)
 
 
 int
-Processors::GetNumberOfProcessors (void)
+Processors::GetNumberOfProcessors ()
   const throw ()
 {
   return this->numberOfProcessors;
@@ -288,7 +288,7 @@ Processors::GetProcessorName (int index)
 
 
 bool
-Processors::HaveSseSupport (void)
+Processors::HaveSseSupport ()
   const throw ()
 {
   return this->sseSupport;
@@ -296,7 +296,7 @@ Processors::HaveSseSupport (void)
 
 
 bool
-Processors::HaveSse2Support (void)
+Processors::HaveSse2Support ()
   const throw ()
 {
   return this->sse2Support;
@@ -304,7 +304,7 @@ Processors::HaveSse2Support (void)
 
 
 bool
-Processors::HaveSse3Support (void)
+Processors::HaveSse3Support ()
   const throw ()
 {
   return this->sse3Support;
@@ -312,7 +312,7 @@ Processors::HaveSse3Support (void)
 
 
 bool
-Processors::HaveSse41Support (void)
+Processors::HaveSse41Support ()
   const throw ()
 {
   return this->sse41Support;
@@ -320,7 +320,7 @@ Processors::HaveSse41Support (void)
 
 
 bool
-Processors::HaveSse42Support (void)
+Processors::HaveSse42Support ()
   const throw ()
 {
   return this->sse42Support;

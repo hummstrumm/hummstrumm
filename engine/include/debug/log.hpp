@@ -100,7 +100,7 @@ class Log : public hummstrumm::engine::core::Object
      * @date   2012-02-13
      * @since  0.5
      */
-    virtual ~Log (void);
+    virtual ~Log ();
 
     /**
      * Returns the name of the file to which the log is written.
@@ -111,7 +111,7 @@ class Log : public hummstrumm::engine::core::Object
      *
      * @return The file name of the log output.
      */
-    hummstrumm::engine::types::String GetFileName (void)
+    hummstrumm::engine::types::String GetFileName ()
       const throw ();
 
     /**
@@ -124,7 +124,7 @@ class Log : public hummstrumm::engine::core::Object
      *
      * @return The masking level of the log.
      */
-    Level GetMinimumLevel (void)
+    Level GetMinimumLevel ()
       const throw ();
 
     /**
@@ -178,7 +178,7 @@ class Log : public hummstrumm::engine::core::Object
      * @date   2010-11-09
      * @since  0.3
      */
-    void OutputHeader (void)
+    void OutputHeader ()
       throw ();
     /**
      * Writes the <header> block to the log file.  The <header> block includes
@@ -193,7 +193,7 @@ class Log : public hummstrumm::engine::core::Object
      * @date   2012-02-13
      * @since  0.5
      */
-    void OutputSystemInfo (void)
+    void OutputSystemInfo ()
       throw ();
     /**
      * Writes the XML footer out to the log.  This is necessary before the log
@@ -206,7 +206,7 @@ class Log : public hummstrumm::engine::core::Object
      * @date   2010-11-09
      * @since  0.3
      */
-    void OutputFooter (void)
+    void OutputFooter ()
       throw ();
 
     /**
@@ -217,7 +217,7 @@ class Log : public hummstrumm::engine::core::Object
      * @since  0.3
      */
     int
-    ReturnAndIncrementId (void)
+    ReturnAndIncrementId ()
       throw ();
     
     hummstrumm::engine::types::String fileName; ///< The name of the log file.

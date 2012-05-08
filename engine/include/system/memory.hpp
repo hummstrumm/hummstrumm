@@ -60,7 +60,7 @@ class Memory
      * @date   2010-11-27
      * @since  0.3
      */
-    Memory (void)
+    Memory ()
       throw ();
     /**
      * Destructs a Memory object.
@@ -69,7 +69,7 @@ class Memory
      * @date   2010-11-27
      * @since  0.3
      */
-    virtual ~Memory (void);
+    virtual ~Memory ();
 
     /**
      * Returns the total RAM on the system, in binary kilobytes (KiB).
@@ -80,7 +80,7 @@ class Memory
      *
      * @return The total amount of memory on the system in KiB.
      */
-    int GetTotalMemory (void)
+    int GetTotalMemory ()
       const throw ();
     /**
      * Returns the amount of free RAM on the system at engine startup, in binary
@@ -92,7 +92,7 @@ class Memory
      *
      * @return The total amount of free memory on the system in KiB.
      */
-    int GetFreeMemory (void)
+    int GetFreeMemory ()
       const throw ();
 
   private:

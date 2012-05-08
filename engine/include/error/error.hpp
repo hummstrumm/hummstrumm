@@ -87,7 +87,7 @@ class Error
      * @date   2010-01-31
      * @since  0.1
      */
-    virtual ~Error (void);
+    virtual ~Error ();
 
   public:
     /**
@@ -99,7 +99,7 @@ class Error
      *
      * @return The file name of the Error.
      */
-    const char *GetFileName (void)
+    const char *GetFileName ()
       const throw ();
     /**
      * Returns the line number on which the error occured.
@@ -110,7 +110,7 @@ class Error
      *
      * @return The line number of the Error.
      */
-    unsigned int GetLineNumber (void)
+    unsigned int GetLineNumber ()
       const throw ();
     /**
      * Returns the description of error provided by the programmer.
@@ -121,7 +121,7 @@ class Error
      *
      * @return The specific description of the Error.
      */
-    const char *GetText (void)
+    const char *GetText ()
       const throw ();
     /**
      * Returns the description of error provided by the type of error thrown.
@@ -132,7 +132,7 @@ class Error
      *
      * @return The general description of the Error.
      */
-    const char *GetDescription (void)
+    const char *GetDescription ()
       const throw ();
     /**
      * Returns the name of the function provided by the programmer.
@@ -143,7 +143,7 @@ class Error
      *
      * @return The name of the function from which the Error hails.
      */
-    const char *GetFunction (void)
+    const char *GetFunction ()
       const throw ();
 
   private:

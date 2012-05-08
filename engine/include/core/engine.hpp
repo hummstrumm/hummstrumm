@@ -71,7 +71,7 @@ class Engine
      * @date   2010-11-22
      * @since  0.3
      */
-    Engine (void)
+    Engine ()
       throw (hummstrumm::engine::error::Generic);
     /**
      * Initializes the entire Humm and Strumm Engine with specified parameters.
@@ -90,7 +90,7 @@ class Engine
      * @date   2012-02-13
      * @since  0.5
      */
-    virtual ~Engine (void);
+    virtual ~Engine ();
 
     /**
      * Returns the Engine.  This is useful to get the Engine in places where the
@@ -102,7 +102,7 @@ class Engine
      *
      * @return The Engine object of the game.
      */
-    static Engine *GetEngine (void)
+    static Engine *GetEngine ()
       throw ();
 
     /**
@@ -114,7 +114,7 @@ class Engine
      *
      * @return The Log object.
      */
-    hummstrumm::engine::debug::Log::Ptr GetLog (void)
+    hummstrumm::engine::debug::Log::Ptr GetLog ()
       throw ();
     /**
      * Returns the Platform.
@@ -125,7 +125,7 @@ class Engine
      *
      * @return The Platform object.
      */
-    hummstrumm::engine::system::Platform *GetPlatform (void)
+    hummstrumm::engine::system::Platform *GetPlatform ()
       throw ();
     /**
      * Returns the Processors.
@@ -136,7 +136,7 @@ class Engine
      *
      * @return The Processors object.
      */
-    hummstrumm::engine::system::Processors *GetProcessors (void)
+    hummstrumm::engine::system::Processors *GetProcessors ()
       throw ();
     /**
      * Returns the Memory.
@@ -147,7 +147,7 @@ class Engine
      *
      * @return The Memory object.
      */
-    hummstrumm::engine::system::Memory *GetMemory (void)
+    hummstrumm::engine::system::Memory *GetMemory ()
       throw ();
     /**
      * Returns the Endianness.
@@ -158,7 +158,7 @@ class Engine
      *
      * @return The Endianness object.
      */
-    hummstrumm::engine::system::Endianness *GetEndianness (void)
+    hummstrumm::engine::system::Endianness *GetEndianness ()
       throw ();
     /**
      * Returns the Clock.
@@ -169,7 +169,7 @@ class Engine
      *
      * @return The Clock object.
      */
-    hummstrumm::engine::system::Clock *GetClock (void)
+    hummstrumm::engine::system::Clock *GetClock ()
       throw ();
 
   private:

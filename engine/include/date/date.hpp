@@ -67,7 +67,7 @@ class Date : public hummstrumm::engine::core::Object
      * @date   2012-03-25
      * @since  0.5
      */
-    Date (void);
+    Date ();
     /**
      * Constructs a new Date object initialized to a specific number of
      * milliseconds since the UNIX epoch.
@@ -119,7 +119,7 @@ class Date : public hummstrumm::engine::core::Object
      * @date   2012-03-25
      * @since  0.5
      */
-    inline virtual ~Date (void);
+    inline virtual ~Date ();
 
     /**
      * Retrieves the number of milliseconds that have elapsed between the UNIX
@@ -135,7 +135,7 @@ class Date : public hummstrumm::engine::core::Object
      * fast method.  Do not depend on this being the case in the future.
      */
     inline hummstrumm::engine::types::uintNatural
-    GetMillisecondsSinceEpoch (void)
+    GetMillisecondsSinceEpoch ()
       const throw ();
 
     /**
@@ -151,7 +151,7 @@ class Date : public hummstrumm::engine::core::Object
      * not a simple accessor method; we have to compute the years each time this
      * method is called.  This may not be the case in the future.
      */
-    unsigned GetYear (void)
+    unsigned GetYear ()
       const throw ();
     /**
      * Retrieves the month stored by this Date.
@@ -166,7 +166,7 @@ class Date : public hummstrumm::engine::core::Object
      * not a simple accessor method; we have to compute the years each time this
      * method is called.  This may not be the case in the future.
      */
-    unsigned GetMonth (void)
+    unsigned GetMonth ()
       const throw ();
     /**
      * Retrieves the day stored by this Date.
@@ -181,7 +181,7 @@ class Date : public hummstrumm::engine::core::Object
      * not a simple accessor method; we have to compute the years each time this
      * method is called.  This may not be the case in the future.
      */
-    unsigned GetDay (void)
+    unsigned GetDay ()
       const throw ();
     /**
      * Retrieves the hour stored by this Date.
@@ -196,7 +196,7 @@ class Date : public hummstrumm::engine::core::Object
      * not a simple accessor method; we have to compute the years each time this
      * method is called.  This may not be the case in the future.
      */
-    unsigned GetHour (void)
+    unsigned GetHour ()
       const throw ();
     /**
      * Retrieves the minute stored by this Date.
@@ -211,7 +211,7 @@ class Date : public hummstrumm::engine::core::Object
      * not a simple accessor method; we have to compute the years each time this
      * method is called.  This may not be the case in the future.
      */
-    unsigned GetMinute (void)
+    unsigned GetMinute ()
       const throw ();
     /**
      * Retrieves the second stored by this Date.
@@ -226,7 +226,7 @@ class Date : public hummstrumm::engine::core::Object
      * not a simple accessor method; we have to compute the years each time this
      * method is called.  This may not be the case in the future.
      */
-    unsigned GetSecond (void)
+    unsigned GetSecond ()
       const throw ();
     /**
      * Retrieves the millisecond stored by this Date.
@@ -241,7 +241,7 @@ class Date : public hummstrumm::engine::core::Object
      * not a simple accessor method; we have to compute the years each time this
      * method is called.  This may not be the case in the future.
      */
-    unsigned GetMillisecond (void)
+    unsigned GetMillisecond ()
       const throw ();
 
   
@@ -480,7 +480,7 @@ inline bool IsLeapYear (const Date &) throw ();
  */
 inline bool IsLeapYear (unsigned year) throw ();
 
-Date GetLocalDate (void) throw ();
+Date GetLocalDate () throw ();
 
 /**
  * Holds a day of the seven day week.

@@ -87,7 +87,7 @@ struct Duration : public hummstrumm::engine::core::Object
      * @date   2012-03-17
      * @since  0.5
      */
-    Duration (void);
+    Duration ();
     /**
      * Constructs a new Duration object initialized to a specific
      * duration of time, measured in its components.
@@ -121,7 +121,7 @@ struct Duration : public hummstrumm::engine::core::Object
      * @date   2012-03-17
      * @since  0.5
      */
-    inline virtual ~Duration (void);
+    inline virtual ~Duration ();
     
     int years;        /**< The year interval         **/
     int months;       /**< The months interval       **/

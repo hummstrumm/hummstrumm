@@ -34,7 +34,7 @@ namespace date
 HUMMSTRUMM_IMPLEMENT_TYPE (Duration, Object)
 
 
-Duration::Duration (void)
+Duration::Duration ()
 {
   // Just set everything to zero.
   years = months = days = hours = minutes = seconds = milliseconds = 0;

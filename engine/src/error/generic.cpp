@@ -32,7 +32,7 @@ Generic::Generic (const char *fileName, unsigned int lineNumber,
            "The program has encountered a generic error.", text)
 {}
 
-Generic::~Generic (void)
+Generic::~Generic ()
 {}
 
 

@@ -112,7 +112,7 @@ class Profiler
      * @date   2010-03-15
      * @since  0.2
      */
-    virtual ~Profiler (void);
+    virtual ~Profiler ();
 
     /**
      * Starts a new run of the profiler.  This updates the various stats for
@@ -122,7 +122,7 @@ class Profiler
      * @date   2010-06-14
      * @since  0.3
      */
-    void Iterate (void) throw ();
+    void Iterate () throw ();
 
   private:
     hummstrumm::engine::types::int64 startTime;    ///< The starting time for
