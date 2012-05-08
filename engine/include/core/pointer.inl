@@ -36,14 +36,14 @@ Pointer<T>::type_HIDDEN_
 
 template <typename T>
 Type *
-Pointer<T>::GetType (void) throw ()
+Pointer<T>::GetType () throw ()
 {
   return &type_HIDDEN_;
 }
 
 
 template <typename T>
-Pointer<T>::Pointer (void)
+Pointer<T>::Pointer ()
   : pointer (0),
     Object ()
 {
@@ -69,7 +69,7 @@ Pointer<T>::Pointer (PointerType object)
 
 
 template <typename T>
-Pointer<T>::~Pointer (void)
+Pointer<T>::~Pointer ()
 {
   if (IsValid ())
     {
@@ -84,7 +84,7 @@ Pointer<T>::~Pointer (void)
 
 template <typename T>
 T *
-Pointer<T>::GetObjectPointer (void) const throw ()
+Pointer<T>::GetObjectPointer () const throw ()
 {
   return this->pointer;
 }
@@ -92,7 +92,7 @@ Pointer<T>::GetObjectPointer (void) const throw ()
 
 template <typename T>
 T *
-Pointer<T>::operator-> (void) const throw ()
+Pointer<T>::operator-> () const throw ()
 {
   HUMMSTRUMM_ASSERT (IsValid ());
   
@@ -102,7 +102,7 @@ Pointer<T>::operator-> (void) const throw ()
 
 template <typename T>
 T &
-Pointer<T>::GetObject (void) const
+Pointer<T>::GetObject () const
 {
   HUMMSTRUMM_ASSERT (IsValid ());
   
@@ -112,7 +112,7 @@ Pointer<T>::GetObject (void) const
 
 template <typename T>
 T &
-Pointer<T>::operator* (void) const
+Pointer<T>::operator* () const
 {
   return GetObject ();
 }
@@ -120,7 +120,7 @@ Pointer<T>::operator* (void) const
 
 template <typename T>
 bool
-Pointer<T>::IsValid (void) const throw ()
+Pointer<T>::IsValid () const throw ()
 {
   // If I am not null...
   return (this->pointer != 0);
@@ -129,7 +129,7 @@ Pointer<T>::IsValid (void) const throw ()
 
 template <typename T>
 template <typename NewType>
-Pointer<T>::operator Pointer<NewType> (void) const throw ()
+Pointer<T>::operator Pointer<NewType> () const throw ()
 {
   return Pointer<NewType>(this->pointer);
 }

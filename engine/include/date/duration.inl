@@ -28,7 +28,7 @@ namespace date
 {
 
 
-Duration::~Duration (void)
+Duration::~Duration ()
 { }
 
 

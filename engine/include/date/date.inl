@@ -28,12 +28,12 @@ namespace date
 {
 
 
-Date::~Date (void)
+Date::~Date ()
 {}
 
 
 hummstrumm::engine::types::uintNatural
-Date::GetMillisecondsSinceEpoch (void)
+Date::GetMillisecondsSinceEpoch ()
   const throw ()
 {
   return millisecondsSinceEpoch;
