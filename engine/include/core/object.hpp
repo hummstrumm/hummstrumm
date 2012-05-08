@@ -113,6 +113,9 @@ namespace core
  *
  * @note This will be reworked when the multithreaded support is done (not for
  * a while).  The API will stay mostly the same if used as specified.
+ *
+ * @deprecated This class will be removed in version 0.7, due to improvements
+ * from C++11.
  */
 class Object
 {

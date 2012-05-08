@@ -89,6 +89,9 @@ namespace core
  * stopped so the garbage collector could mark-and-sweep; this is a game!).
  * Maybe we can discover a more efficient way in the future, or perhaps just
  * avoid this altogether?  Whatever, for now.
+ *
+ * @deprecated This class will be removed in version 0.7, due to improvements
+ * from C++11.
  */
 class AllocationTable
 {

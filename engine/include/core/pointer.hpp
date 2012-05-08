@@ -64,6 +64,9 @@ namespace core
  * pointer or create a new Pointer object dynamically from a Type.
  * 
  * @todo Make thread safe?
+ *
+ * @deprecated This class will be removed in version 0.7, due to improvements
+ * from C++11.
  */
 template <typename T>
 class Pointer : public Object

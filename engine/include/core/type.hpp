@@ -76,6 +76,9 @@ class Object;
  * @see Object
  * @see HUMMSTRUMM_DECLARE_TYPE
  * @see HUMMSTRUMM_IMPLEMENT_TYPE
+ *
+ * @deprecated This class will be removed in version 0.7, due to improvements
+ * from C++11.
  */
 class Type
 {
@@ -335,6 +338,9 @@ class Type
  * @see Object::CreateNew
  * @see Type
  * @see HUMMSTRUMM_IMPLEMENT_TYPE
+ *
+ * @deprecated This class will be removed in version 0.7, due to improvements
+ * from C++11.
  */
 #define HUMMSTRUMM_DECLARE_TYPE(className) \
   private: \
@@ -378,6 +384,9 @@ class Type
  * @see Object::CreateNew
  * @see Type
  * @see HUMMSTRUMM_DECLARE_TYPE
+ *
+ * @deprecated This class will be removed in version 0.7, due to improvements
+ * from C++11.
  */
 #define HUMMSTRUMM_IMPLEMENT_TYPE(className, parentName) \
   hummstrumm::engine::core::Type className::type_HIDDEN_ (#className, \
@@ -448,6 +457,9 @@ class Type
  * @see Object::CreateNew
  * @see Type
  * @see HUMMSTRUMM_DECLARE_TYPE
+ *
+ * @deprecated This class will be removed in version 0.7, due to improvements
+ * from C++11.
  */
 #define HUMMSTRUMM_IMPLEMENT_GENERIC_TYPE(templateDefinition, className, parentName) \
   templateDefinition \
