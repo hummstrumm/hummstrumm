@@ -122,7 +122,7 @@ class Profiler
      * @date   2010-06-14
      * @since  0.3
      */
-    void Iterate () throw ();
+    void Iterate () /* noexcept */;
 
   private:
     hummstrumm::engine::types::int64 startTime;    ///< The starting time for

@@ -34,7 +34,6 @@ HUMMSTRUMM_IMPLEMENT_TYPE (hummstrumm::engine::debug::Log,
 
 Log::Log (hummstrumm::engine::types::String fileName,
           Level minimumLevel)
-throw (hummstrumm::engine::error::Generic)
   : fileName (fileName),
     minimumLevel (minimumLevel),
     logFile (0),
@@ -83,7 +82,7 @@ Log::~Log ()
 
 void
 Log::OutputHeader ()
-  throw ()
+  /* noexcept */
 {
   std::fprintf (this->logFile, "<?xml version=\"1.1\" encoding=\"utf-8\"?>\n\n"
                                 "<log>\n\n");
@@ -96,7 +95,7 @@ Log::OutputHeader ()
 
 void
 Log::OutputSystemInfo ()
-  throw ()
+  /* noexcept */
 {
   // Get the string for the minimum level for events in the log.
   const char *mode = 0;
@@ -157,7 +156,7 @@ Log::OutputSystemInfo ()
 
 void
 Log::OutputFooter ()
-  throw ()
+  /* noexcept */
 {
   std::fprintf (this->logFile,
                 "\n\n</log>");
@@ -166,14 +165,14 @@ Log::OutputFooter ()
 
 hummstrumm::engine::types::String
 Log::GetFileName ()
-  const throw ()
+  const /* noexcept */
 {
   return this->fileName;
 }
 
 Log::Level
 Log::GetMinimumLevel ()
-  const throw ()
+  const /* noexcept */
 {
   return this->minimumLevel;
 }
@@ -184,7 +183,7 @@ Log::Write (hummstrumm::engine::types::String text,
             int lineNumber,
             hummstrumm::engine::types::String function,
             Log::Level level)
-  throw ()
+  /* noexcept */
 {
   if (!logFile)
     {
@@ -265,7 +264,7 @@ Log::Write (hummstrumm::engine::types::String text,
 
 int
 Log::ReturnAndIncrementId ()
-  throw ()
+  /* noexcept */
 {
   return ++currentId;
 }

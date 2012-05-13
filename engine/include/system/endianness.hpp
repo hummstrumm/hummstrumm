@@ -71,7 +71,7 @@ class Endianness
      * @since  0.3
      */
     Endianness ()
-      throw ();
+      /* noexcept */;
     /**
      * Destructs an Endianness object.
      *
@@ -91,7 +91,7 @@ class Endianness
      * @return The system's byte order.
      */
     Endian GetSystemEndianness ()
-      const throw ();
+      const /* noexcept */;
 
 
     // Conversions
@@ -109,7 +109,7 @@ class Endianness
      */
     template <typename T>
     T SwitchEndian (const T memory)
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Converts an atomic type of big endianness to its equivalent system endian
@@ -125,7 +125,7 @@ class Endianness
      */
     template <typename T>
     T ConvertBigToSystem (const T bigEndian)
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Converts an atomic type of /little endianness to its equivalent system
@@ -141,7 +141,7 @@ class Endianness
      */
     template <typename T>
     T ConvertLittleToSystem (const T littleEndian)
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Converts an atomic type of system endianness to its equivalent big endian
@@ -157,7 +157,7 @@ class Endianness
      */
     template <typename T>
     T ConvertSystemToBig (const T systemEndian)
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Converts an atomic type of system endianness to its equivalent little
@@ -173,7 +173,7 @@ class Endianness
      */
     template <typename T>
     T ConvertSystemToLittle (const T systemEndian)
-      const throw ();
+      const /* noexcept */;
     
 
   private:

@@ -111,7 +111,7 @@ class Date : public hummstrumm::engine::core::Object
           unsigned hour,
           unsigned minute,
           unsigned second,
-          unsigned millisecond) throw (hummstrumm::engine::error::OutOfRange);
+          unsigned millisecond);
     /**
      * Destructs an existing Date object.
      *
@@ -136,7 +136,7 @@ class Date : public hummstrumm::engine::core::Object
      */
     inline hummstrumm::engine::types::uintNatural
     GetMillisecondsSinceEpoch ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Retrieves the year stored by this Date.
@@ -152,7 +152,7 @@ class Date : public hummstrumm::engine::core::Object
      * method is called.  This may not be the case in the future.
      */
     unsigned GetYear ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Retrieves the month stored by this Date.
      *
@@ -167,7 +167,7 @@ class Date : public hummstrumm::engine::core::Object
      * method is called.  This may not be the case in the future.
      */
     unsigned GetMonth ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Retrieves the day stored by this Date.
      *
@@ -182,7 +182,7 @@ class Date : public hummstrumm::engine::core::Object
      * method is called.  This may not be the case in the future.
      */
     unsigned GetDay ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Retrieves the hour stored by this Date.
      *
@@ -197,7 +197,7 @@ class Date : public hummstrumm::engine::core::Object
      * method is called.  This may not be the case in the future.
      */
     unsigned GetHour ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Retrieves the minute stored by this Date.
      *
@@ -212,7 +212,7 @@ class Date : public hummstrumm::engine::core::Object
      * method is called.  This may not be the case in the future.
      */
     unsigned GetMinute ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Retrieves the second stored by this Date.
      *
@@ -227,7 +227,7 @@ class Date : public hummstrumm::engine::core::Object
      * method is called.  This may not be the case in the future.
      */
     unsigned GetSecond ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Retrieves the millisecond stored by this Date.
      *
@@ -242,7 +242,7 @@ class Date : public hummstrumm::engine::core::Object
      * method is called.  This may not be the case in the future.
      */
     unsigned GetMillisecond ()
-      const throw ();
+      const /* noexcept */;
 
   
   private:
@@ -260,7 +260,7 @@ class Date : public hummstrumm::engine::core::Object
  * 
  * @return Whether the two Date objects are equal.
  */
-inline bool operator== (const Date &, const Date &) throw ();
+inline bool operator== (const Date &, const Date &) /* noexcept */;
 /**
  * Checks whether a Date does not hold the same date/time combination as another
  * Date.
@@ -271,7 +271,7 @@ inline bool operator== (const Date &, const Date &) throw ();
  * 
  * @return Whether the two Date objects are not equal.
  */
-inline bool operator!= (const Date &, const Date &) throw ();
+inline bool operator!= (const Date &, const Date &) /* noexcept */;
 /**
  * Checks whether a Date is greater than another Date.
  *
@@ -281,7 +281,7 @@ inline bool operator!= (const Date &, const Date &) throw ();
  * 
  * @return Whether the first Date object is greater than the second Date object.
  */
-inline bool operator> (const Date &, const Date &) throw ();
+inline bool operator> (const Date &, const Date &) /* noexcept */;
 /**
  * Checks whether a Date is greater than or equal to another Date.
  *
@@ -292,7 +292,7 @@ inline bool operator> (const Date &, const Date &) throw ();
  * @return Whether the first Date object is greater than or equal to the second
  * Date object.
  */
-inline bool operator>= (const Date &, const Date &) throw ();
+inline bool operator>= (const Date &, const Date &) /* noexcept */;
 /**
  * Checks whether a Date is less than another Date.
  *
@@ -302,7 +302,7 @@ inline bool operator>= (const Date &, const Date &) throw ();
  * 
  * @return Whether the first Date object is less than the second Date object.
  */
-inline bool operator< (const Date &, const Date &) throw ();
+inline bool operator< (const Date &, const Date &) /* noexcept */;
 /**
  * Checks whether a Date is less than or equal to another Date.
  *
@@ -313,7 +313,7 @@ inline bool operator< (const Date &, const Date &) throw ();
  * @return Whether the first Date object is less than or equal to the second
  * Date object.
  */
-inline bool operator<= (const Date &, const Date &) throw ();
+inline bool operator<= (const Date &, const Date &) /* noexcept */;
 
 /**
  * Adds a Duration to a Date object and places the result in a temporary object.
@@ -327,13 +327,11 @@ inline bool operator<= (const Date &, const Date &) throw ();
  * @throw OutOfRange If the resulting Date is too large or before the UNIX
  *                   epoch.
  */
-Date operator+ (const Date &, Duration)
-  throw (hummstrumm::engine::error::OutOfRange);
+Date operator+ (const Date &, Duration);
 /**
  * @copydoc operator+ (const Date &, const Duration &)
  */
-Date operator+ (const Duration &, const Date &)
-  throw (hummstrumm::engine::error::OutOfRange);
+Date operator+ (const Duration &, const Date &);
 /**
  * Subtracts a Duration from a Date object and places the result in a temporary
  * object.
@@ -347,8 +345,7 @@ Date operator+ (const Duration &, const Date &)
  * @throw OutOfRange If the resulting Date is too large or before the UNIX
  *                   epoch.
  */
-Date operator- (const Date &, const Duration &)
-  throw (hummstrumm::engine::error::OutOfRange);
+Date operator- (const Date &, const Duration &);
 
 /**
  * Subtracts a Date from another Date and places the result in a temporary
@@ -360,7 +357,7 @@ Date operator- (const Date &, const Duration &)
  *
  * @return The Duration between the two Date objects.
  */
-Duration operator- (const Date &, const Date &) throw ();
+Duration operator- (const Date &, const Date &) /* noexcept */;
 
 /**
  * Adds a Duration to a Date and sets the latter to the result.
@@ -374,8 +371,7 @@ Duration operator- (const Date &, const Date &) throw ();
  * @throw OutOfRange If the resulting Date is too large or before the UNIX
  *                   epoch.
  */
-inline Date &operator+= (Date &, const Duration &)
-  throw (hummstrumm::engine::error::OutOfRange);
+inline Date &operator+= (Date &, const Duration &);
 /**
  * Subtracts a Duration from a Date and sets the latter to the result.
  *
@@ -388,8 +384,7 @@ inline Date &operator+= (Date &, const Duration &)
  * @throw OutOfRange If the resulting Date is too large or before the UNIX
  *                   epoch.
  */
-inline Date &operator-= (Date &, const Duration &)
-  throw (hummstrumm::engine::error::OutOfRange);
+inline Date &operator-= (Date &, const Duration &);
 
 /**
  * Prints the Date to an output stream in ISO 8601 format.
@@ -420,9 +415,7 @@ std::ostream &operator<< (std::ostream &out, const Date &);
  * @throw OutOfRange If the resulting Date is too large or before the UNIX
  *                   epoch.
  */
-std::istream &operator>> (std::istream &in, Date &)
-  throw (hummstrumm::engine::error::Generic,
-         hummstrumm::engine::error::OutOfRange);
+std::istream &operator>> (std::istream &in, Date &);
 
 /**
  * Gives a Date that is equivalent to a UTC Date with a given Timezone offset.
@@ -439,8 +432,7 @@ std::istream &operator>> (std::istream &in, Date &)
  * @throw OutOfRange If the resulting Date is too large or before the UNIX
  *                   epoch.
  */
-Date ConvertWithTimezone (const Date &inUtc, const Timezone &offsetFromUtc)
-  throw (hummstrumm::engine::error::OutOfRange);
+Date ConvertWithTimezone (const Date &inUtc, const Timezone &offsetFromUtc);
 /**
  * Returns the difference between two dates in milliseconds.
  *
@@ -453,7 +445,7 @@ Date ConvertWithTimezone (const Date &inUtc, const Timezone &offsetFromUtc)
  */
 inline hummstrumm::engine::types::uintNatural
 DifferenceInMilliseconds (const Date &, const Date &)
-  throw ();
+  /* noexcept */;
 
 /**
  * Returns whether the year held in the Date is a leap year.
@@ -464,7 +456,7 @@ DifferenceInMilliseconds (const Date &, const Date &)
  *
  * @return Whether the year of a Date is a leap year or not.
  */
-inline bool IsLeapYear (const Date &) throw ();
+inline bool IsLeapYear (const Date &) /* noexcept */;
 /**
  * Returns whether a year is a leap year.
  *
@@ -478,9 +470,9 @@ inline bool IsLeapYear (const Date &) throw ();
  *
  * @throw OutOfRange If the year is 0, which doesn't exist.
  */
-inline bool IsLeapYear (unsigned year) throw ();
+inline bool IsLeapYear (unsigned year) /* noexcept */;
 
-Date GetLocalDate () throw ();
+Date GetLocalDate () /* noexcept */;
 
 /**
  * Holds a day of the seven day week.
@@ -510,7 +502,7 @@ enum DayOfWeek
  *
  * @return The day of the week (e.g., Sunday, Monday, ...)
  */
-DayOfWeek FindDayOfWeek (const Date &) throw ();
+DayOfWeek FindDayOfWeek (const Date &) /* noexcept */;
 
 
 }

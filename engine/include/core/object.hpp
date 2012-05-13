@@ -163,7 +163,7 @@ class Object
      * @returns The reference count of the Object.
      */
     unsigned int GetReferenceCount ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns the Type of the Object.  This Type contains runtime type
@@ -178,7 +178,7 @@ class Object
      * @see Type
      */
     static const Type *GetType ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns a new object of this class.  This method uses the default
      * constructor, so to dynamically create an Object, you need to have one.
@@ -198,7 +198,7 @@ class Object
      * @todo Throw an exception if the memory allocation fails.
      */
     static Ptr CreateNew ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns a Pointer<const Object> to this Object.  There are two versions
      * of this method: one const and one not.  This is the const version, which
@@ -213,7 +213,7 @@ class Object
      * @see operator&
      */
     ConstPtr GetPointer ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns a Pointer<const Object> to this Object.  There are two versions
      * of this method: one const and one not.  This is the const version, which
@@ -233,7 +233,7 @@ class Object
      * @see GetPointer
      */
      ConstPtr operator& ()
-       const throw ();
+       const /* noexcept */;
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
      * this method: one const and one not.  This it the non-const version,
@@ -248,7 +248,7 @@ class Object
      * @see operator&
      */
     Ptr GetPointer ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns a Pointer<Object> to this Object.  There are two versions of
      * this method: one const and one not.  This is the non-const version,
@@ -268,7 +268,7 @@ class Object
      * @see GetPointer
      */
     Ptr operator& ()
-      throw ();
+      /* noexcept */;
 
     /**
      * Returns the memory for an Object and adds it to the AllocationTable.
@@ -281,8 +281,7 @@ class Object
      * 
      * @return A block of memory in which an Object can fit.
      */
-    void *operator new (std::size_t size)
-      throw (/*...*/);
+    void *operator new (std::size_t size);
     /**
      * @overload
      *
@@ -293,7 +292,7 @@ class Object
      * @since  0.3
      */
     void *operator new (std::size_t size, std::nothrow_t)
-      throw ();
+      /* noexcept */;
     /**
      * Deletes an Object from the heap.
      *
@@ -304,7 +303,7 @@ class Object
      * @param [in,out] p The Object to delete.
      */
     void operator delete (void *p)
-      throw ();
+      /* noexcept */;
     /**
      * Returns the memory for an array of Objects and adds it to the
      * AllocationTable.
@@ -317,8 +316,7 @@ class Object
      * 
      * @return A block of memory in which an array of Objects can fit.
      */
-    void *operator new[] (std::size_t size)
-      throw (/*...*/);
+    void *operator new[] (std::size_t size);
     /**
      * @overload
      *
@@ -329,7 +327,7 @@ class Object
      * @since  0.3
      */
     void *operator new[] (std::size_t size, std::nothrow_t)
-      throw ();
+      /* noexcept */;
     /**
      * Deletes an array of Objects from the heap.
      *
@@ -340,14 +338,7 @@ class Object
      * @param [in,out] p The Object array to delete.
      */
     void operator delete[] (void *p)
-      throw ();
-    
-/*  =AFTER STREAM CLASSES CREATED=
-    template <typename T>
-    void Serialize (const StreamOut<T> &streamOut) const throw ();
-    template <typename T>
-    void Serialize (const StreamIn<T> &streamIn) throw ();
-*/
+      /* noexcept */;
  
   private:
     /**
@@ -360,7 +351,7 @@ class Object
      * @since 0.1
      */
     void AddReference ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Drops a reference to this Object.  This decrements the reference count
      * of the Object.  Pointer<T> objects automatically decrement the reference
@@ -373,7 +364,7 @@ class Object
      * @since 0.1
      */
     void DropReference ()
-      const throw ();
+      const /* noexcept */;
     
     mutable unsigned int referenceCount;  /**< The Object's reference count. */
     static Type type_HIDDEN_;             /**< The Type for this Object.     */

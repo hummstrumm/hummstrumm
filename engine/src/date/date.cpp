@@ -67,7 +67,6 @@ Date::Date (unsigned year,
             unsigned minute,
             unsigned second,
             unsigned millisecond)
-  throw (OutOfRange)
   : millisecondsSinceEpoch (0)
 {
   // This'll be useful later.
@@ -148,7 +147,7 @@ Date::Date (unsigned year,
 
 unsigned
 Date::GetYear ()
-  const throw ()
+  const /* noexcept */
 {
   uintNatural days = millisecondsSinceEpoch / MILLISECONDS_PER_DAY;
 
@@ -173,7 +172,7 @@ Date::GetYear ()
 
 unsigned
 Date::GetMonth ()
-  const throw ()
+  const /* noexcept */
 {
   // Algorithm from the ECMAScript standard (ECMA-262), version 5, section
   // 15.9.1.4.
@@ -212,7 +211,7 @@ Date::GetMonth ()
 
 unsigned
 Date::GetDay ()
-  const throw ()
+  const /* noexcept */
 {
   // Algorithm from the ECMAScript standard (ECMA-262), version 5, section
   // 15.9.1.5.
@@ -255,7 +254,7 @@ Date::GetDay ()
 
 unsigned
 Date::GetHour ()
-  const throw ()
+  const /* noexcept */
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY / 1000 / 60 / 60;
 }
@@ -263,7 +262,7 @@ Date::GetHour ()
 
 unsigned
 Date::GetMinute ()
-  const throw ()
+  const /* noexcept */
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY / 1000 / 60 -
          GetHour () * 60;
@@ -272,7 +271,7 @@ Date::GetMinute ()
 
 unsigned
 Date::GetSecond ()
-  const throw ()
+  const /* noexcept */
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY / 1000 -
          GetHour () * 60 * 60 -
@@ -282,7 +281,7 @@ Date::GetSecond ()
 
 unsigned
 Date::GetMillisecond ()
-  const throw ()
+  const /* noexcept */
 {
   return millisecondsSinceEpoch % MILLISECONDS_PER_DAY -
          GetHour () * 60 * 60 * 1000 -
@@ -293,7 +292,6 @@ Date::GetMillisecond ()
 
 Date
 operator+ (const Date &a, Duration b)
-  throw (OutOfRange)
 {
   const unsigned DAYS_PER_MONTH [] =
     { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -417,7 +415,6 @@ operator+ (const Date &a, Duration b)
 
 Date
 operator+ (const Duration &a, const Date &b)
-  throw (OutOfRange)
 {
   // Implemented in terms of operator+ above.
   return b + a;
@@ -426,7 +423,6 @@ operator+ (const Duration &a, const Date &b)
 
 Date
 operator- (const Date &a, const Duration &b)
-  throw (OutOfRange)
 {
   // Implemented in terms of unary operator- for Duration and operator+ above.
   return a + -b;
@@ -435,7 +431,7 @@ operator- (const Date &a, const Duration &b)
 
 Duration
 operator- (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   return Duration (a.GetYear () - b.GetYear (),
                    a.GetMonth () - b.GetMonth (),
@@ -473,7 +469,6 @@ operator<< (std::ostream &out, const Date &d)
 
 std::istream &
 operator>> (std::istream &in, Date &d)
-  throw (Generic, OutOfRange)
 {
   std::locale cLocale ("C");
   std::locale old (in.imbue (cLocale));
@@ -526,7 +521,6 @@ operator>> (std::istream &in, Date &d)
 
 Date
 ConvertWithTimezone (const Date &inUtc, const Timezone &offsetFromUtc)
-  throw (OutOfRange)
 {
   return inUtc + offsetFromUtc.GetOffset ();
 }
@@ -534,7 +528,7 @@ ConvertWithTimezone (const Date &inUtc, const Timezone &offsetFromUtc)
 
 DayOfWeek
 FindDayOfWeek (const Date &d)
-  throw ()
+  /* noexcept */
 {
   return static_cast <DayOfWeek>
     ((d.GetMillisecondsSinceEpoch () / MILLISECONDS_PER_DAY + 4) % 7);
@@ -543,7 +537,7 @@ FindDayOfWeek (const Date &d)
 
 Date
 GetLocalDate ()
-  throw ()
+  /* noexcept */
 {
   uintNatural ms = (hummstrumm::engine::core::Engine::GetEngine ()) ?
     hummstrumm::engine::core::Engine::GetEngine ()->GetClock ()->

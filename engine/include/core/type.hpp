@@ -127,7 +127,7 @@ class Type
      *
      * @return The name of the Object, as a String.
      */
-    const hummstrumm::engine::types::String GetName () const throw ();
+    const hummstrumm::engine::types::String GetName () const /* noexcept */;
     /**
      * Returns the size of the Object, in C++ bytes.
      *
@@ -137,7 +137,7 @@ class Type
      *
      * @return The size of the Object, in C++ bytes.
      */
-    std::size_t GetSize () const throw ();
+    std::size_t GetSize () const /* noexcept */;
     /**
      * Returns the parent Type of the Object.
      *
@@ -147,7 +147,7 @@ class Type
      *
      * @return A pointer to the parent Type of this Object.
      */
-    const Type *GetParent () const throw ();
+    const Type *GetParent () const /* noexcept */;
     
     /**
      * Returns whether this Object is the root of the hierarchy.
@@ -158,7 +158,7 @@ class Type
      *
      * @return Whether this Object is the root of the hierarchy.
      */
-    bool IsRoot () const throw ();
+    bool IsRoot () const /* noexcept */;
     /**
      * Returns whether this Object is the direct parent of another Type.
      *
@@ -170,7 +170,7 @@ class Type
      *
      * @return Whether this Object is a direct parent of type.
      */
-     bool IsParentClassOf (const Type *type) const throw ();
+     bool IsParentClassOf (const Type *type) const /* noexcept */;
     /**
      * Returns whether this Object is a direct child of another Type.
      *
@@ -182,7 +182,7 @@ class Type
      *
      * @return Whether this Object is a direct child of type.
      */
-    bool IsChildClassOf (const Type *type) const throw ();
+    bool IsChildClassOf (const Type *type) const /* noexcept */;
     /**
      * Returns whether this Object is a descendant of another Type.
      *
@@ -194,7 +194,7 @@ class Type
      *
      * @return Whether this Object is a descendant of type.
      */
-    bool IsDerivedFrom (const Type *type) const throw ();
+    bool IsDerivedFrom (const Type *type) const /* noexcept */;
     /**
      * Returns whether this Object is an ancestor of another Type.
      *
@@ -206,7 +206,7 @@ class Type
      *
      * @return Whether this Object is an ancestor of type.
      */
-    bool IsBaseOf (const Type *type) const throw ();
+    bool IsBaseOf (const Type *type) const /* noexcept */;
     
     /**
      * Returns whether this Type is the same as another Type.
@@ -223,7 +223,7 @@ class Type
      *
      * @see operator==(const Type *type)
      */
-    bool IsEqualTo (const Type &type) const throw ();
+    bool IsEqualTo (const Type &type) const /* noexcept */;
     /**
      * Returns whether this Type has the same name as a String.
      *
@@ -240,7 +240,7 @@ class Type
      * @see operator==(const hummstrumm::engine::types::String &)
      */
     bool IsEqualTo (const hummstrumm::engine::types::String &name) const
-      throw ();
+      /* noexcept */;
     /**
      * Returns whether this Type is the same as another Type.
      *
@@ -256,7 +256,7 @@ class Type
      *
      * @see IsEqualTo(const Type *type)
      */
-    bool operator== (const Type &type) const throw ();
+    bool operator== (const Type &type) const /* noexcept */;
     /**
      * Returns whether this Type has the same name as a String.
      *
@@ -273,7 +273,7 @@ class Type
      * @see IsEqualTo(const hummstrumm::engine::types::String &)
      */
     bool operator== (const hummstrumm::engine::types::String name) const
-      throw ();
+      /* noexcept */;
     
     /**
      * Creates a new Object of this Type using the default constructor.  A
@@ -291,7 +291,7 @@ class Type
      * @see Object::CreateNew
      */
     Object::Ptr Create ()
-      const throw ();
+      const /* noexcept */;
   
   private:
     // Hide
@@ -349,16 +349,16 @@ class Type
     typedef hummstrumm::engine::core::Pointer<className> Ptr; \
     typedef hummstrumm::engine::core::Pointer<const className> ConstPtr; \
     static hummstrumm::engine::core::Type *GetType () \
-      throw (); \
+      /* noexcept */; \
     static hummstrumm::engine::core::Object::Ptr CreateNew (); \
     ConstPtr GetPointer () \
-      const throw (); \
+      const /* noexcept */; \
     ConstPtr operator&  () \
-      const throw (); \
+      const /* noexcept */; \
     Ptr      GetPointer () \
-      throw (); \
+      /* noexcept */; \
     Ptr      operator&  () \
-      throw ();
+      /* noexcept */;
 
 /**
  * Adds support for the engine's Object/Type system to an Object.  Place this
@@ -394,7 +394,7 @@ class Type
    \
   hummstrumm::engine::core::Type * \
   className::GetType () \
-    throw () \
+    /* noexcept */ \
   { \
     return &type_HIDDEN_; \
   } \
@@ -407,25 +407,25 @@ class Type
    \
   className::ConstPtr \
   className::GetPointer () \
-    const throw () \
+    const /* noexcept */ \
   { \
     return className::ConstPtr (this); \
   } \
   className::ConstPtr \
   className::operator& () \
-    const throw () \
+    const /* noexcept */ \
   { \
     return className::ConstPtr (this); \
   } \
   className::Ptr \
   className::GetPointer () \
-    throw () \
+    /* noexcept */ \
   { \
     return className::Ptr (this); \
   } \
   className::Ptr \
   className::operator& () \
-    throw () \
+    /* noexcept */ \
   { \
     return className::Ptr (this); \
   }
@@ -469,7 +469,7 @@ class Type
   templateDefinition \
   hummstrumm::engine::core::Type * \
   className::GetType () \
-    throw () \
+    /* noexcept */ \
   { \
     return &type_HIDDEN_; \
   } \
@@ -484,28 +484,28 @@ class Type
   templateDefinition \
   typename className::ConstPtr \
   className::GetPointer () \
-    const throw () \
+    const /* noexcept */ \
   { \
     return className::Ptr (this); \
   } \
   templateDefinition \
   typename className::ConstPtr \
   className::operator& ()  \
-    const throw () \
+    const /* noexcept */ \
   { \
     return className::Ptr (this); \
   } \
   templateDefinition \
   typename className::Ptr \
   className::GetPointer () \
-    throw () \
+    /* noexcept */ \
   { \
     return className::Ptr (this); \
   } \
   templateDefinition \
   typename className::Ptr \
   className::operator& () \
-    throw () \
+    /* noexcept */ \
   { \
     return className::Ptr (this); \
   }

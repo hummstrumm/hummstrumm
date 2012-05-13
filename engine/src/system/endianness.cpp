@@ -27,7 +27,7 @@ namespace system
 
 
 Endianness::Endianness ()
-  throw ()
+  /* noexcept */
 {
   // These two have the same memory.
   union
@@ -59,7 +59,7 @@ Endianness::~Endianness ()
 
 Endianness::Endian
 Endianness::GetSystemEndianness ()
-  const throw ()
+  const /* noexcept */
 {
   return this->systemEndianness;
 }
@@ -68,7 +68,7 @@ Endianness::GetSystemEndianness ()
 template <>
 hummstrumm::engine::types::uint16
 Endianness::SwitchEndian (const hummstrumm::engine::types::uint16 memory)
-  const throw ()
+  const /* noexcept */
 {
   return (((memory >> 8)) | (memory << 8));
 }
@@ -77,7 +77,7 @@ Endianness::SwitchEndian (const hummstrumm::engine::types::uint16 memory)
 template <>
 hummstrumm::engine::types::int16
 Endianness::SwitchEndian (const hummstrumm::engine::types::int16 memory)
-  const throw ()
+  const /* noexcept */
 {
     return (((memory >> 8)) | (memory << 8));
 }
@@ -86,7 +86,7 @@ Endianness::SwitchEndian (const hummstrumm::engine::types::int16 memory)
 template <>
 hummstrumm::engine::types::uint32
 Endianness::SwitchEndian (const hummstrumm::engine::types::uint32 memory)
-  const throw ()
+  const /* noexcept */
 {
   return (((memory & 0x000000FF) << 24) |
           ((memory & 0x0000FF00) << 8)  |
@@ -98,7 +98,7 @@ Endianness::SwitchEndian (const hummstrumm::engine::types::uint32 memory)
 template <>
 hummstrumm::engine::types::int32
 Endianness::SwitchEndian (const hummstrumm::engine::types::int32 memory)
-  const throw ()
+  const /* noexcept */
 {
   return (((memory & 0x000000FF) << 24) |
           ((memory & 0x0000FF00) << 8)  |
@@ -110,7 +110,7 @@ Endianness::SwitchEndian (const hummstrumm::engine::types::int32 memory)
 template <>
 hummstrumm::engine::types::uint64
 Endianness::SwitchEndian (const hummstrumm::engine::types::uint64 memory)
-  const throw ()
+  const /* noexcept */
 {
   return (((memory & 0xFF00000000000000) << 56) |
           ((memory & 0x00FF000000000000) << 40) |
@@ -126,7 +126,7 @@ Endianness::SwitchEndian (const hummstrumm::engine::types::uint64 memory)
 template <>
 hummstrumm::engine::types::int64
 Endianness::SwitchEndian (const hummstrumm::engine::types::int64 memory)
-  const throw ()
+  const /* noexcept */
 {
   return (((memory & 0xFF00000000000000) << 56) |
           ((memory & 0x00FF000000000000) << 40) |

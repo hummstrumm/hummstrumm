@@ -58,7 +58,7 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::O
 
 void
 Profiler::Iterate ()
-  throw ()
+  /* noexcept */
 {
   hummstrumm::engine::core::Engine *engine =
     hummstrumm::engine::core::Engine::GetEngine ();

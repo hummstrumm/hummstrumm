@@ -104,7 +104,7 @@ class AllocationTable
      * @since  0.3
      */
     AllocationTable ()
-      throw ();
+      /* noexcept */;
     /**
      * Destructs an AllocationTable object.  All memory used in the linked list
      * is freed.
@@ -127,7 +127,7 @@ class AllocationTable
      * @todo Make thread safe.
      */
     void Allocate (void *memoryLocation)
-      throw ();
+      /* noexcept */;
     /**
      * Checks to see if the Allocation is in the list, and if so, removes it.
      * If it was in the list, we return true, and if it wasn't, we return false.
@@ -145,7 +145,7 @@ class AllocationTable
      * @todo Make thread safe.
      */
     bool CheckAndRemove (void *memoryLocation)
-      throw ();
+      /* noexcept */;
     
   private:
     /**
@@ -177,7 +177,7 @@ class AllocationTable
          */
         Allocation (void *memoryLocation,
                     Allocation *next)
-          throw ();
+          /* noexcept */;
         /**
          * Destructs an Allocation object.  If there are previous or next nodes
          * in the linked list, they are updated.

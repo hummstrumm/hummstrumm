@@ -79,7 +79,7 @@ class Error
     Error (const char *fileName, unsigned int lineNumber,
            const char *function, const char *description,
            const char *text = "")
-      throw ();
+      /* noexcept */;
     /**
      * Destructs an Error object.
      *
@@ -100,7 +100,7 @@ class Error
      * @return The file name of the Error.
      */
     const char *GetFileName ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns the line number on which the error occured.
      *
@@ -111,7 +111,7 @@ class Error
      * @return The line number of the Error.
      */
     unsigned int GetLineNumber ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns the description of error provided by the programmer.
      *
@@ -122,7 +122,7 @@ class Error
      * @return The specific description of the Error.
      */
     const char *GetText ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns the description of error provided by the type of error thrown.
      *
@@ -133,7 +133,7 @@ class Error
      * @return The general description of the Error.
      */
     const char *GetDescription ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns the name of the function provided by the programmer.
      *
@@ -144,7 +144,7 @@ class Error
      * @return The name of the function from which the Error hails.
      */
     const char *GetFunction ()
-      const throw ();
+      const /* noexcept */;
 
   private:
     const char *fileName;         /**< The name of the file with the Error. */

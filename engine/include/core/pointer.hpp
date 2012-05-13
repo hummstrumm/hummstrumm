@@ -74,7 +74,7 @@ class Pointer : public Object
   private:
     static Type type_HIDDEN_;
   public:
-    static inline Type *GetType () throw ();
+    static inline Type *GetType () /* noexcept */;
   
   public:
     /// The type of object this Pointer can point to.
@@ -134,7 +134,7 @@ class Pointer : public Object
      *
      * @return The raw pointer of the Pointer.
      */
-    inline PointerType GetObjectPointer () const throw ();
+    inline PointerType GetObjectPointer () const /* noexcept */;
     /**
      * Returns a raw pointer to the Pointer object's Object, or a null pointer
      * if the Pointer is null.  This allows the user to access the members of
@@ -146,7 +146,7 @@ class Pointer : public Object
      *
      * @return The raw pointer of the Pointer.
      */
-    inline PointerType operator-> () const throw ();
+    inline PointerType operator-> () const /* noexcept */;
     
     /**
      * Returns a refence to the Pointer object's Object.  If the pointer is not
@@ -184,7 +184,7 @@ class Pointer : public Object
      * @date 2009-10-11
      * @since 0.1
      */
-    inline bool IsValid () const throw ();
+    inline bool IsValid () const /* noexcept */;
     
     /**
      * Converts the Pointer of a certain type to another type in a valid
@@ -196,7 +196,7 @@ class Pointer : public Object
      * @since 0.1
      */
     template <typename NewType>
-    operator Pointer<NewType> () const throw ();
+    operator Pointer<NewType> () const /* noexcept */;
 
     /**
      * Changes the Pointer object's Object to that of another Pointer object.
@@ -214,7 +214,7 @@ class Pointer : public Object
      * @return The new Pointer (useful in chaining = statements)
      */
     const Pointer<DataType> &operator= (const Pointer<DataType> &pointer)
-      throw ();
+      /* noexcept */;
     /**
      * @overload
      *
@@ -225,7 +225,7 @@ class Pointer : public Object
      * @param [in] pointer The object you want to set this Pointer to.
      */
     const Pointer<DataType> &operator= (const PointerType &pointer)
-      throw ();
+      /* noexcept */;
     /**
      * Changes the Pointer object's Object to that of another Pointer object.
      * If the current Pointer is valid, the current Object will be
@@ -239,7 +239,7 @@ class Pointer : public Object
      * @param [in] pointer The new Pointer which references the Object you
      * want to reference.
      */
-    void Set (const Pointer<DataType> pointer) throw ();
+    void Set (const Pointer<DataType> pointer) /* noexcept */;
     /**
      * @overload
      *
@@ -250,7 +250,7 @@ class Pointer : public Object
      * @param [in] pointer The new Pointer which references the Object you
      * want to reference.
      */
-    void Set (const PointerType pointer) throw ();
+    void Set (const PointerType pointer) /* noexcept */;
     
     /**
      * Checks whether two Pointer objects reference the same Object.  The
@@ -264,7 +264,7 @@ class Pointer : public Object
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
-    inline bool operator== (const Pointer<DataType> &pointer) const throw ();
+    inline bool operator== (const Pointer<DataType> &pointer) const /* noexcept */;
     /**
      * Checks whether two Pointer objects reference the same Object.  The
      * two Pointer objects must point to the same memory to be the same.
@@ -277,7 +277,7 @@ class Pointer : public Object
      *
      * @return Whether the two Pointer objects reference the same Object.
      */
-    inline bool IsEqualTo (const Pointer<DataType> &pointer) const throw ();
+    inline bool IsEqualTo (const Pointer<DataType> &pointer) const /* noexcept */;
     
   private:
     /// The raw pointer to an Object.

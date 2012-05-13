@@ -34,7 +34,7 @@ uint64 Clock::NANOSECONDS_PER_SECOND = 1000000000;
 
 
 Clock::Clock ()
-  throw ()
+  /* noexcept */
   : frequency (0)
 {
   // Set timezone information.
@@ -59,7 +59,7 @@ Clock::~Clock ()
 
 uint64
 Clock::GetHighResolutionCount ()
-  const throw ()
+  const /* noexcept */
 {
   // Get clock count.  Try monotonic first, because it is guaranteed to keep on
   // ticking and always increase, never decrease.
@@ -76,7 +76,7 @@ Clock::GetHighResolutionCount ()
 
 uint64
 Clock::GetHighResolutionFrequency ()
-  const throw ()
+  const /* noexcept */
 {
   return this->frequency;
 }
@@ -84,7 +84,7 @@ Clock::GetHighResolutionFrequency ()
 
 uint64
 Clock::GetMillisecondsSinceEpoch ()
-  const throw ()
+  const /* noexcept */
 {
   // Very similar to above, but lacks the guarantee that it will never change.
   timespec realtimeClock;
@@ -96,7 +96,7 @@ Clock::GetMillisecondsSinceEpoch ()
 
 int
 Clock::GetTimezoneBias ()
-  const throw ()
+  const /* noexcept */
 {
   return timezone / 60;
 }

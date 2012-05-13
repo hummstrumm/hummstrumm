@@ -59,7 +59,7 @@ class Clock
      * @since  0.3
      */
     Clock ()
-      throw ();
+      /* noexcept */;
     /**
      * Destructs a Clock object.
      *
@@ -85,7 +85,7 @@ class Clock
      * GetHighResolutionFrequency() method.
      */
     hummstrumm::engine::types::uint64 GetHighResolutionCount ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns the number of nanoseconds that pass between clicks of the high
      * resolution clock.
@@ -97,7 +97,7 @@ class Clock
      * @return The high resolution clock's frequency, in nanoseconds.
      */
     hummstrumm::engine::types::uint64 GetHighResolutionFrequency ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns the number of milliseconds that have passed since the UNIX epoch,
@@ -110,7 +110,7 @@ class Clock
      * @return Time passed from the epoch, in milliseconds.
      */
     hummstrumm::engine::types::uint64 GetMillisecondsSinceEpoch ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns the difference between UTC and the local timezone in minutes.  In
@@ -124,7 +124,7 @@ class Clock
      * @return The bias between UTC and the local timezone.
      */
     int GetTimezoneBias ()
-      const throw ();
+      const /* noexcept */;
 
     /// The number of nanoseconds in a second.
     static hummstrumm::engine::types::uint64 NANOSECONDS_PER_SECOND;

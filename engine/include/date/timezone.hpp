@@ -77,8 +77,7 @@ class Timezone : public hummstrumm::engine::core::Object
      *
      * @throw OutOfRange If the timezone offset is impossible.
      */
-    explicit Timezone (const Duration &offset)
-      throw (hummstrumm::engine::error::OutOfRange);
+    explicit Timezone (const Duration &offset);
     /**
      * Constructs a new Timezone object initialized to the value in another
      * Timezone object.
@@ -109,7 +108,7 @@ class Timezone : public hummstrumm::engine::core::Object
      * @return The value of the Timezone, after assignment.
      */
     Timezone &operator= (const Timezone &)
-      throw ();
+      /* noexcept */;
 
     /**
      * Returns the offset of this timezone from UTC.
@@ -121,7 +120,7 @@ class Timezone : public hummstrumm::engine::core::Object
      * @return A Duration representing the current timezone's offset from UTC.
      */
     Duration GetOffset ()
-      const throw ();
+      const /* noexcept */;
     
   private:
     Duration offset;
@@ -137,7 +136,7 @@ class Timezone : public hummstrumm::engine::core::Object
  * 
  * @return Whether the two Timezone objects are equal.
  */
-bool operator== (const Timezone &, const Timezone &) throw ();
+bool operator== (const Timezone &, const Timezone &) /* noexcept */;
 /**
  * Checks whether a Timezone does not hold the same offset as another Timezone.
  *
@@ -147,7 +146,7 @@ bool operator== (const Timezone &, const Timezone &) throw ();
  * 
  * @return Whether the two Timezone objects are not equal.
  */
-bool operator!= (const Timezone &, const Timezone &) throw ();
+bool operator!= (const Timezone &, const Timezone &) /* noexcept */;
 /**
  * Checks whether a Timezone represents an earlier offset than another Timezone.
  *
@@ -157,7 +156,7 @@ bool operator!= (const Timezone &, const Timezone &) throw ();
  * 
  * @return Whether the first Timezone is less than the second Timezone.
  */
-bool operator< (const Timezone &, const Timezone &) throw ();
+bool operator< (const Timezone &, const Timezone &) /* noexcept */;
 /**
  * Checks whether a Timezone represents an earlier or equal offset compared with
  * another Timezone.
@@ -168,7 +167,7 @@ bool operator< (const Timezone &, const Timezone &) throw ();
  * 
  * @return Whether the second Timezone is greater than the first Timezone.
  */
-bool operator<= (const Timezone &, const Timezone &) throw ();
+bool operator<= (const Timezone &, const Timezone &) /* noexcept */;
 /**
  * Checks whether a Timezone represents a later offset than another Timezone.
  *
@@ -178,7 +177,7 @@ bool operator<= (const Timezone &, const Timezone &) throw ();
  * 
  * @return Whether the first Timezone is greater than the second Timezone.
  */
-bool operator> (const Timezone &, const Timezone &) throw ();
+bool operator> (const Timezone &, const Timezone &) /* noexcept */;
 /**
  * Checks whether a Timezone represents a later or equal offset compared with
  * another Timezone.
@@ -189,7 +188,7 @@ bool operator> (const Timezone &, const Timezone &) throw ();
  * 
  * @return Whether the the second Timezone is less than the Timezone
  */
-bool operator>= (const Timezone &, const Timezone &) throw ();
+bool operator>= (const Timezone &, const Timezone &) /* noexcept */;
 
 /**
  * Prints the Timezone to an output stream.
@@ -217,8 +216,7 @@ std::ostream &operator<< (std::ostream &out, const Timezone &);
  *
  * @throw OutOfRange If the stream gives a timezone offset that is impossible.
  */
-std::istream &operator>> (std::istream &in, Timezone &)
-  throw (hummstrumm::engine::error::OutOfRange);
+std::istream &operator>> (std::istream &in, Timezone &);
 
 /**
  * Creates a new Timezone initialized to the current timezone offset.
@@ -231,7 +229,7 @@ std::istream &operator>> (std::istream &in, Timezone &)
  */
 Timezone
 GetCurrentTimezone ()
-  throw ();
+  /* noexcept */;
 
 
 

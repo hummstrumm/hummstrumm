@@ -36,7 +36,7 @@ Pointer<T>::type_HIDDEN_
 
 template <typename T>
 Type *
-Pointer<T>::GetType () throw ()
+Pointer<T>::GetType () /* noexcept */
 {
   return &type_HIDDEN_;
 }
@@ -84,7 +84,7 @@ Pointer<T>::~Pointer ()
 
 template <typename T>
 T *
-Pointer<T>::GetObjectPointer () const throw ()
+Pointer<T>::GetObjectPointer () const /* noexcept */
 {
   return this->pointer;
 }
@@ -92,7 +92,7 @@ Pointer<T>::GetObjectPointer () const throw ()
 
 template <typename T>
 T *
-Pointer<T>::operator-> () const throw ()
+Pointer<T>::operator-> () const /* noexcept */
 {
   HUMMSTRUMM_ASSERT (IsValid ());
   
@@ -120,7 +120,7 @@ Pointer<T>::operator* () const
 
 template <typename T>
 bool
-Pointer<T>::IsValid () const throw ()
+Pointer<T>::IsValid () const /* noexcept */
 {
   // If I am not null...
   return (this->pointer != 0);
@@ -129,7 +129,7 @@ Pointer<T>::IsValid () const throw ()
 
 template <typename T>
 template <typename NewType>
-Pointer<T>::operator Pointer<NewType> () const throw ()
+Pointer<T>::operator Pointer<NewType> () const /* noexcept */
 {
   return Pointer<NewType>(this->pointer);
 }
@@ -137,7 +137,7 @@ Pointer<T>::operator Pointer<NewType> () const throw ()
 
 template <typename T>
 const Pointer<T> &
-Pointer<T>::operator= (const Pointer<DataType> &pointer) throw ()
+Pointer<T>::operator= (const Pointer<DataType> &pointer) /* noexcept */
 {
   Set (pointer);
   
@@ -148,7 +148,7 @@ Pointer<T>::operator= (const Pointer<DataType> &pointer) throw ()
 
 template <typename T>
 const Pointer<T> &
-Pointer<T>::operator= (const PointerType &pointer) throw ()
+Pointer<T>::operator= (const PointerType &pointer) /* noexcept */
 {
   Set (pointer);
   
@@ -159,7 +159,7 @@ Pointer<T>::operator= (const PointerType &pointer) throw ()
 
 template <typename T>
 void
-Pointer<T>::Set (const Pointer<DataType> pointer) throw ()
+Pointer<T>::Set (const Pointer<DataType> pointer) /* noexcept */
 {
   // If I'm pointing to something already, the the Object I am pointing to that
   // it has lost a reference.
@@ -181,7 +181,7 @@ Pointer<T>::Set (const Pointer<DataType> pointer) throw ()
 
 template <typename T>
 void
-Pointer<T>::Set (PointerType pointer) throw ()
+Pointer<T>::Set (PointerType pointer) /* noexcept */
 {
   // If I'm pointing to something already, the the Object I am pointing to that
   // it has lost a reference.
@@ -204,7 +204,7 @@ Pointer<T>::Set (PointerType pointer) throw ()
     
 template <typename T>
 bool
-Pointer<T>::operator== (const Pointer<DataType> &pointer) const throw ()
+Pointer<T>::operator== (const Pointer<DataType> &pointer) const /* noexcept */
 {
   return IsEqualTo (pointer);
 }
@@ -212,7 +212,7 @@ Pointer<T>::operator== (const Pointer<DataType> &pointer) const throw ()
 
 template <typename T>
 bool
-Pointer<T>::IsEqualTo (const Pointer<DataType> &pointer) const throw ()
+Pointer<T>::IsEqualTo (const Pointer<DataType> &pointer) const /* noexcept */
 {
   // Do I point to the same memory?
   return (this->pointer == pointer->GetPointer ());

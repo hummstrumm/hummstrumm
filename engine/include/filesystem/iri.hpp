@@ -59,7 +59,7 @@ class Iri : public hummstrumm::engine::core::Object
      * @date   2011-12-13
      * @since  0.5
      */
-    Iri () throw ();
+    Iri () /* noexcept */;
     /**
      * Constructs a new Iri object initialized to a certain IRI string.
      *
@@ -67,7 +67,7 @@ class Iri : public hummstrumm::engine::core::Object
      * @date   2011-12-13
      * @since  0.5
      */
-    Iri (const String &iri) throw ();
+    Iri (const String &iri) /* noexcept */;
     /**
      * Constructs a new Iri object initialized to an IRI composed of its
      * constitute parts.
@@ -79,7 +79,7 @@ class Iri : public hummstrumm::engine::core::Object
     Iri (const String &scheme,
          const String &hierarchy,
          const String &query,
-         const String &fragment) throw ();
+         const String &fragment) /* noexcept */;
     /**
      * Destructs an Iri object.
      *
@@ -87,7 +87,7 @@ class Iri : public hummstrumm::engine::core::Object
      * @date   2011-12-14
      * @since  0.5
      */
-    virtual ~Iri () throw ();
+    virtual ~Iri () /* noexcept */;
     
     /**
      * Casts the Iri object to a String.
@@ -98,7 +98,7 @@ class Iri : public hummstrumm::engine::core::Object
      *
      * @return The value of this Iri in a String.
      */
-    String ToString () const throw ();
+    String ToString () const /* noexcept */;
     
   private:
     String scheme;    /**< Scheme (also called Protocol) of the IRI */

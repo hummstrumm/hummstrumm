@@ -31,7 +31,7 @@ Engine::theEngine = 0;
 
 
 Engine::Engine ()
-  throw (hummstrumm::engine::error::Generic) try
+  try
 {
   std::cout << "Humm and Strumm Game Engine initializing...\n\n";
 
@@ -73,7 +73,7 @@ catch (...)
 
 
 Engine::Engine (const Engine::Configuration &params)
-  throw (hummstrumm::engine::error::Generic) try
+  try
 {
   std::cout << "Humm and Strumm Game Engine initializing...\n\n";
 
@@ -119,7 +119,7 @@ Engine::~Engine ()
 
 Engine *
 Engine::GetEngine ()
-  throw ()
+  /* noexcept */
 {
   return theEngine;
 }
@@ -127,7 +127,7 @@ Engine::GetEngine ()
 
 hummstrumm::engine::debug::Log::Ptr
 Engine::GetLog ()
-  throw ()
+  /* noexcept */
 {
   return this->log;
 }
@@ -135,7 +135,7 @@ Engine::GetLog ()
 
 hummstrumm::engine::system::Platform *
 Engine::GetPlatform ()
-  throw ()
+  /* noexcept */
 {
   return this->platform;
 }
@@ -143,7 +143,7 @@ Engine::GetPlatform ()
 
 hummstrumm::engine::system::Processors *
 Engine::GetProcessors ()
-  throw ()
+  /* noexcept */
 {
   return this->processors;
 }
@@ -151,7 +151,7 @@ Engine::GetProcessors ()
 
 hummstrumm::engine::system::Memory *
 Engine::GetMemory ()
-  throw ()
+  /* noexcept */
 {
   return this->memory;
 }
@@ -159,14 +159,14 @@ Engine::GetMemory ()
 
 hummstrumm::engine::system::Endianness *
 Engine::GetEndianness ()
-  throw ()
+  /* noexcept */
 {
   return this->endianness;
 }
 
 hummstrumm::engine::system::Clock *
 Engine::GetClock ()
-  throw ()
+  /* noexcept */
 {
   return this->clock;
 }

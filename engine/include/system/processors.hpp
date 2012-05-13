@@ -64,7 +64,7 @@ class Processors
      * @since  0.3
      */
     Processors ()
-      throw ();
+      /* noexcept */;
     /**
      * Destructs a Processors object.  This will free the memory used by the
      * processor names.
@@ -86,7 +86,7 @@ class Processors
      * @return The number of processors on the system.
      */
     int GetNumberOfProcessors ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns the processor string associated with the processor index passed
      * in.
@@ -101,7 +101,7 @@ class Processors
      * @return The processor name.
      */
     const char *GetProcessorName (int index)
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns whether the system supports Streaming SIMD Extensions (SSE).
@@ -113,7 +113,7 @@ class Processors
      * @return If the system has SSE support.
      */
     bool HaveSseSupport ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns whether the system supports Streaming SIMD Extensions 2 (SSE2).
      *
@@ -124,7 +124,7 @@ class Processors
      * @return If the system has SSE 2 support.
      */
     bool HaveSse2Support ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns whether the system supports Streaming SIMD Extensions 3 (SSE3).
@@ -136,7 +136,7 @@ class Processors
      * @return If the system has SSE 3 support.
      */
     bool HaveSse3Support ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns whether the system supports Streaming SIMD Extensions 4.1 (SSE4).
@@ -148,7 +148,7 @@ class Processors
      * @return If the system has SSE 4.1 support.
      */
     bool HaveSse41Support ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns whether the system supports Streaming SIMD Extensions 4.2 (SSE4).
@@ -160,7 +160,7 @@ class Processors
      * @return If the system has SSE 4.2 support.
      */
     bool HaveSse42Support ()
-      const throw ();
+      const /* noexcept */;
 
   private:
     /**
@@ -175,7 +175,7 @@ class Processors
      * @param [in] index The processor index for which to set the name. 
      */
     void SetProcessorNameToUnknown (int index)
-      throw ();
+      /* noexcept */;
     
     int numberOfProcessors;  ///< The number of processors on the system.
     char **processorStrings; ///< An array of the names of each processor.

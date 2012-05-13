@@ -31,7 +31,7 @@ namespace system
 
 
 Platform::Platform ()
-  throw ()
+  /* noexcept */
   : name (new char [256])
 {
   try
@@ -350,7 +350,7 @@ Platform::~Platform ()
 
 char *
 Platform::GetName ()
-  const throw ()
+  const /* noexcept */
 {
   return this->name;
 }

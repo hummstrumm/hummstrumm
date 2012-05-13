@@ -51,7 +51,7 @@ Type::~Type ()
 
 const hummstrumm::engine::types::String
 Type::GetName ()
-  const throw ()
+  const /* noexcept */
 {
   return hummstrumm::engine::types::String (this->name);
 }
@@ -59,7 +59,7 @@ Type::GetName ()
 
 std::size_t
 Type::GetSize ()
-  const throw ()
+  const /* noexcept */
 {
   return this->size;
 }
@@ -67,7 +67,7 @@ Type::GetSize ()
 
 const Type *
 Type::GetParent ()
-  const throw ()
+  const /* noexcept */
 {
   return this->parent;
 }
@@ -75,7 +75,7 @@ Type::GetParent ()
 
 bool
 Type::IsRoot ()
-  const throw ()
+  const /* noexcept */
 {
   // If we don't have a parent, we are at the root of the tree.  This should
   // only happen for hummstrumm::engine::core::Object in our engine, but for the
@@ -85,7 +85,7 @@ Type::IsRoot ()
 
 bool
 Type::IsParentClassOf (const Type *type)
-  const throw ()
+  const /* noexcept */
 {
   return type->IsChildClassOf (this);
 }
@@ -93,7 +93,7 @@ Type::IsParentClassOf (const Type *type)
 
 bool
 Type::IsChildClassOf (const Type *type)
-  const throw ()
+  const /* noexcept */
 {
   // Direct descendant.
   return (*this->parent == *type);
@@ -102,7 +102,7 @@ Type::IsChildClassOf (const Type *type)
 
 bool
 Type::IsDerivedFrom (const Type *type)
-  const throw ()
+  const /* noexcept */
 {
   return type->IsBaseOf (this);
 }
@@ -111,7 +111,7 @@ Type::IsDerivedFrom (const Type *type)
 
 bool
 Type::IsBaseOf (const Type *type)
-  const throw ()
+  const /* noexcept */
 {
   // If other type has no parents (through recursion or otherwise), this is
   // the end of the recursion chain, and return false all the way down.
@@ -135,7 +135,7 @@ Type::IsBaseOf (const Type *type)
 
   
 bool
-Type::IsEqualTo (const Type &type) const throw ()
+Type::IsEqualTo (const Type &type) const /* noexcept */
 {
   return ((this->size == type.GetSize ()) &&
           (*this->parent == *(type.GetParent ())) &&
@@ -144,7 +144,7 @@ Type::IsEqualTo (const Type &type) const throw ()
 
 
 bool
-Type::IsEqualTo (const hummstrumm::engine::types::String &name) const throw ()
+Type::IsEqualTo (const hummstrumm::engine::types::String &name) const /* noexcept */
 {
   // Maybe if we have a type registry then I could check everything
   return (GetName () == name);
@@ -152,21 +152,21 @@ Type::IsEqualTo (const hummstrumm::engine::types::String &name) const throw ()
 
 
 bool
-Type::operator== (const Type &type) const throw ()
+Type::operator== (const Type &type) const /* noexcept */
 {
   return IsEqualTo (type);
 }
 
 
 bool
-Type::operator== (const hummstrumm::engine::types::String name) const throw ()
+Type::operator== (const hummstrumm::engine::types::String name) const /* noexcept */
 {
   return IsEqualTo (name);
 }
 
 
 Object::Ptr
-Type::Create () const throw ()
+Type::Create () const /* noexcept */
 {
   // Creates a new Object with a creation function for the Object.
   if (this->createFunction)

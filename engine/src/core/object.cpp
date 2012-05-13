@@ -57,7 +57,7 @@ Object::~Object ()
 
 unsigned int
 Object::GetReferenceCount ()
-  const throw ()
+  const /* noexcept */
 {
   return this->referenceCount;
 }
@@ -65,7 +65,7 @@ Object::GetReferenceCount ()
 
 const Type *
 Object::GetType ()
-  throw ()
+  /* noexcept */
 {
   return &type_HIDDEN_;
 }
@@ -73,7 +73,7 @@ Object::GetType ()
 
 Object::Ptr
 Object::CreateNew ()
-  throw ()
+  /* noexcept */
 {
   return new Object ();
 }
@@ -81,7 +81,7 @@ Object::CreateNew ()
 
 Object::ConstPtr
 Object::GetPointer ()
-  const throw ()
+  const /* noexcept */
 {
   return this;
 }
@@ -89,7 +89,7 @@ Object::GetPointer ()
 
 Object::ConstPtr
 Object::operator& ()
-  const throw ()
+  const /* noexcept */
 {
   return this;
 }
@@ -97,7 +97,7 @@ Object::operator& ()
 
 Object::Ptr
 Object::GetPointer ()
-  throw ()
+  /* noexcept */
 {
   return this;
 }
@@ -105,7 +105,7 @@ Object::GetPointer ()
 
 Object::Ptr
 Object::operator& ()
-  throw ()
+  /* noexcept */
 {
   return this;
 }
@@ -113,14 +113,14 @@ Object::operator& ()
 
 void
 Object::AddReference ()
-  const throw ()
+  const /* noexcept */
 {
   ++(this->referenceCount);
 }
 
 
 void
-Object::DropReference () const throw ()
+Object::DropReference () const /* noexcept */
 {
   --(this->referenceCount);
 }
@@ -128,7 +128,6 @@ Object::DropReference () const throw ()
 
 void *
 Object::operator new (std::size_t size)
-  throw (/*...*/)
 {
   void *pointer = malloc (size);
   if (!pointer)
@@ -144,7 +143,7 @@ Object::operator new (std::size_t size)
 
 void *
 Object::operator new (std::size_t size, std::nothrow_t /* nt */)
-  throw ()
+  /* noexcept */
 {
   void *pointer = malloc (size);
   if (pointer)
@@ -158,7 +157,7 @@ Object::operator new (std::size_t size, std::nothrow_t /* nt */)
 
 void
 Object::operator delete (void *p)
-  throw ()
+  /* noexcept */
 {
   free (p);
 }
@@ -166,7 +165,6 @@ Object::operator delete (void *p)
 
 void *
 Object::operator new[] (std::size_t size)
-  throw (/*...*/)
 {
   void *pointer = malloc (size);
   if (!pointer)
@@ -174,8 +172,8 @@ Object::operator new[] (std::size_t size)
       // throw
     }
     
-  // We DON'T WANT THIS line here.  All elements that are on an arry shouldn't be put
-  // in our allocation table.
+  // We DON'T WANT THIS line here.  All elements that are on an array shouldn't
+  // be put in our allocation table.
   // TODO: Document why and point to there from here.
   // allocations.Allocate (pointer);
 
@@ -185,13 +183,13 @@ Object::operator new[] (std::size_t size)
 
 void *
 Object::operator new[] (std::size_t size, std::nothrow_t /* nt */)
-  throw ()
+  /* noexcept */
 {
   void *pointer = malloc (size);
   if (pointer)
     {
-      // We DON'T WANT THIS line here.  All elements that are on an arry shouldn't be put
-      // in our allocation table.
+      // We DON'T WANT THIS line here.  All elements that are on an array
+      // shouldn't be put in our allocation table.
       // TODO: Document why and point to there from here.
       // allocations.Allocate (pointer);
     }
@@ -202,7 +200,7 @@ Object::operator new[] (std::size_t size, std::nothrow_t /* nt */)
 
 void
 Object::operator delete[] (void *p)
-  throw ()
+  /* noexcept */
 {
   free (p);
 }

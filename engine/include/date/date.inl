@@ -34,7 +34,7 @@ Date::~Date ()
 
 hummstrumm::engine::types::uintNatural
 Date::GetMillisecondsSinceEpoch ()
-  const throw ()
+  const /* noexcept */
 {
   return millisecondsSinceEpoch;
 }
@@ -42,7 +42,7 @@ Date::GetMillisecondsSinceEpoch ()
 
 bool
 operator== (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetMillisecondsSinceEpoch () == b.GetMillisecondsSinceEpoch ();
 }
@@ -50,7 +50,7 @@ operator== (const Date &a, const Date &b)
 
 bool
 operator!= (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   // Implemented in terms of operator==.
   return !(a == b);
@@ -59,7 +59,7 @@ operator!= (const Date &a, const Date &b)
 
 bool
 operator> (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetMillisecondsSinceEpoch () > b.GetMillisecondsSinceEpoch ();
 }
@@ -67,7 +67,7 @@ operator> (const Date &a, const Date &b)
 
 bool
 operator>= (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetMillisecondsSinceEpoch () >= b.GetMillisecondsSinceEpoch ();
 }
@@ -75,7 +75,7 @@ operator>= (const Date &a, const Date &b)
 
 bool
 operator< (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   // Implemented in terms of operator>=
   return !(a.GetMillisecondsSinceEpoch () >= b.GetMillisecondsSinceEpoch ());
@@ -84,7 +84,7 @@ operator< (const Date &a, const Date &b)
 
 bool
 operator<= (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   // Implemented in terms of operator>
   return !(a.GetMillisecondsSinceEpoch () > b.GetMillisecondsSinceEpoch ());
@@ -93,7 +93,6 @@ operator<= (const Date &a, const Date &b)
 
 Date &
 operator+= (Date &a, const Duration &b)
-  throw (hummstrumm::engine::error::OutOfRange)
 {
   // Implemented in terms of operator+
   return (a = a + b);
@@ -102,7 +101,6 @@ operator+= (Date &a, const Duration &b)
 
 Date &
 operator-= (Date &a, const Duration &b)
-  throw (hummstrumm::engine::error::OutOfRange)
 {
   // Implemented in terms of operator-
   return (a = a - b);
@@ -111,7 +109,7 @@ operator-= (Date &a, const Duration &b)
 
 hummstrumm::engine::types::uintNatural
 DifferenceInMilliseconds (const Date &a, const Date &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetMillisecondsSinceEpoch () - b.GetMillisecondsSinceEpoch ();
 }
@@ -119,7 +117,7 @@ DifferenceInMilliseconds (const Date &a, const Date &b)
 
 bool
 IsLeapYear (const Date &d)
-  throw ()
+  /* noexcept */
 {
   return IsLeapYear (d.GetYear ());
 }
@@ -127,7 +125,7 @@ IsLeapYear (const Date &d)
 
 bool
 IsLeapYear (unsigned year)
-  throw ()
+  /* noexcept */
 {
   return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
 }

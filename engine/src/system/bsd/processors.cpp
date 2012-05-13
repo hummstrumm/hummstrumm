@@ -37,7 +37,7 @@ namespace system
 
 
 Processors::Processors ()
-  throw ()
+  /* noexcept */
   : numberOfProcessors (0),
     processorStrings (0)
 {  
@@ -170,7 +170,7 @@ Processors::~Processors ()
 
 int
 Processors::GetNumberOfProcessors ()
-  const throw ()
+  const /* noexcept */
 {
   return this->numberOfProcessors;
 }
@@ -178,7 +178,7 @@ Processors::GetNumberOfProcessors ()
 
 const char *
 Processors::GetProcessorName (int index)
-  const throw ()
+  const /* noexcept */
 {
   if (index >= 0 && index < this->numberOfProcessors)
     {
@@ -193,7 +193,7 @@ Processors::GetProcessorName (int index)
 
 bool
 Processors::HaveSseSupport ()
-  const throw ()
+  const /* noexcept */
 {
   return this->sseSupport;
 }
@@ -201,7 +201,7 @@ Processors::HaveSseSupport ()
 
 bool
 Processors::HaveSse2Support ()
-  const throw ()
+  const /* noexcept */
 {
   return this->sse2Support;
 }
@@ -209,7 +209,7 @@ Processors::HaveSse2Support ()
 
 bool
 Processors::HaveSse3Support ()
-  const throw ()
+  const /* noexcept */
 {
   return this->sse3Support;
 }
@@ -217,7 +217,7 @@ Processors::HaveSse3Support ()
 
 bool
 Processors::HaveSse41Support ()
-  const throw ()
+  const /* noexcept */
 {
   return this->sse41Support;
 }
@@ -225,7 +225,7 @@ Processors::HaveSse41Support ()
 
 bool
 Processors::HaveSse42Support ()
-  const throw ()
+  const /* noexcept */
 {
   return this->sse42Support;
 }
@@ -233,7 +233,7 @@ Processors::HaveSse42Support ()
 
 void
 Processors::SetProcessorNameToUnknown (int index)
-  throw ()
+  /* noexcept */
 {
   if (index >= 0 && index < this->numberOfProcessors)
     {

@@ -31,7 +31,7 @@ namespace error
 Error::Error (const char *fileName, unsigned int lineNumber,
               const char *function, const char *description,
               const char *text)
-  throw ()
+  /* noexcept */
   : fileName (fileName),
     lineNumber (lineNumber),
     function (function),
@@ -46,35 +46,35 @@ Error::~Error ()
 
 const char *
 Error::GetFileName ()
-  const throw ()
+  const /* noexcept */
 {
   return this->fileName;
 }
 
 unsigned int
 Error::GetLineNumber ()
-  const throw ()
+  const /* noexcept */
 {
   return this->lineNumber;
 }
 
 const char *
 Error::GetText ()
-  const throw ()
+  const /* noexcept */
 {
   return this->text;
 }
 
 const char *
 Error::GetDescription ()
-  const throw ()
+  const /* noexcept */
 {
   return this->description;
 }
 
 const char *
 Error::GetFunction ()
-  const throw ()
+  const /* noexcept */
 {
   return this->function;
 }

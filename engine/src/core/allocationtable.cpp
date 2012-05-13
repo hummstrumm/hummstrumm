@@ -29,7 +29,7 @@ namespace core
 
 
 AllocationTable::AllocationTable ()
-  throw ()
+  /* noexcept */
   : head (0),
     allocationsPool (new char [sizeof (Allocation) * 32]),
     usedInPool (0)
@@ -64,7 +64,7 @@ AllocationTable::~AllocationTable ()
 
 void
 AllocationTable::Allocate (void *memoryLocation)
-  throw ()
+  /* noexcept */
 {
   char *memoryPlace = 0;
   Allocation *temp = 0;
@@ -97,7 +97,7 @@ AllocationTable::Allocate (void *memoryLocation)
 
 bool
 AllocationTable::CheckAndRemove (void *memoryLocation)
-  throw ()
+  /* noexcept */
 {
   if (!this->head)
     {
@@ -141,7 +141,7 @@ AllocationTable::CheckAndRemove (void *memoryLocation)
 
 
 AllocationTable::Allocation::Allocation (void *memoryLocation, Allocation *next)
-  throw ()
+  /* noexcept */
   : memoryLocation (memoryLocation),
     nextAllocation (next),
     previousAllocation (0)

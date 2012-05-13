@@ -142,7 +142,7 @@ struct Duration : public hummstrumm::engine::core::Object
  * 
  * @return Whether the two Duration objects are equal.
  */
-inline bool operator== (const Duration &, const Duration &) throw ();
+inline bool operator== (const Duration &, const Duration &) /* noexcept */;
 /**
  * Checks whether a Duration does not hold the same offset as another Duration.
  *
@@ -152,7 +152,7 @@ inline bool operator== (const Duration &, const Duration &) throw ();
  * 
  * @return Whether the two Duration objects are not equal.
  */
-inline bool operator!= (const Duration &, const Duration &) throw ();
+inline bool operator!= (const Duration &, const Duration &) /* noexcept */;
 
 /**
  * Adds a Duration to another Duration and places the result in a temporary
@@ -164,7 +164,7 @@ inline bool operator!= (const Duration &, const Duration &) throw ();
  * 
  * @return The sum.
  */
-inline Duration operator+ (const Duration &, const Duration &) throw ();
+inline Duration operator+ (const Duration &, const Duration &) /* noexcept */;
 /**
  * Subtracts a Duration from another Duration and places the result in a
  * temporary object.
@@ -175,7 +175,7 @@ inline Duration operator+ (const Duration &, const Duration &) throw ();
  * 
  * @return The difference.
  */
-inline Duration operator- (const Duration &, const Duration &) throw ();
+inline Duration operator- (const Duration &, const Duration &) /* noexcept */;
 
 /**
  * Adds a Duration to another Duration and sets the latter to the result.
@@ -186,7 +186,7 @@ inline Duration operator- (const Duration &, const Duration &) throw ();
  * 
  * @return The sum.
  */
-inline Duration &operator+= (Duration &, const Duration &) throw ();
+inline Duration &operator+= (Duration &, const Duration &) /* noexcept */;
 /**
  * Subtracts a Duration from another Duration and sets the latter to the
  * result.
@@ -197,7 +197,7 @@ inline Duration &operator+= (Duration &, const Duration &) throw ();
  * 
  * @return The difference.
  */
-inline Duration &operator-= (Duration &, const Duration &) throw ();
+inline Duration &operator-= (Duration &, const Duration &) /* noexcept */;
 
 /**
  * Negates the Duration, such that it represents a Duration of the same
@@ -209,7 +209,7 @@ inline Duration &operator-= (Duration &, const Duration &) throw ();
  * 
  * @return The negated Duration.
  */
-inline Duration operator- (const Duration &) throw ();
+inline Duration operator- (const Duration &) /* noexcept */;
 
 /**
  * Prints the Duration to an output stream.

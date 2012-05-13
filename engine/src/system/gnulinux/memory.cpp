@@ -31,7 +31,7 @@ namespace system
 
 
 Memory::Memory ()
-  throw ()
+  /* noexcept */
   : totalMemory (0),
     freeMemory (0)
 {
@@ -136,7 +136,7 @@ Memory::~Memory ()
 
 int
 Memory::GetTotalMemory ()
-  const throw ()
+  const /* noexcept */
 {
   return this->totalMemory;
 }
@@ -144,7 +144,7 @@ Memory::GetTotalMemory ()
 
 int
 Memory::GetFreeMemory ()
-  const throw ()
+  const /* noexcept */
 {
   return this->freeMemory;
 }

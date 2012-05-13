@@ -90,8 +90,7 @@ class Log : public hummstrumm::engine::core::Object
      */
     Log (hummstrumm::engine::types::String fileName =
            hummstrumm::engine::types::String ("hummstrummengine.log"),
-         Level minimumLevel = LEVEL_MESSAGE)
-      throw (hummstrumm::engine::error::Generic);
+         Level minimumLevel = LEVEL_MESSAGE);
     /**
      * Destructs a Log.  The log footer is written, and then the log file is
      * closed.
@@ -112,7 +111,7 @@ class Log : public hummstrumm::engine::core::Object
      * @return The file name of the log output.
      */
     hummstrumm::engine::types::String GetFileName ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Returns the minimum level of messages that can be written to
@@ -125,7 +124,7 @@ class Log : public hummstrumm::engine::core::Object
      * @return The masking level of the log.
      */
     Level GetMinimumLevel ()
-      const throw ();
+      const /* noexcept */;
 
     /**
      * Outputs a message to the log file.  This message is an
@@ -160,7 +159,7 @@ class Log : public hummstrumm::engine::core::Object
                 int lineNumber,
                 hummstrumm::engine::types::String function,
                 Level level = LEVEL_MESSAGE)
-      throw ();
+      /* noexcept */;
 
   private:
     /**
@@ -179,7 +178,7 @@ class Log : public hummstrumm::engine::core::Object
      * @since  0.3
      */
     void OutputHeader ()
-      throw ();
+      /* noexcept */;
     /**
      * Writes the <header> block to the log file.  The <header> block includes
      * system information, information about the log level of the log, and
@@ -194,7 +193,7 @@ class Log : public hummstrumm::engine::core::Object
      * @since  0.5
      */
     void OutputSystemInfo ()
-      throw ();
+      /* noexcept */;
     /**
      * Writes the XML footer out to the log.  This is necessary before the log
      * is closed.  This method is called only from the destructor; you don't
@@ -207,7 +206,7 @@ class Log : public hummstrumm::engine::core::Object
      * @since  0.3
      */
     void OutputFooter ()
-      throw ();
+      /* noexcept */;
 
     /**
      * Returns the current message ID and increments it.
@@ -218,7 +217,7 @@ class Log : public hummstrumm::engine::core::Object
      */
     int
     ReturnAndIncrementId ()
-      throw ();
+      /* noexcept */;
     
     hummstrumm::engine::types::String fileName; ///< The name of the log file.
     FILE       *logFile;      ///< The actual file handle.

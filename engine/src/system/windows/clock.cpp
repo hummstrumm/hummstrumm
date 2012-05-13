@@ -33,7 +33,7 @@ uint64 Clock::NANOSECONDS_PER_SECOND = 1000000000;
 
 
 Clock::Clock ()
-  throw ()
+  /* noexcept */
   : //offset (0),
     //isDaylight (0),
     //timeZoneName (0),
@@ -61,7 +61,7 @@ Clock::~Clock ()
 
 uint64
 Clock::GetHighResolutionCount ()
-  const throw ()
+  const /* noexcept */
 {
   LARGE_INTEGER time;
 
@@ -74,7 +74,7 @@ Clock::GetHighResolutionCount ()
 
 uint64
 Clock::GetHighResolutionFrequency ()
-  const throw ()
+  const /* noexcept */
 {
   return this->frequency;
 }
@@ -93,7 +93,7 @@ static const uint64 WIN_EPOCH_TO_UNIX_EPOCH = 11643609600000;
 
 uint64
 Clock::GetMillisecondsSinceEpoch ()
-  const throw ()
+  const /* noexcept */
 {
   // Windows is silly.
   FILETIME time;
@@ -110,7 +110,7 @@ Clock::GetMillisecondsSinceEpoch ()
 
 int
 Clock::GetTimezoneBias ()
-  const throw ()
+  const /* noexcept */
 {
   TIME_ZONE_INFORMATION tz;
   DWORD dwRange = GetTimeZoneInformation (&tz);

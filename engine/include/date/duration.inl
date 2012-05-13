@@ -34,7 +34,7 @@ Duration::~Duration ()
 
 bool
 operator== (const Duration &a, const Duration &b)
-  throw ()
+  /* noexcept */
 {
   return a.years        == b.years        &&
          a.months       == b.months       &&
@@ -48,7 +48,7 @@ operator== (const Duration &a, const Duration &b)
 
 bool
 operator!= (const Duration &a, const Duration &b)
-  throw ()
+  /* noexcept */
 {
   // Implemented in terms of == operator.
   return !(a == b);
@@ -57,7 +57,7 @@ operator!= (const Duration &a, const Duration &b)
 
 Duration
 operator+ (const Duration &a, const Duration &b)
-  throw ()
+  /* noexcept */
 {
   Duration temp (a);
   // Implemented in terms of += operator.
@@ -68,7 +68,7 @@ operator+ (const Duration &a, const Duration &b)
 
 Duration
 operator- (const Duration &a, const Duration &b)
-  throw ()
+  /* noexcept */
 {
   Duration temp (a);
   // Implemented in terms of -= operator.
@@ -79,7 +79,7 @@ operator- (const Duration &a, const Duration &b)
 
 Duration &
 operator+= (Duration &a, const Duration &b)
-  throw ()
+  /* noexcept */
 {
   a.years        += b.years;
   a.months       += b.months;
@@ -95,7 +95,7 @@ operator+= (Duration &a, const Duration &b)
 
 Duration &
 operator-= (Duration &a, const Duration &b)
-  throw ()
+  /* noexcept */
 {
   // Implemented in terms of += and unary - operators.
   return (a += -b);
@@ -104,7 +104,7 @@ operator-= (Duration &a, const Duration &b)
 
 Duration
 operator- (const Duration &a)
-  throw ()
+  /* noexcept */
 {
   Duration temp (a);
   temp.years        = -temp.years;

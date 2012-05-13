@@ -40,7 +40,6 @@ Timezone::Timezone ()
 
 
 Timezone::Timezone (const Duration &duration)
-  throw (hummstrumm::engine::error::OutOfRange)
   : offset (Reduce (duration))
 {
   if (offset.years != 0 || offset.months  != 0 || offset.days  != 0 ||
@@ -79,7 +78,7 @@ Timezone::~Timezone ()
 
 Timezone &
 Timezone::operator= (const Timezone &timezone)
-  throw ()
+  /* noexcept */
 {
   offset = timezone.offset;
   return *this;
@@ -88,7 +87,7 @@ Timezone::operator= (const Timezone &timezone)
 
 Duration
 Timezone::GetOffset ()
-  const throw ()
+  const /* noexcept */
 {
   return offset;
 }
@@ -96,7 +95,7 @@ Timezone::GetOffset ()
 
 bool
 operator== (const Timezone &a, const Timezone &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetOffset () == b.GetOffset ();
 }
@@ -104,7 +103,7 @@ operator== (const Timezone &a, const Timezone &b)
 
 bool
 operator!= (const Timezone &a, const Timezone &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetOffset () != b.GetOffset ();
 }
@@ -112,7 +111,7 @@ operator!= (const Timezone &a, const Timezone &b)
 
 bool
 operator< (const Timezone &a, const Timezone &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetOffset ().hours*60 + a.GetOffset ().minutes <
          b.GetOffset ().hours*60 + b.GetOffset ().minutes;
@@ -121,7 +120,7 @@ operator< (const Timezone &a, const Timezone &b)
 
 bool
 operator<= (const Timezone &a, const Timezone &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetOffset ().hours*60 + a.GetOffset ().minutes <=
          b.GetOffset ().hours*60 + b.GetOffset ().minutes;
@@ -130,7 +129,7 @@ operator<= (const Timezone &a, const Timezone &b)
 
 bool
 operator> (const Timezone &a, const Timezone &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetOffset ().hours*60 + a.GetOffset ().minutes >
          b.GetOffset ().hours*60 + b.GetOffset ().minutes;
@@ -139,7 +138,7 @@ operator> (const Timezone &a, const Timezone &b)
 
 bool
 operator>= (const Timezone &a, const Timezone &b)
-  throw ()
+  /* noexcept */
 {
   return a.GetOffset ().hours*60 + a.GetOffset ().minutes >=
          b.GetOffset ().hours*60 + b.GetOffset ().minutes;
@@ -175,7 +174,6 @@ operator<< (std::ostream &out, const Timezone &t)
 
 std::istream &
 operator>> (std::istream &in, Timezone &t)
-  throw (hummstrumm::engine::error::OutOfRange)
 {
   std::locale c ("C");
   std::locale old (in.imbue (c));
@@ -199,7 +197,7 @@ operator>> (std::istream &in, Timezone &t)
 
 Timezone
 GetCurrentTimezone ()
-  throw ()
+  /* noexcept */
 {
   int bias = (hummstrumm::engine::core::Engine::GetEngine ()) ?
     hummstrumm::engine::core::Engine::GetEngine ()->GetClock ()->

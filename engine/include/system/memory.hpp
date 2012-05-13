@@ -61,7 +61,7 @@ class Memory
      * @since  0.3
      */
     Memory ()
-      throw ();
+      /* noexcept */;
     /**
      * Destructs a Memory object.
      *
@@ -81,7 +81,7 @@ class Memory
      * @return The total amount of memory on the system in KiB.
      */
     int GetTotalMemory ()
-      const throw ();
+      const /* noexcept */;
     /**
      * Returns the amount of free RAM on the system at engine startup, in binary
      * kilobytes (KiB).
@@ -93,7 +93,7 @@ class Memory
      * @return The total amount of free memory on the system in KiB.
      */
     int GetFreeMemory ()
-      const throw ();
+      const /* noexcept */;
 
   private:
     int totalMemory; ///< The total amount of RAM in KiB at engine startup.

@@ -31,7 +31,7 @@ namespace system
 template <typename T>
 T
 Endianness::SwitchEndian (const T memory)
-  const throw ()
+  const /* noexcept */
 {
   union
   {
@@ -59,7 +59,7 @@ Endianness::SwitchEndian (const T memory)
 template <typename T>
 T
 Endianness::ConvertBigToSystem (const T bigEndian)
-  const throw ()
+  const /* noexcept */
 {
   if (GetSystemEndianness () == Big)
     {
@@ -75,7 +75,7 @@ Endianness::ConvertBigToSystem (const T bigEndian)
 template <typename T>
 T
 Endianness::ConvertLittleToSystem (const T littleEndian)
-  const throw ()
+  const /* noexcept */
 {
   if (GetSystemEndianness () == Little)
     {
@@ -91,7 +91,7 @@ Endianness::ConvertLittleToSystem (const T littleEndian)
 template <typename T>
 T
 Endianness::ConvertSystemToBig (const T systemEndian)
-  const throw ()
+  const /* noexcept */
 {
   if (GetSystemEndianness () == Big)
     {
@@ -107,7 +107,7 @@ Endianness::ConvertSystemToBig (const T systemEndian)
 template <typename T>
 T
 Endianness::ConvertSystemToLittle (const T systemEndian)
-  const throw ()
+  const /* noexcept */
 {
   if (GetSystemEndianness () == Little)
     {

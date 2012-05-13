@@ -59,7 +59,7 @@ class Platform
      * to update 
      */
     Platform ()
-      throw ();
+      /* noexcept */;
     /**
      * Destructs a Platform object.  Heap memory used to store the string is
      * freed.
@@ -80,7 +80,7 @@ class Platform
      * @return A string containing the name of the platform.
      */
     char *GetName ()
-      const throw ();
+      const /* noexcept */;
 
   private:
     char *name; ///< The name of the platform.

@@ -30,7 +30,7 @@ namespace system
 
 
 Platform::Platform ()
-  throw ()
+  /* noexcept */
   : name (0)
 {
   utsname systemName;
@@ -63,7 +63,7 @@ Platform::~Platform ()
 
 char *
 Platform::GetName ()
-  const throw ()
+  const /* noexcept */
 {
   return this->name;
 }

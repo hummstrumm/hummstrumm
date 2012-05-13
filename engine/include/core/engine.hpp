@@ -71,8 +71,7 @@ class Engine
      * @date   2010-11-22
      * @since  0.3
      */
-    Engine ()
-      throw (hummstrumm::engine::error::Generic);
+    Engine ();
     /**
      * Initializes the entire Humm and Strumm Engine with specified parameters.
      * The Heap is initialized.
@@ -81,8 +80,7 @@ class Engine
      * @date   2012-02-13
      * @since  0.5
      */
-    Engine (const Configuration &params)
-      throw (hummstrumm::engine::error::Generic);
+    Engine (const Configuration &params);
     /**
      * Shuts down the Humm and Strumm Engine.
      *
@@ -103,7 +101,7 @@ class Engine
      * @return The Engine object of the game.
      */
     static Engine *GetEngine ()
-      throw ();
+      /* noexcept */;
 
     /**
      * Returns the Log.
@@ -115,7 +113,7 @@ class Engine
      * @return The Log object.
      */
     hummstrumm::engine::debug::Log::Ptr GetLog ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns the Platform.
      *
@@ -126,7 +124,7 @@ class Engine
      * @return The Platform object.
      */
     hummstrumm::engine::system::Platform *GetPlatform ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns the Processors.
      *
@@ -137,7 +135,7 @@ class Engine
      * @return The Processors object.
      */
     hummstrumm::engine::system::Processors *GetProcessors ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns the Memory.
      *
@@ -148,7 +146,7 @@ class Engine
      * @return The Memory object.
      */
     hummstrumm::engine::system::Memory *GetMemory ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns the Endianness.
      *
@@ -159,7 +157,7 @@ class Engine
      * @return The Endianness object.
      */
     hummstrumm::engine::system::Endianness *GetEndianness ()
-      throw ();
+      /* noexcept */;
     /**
      * Returns the Clock.
      *
@@ -170,7 +168,7 @@ class Engine
      * @return The Clock object.
      */
     hummstrumm::engine::system::Clock *GetClock ()
-      throw ();
+      /* noexcept */;
 
   private:
     /// The engine-wide log.
