@@ -108,19 +108,6 @@ add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 
 
 
-# Add documentation generation
-if (HUMMSTRUMM_BUILD_DOCS)
-  if (HUMMSTRUMM_BUILD_DOCS_LATEX)
-    set (DOXYFILE_LATEX YES)
-  else ()
-    set (DOXYFILE_LATEX NO)
-  endif (HUMMSTRUMM_BUILD_DOCS_LATEX)
-  include (UseDoxygen OPTIONAL)
-  add_dependencies (hummstrummengine doc)
-endif (HUMMSTRUMM_BUILD_DOCS)
-
-
-
 # Add directories (to be exported, too)
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
   set (HUMMSTRUMM_ENGINE_INSTALL_HEADERS   include)
@@ -135,7 +122,8 @@ else ()
        share/doc/hummstrummengine-${HUMMSTRUMM_VERSION})
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
-
+# Add documentation generation
+add_subdirectory (doc)
 
 # Install library.
 install (TARGETS hummstrummengine

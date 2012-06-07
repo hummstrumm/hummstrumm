@@ -51,13 +51,6 @@ set (CMAKE_COLOR_MAKEFILE ON)
 set (CMAKE_VERBOSE_MAKEFILE OFF)
 
 
-# Doxygen
-set (HUMMSTRUMM_BUILD_DOCS ON CACHE BOOL
-     "Build documentation of the engine?")
-set (HUMMSTRUMM_BUILD_DOCS_LATEX NO CACHE BOOL
-     "Build documentation of the engine in LaTeX, too?")
-
-
 # Log Options
 set (HUMMSTRUMM_LOG_FILENAME test.log CACHE STRING
        "The file name of the log.")
