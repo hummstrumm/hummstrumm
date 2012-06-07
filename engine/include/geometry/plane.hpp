@@ -38,10 +38,8 @@ namespace geometry
 /**
  * A plane in three dimensions.  Planes are flat surfaces that extend infinitely
  * along two of their relative axis. In three dimensions, the implicit form of a
- * plane is given* by all points \f$ p = (x,y,z)\f$ that satify the plane
- * equation:
- *
- * \f$ ax + by + cz = d\f$
+ * plane is given by all points \f$ p = (x,y,z)\f$ that satify the plane
+ * equation: \f[ax + by + cz = d\f]
  *
  * \f$ p\cdot n = d\f$, where \f$ n = <a,b,c>\f$, called the plane normal.
  *
