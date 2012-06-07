@@ -22,7 +22,7 @@
 #   * Configuring CTest and CPack for unit testing and packaging, respectively.
 
 project (hummstrumm)
-cmake_minimum_required (VERSION 2.6.3)
+cmake_minimum_required (VERSION 2.8)
 
 set (CMAKE_MODULE_PATH ${hummstrumm_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
