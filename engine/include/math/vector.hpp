@@ -1542,8 +1542,7 @@ template <typename T>
 Vector2D<T> 
 Vec2DUnitPerpendicular (const Vector2D<T> &v);
 
-// add star here when this is uncommented
-/*
+/**
  * Vector Orthonormalization using the biased 
  * Gram-Schmidt algorithm.
  * 
@@ -1555,11 +1554,10 @@ Vec2DUnitPerpendicular (const Vector2D<T> &v);
  *
  * @see Vector2D  
  */
-/*
 template <typename T>
 void 
 Orthonormalize2D (std::vector<Vector2D<T> > &v);
-*/
+
 
 /** 
  * Scalar on the left multiplication, for symmetry.
@@ -1703,8 +1701,7 @@ template <typename T>
 Vector3D<T>
 Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
 
-// Add star here when uncommented and implemented.
-/*
+/**
  * Vector Orthonormalization using the biased 
  * Gram-Schmidt algorithm.
  * 
@@ -1716,11 +1713,10 @@ Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n);
  *
  * @see Vector3D 
 */
-/*
+
 template <typename T>
 void 
 Orthonormalize3D (std::vector<Vector3D<T> > &v);
- */
 
 /** 
  * Scalar on the left multiplication, for symmetry.
@@ -1859,8 +1855,7 @@ template <typename T>
 Vector4D<T>
 Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
 
-// Add star when this is uncommented and implemented
-/*
+/**
  * Vector Orthonormalization using the biased 
  * Gram-Schmidt algorithm.
  * 
@@ -1870,11 +1865,9 @@ Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n);
  *
  * @param [in] v A 4d vector.
  */
-/*
 template <typename T>
 void 
 Orthonormalize4D (std::vector<Vector4D<T> > &v);
- */
 
 /** 
  * Scalar on the left multiplication, for symmetry.
@@ -1964,7 +1957,7 @@ Vec2DUnitPerpendicular (const Vector2D<T> &v)
   return Vec2DPerpendicular(v)/vMag;
 }
 
-/*
+
 template <typename T>
 void 
 Orthonormalize2D (std::vector<Vector2D<T> > &v)
@@ -1985,7 +1978,7 @@ Orthonormalize2D (std::vector<Vector2D<T> > &v)
     *itForward = *itForward/Vec2DMagnitude(*itForward);
   }
 }
-*/
+
 
 template <typename T>
 Vector2D<T>
@@ -2055,7 +2048,7 @@ Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n)
   return n * (Vec3DDot(v,n)/nDotProd);   
 }
 
-/*
+
 template <typename T>
 void 
 Orthonormalize3D (std::vector<Vector3D<T> > &v)
@@ -2076,7 +2069,6 @@ Orthonormalize3D (std::vector<Vector3D<T> > &v)
     *itForward = *itForward/Vec3DMagnitude(*itForward);
   }
 }
-*/
 
 template <typename T>
 Vector3D<T>
@@ -2141,7 +2133,7 @@ Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n)
 
   return n * (Vec4DDot(v,n)/nDotProd); 
 }
-/*
+
 template <typename T>
 void 
 Orthonormalize4D (std::vector<Vector4D<T> > &v)
@@ -2162,7 +2154,6 @@ Orthonormalize4D (std::vector<Vector4D<T> > &v)
     *itForward = *itForward/Vec4DMagnitude(*itForward);
   }
 }
-*/
 
 template <typename T>
 Vector4D<T>
