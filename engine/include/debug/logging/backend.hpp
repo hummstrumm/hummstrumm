@@ -32,6 +32,7 @@
 
 #include <ctime>
 #include <string>
+#include <fstream>
 
 namespace hummstrumm
 {
@@ -51,8 +52,6 @@ namespace logging
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date    2012-06-14
  * @since   0.6
- *
- * @todo We'll want message levels, and allowed levels for each backend.
  */
 class Backend
 {
@@ -64,9 +63,10 @@ class Backend
      * @date   2012-06-14
      * @since  0.6
      *
-     * @todo Add accepted log levels to parameters.
+     * @param [in] allowedLevels The levels that this backend should print, OR'd
+     * together.
      */
-    inline Backend ();
+    inline Backend (unsigned allowedLevels);
     /**
      * Destructs a backend.
      *
@@ -74,7 +74,7 @@ class Backend
      * @date   2012-06-14
      * @since  0.6
      */
-    inline virtual ~Backend ();
+    virtual ~Backend ();
 
     /**
      * Writes a message to the backend.  Each message has an associated file,
@@ -89,13 +89,17 @@ class Backend
      * @param [in] time The time when the message was sent to the backend.
      * @param [in] file The name of the source file from which the message came.
      * @param [in] line The line from which the message came.
+     * @param [in] level The level of the message.
      * @param [in] message The user-provided message string.
      *
      * @note The time is provided by the logging::StreamBuffer so that
      * timestamps between backends will be the same for corresponding messages.
      */
     virtual void operator() (std::time_t time, std::string file, unsigned line,
-                             std::string message) = 0;
+                             unsigned level, std::string message) = 0;
+
+  protected:
+    unsigned acceptLevels;
 };
 
 
@@ -109,9 +113,8 @@ class Backend
  * @date    2012-06-14
  * @since   0.6
  *
- * @todo We'll want message levels, and allowed levels for each backend.
  * @todo We can support ANSI control codes for colors based on the level of
- * message once we get those implemented.
+ * message.
  */
 class ConsoleBackend : public Backend
 {
@@ -124,9 +127,11 @@ class ConsoleBackend : public Backend
      * @date   2012-06-14
      * @since  0.6
      *
+     * @param [in] allowedLevels The levels that this backend should print, OR'd
+     * together.
      * @param [in] useStderr Whether to use @c stderr or @c stdout .
      */
-    inline ConsoleBackend (bool useStderr = true);
+    inline ConsoleBackend (unsigned allowedLevels, bool useStderr = true);
     /**
      * Destructs an existing ConsoleBackend.
      *
@@ -134,7 +139,7 @@ class ConsoleBackend : public Backend
      * @date   2012-06-14
      * @since  0.6
      */
-    inline virtual ~ConsoleBackend ();
+    virtual ~ConsoleBackend ();
 
     /**
      * Writes a message to the POSIX stream this backend is configured to use.
@@ -146,15 +151,15 @@ class ConsoleBackend : public Backend
      * @param [in] time The time when the message was sent to the backend.
      * @param [in] file The name of the source file from which the message came.
      * @param [in] line The line from which the message came.
+     * @param [in] level The level of the message.
      * @param [in] message The user-provided message string.
      *
      * @todo Colors?
-     * @todo Message level?
      *
      * @see debug::logging::Backend
      */
     virtual void operator() (std::time_t time, std::string file, unsigned line,
-                             std::string message);
+                             unsigned level, std::string message);
 
   private:
     bool useStderr; ///< Should we use @c stderr ?
@@ -183,15 +188,11 @@ class FileBackend : public Backend
      * @date   2012-06-14
      * @since  0.6
      *
-     * @param file A file stream to output to.  Should contain an empty file or
-     * be set in overwrite mode.
-     *
-     * @todo We could allow appending of files, possibly.  It would have to be
-     * an @c fstream , though, not just an @c ofstream .  The timestamp in the
-     * root element of the document would not be necessary (and would actually
-     * not make sense) in this case.
+     * @param [in] allowedLevels The levels that this backend should print, OR'd
+     * together. 
+     * @param [in,out] file The name of the log file.
      */ 
-    FileBackend (std::ofstream &file);
+    FileBackend (unsigned allowedLevels, std::string file);
     /**
      * Destructs an existing FileBackend object.  The closing tag of the
      * document is written at this point.  The file stream should destroy itself
@@ -214,17 +215,16 @@ class FileBackend : public Backend
      * @param [in] time The time when the message was sent to the backend.
      * @param [in] file The name of the source file from which the message came.
      * @param [in] line The line from which the message came.
+     * @param [in] level The level of the message.
      * @param [in] message The user-provided message string.
-     * 
-     * @todo Message level?
      *
      * @see debug::logging::Backend
      */
     virtual void operator() (std::time_t time, std::string file, unsigned line,
-                             std::string message);
+                             unsigned level, std::string message);
 
   private:
-    std::ofstream &fileStream; ///< The file we should print to.
+    std::ofstream fileStream; ///< The file we should print to.
 };
 
 }

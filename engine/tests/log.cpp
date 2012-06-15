@@ -27,20 +27,23 @@ int
 main ()
 {
   // Use make_shared<> here soon.
-  std::ofstream logFile ("test-the-engine.log");
+  typedef std::tr1::shared_ptr<debug::logging::Backend> ptr;
+  ptr console (
+    new debug::logging::ConsoleBackend (debug::logging::Level::WARNING));
+  ptr file (
+    new debug::logging::FileBackend (
+      debug::logging::Level::INFO | debug::logging::Level::WARNING,
+      "test-the-engine.log"));
   core::Engine::Configuration params;
-  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
-                                (new debug::logging::ConsoleBackend (true)));
-  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
-                                (new debug::logging::FileBackend
-                                 (logFile)));
-
+  params.logBackends.push_back (console);
+  params.logBackends.push_back (file);
   core::Engine engine (params);
   
   engine.GetLog () << debug::logging::SetFile ("fake.filename")
                    << debug::logging::SetLine (123456)
+                   << debug::logging::SetLevel (debug::logging::Level::WARNING)
                    << "Testing..." << std::flush;
-  engine.GetLog () << HummstrummSetLogging (placeholder)
+  engine.GetLog () << HummstrummSetLogging (Level::INFO)
                    << "Have another message." << std::flush;
 
   return 0;

@@ -32,11 +32,8 @@ namespace logging
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::Backend implementation
 
-Backend::Backend ()
-{
-}
-
-Backend::~Backend ()
+Backend::Backend (unsigned levels)
+  : acceptLevels (levels)
 {
 }
 
@@ -44,12 +41,9 @@ Backend::~Backend ()
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::ConsoleBackend implementation
 
-ConsoleBackend::ConsoleBackend (bool useStderr)
-  : useStderr (useStderr)
-{
-}
-
-ConsoleBackend::~ConsoleBackend ()
+ConsoleBackend::ConsoleBackend (unsigned levels, bool useStderr)
+  : Backend (levels),
+    useStderr (useStderr)
 {
 }
 

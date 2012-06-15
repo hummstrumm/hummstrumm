@@ -30,6 +30,17 @@ namespace logging
 {
 
 
+SetLevel::SetLevel (unsigned l)
+{
+  // All levels are powers of two.  Handy check to see if l is a power of two.
+  if ((l != 0) && !(l & (l - 1)))
+    level = l;
+  else
+    HUMMSTRUMM_THROW (InvalidParam,
+                      "Log level must be one of the predefined constants.");
+}
+
+
 const LockType Lock = {};
 
 // We need dynamic casts here, because we don't know if the ostream will have a
@@ -50,6 +61,15 @@ operator<< (std::ostream &out, const SetLine manip)
   StreamBuffer *buf = dynamic_cast<StreamBuffer *> (out.rdbuf ());
   if (buf)
     buf->SetLine (manip.line);
+  return out;
+}
+
+std::ostream &
+operator<< (std::ostream &out, const SetLevel manip)
+{
+  StreamBuffer *buf = dynamic_cast<StreamBuffer *> (out.rdbuf ());
+  if (buf)
+    buf->SetLevel (manip.level);
   return out;
 }
 

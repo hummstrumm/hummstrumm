@@ -52,6 +52,11 @@ SetLine::~SetLine ()
 }
 
 
+SetLevel::~SetLevel ()
+{
+}
+
+
 }
 }
 }

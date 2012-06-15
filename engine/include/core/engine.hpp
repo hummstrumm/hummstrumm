@@ -164,6 +164,9 @@ class Engine
       /* noexcept */;
 
   private:
+    /// The engine-wide log's streambuf, so we can control when it is
+    /// initialized and deconstructed.
+    hummstrumm::engine::debug::logging::StreamBuffer logStreamBuffer;
     /// The engine-wide log.
     std::ostream log;
     /// Platform information.

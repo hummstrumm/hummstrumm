@@ -31,7 +31,6 @@ namespace logging
 
 StreamBuffer::~StreamBuffer ()
 {
-  delete this; // We allocate one in core::Engine.
 }
 
 void
@@ -44,6 +43,11 @@ void
 StreamBuffer::SetLine (unsigned n)
 {
   line = n;
+}
+void
+StreamBuffer::SetLevel (unsigned n)
+{
+  level = n;
 }
 
 void

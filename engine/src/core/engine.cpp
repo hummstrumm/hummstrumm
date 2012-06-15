@@ -36,9 +36,10 @@ Engine::theEngine = 0;
 
 Engine::Engine (const Engine::Configuration &params)
   try
-  : log (new debug::logging::StreamBuffer (params.logBackends))
+  : logStreamBuffer (params.logBackends),
+    log (&logStreamBuffer)
 {
-  log << HummstrummSetLogging (placeholder)
+  log << HummstrummSetLogging (Level::INFO)
       << "Humm and Strumm Game Engine is initializing..." << std::flush;
   // Set the engine pointer.
   theEngine = this;
@@ -50,7 +51,7 @@ Engine::Engine (const Engine::Configuration &params)
   endianness = new system::Endianness;
   clock      = new system::Clock;
 
-  log << HummstrummSetLogging (placeholder)
+  log << HummstrummSetLogging (Level::INFO)
       << "Humm and Strumm Game Engine is up and running." << std::flush;
 }
 catch (...)
@@ -62,7 +63,7 @@ catch (...)
 
 Engine::~Engine ()
 {
-  log << HummstrummSetLogging (placeholder)
+  log << HummstrummSetLogging (Level::INFO)
       << "Humm and Strumm Game Engine is going down." << std::flush;
   
   delete this->clock;

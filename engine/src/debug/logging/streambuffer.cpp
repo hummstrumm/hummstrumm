@@ -40,6 +40,7 @@ namespace logging
 StreamBuffer::StreamBuffer (vector<tr1::shared_ptr<Backend> > backends)
   : file ("(no file)"),
     line (0),
+    level (0),
     lock (false),
     backends (backends)
 {
@@ -58,7 +59,7 @@ StreamBuffer::SendToBackends ()
       // inner star), and then we dereference the smart pointer that's in
       // the vector (leftmost star).  Then we call the @c operator() of that
       // dereferenced backend.
-      (**i) (t, file, line, message);
+      (**i) (t, file, line, level, message);
     }
 }
 
@@ -79,6 +80,7 @@ StreamBuffer::sync ()
       str ("");
       file = "(no file)";
       line = 0;
+      level = 0;
       lock = false;
     }
   catch (...)

@@ -27,17 +27,18 @@ main ()
 {
   core::Engine::Configuration params;
   params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
-                                (new debug::logging::ConsoleBackend (true)));
+                                (new debug::logging::ConsoleBackend (
+                                  debug::logging::Level::INFO)));
   core::Engine engine (params);
 
   std::ostream &log = engine.GetLog ();
 
 
-  log << HummstrummSetLogging (placeholder)
+  log << HummstrummSetLogging (Level::INFO)
       << "Running on " << engine.GetPlatform ()->GetName () << std::flush;
 
   
-  log << HummstrummSetLogging (placeholder)
+  log << HummstrummSetLogging (Level::INFO)
       << engine.GetProcessors ()->GetNumberOfProcessors ()
       << " processors detected:\n";
   for (int i = 0; i < engine.GetProcessors ()->GetNumberOfProcessors (); ++i)
@@ -58,7 +59,7 @@ main ()
   log << std::flush;
 
 
-  log << HummstrummSetLogging (placeholder)
+  log << HummstrummSetLogging (Level::INFO)
       << engine.GetMemory ()->GetFreeMemory ()  << " kb out of "
       << engine.GetMemory ()->GetTotalMemory () << " kb of memory free."
       << std::flush;

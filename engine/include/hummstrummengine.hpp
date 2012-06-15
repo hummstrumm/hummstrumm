@@ -130,6 +130,7 @@ class Profiler;
  */
 namespace logging
 {
+class Level;
 class StreamBuffer;
 class Backend;
 class ConsoleBackend;
@@ -322,6 +323,7 @@ class WindowSystem;
 #include "date/duration.hpp"
 #include "date/timezone.hpp"
 #include "date/date.hpp"
+#include "debug/logging/level.hpp"
 #include "debug/logging/streambuffer.hpp"
 #include "debug/logging/backend.hpp"
 #include "debug/logging/manip.hpp"

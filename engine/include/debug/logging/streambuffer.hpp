@@ -107,6 +107,14 @@ class StreamBuffer : public std::stringbuf
      */
     inline void SetLine (unsigned);
     /**
+     * Changes the message level to print on the next flush.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-06-15
+     * @since  0.6
+     */
+    inline void SetLevel (unsigned);
+    /**
      * Changes the streambuf's locked state.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
@@ -160,6 +168,8 @@ class StreamBuffer : public std::stringbuf
     std::string file;
     /// The last update of the line number.
     unsigned line;
+    /// The last update of the message level.
+    unsigned level;
     /// Whether we are locked.
     bool lock;
 };

@@ -35,12 +35,27 @@ namespace logging
 
 
 ////////////////////////////////////////////////////////////////////////////////
+// hummstrumm::engine::debug::logging::Backend implementation
+
+Backend::~Backend ()
+{
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::ConsoleBackend implementation
+
+ConsoleBackend::~ConsoleBackend ()
+{
+}
 
 void
 ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
-                            std::string message)
+                            unsigned level, std::string message)
 {
+  // Should we even print on this level?
+  if (!(level & acceptLevels)) return;
+  
   // To which stream should we print?
   std::ostream &out = useStderr ? std::cerr : std::cout;
 
@@ -64,8 +79,9 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::FileBackend implementation
 
-FileBackend::FileBackend (std::ofstream &file)
-  : fileStream (file)
+FileBackend::FileBackend (unsigned levels, std::string file)
+  : Backend (levels),
+    fileStream (file)
 {
   // Get timestamp.  It's guaranteed to be 22 chars, including the terminating
   // nul.  Use std::put_time (std::gmtime (&t), "%Y-%m-%dT%H:%M:%SZ")
@@ -80,23 +96,52 @@ FileBackend::FileBackend (std::ofstream &file)
 
 FileBackend::~FileBackend ()
 {
-  fileStream << "</log>" << std::flush;
+  fileStream << "</log>" << std::endl;
 }
 
 void
 FileBackend::operator() (std::time_t t, std::string file, unsigned line,
-                         std::string message)
+                         unsigned level, std::string message)
 {
+  // Should we even print on this level?
+  if (!(level & acceptLevels)) return;
+  
   // Get timestamp.  It's guaranteed to be 22 chars, including the terminating
   // nul.  Use std::put_time (std::gmtime (&t), "%Y-%m-%dT%H:%M:%SZ")
   // eventually.
   char tbuffer[22];
   std::strftime (tbuffer, 22, "%Y-%m-%dT%H:%M:%SZ", std::gmtime (&t));
+
+  // Give a name to the level.
+  std::string lname;
+  switch (level)
+    {
+    case Level::INFO:
+      lname = "info";
+      break;
+      
+    case Level::SUCCESS:
+      lname = "success";
+      break;
+
+    case Level::WARNING:
+      lname = "warning";
+      break;
+
+    case Level::ERROR:
+      lname = "error";
+      break;
+
+    default:
+      lname = "none";
+      break;
+    }
   
   // XML format.  See schema for details.  Outputs <message> element.
   fileStream << "<message timestamp=\"" << tbuffer
              << "\" file=\"" << file
-             << "\" line=\"" << line << "\">\n"
+             << "\" line=\"" << line
+             << "\" level=\"" << lname << "\">\n"
              << message << "\n</message>"
              << std::endl;
 }

@@ -128,6 +128,49 @@ struct SetLine
 };
 
 /**
+ * An @c iostream manipulator for setting the level of a message for a log.
+ * This manipulator only works for @c ostream objects that have a
+ * debug::logging::StreamBuffer as a streambuf.
+ *
+ * The basic usage is as follows:
+ *
+ * @code
+ * log << SetLevel (Level::INFO) << "Testing file..." << std::flush;
+ * @endcode
+ *
+ * Note that you can use the HummstrummSetLogging() macro to automatically use
+ * this manipulator, the Lock manipulator, the SetFile manipulator, and the
+ * SetLine manipulator, using the default values of @c __FILE__ and @c __LINE__
+ * and the provided log level.
+ * 
+ * @version 0.6
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2012-06-15
+ * @since   0.6
+ */
+struct SetLevel
+{
+    /**
+     * Constructs and initializes the manipulator to some level
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-06-15
+     * @since  0.6
+     */
+    SetLevel (unsigned);
+    /**
+     * Destructs the manipulator.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-06-15
+     * @since  0.6
+     */
+    inline ~SetLevel ();
+
+    unsigned level;
+};
+
+/**
  * An @c iostream manipulator for locking the log stream so that two messages
  * cannot be sent at once.  This manipulator works by setting a flag in the
  * StreamBuffer on the first time it is called after a flush, and waiting until
@@ -178,6 +221,10 @@ std::ostream &operator<< (std::ostream &, const SetLine);
 /**
  * @copydoc hummstrumm::engine::debug::logging::operator<<(std::ostream &, const SetFile)
  */
+std::ostream &operator<< (std::ostream &, const SetLevel);
+/**
+ * @copydoc hummstrumm::engine::debug::logging::operator<<(std::ostream &, const SetFile)
+ */
 std::ostream &operator<< (std::ostream &, const LockType);
 
 /**
@@ -190,7 +237,8 @@ std::ostream &operator<< (std::ostream &, const LockType);
  * @date   2012-06-15
  * @since  0.6
  *
- * @param [in] level The logging level to apply.
+ * @param [in] level The logging level to apply.  Only use the class name Level,
+ * double colon, and the level constant name.
  *
  * @warning You must use this to be thread-safe!
  *
@@ -202,7 +250,9 @@ std::ostream &operator<< (std::ostream &, const LockType);
 #define HummstrummSetLogging(level)                                     \
   hummstrumm::engine::debug::logging::Lock <<                           \
   hummstrumm::engine::debug::logging::SetFile (__FILE__) <<             \
-  hummstrumm::engine::debug::logging::SetLine (__LINE__)
+  hummstrumm::engine::debug::logging::SetLine (__LINE__) <<             \
+  hummstrumm::engine::debug::logging::SetLevel (                        \
+    hummstrumm::engine::debug::logging::level)
 
 
 }

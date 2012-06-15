@@ -64,7 +64,7 @@ WindowSystem::WindowSystem()
   wndProtocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
   wndDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
 
-  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (Level::INFO)
     << "Supported GLX version: " << major << '.' << minor << std::flush;
 
   swapIntervalAddr = NULL;
@@ -144,7 +144,8 @@ WindowSystem::DestroyWindow()
     XDestroyWindow(dpy, window);
   else
   {
-    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    core::Engine::GetEngine ()->GetLog ()
+      << HummstrummSetLogging (Level::WARNING)
       << "Cannot destroy window.  Display is " << dpy
       << " and Window is " << window << std::flush;
   }
@@ -171,7 +172,8 @@ WindowSystem::CreatePbuffer(WindowVisualInfo &param)
   // Create offscreen rendering and share it with the window context
   if (param.useOffScreenRendering)
   {
-    std::cout << "Creating pixel buffer for offscreen rendering\n";
+    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (Level::INFO)
+      << "Creating pixel buffer for offscreen rendering" << std::flush;
     if (createPbufferAddr == NULL || destroyPbufferAddr == NULL)
     {
       param.useOffScreenRendering = false;
@@ -248,7 +250,7 @@ WindowSystem::InitializeGLXExtensions()
 
   const char* extensions =  glXQueryExtensionsString(dpy, screen);
 
-  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (Level::INFO)
     << "Available GLX extensions: " << extensions << std::flush;
 
   if (IsGLXExtensionSupported("GLX_SGI_swap_control",(const GLubyte *) extensions))
@@ -488,10 +490,12 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
     glXMakeCurrent(dpy,window,windowContext);
 
   if (glXIsDirect(dpy,windowContext))
-    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    core::Engine::GetEngine ()->GetLog ()
+      << HummstrummSetLogging (Level::INFO)
       << "DRI enabled" << std::flush;
   else
-    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    core::Engine::GetEngine ()->GetLog ()
+      << HummstrummSetLogging (Level::WARNING)
       << "DRI not enabled" << std::flush;
 
   if ( swapIntervalAddr != NULL)
@@ -590,7 +594,9 @@ WindowSystem::SetMode(WindowVisualInfo &param)
           glXQueryDrawable(dpy, pbuffer, GLX_PRESERVED_CONTENTS, &state);
           if (state == 0)
           {
-            std::cout << "Pbuffer contents have been lost!\n";
+            core::Engine::GetEngine ()->GetLog ()
+              << HummstrummSetLogging (Level::WARNING)
+              << "Pbuffer contents have been lost!" << std::flush;
             DestroyPbuffer();
             CreatePbuffer(param);   
           }
@@ -601,7 +607,8 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     }
 
     // Set fullscreen (fallback)
-    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    core::Engine::GetEngine ()->GetLog ()
+      << HummstrummSetLogging (Level::WARNING)
       << "The Window Manager doesn't support NETWM. "
       << "Using fullscreen fallback mode"
       << std::flush;
