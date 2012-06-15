@@ -18,7 +18,7 @@
 
 /**
  * Includes the files needed by the engine and documents the namespaces of the
- * engine.  This is the header file included PUBLICLY, and by the source code
+ * engine.  This is the header file included PUBLICALLY, and by the source code
  * of the engine.
  * 
  * @file   hummstrummengine.hpp
