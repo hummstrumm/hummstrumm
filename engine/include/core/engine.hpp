@@ -64,15 +64,6 @@ class Engine
     };
 
     /**
-     * Initializes the entire Humm and Strumm Engine with default parameters.
-     * A new log is created and the Heap is initialized.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-11-22
-     * @since  0.3
-     */
-    Engine ();
-    /**
      * Initializes the entire Humm and Strumm Engine with specified parameters.
      * The Heap is initialized.
      *
