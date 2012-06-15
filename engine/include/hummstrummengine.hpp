@@ -134,6 +134,8 @@ class StreamBuffer;
 class Backend;
 class ConsoleBackend;
 class FileBackend;
+struct SetFile;
+struct SetLine;
 }
 }
 
@@ -322,6 +324,7 @@ class WindowSystem;
 #include "date/date.hpp"
 #include "debug/logging/streambuffer.hpp"
 #include "debug/logging/backend.hpp"
+#include "debug/logging/manip.hpp"
 #include "debug/profiler.hpp"
 #include "math/simd.hpp"
 #include "math/mathutils.hpp"
@@ -345,6 +348,7 @@ class WindowSystem;
 #include "date/date.inl"
 #include "debug/logging/streambuffer.inl"
 #include "debug/logging/backend.inl"
+#include "debug/logging/manip.inl"
 #include "math/mathutils.inl"
 #include "geometry/plane.inl"
 

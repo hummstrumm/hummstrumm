@@ -22,6 +22,7 @@ endif (HUMMSTRUMM_UNIT_TEST)
 set (hummstrummengine_SRCS
   src/debug/logging/streambuffer.cpp
   src/debug/logging/backend.cpp
+  src/debug/logging/manip.cpp
   src/debug/profiler.cpp
   src/error/error.cpp
   src/error/generic.cpp
