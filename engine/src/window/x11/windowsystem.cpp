@@ -18,7 +18,7 @@
 
 #include "hummstrummengine.hpp"
 
-#include <sstream>
+using namespace std;
 
 namespace hummstrumm
 {
@@ -41,7 +41,6 @@ WindowSystem::WindowSystem()
   int major;
   int minor;
 
-  std::stringstream message;
   if ((dpy = XOpenDisplay(NULL)) == NULL)
     HUMMSTRUMM_THROW (WindowSystem, "Unable to open a connection to the X server.\n");
 
@@ -65,13 +64,8 @@ WindowSystem::WindowSystem()
   wndProtocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
   wndDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
 
-  message.str("");
-  message << "Supported GLX version: ";
-  message << major;
-  message << ".";
-  message << minor;
-  HUMMSTRUMM_LOG(message.str().c_str(),
-                 hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
+  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    << "Supported GLX version: " << major << '.' << minor << std::flush;
 
   swapIntervalAddr = NULL;
   createContextAttribsAddr = NULL;
@@ -150,14 +144,9 @@ WindowSystem::DestroyWindow()
     XDestroyWindow(dpy, window);
   else
   {
-    std::stringstream message;
-    message.str("");
-    message << "Cannot destroy window ";
-    message << "Display is " << dpy;
-    message << " and is ";
-    message << "Window " << window;
-    HUMMSTRUMM_LOG(message.str().c_str(),
-                 hummstrumm::engine::debug::Log::LEVEL_WARNING);
+    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+      << "Cannot destroy window.  Display is " << dpy
+      << " and Window is " << window << std::flush;
   }
 }
 
@@ -259,12 +248,8 @@ WindowSystem::InitializeGLXExtensions()
 
   const char* extensions =  glXQueryExtensionsString(dpy, screen);
 
-  std::stringstream message;
-  message.str("");
-  message << "Available GLX extensions: ";
-  message << extensions; 
-  HUMMSTRUMM_LOG(message.str().c_str(),
-                 hummstrumm::engine::debug::Log::LEVEL_MESSAGE); 
+  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    << "Available GLX extensions: " << extensions << std::flush;
 
   if (IsGLXExtensionSupported("GLX_SGI_swap_control",(const GLubyte *) extensions))
   {
@@ -503,11 +488,11 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
     glXMakeCurrent(dpy,window,windowContext);
 
   if (glXIsDirect(dpy,windowContext))
-    HUMMSTRUMM_LOG("DRI enabled",
-                   hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
+    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+      << "DRI enabled" << std::flush;
   else
-    HUMMSTRUMM_LOG("DRI not enabled",
-                   hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
+    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+      << "DRI not enabled" << std::flush;
 
   if ( swapIntervalAddr != NULL)
     swapIntervalAddr (windowParameters.useVerticalSync);
@@ -616,8 +601,10 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     }
 
     // Set fullscreen (fallback)
-    HUMMSTRUMM_LOG("The Window Manager doesn't support NETWM. Using fullscreen fallback mode",
-                   hummstrumm::engine::debug::Log::LEVEL_WARNING);
+    core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+      << "The Window Manager doesn't support NETWM. "
+      << "Using fullscreen fallback mode"
+      << std::flush;
     XGetWindowAttributes(dpy, root, &xwa);
     XMoveResizeWindow(dpy,window,0,0,xwa.width, xwa.height);
   }

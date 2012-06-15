@@ -97,21 +97,13 @@ Profiler::~Profiler ()
 {
   // Add a run.
   Iterate ();
-
-  // Construct a log message.
-  std::stringstream message;
-  message << "Profiler ``";
-  message << this->debugName;
-  message << "'' stats: ";
-  message << this->numberOfRuns;
-  message << " Runs, Lowest Time of ";
-  message << this->lowestTime;
-  message << ", Average Time of ";
-  message << this->averageTime;
-
-      // Write it out.
-      HUMMSTRUMM_LOG (message.str ().c_str (), Log::LEVEL_MESSAGE);      
-      std::cout << message.str() << std::endl;
+  
+  // Write it out.
+  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    << "Profiler ``" << debugName << "'' stats: "
+    << numberOfRuns << " Runs, Lowest Time of "
+    << lowestTime << ", Average Time of "
+    << averageTime << std::flush;
 }
 
 
