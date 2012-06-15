@@ -18,11 +18,12 @@
 
 #include "hummstrummengine.hpp"
 
-#include <sstream>
 #include <cmath>
 #include <cstring>
 #include <cstdlib>
 #include <algorithm>
+
+using namespace hummstrumm::engine;
 
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  pragma warning(disable:4244)
@@ -35,61 +36,36 @@ namespace engine
 namespace debug
 {
 
-Profiler::Profiler (const char *debugName, Profiler::Units reportIn, Profiler::Output out)
+Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
   : startTime (0),
     reportInUnit (reportIn),
-    writeTo (out),
     // So the first time will always be faster.
-    lowestTime (std::numeric_limits<hummstrumm::engine::types::int64>::max ()),
+    lowestTime (std::numeric_limits<types::int64>::max ()),
     averageTime (0),
     numberOfRuns (0)
 {
   std::strncpy (this->debugName, debugName, 24);
   this->debugName[24] = '\0';
-  
-  // Construct log message.
-  hummstrumm::engine::types::String message ("Profiler ``");
-  message += this->debugName;
-  message += "'' started.";
 
-  // Log it.
-  HUMMSTRUMM_LOG (message, Log::LEVEL_MESSAGE);
+  // Construct log message and log it.
+  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (placeholder)
+    << "Profiler ``" << debugName << "'' started." << std::flush;
 }
 
 void
 Profiler::Iterate ()
   /* noexcept */
 {
-  hummstrumm::engine::core::Engine *engine =
-    hummstrumm::engine::core::Engine::GetEngine ();
+  core::Engine *engine = core::Engine::GetEngine ();
   // Get the time and calculate how long it has been since the start.
-  hummstrumm::engine::types::int64 endTime =
-    engine->GetClock ()->GetHighResolutionCount ();
-  std::cout << endTime << std::endl; 
-  hummstrumm::engine::types::int64 difference;
-  
-  if (endTime < this->startTime)
-    {
-      // An overflow or clock reset?  Whatever, we'll calculate it with the
-      // constants from our <types/inttypes.hpp> header file.  Hopefully we
-      // won't go through two of these, or something is really wrong.
-      hummstrumm::engine::types::int64 endTimeOverflowAmount =
-        endTime - std::numeric_limits<hummstrumm::engine::types::int64>::max ();
-      
-      hummstrumm::engine::types::int64 startTimeOverflowAmount =
-        std::numeric_limits<hummstrumm::engine::types::int64>::min () -
-        this->startTime;
+  types::int64 endTime = engine->GetClock ()->GetHighResolutionCount ();
+  std::cout << endTime << std::endl;
+  types::int64 difference;
 
-      // The difference is their sum.
-      difference = startTimeOverflowAmount + endTimeOverflowAmount;
-    }
-  else
-    {
-      difference = endTime - this->startTime;
-    }
+  difference = endTime - this->startTime;
+
   // Get the timer frequency.
-  hummstrumm::engine::types::int64 frequency =
-    engine->GetClock ()->GetHighResolutionFrequency ();
+  types::int64 frequency = engine->GetClock ()->GetHighResolutionFrequency ();
 
   // Calculate the actual time, using tick counts and the frequency.
   double timeInSeconds (static_cast<double> (difference) / frequency);
@@ -111,11 +87,10 @@ Profiler::Iterate ()
       // throw something...
     }
 
-  this->lowestTime = std::min<long> (this->lowestTime, time);
-  this->averageTime = ((this->averageTime * this->numberOfRuns) + time) /
-    (this->numberOfRuns + 1);
-  this->numberOfRuns += 1;
-  this->startTime = engine->GetClock ()->GetHighResolutionCount ();
+  lowestTime = std::min<long> (lowestTime, time);
+  averageTime = ((averageTime * numberOfRuns) + time) / (numberOfRuns + 1);
+  numberOfRuns += 1;
+  startTime = engine->GetClock ()->GetHighResolutionCount ();
 }
 
 Profiler::~Profiler ()
@@ -134,24 +109,9 @@ Profiler::~Profiler ()
   message << ", Average Time of ";
   message << this->averageTime;
 
-  if (this->writeTo == LOGGER_AND_CONSOLE)
-    {
       // Write it out.
       HUMMSTRUMM_LOG (message.str ().c_str (), Log::LEVEL_MESSAGE);      
       std::cout << message.str() << std::endl;
-    }
-  else if (this->writeTo == CONSOLE)
-    {
-      std::cout << message.str() << std::endl;
-    }
-  else if (this->writeTo == LOGGER)
-    {
-      HUMMSTRUMM_LOG (message.str ().c_str (), Log::LEVEL_MESSAGE);
-    }
-  else
-    {
-      // throw something ...
-    }
 }
 
 
