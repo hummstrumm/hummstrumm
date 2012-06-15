@@ -17,19 +17,9 @@
 # MakeChangeLog.cmake -- Defines the changelog target that produces a ChangeLog
 # file from the Git repository.
 
-configure_file (
-  "${hummstrumm_SOURCE_DIR}/cmake/MakeChangeLogInternal.cmake.in"
-  "${hummstrumm_BINARY_DIR}/cmake/MakeChangeLogInternal.cmake"
-  IMMEDIATE @ONLY)
-set_property (DIRECTORY APPEND PROPERTY
-	      ADDITIONAL_MAKE_CLEAN_FILES ${hummstrumm_BINARY_DIR}/cmake/MakeChangeLogInternal.cmake)
-
-add_custom_command (OUTPUT ${hummstrumm_BINARY_DIR}/ChangeLog
-                    COMMAND "${CMAKE_COMMAND}" -P "${hummstrumm_BINARY_DIR}/cmake/MakeChangeLogInternal.cmake")
-set_property (DIRECTORY APPEND PROPERTY
-	      ADDITIONAL_MAKE_CLEAN_FILES ${hummstrumm_BINARY_DIR}/ChangeLog)
-
-# TARGET: changelog
-# Runs git log on the online repository and pipes the output to a file
-# ChangeLog.
-add_custom_target (changelog DEPENDS ${hummstrumm_BINARY_DIR}/ChangeLog)
+add_custom_target (changelog
+                   COMMAND "${PERL_EXECUTABLE}"
+                   "${hummstrumm_SOURCE_DIR}/scripts/git2cl"
+                   ">${hummstrumm_BINARY_DIR}/ChangeLog"
+                   WORKING_DIRECTORY ${hummstrumm_SOURCE_DIR}
+                   COMMENT "Generating ChangeLog from git log")
