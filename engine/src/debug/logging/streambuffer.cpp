@@ -40,6 +40,7 @@ namespace logging
 StreamBuffer::StreamBuffer (vector<tr1::shared_ptr<Backend> > backends)
   : file ("(no file)"),
     line (0),
+    lock (false),
     backends (backends)
 {
 }
@@ -78,6 +79,7 @@ StreamBuffer::sync ()
       str ("");
       file = "(no file)";
       line = 0;
+      lock = false;
     }
   catch (...)
     {

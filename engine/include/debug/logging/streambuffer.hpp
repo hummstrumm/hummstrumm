@@ -67,7 +67,6 @@ class Backend;
  * @since   0.6
  *
  * @todo We'll want message levels.
- * @todo Make thread safe.
  */
 class StreamBuffer : public std::stringbuf
 {
@@ -107,6 +106,24 @@ class StreamBuffer : public std::stringbuf
      * @since  0.6
      */
     inline void SetLine (unsigned);
+    /**
+     * Changes the streambuf's locked state.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-06-15
+     * @since  0.6
+     */
+    inline void Lock ();
+    /**
+     * Returns whether the streambuf is in a locked state.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-06-15
+     * @since  0.6
+     *
+     * @return Whether someone can try to lock us again.
+     */
+    inline bool IsLocked () const;
 
     /**
      * Sends a message to each registered backend.  Calls the @c operator() of
@@ -143,6 +160,8 @@ class StreamBuffer : public std::stringbuf
     std::string file;
     /// The last update of the line number.
     unsigned line;
+    /// Whether we are locked.
+    bool lock;
 };
 
 

@@ -30,6 +30,11 @@ namespace logging
 {
 
 
+const LockType Lock = {};
+
+// We need dynamic casts here, because we don't know if the ostream will have a
+// StreamBuffer as a streambuf.
+
 std::ostream &
 operator<< (std::ostream &out, const SetFile manip)
 {
@@ -45,6 +50,18 @@ operator<< (std::ostream &out, const SetLine manip)
   StreamBuffer *buf = dynamic_cast<StreamBuffer *> (out.rdbuf ());
   if (buf)
     buf->SetLine (manip.line);
+  return out;
+}
+
+std::ostream &
+operator<< (std::ostream &out, const LockType manip)
+{
+  StreamBuffer *buf = dynamic_cast<StreamBuffer *> (out.rdbuf ());
+  if (buf)
+    {
+      while (buf->IsLocked ()); // Loop infinitely until we can lock.
+      buf->Lock ();
+    }
   return out;
 }
 

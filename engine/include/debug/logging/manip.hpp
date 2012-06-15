@@ -53,9 +53,9 @@ namespace logging
  * @endcode
  *
  * Note that you can use the HummstrummSetLogging() macro to automatically use
- * this manipulator, the SetLine manipulator, and the SetLevel manipulator,
- * using the default values of @c __FILE__ and @c __LINE__ and the provided log
- * level.
+ * this manipulator, the Lock manipulator, the SetLine manipulator, and the
+ * SetLevel manipulator, using the default values of @c __FILE__ and @c __LINE__
+ * and the provided log level.
  * 
  * @version 0.6
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
@@ -96,9 +96,9 @@ struct SetFile
  * @endcode
  *
  * Note that you can use the HummstrummSetLogging() macro to automatically use
- * this manipulator, the SetFile manipulator, and the SetLevel manipulator,
- * using the default values of @c __FILE__ and @c __LINE__ and the provided log
- * level.
+ * this manipulator, the Lock manipulator, the SetFile manipulator, and the
+ * SetLevel manipulator, using the default values of @c __FILE__ and @c __LINE__
+ * and the provided log level.
  * 
  * @version 0.6
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
@@ -128,6 +128,39 @@ struct SetLine
 };
 
 /**
+ * An @c iostream manipulator for locking the log stream so that two messages
+ * cannot be sent at once.  This manipulator works by setting a flag in the
+ * StreamBuffer on the first time it is called after a flush, and waiting until
+ * it is able to lock again on a subsequent call before a flush.  This
+ * manipulator only works for @c ostream objects that have a
+ * debug::logging::StreamBuffer as a streambuf.
+ *
+ * The basic usage is as follows:
+ *
+ * @code
+ * log << Lock << "Testing file..." << std::flush; // flush unlocks
+ * @endcode
+ *
+ * Note that you can use the HummstrummSetLogging() macro to automatically use
+ * this manipulator, the SetFile and SetLine manipulators, and the SetLevel
+ * manipulator, using the default values of @c __FILE__ and @c __LINE__ and the
+ * provided log level.
+ * 
+ * @version 0.6
+ * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date    2012-06-15
+ * @since   0.6
+ *
+ * @note This structure is intentionally empty.  Work is done in the overloaded
+ * operator<<() function.
+ */
+struct LockType
+{ };
+
+/// The actual manipulator defined by LockType.
+extern const LockType Lock;
+
+/**
  * Applies the manipulator to an @c ostream .  This only succeeds if the @c
  * ostream object has a streambuf of type debug::logging::StreamBuffer.
  *
@@ -142,12 +175,16 @@ std::ostream &operator<< (std::ostream &, const SetFile);
  * @copydoc hummstrumm::engine::debug::logging::operator<<(std::ostream &, const SetFile)
  */
 std::ostream &operator<< (std::ostream &, const SetLine);
+/**
+ * @copydoc hummstrumm::engine::debug::logging::operator<<(std::ostream &, const SetFile)
+ */
+std::ostream &operator<< (std::ostream &, const LockType);
 
 /**
  * @def HummstrummSetLogging
  *
- * Applies the SetFile, SetLine, and SetLevel manipulators to an @c ostream .
- * This macro functions just like another manipulator.
+ * Applies the Lock, SetFile, SetLine, and SetLevel manipulators to an @c
+ * ostream . This macro functions just like another manipulator.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2012-06-15
@@ -155,15 +192,15 @@ std::ostream &operator<< (std::ostream &, const SetLine);
  *
  * @param [in] level The logging level to apply.
  *
+ * @warning You must use this to be thread-safe!
+ *
  * @todo Implement logging levels.
- * @todo Might need to modify this to make the logging thread safe.
  *
  * @remarks We unfortunately have to have this as a macro, because it uses the
- * default macros @c __FILE__ and @c __LEVEL__ .  If you don't feel comfortable
- * with this macro, you can call the manipulators individually (it is
- * recommended that you not do this).
+ * default macros @c __FILE__ and @c __LEVEL__ .
  */
 #define HummstrummSetLogging(level)                                     \
+  hummstrumm::engine::debug::logging::Lock <<                           \
   hummstrumm::engine::debug::logging::SetFile (__FILE__) <<             \
   hummstrumm::engine::debug::logging::SetLine (__LINE__)
 

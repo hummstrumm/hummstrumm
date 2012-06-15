@@ -46,6 +46,19 @@ StreamBuffer::SetLine (unsigned n)
   line = n;
 }
 
+void
+StreamBuffer::Lock ()
+{
+  lock = true;
+}
+
+bool
+StreamBuffer::IsLocked ()
+  const
+{
+  return lock;
+}
+
 
 }
 }
