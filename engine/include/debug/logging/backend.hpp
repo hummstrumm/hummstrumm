@@ -33,6 +33,7 @@
 #include <ctime>
 #include <string>
 #include <fstream>
+#include <limits>
 
 namespace hummstrumm
 {
@@ -66,7 +67,8 @@ class Backend
      * @param [in] allowedLevels The levels that this backend should print, OR'd
      * together.
      */
-    inline Backend (unsigned allowedLevels);
+    inline Backend (unsigned allowedLevels =
+                      std::numeric_limits<unsigned>::max ());
     /**
      * Destructs a backend.
      *
@@ -130,8 +132,12 @@ class ConsoleBackend : public Backend
      * @param [in] allowedLevels The levels that this backend should print, OR'd
      * together.
      * @param [in] useStderr Whether to use @c stderr or @c stdout .
+     * @param [in] printColor Whether to print in color.
      */
-    inline ConsoleBackend (unsigned allowedLevels, bool useStderr = true);
+    inline ConsoleBackend (unsigned allowedLevels =
+                             std::numeric_limits<unsigned>::max (),
+                           bool useStderr = true,
+                           bool printColor = true);
     /**
      * Destructs an existing ConsoleBackend.
      *
@@ -162,7 +168,8 @@ class ConsoleBackend : public Backend
                              unsigned level, std::string message);
 
   private:
-    bool useStderr; ///< Should we use @c stderr ?
+    bool useStderr;  ///< Should we use @c stderr ?
+    bool printColor; ///< Should we print in color?
 };
 
 
@@ -192,7 +199,8 @@ class FileBackend : public Backend
      * together. 
      * @param [in,out] file The name of the log file.
      */ 
-    FileBackend (unsigned allowedLevels, std::string file);
+    FileBackend (unsigned allowedLevels = std::numeric_limits<unsigned>::max (),
+                 std::string file = "~/.hummstrummengine.log");
     /**
      * Destructs an existing FileBackend object.  The closing tag of the
      * document is written at this point.  The file stream should destroy itself

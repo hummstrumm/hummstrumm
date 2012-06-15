@@ -68,8 +68,32 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
   // Print out.
   // Format: [ 2012-06-14T02:09:18Z ] /whatever/file.cpp(52)
   //         Message here.
-  out << "[ " << tbuffer << " ]"
-      << " " << file << "(" << line << ")\n\t"
+  std::string colorStart, colorEnd;
+  std::string boldStart, boldEnd;
+  if (printColor)
+    {
+      boldStart = "\033[1m";
+      boldEnd   = "\033[22m";
+      colorEnd  = "\033[0m";
+      
+      switch (level)
+        {
+        case hummstrumm::engine::debug::logging::Level::SUCCESS:
+          colorStart = "\033[34m";
+          break;
+
+        case hummstrumm::engine::debug::logging::Level::WARNING:
+          colorStart = "\033[33m";
+          break;
+
+        case hummstrumm::engine::debug::logging::Level::ERROR:
+          colorStart = "\033[31m";
+          break;
+        }
+    }
+  
+  out << colorStart << boldStart << "[ " << tbuffer << " ]" << boldEnd
+      << " " << file << "(" << line << ")\n\t" << colorEnd
       << message << std::endl;
 
   // Eventually allow for different colors, if terminal allows it.

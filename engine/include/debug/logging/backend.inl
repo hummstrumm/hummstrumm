@@ -41,9 +41,11 @@ Backend::Backend (unsigned levels)
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::ConsoleBackend implementation
 
-ConsoleBackend::ConsoleBackend (unsigned levels, bool useStderr)
+ConsoleBackend::ConsoleBackend (unsigned levels, bool useStderr,
+                                bool printColor)
   : Backend (levels),
-    useStderr (useStderr)
+    useStderr (useStderr),
+    printColor (printColor)
 {
 }
 
