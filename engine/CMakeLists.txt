@@ -20,6 +20,7 @@ endif (HUMMSTRUMM_UNIT_TEST)
 
 # Common Source Files
 set (hummstrummengine_SRCS
+  src/debug/logging/backend.cpp
   src/debug/profiler.cpp
   src/error/error.cpp
   src/error/generic.cpp

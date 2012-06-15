@@ -125,6 +125,15 @@ namespace engine
 namespace debug
 {
 class Profiler;
+/**
+ * The namespace for classes that help logging.
+ */
+namespace logging
+{
+class Backend;
+class ConsoleBackend;
+class FileBackend;
+}
 }
 
 /**
@@ -310,6 +319,7 @@ class WindowSystem;
 #include "date/duration.hpp"
 #include "date/timezone.hpp"
 #include "date/date.hpp"
+#include "debug/logging/backend.hpp"
 #include "debug/profiler.hpp"
 #include "math/simd.hpp"
 #include "math/mathutils.hpp"
@@ -331,6 +341,7 @@ class WindowSystem;
 #include "system/endianness.inl"
 #include "date/duration.inl"
 #include "date/date.inl"
+#include "debug/logging/backend.inl"
 #include "math/mathutils.inl"
 #include "geometry/plane.inl"
 
