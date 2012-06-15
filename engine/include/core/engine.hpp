@@ -59,8 +59,10 @@ class Engine
      */
     struct Configuration
     {
-        /// A file to which, by default, to log engine messages.
-        hummstrumm::engine::debug::Log::Ptr log;
+        /// The backends to send log messages to. @todo Take out @c tr1 in C++11
+        std::vector<std::tr1::shared_ptr<
+                      hummstrumm::engine::debug::logging::Backend> >
+          logBackends;
     };
 
     /**
@@ -95,15 +97,15 @@ class Engine
       /* noexcept */;
 
     /**
-     * Returns the Log.
+     * Returns the log stream.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-11-27
      * @since  0.3
      *
-     * @return The Log object.
+     * @return The log std::ostream .
      */
-    hummstrumm::engine::debug::Log::Ptr GetLog ()
+    std::ostream &GetLog ()
       /* noexcept */;
     /**
      * Returns the Platform.
@@ -163,7 +165,7 @@ class Engine
 
   private:
     /// The engine-wide log.
-    hummstrumm::engine::debug::Log::Ptr log;
+    std::ostream log;
     /// Platform information.
     hummstrumm::engine::system::Platform *platform;
     /// Processor information.

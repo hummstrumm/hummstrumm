@@ -18,6 +18,11 @@
 
 #include "hummstrummengine.hpp"
 
+#include <tr1/memory>
+#include <iostream>
+
+using namespace hummstrumm::engine;
+
 namespace hummstrumm
 {
 namespace engine
@@ -31,27 +36,22 @@ Engine::theEngine = 0;
 
 Engine::Engine (const Engine::Configuration &params)
   try
+  : log (new debug::logging::StreamBuffer (params.logBackends))
 {
-  std::cout << "Humm and Strumm Game Engine initializing...\n\n";
-
+  log << HummstrummSetLogging (placeholder)
+      << "Humm and Strumm Game Engine is initializing..." << std::flush;
   // Set the engine pointer.
   theEngine = this;
 
   // Get system attributes.
-  this->platform   = new hummstrumm::engine::system::Platform;
-  this->processors = new hummstrumm::engine::system::Processors;
-  this->memory     = new hummstrumm::engine::system::Memory;
-  this->endianness = new hummstrumm::engine::system::Endianness;
-  this->clock      = new hummstrumm::engine::system::Clock;
-  
-  // Use the given log.
-  this->log = params.log;
-  // Print the XML header.
-  log->OutputSystemInfo ();
+  platform   = new system::Platform;
+  processors = new system::Processors;
+  memory     = new system::Memory;
+  endianness = new system::Endianness;
+  clock      = new system::Clock;
 
-  HUMMSTRUMM_LOG ("Humm and Strumm Game Engine up and running.",
-                  hummstrumm::engine::debug::Log::LEVEL_SUCCESS);
-  std::cout << "-------------------------------------------\n\n";
+  log << HummstrummSetLogging (placeholder)
+      << "Humm and Strumm Game Engine is up and running." << std::flush;
 }
 catch (...)
   {
@@ -62,10 +62,9 @@ catch (...)
 
 Engine::~Engine ()
 {
-  std::cout << "\n\n-------------------------------\n"
-            << "Engine going down!\n\n";
-  HUMMSTRUMM_LOG ("Engine going down!",
-                  hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
+  log << HummstrummSetLogging (placeholder)
+      << "Humm and Strumm Game Engine is going down." << std::flush;
+  
   delete this->clock;
   delete this->endianness;
   delete this->memory;
@@ -82,7 +81,7 @@ Engine::GetEngine ()
 }
 
 
-hummstrumm::engine::debug::Log::Ptr
+std::ostream &
 Engine::GetLog ()
   /* noexcept */
 {
