@@ -18,51 +18,50 @@
 
 #include "hummstrummengine.hpp"
 
-using namespace hummstrumm::engine::system;
+#include <tr1/memory>
+
+using namespace hummstrumm::engine;
 
 int
 main ()
 {
-  hummstrumm::engine::core::Engine engine;
+  core::Engine::Configuration params;
+  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
+                                (new debug::logging::ConsoleBackend (true)));
+  core::Engine engine (params);
+
+  std::ostream &log = engine.GetLog ();
 
 
-  std::cout << "Running on " << engine.GetPlatform ()->GetName () << "\n\n";
+  log << HummstrummSetLogging (placeholder)
+      << "Running on " << engine.GetPlatform ()->GetName () << std::flush;
 
   
-  std::cout << engine.GetProcessors ()->GetNumberOfProcessors ()
-            << " processors detected:\n";
+  log << HummstrummSetLogging (placeholder)
+      << engine.GetProcessors ()->GetNumberOfProcessors ()
+      << " processors detected:\n";
   for (int i = 0; i < engine.GetProcessors ()->GetNumberOfProcessors (); ++i)
     {
-      std::cout << "  " << engine.GetProcessors ()->GetProcessorName (i)
-                << "\n";
+      log << "  " << engine.GetProcessors ()->GetProcessorName (i);
     }
-  std::cout << "SIMD: ";
+  log << " with SIMD: ";
   if (engine.GetProcessors ()->HaveSseSupport ())
-    {
-      std::cout << "SSE ";
-    }
+    log << "SSE ";
   if (engine.GetProcessors ()->HaveSse2Support ())
-    {
-      std::cout << "SSE2 ";
-    }
+    log << "SSE2 ";
   if (engine.GetProcessors ()->HaveSse3Support ())
-    {
-      std::cout << "SSE3 ";
-    }
+    log << "SSE3 ";
   if (engine.GetProcessors ()->HaveSse41Support ())
-    {
-      std::cout << "SSE4.1 ";
-    }
+    log << "SSE4.1 ";
   if (engine.GetProcessors ()->HaveSse42Support ())
-    {
-      std::cout << "SSE4.2 ";
-    }
-  std::cout << "\n\n";
+    log << "SSE4.2 ";
+  log << std::flush;
 
 
-  std::cout << engine.GetMemory ()->GetFreeMemory ()  << " kb out of "
-            << engine.GetMemory ()->GetTotalMemory () << " kb of memory free."
-            << "\n";
+  log << HummstrummSetLogging (placeholder)
+      << engine.GetMemory ()->GetFreeMemory ()  << " kb out of "
+      << engine.GetMemory ()->GetTotalMemory () << " kb of memory free."
+      << std::flush;
   
   return 0;
 }

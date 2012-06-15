@@ -22,6 +22,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+using namespace hummstrumm::engine;
 using namespace hummstrumm::engine::window;
 using namespace hummstrumm::engine::system;
 using namespace hummstrumm::engine::types;
@@ -339,100 +340,101 @@ checkTestIsOver()
 int
 main()
 {
-  hummstrumm::engine::core::Engine engine;
+  core::Engine::Configuration params;
+  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
+                                (new debug::logging::ConsoleBackend (true)));
+  core::Engine engine (params);
+  std::ostream &log = engine.GetLog ();
 
   freq = engine.GetClock ()->GetHighResolutionFrequency();
 
   TIME_FOR_EACH_TEST = 10 * engine.GetClock()->NANOSECONDS_PER_SECOND;
   try
-  {
-    std::stringstream logMessage;
-    std::cout << "HUMMSTRUMM window testing with OpenGL context" << std::endl;
-    windowsystem = new WindowSystem;    
-    runTest(0);
-
-    while (isTesting)
     {
-      while (windowsystem->GetPendingEventsCount() > 0) 
-      {
-
-        WindowEvents *wev = windowsystem->GetNextEvent();
-        StructureEvents *wsv = NULL;
-        switch(wev->getType())
+      log << HummstrummSetLogging (placeholder)
+          << "HUMMSTRUMM window testing with OpenGL context" << std::flush;
+      windowsystem = new WindowSystem;
+      runTest(0);
+      
+      while (isTesting)
         {
-          case WindowEvents::WINDOW_RESIZE:
-              wsv = (StructureEvents *) wev;
-              logMessage.str("");
-              logMessage << "Window Event : RESIZE ( w ";
-              logMessage << wsv->GetWidth();
-              logMessage << ", h ";
-              logMessage << wsv->GetHeight();
-              logMessage << " )";
-              HUMMSTRUMM_LOG(logMessage.str().c_str(), 
-                 hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
-              resizeGL(wsv->GetWidth(), wsv->GetHeight());
-              break;
+          while (windowsystem->GetPendingEventsCount() > 0) 
+            {
+              
+              WindowEvents *wev = windowsystem->GetNextEvent();
+              StructureEvents *wsv = NULL;
+              switch(wev->getType())
+                {
+                case WindowEvents::WINDOW_RESIZE:
+                  wsv = (StructureEvents *) wev;
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window Event : RESIZE ( w " << wsv->GetWidth()
+                      << ", h " << wsv->GetHeight() << " )" << std::flush;
+                  resizeGL(wsv->GetWidth(), wsv->GetHeight());
+                  break;
 
-          case WindowEvents::WINDOW_CLOSE:
-              logMessage.str("");
-              logMessage << "Window Event : CLOSE";
-              HUMMSTRUMM_LOG(logMessage.str().c_str(),
-                             hummstrumm::engine::debug::Log::LEVEL_MESSAGE);
-              break;
+                case WindowEvents::WINDOW_CLOSE:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window Event : CLOSE" << std::flush;
+                  break;
+                  
+                case WindowEvents::KEY_PRESS:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window Event : KEY PRESS" << std::flush;
+                  break;
 
-          case WindowEvents::KEY_PRESS:
-              logMessage.str("");
-              logMessage << "Window Event : KEY PRESS";
-              break;
+                case WindowEvents::KEY_RELEASE:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window Event : KEY RELEASE" << std::flush;
+                  break;
 
-          case WindowEvents::KEY_RELEASE:
-              logMessage.str("");
-              logMessage << "Window Event : KEY RELEASE";
-              break;
+                case WindowEvents::MOUSE_PRESS:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window Event : MOUSE PRESS" << std::flush;
+                  break;
 
-          case WindowEvents::MOUSE_PRESS:
-              logMessage.str("");
-              logMessage << "Window Event : MOUSE PRESS";
-              break;
+                case WindowEvents::MOUSE_RELEASE:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window Event : MOUSE RELEASE" << std::flush;
+                  break;
 
-          case WindowEvents::MOUSE_RELEASE:
-              logMessage.str("");
-              logMessage << "Window Event : MOUSE RELEASE";
-              break;
+                case WindowEvents::MOUSE_MOTION:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window Event : MOUSE MOTION" << std::flush;
+                  break;
 
-          case WindowEvents::MOUSE_MOTION:
-              logMessage.str("");
-              logMessage << "Window Event : MOUSE MOTION";
-              break;
-
-          case WindowEvents::WINDOW_ACTIVE:
-              std::cout << "Window is active " << std::endl;
-              shouldRender = true;
-              break;
-          case WindowEvents::WINDOW_INACTIVE:
-              std::cout << "Window inactive " << std::endl;
-              shouldRender = false;
-              break;
-
-          default: 
-              break;
+                case WindowEvents::WINDOW_ACTIVE:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window is active " << std::flush;
+                  shouldRender = true;
+                  break;
+                  
+                case WindowEvents::WINDOW_INACTIVE:
+                  log << HummstrummSetLogging (placeholder)
+                      << "Window inactive " << std::flush;
+                  shouldRender = false;
+                  break;
+                  
+                default: 
+                  break;
+                }
+            }
+          if (shouldRender)
+            {
+              renderGL();
+              windowsystem->SwapBuffers();
+            }
+          checkTestIsOver();
         }
-      }
-      if (shouldRender)
-      {
-        renderGL();
-        windowsystem->SwapBuffers();
-      }
-      checkTestIsOver();
     }
-  } catch (hummstrumm::engine::error::WindowSystem &e)
-  {
-    std::cout << "Test #" << currentTest << " failed\n";
-    std::cout << "\t" << e.GetText () << "\n";
-    std::cout << "\tOccured in " << e.GetFunction () << "\n";
-    std::cout << "\tFile: " << e.GetFileName ()
-              << ", Line: " << e.GetLineNumber () << "\n";
-    return -1;
-  }
+  catch (hummstrumm::engine::error::WindowSystem &e)
+    {
+      log << HummstrummSetLogging (placeholder)
+          << "Test #" << currentTest << " failed: " << e.GetText () << "\n"
+          << "\tOccured in " << e.GetFunction () << "\n"
+          << "\tFile: " << e.GetFileName ()
+          << ", Line: " << e.GetLineNumber () << std::flush;
+      return -1;
+    }
   return 0;
 }

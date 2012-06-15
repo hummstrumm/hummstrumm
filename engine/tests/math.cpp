@@ -1130,8 +1130,6 @@ main ()
   CppUnit::BriefTestProgressListener progress;
   controller.addListener (&progress);
 
-  Engine engine; 
-
   CppUnit::TestRunner runner;
   CppUnit::TestFactoryRegistry& registry = 
     CppUnit::TestFactoryRegistry::getRegistry ();

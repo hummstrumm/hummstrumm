@@ -19,24 +19,30 @@
 #include <iostream>
 #include "hummstrummengine.hpp"
 
-using namespace hummstrumm::engine::system;
-using namespace hummstrumm::engine::types;
+using namespace hummstrumm::engine;
 
 int
 main ()
 {
-  int64 start = 0, end = 0;
-  int64 freq = 0;
-  hummstrumm::engine::core::Engine engine;
+  types::int64 start = 0, end = 0;
+  types::int64 freq = 0;
+  
+  core::Engine::Configuration params;
+  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
+                                (new debug::logging::ConsoleBackend (true)));
+  core::Engine engine (params);
+  std::ostream &log = engine.GetLog ();
 
-  const int64 TIME_FOR_EACH_TEST = 2 *
+  const types::int64 TIME_FOR_EACH_TEST = 2 *
     engine.GetClock ()->NANOSECONDS_PER_SECOND;
 
   start = engine.GetClock ()->GetHighResolutionCount ();
   freq  = engine.GetClock ()->GetHighResolutionFrequency();
 
-  std::cout << "This test should run for exactly 2 seconds!\n";
-  std::cout << "There are " << freq << " ns between ticks.\n";
+  log << HummstrummSetLogging (placeholder)
+      << "This test should run for exactly 2 seconds." << std::flush;
+  log << HummstrummSetLogging (placeholder)
+      << "There are " << freq << " ns between ticks." << std::flush;
 
   do
     {

@@ -17,6 +17,8 @@
  */
 
 #include <iostream>
+#include <fstream>
+#include <tr1/memory>
 
 #include "hummstrummengine.hpp"
 using namespace hummstrumm::engine;
@@ -24,19 +26,22 @@ using namespace hummstrumm::engine;
 int
 main ()
 {
+  // Use make_shared<> here soon.
+  std::ofstream logFile ("test-the-engine.log");
   core::Engine::Configuration params;
-  params.log = new debug::Log ("test-the-engine.log",
-                               debug::Log::LEVEL_MESSAGE);
+  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
+                                (new debug::logging::ConsoleBackend (true)));
+  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
+                                (new debug::logging::FileBackend
+                                 (logFile)));
 
   core::Engine engine (params);
-
-  debug::Log log ("another-log.log", debug::Log::LEVEL_ERROR);
-  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", debug::Log::LEVEL_MESSAGE);
-  HUMMSTRUMM_LOG_USING (log, "Testing...hi...", debug::Log::LEVEL_ERROR);
   
-  HUMMSTRUMM_LOG ("Testing...", debug::Log::LEVEL_MESSAGE);
-  HUMMSTRUMM_LOG ("Testing...", debug::Log::LEVEL_ERROR);
-  HUMMSTRUMM_LOG ("Testing...", debug::Log::LEVEL_WARNING);
+  engine.GetLog () << debug::logging::SetFile ("fake.filename")
+                   << debug::logging::SetLine (123456)
+                   << "Testing..." << std::flush;
+  engine.GetLog () << HummstrummSetLogging (placeholder)
+                   << "Have another message." << std::flush;
 
   return 0;
 }
