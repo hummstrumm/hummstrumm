@@ -130,6 +130,7 @@ class Profiler;
  */
 namespace logging
 {
+class StreamBuffer;
 class Backend;
 class ConsoleBackend;
 class FileBackend;
@@ -319,6 +320,7 @@ class WindowSystem;
 #include "date/duration.hpp"
 #include "date/timezone.hpp"
 #include "date/date.hpp"
+#include "debug/logging/streambuffer.hpp"
 #include "debug/logging/backend.hpp"
 #include "debug/profiler.hpp"
 #include "math/simd.hpp"
@@ -341,6 +343,7 @@ class WindowSystem;
 #include "system/endianness.inl"
 #include "date/duration.inl"
 #include "date/date.inl"
+#include "debug/logging/streambuffer.inl"
 #include "debug/logging/backend.inl"
 #include "math/mathutils.inl"
 #include "geometry/plane.inl"
