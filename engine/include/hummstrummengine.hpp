@@ -228,7 +228,7 @@ typedef std::string String;
 namespace date
 {
 class Timezone;
-class Duration;
+struct Duration;
 class Date;
 }
 
