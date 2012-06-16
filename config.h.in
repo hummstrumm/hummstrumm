@@ -25,6 +25,8 @@
 
 // Compiler Checks
 #cmakedefine HAVE_CPUID_H
+#cmakedefine HAVE_TR1_MEMORY
+#cmakedefine HAVE_MEMORY
 
 // C++11
 #cmakedefine HUMMSTRUMM_USE_CPP11

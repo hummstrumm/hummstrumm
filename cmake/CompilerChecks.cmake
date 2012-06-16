@@ -17,7 +17,9 @@
 # CompilerChecks.cmake -- Makes sure that the compiler supports various headers,
 #                         functions, and features.
 
-include (CheckIncludeFiles)
+include (CheckIncludeFileCXX)
 include (CheckCpp11)
 
-check_include_files (cpuid.h HAVE_CPUID_H)
+check_include_file_cxx (cpuid.h HAVE_CPUID_H)
+check_include_file_cxx ("tr1/memory" HAVE_TR1_MEMORY)
+check_include_file_cxx (memory HAVE_MEMORY)
