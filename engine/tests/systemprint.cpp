@@ -18,7 +18,11 @@
 
 #include "hummstrummengine.hpp"
 
-#include <tr1/memory>
+#if defined(HAVE_TR1_MEMORY)
+#  include <tr1/memory> // This will change when we switch to C++11.
+#elif defined(HAVE_MEMORY)
+#  include <memory>
+#endif
 
 using namespace hummstrumm::engine;
 
@@ -28,17 +32,17 @@ main ()
   core::Engine::Configuration params;
   params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
                                 (new debug::logging::ConsoleBackend (
-                                  debug::logging::Level::INFO)));
+                                  debug::logging::Level::info)));
   core::Engine engine (params);
 
   std::ostream &log = engine.GetLog ();
 
 
-  log << HummstrummSetLogging (Level::INFO)
+  log << HUMMSTRUMM_SET_LOGGING (Level::info)
       << "Running on " << engine.GetPlatform ()->GetName () << std::flush;
 
   
-  log << HummstrummSetLogging (Level::INFO)
+  log << HUMMSTRUMM_SET_LOGGING (Level::info)
       << engine.GetProcessors ()->GetNumberOfProcessors ()
       << " processors detected:\n";
   for (int i = 0; i < engine.GetProcessors ()->GetNumberOfProcessors (); ++i)
@@ -59,7 +63,7 @@ main ()
   log << std::flush;
 
 
-  log << HummstrummSetLogging (Level::INFO)
+  log << HUMMSTRUMM_SET_LOGGING (Level::info)
       << engine.GetMemory ()->GetFreeMemory ()  << " kb out of "
       << engine.GetMemory ()->GetTotalMemory () << " kb of memory free."
       << std::flush;

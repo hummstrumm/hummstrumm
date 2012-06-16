@@ -18,7 +18,6 @@
 
 #include "hummstrummengine.hpp"
 
-#include <sstream>
 #include <strsafe.h>
 
 using namespace hummstrumm::engine;
@@ -65,7 +64,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HummstrummSetLogging (Level::WARNING)
+        << HUMMSTRUMM_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
     }
     BOOL ctxDeleted = wglDeleteContext(renderingContext);
@@ -74,7 +73,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglDeleteContext: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HummstrummSetLogging (Level::WARNING)
+        << HUMMSTRUMM_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
     }  
     renderingContext = NULL; 
@@ -87,7 +86,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("ReleaseDC: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HummstrummSetLogging (Level::WARNING)
+        << HUMMSTRUMM_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
   } 
 
@@ -98,7 +97,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("DestroyWindow: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HummstrummSetLogging (Level::WARNING)
+        << HUMMSTRUMM_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
   }
 
@@ -109,7 +108,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("UnregisteredClass: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HummstrummSetLogging (Level::WARNING)
+        << HUMMSTRUMM_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
   }
 
@@ -409,7 +408,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     if (ret != DISP_CHANGE_SUCCESSFUL)
     {
       core::Engine::GetEngine ()->GetLog ()
-        << HummstrummSetLogging (Level::WARNING)
+        << HUMMSTRUMM_SET_LOGGING (Level::warning)
         << "Window doesn't support fullscreen." << std::flush;
       param.useFullscreen = false;
       return;
@@ -454,7 +453,6 @@ WindowSystem::InitializeWGLExtensions()
    */
   PIXELFORMATDESCRIPTOR pfd;
   int pixelFormat = 0;
-  std::stringstream message;
 
   DWORD flags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_GENERIC_ACCELERATED;
   pfd.nSize           =  sizeof(PIXELFORMATDESCRIPTOR);
@@ -519,12 +517,9 @@ WindowSystem::InitializeWGLExtensions()
   if (wglGetExtensionsStringARB != NULL)
   {
     const char * extensionsARB = wglGetExtensionsStringARB(deviceContext);
-    message.str("");
-    message << "Supported WGL ARB Extensions : ";
-    message << extensionsARB;
     core::Engine::GetEngine ()->GetLog ()
-      << HummstrummSetLogging (Level::WARNING)
-      << errMsg << std::flush;
+      << HUMMSTRUMM_SET_LOGGING (Level::warning)
+      << "Supported WGL ARB Extensions : " << extensionsARB << std::flush;
   }
 
   wglGetExtensionsStringEXT = (PFNWGLGETEXTENSIONSSTRINGEXTPROC)
@@ -533,12 +528,9 @@ WindowSystem::InitializeWGLExtensions()
   if (wglGetExtensionsStringEXT != NULL)
   {
     const char * extensionsEXT = wglGetExtensionsStringEXT();
-    message.str("");
-    message << "Supported WGL EXT Extensions : ";
-    message << extensionsEXT;
     core::Engine::GetEngine ()->GetLog ()
-      << HummstrummSetLogging (Level::WARNING)
-      << errMsg << std::flush;
+      << HUMMSTRUMM_SET_LOGGING (Level::warning)
+      << "Supported WGL EXT Extensions : " << extensionsEXT << std::flush;
   }
 
   wglMakeCurrent (NULL,NULL);

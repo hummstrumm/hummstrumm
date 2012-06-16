@@ -29,10 +29,15 @@ main ()
   // Use make_shared<> here soon.
   typedef std::tr1::shared_ptr<debug::logging::Backend> ptr;
   ptr console (
-    new debug::logging::ConsoleBackend (debug::logging::Level::WARNING));
+    new debug::logging::ConsoleBackend (debug::logging::Level::warning, true,
+#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+      false));
+#else
+      true));
+#endif
   ptr file (
     new debug::logging::FileBackend (
-      debug::logging::Level::INFO | debug::logging::Level::WARNING,
+      debug::logging::Level::info | debug::logging::Level::warning,
       "test-the-engine.log"));
   core::Engine::Configuration params;
   params.logBackends.push_back (console);
@@ -41,9 +46,9 @@ main ()
   
   engine.GetLog () << debug::logging::SetFile ("fake.filename")
                    << debug::logging::SetLine (123456)
-                   << debug::logging::SetLevel (debug::logging::Level::WARNING)
+                   << debug::logging::SetLevel (debug::logging::Level::warning)
                    << "Testing..." << std::flush;
-  engine.GetLog () << HummstrummSetLogging (Level::INFO)
+  engine.GetLog () << HUMMSTRUMM_SET_LOGGING (Level::info)
                    << "Have another message." << std::flush;
 
   return 0;

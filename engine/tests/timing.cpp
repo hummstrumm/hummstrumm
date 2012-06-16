@@ -30,7 +30,7 @@ main ()
   core::Engine::Configuration params;
   params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
                                 (new debug::logging::ConsoleBackend (
-                                  debug::logging::Level::INFO)));
+                                  debug::logging::Level::info)));
   core::Engine engine (params);
   std::ostream &log = engine.GetLog ();
 
@@ -40,9 +40,9 @@ main ()
   start = engine.GetClock ()->GetHighResolutionCount ();
   freq  = engine.GetClock ()->GetHighResolutionFrequency();
 
-  log << HummstrummSetLogging (Level::INFO)
+  log << HUMMSTRUMM_SET_LOGGING (Level::info)
       << "This test should run for exactly 2 seconds." << std::flush;
-  log << HummstrummSetLogging (Level::INFO)
+  log << HUMMSTRUMM_SET_LOGGING (Level::info)
       << "There are " << freq << " ns between ticks." << std::flush;
 
   do

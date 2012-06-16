@@ -32,7 +32,9 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_LIBS rt)
   # I do not really understand why I do have to add this in here too.
   # Its already added in engine.CMakeLists.txt
-  add_definitions("-msse4.1")
+  # Commenting out -- this makes it not work on AMD systems.  Fix later.
+  #   ~ Patrick, 2012-06-16
+#  add_definitions("-msse4.1")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 if (HUMMSTRUMM_COMPILER_GCC)

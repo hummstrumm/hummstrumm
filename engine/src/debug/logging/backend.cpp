@@ -78,15 +78,15 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
       
       switch (level)
         {
-        case hummstrumm::engine::debug::logging::Level::SUCCESS:
+        case hummstrumm::engine::debug::logging::Level::success:
           colorStart = "\033[34m";
           break;
 
-        case hummstrumm::engine::debug::logging::Level::WARNING:
+        case hummstrumm::engine::debug::logging::Level::warning:
           colorStart = "\033[33m";
           break;
 
-        case hummstrumm::engine::debug::logging::Level::ERROR:
+		case hummstrumm::engine::debug::logging::Level::error:
           colorStart = "\033[31m";
           break;
         }
@@ -140,19 +140,19 @@ FileBackend::operator() (std::time_t t, std::string file, unsigned line,
   std::string lname;
   switch (level)
     {
-    case Level::INFO:
+    case Level::info:
       lname = "info";
       break;
       
-    case Level::SUCCESS:
+    case Level::success:
       lname = "success";
       break;
 
-    case Level::WARNING:
+    case Level::warning:
       lname = "warning";
       break;
 
-    case Level::ERROR:
+    case Level::error:
       lname = "error";
       break;
 

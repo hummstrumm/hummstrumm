@@ -343,7 +343,7 @@ main()
   core::Engine::Configuration params;
   params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
                                 (new debug::logging::ConsoleBackend (
-                                  debug::logging::Level::INFO)));
+                                  debug::logging::Level::info)));
   core::Engine engine (params);
   std::ostream &log = engine.GetLog ();
 
@@ -352,7 +352,7 @@ main()
   TIME_FOR_EACH_TEST = 10 * engine.GetClock()->NANOSECONDS_PER_SECOND;
   try
     {
-      log << HummstrummSetLogging (Level::INFO)
+      log << HUMMSTRUMM_SET_LOGGING (Level::info)
           << "HUMMSTRUMM window testing with OpenGL context" << std::flush;
       windowsystem = new WindowSystem;
       runTest(0);
@@ -368,51 +368,51 @@ main()
                 {
                 case WindowEvents::WINDOW_RESIZE:
                   wsv = (StructureEvents *) wev;
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window Event : RESIZE ( w " << wsv->GetWidth()
                       << ", h " << wsv->GetHeight() << " )" << std::flush;
                   resizeGL(wsv->GetWidth(), wsv->GetHeight());
                   break;
 
                 case WindowEvents::WINDOW_CLOSE:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window Event : CLOSE" << std::flush;
                   windowsystem->DestroyWindow();
                   return 0;
                   
                 case WindowEvents::KEY_PRESS:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window Event : KEY PRESS" << std::flush;
                   break;
 
                 case WindowEvents::KEY_RELEASE:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window Event : KEY RELEASE" << std::flush;
                   break;
 
                 case WindowEvents::MOUSE_PRESS:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window Event : MOUSE PRESS" << std::flush;
                   break;
 
                 case WindowEvents::MOUSE_RELEASE:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window Event : MOUSE RELEASE" << std::flush;
                   break;
 
                 case WindowEvents::MOUSE_MOTION:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window Event : MOUSE MOTION" << std::flush;
                   break;
 
                 case WindowEvents::WINDOW_ACTIVE:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window is active " << std::flush;
                   shouldRender = true;
                   break;
                   
                 case WindowEvents::WINDOW_INACTIVE:
-                  log << HummstrummSetLogging (Level::INFO)
+                  log << HUMMSTRUMM_SET_LOGGING (Level::info)
                       << "Window inactive " << std::flush;
                   shouldRender = false;
                   break;
@@ -431,7 +431,7 @@ main()
     }
   catch (hummstrumm::engine::error::WindowSystem &e)
     {
-      log << HummstrummSetLogging (Level::ERROR)
+      log << HUMMSTRUMM_SET_LOGGING (Level::error)
           << "Test #" << currentTest << " failed: " << e.GetText () << "\n"
           << "\tOccured in " << e.GetFunction () << "\n"
           << "\tFile: " << e.GetFileName ()

@@ -48,7 +48,7 @@ Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
   this->debugName[24] = '\0';
 
   // Construct log message and log it.
-  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (Level::INFO)
+  core::Engine::GetEngine ()->GetLog () << HUMMSTRUMM_SET_LOGGING (Level::info)
     << "Profiler ``" << debugName << "'' started." << std::flush;
 }
 
@@ -99,7 +99,7 @@ Profiler::~Profiler ()
   Iterate ();
   
   // Write it out.
-  core::Engine::GetEngine ()->GetLog () << HummstrummSetLogging (Level::INFO)
+  core::Engine::GetEngine ()->GetLog () << HUMMSTRUMM_SET_LOGGING (Level::info)
     << "Profiler ``" << debugName << "'' stats: "
     << numberOfRuns << " Runs, Lowest Time of "
     << lowestTime << ", Average Time of "
