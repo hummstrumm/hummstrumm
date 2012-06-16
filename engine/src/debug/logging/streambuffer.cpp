@@ -56,7 +56,7 @@ StreamBuffer::SendToBackends ()
   time_t t = time (0);
   string message = str ();
   
-  typename vector<tr1::shared_ptr<Backend> >::iterator i;
+  vector<tr1::shared_ptr<Backend> >::iterator i;
   for (i = backends.begin (); i != backends.end (); ++i)
     {
       // Funny syntax here: first we dereference the iterator (that's the
