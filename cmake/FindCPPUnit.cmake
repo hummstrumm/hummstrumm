@@ -38,7 +38,7 @@ if (NOT WIN32)
 else (NOT WIN32)
   add_subdirectory (CPPUnit)
   set (CPPUNIT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CPPUnit/include)
-  set (CPPUNIT_LIBRARY     ${CMAKE_CURRENT_BINARY_DIR}/CPPUnit/cppunit.lib)
+  set (CPPUNIT_LIBRARY cppunit) # Set equal to target name.
 endif (NOT WIN32)
 
 if (CPPUNIT_INCLUDE_DIR AND CPPUNIT_LIBRARY)
