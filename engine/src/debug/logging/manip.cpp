@@ -74,7 +74,7 @@ operator<< (std::ostream &out, const SetLevel manip)
 }
 
 std::ostream &
-operator<< (std::ostream &out, const LockType manip)
+operator<< (std::ostream &out, const LockType)
 {
   StreamBuffer *buf = dynamic_cast<StreamBuffer *> (out.rdbuf ());
   if (buf)
