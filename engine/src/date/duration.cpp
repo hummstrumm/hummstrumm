@@ -225,7 +225,7 @@ operator>> (std::istream &inReal, Duration &d)
 
         case 'S': // Seconds (with no millisecond portion)
           d.seconds += (int)temp2;
-          d.milliseconds += (temp2 - (int)(temp2)) * 1000;
+          d.milliseconds += (int)((temp2 - (int)(temp2)) * 1000);
           break;
 
         default:

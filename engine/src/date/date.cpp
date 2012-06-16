@@ -126,7 +126,7 @@ Date::Date (unsigned year,
   // In both the day and month case, we start numbering from 1, so we have to
   // ignore the first day.
   uintNatural tempDay = day - 1;
-  for (int i = 1; i < month; ++i)
+  for (unsigned i = 1; i < month; ++i)
     {
       tempDay += DAYS_PER_MONTH[i-1];
     }
@@ -140,7 +140,7 @@ Date::Date (unsigned year,
       HUMMSTRUMM_THROW (OutOfRange,
                         "The date is too large to fit on this system.");
     }
-
+  
   millisecondsSinceEpoch += tempDay * MILLISECONDS_PER_DAY;
 }
 
@@ -180,7 +180,7 @@ Date::GetMonth ()
   unsigned dayInYear = millisecondsSinceEpoch / MILLISECONDS_PER_DAY -
                        FirstDayOfYear (year);
   
-  int leapYear = (IsLeapYear (year)) ? 1 : 0;
+  unsigned leapYear = (IsLeapYear (year)) ? 1 : 0;
 
   if (dayInYear < 31)
     return 1;
@@ -539,11 +539,11 @@ Date
 GetLocalDate ()
   /* noexcept */
 {
-  uintNatural ms = (hummstrumm::engine::core::Engine::GetEngine ()) ?
+  uint64 ms = (hummstrumm::engine::core::Engine::GetEngine ()) ?
     hummstrumm::engine::core::Engine::GetEngine ()->GetClock ()->
       GetMillisecondsSinceEpoch () : 0;
 
-  return Date (ms);
+  return Date (static_cast<uintNatural> (ms));
 }
 
 
