@@ -296,7 +296,9 @@ class WindowSystem;
    	__pragma(warning(disable:4127)) \
     } while(0) \
     __pragma(warning(pop))
-#  endif
+#else
+#  define MULTI_LINE_MACRO_BEGIN do {
+#  define MULTI_LINE_MACRO_END } while (0)
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #include "types/inttypes.hpp"
@@ -357,4 +359,6 @@ class WindowSystem;
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 #  pragma warning(pop)
 #  pragma warning(disable:4290)
+#endif /// #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+
 #endif // #ifndef HUMMSTRUMM_ENGINE

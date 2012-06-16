@@ -188,20 +188,20 @@ operator<< (std::ostream &, const Error &);
  */
 #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_THROW(exceptionName, text)                       \
-    do {                                                              \
+    MULTI_LINE_MACRO_BEGIN                                            \
       throw hummstrumm::engine::error::exceptionName (__FILE__,       \
                                                       __LINE__,       \
                                                       __FUNCSIG__,    \
                                                       text);          \
-    } while (false)
+    MULTI_LINE_MACRO_END
 #else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
   #define HUMMSTRUMM_THROW(exceptionName, text)                            \
-    do {                                                                   \
+    MULTI_LINE_MACRO_BEGIN                                                 \
       throw hummstrumm::engine::error::exceptionName (__FILE__,            \
                                                       __LINE__,            \
                                                       __PRETTY_FUNCTION__, \
                                                       text);               \
-    } while (false)
+    MULTI_LINE_MACRO_END
 #endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_ERROR_ERROR
