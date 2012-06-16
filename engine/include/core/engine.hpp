@@ -73,7 +73,7 @@ class Engine
      * @date   2012-02-13
      * @since  0.5
      */
-    Engine (const Configuration &params);
+    Engine (Configuration params = Configuration ());
     /**
      * Shuts down the Humm and Strumm Engine.
      *

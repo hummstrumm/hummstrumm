@@ -38,7 +38,7 @@ namespace core
 Engine *
 Engine::theEngine = 0;
 
-Engine::Engine (const Engine::Configuration &params)
+Engine::Engine (const Engine::Configuration params)
   try
   : logStreamBuffer (params.logBackends),
     log (&logStreamBuffer)
