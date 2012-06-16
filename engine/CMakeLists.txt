@@ -99,12 +99,6 @@ if (HUMMSTRUMM_WINDOWSYSTEM_X11)
   include_directories (${X11_INCLUDE_DIR})
 endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
-if (HUMMSTRUMM_DEBUG)
-  if (HUMMSTRUMM_COMPILER_GCC)
-    add_definitions("-g")
-  endif (HUMMSTRUMM_COMPILER_GCC)
-endif (HUMMSTRUMM_DEBUG)
-
 # Build the library.
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 
