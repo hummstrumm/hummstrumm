@@ -29,12 +29,12 @@
 
 #if defined (HUMMSTRUMM_PLATFORM_GNULINUX) && defined(HUMMSTRUMM_HAVE_SSE_SUPPORT)
 #include <xmmintrin.h> //sse2
-#include <smmintrin.h> //sse 4.1
+//#include <smmintrin.h> //sse 4.1
 #endif
 
 #if defined (HUMMSTRUMM_PLATFORM_BSD) && defined (HUMMSTRUMM_HAVE_SSE_SUPPORT)
 #include <xmmintrin.h> //sse2
-#include <smmintrin.h> //sse 4.1
+//#include <smmintrin.h> //sse 4.1
 #endif
 
 #if defined (HUMMSTRUMM_PLATFORM_WINDOWS) && defined(HUMMSTRUMM_HAVE_SSE_SUPPORT)

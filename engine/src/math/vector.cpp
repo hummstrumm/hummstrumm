@@ -178,16 +178,16 @@ Vec4DDot (const Vector4D<float> &v, const Vector4D<float> &k)
   float res = 0;
   __m128 dot;
 
-  Engine *engine = Engine::GetEngine ();
+//  Engine *engine = Engine::GetEngine ();
 
-  if (engine->GetProcessors()->HaveSse41Support())
-  {
-    SIMD_DOT_SSE_4(v.xyzw, k.xyzw, dot);
-  }
-  else
-  {
+//  if (engine->GetProcessors()->HaveSse41Support())
+//  {
+//    SIMD_DOT_SSE_4(v.xyzw, k.xyzw, dot);
+//  }
+//  else
+//  {
     SIMD_DOT(v.xyzw, k.xyzw, dot);
-  }
+//  }
   SIMD_STORE_SS(&res, dot);
   return res;
 }
