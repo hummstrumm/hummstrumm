@@ -48,7 +48,7 @@ namespace engine
 namespace math
 {
 
-/**
+/*
  * @def HUMMSTRUMM_ALIGN_16_UNIX
  *
  * Forces a 16 bit align on GNU/Linux and *BSD.  Only defined on these
@@ -58,7 +58,7 @@ namespace math
  * @date   2010-18-19
  * @since  0.3
  */
-/**
+/*
  * @def HUMMSTRUMM_ALIGN_16_WINDOWS
  *
  * Forces a 16 bit align on Windows.  Only defined on Windows, so safe to
