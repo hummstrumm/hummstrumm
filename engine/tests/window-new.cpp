@@ -16,14 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "hummstrummengine.hpp"
+using namespace hummstrumm::engine;
+ 
 #include <iomanip>
 #include <cstdlib>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <unistd.h>
-
-#include "hummstrummengine.hpp"
-using namespace hummstrumm::engine;
 
 
 void initGL ();
@@ -31,7 +30,7 @@ void resizeGL (unsigned int, unsigned int);
 void renderGL ();
 
 int
-main (int argc, char **argv)
+main (int, char **)
 {
   // Cut down on typing. ^_^
   using namespace debug::logging;
