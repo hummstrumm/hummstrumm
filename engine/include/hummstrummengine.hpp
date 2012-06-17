@@ -34,7 +34,7 @@
  * @image  html logo-large.png
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @author Ricardo Tiago <rtiago.mendes@gmail.com>
- * @date   2011-08-03
+ * @date   2012-06-17
  *
  * @section overview Overview
  *
