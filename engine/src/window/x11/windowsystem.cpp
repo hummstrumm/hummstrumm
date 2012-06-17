@@ -215,9 +215,10 @@ WindowSystem::CreatePbuffer(WindowVisualInfo &param)
 
     int pbufferAttrib[] =
     {
-      GLX_PBUFFER_WIDTH, param.offscreenBufferWidth,
-      GLX_PBUFFER_HEIGHT, param.offscreenBufferHeight,
-      GLX_LARGEST_PBUFFER, param.offscreenUseLargestBufferAvailable, 
+      GLX_PBUFFER_WIDTH, static_cast<int> (param.offscreenBufferWidth),
+      GLX_PBUFFER_HEIGHT, static_cast<int> (param.offscreenBufferHeight),
+      GLX_LARGEST_PBUFFER,
+        static_cast<int> (param.offscreenUseLargestBufferAvailable),
       None
     };
 

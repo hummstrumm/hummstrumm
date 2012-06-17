@@ -71,8 +71,8 @@ Date::Date (unsigned year,
 {
   // This'll be useful later.
   const unsigned DAYS_PER_MONTH [] =
-    { 31, (IsLeapYear (year)) ? 29 : 28,
-      31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    { 31u, (IsLeapYear (year)) ? 29u : 28u,
+      31u, 30u, 31u, 30u, 31u, 31u, 30u, 31u, 30u, 31u };
 
   // Check that everything is valid.
   if (year < 1970)
