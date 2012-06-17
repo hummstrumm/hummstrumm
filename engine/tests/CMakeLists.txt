@@ -82,10 +82,6 @@ add_executable(test_engine_geometry geometry.cpp)
 target_link_libraries(test_engine_geometry ${hummstrummengine_LIBS})
 add_test (NAME test_engine_geometry COMMAND test_engine_geometry)
 
-add_executable(test_engine_window window.cpp)
+add_executable(test_engine_window window-new.cpp)
 target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
 add_test (NAME test_engine_window COMMAND test_engine_window)
-
-#add_executable(test_engine_sqrt sqrt.cpp)
-#target_link_libraries(test_engine_sqrt ${hummstrummengine_LIBS})
-#add_test (NAME test_engine_sqrt COMMAND test_engine_sqrt)
