@@ -50,9 +50,8 @@ namespace date
  * with hours and minutes being within the valid ranges of one day and each
  * being the same sign as the other.
  */
-class Timezone : public hummstrumm::engine::core::Object
+class Timezone
 {
-    HUMMSTRUMM_DECLARE_TYPE (Timezone)
   public:
     /**
      * Constructs a new Timezone object initialized to no offset from UTC.

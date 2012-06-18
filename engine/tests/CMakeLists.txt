@@ -46,10 +46,6 @@ include_directories (${hummstrummengine_INCLUDE})
 #  include_directories (${X11_X11_INCLUDE_PATH})
 #endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
-add_executable(test_engine_core core.cpp)
-target_link_libraries(test_engine_core ${hummstrummengine_LIBS})
-add_test (NAME test_engine_core COMMAND test_engine_core)
-
 add_executable(test_engine_error error.cpp)
 target_link_libraries(test_engine_error ${hummstrummengine_LIBS})
 add_test (NAME test_engine_error COMMAND test_engine_error)

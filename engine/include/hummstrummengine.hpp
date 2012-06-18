@@ -181,19 +181,11 @@ class BSphere3D;
 }
 
 /**
- * The namespace for the core of the game engine.  This namespace contains
- * the memory manager, the Object/Type system, and the smart pointer.
+ * The namespace for the core of the game engine.
  */
 namespace core
 {
-class Object;
-class Type;
-//template <typename T, unsigned int SIZE>
-//class Pool;
-template <typename T>
-class Pointer;
 class Engine;
-class AllocationTable;
 }
 
 /**
@@ -303,8 +295,6 @@ class WindowSystem;
 
 #include "types/inttypes.hpp"
 #include "debug/utils.hpp"
-#include "core/object.hpp"
-#include "core/type.hpp"
 #include "error/error.hpp"
 #include "error/generic.hpp"
 #include "error/outofmemory.hpp"
@@ -315,8 +305,6 @@ class WindowSystem;
 #include "error/memorycorruption.hpp"
 #include "error/invalidparam.hpp"
 #include "error/iterator.hpp"
-#include "core/allocationtable.hpp"
-#include "core/pointer.hpp"
 #include "system/platform.hpp"
 #include "system/endianness.hpp"
 #include "system/processors.hpp"
@@ -346,7 +334,6 @@ class WindowSystem;
 // This has to go last.
 #include "core/engine.hpp"
 // Template and Inline implementations now...
-#include "core/pointer.inl"
 #include "system/endianness.inl"
 #include "date/duration.inl"
 #include "date/date.inl"

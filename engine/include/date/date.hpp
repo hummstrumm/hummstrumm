@@ -56,9 +56,8 @@ namespace date
  * @date    2012-03-25
  * @since   0.5
  */
-class Date : public hummstrumm::engine::core::Object
+class Date
 {
-    HUMMSTRUMM_DECLARE_TYPE (Date)
   public:
     /**
      * Constructs a new Date object initialized to the UNIX epoch.

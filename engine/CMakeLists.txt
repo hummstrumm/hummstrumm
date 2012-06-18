@@ -34,9 +34,6 @@ set (hummstrummengine_SRCS
   src/error/invalidparam.cpp
   src/error/windowsystem.cpp
   src/error/iterator.cpp
-  src/core/type.cpp
-  src/core/object.cpp
-  src/core/allocationtable.cpp
   src/core/engine.cpp
   src/date/timezone.cpp
   src/date/duration.cpp

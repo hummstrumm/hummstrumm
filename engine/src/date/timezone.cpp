@@ -31,9 +31,6 @@ namespace date
 {
 
 
-HUMMSTRUMM_IMPLEMENT_TYPE(hummstrumm::engine::date::Timezone,
-                          hummstrumm::engine::core::Object)
-
 Timezone::Timezone ()
   : offset ()
 {}

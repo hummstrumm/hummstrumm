@@ -37,10 +37,10 @@ class TimezoneTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
-    Timezone::Ptr utc;
-    Timezone::Ptr utcMinus10;
-    Timezone::Ptr utcPlus4;
-    Timezone::Ptr utcPlus1;
+    Timezone *utc;
+    Timezone *utcMinus10;
+    Timezone *utcPlus4;
+    Timezone *utcPlus1;
 
   public:
     void setUp (void)
@@ -49,6 +49,14 @@ class TimezoneTest : public CppUnit::TestFixture
       utcMinus10 = new Timezone (Duration (0, 0, 0, 0, -10, 0, 0, 0));
       utcPlus4   = new Timezone (Duration (0, 0, 0, 0, 4, 0, 0, 0));
       utcPlus1   = new Timezone (Duration (0, 0, 0, 0, 1, 0, 0, 0));
+    }
+
+    ~TimezoneTest (void)
+    {
+      delete utc;
+      delete utcMinus10;
+      delete utcPlus4;
+      delete utcPlus1;
     }
 
     void testStorage (void)
@@ -157,7 +165,7 @@ class DurationTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
-    Duration::Ptr d1, d2, d3, d4, d5, d6;
+    Duration *d1, *d2, *d3, *d4, *d5, *d6;
 
   public:
     void setUp (void)
@@ -168,6 +176,16 @@ class DurationTest : public CppUnit::TestFixture
       d4 = new Duration (0, 12, 0, 0, 0, 0, 0, 0);
       d5 = new Duration (0, 0, 0, 0, 52, 0, 0, 0);
       d6 = new Duration (*d5);
+    }
+
+    ~DurationTest (void)
+    {
+      delete d1;
+      delete d2;
+      delete d3;
+      delete d4;
+      delete d5;
+      delete d6;
     }
 
     void testEquality (void)
@@ -335,7 +353,7 @@ class DateTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
-    Date::Ptr d1, d2, d3, d4, d5, d6;
+    Date *d1, *d2, *d3, *d4, *d5, *d6;
 
   public:
     void setUp (void)
@@ -346,6 +364,16 @@ class DateTest : public CppUnit::TestFixture
       d4 = new Date (2012, 3, 25, 0, 37, 10, 254);
       d5 = new Date (1970, 1, 1, 0, 0, 0, 0);
       d6 = new Date (4521, 12, 25, 18, 45, 7, 2);
+    }
+
+    ~DateTest (void)
+    {
+      delete d1;
+      delete d2;
+      delete d3;
+      delete d4;
+      delete d5;
+      delete d6;
     }
 
     void testStorage (void)

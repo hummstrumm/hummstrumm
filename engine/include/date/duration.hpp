@@ -76,9 +76,8 @@ namespace date
  * restrictions outside the standard ones of a @c int ), so all the members are
  * public.
  */
-struct Duration : public hummstrumm::engine::core::Object
+struct Duration
 {
-    HUMMSTRUMM_DECLARE_TYPE (Duration)
   public:
     /**
      * Constructs a new Duration object initialized a null duration.

@@ -22,16 +22,12 @@
 #include <sstream>
 #include <algorithm>
 
-using namespace hummstrumm::engine::core;
-
 namespace hummstrumm
 {
 namespace engine
 {
 namespace date
 {
-
-HUMMSTRUMM_IMPLEMENT_TYPE (Duration, Object)
 
 
 Duration::Duration ()

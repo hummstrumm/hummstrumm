@@ -22,7 +22,6 @@
 #include <cstdlib>
 #include <algorithm>
 #include <sstream>
-using namespace hummstrumm::engine::core;
 using namespace hummstrumm::engine::types;
 using namespace hummstrumm::engine::error;
 
@@ -34,8 +33,6 @@ namespace engine
 namespace date
 {
 
-
-HUMMSTRUMM_IMPLEMENT_TYPE (Date, Object)
 
 // The number of milliseconds in a day is taken to be constant.
 static const int MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
