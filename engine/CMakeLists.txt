@@ -62,7 +62,7 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_SRCS
         src/system/gnulinux/processors.cpp
         src/system/gnulinux/memory.cpp
-        src/system/gnulinux/platform.cpp
+        src/system/posix/platform.cpp
         src/system/posix/clock.cpp)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
@@ -71,7 +71,7 @@ if (HUMMSTRUMM_PLATFORM_BSD)
   list (APPEND hummstrummengine_SRCS
         src/system/bsd/processors.cpp
         src/system/bsd/memory.cpp
-        src/system/bsd/platform.cpp
+        src/system/posix/platform.cpp
         src/system/posix/clock.cpp)
 endif (HUMMSTRUMM_PLATFORM_BSD)
 

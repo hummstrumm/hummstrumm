@@ -18,7 +18,7 @@
 
 #include "hummstrummengine.hpp"
 
-#include <cstring>
+#include <string>
 #include <sys/utsname.h>
 
 namespace hummstrumm
@@ -31,41 +31,34 @@ namespace system
 
 Platform::Platform ()
   /* noexcept */
-  : name (0)
 {
   utsname systemName;
-  uname (&systemName);
-
-  std::size_t length = std::strlen (systemName.sysname) + 1 +
-    std::strlen (systemName.nodename) + 1 +
-    std::strlen (systemName.release) + 1 +
-    std::strlen (systemName.version) + 1 +
-    std::strlen (systemName.machine) + 1;
-  this->name = new char [length];
-  
-  std::strcpy (this->name, systemName.sysname);
-  std::strcat (this->name, " ");
-  std::strcat (this->name, systemName.nodename);
-  std::strcat (this->name, " ");
-  std::strcat (this->name, systemName.release);
-  std::strcat (this->name, " ");
-  std::strcat (this->name, systemName.version);
-  std::strcat (this->name, " ");
-  std::strcat (this->name, systemName.machine);
+  if (-1 == uname (&systemName))
+    {
+      name = "Non-POSIX System";  // *shouldn't* happen
+    }
+  else
+    {
+      name = std::string ("")    +       // e.g.:
+             systemName.sysname  + " " + // Linux
+             systemName.nodename + " " + // patrick-desktop-gentoo
+             systemName.release  + " " + // 3.2.1-gentoo-r2
+             systemName.version  + " " + // #1 SMP PREEMPT Wed Jun 6 02:27:37...
+             systemName.machine;         // x86_64
+    }
 }
 
 
 Platform::~Platform ()
 {
-  delete this->name;
 }
 
 
-char *
+std::string
 Platform::GetName ()
   const /* noexcept */
 {
-  return this->name;
+  return name;
 }
 
 

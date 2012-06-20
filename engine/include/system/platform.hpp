@@ -28,6 +28,8 @@
 #ifndef HUMMSTRUMM_ENGINE_SYSTEM_PLATFORM
 #define HUMMSTRUMM_ENGINE_SYSTEM_PLATFORM
 
+#include <string>
+
 
 namespace hummstrumm
 {
@@ -40,9 +42,9 @@ namespace system
  * Provides information about the system's operating system.  Currently, we only
  * give the system's name string.
  *
- * @version 0.3
+ * @version 0.7
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date    2010-11-28
+ * @date    2012-06-20
  * @since   0.3
  */
 class Platform
@@ -56,13 +58,12 @@ class Platform
      * @since  0.3
      *
      * @note On Windows, we need make the string ourselves.  We need to remember
-     * to update 
+     * to update it.
      */
     Platform ()
       /* noexcept */;
     /**
-     * Destructs a Platform object.  Heap memory used to store the string is
-     * freed.
+     * Destructs a Platform object.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-11-28
@@ -79,11 +80,11 @@ class Platform
      *
      * @return A string containing the name of the platform.
      */
-    char *GetName ()
+    std::string GetName ()
       const /* noexcept */;
 
   private:
-    char *name; ///< The name of the platform.
+    std::string name; ///< The name of the platform.
 };
 
 
