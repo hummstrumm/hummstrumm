@@ -23,6 +23,24 @@
 # For a complete list of CMAKE_SYSTEM_NAME values, see
 # <http://synergy-foss.org/pm/projects/synergy/repository/revisions/413/entry/trunk/tool/win/cmake/share/cmake-2.8/Modules/CMakeDetermineSystem.cmake>
 
+
+# Check for a POSIX system.
+set (HUMMSTRUMM_PLATFORM_POSIX OFF)
+if (${HAVE_UNISTD_H})
+  file (WRITE
+        "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/posixcheck.cpp"
+        "#include <unistd.h>\nint main() {\n#ifdef _POSIX_VERSION\nreturn 0;\n#else\nreturn 1;\n#endif\n }\n")
+  try_run (posix_check_output posix_check_compiled
+           "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
+           "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/posixcheck.cpp")
+  if (${posix_check_compiled} MATCHES "TRUE" AND
+      ${posix_check_output}   MATCHES "0")
+    set (HUMMSTRUMM_PLATFORM_POSIX ON)
+  endif ()
+endif ()
+
+
+
 # Windows
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
 

@@ -57,22 +57,25 @@ if (HUMMSTRUMM_PLATFORM_WINDOWS)
         src/system/windows/clock.cpp)
 endif (HUMMSTRUMM_PLATFORM_WINDOWS)
 
+# POSIX Source Files
+if (HUMMSTRUMM_PLATFORM_POSIX)
+  list (APPEND hummstrummengine_SRCS
+        src/system/posix/platform.cpp
+        src/system/posix/clock.cpp)
+endif ()
+
 # GNU/Linux-only Source Files
 if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_SRCS
         src/system/gnulinux/processors.cpp
-        src/system/gnulinux/memory.cpp
-        src/system/posix/platform.cpp
-        src/system/posix/clock.cpp)
+        src/system/gnulinux/memory.cpp)
 endif (HUMMSTRUMM_PLATFORM_GNULINUX)
 
 # *BSD-only Source Files
 if (HUMMSTRUMM_PLATFORM_BSD)
   list (APPEND hummstrummengine_SRCS
         src/system/bsd/processors.cpp
-        src/system/bsd/memory.cpp
-        src/system/posix/platform.cpp
-        src/system/posix/clock.cpp)
+        src/system/bsd/memory.cpp)
 endif (HUMMSTRUMM_PLATFORM_BSD)
 
 if (HUMMSTRUMM_WINDOWSYSTEM_X11)
