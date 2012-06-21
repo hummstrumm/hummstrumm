@@ -38,15 +38,40 @@ Memory::Memory ()
   : totalMemory (0),
     freeMemory (0)
 {
-  int mib[2];  
+  Update ();
+}
+
+Memory::~Memory ()
+{
+}
+
+std::size_t
+Memory::GetTotalMemory ()
+  const /* noexcept */
+{
+  return totalMemory;
+}
+
+std::size_t
+Memory::GetFreeMemory ()
+  const /* noexcept */
+{
+  return freeMemory;
+}
+
+void
+Memory::Update ()
+  /* noexcept */
+{
+  int mib[2];
   std::size_t length;
 
   // Find the total amount of memory.
   mib[0] = CTL_HW;
   mib[1] = HW_PHYSMEM;
-  length = sizeof this->totalMemory;
-  sysctl (mib, 2, &this->totalMemory, &length, 0, 0);
-  this->totalMemory *= -1024;
+  length = sizeof totalMemory;
+  sysctl (mib, 2, &totalMemory, &length, 0, 0);
+  totalMemory *= -1024;
 
   // Algorithm for finding free memory by Ralf S. Engelschall.
   // <http://www.cyberciti.biz/files/scripts/freebsd-memory.pl.txt>
@@ -78,26 +103,8 @@ Memory::Memory ()
   unused = free * pageSize + inactive * pageSize + cache * pageSize;
 
   // Add them!
-  this->freeMemory = inactive + cache + unused;
-  this->freeMemory *= 1024;
-}
-
-Memory::~Memory ()
-{
-}
-
-int
-Memory::GetTotalMemory ()
-  const /* noexcept */
-{
-  return this->totalMemory;
-}
-
-int
-Memory::GetFreeMemory ()
-  const /* noexcept */
-{
-  return this->freeMemory;
+  freeMemory = inactive + cache + unused;
+  freeMemory *= 1024;
 }
 
 

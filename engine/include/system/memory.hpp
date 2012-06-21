@@ -46,8 +46,7 @@ namespace system
  * @date    2010-11-27
  * @since   0.3
  *
- * @warning These counts are not updated each time they are requested.  Each one
- * is only calculated at the initialization of the engine.
+ * @warning These counts are only updated when the Update() method is called.
  */
 class Memory
 {
@@ -80,11 +79,11 @@ class Memory
      *
      * @return The total amount of memory on the system in KiB.
      */
-    int GetTotalMemory ()
+    std::size_t GetTotalMemory ()
       const /* noexcept */;
     /**
-     * Returns the amount of free RAM on the system at engine startup, in binary
-     * kilobytes (KiB).
+     * Returns the amount of free RAM on the system at the last update, in
+     * binary kilobytes (KiB).
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
      * @date   2010-11-27
@@ -92,12 +91,24 @@ class Memory
      *
      * @return The total amount of free memory on the system in KiB.
      */
-    int GetFreeMemory ()
+    std::size_t GetFreeMemory ()
       const /* noexcept */;
 
+    /**
+     * Update the engine's measure of the amount of free RAM on the system.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2012-06-21
+     * @since  0.7
+     */
+    void Update ()
+      /* noexcept */;
+
   private:
-    int totalMemory; ///< The total amount of RAM in KiB at engine startup.
-    int freeMemory;  ///< The total amount of free RAM in KiB at engine startup.
+    /// The total amount of RAM in KiB at engine startup.
+    std::size_t totalMemory;
+    /// The total amount of free RAM in KiB at engine startup.
+    std::size_t freeMemory;
 };
 
 

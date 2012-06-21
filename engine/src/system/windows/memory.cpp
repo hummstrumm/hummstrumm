@@ -18,7 +18,6 @@
 
 #include "hummstrummengine.hpp"
 
-#include <cstring>
 #include <windows.h>
 #include <intrin.h>
 
@@ -35,34 +34,41 @@ Memory::Memory ()
   : totalMemory (0),
     freeMemory (0)
 {
-  // Get the Global Memory Status.
-  MEMORYSTATUSEX memoryStatus;
-  memoryStatus.dwLength = sizeof memoryStatus;
-  GlobalMemoryStatusEx (&memoryStatus);
-  
-  // Find the total amount of memory.
-  this->totalMemory = int (memoryStatus.ullTotalPhys / 1024);
-
-  // Find the total amount of free memory.
-  this->freeMemory = int (memoryStatus.ullAvailPhys / 1024);
+  Update ();
 }
 
 Memory::~Memory ()
 {
 }
 
-int
+std::size_t
 Memory::GetTotalMemory ()
   const /* noexcept */
 {
-  return this->totalMemory;
+  return totalMemory;
 }
 
-int
+std::size_t
 Memory::GetFreeMemory ()
   const /* noexcept */
 {
-  return this->freeMemory;
+  return freeMemory;
+}
+
+void
+Memory::Update ()
+  /* noexcept */
+{
+  // Get the Global Memory Status.
+  MEMORYSTATUSEX memoryStatus;
+  memoryStatus.dwLength = sizeof memoryStatus;
+  GlobalMemoryStatusEx (&memoryStatus);
+  
+  // Find the total amount of memory.
+  totalMemory = static_cast<int> (memoryStatus.ullTotalPhys / 1024);
+
+  // Find the total amount of free memory.
+  freeMemory = static_cast<int> (memoryStatus.ullAvailPhys / 1024);
 }
 
 

@@ -18,10 +18,6 @@
 
 #include "hummstrummengine.hpp"
 
-#include <fstream>
-#include <limits>
-#include <string>
-
 namespace hummstrumm
 {
 namespace engine
@@ -35,14 +31,13 @@ Memory::Memory ()
   : totalMemory (0),
     freeMemory (0)
 {
-  Update ();
+  // There no way of telling on POSIX how much memory there is.  If you want
+  // this, implement it on a platform-by-platform basis.
 }
-
 
 Memory::~Memory ()
 {
 }
-
 
 std::size_t
 Memory::GetTotalMemory ()
@@ -51,7 +46,6 @@ Memory::GetTotalMemory ()
   return totalMemory;
 }
 
-
 std::size_t
 Memory::GetFreeMemory ()
   const /* noexcept */
@@ -59,45 +53,10 @@ Memory::GetFreeMemory ()
   return freeMemory;
 }
 
-
 void
 Memory::Update ()
   /* noexcept */
 {
-  // We get our info from /proc/meminfo
-  std::ifstream meminfo ("/proc/meminfo");
-  
-  // Our current line's text.
-  std::string label;
-
-  // What strings do we want to look for?
-  const std::string totalLabel   = "MemTotal:";
-  const std::string freeLabel    = "MemFree:";
-  const std::string buffersLabel = "Buffers:";
-  const std::string cachedLabel  = "Cached:";
-
-  // Free memory is spread out over several labels, so we need to add them
-  // together using this temp variable.
-  std::size_t tmpFree;
-  
-  // We just need to loop through the file in search of what we want.
-  while (meminfo >> label)
-    {
-      if (label == totalLabel)
-        {
-          meminfo >> totalMemory;
-          meminfo.ignore (std::numeric_limits<std::streamsize>::max (), '\n');
-          continue;
-        }
-          
-      if (label == freeLabel || label == buffersLabel || label == cachedLabel)
-        {
-          meminfo >> tmpFree;
-          freeMemory += tmpFree;
-          meminfo.ignore (std::numeric_limits<std::streamsize>::max (), '\n');
-          continue;
-        }
-    }
 }
 
 
