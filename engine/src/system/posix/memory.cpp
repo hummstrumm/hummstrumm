@@ -18,6 +18,8 @@
 
 #include "hummstrummengine.hpp"
 
+#include <cstdlib>
+
 namespace hummstrumm
 {
 namespace engine

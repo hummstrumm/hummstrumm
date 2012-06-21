@@ -29,6 +29,7 @@
 #ifndef HUMMSTRUMM_ENGINE_SYSTEM_MEMORY
 #define HUMMSTRUMM_ENGINE_SYSTEM_MEMORY
 
+#include <cstdlib>
 
 namespace hummstrumm
 {

@@ -21,6 +21,7 @@
 #include <fstream>
 #include <limits>
 #include <string>
+#include <cstdlib>
 
 namespace hummstrumm
 {

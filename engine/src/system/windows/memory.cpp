@@ -20,6 +20,7 @@
 
 #include <windows.h>
 #include <intrin.h>
+#include <cstdlib>
 
 namespace hummstrumm
 {
