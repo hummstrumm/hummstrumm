@@ -72,10 +72,10 @@ Memory::Update ()
   std::string label;
 
   // What strings do we want to look for?
-  const std::string totalLabel   = "MemTotal:";
-  const std::string freeLabel    = "MemFree:";
-  const std::string buffersLabel = "Buffers:";
-  const std::string cachedLabel  = "Cached:";
+  const std::string totalLabel   ("MemTotal:");
+  const std::string freeLabel    ("MemFree:");
+  const std::string buffersLabel ("Buffers:");
+  const std::string cachedLabel  ("Cached:");
 
   // Free memory is spread out over several labels, so we need to add them
   // together using this temp variable.
@@ -87,17 +87,15 @@ Memory::Update ()
       if (label == totalLabel)
         {
           meminfo >> totalMemory;
-          meminfo.ignore (std::numeric_limits<std::streamsize>::max (), '\n');
-          continue;
         }
-          
-      if (label == freeLabel || label == buffersLabel || label == cachedLabel)
+      else if (label == freeLabel    ||
+               label == buffersLabel ||
+               label == cachedLabel)
         {
           meminfo >> tmpFree;
           freeMemory += tmpFree;
-          meminfo.ignore (std::numeric_limits<std::streamsize>::max (), '\n');
-          continue;
         }
+      std::getline (meminfo, label); // Next line.
     }
 }
 
