@@ -47,13 +47,8 @@ Clock::Clock ()
       // I guess we don't have a monotonic clock.
       clock_getres (CLOCK_REALTIME, &monotonicResolution);
     }
-  this->frequency = monotonicResolution.tv_sec * NANOSECONDS_PER_SECOND +
-                    monotonicResolution.tv_nsec;
-}
-
-
-Clock::~Clock ()
-{
+  frequency = monotonicResolution.tv_sec * NANOSECONDS_PER_SECOND +
+              monotonicResolution.tv_nsec;
 }
 
 
@@ -71,14 +66,6 @@ Clock::GetHighResolutionCount ()
     }
   return monotonicCount.tv_sec * NANOSECONDS_PER_SECOND +
          monotonicCount.tv_nsec;
-}
-
-
-uint64
-Clock::GetHighResolutionFrequency ()
-  const /* noexcept */
-{
-  return this->frequency;
 }
 
 

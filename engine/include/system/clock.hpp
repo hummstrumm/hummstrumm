@@ -60,14 +60,6 @@ class Clock
      */
     Clock ()
       /* noexcept */;
-    /**
-     * Destructs a Clock object.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-12-13
-     * @since  0.3
-     */
-    virtual ~Clock ();
 
 
     /**
@@ -96,7 +88,7 @@ class Clock
      *
      * @return The high resolution clock's frequency, in nanoseconds.
      */
-    hummstrumm::engine::types::uint64 GetHighResolutionFrequency ()
+    inline hummstrumm::engine::types::uint64 GetHighResolutionFrequency ()
       const /* noexcept */;
 
     /**

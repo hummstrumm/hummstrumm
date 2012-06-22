@@ -335,6 +335,7 @@ class WindowSystem;
 #include "core/engine.hpp"
 // Template and Inline implementations now...
 #include "system/endianness.inl"
+#include "system/clock.inl"
 #include "date/duration.inl"
 #include "date/date.inl"
 #include "debug/logging/streambuffer.inl"
