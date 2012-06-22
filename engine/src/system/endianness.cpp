@@ -32,8 +32,8 @@ Endianness::Endianness ()
   // These two have the same memory.
   union
   {
-      unsigned long int value32;
-      unsigned char     values8[4];
+      hummstrumm::engine::types::uint32 value32;
+      unsigned char                     values8[4];
   };
 
   // Set all but the last byte to 1.
@@ -43,11 +43,11 @@ Endianness::Endianness ()
   // Was it really the last byte that we set to 1?
   if (value32 == 1)
     {
-      this->systemEndianness = Endianness::Big;
+      systemEndianness = Endianness::Big;
     }
   else
     {
-      this->systemEndianness = Endianness::Little;
+      systemEndianness = Endianness::Little;
     }
 }
 
@@ -61,7 +61,7 @@ Endianness::Endian
 Endianness::GetSystemEndianness ()
   const /* noexcept */
 {
-  return this->systemEndianness;
+  return systemEndianness;
 }
 
 
