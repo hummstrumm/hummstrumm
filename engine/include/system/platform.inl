@@ -16,10 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "hummstrummengine.hpp"
+#ifndef HUMMSTRUMM_ENGINE_SYSTEM_PLATFORM_INL
+#define HUMMSTRUMM_ENGINE_SYSTEM_PLATFORM_INL
 
-#include <string>
-#include <sys/utsname.h>
 
 namespace hummstrumm
 {
@@ -29,26 +28,16 @@ namespace system
 {
 
 
-Platform::Platform ()
-  /* noexcept */
+std::string
+Platform::GetName ()
+  const /* noexcept */
 {
-  utsname systemName;
-  if (-1 == uname (&systemName))
-    {
-      name = "Non-POSIX System";  // *shouldn't* happen
-    }
-  else
-    {
-      name = std::string ("")    +       // e.g.:
-             systemName.sysname  + " " + // Linux
-             systemName.nodename + " " + // patrick-desktop-gentoo
-             systemName.release  + " " + // 3.2.1-gentoo-r2
-             systemName.version  + " " + // #1 SMP PREEMPT Wed Jun 6 02:27:37...
-             systemName.machine;         // x86_64
-    }
+  return name;
 }
 
 
 }
 }
 }
+
+#endif // #ifndef HUMMSTRUMM_ENGINE_SYSTEM_PLATFORM_INL

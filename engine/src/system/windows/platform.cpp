@@ -18,7 +18,6 @@
 
 #include "hummstrummengine.hpp"
 
-#include <cstring>
 #include <string>
 #include <windows.h>
 
@@ -86,19 +85,6 @@ Platform::Platform ()
     default:
       return;
     }
-}
-
-
-Platform::~Platform ()
-{
-}
-
-
-std::string
-Platform::GetName ()
-  const /* noexcept */
-{
-  return name;
 }
 
 

@@ -62,14 +62,6 @@ class Platform
      */
     Platform ()
       /* noexcept */;
-    /**
-     * Destructs a Platform object.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-11-28
-     * @since  0.3
-     */
-    virtual ~Platform ();
 
     /**
      * Returns the name of the system's platform.
@@ -80,7 +72,7 @@ class Platform
      *
      * @return A string containing the name of the platform.
      */
-    std::string GetName ()
+    inline std::string GetName ()
       const /* noexcept */;
 
   private:
