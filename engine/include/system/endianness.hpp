@@ -72,14 +72,6 @@ class Endianness
      */
     Endianness ()
       /* noexcept */;
-    /**
-     * Destructs an Endianness object.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-11-27
-     * @since  0.3
-     */
-    inline virtual ~Endianness ();
 
     /**
      * Returns the system's Endianness.
@@ -95,7 +87,6 @@ class Endianness
 
 
     // Conversions
-
     /**
      * Switches the endian of an atomic type.
      *
@@ -110,7 +101,6 @@ class Endianness
     template <typename T>
     T SwitchEndian (const T memory)
       const /* noexcept */;
-
     /**
      * Converts an atomic type of big endianness to its equivalent system endian
      * value.  The output of this depends on the endianess of the system.
@@ -126,7 +116,6 @@ class Endianness
     template <typename T>
     T ConvertBigToSystem (const T bigEndian)
       const /* noexcept */;
-
     /**
      * Converts an atomic type of /little endianness to its equivalent system
      * endian value.  The output of this depends on the endianess of the system.
@@ -142,7 +131,6 @@ class Endianness
     template <typename T>
     T ConvertLittleToSystem (const T littleEndian)
       const /* noexcept */;
-
     /**
      * Converts an atomic type of system endianness to its equivalent big endian
      * value.  The output of this will always be big endian.
@@ -158,7 +146,6 @@ class Endianness
     template <typename T>
     T ConvertSystemToBig (const T systemEndian)
       const /* noexcept */;
-
     /**
      * Converts an atomic type of system endianness to its equivalent little
      * endian value.  The output of this will always be little endian.

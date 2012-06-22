@@ -28,11 +28,6 @@ namespace system
 {
 
 
-Endianness::~Endianness ()
-{
-}
-
-
 Endianness::Endian
 Endianness::GetSystemEndianness ()
   const /* noexcept */
