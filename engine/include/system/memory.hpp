@@ -44,7 +44,7 @@ namespace system
  *
  * @version 0.3
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date    2010-11-27
+ * @date    2012-06-21
  * @since   0.3
  *
  * @warning These counts are only updated when the Update() method is called.
@@ -57,7 +57,7 @@ class Memory
      * available free RAM is calculated.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-11-27
+     * @date   2012-06-21
      * @since  0.3
      */
     Memory ()
@@ -66,7 +66,7 @@ class Memory
      * Destructs a Memory object.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-11-27
+     * @date   2012-06-21
      * @since  0.3
      */
     virtual ~Memory ();
@@ -75,7 +75,7 @@ class Memory
      * Returns the total RAM on the system, in binary kilobytes (KiB).
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-11-27
+     * @date   2012-06-21
      * @since  0.3
      *
      * @return The total amount of memory on the system in KiB.
@@ -87,7 +87,7 @@ class Memory
      * binary kilobytes (KiB).
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-11-27
+     * @date   2012-06-21
      * @since  0.3
      *
      * @return The total amount of free memory on the system in KiB.
@@ -99,7 +99,7 @@ class Memory
      * Update the engine's measure of the amount of free RAM on the system.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2012-06-21
+     * @date   2012-06-20
      * @since  0.7
      */
     void Update ()
