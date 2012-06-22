@@ -60,16 +60,8 @@ class Memory
      * @date   2012-06-21
      * @since  0.3
      */
-    Memory ()
+    inline Memory ()
       /* noexcept */;
-    /**
-     * Destructs a Memory object.
-     *
-     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2012-06-21
-     * @since  0.3
-     */
-    virtual ~Memory ();
 
     /**
      * Returns the total RAM on the system, in binary kilobytes (KiB).
@@ -80,7 +72,7 @@ class Memory
      *
      * @return The total amount of memory on the system in KiB.
      */
-    std::size_t GetTotalMemory ()
+    inline std::size_t GetTotalMemory ()
       const /* noexcept */;
     /**
      * Returns the amount of free RAM on the system at the last update, in
@@ -92,7 +84,7 @@ class Memory
      *
      * @return The total amount of free memory on the system in KiB.
      */
-    std::size_t GetFreeMemory ()
+    inline std::size_t GetFreeMemory ()
       const /* noexcept */;
 
     /**

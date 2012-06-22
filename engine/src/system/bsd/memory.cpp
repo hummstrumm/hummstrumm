@@ -18,7 +18,6 @@
 
 #include "hummstrummengine.hpp"
 
-#include <cstring>
 #include <cstdlib>
 #include <sys/types.h>
 #include <sys/sysctl.h>
@@ -32,32 +31,6 @@ namespace engine
 namespace system
 {
 
-
-Memory::Memory ()
-  /* noexcept */
-  : totalMemory (0),
-    freeMemory (0)
-{
-  Update ();
-}
-
-Memory::~Memory ()
-{
-}
-
-std::size_t
-Memory::GetTotalMemory ()
-  const /* noexcept */
-{
-  return totalMemory;
-}
-
-std::size_t
-Memory::GetFreeMemory ()
-  const /* noexcept */
-{
-  return freeMemory;
-}
 
 void
 Memory::Update ()

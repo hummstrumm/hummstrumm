@@ -19,9 +19,7 @@
 #include "hummstrummengine.hpp"
 
 #include <fstream>
-#include <limits>
 #include <string>
-#include <cstdlib>
 
 namespace hummstrumm
 {
@@ -29,36 +27,6 @@ namespace engine
 {
 namespace system
 {
-
-
-Memory::Memory ()
-  /* noexcept */
-  : totalMemory (0),
-    freeMemory (0)
-{
-  Update ();
-}
-
-
-Memory::~Memory ()
-{
-}
-
-
-std::size_t
-Memory::GetTotalMemory ()
-  const /* noexcept */
-{
-  return totalMemory;
-}
-
-
-std::size_t
-Memory::GetFreeMemory ()
-  const /* noexcept */
-{
-  return freeMemory;
-}
 
 
 void

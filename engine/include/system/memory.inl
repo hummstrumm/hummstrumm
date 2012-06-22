@@ -16,7 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "hummstrummengine.hpp"
+#ifndef HUMMSTRUMM_ENGINE_SYSTEM_MEMORY_INL
+#define HUMMSTRUMM_ENGINE_SYSTEM_MEMORY_INL
+
 
 namespace hummstrumm
 {
@@ -26,15 +28,31 @@ namespace system
 {
 
 
-void
-Memory::Update ()
+Memory::Memory ()
   /* noexcept */
+  : totalMemory (0),
+    freeMemory (0)
 {
-  // There no way of telling on POSIX how much memory there is.  If you want
-  // this, implement it on a platform-by-platform basis.
+  Update ();
+}
+
+std::size_t
+Memory::GetTotalMemory ()
+  const /* noexcept */
+{
+  return totalMemory;
+}
+
+std::size_t
+Memory::GetFreeMemory ()
+  const /* noexcept */
+{
+  return freeMemory;
 }
 
 
 }
 }
 }
+
+#endif // #ifndef HUMMSTRUMM_ENGINE_SYSTEM_MEMORY_INL
