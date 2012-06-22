@@ -18,9 +18,10 @@
 
 #include "hummstrummengine.hpp"
 
-#include <cstdio>
-#include <cstring>
-#include <unistd.h>
+#include <fstream>
+#include <limits>
+#include <string>
+#include <vector>
 
 
 namespace hummstrumm
@@ -34,307 +35,111 @@ namespace system
 Processors::Processors ()
   /* noexcept */
   : numberOfProcessors (0),
-    processorStrings (0),
+    processorStrings (),
     sseSupport (false),
     sse2Support (false),
     sse3Support (false),
     sse41Support (false),
     sse42Support (false)
 {
-  FILE *cpuinfo = 0;
+  // We get our info from /proc/cpuinfo
+  std::ifstream cpuinfo ("/proc/cpuinfo");
   
-  try
+  // Our current line's text.
+  std::string line;
+  
+  // What strings do we want to look for?
+  const std::string processorLabel ("processor");
+  const std::string nameLabel1     ("model");
+  const std::string nameLabel2     ("name");
+  const std::string flagsLabel     ("flags");
+
+  // We just need to loop through the file in search of what we want.
+  while (cpuinfo >> line)
     {
-      // We get our info from /proc/cpuinfo
-      cpuinfo = fopen ("/proc/cpuinfo", "r");
-      if (cpuinfo == 0)
+      if (line == processorLabel)
         {
-          throw 0; // Could not open the file.
+          ++numberOfProcessors;
+          std::getline (cpuinfo, line);
+          continue;
         }
-
-      // Our current line's text.
-      char line[1024];
-
-      // What strings do we want to look for?
-      const char *processorLabel = "processor";
-      const char *nameLabel      = "model name";
-      const char *flagsLabel     = "flags";
-
-      // Three passes: one for determining the total number of processors, the
-      // next for getting the processor string, the next for finding processor
-      // flags.  This algorithm will read 1023 characters from the stream, or up
-      // to the next newline if it is closer.  If we don't read up to the
-      // newline, the next cycle will continue reading from this line.  Which is
-      // perfectly fine.  It will finally get to a newline, even if the line is
-      // really long.
-      while (true)
+      else if (line == nameLabel1 &&                  // First word
+               cpuinfo >> line && line == nameLabel2) // Second word
         {
-          if (std::fgets (line, 1024, cpuinfo) == 0 && std::ferror (cpuinfo))
-            {
-              throw 1; // Something went wrong in reading the file.
-            }
-          else if (std::feof (cpuinfo))
-            {
-              break;
-            }
-          else if (std::strncmp (processorLabel,
-                                 line,
-                                 std::strlen (processorLabel)) == 0)
-            {
-              // We've got a hit.  Add one to the processor count.
-              ++this->numberOfProcessors;
-              continue;
-            }
-        }
+          cpuinfo >> line;   // ignore the colon
+          cpuinfo.ignore (); // ignore the space after it, too
+          std::getline (cpuinfo, line);
 
-      // Make sure we got a processor.
-      if (this->numberOfProcessors == 0)
+          // Add the name.
+          processorStrings.push_back (line);
+          continue;
+        }
+      else if (line == flagsLabel)
         {
-          throw 2; // We didn't find any processors...?
+          // We've got a hit.  Get ourselves to the beginning of the actual
+          // flags.
+          cpuinfo >> line;   // ignore the colon
+          cpuinfo.ignore (); // ignore the space after it, too
+          std::getline (cpuinfo, line);
+              
+          // Now search the string for the proper flags.
+          // The flags we are interested in.
+          const std::string sseFlag   ("sse");
+          const std::string sse2Flag  ("sse2");
+          const std::string sse3Flag  ("pni");
+          const std::string sse41Flag ("sse4_1");
+          const std::string sse42Flag ("sse4_2");
+
+          if (std::string::npos != line.find (sseFlag))
+            sseSupport = true;
+          if (std::string::npos != line.find (sse2Flag))
+            sse2Support = true;
+          if (std::string::npos != line.find (sse3Flag))
+            sse3Support = true;
+          if (std::string::npos != line.find (sse41Flag))
+            sse41Support = true;
+          if (std::string::npos != line.find (sse42Flag))
+            sse42Support = true;
+
+          continue;
         }
-
-      // Allocate a buffer to store the strings.
-      this->processorStrings = new char * [this->numberOfProcessors];
-
-      // Seek back to the beginning in preparation for another pass.
-      std::rewind (cpuinfo);
       
-      // Second pass...look for the name string, but only as many as we have
-      // space for.  We purposely don't set a decrement; it will be decremented
-      // every cycle FOR WHICH we find a name.
-      for (int i = 0; i < this->numberOfProcessors;)
-        {
-          if (std::fgets (line, 1024, cpuinfo) == 0 && std::ferror (cpuinfo))
-            {
-              throw 1; // Something went wrong in reading the file.
-            }
-          else if (std::feof (cpuinfo))
-            {
-              // We had more processors than names?  Okay...?  Let's just set
-              // the names to "Unknown".
-              for (; i < this->numberOfProcessors; ++i)
-                {
-                  SetProcessorNameToUnknown (i);
-                }
-              break;
-            }
-          else if (std::strncmp (nameLabel,
-                                 line,
-                                 std::strlen (nameLabel)) == 0)
-            {
-              // We've got a hit.  Get ourselves to the beginning of the
-              // actual processor name.
-              char *realName = line;
-              // Ignore the label.
-              realName += std::strlen (nameLabel);
-              // Just increment over all the white space.
-              for (; *realName == ' ' || *realName == '\t'; ++realName);
-              // Make sure we did it right.
-              if (*(realName) != ':' || *(++realName) != ' ')
-                {
-                  // We did it wrong.  Just set the name to Unknown.
-                  SetProcessorNameToUnknown (i);
-                }
-              else
-                {
-                  // Yay!  Now set the string name.
-                  realName++; // Increment to first spot in string.
-                  this->processorStrings[i] =
-                  new char [std::strlen (realName) + 1];
-                  std::strcpy (this->processorStrings[i], realName);
-                  // let's remove the last char if it's a newline.
-                  if (this->processorStrings[i][std::strlen (realName)-1] ==
-                      '\n')
-                    {
-                      this->processorStrings[i][std::strlen (realName)-1] =
-                        '\0';
-                    }
-                }
-              // Increment i; we're on to the next processor!
-              ++i;
-              continue;
-            }
-        }
-
-      // Seek back to the beginning in preparation for another pass.
-      std::rewind (cpuinfo);
-      
-      for (int i = 0; i < this->numberOfProcessors;)
-        {
-          if (std::fgets (line, 1024, cpuinfo) == 0 && std::ferror (cpuinfo))
-            {
-              throw 1; // Something went wrong in reading the file.
-            }
-          else if (std::feof (cpuinfo))
-            {
-              // Oh well.
-              break;
-            }
-          else if (std::strncmp (flagsLabel,
-                                 line,
-                                 std::strlen (flagsLabel)) == 0)
-            {
-              // We've got a hit.  Get ourselves to the beginning of the
-              // actual flags
-              char *realFlags = line;
-              // Ignore the label.
-              realFlags += std::strlen (flagsLabel);
-              // Just increment over all the white space.
-              for (; *realFlags == ' ' || *realFlags == '\t'; ++realFlags);
-              // Make sure we did it right.
-              if (*(realFlags) != ':' && *(++realFlags) != ' ')
-                {
-                  // We did it wrong.  Just keep the two interesting flags
-                  // off.
-                }
-              else
-                {
-                  // Yay!  Now search the string for the proper flags.
-                  ++realFlags; // Increment to first spot in string.
-
-                  // The flags we are interested in.
-                  const char *sseFlag = "sse";
-                  const char *sse2Flag = "sse2";
-                  const char *sse3Flag = "pni";
-                  const char *sse41Flag = "sse4_1";
-                  const char *sse42Flag = "sse4_2";
-                  if (std::strstr (realFlags, sseFlag))
-                    {
-                      this->sseSupport = true;
-                    }
-                  if (std::strstr (realFlags, sse2Flag))
-                    {
-                      this->sse2Support = true;
-                    }
-                  if (std::strstr (realFlags, sse3Flag))
-                    {
-                      this->sse3Support = true;
-                    }
-                  if (std::strstr (realFlags, sse41Flag))
-                    {
-                      this->sse41Support = true;
-                    }
-                  if (std::strstr (realFlags, sse42Flag))
-                    {
-                     this->sse42Support = true;
-                    }
-                }
-              // Increment i; we're on to the next processor!
-              ++i;
-              continue;
-            }
-        }
-      // We're done here.
-      std::fclose (cpuinfo);
+      std::getline (cpuinfo, line); // Next line
     }
-  catch (int i)
+  
+  // Make sure we got a processor.
+  if (numberOfProcessors == 0)
     {
-      std::cerr << i << "\n";
-      switch (i)
+      // We couldn't open the file, we couldn't read from it, or we got a
+      // result of no processors!  Fall back to POSIX interface.
+      numberOfProcessors = sysconf (_SC_NPROCESSORS_ONLN);
+      // Set all strings to Unknown.
+      processorStrings.clear ();
+      for (int i = 0; i < numberOfProcessors; ++i)
         {
-        case 1:
-        case 2:
-          // First we close the file, as we won't need it anymore.
-          std::fclose (cpuinfo);
-        case 0:
-          // We couldn't open the file, we couldn't read from it, or we got a
-          // result of no processors!  Fall back to POSIX interface.
-          this->numberOfProcessors = sysconf (_SC_NPROCESSORS_ONLN);
-          this->processorStrings = new char * [this->numberOfProcessors];
-          // Set all strings to Unknown.
-          for (int i = 0; i < this->numberOfProcessors; ++i)
-            {
-              SetProcessorNameToUnknown (i);
-            }
-          
-          break;
+          processorStrings.push_back (std::string ("Unknown"));
+        }
+      return;
+    }
+
+  // Make sure that we have as many names as processors.
+  if (numberOfProcessors > processorStrings.size ())
+    {
+      // We have more processors than names?  Just set the rest to unknown.
+      for (std::vector<std::string>::size_type i = processorStrings.size ();
+           i < numberOfProcessors; ++i)
+        {
+          processorStrings.push_back (std::string ("Unknown"));
         }
     }
-}
-
-
-Processors::~Processors ()
-{
-  for (int i = 0; i < this->numberOfProcessors; ++i)
+  else if (numberOfProcessors < processorStrings.size ())
     {
-      // Delete every string we have allocated.
-      delete [] this->processorStrings[i];
-    }
-  delete [] this->processorStrings;
-}
-
-
-int
-Processors::GetNumberOfProcessors ()
-  const /* noexcept */
-{
-  return this->numberOfProcessors;
-}
-
-
-const char *
-Processors::GetProcessorName (int index)
-  const /* noexcept */
-{
-  if (index >= 0 && index < this->numberOfProcessors)
-    {
-      return this->processorStrings[index];
-    }
-  else
-    {
-      return 0;
-    }
-}
-
-
-bool
-Processors::HaveSseSupport ()
-  const /* noexcept */
-{
-  return this->sseSupport;
-}
-
-
-bool
-Processors::HaveSse2Support ()
-  const /* noexcept */
-{
-  return this->sse2Support;
-}
-
-
-bool
-Processors::HaveSse3Support ()
-  const /* noexcept */
-{
-  return this->sse3Support;
-}
-
-
-bool
-Processors::HaveSse41Support ()
-  const /* noexcept */
-{
-  return this->sse41Support;
-}
-
-
-bool
-Processors::HaveSse42Support ()
-  const /* noexcept */
-{
-  return this->sse42Support;
-}
-
-
-void
-Processors::SetProcessorNameToUnknown (int index)
-  /* noexcept */
-{
-  if (index >= 0 && index < this->numberOfProcessors)
-    {
-      this->processorStrings[index] = new char [std::strlen ("Unknown") + 1];
-      std::strcpy (this->processorStrings[index], "Unknown");
+      // We have more names than processors?  Just pop off the last ones.
+      for (std::vector<std::string>::size_type i = processorStrings.size ();
+           i > numberOfProcessors; --i)
+        {
+          processorStrings.pop_back ();
+        }
     }
 }
 

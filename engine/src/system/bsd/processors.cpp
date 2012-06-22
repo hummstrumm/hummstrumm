@@ -21,7 +21,6 @@
 // This could be useful later:
 // <http://www.koders.com/c/fid43214AC6EBD2CFFB339A4283E46B634666E05C22.aspx?s=vtt>
 
-#include <cstring>
 #include <cstdlib>
 #include <sys/sysctl.h>
 #ifdef HAVE_CPUID_H
@@ -39,207 +38,86 @@ namespace system
 Processors::Processors ()
   /* noexcept */
   : numberOfProcessors (0),
-    processorStrings (0)
-{  
-  try
-    {
-      int mib[2];
-      std::size_t length;
-      char *name;
-
-      // Find the number of processors installed.
-      mib[0] = CTL_HW;
-      mib[1] = HW_NCPU;
-      length = sizeof this->numberOfProcessors;
-      sysctl (mib, 2, &this->numberOfProcessors, &length, 0, 0);
-      if (!this->numberOfProcessors)
-        {
-          throw 0;
-        }
-
-      // Allocate a buffer to store the strings.
-      this->processorStrings = new char * [this->numberOfProcessors];
-
-      // Find the name of the processor (we can at most get one...)
-      mib[0] = CTL_HW;
-      mib[1] = HW_MODEL;
-      sysctl (mib, 2, NULL, &length, NULL, 0);
-      name = new char [length];
-      sysctl (mib, 2, name, &length, NULL, 0);
-
-      // Set the name of the processors.
-      if (!name)
-        {
-          // Whatever.  Just set the strings to Unknown.
-          for (int i = 0; i < this->numberOfProcessors; ++i)
-            {
-              SetProcessorNameToUnknown (i);
-            }
-        }
-      else
-        {
-          // Set all the processor names to the value we got.
-          for (int i = 0; i < this->numberOfProcessors; ++i)
-            {
-              this->processorStrings[i] = new char [length];
-              std::strncpy (this->processorStrings[i],
-                            name,
-                            length);
-            }
-        }
-      delete [] name;
-
-      // Find the type of processor.
-      mib[0] = CTL_HW;
-      mib[1] = HW_MACHINE;
-      sysctl (mib, 2, NULL, &length, NULL, 0);
-      name = new char [length];
-      sysctl (mib, 2, name, &length, NULL, 0);
-
-      // Look for processors that could have SSE.
-      if (!name)
-        {
-          // Whatever.  Assume no SSE.
-          this->sseSupport = false;
-          this->sse2Support = false;
-          this->sse3Support = false;
-          this->sse41Support = false;
-          this->sse42Support = false;
-        }
-      else
-        {
-          if (std::strcmp (name, "amd64") == 0 ||
-              std::strcmp (name, "i386") == 0)
-            {
-#ifdef HAVE_CPUID_H
-              // These processors could have SSE.  Use a compiler intrinsic to
-              // determine.
-              unsigned int regA, regB, regC, regD;
-              __get_cpuid (0x00000001, &regA, &regB, &regC, &regD);
- 
-              this->sse42Support = regC & bit_SSE4_2;
-              this->sse41Support = regC & bit_SSE4_1;
-              this->sse3Support  = regC & bit_SSE3;
-              this->sse2Support  = regD & bit_SSE2;
-              this->sseSupport   = regD & bit_SSE;
-#else // #ifdef HAVE_CPUID_H
-              this->sse42Support = 0;
-              this->sse41Support = 0;
-              this->sse3Support  = 0;
-              this->sse2Support  = 0;
-              this->sseSupport   = 0;
-#endif // #ifdef HAVE_CPUID_H
-              
-            }
-        }
-      delete [] name;
-      
-    }
-  catch (int i)
-    {
-      switch (i)
-        {
-        case 0:
-          // Well...we didn't find any processors.  We know there has to be at
-          // least one, because we are running.  Create one, and set its name to
-          // unknown.  Also, we can't guarantee SSE.
-          this->numberOfProcessors = 1;
-          this->processorStrings = new char * [1];
-          SetProcessorNameToUnknown (0);
-          this->sseSupport = false;
-          this->sse2Support = false;
-          this->sse3Support = false;
-          this->sse41Support = false;
-          this->sse42Support = false;
-          break;
-        }
-    }
-}
-
-
-Processors::~Processors ()
+    processorStrings (0),
+    sseSupport (false),
+    sse2Support (false),
+    sse3Support (false),
+    sse41Support (false),
+    sse42Support (false)
 {
-  for (int i = 0; i < this->numberOfProcessors; ++i)
+  int mib[2];
+  std::size_t length;
+  char *name;
+
+  // Find the number of processors installed.
+  mib[0] = CTL_HW;
+  mib[1] = HW_NCPU;
+  length = sizeof numberOfProcessors;
+  sysctl (mib, 2, &numberOfProcessors, &length, 0, 0);
+  if (!numberOfProcessors)
     {
-      // Delete every string we have allocated.
-      delete [] this->processorStrings[i];
+      // Well...we didn't find any processors.  We know there has to be at
+      // least one, because we are running.  Create one, and set its name to
+      // unknown.  Also, we can't guarantee SSE.
+      numberOfProcessors = 1;
+      processorStrings.push_back (std::string ("Unknown"));
+      return;
     }
-  delete [] this->processorStrings;
-}
 
+  // Find the name of the processor (we can at most get one...)
+  mib[0] = CTL_HW;
+  mib[1] = HW_MODEL;
+  sysctl (mib, 2, NULL, &length, NULL, 0);
+  name = new char [length];
+  sysctl (mib, 2, name, &length, NULL, 0);
 
-int
-Processors::GetNumberOfProcessors ()
-  const /* noexcept */
-{
-  return this->numberOfProcessors;
-}
-
-
-const char *
-Processors::GetProcessorName (int index)
-  const /* noexcept */
-{
-  if (index >= 0 && index < this->numberOfProcessors)
+  // Set the name of the processors.
+  if (!name)
     {
-      return this->processorStrings[index];
+      // Whatever.  Just set the strings to Unknown.
+      for (int i = 0; i < numberOfProcessors; ++i)
+        {
+          processorStrings.push_back (std::string ("Unknown"));
+        }
     }
   else
     {
-      return 0;
+      // Set all the processor names to the value we got.
+      for (int i = 0; i < numberOfProcessors; ++i)
+        {
+          processorStrings.push_back (std::string (name));
+        }
+      delete [] name;
     }
-}
 
+#ifdef HAVE_CPUID_H
+  // Find the type of processor.
+  mib[0] = CTL_HW;
+  mib[1] = HW_MACHINE;
+  sysctl (mib, 2, NULL, &length, NULL, 0);
+  name = new char [length];
+  sysctl (mib, 2, name, &length, NULL, 0);
 
-bool
-Processors::HaveSseSupport ()
-  const /* noexcept */
-{
-  return this->sseSupport;
-}
-
-
-bool
-Processors::HaveSse2Support ()
-  const /* noexcept */
-{
-  return this->sse2Support;
-}
-
-
-bool
-Processors::HaveSse3Support ()
-  const /* noexcept */
-{
-  return this->sse3Support;
-}
-
-
-bool
-Processors::HaveSse41Support ()
-  const /* noexcept */
-{
-  return this->sse41Support;
-}
-
-
-bool
-Processors::HaveSse42Support ()
-  const /* noexcept */
-{
-  return this->sse42Support;
-}
-
-
-void
-Processors::SetProcessorNameToUnknown (int index)
-  /* noexcept */
-{
-  if (index >= 0 && index < this->numberOfProcessors)
+  // Look for processors that could have SSE.
+  if (name)
     {
-      this->processorStrings[index] = new char [std::strlen ("Unknown") + 1];
-      std::strcpy (this->processorStrings[index], "Unknown");
+      if (std::string (name) == "amd64" ||
+          std::string (name) == "i386")
+        {
+          // These processors could have SSE.  Use a compiler intrinsic to
+          // determine.
+          unsigned int regA, regB, regC, regD;
+          __get_cpuid (0x00000001, &regA, &regB, &regC, &regD);
+ 
+          sse42Support = regC & bit_SSE4_2;
+          sse41Support = regC & bit_SSE4_1;
+          sse3Support  = regC & bit_SSE3;
+          sse2Support  = regD & bit_SSE2;
+          sseSupport   = regD & bit_SSE;
+        }
     }
+  delete [] name;
+#endif // #ifdef HAVE_CPUID_H
 }
 
 

@@ -338,6 +338,7 @@ class WindowSystem;
 #include "system/clock.inl"
 #include "system/memory.inl"
 #include "system/platform.inl"
+#include "system/processors.inl"
 #include "date/duration.inl"
 #include "date/date.inl"
 #include "debug/logging/streambuffer.inl"
