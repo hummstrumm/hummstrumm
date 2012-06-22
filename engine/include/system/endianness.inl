@@ -28,6 +28,19 @@ namespace system
 {
 
 
+Endianness::~Endianness ()
+{
+}
+
+
+Endianness::Endian
+Endianness::GetSystemEndianness ()
+  const /* noexcept */
+{
+  return systemEndianness;
+}
+
+
 template <typename T>
 T
 Endianness::SwitchEndian (const T memory)

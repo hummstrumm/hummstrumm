@@ -52,19 +52,6 @@ Endianness::Endianness ()
 }
 
 
-Endianness::~Endianness ()
-{
-}
-
-
-Endianness::Endian
-Endianness::GetSystemEndianness ()
-  const /* noexcept */
-{
-  return systemEndianness;
-}
-
-
 template <>
 hummstrumm::engine::types::uint16
 Endianness::SwitchEndian (const hummstrumm::engine::types::uint16 memory)
