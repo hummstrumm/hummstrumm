@@ -38,12 +38,13 @@ include (Uninstall)
 include (UnitTest)
 enable_testing ()
 
+include (CheckPrograms)
 include (CheckX11)
 include (CheckGL)
 
 # Use some flags across the entire project:
 if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
-  set (CMAKE_CXX_FLAGS_DEBUG "-w -g -ggdb -Wfatal-errors")
+  set (CMAKE_CXX_FLAGS_DEBUG "-Wall -g -ggdb -Wfatal-errors")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
   # Seems like CMAKE_CXX_FLAGS already sets "/W3" by default
