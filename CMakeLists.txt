@@ -44,7 +44,7 @@ include (CheckGL)
 
 # Use some flags across the entire project:
 if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
-  set (CMAKE_CXX_FLAGS_DEBUG "-Wall -g -ggdb -Wfatal-errors")
+  set (CMAKE_CXX_FLAGS_DEBUG "-Wall -Weffc++ -g -ggdb -Wfatal-errors")
 endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
 if (HUMMSTRUMM_PLATFORM_WINDOWS)
   # Seems like CMAKE_CXX_FLAGS already sets "/W3" by default
