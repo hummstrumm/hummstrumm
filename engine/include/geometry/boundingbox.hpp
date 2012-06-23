@@ -1100,7 +1100,7 @@ template <typename T>
 bool
 AABBox2ContainsPoint (const AABBox2D<T> &box, const Vector2D<T> &plane)
 {
-  contains (box,plane);
+  return contains (box,plane);
 }
 
 template <typename T>

@@ -42,11 +42,11 @@ namespace logging
 
 
 StreamBuffer::StreamBuffer (vector<tr1::shared_ptr<Backend> > backends)
-  : file ("(no file)"),
+  : backends (backends),
+    file ("(no file)"),
     line (0),
     level (0),
-    lock (false),
-    backends (backends)
+    lock (false)
 {
 }
 

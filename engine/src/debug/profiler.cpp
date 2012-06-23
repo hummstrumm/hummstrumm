@@ -38,11 +38,11 @@ namespace debug
 
 Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
   : startTime (0),
-    reportInUnit (reportIn),
     // So the first time will always be faster.
     lowestTime (std::numeric_limits<types::int64>::max ()),
     averageTime (0),
-    numberOfRuns (0)
+    numberOfRuns (0),
+    reportInUnit (reportIn)
 {
   std::strncpy (this->debugName, debugName, 24);
   this->debugName[24] = '\0';

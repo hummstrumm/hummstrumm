@@ -66,8 +66,8 @@ operator<< (std::ostream &out, const Duration &d)
   // we want to explicitly say "0Y".
   out << 'D';
   if (d.years ||
-      !d.months && !d.days && !d.hours &&
-      !d.minutes && !d.seconds && !d.milliseconds)
+      (!d.months && !d.days && !d.hours &&
+       !d.minutes && !d.seconds && !d.milliseconds))
     {
       out << d.years << 'Y';
     }
