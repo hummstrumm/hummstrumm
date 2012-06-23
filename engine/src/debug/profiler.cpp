@@ -17,9 +17,8 @@
  */
 
 #include "hummstrummengine.hpp"
-
+#include <limits>
 #include <cmath>
-#include <cstring>
 #include <cstdlib>
 #include <algorithm>
 
@@ -36,17 +35,15 @@ namespace engine
 namespace debug
 {
 
-Profiler::Profiler (const char *debugName, Profiler::Units reportIn)
+Profiler::Profiler (std::string debugName, Profiler::Units reportIn)
   : startTime (0),
+    debugName (debugName),
     // So the first time will always be faster.
     lowestTime (std::numeric_limits<types::int64>::max ()),
     averageTime (0),
     numberOfRuns (0),
     reportInUnit (reportIn)
 {
-  std::strncpy (this->debugName, debugName, 24);
-  this->debugName[24] = '\0';
-
   // Construct log message and log it.
   core::Engine::GetEngine ()->GetLog () << HUMMSTRUMM_SET_LOGGING (Level::info)
     << "Profiler ``" << debugName << "'' started." << std::flush;
@@ -62,7 +59,7 @@ Profiler::Iterate ()
   std::cout << endTime << std::endl;
   types::int64 difference;
 
-  difference = endTime - this->startTime;
+  difference = endTime - startTime;
 
   // Get the timer frequency.
   types::int64 frequency = engine->GetClock ()->GetHighResolutionFrequency ();
@@ -70,21 +67,20 @@ Profiler::Iterate ()
   // Calculate the actual time, using tick counts and the frequency.
   double timeInSeconds (static_cast<double> (difference) / frequency);
   long   time;
-  if (this->reportInUnit == REPORT_IN_SECONDS)
+  switch (reportInUnit)
     {
+    case REPORT_IN_SECONDS:
       time = std::ceil (timeInSeconds * 100) / 100;
-    }
-  else if (this->reportInUnit == REPORT_IN_MILLISECONDS)
-    {
+      break;
+    case REPORT_IN_MILLISECONDS:
       time = std::ceil (timeInSeconds * 1000);
-    }
-  else if (this->reportInUnit == REPORT_IN_MICROSECONDS)
-    {
+      break;
+    case REPORT_IN_MICROSECONDS:
       time = std::ceil (timeInSeconds * 1000000);
-    }
-  else
-    {
-      // throw something...
+      break;
+    default:
+      // Uhm...
+      break;
     }
 
   lowestTime = std::min<long> (lowestTime, time);

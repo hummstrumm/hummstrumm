@@ -37,23 +37,20 @@ namespace debug
 
 /**
  * Provides a method by which a segment of code can be timed, and that length
- * of time logged to the game Log.  This profiler has up to nanosecond
- * precision, depending on the precision of the hardware high-resolution timer,
- * as made available through the Time::GetHighResolutionCount() method.
- *
- * One should create a new Profiler object via the PROFILE() macro.
+ * of time logged to the engine log.  This profiler has up to nanosecond
+ * precision, depending on the precision of the hardware high-resolution timer.
  *
  * This class uses scoping for starting and stopping the profile.  A Profiler
- * object created with the PROFILE() macro will write its output at the end of
- * the block.  Furthermore, you can use the PROFILE_ITERATION() macro in
- * conjunction with a loop to find various amounts 
+ * object will write its output at the end of the block.  Furthermore, you can
+ * use the Iterate() method to restart the profiler, averaging the last time
+ * with any previous iterations and saving the lowest time (this can be useful
+ * in measuring performance of a loop, for instance, by calling Iterate() at the
+ * end of the loop).
  *
- * @version 0.3
+ * @version 0.7
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date    2010-03-15
+ * @date    2012-06-23
  * @since   0.2
- *
- * @see PROFILE()
  */
 class Profiler
 { 
@@ -79,24 +76,23 @@ class Profiler
      * will be used in finding the length of time spent in the block.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-15
+     * @date   2012-06-23
      * @since  0.2
      *
      * @param [in] debugName A name for the profiler to identify it in the log.
-     * Names are unique for up to 24 ASCII characters.
      * @param [in] reportIn The unit in which to report the final times.
      */
-    Profiler (const char *debugName, Units reportIn = REPORT_IN_MILLISECONDS);
+    Profiler (std::string debugName, Units reportIn = REPORT_IN_MILLISECONDS);
     /**
      * Stops the profiler.  The profiler will compare the current time with the
      * time taken when it was created and output a log message with the
      * difference.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-03-15
+     * @date   2012-06-23
      * @since  0.2
      */
-    virtual ~Profiler ();
+    ~Profiler ();
 
     /**
      * Starts a new run of the profiler.  This updates the various stats for
@@ -109,52 +105,21 @@ class Profiler
     void Iterate () /* noexcept */;
 
   private:
-    hummstrumm::engine::types::int64 startTime;    ///< The starting time for
-                                                   ///  this run.
-    char debugName[25];                            ///< A name for use in a log.
-    hummstrumm::engine::types::uint64 lowestTime;   ///< The fastest run.
-    hummstrumm::engine::types::uint64 averageTime;  ///< The average time of
-                                                   ///  runs.
-    hummstrumm::engine::types::uint64 numberOfRuns; ///< The running total of
-                                                   ///  runs (no pun intended).
-    Units                            reportInUnit; ///< The unit in which to
-                                                   ///  report the times.
+    /// The starting time for this run.
+    hummstrumm::engine::types::int64 startTime;
+    /// A name for use in a log.
+    std::string debugName;
+    /// The fastest run.
+    hummstrumm::engine::types::uint64 lowestTime;
+    /// The average time of runs.
+    hummstrumm::engine::types::uint64 averageTime;
+    /// The running total of runs (pun completely intended).
+    hummstrumm::engine::types::uint64 numberOfRuns;
+    /// The unit in which to report the times.
+    Units reportInUnit;
 
 };
 
-/**
- * Begins profiling until the end of the current block.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-15
- * @since  0.2
- *
- * @param [in] debugName A name for the Profiler, which will aid in picking it
- * out in the Log.
- * @param [in] reportIn The unit in which to report times.  A member of the
- * hummstrumm::engine::debug::Profiler::Units enumeration (without any
- * prefixes).
- * @param [in] out Where to write the results.
- *
- * @see Profiler
- */
-#define HUMMSTRUMM_PROFILE(debugName, reportIn, out)                    \
-  hummstrumm::engine::debug::Profiler profiler__HIDDEN__ ((debugName),  \
-                                                          (reportIn),   \
-                                                          (out))
-
-/**
- * Starts a new run of the existing profiler.  A profiler must already exist in
- * the current scope for this method to work.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-06-14
- * @since  0.3
- *
- * @see HUMMSTRUMM_PROFILE()
- */
-#define HUMMSTRUMM_PROFILE_ITERATION() \
-  profiler__HIDDEN__.Iterate ()        \
 
 }
 }
