@@ -39,7 +39,7 @@ WindowSystem::WindowSystem()
   {
     error = GetLastError();
     hummstrumm::engine::types::String errMsg = GetErrorMessage("GetModuleHandle: ",error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    throw std::runtime_error (errMsg.c_str ());
   }
   InitializeWGLExtensions();
 }
@@ -141,7 +141,7 @@ void
   {
     error = GetLastError();
     hummstrumm::engine::types::String errMsg = GetErrorMessage ("RegisterClass: ",error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    throw std::runtime_error (errMsg.c_str ());
   }
   SetMode(windowParameters);
   if (windowParameters.useFullscreen)
@@ -179,7 +179,7 @@ void
   {
     error = GetLastError();
     hummstrumm::engine::types::String errMsg = GetErrorMessage("CreateWindowEx: ",error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    throw std::runtime_error (errMsg.c_str ());
   }
 
   deviceContext = GetDC(windowHandle);
@@ -188,7 +188,7 @@ void
   {
     error = GetLastError();
     hummstrumm::engine::types::String errMsg = GetErrorMessage("GetDC: ", error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    throw std::runtime_error (errMsg.c_str ());
   }
 
   int pixelFormat;
@@ -200,14 +200,13 @@ void
     BOOL ret = wglChoosePixelFormatARB(deviceContext, descriptor, NULL, 1 , &pixelFormat, &matchedFormats);
     if (!ret)
     {
-      hummstrumm::engine::types::String errMsg;
-      errMsg = "Couldn't find a suitable pixel format that matched the requested parameters";
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      throw std::runtime_error ("Couldn't find a suitable pixel format that "
+                                "matched the requested parameters.");
     }
 
     if (matchedFormats == 0)
     {
-      HUMMSTRUMM_THROW (WindowSystem, "No suitable pixel formats have been found");
+      throw std::runtime_error ("No suitable pixel formats have been found.");
     }
 
     const int* attrib;
@@ -273,7 +272,7 @@ void
     {
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("ChoosePixelFormat: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      throw std::runtime_error (errMsg.c_str());
     }
 
     int ret = DescribePixelFormat(deviceContext, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pfd);
@@ -281,7 +280,7 @@ void
     {
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("DescribePixelFormat: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str()); 
+      throw std::runtime_error (errMsg.c_str ());
     }
     
     windowParameters.renderType = pfd.iPixelType;
@@ -304,7 +303,7 @@ void
   {
     error = GetLastError();
     hummstrumm::engine::types::String errMsg = GetErrorMessage("SetPixelFormat: ",error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    throw std::runtime_error (errMsg.c_str ());
   }
 
   if (wglCreateContextAttribsARB != NULL)
@@ -327,7 +326,7 @@ void
           errMsg = GetErrorMessage("wglCreateContextAttribsARB: ",error);
           break;         
       }
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      throw std::runtime_error (errMsg.c_str ());
     }  
   }
   else
@@ -337,7 +336,7 @@ void
     {
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglCreateContext: ",error);
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      throw std::runtime_error (errMsg.c_str ());
     }
   }
 
@@ -346,7 +345,7 @@ void
   {
     error = GetLastError();
     hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    throw std::runtime_error (errMsg.c_str ());
   }
 
   if (wglSwapIntervalEXT != NULL)
@@ -368,7 +367,7 @@ void
           errMsg = GetErrorMessage("wglSwapIntervalEXT: ",error);
           break;         
       }
-      HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+      throw std::runtime_error (errMsg.c_str ());
     }
   }
 
@@ -386,7 +385,7 @@ WindowSystem::SwapBuffers()
   {
     error = GetLastError();
     hummstrumm::engine::types::String errMsg = GetErrorMessage("SwapBuffers: ",error);
-    HUMMSTRUMM_THROW (WindowSystem, errMsg.c_str());
+    throw std::runtime_error (errMsg.c_str ());
   }
 }
 
