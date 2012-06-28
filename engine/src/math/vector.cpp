@@ -18,6 +18,8 @@
 
 #include "hummstrummengine.hpp"
 
+#include <stdexcept>
+
 namespace hummstrumm
 {
 namespace engine
@@ -85,7 +87,7 @@ Vector4D<float>
 Vector4D<float>::operator / (const float &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   __m128 res; SIMD_DIV_SCALAR(xyzw,s, res);
   return Vector4D<float> (res);
@@ -116,7 +118,7 @@ Vector4D<float> &
 Vector4D<float>::operator /= (const float &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   SIMD_DIV_SCALAR(xyzw,s, xyzw);
   return *this;
@@ -127,7 +129,7 @@ Vector4D<float>::Normalize ()
 {
   float magSq = Vec4DMagnitude(*this);
   if (magSq == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
+    throw std::domain_error ("Vector magnitude is zero.");
 
   SIMD_DIV_SCALAR(xyzw,magSq, xyzw);
 }

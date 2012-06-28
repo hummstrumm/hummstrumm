@@ -22,6 +22,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
 
 namespace hummstrumm
 {
@@ -43,8 +44,7 @@ Timezone::Timezone (const Duration &duration)
       offset.hours*60 + offset.minutes > 12*60 ||
       offset.hours*60 + offset.minutes < -12*60)
     {
-      HUMMSTRUMM_THROW (OutOfRange,
-                        "The timezone offset is too large.");
+      throw std::range_error ("The timezone offset is too large.");
     }
 
   // Normalize such that both carry the same sign.

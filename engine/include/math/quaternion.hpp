@@ -28,6 +28,8 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_QUATERNION
 #define HUMMSTRUMM_ENGINE_MATH_QUATERNION
 
+#include <stdexcept>
+
 
 namespace hummstrumm
 {
@@ -490,7 +492,7 @@ Quaternion<T>
 Quaternion<T>::operator / (const T &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion division by zero.");
+    throw std::domain_error ("Quaternion division by zero.");
 
   T oneOverS = 1/s; 
   return Quaternion<T> (oneOverS*w,oneOverS*v);
@@ -539,7 +541,7 @@ Quaternion<T> &
 Quaternion<T>::operator /= (const T &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion division by zero.");
+    throw std::domain_error ("Quaternion division by zero.");
 
   T oneOverS = 1/s;
   w *= oneOverS;
@@ -578,7 +580,7 @@ Quaternion<T>::Normalize ()
 {
   T qMag = QuatMagnitude(*this);
   if (qMag == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion magnitude is zero.");
+    throw std::logic_error ("Quaternion magnitude is zero.");
  
   T oneOverMag = 1/qMag;
   v *= oneOverMag;
@@ -834,7 +836,7 @@ QuatInverse (const Quaternion<T> &q)
 {
   T quatMag = QuatMagnitude(q);
   if (quatMag == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Quaternion magnitude is zero.");
+    throw std::logic_error ("Quaternion magnitude is zero.");
  
   return QuatConjugate(q) / quatMag;
 }
@@ -883,8 +885,8 @@ Quaternion<T>
 QuatSlerp (const Quaternion<T> &q, const Quaternion<T> &w, const T &t)
 {
   if ( t < 0 || t > 1)
-    HUMMSTRUMM_THROW (OutOfRange,
-      "Interpolation parameter is not in the range of [0..1]");
+    throw std::out_of_range
+      ("Interpolation parameter is not in the range of [0..1]");
 
   Quaternion<T> aux;
   T k0, k1;
@@ -932,8 +934,8 @@ QuatSquad (const Quaternion<T> &q, const Quaternion<T> &w,
            const Quaternion<T> &z, const Quaternion<T> &x, const T &h)
 {
   if ( h < 0 || h > 1)
-    HUMMSTRUMM_THROW (OutOfRange,
-      "Interpolation parameter is not in the range of [0..1]");
+    throw std::out_of_range
+      ("Interpolation parameter is not in the range of [0..1]");
 
   return QuatSlerp(QuatSlerp(q,w,h),QuatSlerp(z,x,h),2*h(1-h));
 }

@@ -19,6 +19,7 @@
 #include "hummstrummengine.hpp"
 
 #include <iostream>
+#include <stdexcept>
 
 namespace hummstrumm
 {
@@ -36,8 +37,8 @@ SetLevel::SetLevel (unsigned l)
   if ((l != 0) && !(l & (l - 1)))
     level = l;
   else
-    HUMMSTRUMM_THROW (InvalidParam,
-                      "Log level must be one of the predefined constants.");
+    throw std::invalid_argument
+      ("Log level must be one of the predefined constants.");
 }
 
 

@@ -20,6 +20,8 @@
 #ifndef HUMMSTRUMM_ENGINE_GEOMETRY_PLANE_INL
 #define HUMMSTRUMM_ENGINE_GEOMETRY_PLANE_INL
 
+#include <stdexcept>
+
 namespace hummstrumm
 {
 namespace engine
@@ -102,7 +104,7 @@ Plane3D<T>::Normalize ()
 {
   T normalMag = Vec3DMagnitude(normal);
   if (normalMag == 0)
-    HUMMSTRUMM_THROW (DivisionByZero, "Plane division by zero.");
+    throw std::domain_error ("Plane division by zero.");
 
   normal /= normalMag;
   d      /= normalMag;

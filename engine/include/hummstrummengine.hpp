@@ -225,23 +225,6 @@ class Date;
 }
 
 /**
- * The namespace for throwable exceptions.  These classes work together with
- * those of the debug namespace to help produce robust code,
- */
-namespace error
-{
-class Error;
-class OutOfMemory;
-class OutOfRange;
-class DivisionByZero;
-class Unicode;
-class MemoryCorruption;
-class InvalidParam;
-class Iterator;
-class WindowSystem;
-}
-
-/**
  * The namespace for input/output streams.  This namespace contains memory,
  * terminal, file, string, and null streams buffers and stream classes.
  */
@@ -295,16 +278,6 @@ class WindowSystem;
 
 #include "types/inttypes.hpp"
 #include "debug/utils.hpp"
-#include "error/error.hpp"
-#include "error/generic.hpp"
-#include "error/outofmemory.hpp"
-#include "error/outofrange.hpp"
-#include "error/divisionbyzero.hpp"
-#include "error/windowsystem.hpp"
-#include "error/unicode.hpp"
-#include "error/memorycorruption.hpp"
-#include "error/invalidparam.hpp"
-#include "error/iterator.hpp"
 #include "system/platform.hpp"
 #include "system/endianness.hpp"
 #include "system/processors.hpp"

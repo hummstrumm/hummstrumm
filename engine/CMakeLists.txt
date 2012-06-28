@@ -24,16 +24,6 @@ set (hummstrummengine_SRCS
   src/debug/logging/backend.cpp
   src/debug/logging/manip.cpp
   src/debug/profiler.cpp
-  src/error/error.cpp
-  src/error/generic.cpp
-  src/error/outofmemory.cpp
-  src/error/outofrange.cpp
-  src/error/divisionbyzero.cpp
-  src/error/unicode.cpp
-  src/error/memorycorruption.cpp
-  src/error/invalidparam.cpp
-  src/error/windowsystem.cpp
-  src/error/iterator.cpp
   src/core/engine.cpp
   src/date/timezone.cpp
   src/date/duration.cpp

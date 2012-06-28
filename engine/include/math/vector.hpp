@@ -30,6 +30,7 @@
 #include <vector>
 #include <cmath>
 #include <cstring>
+#include <stdexcept>
 
 namespace hummstrumm
 {
@@ -800,7 +801,7 @@ class Vector4D<float>
      * @date    2010-08-28
      * @since   0.3 
      */ 
-    Vector4D () 
+    Vector4D ()
     {
       SIMD_SET_ZERO(xyzw);
     }
@@ -1079,7 +1080,7 @@ Vector2D<T>
 Vector2D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   T oneOverS = 1/s;
   return Vector2D<T> (coord.x*oneOverS, coord.y*oneOverS);
@@ -1114,7 +1115,7 @@ Vector2D<T> &
 Vector2D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   T oneOverS = 1/s;
   coord.x *= oneOverS; coord.y *= oneOverS;
@@ -1127,7 +1128,7 @@ Vector2D<T>::Normalize ()
 {
   T magSq = Vec2DMagnitude(*this); 
   if (magSq == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
+    throw std::logic_error ("Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
   coord.x *= oneOverMag;
@@ -1199,7 +1200,7 @@ Vector3D<T>
 Vector3D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   T oneOverS = 1/s;
   return Vector3D<T> (coord.x*oneOverS, coord.y*oneOverS, coord.z*oneOverS);
@@ -1234,7 +1235,7 @@ Vector3D<T> &
 Vector3D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   T oneOverS = 1/s;
   coord.x *= oneOverS; coord.y *= oneOverS; coord.z *= oneOverS;
@@ -1247,7 +1248,7 @@ Vector3D<T>::Normalize ()
 {
   T magSq = Vec3DMagnitude(*this); 
   if (magSq == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
+    throw std::logic_error ("Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
   coord.x *= oneOverMag;
@@ -1326,7 +1327,7 @@ Vector4D<T>
 Vector4D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   T oneOverS = 1/s;
   return Vector4D<T> (coord.x*oneOverS, 
@@ -1366,7 +1367,7 @@ Vector4D<T> &
 Vector4D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   T oneOverS = 1/s;
   coord.x *= oneOverS; coord.y *= oneOverS; 
@@ -1380,7 +1381,7 @@ Vector4D<T>::Normalize ()
 {
   T magSq = Vec4DMagnitude(*this); 
   if (magSq == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector magnitude is zero.");
+    throw std::logic_error ("Vector magnitude is zero.");
 
   T oneOverMag = 1/magSq;
   coord.x *= oneOverMag;
@@ -1934,7 +1935,7 @@ Vec2DProjection (const Vector2D<T> &v, const Vector2D<T> &n)
 {
   T nDotProd = Vec2DDot(n,n);
   if (nDotProd == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   return n * (Vec2DDot(v,n)/nDotProd); 
 }
@@ -1952,7 +1953,7 @@ Vec2DUnitPerpendicular (const Vector2D<T> &v)
 {
   T vMag = Vec2DMagnitude(v);
   if (vMag == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   return Vec2DPerpendicular(v)/vMag;
 }
@@ -1963,7 +1964,7 @@ void
 Orthonormalize2D (std::vector<Vector2D<T> > &v)
 {
   if (v.size() > 2)
-    HUMMSTRUMM_THROW (OutOfRange,"Cannot Orthonormalize more than 2 vectors");
+    throw std::out_of_range ("Cannot orthonormalize more than 2 vectors.");
 
   typename std::vector<Vector2D<T> >::iterator itForward;
   typename std::vector<Vector2D<T> >::iterator itReverse;
@@ -2043,7 +2044,7 @@ Vec3DProjection (const Vector3D<T> &v , const Vector3D<T> &n)
 {
   T nDotProd = Vec3DDot(n,n);
   if (nDotProd == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   return n * (Vec3DDot(v,n)/nDotProd);   
 }
@@ -2054,7 +2055,7 @@ void
 Orthonormalize3D (std::vector<Vector3D<T> > &v)
 {
   if (v.size() > 3)
-    HUMMSTRUMM_THROW (OutOfRange,"Cannot Orthonormalize more than 3 vectors");
+    throw std::out_of_range ("Cannot orthonormalize more than 3 vectors.");
 
   typename std::vector<Vector3D<T> >::iterator itForward;
   typename std::vector<Vector3D<T> >::iterator itReverse;
@@ -2129,7 +2130,7 @@ Vec4DProjection (const Vector4D<T> &v , const Vector4D<T> &n)
 {
   T nDotProd = Vec4DDot(n,n);
   if (nDotProd == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Vector division by zero.");
+    throw std::domain_error ("Vector division by zero.");
 
   return n * (Vec4DDot(v,n)/nDotProd); 
 }
@@ -2139,7 +2140,7 @@ void
 Orthonormalize4D (std::vector<Vector4D<T> > &v)
 {
   if (v.size() > 4)
-    HUMMSTRUMM_THROW (OutOfRange,"Cannot Orthonormalize more than 4 vectors");
+    throw std::out_of_range ("Cannot orthonormalize more than 4 vectors.");
 
   typename std::vector<Vector4D<T> >::iterator itForward;
   typename std::vector<Vector4D<T> >::iterator itReverse;

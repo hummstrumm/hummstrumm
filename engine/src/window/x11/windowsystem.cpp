@@ -18,6 +18,7 @@
 
 #include "hummstrummengine.hpp"
 
+#include <stdexcept>
 using namespace std;
 
 namespace hummstrumm
@@ -42,7 +43,7 @@ WindowSystem::WindowSystem()
   int minor;
 
   if ((dpy = XOpenDisplay(NULL)) == NULL)
-    HUMMSTRUMM_THROW (WindowSystem, "Unable to open a connection to the X server.\n");
+    throw std::runtime_error ("Unable to open a connection to the X server.\n");
 
   XSetErrorHandler(HandleGeneralXErrors);
   XSetIOErrorHandler(HandleIOXErrors);
@@ -55,11 +56,12 @@ WindowSystem::WindowSystem()
   pbufferContext = 0;
 
   if (!glXQueryExtension(dpy, NULL, NULL)) 
-    HUMMSTRUMM_THROW (WindowSystem, "GLX extension is not available on the X server.");
+    throw std::runtime_error
+      ("GLX extension is not available on the X server.");
   
   major = minor = 0;
   if (!glXQueryVersion(dpy, &major, &minor))
-    HUMMSTRUMM_THROW (WindowSystem, "Unable to get GLX version.");
+    throw std::runtime_error ("Unable to get GLX version.");
 
   wndProtocols = XInternAtom(dpy, "WM_PROTOCOLS", False);
   wndDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
@@ -107,7 +109,7 @@ WindowSystem::HandleGeneralXErrors(Display *dpy, XErrorEvent *xerr)
 
   char *errMsg = new char[1024];
   XGetErrorText(dpy, xerr->error_code, errMsg, 1024);
-  HUMMSTRUMM_THROW (WindowSystem, errMsg);
+  throw std::runtime_error (errMsg);
 }
 
 int
@@ -124,7 +126,7 @@ WindowSystem::HandleIOXErrors(Display *dpy)
                               CurrentTime);
   }
 
-  HUMMSTRUMM_THROW (WindowSystem,  "X connection fatal I/O");
+  throw std::runtime_error ("X connection fatal I/O");
 }
 
 void
@@ -350,14 +352,17 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
 
   attribList = windowParameters.GetPixelFormatAttributes(false);
   if (attribList == NULL)
-    HUMMSTRUMM_THROW (WindowSystem, "Unable to get window parameters\n");
+    throw std::runtime_error ("Unable to get window parameters.");
 
   if (chooseFBConfigAddr != NULL)
   {
     fbconfig = chooseFBConfigAddr(dpy,screen,attribList,&nelements);
 
     if (fbconfig == NULL)
-      HUMMSTRUMM_THROW (WindowSystem, "No frame buffer configurations exist on the specified screen, or no frame buffer configurations match the specified attributes for window rendering");
+      std::runtime_error ("No frame buffer configurations exist on the "
+                          "specified screen, or no frame buffer configurations "
+                          "match the specified attributes for window "
+                          "rendering.");
 
     vi = glXGetVisualFromFBConfig(dpy,*fbconfig);
     int tmp;
@@ -432,7 +437,8 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
   }
 
   if (vi == NULL)
-    HUMMSTRUMM_THROW (WindowSystem, "Requested GLX visual is not supported by the graphics card.");
+    throw std::runtime_error ("Requested GLX visual is not supported by the "
+                              "graphics card.");
 
   if (createContextAttribsAddr != NULL && chooseFBConfigAddr != NULL)
   {
@@ -473,7 +479,7 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
   XFree(vi);
 
   if (window == 0)
-    HUMMSTRUMM_THROW (WindowSystem, "Unable to create an X11 window\n");
+    throw std::runtime_error ("Unable to create an X11 window.");
 
   XStoreName(dpy, window, windowParameters.name.c_str());
 

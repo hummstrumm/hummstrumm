@@ -21,6 +21,7 @@
 #include <cctype>
 #include <sstream>
 #include <algorithm>
+#include <stdexcept>
 
 namespace hummstrumm
 {
@@ -156,9 +157,9 @@ operator>> (std::istream &inReal, Duration &d)
   // Duration strings must start with a 'D' if they represent a finite duration.
   if (!(in >> c) || c != 'D')
     {
-      HUMMSTRUMM_THROW (Generic, "Input stream did not contain a duration.  We "
-                                 "don't support differences between two "
-                                 "dates.");
+      throw std::runtime_error ("Input stream did not contain a duration.  We "
+                                "don't support differences between two "
+                                "dates.");
       // Maybe we should?
     }
 
@@ -193,8 +194,8 @@ operator>> (std::istream &inReal, Duration &d)
           break;
 
         default:
-          HUMMSTRUMM_THROW (Generic, "Input stream contains invalid date "
-                                     "portion of duration.");
+          throw std::runtime_error ("Input stream contains invalid date "
+                                    "portion of duration.");
         }
     }
 
@@ -225,8 +226,8 @@ operator>> (std::istream &inReal, Duration &d)
           break;
 
         default:
-          HUMMSTRUMM_THROW (Generic, "Input stream contains invalid time "
-                                     "portion of duration.");
+          throw std::runtime_error ("Input stream contains invalid time "
+                                    "portion of duration.");
         }
     }
 

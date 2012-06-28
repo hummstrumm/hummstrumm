@@ -28,6 +28,8 @@
 #ifndef HUMMSTRUMM_ENGINE_AABBOX
 #define HUMMSTRUMM_ENGINE_AABBOX
 
+#include <stdexcept>
+
 namespace hummstrumm
 {
 namespace engine
@@ -621,7 +623,7 @@ Vector3D<T>
 AABBox3D<T>::GetCorner(unsigned short i) const
 {
   if (i < 0 || i > 7)
-    HUMMSTRUMM_THROW (OutOfRange,"Corner out of range\n");
+    throw std::out_of_range ("Corner out of range.");
 
   return Vector3D<T>(
     (i & 1) ? bmax.x : bmin.x,
@@ -720,7 +722,7 @@ Vector2D<T>
 AABBox2D<T>::GetCorner(unsigned short i) const
 {
   if (i < 0 || i > 3)
-    HUMMSTRUMM_THROW (OutOfRange,"Corner out of range\n");
+    throw std::out_of_range ("Corner out of range.");
 
   return Vector2D<T>(
     (i & 1) ? bmax.x : bmin.x,

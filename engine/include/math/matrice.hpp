@@ -32,6 +32,8 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_MATRICE
 #define HUMMSTRUMM_ENGINE_MATH_MATRICE
 
+#include <stdexcept>
+
 
 namespace hummstrumm
 {
@@ -1194,7 +1196,7 @@ Matrix2D<T>
 Matrix2D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice division by zero.");
+    throw std::domain_error ("Matrix division by zero.");
   T oneOverS = 1/s;
   return Matrix2D<T> (mat2[0]*oneOverS, mat2[1]*oneOverS);
 }
@@ -1204,7 +1206,7 @@ Vector2D<T>
 Matrix2D<T>::operator [] (const unsigned short r) const
 {
   if ( r >= 2 )
-    HUMMSTRUMM_THROW (OutOfRange,"Invalid matrice line.");
+    throw std::out_of_range ("Invalid matrix line.");
 
   return mat2[r];
 }
@@ -1253,7 +1255,7 @@ Matrix2D<T> &
 Matrix2D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice division by zero.");
+    throw std::domain_error ("Matrix division by zero.");
 
   T oneOverS = 1/s; 
   mat2[0] *= oneOverS;
@@ -1383,7 +1385,7 @@ Matrix3D<T>
 Matrix3D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice division by zero.");
+    throw std::domain_error ("Matrix division by zero.");
 
   T oneOverS = 1/s;
   return Matrix3D<T> (mat3[0]*oneOverS, mat3[1]*oneOverS, mat3[2]*oneOverS);
@@ -1394,7 +1396,7 @@ Vector3D<T>
 Matrix3D<T>::operator [] (const unsigned short r) const
 {
   if ( r >= 3 )
-    HUMMSTRUMM_THROW (OutOfRange,"Invalid matrix line.");
+    throw std::out_of_range ("Invalid matrix line.");
 
   return mat3[r];
 }
@@ -1470,7 +1472,7 @@ Matrix3D<T> &
 Matrix3D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice division by zero.");
+    throw std::domain_error ("Matrix division by zero.");
 
   T oneOverS = 1/s; 
   mat3[0] *= oneOverS;
@@ -1657,7 +1659,7 @@ Matrix4D<T>
 Matrix4D<T>::operator / (const T &s) const
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice division by zero.");
+    throw std::domain_error ("Matrix division by zero.");
 
   T oneOverS = 1/s;
   return Matrix4D<T> (mat4[0]*oneOverS, mat4[1]*oneOverS,
@@ -1669,7 +1671,7 @@ Vector4D<T>
 Matrix4D<T>::operator [] (const unsigned short r) const
 {
   if ( r >= 4 )
-    HUMMSTRUMM_THROW (OutOfRange,"Invalid matrix line.");
+    throw std::out_of_range ("Invalid matrix line.");
 
   return mat4[r];
 }
@@ -1785,7 +1787,7 @@ Matrix4D<T> &
 Matrix4D<T>::operator /= (const T &s)
 {
   if (s == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice division by zero.");
+    throw std::domain_error ("Matrix division by zero.");
 
   T oneOverS = 1/s; 
   mat4[0] *= oneOverS;
@@ -1996,7 +1998,7 @@ Mat2DInverse (const Matrix2D<T> &m)
 {
   T mDet = m.Determinant();
   if (mDet == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
+    throw std::logic_error ("Matrix determinant is zero.");
  
   return Matrix2D<T> (m[1].coord.y, -m[0].coord.y, -m[1].coord.x, m[0].coord.x)/mDet;
 }
@@ -2022,7 +2024,7 @@ Mat3DInverse (const Matrix3D<T> &m)
 {
   T mDet = m.Determinant();
   if (mDet == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
+    throw std::logic_error ("Matrix determinant is zero.");
 
   return Matrix3D<T> (m[1].coord.y*m[2].coord.z - m[1].coord.z*m[2].coord.y, 
                       m[0].coord.z*m[2].coord.y - m[0].coord.y*m[2].coord.z,
@@ -2057,7 +2059,7 @@ Mat4DInverse (const Matrix4D<T> &m)
 {
   T mDet = m.Determinant();
   if (mDet == 0)
-    HUMMSTRUMM_THROW (DivisionByZero,"Matrice determinant is zero.");
+    throw std::domain_error ("Matrix determinant zero.");
 
   return Matrix4D<T> ( m[1].coord.y*m[2].coord.z*m[3].coord.w 
                      + m[1].coord.z*m[2].coord.w*m[3].coord.y 

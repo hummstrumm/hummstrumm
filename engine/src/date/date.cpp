@@ -22,8 +22,8 @@
 #include <cstdlib>
 #include <algorithm>
 #include <sstream>
+#include <stdexcept>
 using namespace hummstrumm::engine::types;
-using namespace hummstrumm::engine::error;
 
 
 namespace hummstrumm
@@ -74,44 +74,44 @@ Date::Date (unsigned year,
   // Check that everything is valid.
   if (year < 1970)
     {
-      HUMMSTRUMM_THROW (OutOfRange, "The year is before the UNIX epoch.");
+      throw std::out_of_range ("The year is before the UNIX epoch.");
     }
 
   if (month == 0)
     {
-      HUMMSTRUMM_THROW (OutOfRange, "There is no month 0.");
+      throw std::out_of_range ("There is no month 0.");
     }
   if (month > 12)
     {
-      HUMMSTRUMM_THROW (OutOfRange, "There are only 12 months in a year.");
+      throw std::out_of_range ("There are only 12 months in a year.");
     }
 
   if (day == 0)
     {
-      HUMMSTRUMM_THROW (OutOfRange, "There is no day 0.");
+      throw std::out_of_range ("There is no day 0.");
     }
   if (day > DAYS_PER_MONTH[month-1])
     {
-      HUMMSTRUMM_THROW (OutOfRange,
-                        "There are fewer days in this month than that.");
+      throw std::out_of_range
+        ("There are fewer days in this month than that.");
     }
 
   if (hour > 23)
     {
-      HUMMSTRUMM_THROW (OutOfRange, "There are only 24 hours in a day.");
+      throw std::out_of_range ("There are only 24 hours in a day.");
     }
   if (minute > 59)
     {
-      HUMMSTRUMM_THROW (OutOfRange, "There are only 60 minutes in an hour.");
+      throw std::out_of_range ("There are only 60 minutes in an hour.");
     }
   if (second > 59)
     {
-      HUMMSTRUMM_THROW (OutOfRange, "There are only 60 seconds in a minute.");
+      throw std::out_of_range ("There are only 60 seconds in a minute.");
     }
   if (millisecond > 999)
     {
-      HUMMSTRUMM_THROW (OutOfRange,
-                        "There are only 1000 milliseconds in a second.");
+      throw std::out_of_range
+        ("There are only 1000 milliseconds in a second.");
     }
 
   // Now convert everything to milliseconds.
@@ -134,8 +134,7 @@ Date::Date (unsigned year,
   if ((std::numeric_limits<uintNatural>::max () - millisecond) /
       MILLISECONDS_PER_DAY < tempDay)
     {
-      HUMMSTRUMM_THROW (OutOfRange,
-                        "The date is too large to fit on this system.");
+      throw std::range_error ("The date is too large to fit on this system.");
     }
   
   millisecondsSinceEpoch += tempDay * MILLISECONDS_PER_DAY;
@@ -480,27 +479,27 @@ operator>> (std::istream &in, Date &d)
   // Year
   inputStream >> year >> c;
   if (c != '-')
-    HUMMSTRUMM_THROW (Generic, "Date malformed.");
+    throw std::runtime_error ("Date malformed.");
 
   // Month
   inputStream >> month >> c;
   if (c != '-')
-    HUMMSTRUMM_THROW (Generic, "Date malformed.");
+    throw std::runtime_error ("Date malformed.");
 
   // Day
   inputStream >> day >> c;
   if (c != 'T')
-    HUMMSTRUMM_THROW (Generic, "Date malformed.");
+    throw std::runtime_error ("Date malformed.");
 
   // Hour
   inputStream >> hour >> c;
   if (c != ':')
-    HUMMSTRUMM_THROW (Generic, "Date malformed.");
+    throw std::runtime_error ("Date malformed.");
 
   // Minute
   inputStream >> minute >> c;
   if (c != ':')
-    HUMMSTRUMM_THROW (Generic, "Date malformed.");
+    throw std::runtime_error ("Date malformed.");
 
   // Second and millisecond
   float s;
