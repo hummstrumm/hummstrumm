@@ -28,7 +28,7 @@ namespace system
 {
 
 
-int
+unsigned
 Processors::GetNumberOfProcessors ()
   const /* noexcept */
 {

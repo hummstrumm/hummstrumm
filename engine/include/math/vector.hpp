@@ -201,6 +201,10 @@ class Vector2D
      * @param [in] s scalar.
      * 
      * @return A 2d vector.
+     *
+     * @pre @c s cannot be zero.
+     * 
+     * @throw std::domain_error if @c s is zero.
      */
     Vector2D<T> operator / (const T &s) const;
 

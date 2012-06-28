@@ -115,7 +115,7 @@ Processors::Processors ()
       numberOfProcessors = sysconf (_SC_NPROCESSORS_ONLN);
       // Set all strings to Unknown.
       processorStrings.clear ();
-      for (int i = 0; i < numberOfProcessors; ++i)
+      for (unsigned i = 0; i < numberOfProcessors; ++i)
         {
           processorStrings.push_back (std::string ("Unknown"));
         }

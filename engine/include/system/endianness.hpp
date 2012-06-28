@@ -60,7 +60,7 @@ class Endianness
     enum Endian
     {
       Little, ///< Little endian, like x86 and x64.
-      Big,    ///< Big endian, like PowerPC and network byte order.
+      Big     ///< Big endian, like PowerPC and network byte order.
     };
 
     /**

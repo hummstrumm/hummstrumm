@@ -452,7 +452,7 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
 
   XFree(fbconfig);
 
-  Screen* scr = DefaultScreenOfDisplay(dpy);
+//  Screen* scr = DefaultScreenOfDisplay(dpy);
 
   winAttr.background_pixel = BlackPixel(dpy,screen);
   winAttr.border_pixel = 0;
@@ -483,7 +483,7 @@ WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
 
   XStoreName(dpy, window, windowParameters.name.c_str());
 
-  Atom wndName = XInternAtom(dpy, "XA_WM_NAME", False);
+  /*Atom wndName =*/ XInternAtom(dpy, "XA_WM_NAME", False);
 
   XSetWMProtocols(dpy,window, &wndDelete, 1);
 
@@ -519,7 +519,8 @@ WindowSystem::IsResolutionSupported(unsigned int w, unsigned int h) const
 {
   for (int j = 0; j < numSupportedSizes; j++)
   {
-    if (supportedSizes[j].width == w && supportedSizes[j].height == h)
+    if (static_cast<unsigned> (supportedSizes[j].width)  == w &&
+        static_cast<unsigned> (supportedSizes[j].height) == h)
     {
       return j;
     }

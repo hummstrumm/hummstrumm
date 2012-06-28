@@ -78,7 +78,7 @@ class Processors
      *
      * @return The number of processors on the system.
      */
-    inline int GetNumberOfProcessors ()
+    inline unsigned GetNumberOfProcessors ()
       const /* noexcept */;
     /**
      * Returns the processor string associated with the processor index passed
@@ -157,7 +157,7 @@ class Processors
 
   private:
     /// The number of processors on the system.
-    int numberOfProcessors;
+    unsigned numberOfProcessors;
     /// An array of the names of each processor.
     std::vector<std::string> processorStrings;
     

@@ -489,7 +489,7 @@ enum DayOfWeek
   WEDNESDAY, /**< Wednesday. **/
   THURSDAY,  /**< Thursday.  **/
   FRIDAY,    /**< Friday.    **/
-  SATURDAY,  /**< Saturday.  **/
+  SATURDAY   /**< Saturday.  **/
 };
 
 /**

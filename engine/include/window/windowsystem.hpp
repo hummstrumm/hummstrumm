@@ -46,7 +46,7 @@ namespace window
 enum Context
 {
   WINDOW,
-  PBUFFER,
+  PBUFFER
 };
 
 class WindowSystem
