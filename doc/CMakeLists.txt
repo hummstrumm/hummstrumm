@@ -1,4 +1,4 @@
-# Humm and Strumm Video Game
+# Humm and Strumm Engine
 # Copyright (C) 2008-2012, the people listed in the AUTHORS file.
 #
 # This program is free software: you can redistribute it and/or modify

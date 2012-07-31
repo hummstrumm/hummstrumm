@@ -1,4 +1,4 @@
-Humm and Strumm README File
+Humm and Strumm Engine README File
 **********************************************************************
 
 Copyright (C) 2008-2012, the people listed in the AUTHORS file.  This
@@ -11,9 +11,10 @@ Unported License.
 Overview
 ======================================================================
 
-Humm and Strumm is a 3D Adventure Game in which two players set out to
-stop the evil Dr. Geoff from taking over the world.  Humm and Strumm
-is released as Free Software.
+The Humm and Strumm Engine is a Free Software 3D game engine.  While
+its target is to be used in the video game Humm and Strumm, it is
+general enough for many other games to use.  Its goal is to provide a
+properly multithreaded, scalable engine to the FOSS community.
 
 You can find our home page here:
   <http://hummstrumm.blogspot.com>
@@ -132,12 +133,12 @@ Minimum Harware:
 Other Platforms
 ----------------------------------------------------------------------
 
-Humm and Strumm was written with cross-platform usability in mind, to
-ease the porting of it to other platforms.  However, we don't
-currently have testing computers for other platforms, so any system
-besides those enumerated above are not officially supported.  If you
-want to help out, contact us and arrange to become the official tester
-for your platform.
+The Humm and Strumm Engine was written with cross-platform usability
+in mind, to ease the porting of it to other platforms.  However, we
+don't currently have testing computers for other platforms, so any
+system besides those enumerated above are not officially supported.
+If you want to help out, contact us and arrange to become the official
+tester for your platform.
 
 
 
@@ -145,19 +146,11 @@ for your platform.
 Directory Structure
 ======================================================================
 
-  * engine - The game engine
-    - src - C++ source files
-    - include - C++ header files.
-    - scripts - Script files
-    - doc - Doxygen documentation
-    - tests - Test source files
-
-  * game - The actual game
-    - src - C++ source files
-    - include - C++ header files
-    - scripts - Script files
-    - doc - Doxygen documentation
-    - tests - Test source files
+  * src - C++ source files
+  * include - C++ header files.
+  * scripts - Script files
+  * doc - Doxygen documentation
+  * tests - Test source files
 
 
 
@@ -184,7 +177,7 @@ Credits
 ======================================================================
 
 Please see the files AUTHORS and THANKS for all the people that have
-helped make the Humm and Strumm game possible.
+helped make the Humm and Strumm engine possible.
 
 
 
@@ -192,12 +185,12 @@ helped make the Humm and Strumm game possible.
 Bug Reports
 ======================================================================
 
-The Humm and Strumm game uses the Google Code issue tracking system.
+The Humm and Strumm engine uses the Google Code issue tracking system.
 You can find the issue tracker at
 <http://code.google.com/p/hummstrumm/issues/list>.  You can sort the
 list by clicking on the column headers at the top of the list.
 
-If you find a bug in the Humm and Strumm game, be sure to search
+If you find a bug in the Humm and Strumm engine, be sure to search
 through the existing bugs to see if the problem you are seeing has
 already been entered into the bug database.  If you find that an entry
 already exists for the bug you are seeing, do not enter it again.

@@ -1,5 +1,5 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
-/* Humm and Strumm Video Game
+/* Humm and Strumm Engine
  * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@
  * The Humm and Strumm Game Engine is the game engine for the Humm and Strumm
  * Video Game.
  *
- * The Humm and Strumm Video Game is a free/open source software project.  Our
+ * The Humm and Strumm Engine is a free/open source software project.  Our
  * goal is to create a 3D adventure game.  Please see our website, which you
  * can find <a href="http://code.google.com/p/hummstrumm/">here</a>, for more
  * information.

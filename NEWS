@@ -1,17 +1,17 @@
-Humm and Strumm Release Notes
+Humm and Strumm Engine Release Notes
 **********************************************************************
 
 Copyright (C) 2008-2012, the people listed in the AUTHORS file.  This
 file is licensed under a Creative Commons Attribution-Share Alike 3.0
 Unported License.
 
-For each release of Humm and Strumm, several user-visible changes are
-made.  This file lists these major changes for each release, starting
-with the most recent release.
+For each release of Humm and Strumm Engine, several user-visible
+changes are made.  This file lists these major changes for each
+release, starting with the most recent release.
 
 
 
-Humm and Strumm, version 0.6
+Humm and Strumm Engine, version 0.6
 ======================================================================
 
   * ISO 8601 serialization added.
@@ -24,7 +24,7 @@ Humm and Strumm, version 0.6
 
 
 
-Humm and Strumm, version 0.5
+Humm and Strumm Engine, version 0.5
 ======================================================================
 
   * Date/Time functionality added.
@@ -37,7 +37,7 @@ Humm and Strumm, version 0.5
 
 
 
-Humm and Strumm, version 0.4
+Humm and Strumm Engine, version 0.4
 ======================================================================
 
   * Win32/Win64 window system support added.
@@ -47,7 +47,7 @@ Humm and Strumm, version 0.4
 
 
 
-Humm and Strumm, version 0.3
+Humm and Strumm Engine, version 0.3
 ======================================================================
 
   * *BSD system support added.
@@ -63,7 +63,7 @@ Humm and Strumm, version 0.3
 
 
 
-Humm and Strumm, version 0.2
+Humm and Strumm Engine, version 0.2
 ======================================================================
 
   * Further integration with systems.
@@ -76,7 +76,7 @@ Humm and Strumm, version 0.2
 
 
 
-Humm and Strumm, version 0.1
+Humm and Strumm Engine, version 0.1
 ======================================================================
 
   * Object-Type System created.
