@@ -1,32 +1,18 @@
-Humm and Strumm Engine  Contributors and Special Thanks
-**********************************************************************
-
-Copyright (C) 2008-2012, the people listed in the AUTHORS file.
+-*- markdown -*-
+# Humm and Strumm Engine  Contributors and Special Thanks
+Copyright (C) 2008-2012, the people listed in the `AUTHORS` file.
 This file is licensed under a Creative Commons Attribution-Share Alike
 3.0 Unported License.
 
-
-
-
-Contributors
-======================================================================
-
-The Humm and Strumm Engine was written those listed in the AUTHORS
+## Contributors
+The Humm and Strumm Engine was written those listed in the `AUTHORS`
 file.  Many people further contributed to the engine by reporting
 problems, suggesting various improvements or submitting actual code.
 Here is a list of these people.
 
+  * **Person name `<Person email>`**: Contribution detail.
 
-Contribution description
-----------------------------------------------------------------------
-
-  * Person name <Person email> 
-
-
-
-
-Special Thanks
-======================================================================
+## Special Thanks
 
 In addition to the above people who made direct contributions to the
 engine source code, we would like to thank the developers and

@@ -1,55 +1,32 @@
-Humm and Strumm Engine Release Notes
-**********************************************************************
-
-Copyright (C) 2008-2012, the people listed in the AUTHORS file.  This
-file is licensed under a Creative Commons Attribution-Share Alike 3.0
-Unported License.
+-*- markdown -*-
+# Humm and Strumm Engine Release Notes
+Copyright (C) 2008-2012, the people listed in the `AUTHORS` file.
+This file is licensed under a Creative Commons Attribution-Share Alike
+3.0 Unported License.
 
 For each release of Humm and Strumm Engine, several user-visible
 changes are made.  This file lists these major changes for each
 release, starting with the most recent release.
 
-
-
-Humm and Strumm Engine, version 0.6
-======================================================================
-
+## Humm and Strumm Engine, version 0.6
   * ISO 8601 serialization added.
   * Integration work with the C++ standard library.
   * Custom logger using iostreams.
   * Code cleanup.
   * MSVC compatibility work.
 
-
-
-
-
-Humm and Strumm Engine, version 0.5
-======================================================================
-
+## Humm and Strumm Engine, version 0.5
   * Date/Time functionality added.
   * Logging made more flexible.
   * Compiler checks for C++11 and support for Clang compiler.
   * Stability fixes.
   * Number class removed.
 
-
-
-
-
-Humm and Strumm Engine, version 0.4
-======================================================================
-
+## Humm and Strumm Engine, version 0.4
   * Win32/Win64 window system support added.
   * Stability fixes and refactoring.
 
-
-
-
-
-Humm and Strumm Engine, version 0.3
-======================================================================
-
+## Humm and Strumm Engine, version 0.3
   * *BSD system support added.
   * Vector math support added.
   * X11 support added.
@@ -59,13 +36,7 @@ Humm and Strumm Engine, version 0.3
   * System Detection support added.
   * Build System refactored.
 
-
-
-
-
-Humm and Strumm Engine, version 0.2
-======================================================================
-
+## Humm and Strumm Engine, version 0.2
   * Further integration with systems.
   * Migrating to CppUnit tests.
   * Type wrappers created.
@@ -73,12 +44,7 @@ Humm and Strumm Engine, version 0.2
   * Math System created.
   * Endianness support added.
 
-
-
-
-Humm and Strumm Engine, version 0.1
-======================================================================
-
+## Humm and Strumm Engine, version 0.1
   * Object-Type System created.
   * Heap memory manager created.
   * Pointer template class created.

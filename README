@@ -1,33 +1,21 @@
-Humm and Strumm Engine README File
-**********************************************************************
+-*- markdown -*-
+# Humm and Strumm Engine
+Copyright (C) 2008-2012, the people listed in the `AUTHORS` file.
+This file is licensed under a Creative Commons Attribution-ShareAlike
+3.0 Unported License.
 
-Copyright (C) 2008-2012, the people listed in the AUTHORS file.  This
-file is licensed under a Creative Commons Attribution-ShareAlike 3.0
-Unported License.
-
-
-
-
-Overview
-======================================================================
-
+## Overview
 The Humm and Strumm Engine is a Free Software 3D game engine.  While
 its target is to be used in the video game Humm and Strumm, it is
 general enough for many other games to use.  Its goal is to provide a
 properly multithreaded, scalable engine to the FOSS community.
 
-You can find our home page here:
-  <http://hummstrumm.blogspot.com>
+You can find our home page [here](http://hummstrumm.blogspot.com).
 
 Our home page has news updates, new downloads, documentation, and
 links to all parts of the project.
 
-
-
-
-Features
-======================================================================
-
+## Features
   * Object/Type System
   * Smart Pointers
   * Vector Math System
@@ -35,16 +23,9 @@ Features
   * X11 and Win32 Native Windowing
   * Date/Time Utilities.
 
+## License
 
-
-
-Licenses
-======================================================================
-
-
-Code License
-----------------------------------------------------------------------
-
+### Code License
 This code is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
@@ -56,51 +37,53 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
 You should have receives a copy of the GNU General Public License
-along with this code.  If not, see <http://www.gnu.org/licenses/>.
+along with this code.  If not, see [the GNU website][gnu-license].
+
+[gnu-license]: http://www.gnu.org/licenses/
 
 
-Content License
-----------------------------------------------------------------------
-
+### Content License
 The other content, including images, documentation files, Doxygen
-documentation, and music, is licensed under a Creative Commons
-Attribution-ShareAlike Unported License 3.0, available at
-<http://creativecommons.org/licenses/by-sa/3.0/>.
+documentation, and music, unless otherwise noted, is licensed under a
+Creative Commons Attribution-ShareAlike Unported License 3.0,
+available at [the Creative Commons website][cc-license].
 
+[cc-license]: http://creativecommons.org/licenses/by-sa/3.0/
 
+### Alternative Content License
+Some other small content files are licensed under the Creative Commons
+CC0 license, available at
+[the Creative Commons website][cc0-license].  These files are clearly
+marked as such at the top (if they are plaintext) or in a separate
+`README` file (if they are binary).
 
+[cc0-license]: http://creativecommons.org/publicdomain/zero/1.0/
 
-System Requirements
-======================================================================
+## System Requirements
 
+### Windows
 
-Windows
-----------------------------------------------------------------------
-
-Operating System:
+#### Operating System
   * Win32
   * Win64 (AMD64)
 
-Software Requirements:
+#### Software Requirements
   * MSVC++ 8 or later
   * Windows SDK
   * CMake, 2.6 or later
   * Doxygen (optional)
 
-Minimum Harware:
+#### Minimum Harware
   * Intel-compatible processor (x86 or AMD64 compatible)
   * Some amount of RAM that I'll figure out later.
   * An undisclosed amount of disk space (it's a secret!)
 
+### GNU/Linux
 
-GNU/Linux
-----------------------------------------------------------------------
+**NOTE: GNU/Linux distributors may provide packages for your
+  distribution that have different requirements.**
 
-*** NOTE:
-*** GNU/Linux distributors may provide packages for your distribution
-*** that have different requirements.
-
-Software Requirements:
+#### Software Requirements
   * A modern Linux kernel
   * A C++ compiler (GCC 4.4+ and Clang have been tested)
   * CMake, 2.6 or later
@@ -108,31 +91,27 @@ Software Requirements:
   * CPPUnit (optional)
   * Doxygen and LaTeX (optional)
 
-Minimum Harware:
+#### Minimum Harware
   * Intel-compatible processor (x86 or AMD 64 compatible)
   * Some amount of RAM that I'll figure out later...
   * An undisclosed  amount of disk  space (it's a secret!)
 
 
-*BSD
-----------------------------------------------------------------------
+### *BSD
 
-Software Requirements
+#### Software Requirements
   * A C++ compiler (GCC 4.4+ and Clang have been tested)
   * CMake, 2.6 or later
   * X11 development files
   * CPPUnit (optional)
   * Doxygen and LaTeX (optional)
 
-Minimum Harware:
+#### Minimum Harware
   * Intel-compatible processor (x86 or AMD 64 compatible)
   * Some amount of RAM that I'll figure out later...
   * An undisclosed  amount of disk  space (it's a secret!)
 
-
-Other Platforms
-----------------------------------------------------------------------
-
+#### Other Platforms
 The Humm and Strumm Engine was written with cross-platform usability
 in mind, to ease the porting of it to other platforms.  However, we
 don't currently have testing computers for other platforms, so any
@@ -140,55 +119,30 @@ system besides those enumerated above are not officially supported.
 If you want to help out, contact us and arrange to become the official
 tester for your platform.
 
+## Directory Structure
+  * `src` - C++ source files
+  * `include` - C++ header files.
+  * `scripts` - Script files
+  * `doc` - Doxygen documentation
+  * `tests` - Test source files
 
-
-
-Directory Structure
-======================================================================
-
-  * src - C++ source files
-  * include - C++ header files.
-  * scripts - Script files
-  * doc - Doxygen documentation
-  * tests - Test source files
-
-
-
-
-Installation
-======================================================================
-
-Please see the file INSTALL for instructions on how to install the
+## Installation
+Please see the file `INSTALL` for instructions on how to install the
 software.
 
-
-
-
-Release Notes
-======================================================================
-
-The file NEWS contains important changes that may affect the user of
+## Release Notes
+The file `NEWS` contains important changes that may affect the user of
 the software.
 
+## Credits
+Please see the files `AUTHORS` and `THANKS` for all the people that
+have helped make the Humm and Strumm engine possible.
 
-
-
-Credits
-======================================================================
-
-Please see the files AUTHORS and THANKS for all the people that have
-helped make the Humm and Strumm engine possible.
-
-
-
-
-Bug Reports
-======================================================================
-
+## Bug Reports
 The Humm and Strumm engine uses the Google Code issue tracking system.
-You can find the issue tracker at
-<http://code.google.com/p/hummstrumm/issues/list>.  You can sort the
-list by clicking on the column headers at the top of the list.
+Our issue tracker on our [Google Code project page][issue-tracker].
+You can sort the list by clicking on the column headers at the top of
+the list.
 
 If you find a bug in the Humm and Strumm engine, be sure to search
 through the existing bugs to see if the problem you are seeing has
@@ -199,14 +153,11 @@ To enter in a new bug you will also be required to have a Google
 account.  Fill out the template, and be sure to tag the issue
 appropriately using the input boxes below the main entry box.
 
+[issue-tracker]: http://code.google.com/p/hummstrumm/issues/list
 
-
-
-Feature Requests
-======================================================================
-
+## Feature Requests
 The Google Code issue tracker is also used for new feature requests.
 Use the above guidelines for bugs (i.e., look for already existing
 requests).  The only difference between a bug report and a feature
-request is that a feature request has a value of "Type-Enhancement" in
+request is that a feature request has a value of `Type-Enhancement` in
 the tag fields.
