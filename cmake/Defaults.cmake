@@ -19,19 +19,19 @@
 #  We only need Debug and Release build types.
 if (CMAKE_CONFIGURATION_TYPES)
   set (CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING
-       "We only need two configuration types at the moment." FORCE)
+    "We only need two configuration types at the moment." FORCE)
 endif (CMAKE_CONFIGURATION_TYPES)
 
 # Force a selection of a build type.  It's rather important that we have one.
 if (NOT CMAKE_BUILD_TYPE)
   if (NOT HUMMSTRUMM_IN_CLONE)
     set (CMAKE_BUILD_TYPE Release CACHE STRING
-         "Choose the type of build, options are: Debug Release."
-         FORCE)
-  else (NOT HUMMSTRUMM_IN_CLONE)
+      "Choose the type of build, options are: Debug Release."
+      FORCE)
+     else (NOT HUMMSTRUMM_IN_CLONE)
     set (CMAKE_BUILD_TYPE Debug CACHE STRING
-         "Choose the type of build, options are: Debug Release."
-         FORCE)
+      "Choose the type of build, options are: Debug Release."
+      FORCE)
   endif (NOT HUMMSTRUMM_IN_CLONE)
 endif (NOT CMAKE_BUILD_TYPE)
 
@@ -50,28 +50,16 @@ set (CMAKE_COLOR_MAKEFILE ON)
 # Don't be verbose.
 set (CMAKE_VERBOSE_MAKEFILE OFF)
 
-
-# Log Options
-set (HUMMSTRUMM_LOG_FILENAME test.log CACHE STRING
-       "The file name of the log.")
-set (HUMMSTRUMM_LOG_LOGLEVEL MESSAGE CACHE STRING
-     "The minimum level of messages.")
-
-
-# C++11
-set (HUMMSTRUMM_USE_CPP11 ON CACHE BOOL
-     "Attempt to use features from the new C++11 standard.")
-
-
 # Add debug definitions.
 # Use -DCMAKE_BUILD_TYPE=Debug with the cmake command to use them.
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR
     CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-set (HUMMSTRUMM_DEBUG ON)
+set (HUMMSTRUMM_ENGINE_DEBUG ON)
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug" OR
-      CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-set (HUMMSTRUMM_ENABLE_PRINTDEBUG ON CACHE BOOL
-       "Whether to enable PrintDebug() and LogDebug() methods.")
+  CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+
+set (ENABLE_UNIT_TESTS ON CACHE STRING
+  "Build unit tests?")
 
 # For some reason, this is not marked as advanced.  It really ought to be.
 mark_as_advanced (MAKE_PROGRAM)

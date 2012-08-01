@@ -22,6 +22,7 @@
 #include <limits>
 #include <string>
 #include <vector>
+#include <unistd.h>
 
 
 namespace hummstrumm

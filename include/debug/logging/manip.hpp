@@ -228,7 +228,7 @@ std::ostream &operator<< (std::ostream &, const SetLevel);
 std::ostream &operator<< (std::ostream &, const LockType);
 
 /**
- * @def HUMMSTRUMM_SET_LOGGING
+ * @def HUMMSTRUMM_ENGINE_SET_LOGGING
  *
  * Applies the Lock, SetFile, SetLine, and SetLevel manipulators to an @c
  * ostream . This macro functions just like another manipulator.
@@ -247,7 +247,7 @@ std::ostream &operator<< (std::ostream &, const LockType);
  * @remarks We unfortunately have to have this as a macro, because it uses the
  * default macros @c __FILE__ and @c __LEVEL__ .
  */
-#define HUMMSTRUMM_SET_LOGGING(level)                                   \
+#define HUMMSTRUMM_ENGINE_SET_LOGGING(level)				\
   hummstrumm::engine::debug::logging::Lock <<                           \
   hummstrumm::engine::debug::logging::SetFile (__FILE__) <<             \
   hummstrumm::engine::debug::logging::SetLine (__LINE__) <<             \

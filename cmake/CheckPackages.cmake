@@ -14,16 +14,46 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# CheckPrograms.cmake -- Look for any programs we can (optionally?) use.
+# CheckPackages.cmake -- Look for any libraries and programs we can (perhaps
+# optionally) use.
 
 # Look for cppcheck
 if (ENABLE_CPPCHECK)
   find_program (CPPCHECK_COMMAND cppcheck DOC "Path to cppcheck.")
   mark_as_advanced(cppcheck_DIR)
-endif (ENABLE_CPPCHECK)
+endif ()
 
 # Look for valgrind
 if (ENABLE_VALGRIND)
   find_program (VALGRIND_COMMAND valgrind DOC "Path to valgrind.")
   mark_as_advanced(valgrind_DIR)
-endif (ENABLE_VALGRIND)
+endif ()
+
+# Find Perl 5
+find_package (Perl 5)
+if (PERL_FOUND)
+  message (STATUS "Found Perl 5: ${PERL_EXECUTABLE}")
+endif ()
+
+# Find Git
+find_package (Git)
+
+# We need X11 if we're building for it.
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+  find_package(X11)
+  if (NOT X11_FOUND)
+    message (FATAL_ERROR "Failed to find X11 required development files.")
+  endif ()
+  if (NOT X11_Xrandr_FOUND)
+    message (FATAL_ERROR "Failed to find Xrandr required development files.")
+  endif ()
+endif ()
+
+# We need OpenGL and GLU
+find_package (OpenGL)
+if (NOT OPENGL_FOUND)
+  message (FATAL_ERROR "Failed to find OpenGL required development files.")
+endif ()
+if (NOT OPENGL_GLU_FOUND)
+  message (FATAL_ERROR "Failed to find GLU required development files.")
+endif ()

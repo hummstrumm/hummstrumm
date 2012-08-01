@@ -24,9 +24,9 @@
 
 using namespace hummstrumm::engine;
 
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 #  pragma warning(disable:4244)
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#endif // #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
 namespace hummstrumm
 {
@@ -45,7 +45,7 @@ Profiler::Profiler (std::string debugName, Profiler::Units reportIn)
     reportInUnit (reportIn)
 {
   // Construct log message and log it.
-  core::Engine::GetEngine ()->GetLog () << HUMMSTRUMM_SET_LOGGING (Level::info)
+  core::Engine::GetEngine ()->GetLog () << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
     << "Profiler ``" << debugName << "'' started." << std::flush;
 }
 
@@ -95,7 +95,7 @@ Profiler::~Profiler ()
   Iterate ();
   
   // Write it out.
-  core::Engine::GetEngine ()->GetLog () << HUMMSTRUMM_SET_LOGGING (Level::info)
+  core::Engine::GetEngine ()->GetLog () << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
     << "Profiler ``" << debugName << "'' stats: "
     << numberOfRuns << " Runs, Lowest Time of "
     << lowestTime << ", Average Time of "

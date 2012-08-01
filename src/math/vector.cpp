@@ -29,7 +29,7 @@ namespace math
 
 using hummstrumm::engine::core::Engine;
 
-#ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
+#ifdef HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT
 
 Vector4D<float> &
 Vector4D<float>::operator = (const Vector4D<float> &v)

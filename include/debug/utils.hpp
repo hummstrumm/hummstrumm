@@ -30,13 +30,13 @@
 #include <iostream>
 #include <stdlib.h>
 
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX
 #  include <signal.h>
 #endif
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 #  include <windows.h>
 #endif
-#ifdef HUMMSTRUMM_PLATFORM_BSD
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_BSD
 #  include <signal.h>
 #endif
 
@@ -52,13 +52,13 @@
  * @param [in] condition The condition to check for truth.
  * @param [in] message   The message to affix to the error.
  */
-#if HUMMSTRUMM_HAVE_NATIVE_STATIC_ASSERT
-#  define HUMMSTRUMM_STATIC_ASSERT(condition, message) \
+#if HUMMSTRUMM_ENGINE_HAVE_NATIVE_STATIC_ASSERT
+#  define HUMMSTRUMM_ENGINE_STATIC_ASSERT(condition, message) \
   static_assert (condition, message)
 #else
 template <bool condition> struct StaticAssertionFailed;
 template <> struct StaticAssertionFailed<true> {};
-#  define HUMMSTRUMM_STATIC_ASSERT(condition, message) \
+#  define HUMMSTRUMM_ENGINE_STATIC_ASSERT(condition, message) \
   StaticAssertionFailed<(condition) && message>        \
     static_assert_##__COUNTER__##_no_clash__;
 #endif
@@ -74,18 +74,18 @@ template <> struct StaticAssertionFailed<true> {};
  * @date   2010-03-03
  * @since  0.2
  */
-#ifdef HUMMSTRUMM_DEBUG
+#ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_ABORT()                      \
+#define HUMMSTRUMM_ENGINE_ABORT()		\
   do {                                          \
     abort ();                                   \
   } while (false)
 
-#else // #ifdef HUMMSTRUMM_DEBUG
+#else // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_ABORT()
+#define HUMMSTRUMM_ENGINE_ABORT()
 
-#endif // #ifdef HUMMSTRUMM_DEBUG
+#endif // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
 /**
  * Attempts to break into the debugger.  On Windows systems, this is
@@ -99,29 +99,29 @@ template <> struct StaticAssertionFailed<true> {};
  * @date   2010-03-03
  * @since  0.2
  */
-#ifdef HUMMSTRUMM_DEBUG
-#if defined (HUMMSTRUMM_PLATFORM_GNULINUX) || \
-    defined (HUMMSTRUMM_PLATFORM_BSD)
+#ifdef HUMMSTRUMM_ENGINE_DEBUG
+#if defined (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX) || \
+    defined (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
 
-#define HUMMSTRUMM_BREAK()                      \
+#define HUMMSTRUMM_ENGINE_BREAK()                      \
   do {                                          \
     raise (SIGINT);                             \
   } while (false)
 
 #else
 
-#define HUMMSTRUMM_BREAK()                      \
+#define HUMMSTRUMM_ENGINE_BREAK()                      \
   do {                                          \
     DebugBreak ();                              \
   } while (false)
 
 #endif
 
-#else // #ifdef HUMMSTRUMM_DEBUG
+#else // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_BREAK()
+#define HUMMSTRUMM_ENGINE_BREAK()
 
-#endif // #ifdef HUMMSTRUMM_DEBUG
+#endif // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
 
 /**
@@ -130,14 +130,14 @@ template <> struct StaticAssertionFailed<true> {};
  *
  * This is only available in a debug build.
  *
- * @def    HUMMSTRUMM_ERROR()
+ * @def    HUMMSTRUMM_ENGINE_ERROR()
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
  */
-#ifdef HUMMSTRUMM_DEBUG
+#ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_ERROR()                                  \
+#define HUMMSTRUMM_ENGINE_ERROR()                                  \
   do {                                                      \
     std::wcerr << L"An error has occured in the program.  " \
                << L"Press A to abort, B to break into the " \
@@ -146,22 +146,22 @@ template <> struct StaticAssertionFailed<true> {};
       {                                                     \
       case 'A':                                             \
       case 'a':                                             \
-        HUMMSTRUMM_ABORT ();                                \
+        HUMMSTRUMM_ENGINE_ABORT ();                                \
         break;                                              \
       case 'B':                                             \
       case 'b':                                             \
-        HUMMSTRUMM_BREAK ();                                \
+        HUMMSTRUMM_ENGINE_BREAK ();                                \
         break;                                              \
       default:                                              \
         break;                                              \
       }                                                     \
   } while (false)
 
-#else // #ifdef HUMMSTRUMM_DEBUG
+#else // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_ERROR()
+#define HUMMSTRUMM_ENGINE_ERROR()
 
-#endif // #ifdef HUMMSTRUMM_DEBUG
+#endif // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
 /**
  * Asserts that the specified value is true.  If it is not, an error
@@ -169,49 +169,49 @@ template <> struct StaticAssertionFailed<true> {};
  *
  * This is only available in a debug build.
  *
- * @def    HUMMSTRUMM_ASSERT(mustBeTrue)
+ * @def    HUMMSTRUMM_ENGINE_ASSERT(mustBeTrue)
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
  */
-#ifdef HUMMSTRUMM_DEBUG
+#ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_ASSERT(mustBeTrue)           \
+#define HUMMSTRUMM_ENGINE_ASSERT(mustBeTrue)           \
   do {                                          \
     if (!mustBeTrue) {                          \
-      HUMMSTRUMM_ERROR();                       \
+      HUMMSTRUMM_ENGINE_ERROR();                       \
     }                                           \
   } while (false)
 
-#else // #ifdef HUMMSTRUMM_DEBUG
+#else // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_ASSERT(mustBeTrue)
+#define HUMMSTRUMM_ENGINE_ASSERT(mustBeTrue)
 
-#endif // #ifdef HUMMSTRUMM_DEBUG
+#endif // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
 /**
  * Prints a warning to the screen and to the logs.
  *
  * This is only available in a debug build.
  *
- * @def    HUMMSTRUMM_WARNING(text)
+ * @def    HUMMSTRUMM_ENGINE_WARNING(text)
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-07-26
  * @since  0.3
  */
-#ifdef HUMMSTRUMM_DEBUG
+#ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_WARNING(text)                                               \
+#define HUMMSTRUMM_ENGINE_WARNING(text)                                               \
   do {                                                                         \
-    HUMMSTRUMM_LOG(text, WARNING);                                             \
+    HUMMSTRUMM_ENGINE_LOG(text, WARNING);                                             \
     std::cerr << "WARNING: " << text << "\n";                                  \
   } while (false)
 
-#else // #ifdef HUMMSTRUMM_DEBUG
+#else // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
-#define HUMMSTRUMM_WARNING(text)
+#define HUMMSTRUMM_ENGINE_WARNING(text)
 
-#endif // #ifdef HUMMSTRUMM_DEBUG
+#endif // #ifdef HUMMSTRUMM_ENGINE_DEBUG
 
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_DEBUG_UTILS

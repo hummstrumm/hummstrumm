@@ -17,16 +17,17 @@
 # Version.cmake -- Contains version information about Humm and Strumm.
 
 # Only edit the ones below:
-set (HUMMSTRUMM_VERSION_MAJOR "0")
-set (HUMMSTRUMM_VERSION_MINOR "6")
-set (HUMMSTRUMM_NAME "Humm and Strumm")
-set (HUMMSTRUMM_NAME_SHORT "hummstrumm")
-set (HUMMSTRUMM_VENDOR "The Humm and Strumm Project")
-set (HUMMSTRUMM_DESCRIPTION "A FOSS 3D adventure game for two players.")
-set (HUMMSTRUMM_WEBSITE "http://hummstrumm.blogspot.com/")
-set (HUMMSTRUMM_CONTACT "hummstrumm-user@googlegroups.com")
+set (HUMMSTRUMM_ENGINE_VERSION_MAJOR "0")
+set (HUMMSTRUMM_ENGINE_VERSION_MINOR "7")
+set (HUMMSTRUMM_ENGINE_VERSION_PATCH "0")
+set (HUMMSTRUMM_ENGINE_NAME "The Humm and Strumm Engine")
+set (HUMMSTRUMM_ENGINE_NAME_SHORT "hummstrummengine")
+set (HUMMSTRUMM_ENGINE_VENDOR "The Humm and Strumm Project")
+set (HUMMSTRUMM_ENGINE_DESCRIPTION "A FOSS 3D game engine.")
+set (HUMMSTRUMM_ENGINE_WEBSITE "http://hummstrumm.blogspot.com/")
+set (HUMMSTRUMM_ENGINE_CONTACT "hummstrumm-user@googlegroups.com")
 
 # These will be generated automatically from the above information.
-set (HUMMSTRUMM_VERSION
-     "${HUMMSTRUMM_VERSION_MAJOR}.${HUMMSTRUMM_VERSION_MINOR}")
-set (HUMMSTRUMM_NAME_RELEASE "${HUMMSTRUMM_NAME_SHORT}-${HUMMSTRUMM_VERSION}")
+set (HUMMSTRUMM_ENGINE_VERSION
+     "${HUMMSTRUMM_ENGINE_VERSION_MAJOR}.${HUMMSTRUMM_ENGINE_VERSION_MINOR}.${HUMMSTRUMM_ENGINE_VERSION_PATCH}")
+set (HUMMSTRUMM_ENGINE_NAME_RELEASE "${HUMMSTRUMM_ENGINE_NAME_SHORT}-${HUMMSTRUMM_ENGINE_VERSION}")

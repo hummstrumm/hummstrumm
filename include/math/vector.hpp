@@ -770,7 +770,7 @@ class Vector4D
 
 };
 
-#ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
+#ifdef HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT
 /**
  * Template specialization of Vector4D for float with SSE optimization.
  *
@@ -785,7 +785,7 @@ template<>
 class Vector4D<float>
 {
   public:
-    HUMMSTRUMM_ALIGN_16_WINDOWS union HUMMSTRUMM_ALIGN_16_UNIX {
+    HUMMSTRUMM_ENGINE_ALIGN_16_WINDOWS union HUMMSTRUMM_ENGINE_ALIGN_16_UNIX {
         /// Aligned register for SIMD
         __m128 xyzw;
 
@@ -1758,7 +1758,7 @@ template <typename T>
 T 
 Vec4DMagnitude (const Vector4D<T> &v);
 
-#ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
+#ifdef HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT
 template <> 
 float 
 Vec4DMagnitude (const Vector4D<float> &v);
@@ -1836,7 +1836,7 @@ template <typename T>
 T 
 Vec4DDot (const Vector4D<T> &v, const Vector4D<T> &w);
 
-#ifdef HUMMSTRUMM_HAVE_SSE_SUPPORT
+#ifdef HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT
 template <>
 float 
 Vec4DDot (const Vector4D<float> &v, const Vector4D<float> &w);

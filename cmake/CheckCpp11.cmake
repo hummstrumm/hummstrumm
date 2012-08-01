@@ -17,55 +17,36 @@
 # CheckCpp11.cmake -- Checks for various C++11 features that we can use.  All
 # are implemented alternatively with normal C++03.
 
-if (HUMMSTRUMM_USE_CPP11)
-
-  if (CMAKE_COMPILER_IS_GNUCXX)
-    message (STATUS "Checking that compiler supports C++11")
-    file (WRITE
-          "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-          "int main() { return 0; }\n")
-    try_compile(HUMMSTRUMM_CAN_USE_CPP11
-                "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
-                "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-                COMPILE_DEFINITIONS "-DCMAKE_CXX_FLAGS=\"--std=c++0x\"")
-    set (HUMMSTRUMM_USE_CPP11 ${HUMMSTRUMM_CAN_USE_CPP11})
-    if (HUMMSTRUMM_CAN_USE_CPP11)
-      message (STATUS "Checking that compiler supports C++11 - supported")
-      list (APPEND CMAKE_CXX_FLAGS "--std=c++0x")
-    else (HUMMSTRUMM_CAN_USE_CPP11)
-      message (STATUS "Checking that compiler supports C++11 - not supported")
-      return ()
-    endif (HUMMSTRUMM_CAN_USE_CPP11)
-
-  else (CMAKE_COMPILER_IS_GNUCXX)
-    message (STATUS "Checking that compiler supports C++11")
-    file (WRITE
-          "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-          "#if __cplusplus < 201103L\n#error \"C++11 not supported\"\n#endif int main() { return 0; }\n")
-    try_compile(HUMMSTRUMM_CAN_USE_CPP11
-                "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
-                "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp")
-    set (HUMMSTRUMM_USE_CPP11 ${HUMMSTRUMM_CAN_USE_CPP11})
-    if (HUMMSTRUMM_CAN_USE_CPP11)
-      message (STATUS "Checking that compiler supports C++11 - supported")
-    else (HUMMSTRUMM_CAN_USE_CPP11)
-      message (STATUS "Checking that compiler supports C++11 - not supported")
-      return ()
-    endif (HUMMSTRUMM_CAN_USE_CPP11)
-  endif (CMAKE_COMPILER_IS_GNUCXX)
-
-  message (STATUS "Looking for C++11 static_assert")
+if (CMAKE_COMPILER_IS_GNUCXX)
+  message (STATUS "Checking that compiler supports C++11")
   file (WRITE
-        "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-        "int main() { static_assert(1,\"This shouldn't fail.\"); }\n")
-  try_compile(HUMMSTRUMM_HAVE_NATIVE_STATIC_ASSERT
-              ${CMAKE_BINARY_DIR}
-              "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-              COMPILE_DEFINITIONS "-DCMAKE_CXX_FLAGS=\"" ${CMAKE_CXX_FLAGS} "\"")
-  if (HUMMSTRUMM_HAVE_NATIVE_STATIC_ASSERT)
-    message (STATUS "Looking for C++11 static_assert - found")
-  else (HUMMSTRUMM_HAVE_NATIVE_STATIC_ASSERT)
-    message (STATUS "Looking for C++11 static_assert - not found")
-  endif (HUMMSTRUMM_HAVE_NATIVE_STATIC_ASSERT)
+    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
+    "int main() { return 0; }\n")
+  try_compile(HUMMSTRUMM_ENGINE_CAN_USE_CPP11
+    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
+    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
+    COMPILE_DEFINITIONS "-DCMAKE_CXX_FLAGS=\"--std=c++0x\"")
+  set (HUMMSTRUMM_ENGINE_USE_CPP11 ${HUMMSTRUMM_ENGINE_CAN_USE_CPP11})
+  if (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
+    message (STATUS "Checking that compiler supports C++11 - supported")
+    list (APPEND CMAKE_CXX_FLAGS "--std=c++0x")
+  else (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
+    message (STATUS "Checking that compiler supports C++11 - not supported")
+    return ()
+  endif (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
 
-endif (HUMMSTRUMM_USE_CPP11)
+else (CMAKE_COMPILER_IS_GNUCXX)
+  message (STATUS "Checking that compiler supports C++11")
+  file (WRITE
+    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
+    "#if __cplusplus < 201103L\n#error \"C++11 not supported\"\n#endif int main() { return 0; }\n")
+  try_compile(HUMMSTRUMM_ENGINE_CAN_USE_CPP11
+    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
+    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp")
+  if (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
+    message (STATUS "Checking that compiler supports C++11 - supported")
+  else (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
+    message (STATUS "Checking that compiler supports C++11 - not supported")
+    return ()
+  endif (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
+endif (CMAKE_COMPILER_IS_GNUCXX)

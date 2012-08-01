@@ -27,17 +27,17 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_SIMD
 #define HUMMSTRUMM_ENGINE_MATH_SIMD
 
-#if defined (HUMMSTRUMM_PLATFORM_GNULINUX) && defined(HUMMSTRUMM_HAVE_SSE_SUPPORT)
+#if defined (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX) && defined(HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 #include <xmmintrin.h> //sse2
 //#include <smmintrin.h> //sse 4.1
 #endif
 
-#if defined (HUMMSTRUMM_PLATFORM_BSD) && defined (HUMMSTRUMM_HAVE_SSE_SUPPORT)
+#if defined (HUMMSTRUMM_ENGINE_PLATFORM_BSD) && defined (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 #include <xmmintrin.h> //sse2
 //#include <smmintrin.h> //sse 4.1
 #endif
 
-#if defined (HUMMSTRUMM_PLATFORM_WINDOWS) && defined(HUMMSTRUMM_HAVE_SSE_SUPPORT)
+#if defined (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS) && defined(HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 #include <mmintrin.h>
 #endif
 
@@ -49,7 +49,7 @@ namespace math
 {
 
 /*
- * @def HUMMSTRUMM_ALIGN_16_UNIX
+ * @def HUMMSTRUMM_ENGINE_ALIGN_16_UNIX
  *
  * Forces a 16 bit align on GNU/Linux and *BSD.  Only defined on these
  * platforms, so safe to use on all platforms with no side-affects.
@@ -59,7 +59,7 @@ namespace math
  * @since  0.3
  */
 /*
- * @def HUMMSTRUMM_ALIGN_16_WINDOWS
+ * @def HUMMSTRUMM_ENGINE_ALIGN_16_WINDOWS
  *
  * Forces a 16 bit align on Windows.  Only defined on Windows, so safe to
  * use on all platforms with no side-affects.
@@ -69,22 +69,22 @@ namespace math
  * @since  0.3
  */
 
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
-  #define HUMMSTRUMM_ALIGN_16_UNIX
-  #define HUMMSTRUMM_ALIGN_16_WINDOWS __declspec(align(16))
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
+  #define HUMMSTRUMM_ENGINE_ALIGN_16_UNIX
+  #define HUMMSTRUMM_ENGINE_ALIGN_16_WINDOWS __declspec(align(16))
 #endif
 
-#ifdef HUMMSTRUMM_PLATFORM_GNULINUX
-  #define HUMMSTRUMM_ALIGN_16_UNIX  __attribute__ ((aligned (16)))
-  #define HUMMSTRUMM_ALIGN_16_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX
+  #define HUMMSTRUMM_ENGINE_ALIGN_16_UNIX  __attribute__ ((aligned (16)))
+  #define HUMMSTRUMM_ENGINE_ALIGN_16_WINDOWS
 #endif
 
-#ifdef HUMMSTRUMM_PLATFORM_BSD
-  #define HUMMSTRUMM_ALIGN_16_UNIX __attribute__ ((aligned (16)))
-  #define HUMMSTRUMM_ALIGN_16_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_BSD
+  #define HUMMSTRUMM_ENGINE_ALIGN_16_UNIX __attribute__ ((aligned (16)))
+  #define HUMMSTRUMM_ENGINE_ALIGN_16_WINDOWS
 #endif
 
-#if defined(HUMMSTRUMM_HAVE_SSE_SUPPORT)
+#if defined(HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 // Arithmetic
 // PS acts on [0..127]
 // SS acts on [0..31]

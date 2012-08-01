@@ -17,7 +17,7 @@
 enable_testing ()
 
 set (hummstrummengine_INCLUDE ../include/
-                                 ${hummstrumm_BINARY_DIR}/engine/include
+                                 ${hummstrummengine_BINARY_DIR}/engine/include
                                  ${CPPUNIT_INCLUDE_DIR}
                                  ${OPENGL_INCLUDE_DIR})
 set (hummstrummengine_LIBS hummstrummengine

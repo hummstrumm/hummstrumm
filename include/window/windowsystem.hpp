@@ -19,13 +19,13 @@
 #ifndef HUMMSTRUMM_ENGINE_WINDOW_SYSTEM
 #define HUMMSTRUMM_ENGINE_WINDOW_SYSTEM
 
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS
 #include <windows.h>
 #include <queue>
 #include <gl\gl.h>
 #endif
 
-#ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+#ifdef HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11
 #include <climits>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -149,7 +149,7 @@ class WindowSystem
 
   private:    
     static WindowSystem* runningInstance;
-    #ifdef HUMMSTRUMM_WINDOWSYSTEM_X11
+    #ifdef HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11
     Display *dpy;   // Pointer to a X11 display structure
     Window root;    // Root window
     Window window;  // Current window
@@ -295,7 +295,7 @@ class WindowSystem
 
     #endif
 
-    #ifdef HUMMSTRUMM_WINDOWSYSTEM_WINDOWS
+    #ifdef HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS
     HINSTANCE moduleHandle;
     HWND windowHandle;
     HDC deviceContext;

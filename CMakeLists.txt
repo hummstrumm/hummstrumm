@@ -14,76 +14,72 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# This is the CMake script that is used to build Humm and Strumm.  This script
-# deals with these things:
+# This is the CMake script that is used to build the Humm and Strumm Engine.
+# This script deals with these things:
 #
 #   * Creating configuration values that can be set with ``ccmake''.
 #   * Detecting basic system information.
 #   * Configuring CTest and CPack for unit testing and packaging, respectively.
 
-project (hummstrumm)
+project (hummstrummengine)
 cmake_minimum_required (VERSION 2.8)
 
-set (CMAKE_MODULE_PATH ${hummstrumm_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+set (CMAKE_MODULE_PATH
+  ${hummstrummengine_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 include (Defaults)
 include (CompilerChecks)
 include (CheckClone)
 include (Version)
 include (Platform)
-include (MaintainerMode)
 include (Uninstall)
 
 # We want testing with CTest.
 include (UnitTest)
 enable_testing ()
 
-include (CheckPrograms)
-include (CheckX11)
-include (CheckGL)
+include (CheckPackages)
 
 # Use some flags across the entire project:
-if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
   set (CMAKE_CXX_FLAGS_DEBUG "-pedantic -Wall -g -ggdb -Wfatal-errors")
-endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
-if (HUMMSTRUMM_PLATFORM_WINDOWS)
+endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
+if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
   # Seems like CMAKE_CXX_FLAGS already sets "/W3" by default
   string (REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
   set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W4")
-endif (HUMMSTRUMM_PLATFORM_WINDOWS)
+endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
 
 # Test for SIMD
-set (HUMMSTRUMM_USE_SSE ON CACHE BOOL
+set (HUMMSTRUMM_ENGINE_USE_SSE ON CACHE BOOL
      "Whether to build the engine with SSE support or not.")
-set (HUMMSTRUMM_HAVE_SSE_SUPPORT OFF)
+set (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT OFF)
 
-if (HUMMSTRUMM_USE_SSE)
+if (HUMMSTRUMM_ENGINE_USE_SSE)
   try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
            ${CMAKE_BINARY_DIR}
            ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE.c
            CMAKE_FLAGS
-           COMPILE_DEFINITIONS ${HUMMSTRUMM_REQUIRED_DEFINITIONS}
+           COMPILE_DEFINITIONS ${HUMMSTRUMM_ENGINE_REQUIRED_DEFINITIONS}
            COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
   #message (STATUS ${COMPILE_OUTPUT_VAR})
   if (${RUN_RESULT_VAR})
-    set (HUMMSTRUMM_HAVE_SSE_SUPPORT ON)
-    set (HUMMSTRUMM_DOXYGEN_MACROS "${HUMMSTRUMM_DOXYGEN_MACROS} HUMMSTRUMM_HAVE_SSE_SUPPORT=")
-    if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+    set (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT ON)
+    set (HUMMSTRUMM_ENGINE_DOXYGEN_MACROS "${HUMMSTRUMM_ENGINE_DOXYGEN_MACROS} HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT=")
+    if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
       add_definitions("-msse")
 #      add_definitions("-msse4.1")
 #      add_definitions("-msse4.2")
-    endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+    endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
   endif (${RUN_RESULT_VAR})
-endif (HUMMSTRUMM_USE_SSE)
+endif (HUMMSTRUMM_ENGINE_USE_SSE)
 
-configure_file (${CMAKE_SOURCE_DIR}/config.h.in
-                ${CMAKE_BINARY_DIR}/engine/include/config.h @ONLY)
-                configure_file (${CMAKE_SOURCE_DIR}/config.h.in
-                ${CMAKE_BINARY_DIR}/game/include/config.h @ONLY)
+configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
+                ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
 
-if (HUMMSTRUMM_UNIT_TEST)
+if (HUMMSTRUMM_ENGINE_UNIT_TEST)
   add_subdirectory (tests/)
-endif (HUMMSTRUMM_UNIT_TEST)
+endif (HUMMSTRUMM_ENGINE_UNIT_TEST)
 
 # Common Source Files
 set (hummstrummengine_SRCS
@@ -100,22 +96,22 @@ set (hummstrummengine_SRCS
   src/events/windowevents.cpp
   src/window/windowvisualinfo.cpp)
 
-if (HUMMSTRUMM_HAVE_SSE_SUPPORT)
+if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
   list (APPEND hummstrummengine_SRCS
         src/math/vector.cpp)
-endif (HUMMSTRUMM_HAVE_SSE_SUPPORT)
+endif (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 
 # Windows-Only Source Files
-if (HUMMSTRUMM_PLATFORM_WINDOWS)
+if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
   list (APPEND hummstrummengine_SRCS
         src/system/windows/processors.cpp
         src/system/windows/memory.cpp
         src/system/windows/platform.cpp
         src/system/windows/clock.cpp)
-endif (HUMMSTRUMM_PLATFORM_WINDOWS)
+endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
 
 # POSIX Source Files
-if (HUMMSTRUMM_PLATFORM_POSIX)
+if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
   list (APPEND hummstrummengine_SRCS
         src/system/posix/platform.cpp
         src/system/posix/clock.cpp
@@ -124,7 +120,7 @@ if (HUMMSTRUMM_PLATFORM_POSIX)
 endif ()
 
 # GNU/Linux-only Source Files
-if (HUMMSTRUMM_PLATFORM_GNULINUX)
+if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
   # We override the POSIX version.
   list (REMOVE_ITEM hummstrummengine_SRCS
         src/system/posix/processors.cpp
@@ -132,10 +128,10 @@ if (HUMMSTRUMM_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_SRCS
         src/system/gnulinux/processors.cpp
         src/system/gnulinux/memory.cpp)
-endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
 
 # *BSD-only Source Files
-if (HUMMSTRUMM_PLATFORM_BSD)
+if (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
   # We override the POSIX version.
   list (REMOVE_ITEM hummstrummengine_SRCS
         src/system/posix/processors.cpp
@@ -143,17 +139,17 @@ if (HUMMSTRUMM_PLATFORM_BSD)
   list (APPEND hummstrummengine_SRCS
         src/system/bsd/processors.cpp
         src/system/bsd/memory.cpp)
-endif (HUMMSTRUMM_PLATFORM_BSD)
+endif (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
 
-if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
   list (APPEND hummstrummengine_SRCS
         src/window/x11/windowsystem.cpp)
-endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
 
-if (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
   list (APPEND hummstrummengine_SRCS
         src/window/win/windowsystem.cpp)
-endif (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
 
 
 # Set include dirs
@@ -162,9 +158,9 @@ set (hummstrummengine_INCLUDE include/
                               ${OPENGL_INCLUDE_DIR})
 
 include_directories (${hummstrummengine_INCLUDE})
-if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
   include_directories (${X11_INCLUDE_DIR})
-endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
 
 # Build the library.
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
@@ -172,18 +168,18 @@ add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 
 
 # Add directories (to be exported, too)
-if (HUMMSTRUMM_PLATFORM_WINDOWS)
+if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
   set (HUMMSTRUMM_ENGINE_INSTALL_HEADERS   include)
   set (HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES lib)
   set (HUMMSTRUMM_ENGINE_INSTALL_DOC       doc)
 else ()
   set (HUMMSTRUMM_ENGINE_INSTALL_HEADERS
-       include/hummstrummengine-${HUMMSTRUMM_VERSION})
+       include/hummstrummengine-${HUMMSTRUMM_ENGINE_VERSION})
   set (HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES
-       lib/hummstrummengine-${HUMMSTRUMM_VERSION})
+       lib/hummstrummengine-${HUMMSTRUMM_ENGINE_VERSION})
   set (HUMMSTRUMM_ENGINE_INSTALL_DOC
-       share/doc/hummstrummengine-${HUMMSTRUMM_VERSION})
-endif (HUMMSTRUMM_PLATFORM_WINDOWS)
+       share/doc/hummstrummengine-${HUMMSTRUMM_ENGINE_VERSION})
+endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
 
 # Add documentation generation
 add_subdirectory (doc)
@@ -194,16 +190,10 @@ install (TARGETS hummstrummengine
 
 
 # Install documentation.
-if (HUMMSTRUMM_BUILD_DOCS)
-
-  if (HUMMSTRUMM_BUILD_DOCS_LATEX)
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/doc/latex/refman.pdf
-             DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
-  endif (HUMMSTRUMM_BUILD_DOCS_LATEX)
-
+if (HUMMSTRUMM_ENGINE_BUILD_DOCS)
   install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html
            DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC})
-endif (HUMMSTRUMM_BUILD_DOCS)
+endif (HUMMSTRUMM_ENGINE_BUILD_DOCS)
 
 
 # Install header files.
@@ -216,22 +206,22 @@ install (DIRECTORY include/
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
 
-set (HUMMSTRUMM_PKGCONFIG_FILENAME hummstrummengine-${HUMMSTRUMM_VERSION}.pc)
+set (HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME hummstrummengine-${HUMMSTRUMM_ENGINE_VERSION}.pc)
 
-if (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
   if ($ENV{PKG_CONFIG_PATH})
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_PKGCONFIG_FILENAME}
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
              DESTINATION $ENV{PKG_CONFIG_PATH})
   else ()
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_PKGCONFIG_FILENAME}
+    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
              DESTINATION lib/pkgconfig)
     message (STATUS "Be sure to set your $PKG_CONFIG_PATH variable to ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig if pkg-config can't find the Humm and Strumm engine.")
   endif ($ENV{PKG_CONFIG_PATH})
-endif (HUMMSTRUMM_PLATFORM_GNULINUX OR HUMMSTRUMM_PLATFORM_BSD)
+endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
 
 
-configure_file (${CMAKE_CURRENT_SOURCE_DIR}/hummstrummengine.pc.in
-                ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_PKGCONFIG_FILENAME}
+configure_file (${CMAKE_SOURCE_DIR}/hummstrummengine.pc.in
+                ${CMAKE_BINARY_DIR}/${HUMMSTRUMMENGINE__PKGCONFIG_FILENAME}
                 @ONLY)
 
 include (VariableLogging)

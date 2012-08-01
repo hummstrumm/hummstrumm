@@ -1,0 +1,55 @@
+// -*- c++ -*-
+/* Humm and Strumm Engine
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef HUMMSTRUMM_ENGINE_COMPILECONFIG
+#define HUMMSTRUMM_ENGINE_COMPILECONFIG
+
+// Humm and Strumm version
+#cmakedefine HUMMSTRUMM_ENGINE_VERSION "@HUMMSTRUMM_ENGINE_VERSION@"
+#cmakedefine HUMMSTRUMM_ENGINE_VERSION_NUMBER "@HUMMSTRUMM_ENGINE_VERSION_NUMBER@"
+
+// Compiler Checks
+#cmakedefine HAVE_UNISTD_H
+#cmakedefine HAVE_CPUID_H
+#cmakedefine HAVE_TR1_MEMORY
+#cmakedefine HAVE_MEMORY
+
+// Platforms
+#cmakedefine HUMMSTRUMM_ENGINE_PLATFORM_POSIX
+#cmakedefine HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
+#cmakedefine HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX
+#cmakedefine HUMMSTRUMM_ENGINE_PLATFORM_BSD
+#cmakedefine HUMMSTRUMM_ENGINE_ARCHITECTURE_64
+#cmakedefine HUMMSTRUMM_ENGINE_ARCHITECTURE_32
+
+#cmakedefine HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS
+#cmakedefine HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11
+
+// Compilers
+#cmakedefine HUMMSTRUMM_ENGINE_COMPILER_MSVC
+#cmakedefine HUMMSTRUMM_ENGINE_COMPILER_GCC
+#cmakedefine HUMMSTRUMM_ENGINE_COMPILER_CLANG
+#cmakedefine HUMMSTRUMM_ENGINE_COMPILER_GENERIC
+
+
+#cmakedefine HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT
+
+// Debug mode?
+#cmakedefine HUMMSTRUMM_ENGINE_DEBUG
+
+#endif // #ifndef HUMMSTRUMM_ENGINE_CONFIG

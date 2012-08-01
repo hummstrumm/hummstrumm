@@ -64,7 +64,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HUMMSTRUMM_SET_LOGGING (Level::warning)
+        << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
     }
     BOOL ctxDeleted = wglDeleteContext(renderingContext);
@@ -73,7 +73,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("wglDeleteContext: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HUMMSTRUMM_SET_LOGGING (Level::warning)
+        << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
     }  
     renderingContext = NULL; 
@@ -86,7 +86,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("ReleaseDC: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HUMMSTRUMM_SET_LOGGING (Level::warning)
+        << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
   } 
 
@@ -97,7 +97,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("DestroyWindow: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HUMMSTRUMM_SET_LOGGING (Level::warning)
+        << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
   }
 
@@ -108,7 +108,7 @@ WindowSystem::DestroyWindow()
       error = GetLastError();
       hummstrumm::engine::types::String errMsg = GetErrorMessage("UnregisteredClass: ",error);
       core::Engine::GetEngine ()->GetLog ()
-        << HUMMSTRUMM_SET_LOGGING (Level::warning)
+        << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
   }
 
@@ -407,7 +407,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
     if (ret != DISP_CHANGE_SUCCESSFUL)
     {
       core::Engine::GetEngine ()->GetLog ()
-        << HUMMSTRUMM_SET_LOGGING (Level::warning)
+        << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << "Window doesn't support fullscreen." << std::flush;
       param.useFullscreen = false;
       return;
@@ -517,7 +517,7 @@ WindowSystem::InitializeWGLExtensions()
   {
     const char * extensionsARB = wglGetExtensionsStringARB(deviceContext);
     core::Engine::GetEngine ()->GetLog ()
-      << HUMMSTRUMM_SET_LOGGING (Level::warning)
+      << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
       << "Supported WGL ARB Extensions : " << extensionsARB << std::flush;
   }
 
@@ -528,7 +528,7 @@ WindowSystem::InitializeWGLExtensions()
   {
     const char * extensionsEXT = wglGetExtensionsStringEXT();
     core::Engine::GetEngine ()->GetLog ()
-      << HUMMSTRUMM_SET_LOGGING (Level::warning)
+      << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
       << "Supported WGL EXT Extensions : " << extensionsEXT << std::flush;
   }
 

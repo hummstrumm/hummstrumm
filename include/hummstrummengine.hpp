@@ -257,7 +257,7 @@ class WindowSystem;
 
 #include "config.h"
 
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 #  define NOMINMAX
 // Microsoft has deprecated CRT functions as "insecure".  Hah, good one guys.
 #  pragma warning(disable:4996)
@@ -274,7 +274,7 @@ class WindowSystem;
 #else
 #  define MULTI_LINE_MACRO_BEGIN do {
 #  define MULTI_LINE_MACRO_END } while (0)
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#endif // #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
 #include "types/inttypes.hpp"
 #include "debug/utils.hpp"
@@ -320,9 +320,9 @@ class WindowSystem;
 #include "math/mathutils.inl"
 #include "geometry/plane.inl"
 
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 #  pragma warning(pop)
 #  pragma warning(disable:4290)
-#endif /// #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#endif /// #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
 #endif // #ifndef HUMMSTRUMM_ENGINE

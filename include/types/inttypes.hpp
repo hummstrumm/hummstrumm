@@ -29,7 +29,8 @@
 
 #include <limits>
 
-#if defined(HUMMSTRUMM_PLATFORM_GNULINUX) || defined (HUMMSTRUMM_PLATFORM_BSD)
+#if defined(HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX) || \
+    defined (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
 #  include <inttypes.h>
 #endif
 
@@ -89,7 +90,7 @@ namespace types
  * @since 0.2
  */
 
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
 typedef __int16          int16;
 typedef unsigned __int16 uint16;
@@ -98,7 +99,7 @@ typedef unsigned __int32 uint32;
 typedef __int64          int64;
 typedef unsigned __int64 uint64;
 
-#else // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#else // #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
 typedef int16_t  int16;
 typedef uint16_t uint16;
@@ -107,7 +108,7 @@ typedef uint32_t uint32;
 typedef int64_t  int64;
 typedef uint64_t uint64;
 
-#endif // #ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#endif // #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
 /**
  * A cross-platform type that represents the signed native type of the system
@@ -128,12 +129,12 @@ typedef uint64_t uint64;
  * @since 0.5
  */
 
-#if defined (HUMMSTRUMM_ARCHITECTURE_64)
+#if defined (HUMMSTRUMM_ENGINE_ARCHITECTURE_64)
 
 typedef int64  intNatural;
 typedef uint64 uintNatural;
 
-#elif defined (HUMMSTRUMM_ARCHITECTURE_32)
+#elif defined (HUMMSTRUMM_ENGINE_ARCHITECTURE_32)
 
 typedef int32  intNatural;
 typedef uint32 uintNatural;
@@ -143,7 +144,7 @@ typedef uint32 uintNatural;
 typedef signed   intNatural;
 typedef unsigned uintNatural;
 
-#endif // #if defined (HUMMSTRUMM_ARCHITECTURE_64)
+#endif // #if defined (HUMMSTRUMM_ENGINE_ARCHITECTURE_64)
 
 
 
