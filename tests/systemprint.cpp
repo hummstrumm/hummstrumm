@@ -38,11 +38,11 @@ main ()
   std::ostream &log = engine.GetLog ();
 
 
-  log << HUMMSTRUMM_SET_LOGGING (Level::info)
+  log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "Running on " << engine.GetPlatform ()->GetName () << std::flush;
 
   
-  log << HUMMSTRUMM_SET_LOGGING (Level::info)
+  log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << engine.GetProcessors ()->GetNumberOfProcessors ()
       << " processors detected:\n";
   for (int i = 0; i < engine.GetProcessors ()->GetNumberOfProcessors (); ++i)
@@ -63,7 +63,7 @@ main ()
   log << std::flush;
 
 
-  log << HUMMSTRUMM_SET_LOGGING (Level::info)
+  log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << engine.GetMemory ()->GetFreeMemory ()  << " kb out of "
       << engine.GetMemory ()->GetTotalMemory () << " kb of memory free."
       << std::flush;

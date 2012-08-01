@@ -14,32 +14,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+if (NOT IS_BUILDING_UNIT_TESTS)
+  return ()
+endif ()
+
 enable_testing ()
 
 set (hummstrummengine_INCLUDE ../include/
-                                 ${hummstrummengine_BINARY_DIR}/engine/include
-                                 ${CPPUNIT_INCLUDE_DIR}
-                                 ${OPENGL_INCLUDE_DIR})
+  ${hummstrummengine_BINARY_DIR}/include
+  ${CPPUNIT_INCLUDE_DIR}
+  ${OPENGL_INCLUDE_DIR})
 set (hummstrummengine_LIBS hummstrummengine
-                             ${CPPUNIT_LIBRARIES}
-                             ${OPENGL_LIBRARIES})
+  ${CPPUNIT_LIBRARIES}
+  ${OPENGL_LIBRARIES})
 
-if (HUMMSTRUMM_WINDOWSYSTEM_X11)
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
   list (APPEND hummstrummengine_LIBS ${X11_LIBRARIES})
   list (APPEND hummstrummengine_LIBS ${X11_Xrandr_LIB})
-endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
-if (HUMMSTRUMM_PLATFORM_GNULINUX)
+endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
   list (APPEND hummstrummengine_LIBS rt)
   # I do not really understand why I do have to add this in here too.
   # Its already added in engine.CMakeLists.txt
   # Commenting out -- this makes it not work on AMD systems.  Fix later.
   #   ~ Patrick, 2012-06-16
 #  add_definitions("-msse4.1")
-endif (HUMMSTRUMM_PLATFORM_GNULINUX)
+endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
 
-if (HUMMSTRUMM_COMPILER_GCC)
+if (HUMMSTRUMM_ENGINE_COMPILER_GCC)
   add_definitions("-g")
-endif (HUMMSTRUMM_COMPILER_GCC)
+endif (HUMMSTRUMM_ENGINE_COMPILER_GCC)
 
 include_directories (${hummstrummengine_INCLUDE})
 #if (HUMMSTRUMM_WINDOWSYSTEM_X11)

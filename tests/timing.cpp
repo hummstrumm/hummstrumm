@@ -40,9 +40,9 @@ main ()
   start = engine.GetClock ()->GetHighResolutionCount ();
   freq  = engine.GetClock ()->GetHighResolutionFrequency();
 
-  log << HUMMSTRUMM_SET_LOGGING (Level::info)
+  log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "This test should run for exactly 2 seconds." << std::flush;
-  log << HUMMSTRUMM_SET_LOGGING (Level::info)
+  log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "There are " << freq << " ns between ticks." << std::flush;
 
   do

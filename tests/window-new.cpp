@@ -55,7 +55,7 @@ main (int, char **)
   log << std::boolalpha;
 
   // Start the window system.  
-  log << HUMMSTRUMM_SET_LOGGING (Level::info)
+  log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "HUMMSTRUMM window testing with OpenGL context" << std::flush;
   window::WindowSystem *windowSystem = new window::WindowSystem;
 

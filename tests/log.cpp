@@ -34,7 +34,7 @@ main ()
   typedef std::tr1::shared_ptr<debug::logging::Backend> ptr;
   ptr console (
     new debug::logging::ConsoleBackend (debug::logging::Level::warning, true,
-#ifdef HUMMSTRUMM_PLATFORM_WINDOWS
+#ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
       false));
 #else
       true));
@@ -52,7 +52,7 @@ main ()
                    << debug::logging::SetLine (123456)
                    << debug::logging::SetLevel (debug::logging::Level::warning)
                    << "Testing..." << std::flush;
-  engine.GetLog () << HUMMSTRUMM_SET_LOGGING (Level::info)
+  engine.GetLog () << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
                    << "Have another message." << std::flush;
 
   return 0;

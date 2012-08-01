@@ -14,14 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# UnitTest.cmake -- Enables/disables unit testing based on build type and
-# whether CPPUnit was found on a UNIX system (we provide it on Windows).
+# Flags.cmake -- Flags that can be turned on or off during configuration.
 
-# Check if CPPUnit exists on this platform.
-if (ENABLE_UNIT_TESTS)
-  find_package (CPPUnit)
-  if (NOT CPPUNIT_FOUND)
-    message ("CPPUnit was not found on this system.  Unit tests will be disabled.")
-    set (ENABLE_UNIT_TESTS OFF)
-  endif ()
-endif (ENABLE_UNIT_TESTS)
+set (ENABLE_UNIT_TESTS ON CACHE BOOL
+  "Build unit tests?")

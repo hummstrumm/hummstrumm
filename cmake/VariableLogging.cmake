@@ -39,7 +39,7 @@ if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
 endif ()
 
 # Are we building unit tests?
-if (ENABLE_UNIT_TESTS)
+if (IS_BUILDING_UNIT_TESTS)
   message (STATUS "  * Unit tests")
 endif ()
 

@@ -58,8 +58,5 @@ set (HUMMSTRUMM_ENGINE_DEBUG ON)
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug" OR
   CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
 
-set (ENABLE_UNIT_TESTS ON CACHE STRING
-  "Build unit tests?")
-
 # For some reason, this is not marked as advanced.  It really ought to be.
 mark_as_advanced (MAKE_PROGRAM)

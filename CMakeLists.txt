@@ -27,16 +27,13 @@ cmake_minimum_required (VERSION 2.8)
 set (CMAKE_MODULE_PATH
   ${hummstrummengine_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
+include (Flags)
 include (Defaults)
 include (CompilerChecks)
 include (CheckClone)
 include (Version)
 include (Platform)
 include (Uninstall)
-
-# We want testing with CTest.
-include (UnitTest)
-enable_testing ()
 
 include (CheckPackages)
 
@@ -77,9 +74,19 @@ endif (HUMMSTRUMM_ENGINE_USE_SSE)
 configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
 
-if (HUMMSTRUMM_ENGINE_UNIT_TEST)
-  add_subdirectory (tests/)
-endif (HUMMSTRUMM_ENGINE_UNIT_TEST)
+if (ENABLE_UNIT_TESTS)
+  find_package (CPPUnit)
+  if (NOT CPPUNIT_FOUND)
+    message ("CPPUnit was not found on this system.  Unit tests will be disabled.")
+    set (IS_BUILDING_UNIT_TESTS OFF)
+  else ()
+    set (IS_BUILDING_UNIT_TESTS ON)
+    enable_testing ()
+    add_subdirectory (tests)
+  endif ()
+else ()
+  set (IS_BUILDING_UNIT_TESTS ON)
+endif ()
 
 # Common Source Files
 set (hummstrummengine_SRCS
@@ -221,7 +228,7 @@ endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
 
 
 configure_file (${CMAKE_SOURCE_DIR}/hummstrummengine.pc.in
-                ${CMAKE_BINARY_DIR}/${HUMMSTRUMMENGINE__PKGCONFIG_FILENAME}
+                ${CMAKE_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
                 @ONLY)
 
 include (VariableLogging)
