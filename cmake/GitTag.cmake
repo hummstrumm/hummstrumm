@@ -1,4 +1,4 @@
-# Humm and Strumm Video Game
+# Humm and Strumm Engine
 # Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,8 @@
 # TARGET: tag-release
 # Creates a new release tag in the online Subversion repository.
 
-set (HUMMSTRUMM_TAG_NAME "${HUMMSTRUMM_VERSION}")
+set (HUMMSTRUMM_ENGINE_TAG_NAME "${HUMMSTRUMM_ENGINE_VERSION}")
 add_custom_target (tag-release
-                   COMMAND ${GIT_EXECUTABLE} tag -a ${HUMMSTRUMM_TAG_NAME}
-                     -m "Release, version ${HUMMSTRUMM_VERSION}")
+  COMMAND ${GIT_EXECUTABLE} tag -a
+    ${HUMMSTRUMM_ENGINE_TAG_NAME}
+    -m "Release, version ${HUMMSTRUMM_ENGINE_VERSION}")

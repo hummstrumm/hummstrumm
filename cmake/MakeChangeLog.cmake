@@ -1,4 +1,4 @@
-# Humm and Strumm Video Game
+# Humm and Strumm Engine
 # Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,11 @@
 # MakeChangeLog.cmake -- Defines the changelog target that produces a ChangeLog
 # file from the Git repository.
 
-add_custom_target (changelog
-                   COMMAND "${PERL_EXECUTABLE}"
-                   "${hummstrumm_SOURCE_DIR}/scripts/git2cl"
-                   ">${hummstrumm_BINARY_DIR}/ChangeLog"
-                   WORKING_DIRECTORY ${hummstrumm_SOURCE_DIR}
-                   COMMENT "Generating ChangeLog from git log")
+if (PERL_FOUND AND GIT_FOUND AND IS_IN_CLONE)
+  add_custom_target (changelog
+    COMMAND "${PERL_EXECUTABLE}"
+    "${hummstrummengine_SOURCE_DIR}/scripts/git2cl"
+    ">${hummstrummengine_BINARY_DIR}/ChangeLog"
+    WORKING_DIRECTORY ${hummstrummengine_SOURCE_DIR}
+    COMMENT "Generating ChangeLog from git log")
+endif ()

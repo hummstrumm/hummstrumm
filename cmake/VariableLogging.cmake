@@ -1,4 +1,4 @@
-# Humm and Strumm Video Game
+# Humm and Strumm Engine
 # Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,59 +18,45 @@
 
 # Print a nice header.
 message (STATUS "")
-message (STATUS "        ${HUMMSTRUMM_NAME} ${HUMMSTRUMM_VERSION} ")
-message (STATUS "        ====================================================================")
-message (STATUS "        ${HUMMSTRUMM_DESCRIPTION}")
-message (STATUS "        ${HUMMSTRUMM_VENDOR} <${HUMMSTRUMM_WEBSITE}>")
+message (STATUS "${HUMMSTRUMM_ENGINE_NAME} ${HUMMSTRUMM_ENGINE_VERSION} ")
+message (STATUS "====================================================================")
+message (STATUS "  ${HUMMSTRUMM_ENGNIE_DESCRIPTION}")
+message (STATUS "  ${HUMMSTRUMM_ENGINE_VENDOR} <${HUMMSTRUMM_ENGINE_WEBSITE}>")
 message (STATUS "")
-message (STATUS "        In ${CMAKE_BUILD_TYPE} mode")
-message (STATUS "        Building with ${CMAKE_CXX_COMPILER_ID} compiler for ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}")
+message (STATUS "In ${CMAKE_BUILD_TYPE} mode")
+message (STATUS "Building with ${CMAKE_CXX_COMPILER_ID} compiler for ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_PROCESSOR}")
 message (STATUS "")
-message (STATUS "        Features enabled:")
-
-# Are compiling with C++11 support?
-if (HUMMSTRUMM_USE_CPP11)
-  message (STATUS "          * C++11 support (experimental in many compilers)")
-endif (HUMMSTRUMM_USE_CPP11)
-
-# Are we in maintainer mode?
-if (HUMMSTRUMM_MAINTAINER_MODE)
-  message (STATUS "          * Maintainer mode")
-endif (HUMMSTRUMM_MAINTAINER_MODE)
+message (STATUS "Features enabled:")
 
 # Are we targetting X11?
-if (HUMMSTRUMM_WINDOWSYSTEM_X11)
-  message (STATUS "          * X11 windowing code")
-endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+  message (STATUS "  * X11 windowing code")
+endif ()
 
 # Are we targetting WinAPI?
-if (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
-  message (STATUS "          * Win native windowing code")
-endif (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
+  message (STATUS "  * Win native windowing code")
+endif ()
 
 # Are we building unit tests?
-if (HUMMSTRUMM_UNIT_TEST)
-  message (STATUS "          * Unit tests")
-endif (HUMMSTRUMM_UNIT_TEST)
+if (ENABLE_UNIT_TESTS)
+  message (STATUS "  * Unit tests")
+endif ()
 
 # Are we generating documentation?
-if (HUMMSTRUMM_BUILD_DOCS)
-  if (HUMMSTRUMM_BUILD_DOCS_LATEX)
-    message (STATUS "          * HTML and LaTeX documentation")
-  else (HUMMSTRUMM_BUILD_DOCS_LATEX)
-    message (STATUS "          * HTML documentation")
-  endif (HUMMSTRUMM_BUILD_DOCS_LATEX)
-endif (HUMMSTRUMM_BUILD_DOCS)
+if (HUMMSTRUMM_ENGINE_BUILD_DOCS)
+  message (STATUS "  * HTML documentation")
+endif ()
 
 # Do we have SSE support?
-if (HUMMSTRUMM_HAVE_SSE_SUPPORT)
-  message (STATUS "          * SSE support")
-endif (HUMMSTRUMM_HAVE_SSE_SUPPORT)
+if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
+  message (STATUS "  * SSE support")
+endif (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 
 message (STATUS "")
-message (STATUS "        This is the ${HUMMSTRUMM_VERSION} release of ${HUMMSTRUMM_NAME}.")
-message (STATUS "        For a list of changes in this release, see the packaged NEWS file.")
-message (STATUS "        For help with installation, see the packaged INSTALL file.")
-message (STATUS "        For your legal rights, see the packaged COPYING file.")
-message (STATUS "        For more information, see the packaged README file.")
+message (STATUS "This is the ${HUMMSTRUMM_ENGINE_VERSION} release of ${HUMMSTRUMM_ENGINE_NAME}.")
+message (STATUS "For a list of changes in this release, see the packaged NEWS file.")
+message (STATUS "For help with installation, see the packaged INSTALL file.")
+message (STATUS "For your legal rights, see the packaged COPYING file.")
+message (STATUS "For more information, see the packaged README file.")
 message (STATUS "")

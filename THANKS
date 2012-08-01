@@ -1,37 +1,23 @@
-Humm and Strumm Contributors and Special Thanks from the Authors
-**********************************************************************
+-*- markdown -*-
+# Humm and Strumm Engine  Contributors and Special Thanks
+To the extent possible under law, the people who associated CC0 with
+this file have waived all copyright and related or neighboring rights
+to this file.
 
-Copyright (C) 2008-2012, the people listed in the AUTHORS file.
-This file is licensed under a Creative Commons Attribution-Share Alike
-3.0 Unported License.
+## Contributors
+The Humm and Strumm Engine was written those listed in the `AUTHORS`
+file.  Many people further contributed to the engine by reporting
+problems, suggesting various improvements or submitting actual code.
+Here is a list of these people.
 
+  * **Person name `<Person email>`**: Contribution detail.
 
-
-
-Contributors
-======================================================================
-
-Humm and Strumm  was written those listed in the AUTHORS file.  Many
-people further contributed to Humm and Strumm by reporting problems,
-suggesting various improvements or submitting actual code.  Here is a
-list of these people.
-
-
-Contribution description
-----------------------------------------------------------------------
-
-  * Person name <Person email> 
-
-
-
-
-Special Thanks
-======================================================================
+## Special Thanks
 
 In addition to the above people who made direct contributions to the
-Humm and Strumm source code, we would like to thank the developers and
+engine source code, we would like to thank the developers and
 contributors of the libraries we use.  Without their free software, we
-would not be able to complete this game.  You can find a list of the
+would not be able to complete this engine.  You can find a list of the
 libraries in the lib/ subdirectory.
 
 We would also like to thank Google for so generously providing the
@@ -43,4 +29,5 @@ following services free of charge for us to use:
   * Blogger
   * Google  Sites
 
-Without these services from Google, Humm and Strumm would not exist.
+Without these services from Google, the Humm and Strumm Engine would
+not exist.

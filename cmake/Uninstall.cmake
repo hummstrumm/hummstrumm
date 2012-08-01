@@ -1,4 +1,4 @@
-# Humm and Strumm Video Game
+# Humm and Strumm Engine
 # Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,12 +19,12 @@
 
 # Add uninstall target!
 configure_file (
-  "${hummstrumm_SOURCE_DIR}/cmake/UninstallInternal.cmake.in"
-  "${hummstrumm_BINARY_DIR}/cmake/UninstallInternal.cmake"
+  "${hummstrummengine_SOURCE_DIR}/cmake/UninstallInternal.cmake.in"
+  "${hummstrummengine_BINARY_DIR}/cmake/UninstallInternal.cmake"
   IMMEDIATE @ONLY)
-set_property (DIRECTORY APPEND PROPERTY
-	      ADDITIONAL_MAKE_CLEAN_FILES ${hummstrumm_BINARY_DIR}/cmake/UninstallInternal.cmake)
+set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
+  ${hummstrummengine_BINARY_DIR}/cmake/UninstallInternal.cmake)
 
 
-add_custom_target (uninstall
-  "${CMAKE_COMMAND}" -P "${hummstrumm_BINARY_DIR}/cmake/UninstallInternal.cmake")
+add_custom_target (uninstall "${CMAKE_COMMAND}" -P
+  "${hummstrummengine_BINARY_DIR}/cmake/UninstallInternal.cmake")

@@ -1,19 +1,13 @@
-Humm and Strumm Authors
-**********************************************************************
+-*- markdown -*-
+# Humm and Strumm Engine Authors
+To the extent possible under law, the people who associated CC0 with
+this file have waived all copyright and related or neighboring rights
+to this file.
 
-Copyright (C) 2008-2011, the people listed below.  This file is
-licensed under a Creative Commons Attribution-Share Alike 3.0 Unported
-License.
+## Authors
+The Humm and Strumm Engine was written those listed here.  These
+authors own most of the copyright of the engine.  For smaller (but
+equally important) contributions, see the `THANKS` file.
 
-
-
-
-Authors
-======================================================================
-
-Humm and Strumm was written those listed here.  These authors own most
-of the copyright of Humm and Strumm.  For smaller (but equally
-important) contributions, see the THANKS file.
-
-  * Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-  * Ricardo Tiago <rtiago.mendes@gmail.com>
+  * Patrick M. Niedzielski `<PatrickNiedzielski@gmail.com>`
+  * Ricardo Tiago `<rtiago.mendes@gmail.com>`

@@ -1,4 +1,4 @@
-# Humm and Strumm Video Game
+# Humm and Strumm Engine
 # Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,10 @@
 # a distribution.
 
 message (STATUS "Check for Git repository")
-if (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.git)
+if (NOT EXISTS ${hummstrummengine_SOURCE_DIR}/.git)
   message (STATUS "Check for Git repository - not found")
-  set (HUMMSTRUMM_IN_CLONE OFF CACHE BOOL
-       "Whether the source dir is a Git clone or a clean distribution.")
-else (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.git)
+  set (IS_IN_CLONE OFF)
+else ()
   message (STATUS "Check for Git repsotiory - found")
-  set (HUMMSTRUMM_IN_CLONE ON CACHE BOOL
-       "Whether the source dir is a Git clone or a clean distribution.")
-endif (NOT EXISTS ${hummstrumm_SOURCE_DIR}/.git)
+  set (IS_IN_CLONE ON)
+endif ()

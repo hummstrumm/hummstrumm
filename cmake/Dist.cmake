@@ -1,4 +1,4 @@
-# Humm and Strumm Video Game
+# Humm and Strumm Engine
 # Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,28 +19,55 @@
 
 include (CPackSetup)
 
+include (MakeChangeLog)
+
 # TARGET: dist
 # Create the specified distributable packages.
-add_custom_target(dist COMMAND ${CMAKE_COMMAND} -E copy ${hummstrumm_BINARY_DIR}/ChangeLog ${hummstrumm_SOURCE_DIR}/ChangeLog
-                       COMMAND ${CMAKE_MAKE_PROGRAM} package_source
-                       COMMAND ${CMAKE_COMMAND} -E remove ${hummstrumm_SOURCE_DIR}/ChangeLog)
+add_custom_target(dist
+  COMMAND ${CMAKE_COMMAND} -E copy
+    ${hummstrummengine_BINARY_DIR}/ChangeLog
+    ${hummstrummengine_SOURCE_DIR}/ChangeLog
+  COMMAND ${CMAKE_MAKE_PROGRAM} package_source
+  COMMAND ${CMAKE_COMMAND} -E remove ${hummstrummengine_SOURCE_DIR}/ChangeLog)
 add_dependencies (dist changelog)
-set_property (DIRECTORY APPEND PROPERTY
-	      ADDITIONAL_MAKE_CLEAN_FILES ${hummstrumm_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.tar.gz ${hummstrumm_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.zip)
+set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
+  ${hummstrummengine_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.tar.gz
+  ${hummstrummengine_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.zip)
 
 # TARGET: distcheck / dist-check
 # Using distributable packages, make sure the installation works just fine.
-add_custom_target (dist-check COMMAND ${CMAKE_COMMAND} -E make_directory ${hummstrumm_BINARY_DIR}/distcheck
-                              COMMAND ${CMAKE_COMMAND} -E make_directory ${hummstrumm_BINARY_DIR}/distcheck/install
-                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck" ${CMAKE_COMMAND} -E tar xvfz ${hummstrumm_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.tar.gz
-                              COMMAND ${CMAKE_COMMAND} -E make_directory ${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build
-                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX=${hummstrumm_BINARY_DIR}/distcheck/install/ ../
-                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM}
-                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} test
-                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} install
-                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} uninstall
-                              COMMAND ${CMAKE_COMMAND} -E chdir "${hummstrumm_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build" ${MAKE_PROGRAM} clean
-                              COMMAND ${CMAKE_COMMAND} -E remove_directory ${hummstrumm_BINARY_DIR}/distcheck)
+add_custom_target (dist-check
+  COMMAND ${CMAKE_COMMAND} -E make_directory
+    ${hummstrummengine_BINARY_DIR}/distcheck
+  COMMAND ${CMAKE_COMMAND} -E make_directory
+    ${hummstrummengine_BINARY_DIR}/distcheck/install
+  COMMAND ${CMAKE_COMMAND} -E chdir
+    "${hummstrummengine_BINARY_DIR}/distcheck"
+    ${CMAKE_COMMAND} -E tar xvfz
+    ${hummstrummengine_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.tar.gz
+  COMMAND ${CMAKE_COMMAND} -E make_directory
+    ${hummstrummengine_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build
+  COMMAND ${CMAKE_COMMAND} -E chdir
+    "${hummstrummengine_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build"
+    ${CMAKE_COMMAND}
+    -DCMAKE_INSTALL_PREFIX=${hummstrummengine_BINARY_DIR}/distcheck/install/ ../
+  COMMAND ${CMAKE_COMMAND} -E chdir
+    "${hummstrummengine_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build"
+    ${MAKE_PROGRAM}
+  COMMAND ${CMAKE_COMMAND} -E chdir
+    "${hummstrummengine_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build"
+    ${MAKE_PROGRAM} test
+  COMMAND ${CMAKE_COMMAND} -E chdir
+    "${hummstrummengine_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build"
+    ${MAKE_PROGRAM} install
+  COMMAND ${CMAKE_COMMAND} -E chdir
+    "${hummstrummengine_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build"
+    ${MAKE_PROGRAM} uninstall
+  COMMAND ${CMAKE_COMMAND} -E chdir
+    "${hummstrummengine_BINARY_DIR}/distcheck/${CPACK_PACKAGE_FILE_NAME}/build"
+    ${MAKE_PROGRAM} clean
+  COMMAND ${CMAKE_COMMAND} -E remove_directory
+    ${hummstrummengine_BINARY_DIR}/distcheck)
 add_dependencies (dist-check dist)
 add_custom_target (distcheck)
 add_dependencies (distcheck dist-check)

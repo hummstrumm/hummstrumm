@@ -1,69 +1,39 @@
-Humm and Strumm Installation Instructions
-**********************************************************************
+-*- markdown -*-
+# Humm and Strumm Engine Installation Instructions
+To the extent possible under law, the people who associated CC0 with
+this file have waived all copyright and related or neighboring rights
+to this file.
 
-Copyright (C) 2008-2012, the people listed in the AUTHORS file.  This
-file is licensed under a Creative Commons Attribution-Share Alike 3.0
-Unported License.
-
-
-
-
-Basic Installation
-======================================================================
-
-The most basic way to install the Humm and Strumm video game is to use
-the packages available for download on our website.  We will provide a
-Windows installer at a later date.
-
-
-Windows Installer
-----------------------------------------------------------------------
-
-To install on Windows, download the latest installer from the
-downloads page.  This installer will connect to the internet to
-download additional resources, and will alert you when it does.
-
-TODO: Add specific installation instructions.
-
-
-
-
-Advanced Installation
-======================================================================
-
-If you are more of the hacker type, you can compile the game yourself.
 We provide compressed archives of the source code and the resources.
 
 To compile, you will need CMake, available for free at
-<http://www.cmake.org/>.
+[the CMake website](http://www.cmake.org/).
 
 The basic instructions for generating build files are the same on all
 systems.  If you run the following command, a set of build files that
-can be used to build Humm and Strumm on your system will be generated:
+can be used to build the Humm and Strumm Engine on your system will be
+generated:
 
-  $ cmake .
+    $ cmake .
 
-Then, you can build the game using the build system installed on your
-computer (usually make for GNU systems or nmake/MSVC++ for Windows).
+Then, you can build the engine using the build system installed on
+your computer (usually make for GNU systems or nmake/MSVC++ for
+Windows).
 
 If you want to customize the package before you build it, you can use
 the CMake cache, which contains build variables.  CMake comes with an
 interactive mode, which allows you to configure these variables
 yourself.  Run interactive mode with the following command:
 
-  $ cmake -i .
+    $ cmake -i .
 
 You may also have the ncurses interface to CMake.
 
-  $ ccmake .
+    $ ccmake .
 
 Or the GUI interface to CMake.
 
-  $ cmake-gui .
+    $ cmake-gui .
 
 These will allow you to change the variables.  After this, you can
 continue through the build platform.
-
-
-NOTE: The test_engine_window test might not function properly on your
-system.  That is our next goal.
