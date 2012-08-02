@@ -21,6 +21,6 @@
 
 set (HUMMSTRUMM_ENGINE_TAG_NAME "${HUMMSTRUMM_ENGINE_VERSION}")
 add_custom_target (tag-release
-  COMMAND ${GIT_EXECUTABLE} tag -a
+  COMMAND ${GIT_EXECUTABLE} tag -s
     ${HUMMSTRUMM_ENGINE_TAG_NAME}
     -m "Release, version ${HUMMSTRUMM_ENGINE_VERSION}")
