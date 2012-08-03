@@ -164,7 +164,7 @@ set (math_HEADERS
 set (math_SRCS src/math/mathutils.cpp)
 
 if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
-  list (APPEND math_HEADERS
+  list (APPEND math_SRCS
         src/math/vector.cpp)
 endif (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 
