@@ -88,38 +88,142 @@ else ()
   set (IS_BUILDING_UNIT_TESTS ON)
 endif ()
 
-# Common Source Files
-set (hummstrummengine_SRCS
+# Source Groups
+#  Root
+set (root_HEADERS include/config.h.in ${CMAKE_BINARY_DIR}/include/config.h include/hummstrummengine.hpp)
+
+source_group("Header Files" FILES ${root_HEADERS})
+
+#  Core
+set (core_HEADERS include/core/engine.hpp)
+set (core_SRCS src/core/engine.cpp)
+
+source_group("Header Files\\core" FILES ${core_HEADERS})
+source_group("Source Files\\core" FILES ${core_SRCS})
+
+#  Date
+set (date_HEADERS
+  include/date/date.hpp
+  include/date/date.inl
+  include/date/duration.hpp
+  include/date/duration.inl
+  include/date/timezone.hpp)
+set (date_SRCS
+  src/date/timezone.cpp
+  src/date/duration.cpp
+  src/date/date.cpp)
+
+source_group("Header Files\\date" FILES ${date_HEADERS})
+source_group("Source Files\\date" FILES ${date_SRCS})
+
+#  Debug
+set (debug_HEADERS
+  include/debug/logging/backend.hpp
+  include/debug/logging/backend.inl
+  include/debug/logging/level.hpp
+  include/debug/logging/manip.hpp
+  include/debug/logging/manip.inl
+  include/debug/logging/streambuffer.hpp
+  include/debug/logging/streambuffer.inl
+  include/debug/profiler.hpp
+  include/debug/utils.hpp)
+set (debug_SRCS
   src/debug/logging/streambuffer.cpp
   src/debug/logging/backend.cpp
   src/debug/logging/manip.cpp
-  src/debug/profiler.cpp
-  src/core/engine.cpp
-  src/date/timezone.cpp
-  src/date/duration.cpp
-  src/date/date.cpp
-  src/system/endianness.cpp
-  src/math/mathutils.cpp
-  src/events/windowevents.cpp
-  src/window/windowvisualinfo.cpp)
+  src/debug/profiler.cpp)
+
+source_group("Header Files\\debug" FILES ${debug_HEADERS})
+source_group("Source Files\\debug" FILES ${debug_SRCS})
+
+#  Events
+set (events_HEADERS include/events/windowevents.hpp)
+set (events_SRCS src/events/windowevents.cpp)
+
+source_group("Header Files\\events" FILES ${events_HEADERS})
+source_group("Source Files\\events" FILES ${events_SRCS})
+
+#  Geometry
+set (geometry_HEADERS
+  include/geometry/boundingbox.hpp
+  include/geometry/boundingsphere.hpp
+  include/geometry/geomutils.hpp
+  include/geometry/plane.hpp
+  include/geometry/plane.inl
+  include/geometry/segment.hpp)
+
+source_group("Header Files\\geometry" FILES ${geometry_HEADERS})
+
+#  Math
+set (math_HEADERS
+  include/math/mathutils.hpp
+  include/math/mathutils.inl
+  include/math/matrice.hpp
+  include/math/quaternion.hpp
+  include/math/simd.hpp include/math/vector.hpp)
+set (math_SRCS src/math/mathutils.cpp)
 
 if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
-  list (APPEND hummstrummengine_SRCS
+  list (APPEND math_HEADERS
         src/math/vector.cpp)
 endif (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 
-# Windows-Only Source Files
+source_group("Header Files\\math" FILES ${math_HEADERS})
+source_group("Source Files\\math" FILES ${math_SRCS})
+
+#  System
+set (system_HEADERS
+  include/system/clock.hpp
+  include/system/clock.inl
+  include/system/endianness.hpp
+  include/system/endianness.inl
+  include/system/memory.hpp
+  include/system/memory.inl
+  include/system/platform.hpp
+  include/system/platform.inl
+  include/system/processors.hpp
+  include/system/processors.inl)
+set (system_SRCS  src/system/endianness.cpp)
+
+source_group("Header Files\\system" FILES ${system_HEADERS})
+source_group("Source Files\\system" FILES ${system_SRCS})
+
+#  Types
+set (types_HEADERS include/types/inttypes.hpp)
+
+source_group("Header Files\\types" FILES ${types_HEADERS})
+
+#  Window
+set (window_HEADERS
+  include/window/glext.h
+  include/window/glxext.h
+  include/window/wglext.h
+  include/window/windowsystem.hpp
+  include/window/windowvisualinfo.hpp)
+set (window_SRCS src/window/windowvisualinfo.cpp)
+
+#  Windows-Only Source Files
 if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
-  list (APPEND hummstrummengine_SRCS
+  list (APPEND window_SRCS
         src/system/windows/processors.cpp
         src/system/windows/memory.cpp
         src/system/windows/platform.cpp
         src/system/windows/clock.cpp)
 endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
 
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+  list (APPEND window_SRCS
+        src/window/x11/windowsystem.cpp)
+endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
+  list (APPEND window_SRCS
+        src/window/win/windowsystem.cpp)
+endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
+
 # POSIX Source Files
 if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
-  list (APPEND hummstrummengine_SRCS
+  list (APPEND window_SRCS
         src/system/posix/platform.cpp
         src/system/posix/clock.cpp
         src/system/posix/processors.cpp
@@ -129,10 +233,10 @@ endif ()
 # GNU/Linux-only Source Files
 if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
   # We override the POSIX version.
-  list (REMOVE_ITEM hummstrummengine_SRCS
+  list (REMOVE_ITEM window_SRCS
         src/system/posix/processors.cpp
         src/system/posix/memory.cpp)
-  list (APPEND hummstrummengine_SRCS
+  list (APPEND window_SRCS
         src/system/gnulinux/processors.cpp
         src/system/gnulinux/memory.cpp)
 endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
@@ -140,24 +244,36 @@ endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
 # *BSD-only Source Files
 if (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
   # We override the POSIX version.
-  list (REMOVE_ITEM hummstrummengine_SRCS
+  list (REMOVE_ITEM window_SRCS
         src/system/posix/processors.cpp
         src/system/posix/memory.cpp)
-  list (APPEND hummstrummengine_SRCS
+  list (APPEND window_SRCS
         src/system/bsd/processors.cpp
         src/system/bsd/memory.cpp)
 endif (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
 
-if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
-  list (APPEND hummstrummengine_SRCS
-        src/window/x11/windowsystem.cpp)
-endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+source_group("Header Files\\window" FILES ${window_HEADERS})
+source_group("Source Files\\window" FILES ${window_SRCS})
 
-if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
-  list (APPEND hummstrummengine_SRCS
-        src/window/win/windowsystem.cpp)
-endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
 
+set (hummstrummengine_SRCS
+  ${root_HEADERS}
+  ${core_HEADERS}
+  ${core_SRCS}
+  ${date_HEADERS}
+  ${date_SRCS}
+  ${debug_HEADERS}
+  ${debug_SRCS}
+  ${events_HEADERS}
+  ${events_SRCS}
+  ${geometry_HEADERS}
+  ${math_HEADERS}
+  ${math_SRCS}
+  ${system_HEADERS}
+  ${system_SRCS}
+  ${types_HEADERS}
+  ${window_HEADERS}
+  ${window_SRCS})
 
 # Set include dirs
 set (hummstrummengine_INCLUDE include/

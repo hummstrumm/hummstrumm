@@ -33,6 +33,7 @@ Platform::Platform ()
   /* noexcept */
   : name ("Microsoft Windows")
 {  
+  std::string s;
   OSVERSIONINFOEX versionInfo;
   std::memset (&versionInfo, 0, sizeof (OSVERSIONINFOEX));
   versionInfo.dwOSVersionInfoSize = sizeof (OSVERSIONINFOEX);
@@ -73,7 +74,7 @@ Platform::Platform ()
           break;
 
         case 1:
-          s += (versionInfo.wProductType == VER_NT_WORSTATION) ?
+          s += (versionInfo.wProductType == VER_NT_WORKSTATION) ?
             " Windows 7" :  "Windows Server 2008 R2 ";
           break;
 
@@ -85,6 +86,8 @@ Platform::Platform ()
     default:
       return;
     }
+
+  name = s;
 }
 
 

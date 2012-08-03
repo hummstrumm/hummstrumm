@@ -53,12 +53,6 @@ Clock::Clock ()
     }
 }
 
-
-Clock::~Clock ()
-{
-}
-
-
 uint64
 Clock::GetHighResolutionCount ()
   const /* noexcept */
@@ -70,15 +64,6 @@ Clock::GetHighResolutionCount ()
 
   return static_cast<uint64> (time.QuadPart) * this->frequency;
 }
-
-
-uint64
-Clock::GetHighResolutionFrequency ()
-  const /* noexcept */
-{
-  return this->frequency;
-}
-
 
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms724284.aspx
 //

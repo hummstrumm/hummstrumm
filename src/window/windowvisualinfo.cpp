@@ -49,9 +49,9 @@ WindowVisualInfo::WindowVisualInfo ():
   useAntiAliasing (false),
   useVerticalSync (false),
   useOffScreenRendering (false), 
-  #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+  #if defined (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
   renderType (WGL_TYPE_RGBA_ARB),
-  #elif defined (HUMMSTRUMM_WINDOWSYSTEM_X11)
+  #elif defined (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
   renderType (GLX_RGBA_BIT),
   #endif 
   depthSize (16),
@@ -133,7 +133,7 @@ WindowVisualInfo::GetContextAttributes ()
   int idx = 0;
   if (openGLMajorVer != -1 && openGLMinorVer != -1 )
   {
-    #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+    #if defined (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
     ATTRIB_ADD2 (WGL_CONTEXT_MAJOR_VERSION_ARB, openGLMajorVer, contextAttributes); 
     ATTRIB_ADD2 (WGL_CONTEXT_MINOR_VERSION_ARB, openGLMinorVer, contextAttributes);
     #else
@@ -153,7 +153,7 @@ WindowVisualInfo::GetPixelFormatAttributes (bool offscreen)
   
   pixelAttributes = new int[ATTRIB_MAX];
   int idx = 0;
-  #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+  #if defined (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
   ATTRIB_ADD2 (WGL_SUPPORT_OPENGL_ARB,   GL_TRUE, pixelAttributes);
   ATTRIB_ADD2 (WGL_ACCELERATION_ARB,     WGL_FULL_ACCELERATION_ARB, pixelAttributes);
   if (offscreen)
@@ -263,7 +263,7 @@ WindowVisualInfo::GetQueryAttributes (int& sz) const
 {
   int idx = 0;
   int* queryAttrib = new int[ATTRIB_MAX];
-  #if defined (HUMMSTRUMM_WINDOWSYSTEM_WINDOWS)
+  #if defined (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
   ATTRIB_ADD1 (WGL_DOUBLE_BUFFER_ARB, queryAttrib);
   ATTRIB_ADD1 (WGL_STEREO_ARB, queryAttrib);
   ATTRIB_ADD1 (WGL_AUX_BUFFERS_ARB, queryAttrib);
