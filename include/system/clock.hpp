@@ -61,7 +61,6 @@ class Clock
     Clock ()
       /* noexcept */;
 
-
     /**
      * Returns the value of the high resolution clock on the system, in
      * nanoseconds.
