@@ -23,7 +23,7 @@ if (PERL_FOUND)
   add_custom_target (dist-upload-source-tgz
     COMMAND ${PERL_PROGRAM} googlecode_upload.pl
     -n "hummstrumm"
-    -s "\"Version ${HUMMSTRUMM_ENGNIE_VERSION}, Source Code (GZIP format)\""
+    -s "\"Version ${HUMMSTRUMM_ENGINE_VERSION}, Source Code (GZIP format)\""
     -l "\"Featured Type-Source OpSys-All\""
     ${hummstrummengine_BINARY_DIR}/${HUMMSTRUMM_ENGINE_NAME_RELEASE}.tar.gz
     WORKING_DIRECTORY ${hummstrumm_ENGINE_SOURCE_DIR}/scripts)

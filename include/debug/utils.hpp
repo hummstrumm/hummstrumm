@@ -44,7 +44,7 @@
 /**
  * Returns an error on compile if the given condition is false.
  *
- * @def    HUMMSTRUMM_STATIC_ASSERT
+ * @def    HUMMSTRUMM_ENGINE_STATIC_ASSERT
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2011-12-23
  * @since  0.5
@@ -69,7 +69,7 @@ template <> struct StaticAssertionFailed<true> {};
  *
  * This is only available in a debug build.
  *
- * @def    HUMMSTRUMM_ABORT()
+ * @def    HUMMSTRUMM_ENGINE_ABORT()
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2
@@ -94,7 +94,7 @@ template <> struct StaticAssertionFailed<true> {};
  *
  * This is only available in a debug build.
  *
- * @def    HUMMSTRUMM_BREAK()
+ * @def    HUMMSTRUMM_ENGINE_BREAK()
  * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
  * @date   2010-03-03
  * @since  0.2

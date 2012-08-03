@@ -20,7 +20,7 @@
 message (STATUS "")
 message (STATUS "${HUMMSTRUMM_ENGINE_NAME} ${HUMMSTRUMM_ENGINE_VERSION} ")
 message (STATUS "====================================================================")
-message (STATUS "  ${HUMMSTRUMM_ENGNIE_DESCRIPTION}")
+message (STATUS "  ${HUMMSTRUMM_ENGINE_DESCRIPTION}")
 message (STATUS "  ${HUMMSTRUMM_ENGINE_VENDOR} <${HUMMSTRUMM_ENGINE_WEBSITE}>")
 message (STATUS "")
 message (STATUS "In ${CMAKE_BUILD_TYPE} mode")
