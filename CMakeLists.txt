@@ -160,7 +160,9 @@ set (math_HEADERS
   include/math/mathutils.inl
   include/math/matrice.hpp
   include/math/quaternion.hpp
-  include/math/simd.hpp include/math/vector.hpp)
+  include/math/simd.hpp
+  include/math/vector.hpp
+  include/math/vector.inl)
 set (math_SRCS src/math/mathutils.cpp)
 
 if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
