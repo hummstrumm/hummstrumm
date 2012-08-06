@@ -294,7 +294,7 @@ class WindowSystem;
 #include "math/simd.hpp"
 #include "math/mathutils.hpp"
 #include "math/vector.hpp"
-#include "math/matrice.hpp"
+#include "math/matrix.hpp"
 #include "math/quaternion.hpp"
 #include "geometry/geomutils.hpp"
 #include "geometry/plane.hpp"
@@ -317,8 +317,14 @@ class WindowSystem;
 #include "debug/logging/streambuffer.inl"
 #include "debug/logging/backend.inl"
 #include "debug/logging/manip.inl"
-#include "math/mathutils.inl"
+#include "geometry/boundingbox.inl"
+#include "geometry/boundingsphere.inl"
 #include "geometry/plane.inl"
+#include "geometry/segment.inl"
+#include "math/mathutils.inl"
+#include "math/matrix.inl"
+#include "math/quaternion.inl"
+#include "math/vector.inl"
 
 #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 #  pragma warning(pop)
