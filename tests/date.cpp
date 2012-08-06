@@ -37,120 +37,110 @@ class TimezoneTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
-    Timezone *utc;
-    Timezone *utcMinus10;
-    Timezone *utcPlus4;
-    Timezone *utcPlus1;
+    Timezone utc;
+    Timezone utcMinus10;
+    Timezone utcPlus4;
+    Timezone utcPlus1;
 
   public:
-    void setUp (void)
+    TimezoneTest ()
+      : utc        {{}},
+        utcMinus10 {{0, 0, 0, 0, -10, 0, 0, 0}},
+        utcPlus4   {{0, 0, 0, 0, 4, 0, 0, 0}},
+        utcPlus1   {{0, 0, 0, 0, 1, 0, 0, 0}}
     {
-      utc        = new Timezone (Duration ());
-      utcMinus10 = new Timezone (Duration (0, 0, 0, 0, -10, 0, 0, 0));
-      utcPlus4   = new Timezone (Duration (0, 0, 0, 0, 4, 0, 0, 0));
-      utcPlus1   = new Timezone (Duration (0, 0, 0, 0, 1, 0, 0, 0));
     }
 
-    ~TimezoneTest (void)
+    void testStorage ()
     {
-      delete utc;
-      delete utcMinus10;
-      delete utcPlus4;
-      delete utcPlus1;
-    }
-
-    void testStorage (void)
-    {
-      CPPUNIT_ASSERT_EQUAL (utc->GetOffset (),
+      CPPUNIT_ASSERT_EQUAL (utc.GetOffset (),
                             Duration ());
-      CPPUNIT_ASSERT_EQUAL (utcMinus10->GetOffset (),
+      CPPUNIT_ASSERT_EQUAL (utcMinus10.GetOffset (),
                             Duration (0, 0, 0, 0, -10, 0, 0, 0));
-      CPPUNIT_ASSERT_EQUAL (utcPlus4->GetOffset (),
+      CPPUNIT_ASSERT_EQUAL (utcPlus4.GetOffset (),
                             Duration (0, 0, 0, 0, 4, 0, 0, 0));
-      CPPUNIT_ASSERT_EQUAL (utcPlus1->GetOffset (),
+      CPPUNIT_ASSERT_EQUAL (utcPlus1.GetOffset (),
                             Duration (0, 0, 0, 0, 1, 0, 0, 0));
     }
 
-    void testCompare (void)
+    void testCompare ()
     {
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utc == *utc));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utc <= *utc));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utc >= *utc));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utc > *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utc < *utcPlus4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utc < *utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utc == utc));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utc <= utc));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utc >= utc));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utc > utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utc < utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utc < utcPlus1));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcMinus10 < *utc));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcMinus10 ==
-                                                     *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcMinus10 < *utcPlus4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcMinus10 < *utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcMinus10 < utc));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcMinus10 == utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcMinus10 < utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcMinus10 < utcPlus1));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus4 > *utc));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus4 > *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus4 == *utcPlus4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus4 > *utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus4 > utc));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus4 > utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus4 == utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus4 > utcPlus1));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus1 > *utc));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus1 > *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus1 == *utcPlus1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*utcPlus1 < *utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus1 > utc));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus1 > utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus1 == utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (utcPlus1 < utcPlus4));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utc != *utc));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utc > *utc));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utc < *utc));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utc <= *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utc >= *utcPlus4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utc >= *utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utc != utc));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utc > utc));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utc < utc));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utc <= utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utc >= utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utc >= utcPlus1));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcMinus10 >= *utc));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcMinus10 !=
-                                                     *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcMinus10 >= *utcPlus4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcMinus10 >= *utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcMinus10 >= utc));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcMinus10 != utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcMinus10 >= utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcMinus10 >= utcPlus1));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus4 <= *utc));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus4 <= *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus4 != *utcPlus4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus4 <= *utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus4 <= utc));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus4 <= utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus4 != utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus4 <= utcPlus1));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus1 <= *utc));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus1 <= *utcMinus10));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus1 != *utcPlus1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*utcPlus1 >= *utcPlus4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus1 <= utc));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus1 <= utcMinus10));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus1 != utcPlus1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (utcPlus1 >= utcPlus4));
     }
 
-    void testSet (void)
+    void testSet ()
     {
-      Timezone test (*utc);
-      CPPUNIT_ASSERT (test == *utc);
-      test = *utcMinus10;
-      CPPUNIT_ASSERT (test == *utcMinus10);
+      Timezone test {utc};
+      CPPUNIT_ASSERT (test == utc);
+      test = utcMinus10;
+      CPPUNIT_ASSERT (test == utcMinus10);
     }
 
-    void testSerialization (void)
+    void testSerialization ()
     {
       std::ostringstream ss1;
-      ss1 << *utc;
+      ss1 << utc;
       CPPUNIT_ASSERT (ss1.str () == "Z");
-      ss1.str (""); ss1 << *utcMinus10;
+      ss1.str (""); ss1 << utcMinus10;
       CPPUNIT_ASSERT (ss1.str () == "-10:00");
-      ss1.str (""); ss1 << *utcPlus4;
+      ss1.str (""); ss1 << utcPlus4;
       CPPUNIT_ASSERT (ss1.str () == "+04:00");
-      ss1.str (""); ss1 << *utcPlus1;
+      ss1.str (""); ss1 << utcPlus1;
       CPPUNIT_ASSERT (ss1.str () == "+01:00");
 
       Timezone t;
       std::istringstream ss2;
       ss2.str ("Z -10:00 +04:00 +01:00");
       ss2 >> t;
-      CPPUNIT_ASSERT (t == *utc);
+      CPPUNIT_ASSERT (t == utc);
       ss2 >> t;
-      CPPUNIT_ASSERT (t == *utcMinus10);
+      CPPUNIT_ASSERT (t == utcMinus10);
       ss2 >> t;
-      CPPUNIT_ASSERT (t == *utcPlus4);
+      CPPUNIT_ASSERT (t == utcPlus4);
       ss2 >> t;
-      CPPUNIT_ASSERT (t == *utcPlus1);
+      CPPUNIT_ASSERT (t == utcPlus1);
     }
 };
 
@@ -165,165 +155,155 @@ class DurationTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
-    Duration *d1, *d2, *d3, *d4, *d5, *d6;
+    Duration d1, d2, d3, d4, d5, d6;
 
   public:
-    void setUp (void)
+    DurationTest ()
+      : d1 {},
+        d2 {0, 0, 0, 0, 0, 0, 0, 0},
+        d3 {1, 0, 0, 0, 0, 0, 0, 0},
+        d4 {0, 12, 0, 0, 0, 0, 0, 0},
+        d5 {0, 0, 0, 0, 52, 0, 0, 0},
+        d6 {d5}
     {
-      d1 = new Duration ();
-      d2 = new Duration (0, 0, 0, 0, 0, 0, 0, 0);
-      d3 = new Duration (1, 0, 0, 0, 0, 0, 0, 0);
-      d4 = new Duration (0, 12, 0, 0, 0, 0, 0, 0);
-      d5 = new Duration (0, 0, 0, 0, 52, 0, 0, 0);
-      d6 = new Duration (*d5);
     }
 
-    ~DurationTest (void)
+    void testEquality ()
     {
-      delete d1;
-      delete d2;
-      delete d3;
-      delete d4;
-      delete d5;
-      delete d6;
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 == d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 == d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 != d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 != d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 != d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 != d6));
+
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 == d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 == d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 != d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 != d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 != d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 != d6));
+
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 != d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 != d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 == d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 != d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 != d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 != d6));
+
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 != d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 != d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 != d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 == d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 != d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 != d6));
+
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 != d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 != d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 != d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 != d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 == d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 == d6));
+
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 != d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 != d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 != d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 != d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 == d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 == d6));
+
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 != d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 != d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 == d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 == d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 == d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 == d6));
+
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 != d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 != d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 == d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 == d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 == d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 == d6));
+
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 == d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 == d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 != d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 == d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 == d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 == d6));
+
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 == d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 == d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 == d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 != d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 == d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 == d6));
+
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 == d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 == d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 == d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 == d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 != d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 != d6));
+
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 == d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 == d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 == d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 == d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 != d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 != d6));
     }
 
-    void testEquality (void)
+    void testSet ()
     {
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 != *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 != *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 != *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 != *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 != *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 != *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 == *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 != *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 != *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 != *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 == *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 != *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 != *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 != *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 == *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 != *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 != *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 == *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 == *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 == *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 == *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 == *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 == *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 == *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 != *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 == *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 == *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 == *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 != *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 == *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 == *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 == *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 != *d6));
-
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 == *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 == *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 != *d6));
+      Duration test {d3};
+      CPPUNIT_ASSERT (test == d3);
+      test = d5;
+      CPPUNIT_ASSERT (test == d5);
     }
 
-    void testSet (void)
+    void testAddition ()
     {
-      Duration test (*d3);
-      CPPUNIT_ASSERT (test == *d3);
-      test = *d5;
-      CPPUNIT_ASSERT (test == *d5);
+      Duration temp {d3};
+      CPPUNIT_ASSERT (d3 == (temp += Duration ()));
+      CPPUNIT_ASSERT (d3 == (temp -= Duration ()));
+      CPPUNIT_ASSERT (d3 == (temp + Duration ()));
+      CPPUNIT_ASSERT (d3 == (temp - Duration ()));
+
+      temp += d5;
+      CPPUNIT_ASSERT (temp == d5 + d3);
+      temp -= d5;
+      CPPUNIT_ASSERT (temp == d3);
+
+      CPPUNIT_ASSERT (d5 + d3 == Duration (1, 0, 0, 0, 52, 0, 0, 0));
+      CPPUNIT_ASSERT (d5 - d3 == Duration (-1, 0, 0, 0, 52, 0, 0, 0));
     }
 
-    void testAddition (void)
-    {
-      Duration temp (*d3);
-      CPPUNIT_ASSERT (*d3 == (temp += Duration ()));
-      CPPUNIT_ASSERT (*d3 == (temp -= Duration ()));
-      CPPUNIT_ASSERT (*d3 == (temp + Duration ()));
-      CPPUNIT_ASSERT (*d3 == (temp - Duration ()));
-
-      temp += *d5;
-      CPPUNIT_ASSERT (temp == *d5 + *d3);
-      temp -= *d5;
-      CPPUNIT_ASSERT (temp == *d3);
-
-      CPPUNIT_ASSERT (*d5 + *d3 == Duration (1, 0, 0, 0, 52, 0, 0, 0));
-      CPPUNIT_ASSERT (*d5 - *d3 == Duration (-1, 0, 0, 0, 52, 0, 0, 0));
-    }
-
-    void testNegation (void)
+    void testNegation ()
     {
       CPPUNIT_ASSERT (-Duration () == Duration ());
-      CPPUNIT_ASSERT (-*d3 == Duration (-1, 0, 0, 0, 0, 0, 0, 0));
-      CPPUNIT_ASSERT (-*d5 == Duration (0, 0, 0, 0, -52, 0, 0, 0));
-      CPPUNIT_ASSERT (-(-*d4) == *d4);
+      CPPUNIT_ASSERT (-d3 == Duration (-1, 0, 0, 0, 0, 0, 0, 0));
+      CPPUNIT_ASSERT (-d5 == Duration (0, 0, 0, 0, -52, 0, 0, 0));
+      CPPUNIT_ASSERT (-(-d4) == d4);
 
-      CPPUNIT_ASSERT (*d6 - *d3 == *d6 + -*d3);
+      CPPUNIT_ASSERT (d6 - d3 == d6 + -d3);
     }
 
-    void testSerialization (void)
+    void testSerialization ()
     {
       std::ostringstream ss1;
-      ss1 << *d1;
+      ss1 << d1;
       CPPUNIT_ASSERT (ss1.str () == "D0Y");
-      ss1.str (""); ss1 << *d2;
+      ss1.str (""); ss1 << d2;
       CPPUNIT_ASSERT (ss1.str () == "D0Y");
-      ss1.str (""); ss1 << *d3;
+      ss1.str (""); ss1 << d3;
       CPPUNIT_ASSERT (ss1.str () == "D1Y");
-      ss1.str (""); ss1 << *d4;
+      ss1.str (""); ss1 << d4;
       CPPUNIT_ASSERT (ss1.str () == "D12M");
-      ss1.str (""); ss1 << *d5;
+      ss1.str (""); ss1 << d5;
       CPPUNIT_ASSERT (ss1.str () == "DT52H");
-      ss1.str (""); ss1 << *d6;
+      ss1.str (""); ss1 << d6;
       CPPUNIT_ASSERT (ss1.str () == "DT52H");
 
       Duration d;
@@ -338,7 +318,6 @@ class DurationTest : public CppUnit::TestFixture
       ss2 >> d;
       CPPUNIT_ASSERT (d == Duration (0, 0, 0, 0, 0, 0, 0, -560));
     }
-
 };
 
 
@@ -353,244 +332,234 @@ class DateTest : public CppUnit::TestFixture
     CPPUNIT_TEST (testSerialization);
     CPPUNIT_TEST_SUITE_END ();
 
-    Date *d1, *d2, *d3, *d4, *d5, *d6;
+    Date d1, d2, d3, d4, d5, d6;
 
   public:
-    void setUp (void)
+  DateTest ()
+    : d1 {},
+      d2 {0},
+      d3 {72463437},
+      d4 {2012, 3, 25, 0, 37, 10, 254},
+      d5 {1970, 1, 1, 0, 0, 0, 0},
+      d6 {4521, 12, 25, 18, 45, 7, 2}
     {
-      d1 = new Date ();
-      d2 = new Date (0);
-      d3 = new Date (72463437);
-      d4 = new Date (2012, 3, 25, 0, 37, 10, 254);
-      d5 = new Date (1970, 1, 1, 0, 0, 0, 0);
-      d6 = new Date (4521, 12, 25, 18, 45, 7, 2);
-    }
-
-    ~DateTest (void)
-    {
-      delete d1;
-      delete d2;
-      delete d3;
-      delete d4;
-      delete d5;
-      delete d6;
     }
 
     void testStorage (void)
     {
-      CPPUNIT_ASSERT (d1->GetMillisecondsSinceEpoch () == 0);
-      CPPUNIT_ASSERT (d2->GetMillisecondsSinceEpoch () == 0);
-      CPPUNIT_ASSERT (d3->GetMillisecondsSinceEpoch () == 72463437);
-      CPPUNIT_ASSERT (d4->GetMillisecondsSinceEpoch () == 1332635830254);
-      CPPUNIT_ASSERT (d5->GetMillisecondsSinceEpoch () == 0);
-      CPPUNIT_ASSERT (d6->GetMillisecondsSinceEpoch () == 80532816307002);
+      CPPUNIT_ASSERT (d1.GetMillisecondsSinceEpoch () == 0);
+      CPPUNIT_ASSERT (d2.GetMillisecondsSinceEpoch () == 0);
+      CPPUNIT_ASSERT (d3.GetMillisecondsSinceEpoch () == 72463437);
+      CPPUNIT_ASSERT (d4.GetMillisecondsSinceEpoch () == 1332635830254);
+      CPPUNIT_ASSERT (d5.GetMillisecondsSinceEpoch () == 0);
+      CPPUNIT_ASSERT (d6.GetMillisecondsSinceEpoch () == 80532816307002);
     }
 
     void testComponents (void)
     {
-      CPPUNIT_ASSERT (d1->GetYear () == 1970);
-      CPPUNIT_ASSERT (d1->GetMonth () == 1);
-      CPPUNIT_ASSERT (d1->GetDay () == 1);
-      CPPUNIT_ASSERT (d1->GetHour () == 0);
-      CPPUNIT_ASSERT (d1->GetMinute () == 0);
-      CPPUNIT_ASSERT (d1->GetSecond () == 0);
-      CPPUNIT_ASSERT (d1->GetMillisecond () == 0);
+      CPPUNIT_ASSERT (d1.GetYear () == 1970);
+      CPPUNIT_ASSERT (d1.GetMonth () == 1);
+      CPPUNIT_ASSERT (d1.GetDay () == 1);
+      CPPUNIT_ASSERT (d1.GetHour () == 0);
+      CPPUNIT_ASSERT (d1.GetMinute () == 0);
+      CPPUNIT_ASSERT (d1.GetSecond () == 0);
+      CPPUNIT_ASSERT (d1.GetMillisecond () == 0);
 
-      CPPUNIT_ASSERT (d2->GetYear () == 1970);
-      CPPUNIT_ASSERT (d2->GetMonth () == 1);
-      CPPUNIT_ASSERT (d2->GetDay () == 1);
-      CPPUNIT_ASSERT (d2->GetHour () == 0);
-      CPPUNIT_ASSERT (d2->GetMinute () == 0);
-      CPPUNIT_ASSERT (d2->GetSecond () == 0);
-      CPPUNIT_ASSERT (d2->GetMillisecond () == 0);
+      CPPUNIT_ASSERT (d2.GetYear () == 1970);
+      CPPUNIT_ASSERT (d2.GetMonth () == 1);
+      CPPUNIT_ASSERT (d2.GetDay () == 1);
+      CPPUNIT_ASSERT (d2.GetHour () == 0);
+      CPPUNIT_ASSERT (d2.GetMinute () == 0);
+      CPPUNIT_ASSERT (d2.GetSecond () == 0);
+      CPPUNIT_ASSERT (d2.GetMillisecond () == 0);
 
-      CPPUNIT_ASSERT (d3->GetYear () == 1970);
-      CPPUNIT_ASSERT (d3->GetMonth () == 1);
-      CPPUNIT_ASSERT (d3->GetDay () == 1);
-      CPPUNIT_ASSERT (d3->GetHour () == 20);
-      CPPUNIT_ASSERT (d3->GetMinute () == 7);
-      CPPUNIT_ASSERT (d3->GetSecond () == 43);
-      CPPUNIT_ASSERT (d3->GetMillisecond () == 437);
+      CPPUNIT_ASSERT (d3.GetYear () == 1970);
+      CPPUNIT_ASSERT (d3.GetMonth () == 1);
+      CPPUNIT_ASSERT (d3.GetDay () == 1);
+      CPPUNIT_ASSERT (d3.GetHour () == 20);
+      CPPUNIT_ASSERT (d3.GetMinute () == 7);
+      CPPUNIT_ASSERT (d3.GetSecond () == 43);
+      CPPUNIT_ASSERT (d3.GetMillisecond () == 437);
 
-      CPPUNIT_ASSERT (d4->GetYear () == 2012);
-      CPPUNIT_ASSERT (d4->GetMonth () == 3);
-      CPPUNIT_ASSERT (d4->GetDay () == 25);
-      CPPUNIT_ASSERT (d4->GetHour () == 0);
-      CPPUNIT_ASSERT (d4->GetMinute () == 37);
-      CPPUNIT_ASSERT (d4->GetSecond () == 10);
-      CPPUNIT_ASSERT (d4->GetMillisecond () == 254);
+      CPPUNIT_ASSERT (d4.GetYear () == 2012);
+      CPPUNIT_ASSERT (d4.GetMonth () == 3);
+      CPPUNIT_ASSERT (d4.GetDay () == 25);
+      CPPUNIT_ASSERT (d4.GetHour () == 0);
+      CPPUNIT_ASSERT (d4.GetMinute () == 37);
+      CPPUNIT_ASSERT (d4.GetSecond () == 10);
+      CPPUNIT_ASSERT (d4.GetMillisecond () == 254);
 
-      CPPUNIT_ASSERT (d5->GetYear () == 1970);
-      CPPUNIT_ASSERT (d5->GetMonth () == 1);
-      CPPUNIT_ASSERT (d5->GetDay () == 1);
-      CPPUNIT_ASSERT (d5->GetHour () == 0);
-      CPPUNIT_ASSERT (d5->GetMinute () == 0);
-      CPPUNIT_ASSERT (d5->GetSecond () == 0);
-      CPPUNIT_ASSERT (d5->GetMillisecond () == 0);
+      CPPUNIT_ASSERT (d5.GetYear () == 1970);
+      CPPUNIT_ASSERT (d5.GetMonth () == 1);
+      CPPUNIT_ASSERT (d5.GetDay () == 1);
+      CPPUNIT_ASSERT (d5.GetHour () == 0);
+      CPPUNIT_ASSERT (d5.GetMinute () == 0);
+      CPPUNIT_ASSERT (d5.GetSecond () == 0);
+      CPPUNIT_ASSERT (d5.GetMillisecond () == 0);
 
-      CPPUNIT_ASSERT (d6->GetYear () == 4521);
-      CPPUNIT_ASSERT (d6->GetMonth () == 12);
-      CPPUNIT_ASSERT (d6->GetDay () == 25);
-      CPPUNIT_ASSERT (d6->GetHour () == 18);
-      CPPUNIT_ASSERT (d6->GetMinute () == 45);
-      CPPUNIT_ASSERT (d6->GetSecond () == 7);
-      CPPUNIT_ASSERT (d6->GetMillisecond () == 2);
+      CPPUNIT_ASSERT (d6.GetYear () == 4521);
+      CPPUNIT_ASSERT (d6.GetMonth () == 12);
+      CPPUNIT_ASSERT (d6.GetDay () == 25);
+      CPPUNIT_ASSERT (d6.GetHour () == 18);
+      CPPUNIT_ASSERT (d6.GetMinute () == 45);
+      CPPUNIT_ASSERT (d6.GetSecond () == 7);
+      CPPUNIT_ASSERT (d6.GetMillisecond () == 2);
     }
 
     void testCompare (void)
     {
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 < *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 < *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d1 < *d6));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 == d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 == d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 < d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 < d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 == d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d1 < d6));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 < *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 < *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d2 < *d6));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 == d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 == d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 < d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 < d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 == d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d2 < d6));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 > *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 > *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 == *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 < *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 > *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d3 < *d6));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 > d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 > d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 == d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 < d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 > d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d3 < d6));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 > *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 > *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 > *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 == *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 > *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d4 < *d6));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 > d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 > d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 > d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 == d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 > d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d4 < d6));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 == *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 == *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 < *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 < *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 == *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d5 < *d6));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 == d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 == d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 < d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 < d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 == d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d5 < d6));
 
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 > *d1));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 > *d2));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 > *d3));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 > *d4));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 > *d5));
-      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (*d6 == *d6));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 > d1));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 > d2));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 > d3));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 > d4));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 > d5));
+      CPPUNIT_ASSERT_ASSERTION_PASS (CPPUNIT_ASSERT (d6 == d6));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 >= *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 >= *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d1 >= *d6));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 != d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 != d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 >= d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 >= d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 != d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d1 >= d6));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 >= *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 >= *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d2 >= *d6));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 != d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 != d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 >= d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 >= d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 != d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d2 >= d6));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 <= *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 <= *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 != *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 >= *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 <= *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d3 >= *d6));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 <= d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 <= d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 != d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 >= d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 <= d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d3 >= d6));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 <= *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 <= *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 <= *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 != *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 <= *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d4 >= *d6));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 <= d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 <= d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 <= d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 != d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 <= d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d4 >= d6));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 != *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 != *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 >= *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 >= *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 != *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d5 >= *d6));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 != d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 != d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 >= d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 >= d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 != d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d5 >= d6));
 
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 <= *d1));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 <= *d2));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 <= *d3));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 <= *d4));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 <= *d5));
-      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (*d6 != *d6));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 <= d1));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 <= d2));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 <= d3));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 <= d4));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 <= d5));
+      CPPUNIT_ASSERT_ASSERTION_FAIL (CPPUNIT_ASSERT (d6 != d6));
     }
 
     void testSet (void)
     {
-      Date test (*d6);
-      CPPUNIT_ASSERT (test == *d6);
-      test = *d4;
-      CPPUNIT_ASSERT (test == *d4);
+      Date test {d6};
+      CPPUNIT_ASSERT (test == d6);
+      test = d4;
+      CPPUNIT_ASSERT (test == d4);
     }
 
     void testArithmetic (void)
     {
-      Duration dur1 (5, -1, 4, 2, 0, 0, 0, 5);
-      Duration dur2 (-1, 0, 0, 0, 0, 0, 0, 0);
-      Duration dur3 (0, 18, 0, 56, 12, 2, -1, 45);
+      Duration dur1 {5, -1, 4, 2, 0, 0, 0, 5};
+      Duration dur2 {-1, 0, 0, 0, 0, 0, 0, 0};
+      Duration dur3 {0, 18, 0, 56, 12, 2, -1, 45};
 
-      CPPUNIT_ASSERT (*d1 + dur1 == dur1 + *d1);
-      CPPUNIT_ASSERT (*d2 + dur1 == dur1 + *d2);
-      CPPUNIT_ASSERT (*d3 + dur1 == dur1 + *d3);
-      CPPUNIT_ASSERT (*d4 + dur1 == dur1 + *d4);
-      CPPUNIT_ASSERT (*d5 + dur1 == dur1 + *d5);
-      CPPUNIT_ASSERT (*d6 + dur1 == dur1 + *d6);
+      CPPUNIT_ASSERT (d1 + dur1 == dur1 + d1);
+      CPPUNIT_ASSERT (d2 + dur1 == dur1 + d2);
+      CPPUNIT_ASSERT (d3 + dur1 == dur1 + d3);
+      CPPUNIT_ASSERT (d4 + dur1 == dur1 + d4);
+      CPPUNIT_ASSERT (d5 + dur1 == dur1 + d5);
+      CPPUNIT_ASSERT (d6 + dur1 == dur1 + d6);
 
       // Can't add dur2 to epoch, as it is negative.
-      CPPUNIT_ASSERT (*d4 + dur2 == dur2 + *d4);
-      CPPUNIT_ASSERT (*d6 + dur2 == dur2 + *d6);
+      CPPUNIT_ASSERT (d4 + dur2 == dur2 + d4);
+      CPPUNIT_ASSERT (d6 + dur2 == dur2 + d6);
 
-      CPPUNIT_ASSERT (*d1 + dur3 == dur3 + *d1);
-      CPPUNIT_ASSERT (*d2 + dur3 == dur3 + *d2);
-      CPPUNIT_ASSERT (*d3 + dur3 == dur3 + *d3);
-      CPPUNIT_ASSERT (*d4 + dur3 == dur3 + *d4);
-      CPPUNIT_ASSERT (*d5 + dur3 == dur3 + *d5);
-      CPPUNIT_ASSERT (*d6 + dur3 == dur3 + *d6);
+      CPPUNIT_ASSERT (d1 + dur3 == dur3 + d1);
+      CPPUNIT_ASSERT (d2 + dur3 == dur3 + d2);
+      CPPUNIT_ASSERT (d3 + dur3 == dur3 + d3);
+      CPPUNIT_ASSERT (d4 + dur3 == dur3 + d4);
+      CPPUNIT_ASSERT (d5 + dur3 == dur3 + d5);
+      CPPUNIT_ASSERT (d6 + dur3 == dur3 + d6);
 
-      CPPUNIT_ASSERT (*d1 + dur1 == Date (1974, 12, 31, 0, 0, 0, 5));
-      CPPUNIT_ASSERT (*d1 + dur3 == Date (1971, 8, 26, 12, 1, 59, 45));
+      CPPUNIT_ASSERT (d1 + dur1 == Date (1974, 12, 31, 0, 0, 0, 5));
+      CPPUNIT_ASSERT (d1 + dur3 == Date (1971, 8, 26, 12, 1, 59, 45));
 
-      CPPUNIT_ASSERT (*d2 + dur1 == Date (1974, 12, 31, 0, 0, 0, 5));
-      CPPUNIT_ASSERT (*d2 + dur3 == Date (1971, 8, 26, 12, 1, 59, 45));
+      CPPUNIT_ASSERT (d2 + dur1 == Date (1974, 12, 31, 0, 0, 0, 5));
+      CPPUNIT_ASSERT (d2 + dur3 == Date (1971, 8, 26, 12, 1, 59, 45));
 
-      CPPUNIT_ASSERT (*d3 + dur1 == Date (1974, 12, 31, 20, 7, 43, 442));
-      CPPUNIT_ASSERT (*d3 + dur3 == Date (1971, 8, 27, 8, 9, 42, 482));
+      CPPUNIT_ASSERT (d3 + dur1 == Date (1974, 12, 31, 20, 7, 43, 442));
+      CPPUNIT_ASSERT (d3 + dur3 == Date (1971, 8, 27, 8, 9, 42, 482));
 
-      CPPUNIT_ASSERT (*d4 + dur1 == Date (2017, 3, 27, 0, 37, 10, 259));
-      CPPUNIT_ASSERT (*d4 + dur2 == Date (2011, 3, 25, 0, 37, 10, 254));
-      CPPUNIT_ASSERT (*d4 + dur3 == Date (2013, 11, 20, 12, 39, 9, 299));
+      CPPUNIT_ASSERT (d4 + dur1 == Date (2017, 3, 27, 0, 37, 10, 259));
+      CPPUNIT_ASSERT (d4 + dur2 == Date (2011, 3, 25, 0, 37, 10, 254));
+      CPPUNIT_ASSERT (d4 + dur3 == Date (2013, 11, 20, 12, 39, 9, 299));
 
-      CPPUNIT_ASSERT (*d5 + dur1 == Date (1974, 12, 31, 0, 0, 0, 5));
-      CPPUNIT_ASSERT (*d5 + dur3 == Date (1971, 8, 26, 12, 1, 59, 45));
+      CPPUNIT_ASSERT (d5 + dur1 == Date (1974, 12, 31, 0, 0, 0, 5));
+      CPPUNIT_ASSERT (d5 + dur3 == Date (1971, 8, 26, 12, 1, 59, 45));
 
-      CPPUNIT_ASSERT (*d6 + dur1 == Date (4526, 12, 25, 18, 45, 7, 7));
-      CPPUNIT_ASSERT (*d6 + dur2 == Date (4520, 12, 25, 18, 45, 7, 2));
-      CPPUNIT_ASSERT (*d6 + dur3 == Date (4523, 8, 21, 6, 47, 6, 47));
+      CPPUNIT_ASSERT (d6 + dur1 == Date (4526, 12, 25, 18, 45, 7, 7));
+      CPPUNIT_ASSERT (d6 + dur2 == Date (4520, 12, 25, 18, 45, 7, 2));
+      CPPUNIT_ASSERT (d6 + dur3 == Date (4523, 8, 21, 6, 47, 6, 47));
     }
 
     void testSerialization (void)
     {
       std::ostringstream ss1;
-      ss1 << *d1;
+      ss1 << d1;
       CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
-      ss1.str (""); ss1 << *d2;
+      ss1.str (""); ss1 << d2;
       CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
-      ss1.str (""); ss1 << *d3;
+      ss1.str (""); ss1 << d3;
       CPPUNIT_ASSERT (ss1.str () == "1970-01-01T20:07:43.437");
-      ss1.str (""); ss1 << *d4;
+      ss1.str (""); ss1 << d4;
       CPPUNIT_ASSERT (ss1.str () == "2012-03-25T00:37:10.254");
-      ss1.str (""); ss1 << *d5;
+      ss1.str (""); ss1 << d5;
       CPPUNIT_ASSERT (ss1.str () == "1970-01-01T00:00:00.000");
-      ss1.str (""); ss1 << *d6;
+      ss1.str (""); ss1 << d6;
       CPPUNIT_ASSERT (ss1.str () == "4521-12-25T18:45:07.002");
 
       Date d;
