@@ -206,14 +206,12 @@ std::ostream &operator<< (std::ostream &out, const Timezone &);
  * valid hour amount and a minute amount.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2012-03-24
+ * @date   2012-08-08
  * @since  0.5
  *
  * @param [in] in The stream to read from.
  *
  * @return The input stream.
- *
- * @throw OutOfRange If the stream gives a timezone offset that is impossible.
  */
 std::istream &operator>> (std::istream &in, Timezone &);
 
