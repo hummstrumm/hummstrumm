@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HUMMSTRUMM_ENGINE_AABBOX_INL
-#define HUMMSTRUMM_ENGINE_AABBOX_INL
+#ifndef HUMMSTRUMM_ENGINE_GEOMETRY_BOUNDINGBOX_INL
+#define HUMMSTRUMM_ENGINE_GEOMETRY_BOUNDINGBOX_INL
 
 #include <stdexcept>
 

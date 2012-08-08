@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HUMMSTRUMM_ENGINE_BSPHERE_INL
-#define HUMMSTRUMM_ENGINE_BSPHERE_INL
+#ifndef HUMMSTRUMM_ENGINE_BOUNDINGSPHERE_INL
+#define HUMMSTRUMM_ENGINE_BOUNDINGSPHERE_INL
 
 namespace hummstrumm
 {
