@@ -51,7 +51,7 @@ AABBox3D<T>::operator != (const AABBox3D<T> &box) const
 }
 
 template <typename T>
-Vector3D<T>
+hummstrumm::engine::math::Vector3D<T>
 AABBox3D<T>::Size() const
 {
   return bmax - bmin;
@@ -79,7 +79,7 @@ AABBox3D<T>::SizeZ() const
 }
 
 template <typename T>
-Vector3D<T>
+hummstrumm::engine::math::Vector3D<T>
 AABBox3D<T>::Center() const
 {
   return (bmin + bmax)*0.5;
@@ -101,13 +101,13 @@ AABBox3D<T>::IsEmpty() const
 }
 
 template <typename T>
-Vector3D<T>
+hummstrumm::engine::math::Vector3D<T>
 AABBox3D<T>::GetCorner(unsigned short i) const
 {
   if (i < 0 || i > 7)
     throw std::out_of_range ("Corner out of range.");
 
-  return Vector3D<T>(
+  return hummstrumm::engine::math::Vector3D<T>(
     (i & 1) ? bmax.x : bmin.x,
     (i & 2) ? bmax.y : bmin.y,
     (i & 4) ? bmax.z : bmin.z
@@ -157,7 +157,7 @@ AABBox2D<T>::operator != (const AABBox2D<T> &box) const
 }
 
 template <typename T>
-Vector2D<T>
+hummstrumm::engine::math::Vector2D<T>
 AABBox2D<T>::Size() const
 {
   return bmax - bmin;
@@ -178,7 +178,7 @@ AABBox2D<T>::SizeY() const
 }
 
 template <typename T>
-Vector2D<T>
+hummstrumm::engine::math::Vector2D<T>
 AABBox2D<T>::Center() const
 {
   return (bmin + bmax)*0.5;
@@ -200,13 +200,13 @@ AABBox2D<T>::IsEmpty() const
 }
 
 template <typename T>
-Vector2D<T>
+hummstrumm::engine::math::Vector2D<T>
 AABBox2D<T>::GetCorner(unsigned short i) const
 {
   if (i < 0 || i > 3)
     throw std::out_of_range ("Corner out of range.");
 
-  return Vector2D<T>(
+  return hummstrumm::engine::math::Vector2D<T>(
     (i & 1) ? bmax.x : bmin.x,
     (i & 2) ? bmax.y : bmin.y
   );
@@ -226,14 +226,16 @@ AABBox2D<T>::Area() const
 
 template <typename T>
 bool
-AABBox3ContainsPoint (const AABBox3D<T> &box, const Vector3D<T> &plane)
+AABBox3ContainsPoint (const AABBox3D<T> &box,
+                      const hummstrumm::engine::math::Vector3D<T> &plane)
 {
   return contains (box,plane);
 }
 
 template <typename T>
 void
-AABBox3AddPoint (AABBox3D<T> &box, const Vector3D<T> &plane)
+AABBox3AddPoint (AABBox3D<T> &box,
+                 const hummstrumm::engine::math::Vector3D<T> &plane)
 {
   if (plane.x < box.bmin.x) box.bmin.x = plane.x;
   if (plane.x > box.bmax.x) box.bmax.x = plane.x;
@@ -294,7 +296,8 @@ AABBox3IntersectSphere (const AABBox3D<T> &box, const BSphere3D<T> &sphere)
   if (contains (box,sphere))
     return 1;
  
-  Vector3D<T> closestPoint_ = AABBox3ClosestPoint (box, sphere.center);
+  hummstrumm::engine::math::Vector3D<T> closestPoint_ =
+    AABBox3ClosestPoint (box, sphere.center);
   // intersect
   if (intersect(box,sphere,closestPoint_))
     return 0;
@@ -309,10 +312,11 @@ short AABBox3IntersectPlane (const AABBox3D<T> &box, const Plane3D<T> &plane)
 }
 
 template <typename T>
-Vector3D<T> 
-AABBox3ClosestPoint (const AABBox3D<T> &box, const Vector3D<T> &point)
+hummstrumm::engine::math::Vector3D<T>
+AABBox3ClosestPoint (const AABBox3D<T> &box,
+                     const hummstrumm::engine::math::Vector3D<T> &point)
 {
-  Vector3D<T> closestPoint;
+  hummstrumm::engine::math::Vector3D<T> closestPoint;
 
   if (point.x < box.bmin.x)
     closestPoint.x = box.bmin.x;
@@ -343,14 +347,16 @@ AABBox3ClosestPoint (const AABBox3D<T> &box, const Vector3D<T> &point)
 
 template <typename T>
 bool
-AABBox2ContainsPoint (const AABBox2D<T> &box, const Vector2D<T> &plane)
+AABBox2ContainsPoint (const AABBox2D<T> &box,
+                      const hummstrumm::engine::math::Vector2D<T> &plane)
 {
   return contains (box,plane);
 }
 
 template <typename T>
 void
-AABBox2AddPoint (AABBox2D<T> &box, const Vector2D<T> &plane)
+AABBox2AddPoint (AABBox2D<T> &box,
+                 const hummstrumm::engine::math::Vector2D<T> &plane)
 {
   if (plane.x < box.bmin.x) box.bmin.x = plane.x;
   if (plane.x > box.bmax.x) box.bmax.x = plane.x;
@@ -382,10 +388,11 @@ AABBox2IntersectBox (const AABBox2D<T> &box, const AABBox2D<T> &other)
 }
 
 template <typename T>
-Vector2D<T> 
-AABBox2ClosestPoint (const AABBox2D<T> &box, const Vector2D<T> &point)
+hummstrumm::engine::math::Vector2D<T>
+AABBox2ClosestPoint (const AABBox2D<T> &box,
+                     const hummstrumm::engine::math::Vector2D<T> &point)
 {
-  Vector2D<T> closestPoint;
+  hummstrumm::engine::math::Vector2D<T> closestPoint;
 
   if (point.x < box.bmin.x)
     closestPoint.x = box.bmin.x;

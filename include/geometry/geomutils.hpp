@@ -34,10 +34,6 @@ namespace engine
 namespace geometry
 {
 
-using hummstrumm::engine::math::Vector3D;
-using hummstrumm::engine::math::Vector2D;
-
-
 /* @TODO Inline all functions? Performance gain? */
 
 //// intersection ////
@@ -135,7 +131,7 @@ intersect (const AABBox3D<T> &box, const Plane3D<T> &plane)
 template <typename T>
 bool
 intersect (const AABBox3D<T> &box, const BSphere3D<T> &sphere, 
-           const Vector3D<T> &point)
+           const hummstrumm::engine::math::Vector3D<T> &point)
 {
   if (Vec3DSqDistance(sphere.center, point) < sphere.radius * sphere.radius)
     return true;
@@ -225,7 +221,7 @@ contains (const BSphere3D<T> &sphere,const AABBox3D<T> &box)
  */
 template <typename T>
 bool
-contains (const BSphere3D<T> &sphere,const Vector3D<T> &point)
+contains (const BSphere3D<T> &sphere,const hummstrumm::engine::math::Vector3D<T> &point)
 {
   return Vec3DSqMagnitude(point - sphere.center) <= sphere.radius*sphere.radius;
 }
@@ -236,7 +232,7 @@ contains (const BSphere3D<T> &sphere,const Vector3D<T> &point)
  */
 template <typename T>
 bool
-contains (const AABBox3D<T> &box, const Vector3D<T> &point)
+contains (const AABBox3D<T> &box, const hummstrumm::engine::math::Vector3D<T> &point)
 {
   return (point.x >= box.min.x) && (point.y <= box.max.x) &&
          (point.y >= box.min.y) && (point.y <= box.max.y) &&
@@ -265,7 +261,7 @@ contains (const AABBox2D<T> &box, const AABBox2D<T> &other)
  */
 template <typename T>
 bool
-contains (const AABBox2D<T> &box, const Vector2D<T> &point)
+contains (const AABBox2D<T> &box, const hummstrumm::engine::math::Vector2D<T> &point)
 {
   return (point.x >= box.min.x) && (point.y <= box.max.x) &&
          (point.y >= box.min.y) && (point.y <= box.max.y);

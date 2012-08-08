@@ -35,9 +35,6 @@ namespace engine
 namespace geometry
 {
 
-using hummstrumm::engine::math::Vector2D;
-using hummstrumm::engine::math::Vector3D;
-
 /**
  * Represents a segment of a line on a plane.  This segment is defined by a
  * starting point and an an ending point.
@@ -52,9 +49,9 @@ class Segment2D
 {
   public:
     /// The starting point of the segment.
-    Vector2D<T> start;
+    hummstrumm::engine::math::Vector2D<T> start;
     /// The ending point of the segment.
-    Vector2D<T> end;
+    hummstrumm::engine::math::Vector2D<T> end;
 
     /**
      * Constructs a line segment.
@@ -90,7 +87,9 @@ class Segment2D
      * @param [in] s Start point as a vector.
      * @param [in] e End point as a vector.
      */
-    Segment2D (const Vector2D<T> &s, const Vector2D<T> &e): start(s), end(e) {}
+    Segment2D (const hummstrumm::engine::math::Vector2D<T> &s,
+               const hummstrumm::engine::math::Vector2D<T> &e)
+      : start(s), end(e) {}
 
     /**
      * Copy constructor.
@@ -167,9 +166,9 @@ class Segment3D
 {
   public:
     /// The starting point of the segment.
-    Vector3D<T> start;
+    hummstrumm::engine::math::Vector3D<T> start;
     /// The ending point of the segment.
-    Vector3D<T> end;
+    hummstrumm::engine::math::Vector3D<T> end;
 
     /**
      * Constructs a line segment.
@@ -208,7 +207,9 @@ class Segment3D
      * @param [in] s Start point as a vector.
      * @param [in] e End point as a vector.
      */
-    Segment3D (const Vector3D<T> &s, const Vector3D<T> &e): start(s), end(e) {}
+    Segment3D (const hummstrumm::engine::math::Vector3D<T> &s,
+               const hummstrumm::engine::math::Vector3D<T> &e)
+      : start(s), end(e) {}
 
     /**
      * Copy constructor.

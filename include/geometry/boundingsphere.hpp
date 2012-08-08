@@ -34,8 +34,6 @@ namespace engine
 namespace geometry
 {
 
-using hummstrumm::engine::math::Vector3D;
-
 /**
  * A three-dimensional bounding sphere, defined by a center point and a radius.
  *
@@ -49,7 +47,7 @@ class BSphere3D
 {
   public:
     /// The center of the sphere.
-    Vector3D<T> center;
+    hummstrumm::engine::math::Vector3D<T> center;
     /// The radius of the sphere from the center point.
     T radius;
 
@@ -72,7 +70,7 @@ class BSphere3D
      * @param [in] c Center of the bounding sphere
      * @param [in] r Radius of the bounding sphere.
      */
-    BSphere3D (const Vector3D<T> &c, const T &r)
+    BSphere3D (const hummstrumm::engine::math::Vector3D<T> &c, const T &r)
       : center(c), radius(r) {}
 
     /**
@@ -214,7 +212,8 @@ class BSphere3D
  * @see BSphere3D
  */
 template <typename T>
-bool BSphere3ContainsPoint (const BSphere3D<T> &bsphere, const Vector3D<T> &point);
+bool BSphere3ContainsPoint (const BSphere3D<T> &bsphere,
+                            const hummstrumm::engine::math::Vector3D<T> &point);
 
 /**
  * Check if two bounding spheres intersect. 
@@ -249,7 +248,8 @@ short BSphere3IntersectSphere (const BSphere3D<T> &bsphere, const BSphere3D<T> &
  * @see BSphere3D
  */
 template <typename T>
-void BSphere3AddPoint (BSphere3D<T> &bsphere, const Vector3D<T> &point);
+void BSphere3AddPoint (BSphere3D<T> &bsphere,
+                       const hummstrumm::engine::math::Vector3D<T> &point);
 
 /**
  * Add bounding sphere o to bounding sphere bsphere.

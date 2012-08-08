@@ -81,7 +81,8 @@ BSphere3D<T>::SurfaceArea() const
 
 template <typename T>
 bool
-BSphere3ContainsPoint (const BSphere3D<T> &bsphere, const Vector3D<T> &point)
+BSphere3ContainsPoint (const BSphere3D<T> &bsphere,
+                       const hummstrumm::engine::math::Vector3D<T> &point)
 {
   return contains(bsphere, point);
 }
@@ -101,7 +102,8 @@ BSphere3IntersectSphere (const BSphere3D<T> &bsphere, const BSphere3D<T> &other)
 
 template <typename T>
 void
-BSphere3AddPoint (BSphere3D<T> &bsphere, const Vector3D<T> &point)
+BSphere3AddPoint (BSphere3D<T> &bsphere,
+                  const hummstrumm::engine::math::Vector3D<T> &point)
 {
   if (bsphere.IsEmpty())
   {
@@ -112,9 +114,10 @@ BSphere3AddPoint (BSphere3D<T> &bsphere, const Vector3D<T> &point)
   {
     if (!BSphere3ContainsPoint (bsphere,point))
     {
-      Vector3D<T> _v = point - bsphere.center;
+      hummstrumm::engine::math::Vector3D<T> _v = point - bsphere.center;
       T _r = Vec3DMagntiude(_v);
-      Vector3D<T> common_point = bsphere.center - bsphere.radius*(_v/_r);
+      hummstrumm::engine::math::Vector3D<T> common_point =
+        bsphere.center - bsphere.radius*(_v/_r);
       bsphere.center = (common_point + point)*0.5;
       bsphere.radius = _r;
     }

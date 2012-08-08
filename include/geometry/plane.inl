@@ -77,12 +77,12 @@ Plane3D<T>::operator!= (const Plane3D<T> &p)
 
 
 template <typename T>
-Plane3D<T>::Plane3D (const Vector3D<T> &p1,
-                     const Vector3D<T> &p2,
-                     const Vector3D<T> &p3)
+Plane3D<T>::Plane3D (const hummstrumm::engine::math::Vector3D<T> &p1,
+                     const hummstrumm::engine::math::Vector3D<T> &p2,
+                     const hummstrumm::engine::math::Vector3D<T> &p3)
 {
-  Vector3D<T> e3 = p2 - p1;
-  Vector3D<T> e1 = p3 - p1;
+  hummstrumm::engine::math::Vector3D<T> e3 = p2 - p1;
+  hummstrumm::engine::math::Vector3D<T> e1 = p3 - p1;
 
   normal = Vec3DCross (e3, e1);
   d      = Vec3DDot (p1, normal);
@@ -90,8 +90,8 @@ Plane3D<T>::Plane3D (const Vector3D<T> &p1,
 
 
 template <typename T>
-Plane3D<T>::Plane3D (const Vector3D<T> &p1,
-                     const Vector3D<T> &norm)
+Plane3D<T>::Plane3D (const hummstrumm::engine::math::Vector3D<T> &p1,
+                     const hummstrumm::engine::math::Vector3D<T> &norm)
   : normal (norm)
 {
   d = Vec3DDot (p1, norm);
@@ -114,7 +114,7 @@ Plane3D<T>::Normalize ()
 template <typename T>
 T
 DistanceTo (const Plane3D<T>  &plane,
-            const Vector3D<T> &p)
+            const hummstrumm::engine::math::Vector3D<T> &p)
 {
   return Vec3DDot (p, plane.normal) - plane.d;
 }

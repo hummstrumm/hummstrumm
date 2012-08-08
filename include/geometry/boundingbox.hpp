@@ -35,8 +35,6 @@ namespace engine
 namespace geometry
 {
 
-using hummstrumm::engine::math::Vector3D;
-
 /*
  *          _____________________ bmax
  *        /|                    /|
@@ -74,9 +72,9 @@ class AABBox3D
 {
   public:
     /// One corner of the bounding box.
-    Vector3D<T> bmin;
+    hummstrumm::engine::math::Vector3D<T> bmin;
     /// The opposite corner of the bounding box.
-    Vector3D<T> bmax;
+    hummstrumm::engine::math::Vector3D<T> bmax;
 
     /**
      * Constructs an empty AABB.
@@ -97,7 +95,8 @@ class AABBox3D
      * @param [in] pmin Corner point bmin.
      * @param [in] pmax Corner point bmax.
      */
-    AABBox3D (const Vector3D<T> &pmin, const Vector3D<T> &pmax)
+    AABBox3D (const hummstrumm::engine::math::Vector3D<T> &pmin,
+              const hummstrumm::engine::math::Vector3D<T> &pmax)
       : bmin (pmin), bmax (pmax) {}
 
     /**
@@ -187,7 +186,7 @@ class AABBox3D
      *
      * @return The width, height and length of the box.
      */
-    Vector3D<T> Size() const;
+    hummstrumm::engine::math::Vector3D<T> Size() const;
   
     /**
      * Box dimension in x axis.
@@ -231,7 +230,7 @@ class AABBox3D
      *
      * @return The center point.
      */
-    Vector3D<T> Center() const;
+    hummstrumm::engine::math::Vector3D<T> Center() const;
 
     /**
      * Empty the box.
@@ -280,7 +279,7 @@ class AABBox3D
      *  |/________|/
      *  0         1
      */
-    Vector3D<T> GetCorner(unsigned short i) const;
+    hummstrumm::engine::math::Vector3D<T> GetCorner(unsigned short i) const;
 
     /**
      * Volume of the box.
@@ -340,9 +339,9 @@ class AABBox2D
 {
   public:
     /// One corner of the bounding box.
-    Vector2D<T> bmin;
+    hummstrumm::engine::math::Vector2D<T> bmin;
     /// The opposite corner of the bounding box.
-    Vector2D<T> bmax;
+    hummstrumm::engine::math::Vector2D<T> bmax;
 
     /**
      * Constructs an empty AABB.
@@ -363,7 +362,8 @@ class AABBox2D
      * @param [in] pmin Corner point bmin.
      * @param [in] pmax Corner point bmax.
      */
-    AABBox2D (const Vector2D<T> &pmin, const Vector2D<T> &pmax)
+    AABBox2D (const hummstrumm::engine::math::Vector2D<T> &pmin,
+              const hummstrumm::engine::math::Vector2D<T> &pmax)
       : bmin (pmin), bmax (pmax) {}
 
     /**
@@ -451,7 +451,7 @@ class AABBox2D
      *
      * @return The width, height and length of the box.
      */
-    Vector2D<T> Size() const;
+    hummstrumm::engine::math::Vector2D<T> Size() const;
   
     /**
      * Box dimension in x axis.
@@ -484,7 +484,7 @@ class AABBox2D
      *
      * @return The center point.
      */
-    Vector2D<T> Center() const;
+    hummstrumm::engine::math::Vector2D<T> Center() const;
 
     /**
      * Empty the box.
@@ -528,7 +528,7 @@ class AABBox2D
      *  |_________|
      *  0         1
      */
-    Vector2D<T> GetCorner(unsigned short i) const;
+    hummstrumm::engine::math::Vector2D<T> GetCorner(unsigned short i) const;
 
     /**
      * Area of the box.
@@ -560,7 +560,8 @@ class AABBox2D
  * @see AABBox3D
  */
 template <typename T>
-bool AABBox3ContainsPoint (const AABBox3D<T> &box, const Vector3D<T> &plane);
+bool AABBox3ContainsPoint (const AABBox3D<T> &box,
+                           const hummstrumm::engine::math::Vector3D<T> &plane);
 
 /**
  * Add a point to the box.
@@ -575,7 +576,8 @@ bool AABBox3ContainsPoint (const AABBox3D<T> &box, const Vector3D<T> &plane);
  * @see AABBox3D
  */
 template <typename T>
-void AABBox3AddPoint (AABBox3D<T> &box, const Vector3D<T> &plane);
+void AABBox3AddPoint (AABBox3D<T> &box,
+                      const hummstrumm::engine::math::Vector3D<T> &plane);
 
 /**
  * Add a AABB other to AABB box. 
@@ -680,7 +682,9 @@ short AABBox3IntersectPlane (const AABBox3D<T> &box, const Plane3D<T> &plane);
  * @see AABBox3D
  */
 template <typename T>
-Vector3D<T> AABBox3ClosestPoint (const AABBox3D<T> &box, const Vector3D<T> &point);
+hummstrumm::engine::math::Vector3D<T>
+AABBox3ClosestPoint (const AABBox3D<T> &box,
+                     const hummstrumm::engine::math::Vector3D<T> &point);
 
 ////// AABBox2D definitions //////
 
@@ -698,7 +702,8 @@ Vector3D<T> AABBox3ClosestPoint (const AABBox3D<T> &box, const Vector3D<T> &poin
  * @see AABBox2D
  */
 template <typename T>
-bool AABBox2ContainsPoint (const AABBox2D<T> &box, const Vector2D<T> &plane);
+bool AABBox2ContainsPoint (const AABBox2D<T> &box,
+  const hummstrumm::engine::math::Vector2D<T> &plane);
 
 /**
  * Add a point to the box.
@@ -713,7 +718,8 @@ bool AABBox2ContainsPoint (const AABBox2D<T> &box, const Vector2D<T> &plane);
  * @see AABBox2D
  */
 template <typename T>
-void AABBox2AddPoint (AABBox2D<T> &box, const Vector2D<T> &plane);
+void AABBox2AddPoint (AABBox2D<T> &box,
+  const hummstrumm::engine::math::Vector2D<T> &plane);
 
 /**
  * Add a AABB other to AABB box. 
@@ -780,7 +786,9 @@ short AABBox2IntersectBox (const AABBox2D<T> &box, const AABBox2D<T> &other);
  * @see AABBox2D
  */
 template <typename T>
-Vector2D<T> AABBox2ClosestPoint (const AABBox2D<T> &box, const Vector2D<T> &point);
+hummstrumm::engine::math::Vector2D<T>
+AABBox2ClosestPoint (const AABBox2D<T> &box,
+                     const hummstrumm::engine::math::Vector2D<T> &point);
 
 }
 }
