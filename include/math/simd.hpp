@@ -38,7 +38,7 @@
 #endif
 
 #if defined (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS) && defined(HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
-#include <mmintrin.h>
+#include <xmmintrin.h> //sse2
 #endif
 
 namespace hummstrumm
