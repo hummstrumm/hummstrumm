@@ -271,52 +271,6 @@ class Segment3D
 
 };
 
-template <typename T>
-Segment2D<T> &
-Segment2D<T>::operator = (const Segment2D<T> &s)
-{
-  start = s.start;
-  end = s.end;
-  return *this;
-}
-
-template <typename T>
-bool
-Segment2D<T>::operator == (const Segment2D<T> &s)
-{
-  return start == s.start && end == s.end;
-}
-
-template <typename T>
-bool
-Segment2D<T>::operator != (const Segment2D<T> &s)
-{
-  return start != s.start || end != s.end;
-}
-
-template <typename T>
-Segment3D<T> &
-Segment3D<T>::operator = (const Segment3D<T> &s)
-{
-  start = s.start;
-  end = s.end;
-  return *this;
-}
-
-template <typename T>
-bool
-Segment3D<T>::operator == (const Segment3D<T> &s)
-{
-  return start == s.start && end == s.end;
-}
-
-template <typename T>
-bool
-Segment3D<T>::operator != (const Segment3D<T> &s)
-{
-  return start != s.start || end != s.end;
-}
-
 }
 }
 }

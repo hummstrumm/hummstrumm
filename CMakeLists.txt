@@ -146,11 +146,14 @@ source_group("Source Files\\events" FILES ${events_SRCS})
 #  Geometry
 set (geometry_HEADERS
   include/geometry/boundingbox.hpp
+  include/geometry/boundingbox.inl
   include/geometry/boundingsphere.hpp
+  include/geometry/boundingsphere.inl
   include/geometry/geomutils.hpp
   include/geometry/plane.hpp
   include/geometry/plane.inl
-  include/geometry/segment.hpp)
+  include/geometry/segment.hpp
+  include/geometry/segment.inl)
 
 source_group("Header Files\\geometry" FILES ${geometry_HEADERS})
 
@@ -158,9 +161,13 @@ source_group("Header Files\\geometry" FILES ${geometry_HEADERS})
 set (math_HEADERS
   include/math/mathutils.hpp
   include/math/mathutils.inl
-  include/math/matrice.hpp
+  include/math/matrix.hpp
+  include/math/matrix.inl
   include/math/quaternion.hpp
-  include/math/simd.hpp include/math/vector.hpp)
+  include/math/quaternion.inl
+  include/math/simd.hpp
+  include/math/vector.hpp
+  include/math/vector.inl)
 set (math_SRCS src/math/mathutils.cpp)
 
 if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)

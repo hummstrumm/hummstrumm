@@ -17,6 +17,7 @@
  */
 
 #include "hummstrummengine.hpp"
+#include <cstring>
 
 namespace hummstrumm
 {

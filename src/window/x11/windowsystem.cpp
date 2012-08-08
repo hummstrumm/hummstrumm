@@ -18,6 +18,7 @@
 
 #include "hummstrummengine.hpp"
 
+#include <cstring>
 #include <stdexcept>
 using namespace std;
 
