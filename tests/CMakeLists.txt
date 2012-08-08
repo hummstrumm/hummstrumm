@@ -27,6 +27,10 @@ set (hummstrummengine_INCLUDE ../include/
 set (hummstrummengine_LIBS hummstrummengine
   ${CPPUNIT_LIBRARIES}
   ${OPENGL_LIBRARIES})
+if (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST)
+  message ("${Boost_LIBRARIES}")
+  list (APPEND hummstrummengine_LIBS ${Boost_LIBRARIES})
+endif ()
 
 if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
   list (APPEND hummstrummengine_LIBS ${X11_LIBRARIES})

@@ -85,5 +85,8 @@ if (ENABLE_BOOST_REGEX OR
     message (FATAL_ERROR "You have opted to use the Boost regular expressions library, but you don't seem to have it installed on your system.  Either install the library, point CMake to your existing Boost installation, or use your compiler's C++11 <regex> library, if it works (libstdc++, used by GCC and sometimes Clang, does not yet work.")
   else ()
     set (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST ON)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_REGEX_NO_LIB")
+    include_directories (SYSTEM ${Boost_INCLUDE_DIR})
+    link_directories (${Boost_LIBRARY_DIRS})
   endif ()
 endif ()
