@@ -51,7 +51,7 @@ endif ()
 # Do we have SSE support?
 if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
   message (STATUS "  * SSE support")
-endif (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
+endif ()
 
 message (STATUS "")
 message (STATUS "This is the ${HUMMSTRUMM_ENGINE_VERSION} release of ${HUMMSTRUMM_ENGINE_NAME}.")
