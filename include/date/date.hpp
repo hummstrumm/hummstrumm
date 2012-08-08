@@ -403,16 +403,12 @@ std::ostream &operator<< (std::ostream &out, const Date &);
  * least one number and the dashes, colons, and "T" are literal).
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2012-03-25
+ * @date   2012-08-08
  * @since  0.5
  *
  * @param [in] in The stream to read from.
  *
  * @return The input stream.
- *
- * @throw Generic    If the stream is malformed.
- * @throw OutOfRange If the resulting Date is too large or before the UNIX
- *                   epoch.
  */
 std::istream &operator>> (std::istream &in, Date &);
 
