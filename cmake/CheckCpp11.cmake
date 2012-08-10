@@ -14,39 +14,40 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# CheckCpp11.cmake -- Checks for various C++11 features that we can use.  All
-# are implemented alternatively with normal C++03.
+# CheckCpp11.cmake -- Checks for various C++11 features that we can use.
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-  message (STATUS "Checking that compiler supports C++11")
-  file (WRITE
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-    "int main() { return 0; }\n")
-  try_compile(HUMMSTRUMM_ENGINE_CAN_USE_CPP11
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-    COMPILE_DEFINITIONS "-DCMAKE_CXX_FLAGS=\"--std=c++0x\"")
-  set (HUMMSTRUMM_ENGINE_USE_CPP11 ${HUMMSTRUMM_ENGINE_CAN_USE_CPP11})
-  if (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
-    message (STATUS "Checking that compiler supports C++11 - supported")
-    list (APPEND CMAKE_CXX_FLAGS "--std=c++0x")
-  else (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
-    message (STATUS "Checking that compiler supports C++11 - not supported")
-    return ()
-  endif (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
+include (CheckCXXCompilerFlag)
+include (CheckCXXSourceCompiles)
+include (CheckCXXSymbolExists)
+include (CheckIncludeFileCXX)
 
-else (CMAKE_COMPILER_IS_GNUCXX)
-  message (STATUS "Checking that compiler supports C++11")
-  file (WRITE
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp"
-    "#if __cplusplus < 201103L\n#error \"C++11 not supported\"\n#endif int main() { return 0; }\n")
-  try_compile(HUMMSTRUMM_ENGINE_CAN_USE_CPP11
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/src.cpp")
-  if (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
-    message (STATUS "Checking that compiler supports C++11 - supported")
-  else (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
-    message (STATUS "Checking that compiler supports C++11 - not supported")
-    return ()
-  endif (HUMMSTRUMM_ENGINE_CAN_USE_CPP11)
-endif (CMAKE_COMPILER_IS_GNUCXX)
+message (STATUS "Checking that compiler supports C++11")
+  set (HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT OFF)
+
+check_cxx_source_compiles ("#if __cplusplus < 201103L\n#error C++11 not supported\n#endif int main() { return 0; }\n" check_cpp11_compiles_with_no_flags)
+
+if (check_cpp11_no_flags)
+  set (HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT ON)
+  message (STATUS "Checking that compiler supports C++11 - supported")
+else ()
+  set (flags_to_check "--std=c++11" "--std=c++0x")
+  foreach (flag_to_check ${flags_to_check})
+    # check_cpp11_flag_*, must be alphanumeric/underscores
+    string (REGEX REPLACE "[^A-Z a-z 0-9]" "_" flag_variable ${flag_to_check})
+    string (STRIP "${flag_variable}" flag_variable)
+    set (flag_variable "check_cpp11_compiles_with_flag_${flag_variable}")
+
+    check_cxx_compiler_flag ("${flag_to_check}" ${flag_variable})
+    if (${flag_variable})
+      set (HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT ON)
+      message (STATUS "Checking that compiler supports C++11 - supported")
+      list (APPEND CMAKE_CXX_FLAGS ${flag_to_check})
+      break ()
+    endif ()
+  endforeach ()
+endif ()
+
+if (NOT HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT)
+  message (STATUS "Checking that compiler supports C++11 - not supported")
+  message (FATAL_ERROR "A compiler that supports C++11 is required.")
+endif ()
