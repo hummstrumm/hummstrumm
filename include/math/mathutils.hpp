@@ -77,6 +77,30 @@ DegToRad (T degrees);
 /* As explained in http://randydillon.org/Papers/2007/everfast.htm */
 #define SIGNMASK (i) (-(int) ((unsigned int) (i)) >> 31)
 
+#ifndef HAVE_STD_ROUND
+/**
+ * Rounds a number to the nearest integer.  In halfway cases, we round
+ * away from zero.  This is functionally equivalent to the C++11
+ * std::round.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2012-08-10
+ * @since  0.7
+ *
+ * @return The rounded number.
+ *
+ * @note We only have this because MSVC doesn't have std::round.  In
+ * all cases where std::round exists, we use a using declaration to
+ * drag it into this namespace, in place of our definition.  This is
+ * also why we break our usual coding standards here for function
+ * names.
+ *
+ * @warning We want to remove this in the future, as C++11 support
+ * increases.  Use at your own risk.
+ */
+inline double round (double) /* noexcept */;
+#endif
+
 
 }
 }

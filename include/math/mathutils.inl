@@ -19,6 +19,8 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_UTILS_INL
 #define HUMMSTRUMM_ENGINE_MATH_UTILS_INL
 
+#include <cmath>
+
 namespace hummstrumm
 {
 namespace engine
@@ -41,6 +43,18 @@ DegToRad (T degrees)
 {
   return static_cast<T> (DEG_TO_RAD * degrees);
 }
+
+// Use the <cmath> decl if we can, otherwise match it.
+#ifdef HAVE_STD_ROUND
+using std::round;
+#else
+double
+round (double num)
+  /* noexcept */
+{
+  return (num < 0.0) ? std::ceil (num - 0.5) : std::floor (num + 0.5);
+}
+#endif
 
 
 }
