@@ -53,6 +53,13 @@ if (NOT HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT)
 endif ()
 
 # Check for specific features:
+#   std::round -- MSVC doesn't yet implement it.
+check_include_file_cxx (cmath HAVE_CMATH)
+if (NOT HAVE_CMATH)
+  message (FATAL_ERROR "Your compiler claims to be C++11 compliant, but it can't find the standard header <cmath>.  Your installation is very abnormal, incomplete, or incompatible.")
+endif ()
+check_cxx_source_compiles ("#include <cmath>\nint main() { return (int)std::round (0.3); }\n" HAVE_STD_ROUND)
+
 #   regex -- Boost if the user requests it.  Otherwise, <regex>, falling back on
 #            Boost.
 if (NOT ENABLE_BOOST_REGEX)
