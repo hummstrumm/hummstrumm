@@ -278,6 +278,8 @@ class WindowSystem;
 
 #include "types/inttypes.hpp"
 #include "debug/utils.hpp"
+#include "math/simd.hpp"
+#include "util/optimizations.hpp"
 #include "system/platform.hpp"
 #include "system/endianness.hpp"
 #include "system/processors.hpp"
@@ -291,7 +293,6 @@ class WindowSystem;
 #include "debug/logging/backend.hpp"
 #include "debug/logging/manip.hpp"
 #include "debug/profiler.hpp"
-#include "math/simd.hpp"
 #include "math/mathutils.hpp"
 #include "math/vector.hpp"
 #include "math/matrix.hpp"

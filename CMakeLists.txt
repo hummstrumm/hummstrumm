@@ -94,6 +94,11 @@ set (root_HEADERS include/config.h.in ${CMAKE_BINARY_DIR}/include/config.h inclu
 
 source_group("Header Files" FILES ${root_HEADERS})
 
+#  Util
+set (util_HEADERS include/util/optimizations.hpp)
+
+source_group("Header Files\\util" FILES ${util_HEADERS})
+
 #  Core
 set (core_HEADERS include/core/engine.hpp)
 set (core_SRCS src/core/engine.cpp)
