@@ -411,8 +411,8 @@ AABBox2ClosestPoint (const AABBox2D<T> &box,
   return closestPoint;
 }
 
-};
-};
-};
+}
+}
+}
 
 #endif //HUMMSTRUMM_ENGINE_AABBOX_INL

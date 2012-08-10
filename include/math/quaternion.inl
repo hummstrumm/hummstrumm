@@ -389,8 +389,8 @@ QuatSquad (const Quaternion<T> &q, const Quaternion<T> &w,
   return QuatSlerp(QuatSlerp(q,w,h),QuatSlerp(z,x,h),2*h(1-h));
 }
 
-};
-};
-};
+}
+}
+}
 
 #endif //HUMMSTRUMM_ENGINE_VECTOR_INL

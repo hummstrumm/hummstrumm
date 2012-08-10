@@ -929,8 +929,8 @@ Mat4DTranspose (const Matrix4D<T> &m)
                       m[0].coord.w, m[1].coord.w, m[2].coord.w, m[3].coord.w);
 }
 
-};
-};
-};
+}
+}
+}
 
 #endif //HUMMSTRUMM_ENGINE_MATH_MATRIX_INL

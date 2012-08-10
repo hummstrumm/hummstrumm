@@ -679,8 +679,8 @@ operator * (const T &k, const Vector4D<T> &v)
   return Vector4D<T> (k*v.coord.x,k*v.coord.y,k*v.coord.z,k*v.coord.w);
 }
 
-};
-};
-};
+}
+}
+}
 
 #endif //HUMMSTRUMM_ENGINE_MATH_VECTOR_INL

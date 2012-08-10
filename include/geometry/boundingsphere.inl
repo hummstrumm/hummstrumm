@@ -178,8 +178,8 @@ BSphere3AddBox (BSphere3D<T> &bsphere, const AABBox3D<T> &box)
   }
 }
 
-};
-};
-};
+}
+}
+}
 
 #endif //HUMMSTRUMM_ENGINE_BSPHERE_INL

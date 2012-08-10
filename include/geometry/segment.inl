@@ -72,8 +72,8 @@ Segment3D<T>::operator != (const Segment3D<T> &s)
   return start != s.start || end != s.end;
 }
 
-};
-};
-};
+}
+}
+}
 
 #endif //HUMMSTRUMM_ENGINE_GEOMETRY_SEGMENT_INL
