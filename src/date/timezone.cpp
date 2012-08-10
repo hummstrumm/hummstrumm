@@ -23,13 +23,6 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
-#ifdef HUMMSTRUMM_ENGINE_REGEX_USE_BOOST
-#  include <boost/regex.hpp>
-#  define REGEX_NS_PREFIX boost
-#else
-#  include <regex>
-#  define REGEX_NS_PREFIX std
-#endif
 
 namespace hummstrumm
 {
@@ -182,8 +175,8 @@ operator>> (std::istream &in, Timezone &t)
   // See <http://books.xmlschemata.org/relaxng/ch19-77049.html>
   // Capture groups:
   //   1. + or -  2. Hours  3. Minutes
-  REGEX_NS_PREFIX::regex r ("[Zz]|([\\+-])(\\d{2}):(\\d{2})");
-  REGEX_NS_PREFIX::smatch m;
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::regex r ("[Zz]|([\\+-])(\\d{2}):(\\d{2})");
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::smatch m;
                         
   std::locale cLocale ("C");
   std::locale old (in.imbue (cLocale));

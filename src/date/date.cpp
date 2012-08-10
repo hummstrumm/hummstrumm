@@ -23,13 +23,6 @@
 #include <algorithm>
 #include <sstream>
 #include <stdexcept>
-#ifdef HUMMSTRUMM_ENGINE_REGEX_USE_BOOST
-#  include <boost/regex.hpp>
-#  define REGEX_NS_PREFIX boost
-#else
-#  include <regex>
-#  define REGEX_NS_PREFIX std
-#endif
 using namespace hummstrumm::engine::types;
 
 
@@ -484,14 +477,14 @@ operator>> (std::istream &in, Date &d)
   // Capture groups:
   //   1. Year  2. Month  3. Day
   //   4. Hour  5. Minute  6. Second and Millisecond
-  REGEX_NS_PREFIX::regex r ("(-?\\d{4,6})-"
-                            "(\\d{2})-"
-                            "(\\d{2})T"
-                            "(\\d{2}):"
-                            "(\\d{2}):"
-                            "(\\d{2}(?:\\.\\d{1,3})?)"
-                            "(.*)");
-  REGEX_NS_PREFIX::smatch m;
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::regex r ("(-?\\d{4,6})-"
+    "(\\d{2})-"
+    "(\\d{2})T"
+    "(\\d{2}):"
+    "(\\d{2}):"
+    "(\\d{2}(?:\\.\\d{1,3})?)"
+    "(.*)");
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::smatch m;
                         
   std::locale cLocale ("C");
   std::locale old (in.imbue (cLocale));

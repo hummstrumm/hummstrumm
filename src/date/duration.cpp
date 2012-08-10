@@ -22,13 +22,6 @@
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
-#ifdef HUMMSTRUMM_ENGINE_REGEX_USE_BOOST
-#  include <boost/regex.hpp>
-#  define REGEX_NS_PREFIX boost
-#else
-#  include <regex>
-#  define REGEX_NS_PREFIX std
-#endif
 
 namespace hummstrumm
 {
@@ -153,13 +146,13 @@ operator>> (std::istream &in, Duration &d)
   // the duration:
   //
   //     D1Y-5DT5S -- one year, negative five days, five seconds
-  REGEX_NS_PREFIX::regex r ("D(?:(-?\\d+)(Y))?"
-                            "(?:(-?\\d+)(M))?"
-                            "(?:(-?\\d+)(D))?"
-                            "(?:(T)(?:(-?\\d+)(H))?"
-                            "(?:(-?\\d+)(M))?"
-                            "(?:(-?\\d+(?:\\.\\d{1,3})?)(S))?)?");
-  REGEX_NS_PREFIX::smatch m;
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::regex r ("D(?:(-?\\d+)(Y))?"
+    "(?:(-?\\d+)(M))?"
+    "(?:(-?\\d+)(D))?"
+    "(?:(T)(?:(-?\\d+)(H))?"
+    "(?:(-?\\d+)(M))?"
+    "(?:(-?\\d+(?:\\.\\d{1,3})?)(S))?)?");
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::smatch m;
 
   // ISO 8601 durations allow parts of the duration that we store to be left out
   // if they are zero.
