@@ -51,3 +51,49 @@ if (NOT HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT)
   message (STATUS "Checking that compiler supports C++11 - not supported")
   message (FATAL_ERROR "A compiler that supports C++11 is required.")
 endif ()
+
+# Check for specific features:
+#   std::round -- MSVC doesn't yet implement it.
+check_include_file_cxx (cmath HAVE_CMATH)
+if (NOT HAVE_CMATH)
+  message (FATAL_ERROR "Your compiler claims to be C++11 compliant, but it can't find the standard header <cmath>.  Your installation is very abnormal, incomplete, or incompatible.")
+endif ()
+check_cxx_source_compiles ("#include <cmath>\nint main() { return (int)std::round (0.3); }\n" HAVE_STD_ROUND)
+
+#   regex -- Boost if the user requests it.  Otherwise, <regex>, falling back on
+#            Boost.
+if (NOT ENABLE_BOOST_REGEX)
+  check_include_file_cxx (regex HAVE_REGEX)
+  set (regex_check_compiled FALSE)
+  if (HAVE_REGEX)
+    message (STATUS "Checking that compiler's regex works")
+    file (WRITE
+      "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/regex.cpp"
+      "#include <regex>\n#include <string>\nint main() {\nstd::string str {\"Hello world\"};\nstd::regex rx{\"ello\"};\nreturn regex_match (str.begin (), str.end (), rx);\n")
+    try_run (regex_check_output regex_check_compiled
+      "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
+      "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/regex.cpp")
+    if (${regex_check_compiled} MATCHES "FALSE")
+      message (STATUS "Checking that compiler's regex works - not supported")
+      message (STATUS "Attempting to use Boost::regex in its place...")
+    else ()
+      message (STATUS "Checking that compiler's regex works regex - supported")
+      set (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST OFF)
+    endif ()
+  else ()
+    message (STATUS "Attempting to use Boost::regex in its place...")
+  endif ()
+endif ()
+if (ENABLE_BOOST_REGEX OR
+    NOT HAVE_REGEX OR
+    ${regex_check_compiled} MATCHES "FALSE")
+  find_package (Boost 1.33.0 REQUIRED COMPONENTS regex)
+  if (NOT Boost_FOUND)
+    message (FATAL_ERROR "You have opted to use the Boost regular expressions library, but you don't seem to have it installed on your system.  Either install the library, point CMake to your existing Boost installation, or use your compiler's C++11 <regex> library, if it works (libstdc++, used by GCC and sometimes Clang, does not yet work.")
+  else ()
+    set (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST ON)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_REGEX_NO_LIB")
+    include_directories (SYSTEM ${Boost_INCLUDE_DIR})
+    link_directories (${Boost_LIBRARY_DIRS})
+  endif ()
+endif ()

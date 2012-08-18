@@ -227,12 +227,15 @@ std::ostream &operator<< (std::ostream &out, const Duration &);
  * integers.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2012-03-24
+ * @date   2012-08-08
  * @since  0.5
  *
  * @param [in] in The stream to read from.
  *
  * @return The input stream.
+ *
+ * @todo This function uses hummstrumm::engine::math::round().  We'll
+ * want to remove that function when C++11 is supported better.
  */
 std::istream &operator>> (std::istream &in, Duration &);
 

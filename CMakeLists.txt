@@ -96,6 +96,7 @@ source_group("Header Files" FILES ${root_HEADERS})
 
 #  Util
 set (util_HEADERS include/util/optimizations.hpp)
+set (util_HEADERS include/util/regex.hpp)
 
 source_group("Header Files\\util" FILES ${util_HEADERS})
 
@@ -270,6 +271,7 @@ source_group("Source Files\\window" FILES ${window_SRCS})
 
 set (hummstrummengine_SRCS
   ${root_HEADERS}
+  ${util_HEADERS}
   ${core_HEADERS}
   ${core_SRCS}
   ${date_HEADERS}

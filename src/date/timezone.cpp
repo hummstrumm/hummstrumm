@@ -172,20 +172,40 @@ operator<< (std::ostream &out, const Timezone &t)
 std::istream &
 operator>> (std::istream &in, Timezone &t)
 {
-  std::locale c ("C");
-  std::locale old (in.imbue (c));
+  // See <http://books.xmlschemata.org/relaxng/ch19-77049.html>
+  // Capture groups:
+  //   1. + or -  2. Hours  3. Minutes
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::regex r ("[Zz]|([\\+-])(\\d{2}):(\\d{2})");
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::smatch m;
+                        
+  std::locale cLocale ("C");
+  std::locale old (in.imbue (cLocale));
 
-  Duration temp;
+  std::string s;
+  in >> s;
 
-  std::string input;
-  in >> input;
-  std::replace (input.begin (), input.end (), ':', ' ');
-  std::stringstream inputStream (input);
-
-  inputStream >> temp.hours;
-  inputStream >> temp.minutes;
-
-  t = Timezone (temp);
+  if (regex_match (s, m, r))
+    {
+      if (s == "Z" || s == "z")
+        {
+          t = Timezone ();
+        }
+      else
+        {
+          signed hours = std::stoi (m[2].str ());
+          signed mins  = std::stoi (m[3].str ());
+          if (m[1].str () == "-")
+            {
+              hours = -hours;
+	      mins  = -mins;
+            }
+	  t = Timezone (Duration (0, 0, 0, 0, hours, mins, 0, 0));
+        }
+    }
+  else
+    {
+      throw std::runtime_error ("Timezone malformed.");
+    }
 
   in.imbue (old);
   return in;

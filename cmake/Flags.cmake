@@ -18,3 +18,7 @@
 
 set (ENABLE_UNIT_TESTS ON CACHE BOOL
   "Build unit tests?")
+
+# Note: we look for Boost if the <regex> header doesn't work.
+set (ENABLE_BOOST_REGEX OFF CACHE BOOL
+  "Prefer Boost regex over your compiler's <regex> header?")

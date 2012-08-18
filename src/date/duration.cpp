@@ -121,7 +121,7 @@ operator<< (std::ostream &out, const Duration &d)
       if (ms)
         {
           char fillChar = out.fill ();
-          out << '.' << std::setfill ('0') << std::setw (3) << ms;
+          out << '.' << std::setfill ('0') << std::setw (3) << std::abs (ms);
           out.fill (fillChar);
         }
       out << 'S';
@@ -133,36 +133,8 @@ operator<< (std::ostream &out, const Duration &d)
 
 
 std::istream &
-operator>> (std::istream &inReal, Duration &d)
+operator>> (std::istream &in, Duration &d)
 {
-  std::locale cLocale ("C");
-  std::locale old (inReal.imbue (cLocale));
-
-  // Here, for simplicity, we are a little more forgiving than ISO 8601.  We can
-  // have multiple durations of a specific length (like, a string that contains
-  // two month durations) -- they are simply added together.  Order within date
-  // or time components also doesn't matter.
-
-  signed temp;
-  char c;
-
-  // ISO 8601 durations allow parts of the duration that we store to be left out
-  // if they are zero.
-  d = Duration ();
-
-  std::string input;
-  inReal >> input;
-  std::stringstream in (input);
-
-  // Duration strings must start with a 'D' if they represent a finite duration.
-  if (!(in >> c) || c != 'D')
-    {
-      throw std::runtime_error ("Input stream did not contain a duration.  We "
-                                "don't support differences between two "
-                                "dates.");
-      // Maybe we should?
-    }
-
   // Each field or element of the duration string has the form 'nC', where 'n'
   // is a number of variable length and 'C' is a capital ASCII letter denoting
   // which field of the duration the preceding number represents.
@@ -174,65 +146,67 @@ operator>> (std::istream &inReal, Duration &d)
   // the duration:
   //
   //     D1Y-5DT5S -- one year, negative five days, five seconds
-  //
-  while (in.peek () != 'T' && (in >> temp))
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::regex r ("D(?:(-?\\d+)(Y))?"
+    "(?:(-?\\d+)(M))?"
+    "(?:(-?\\d+)(D))?"
+    "(?:(T)(?:(-?\\d+)(H))?"
+    "(?:(-?\\d+)(M))?"
+    "(?:(-?\\d+(?:\\.\\d{1,3})?)(S))?)?");
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::smatch m;
+
+  // ISO 8601 durations allow parts of the duration that we store to be left out
+  // if they are zero.
+  d = Duration ();
+                        
+  std::locale cLocale ("C");
+  std::locale old (in.imbue (cLocale));
+
+  std::string s;
+  in >> s;
+
+  if (regex_match (s, m, r))
     {
-      // Read that next letter.
-      in >> c;
-      switch (c)
+      // Check the labels after each value.
+      int i = 1;
+      while (i+1 <= m.size () && m[i].str () != "T")
         {
-        case 'Y': // Years
-          d.years += temp;
-          break;
-
-        case 'M': // Months
-          d.months += temp;
-          break;
-
-        case 'D': // Days
-          d.days += temp;
-          break;
-
-        default:
-          throw std::runtime_error ("Input stream contains invalid date "
-                                    "portion of duration.");
+          std::string type = m[i+1].str ();
+          if (type == "Y")
+            d.years = std::stoi (m[i].str ());
+          else if (type == "M")
+            d.months = std::stoi (m[i].str ());
+          else if (type == "D")
+            d.days = std::stoi (m[i].str ());
+          i += 2;
+        }
+      if (i <= m.size () && m[i].str () == "T")
+        ++i;
+      while (i+1 <= m.size ())
+        {
+          std::string type = m[i+1].str ();
+          if (type == "H")
+            d.hours = std::stoi (m[i].str ());
+          else if (type == "M")
+            d.minutes = std::stoi (m[i].str ());
+          else if (type == "S")
+            {
+              auto secsAndMs = std::stod (m[i].str ());
+              d.seconds      = static_cast<signed> (secsAndMs);
+              d.milliseconds =
+                hummstrumm::engine::math::round ((secsAndMs-d.seconds) * 1000);
+            }
+	  i += 2;
         }
     }
-
-  // After the date portion, if there is a time duration, we need to see a 'T'
-  // character to denote the times.
-  if (in.get () != 'T')
+  else
     {
-      return inReal;
+      throw std::runtime_error ("Input stream did not contain a valid duration."
+                                "  We don't support differences between two "
+                                "dates.");
     }
 
-  // Read the time durations.
-  float temp2; // We need a float for easy millisecond reading.
-  while (in >> temp2)
-    {
-      switch (in.get ())
-        {
-        case 'H': // Hours
-          d.hours += (int)temp2;
-          break;
-
-        case 'M': // Months
-          d.minutes += (int)temp2;
-          break;
-
-        case 'S': // Seconds (with no millisecond portion)
-          d.seconds += (int)temp2;
-          d.milliseconds += (int)((temp2 - (int)(temp2)) * 1000);
-          break;
-
-        default:
-          throw std::runtime_error ("Input stream contains invalid time "
-                                    "portion of duration.");
-        }
-    }
-
-  inReal.imbue (old);
-  return inReal;
+  in.imbue (old);
+  return in;
 }
 
 

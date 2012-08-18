@@ -449,7 +449,14 @@ operator<< (std::ostream &out, const Date &d)
   // We change the fill character, but we don't want the change to leave this
   // method.
   char fillChar = out.fill ();
-  out << std::setfill ('0') << std::setw (4) << d.GetYear ()  << '-'
+  out << std::setfill ('0');
+
+  if (d.GetYear () >= 10000)
+    out << std::setw (6);
+  else
+    out << std::setw (4);
+
+  out << d.GetYear ()  << '-'
       << std::setw (2) << d.GetMonth () << '-'
       << std::setw (2) << d.GetDay () << 'T'
       << std::setw (2) << d.GetHour () << ':'
@@ -466,49 +473,50 @@ operator<< (std::ostream &out, const Date &d)
 std::istream &
 operator>> (std::istream &in, Date &d)
 {
+  // See <http://books.xmlschemata.org/relaxng/ch19-77049.html>
+  // Capture groups:
+  //   1. Year  2. Month  3. Day
+  //   4. Hour  5. Minute  6. Second and Millisecond
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::regex r ("(-?\\d{4,6})-"
+    "(\\d{2})-"
+    "(\\d{2})T"
+    "(\\d{2}):"
+    "(\\d{2}):"
+    "(\\d{2}(?:\\.\\d{1,3})?)"
+    "(.*)");
+  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::smatch m;
+                        
   std::locale cLocale ("C");
   std::locale old (in.imbue (cLocale));
 
-  signed year, month, day, hour, minute, second, millisecond;
-  char c;
+  std::string s;
+  in >> s;
 
-  std::string input;
-  in >> input;
-  std::stringstream inputStream (input);
+  if (regex_match (s, m, r))
+    {
+      unsigned year  = std::stoi (m[1].str ());
+      unsigned month = std::stoi (m[2].str ());
+      unsigned day   = std::stoi (m[3].str ());
+      unsigned hour  = std::stoi (m[4].str ());
+      unsigned min   = std::stoi (m[5].str ());
+      auto secsAndMs = std::stod (m[6].str ());
+      unsigned sec   = static_cast<unsigned> (secsAndMs);
+      unsigned msec  = static_cast<unsigned> ((secsAndMs-sec + 0.0005) * 1000);
 
-  // Year
-  inputStream >> year >> c;
-  if (c != '-')
-    throw std::runtime_error ("Date malformed.");
+      d = Date (year, month, day, hour, min, sec, msec);
 
-  // Month
-  inputStream >> month >> c;
-  if (c != '-')
-    throw std::runtime_error ("Date malformed.");
-
-  // Day
-  inputStream >> day >> c;
-  if (c != 'T')
-    throw std::runtime_error ("Date malformed.");
-
-  // Hour
-  inputStream >> hour >> c;
-  if (c != ':')
-    throw std::runtime_error ("Date malformed.");
-
-  // Minute
-  inputStream >> minute >> c;
-  if (c != ':')
-    throw std::runtime_error ("Date malformed.");
-
-  // Second and millisecond
-  float s;
-  inputStream >> s;
-  second = (int)s;
-  s -= second;
-  millisecond = (int)(s*1000+0.5);
-
-  d = Date (year, month, day, hour, minute, second, millisecond);
+      if (m[m.size ()].str ().size () > 0)
+	{
+          Timezone offset;
+          std::stringstream ss (m[m.size ()].str ());
+          ss >> offset;
+          ConvertWithTimezone (d, offset);
+        }
+    }
+  else
+    {
+      throw std::runtime_error ("Date malformed.");
+    }
 
   in.imbue (old);
   return in;
