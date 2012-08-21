@@ -303,8 +303,6 @@ endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
 # Build the library.
 add_library (hummstrummengine STATIC ${hummstrummengine_SRCS})
 
-
-
 # Add directories (to be exported, too)
 if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
   set (HUMMSTRUMM_ENGINE_INSTALL_HEADERS   include)
