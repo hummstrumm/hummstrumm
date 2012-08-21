@@ -118,7 +118,7 @@ following flags:
 CMake also provides some standard flags.  Here are some important
 ones:
 
-  * **`CMAKE_PREFIX_PATH`**: Where to install the engine.  On POSIX
+  * **`CMAKE_INSTALL_PREFIX`**: Where to install the engine.  On POSIX
       systems, this tends to be `/usr/local` by default.  On Windows,
       it is a directory within your `Program Files`.
   * **`CMAKE_BUILD_TYPE`**: The build configuration to use if building
