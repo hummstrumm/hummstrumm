@@ -6,7 +6,9 @@ to this file.
 
 For each release of Humm and Strumm Engine, several user-visible
 changes are made.  This file lists these major changes for each
-release, starting with the most recent release.
+release, starting with the most recent release.  To see all changes in
+a standard ChangeLog file, build the `changelog` target (this requires
+both Git and Perl to be installed).
 
 ## Humm and Strumm Engine, version 0.6
   * ISO 8601 serialization added.
