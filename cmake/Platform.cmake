@@ -24,23 +24,6 @@
 # <http://synergy-foss.org/pm/projects/synergy/repository/revisions/413/entry/trunk/tool/win/cmake/share/cmake-2.8/Modules/CMakeDetermineSystem.cmake>
 
 
-# Check for a POSIX system.
-set (HUMMSTRUMM_ENGINE_PLATFORM_POSIX OFF)
-if (${HAVE_UNISTD_H})
-  file (WRITE
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/posixcheck.cpp"
-    "#include <unistd.h>\nint main() {\n#ifdef _POSIX_VERSION\nreturn 0;\n#else\nreturn 1;\n#endif\n }\n")
-  try_run (posix_check_output posix_check_compiled
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
-    "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/posixcheck.cpp")
-  if (${posix_check_compiled} MATCHES "TRUE" AND
-      ${posix_check_output}   MATCHES "0")
-    set (HUMMSTRUMM_ENGINE_PLATFORM_POSIX ON)
-  endif ()
-endif ()
-
-
-
 # Windows
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
   
@@ -108,6 +91,23 @@ elseif ("${CMAKE_SYSTEM_NAME}" MATCHES "BSD/OS" OR
   set (HUMMSTRUMM_ENGINE_DOXYGEN_MACROS "HUMMSTRUMM_ENGINE_PLATFORM_BSD="
     CACHE STRING "The predefined macro string for Doxygen.")
 
+endif ()
+
+# Check for a POSIX system.
+set (HUMMSTRUMM_ENGINE_PLATFORM_POSIX OFF)
+if (NOT HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
+  if (${HAVE_UNISTD_H})
+    file (WRITE
+      "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/posixcheck.cpp"
+      "#include <unistd.h>\nint main() {\n#ifdef _POSIX_VERSION\nreturn 0;\n#else\nreturn 1;\n#endif\n }\n")
+    try_run (posix_check_output posix_check_compiled
+      "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
+      "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/posixcheck.cpp")
+    if (${posix_check_compiled} MATCHES "TRUE" AND
+        ${posix_check_output}   MATCHES "0")
+      set (HUMMSTRUMM_ENGINE_PLATFORM_POSIX ON)
+    endif ()
+  endif ()
 endif ()
 
 mark_as_advanced (HUMMSTRUMM_ENGINE_DOXYGEN_MACROS)
