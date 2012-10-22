@@ -1,0 +1,3 @@
+[submodule "lib/term-colors"]
+	path = lib/term-colors
+	url = git://gitorious.org/patrickniedzielski/term-colors.git
