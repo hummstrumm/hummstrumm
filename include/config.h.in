@@ -29,6 +29,7 @@
 #cmakedefine HAVE_TR1_MEMORY
 #cmakedefine HAVE_MEMORY
 #cmakedefine HAVE_STD_ROUND
+#cmakedefine HAVE_TERMCOLORS_H
 
 // Platforms
 #cmakedefine HUMMSTRUMM_ENGINE_PLATFORM_POSIX

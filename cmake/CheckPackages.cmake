@@ -17,6 +17,20 @@
 # CheckPackages.cmake -- Look for any libraries and programs we can (perhaps
 # optionally) use.
 
+# Local packages that we distribute:
+if (ENABLE_TERMCOLORS)
+  message (STATUS "Checking for term-colors library")
+  find_file (TERMCOLORS_PATH "termcolors.h"
+    "${CMAKE_SOURCE_DIR}/lib/term-colors/")
+  mark_as_advanced (TERMCOLORS_PATH)
+  if (NOT TERMCOLORS_PATH)
+    message (FATAL_ERROR "Failed to find term-colors library.  It is not in your source distribution -- if you are in a git clone, did you update all your submodules?")
+  else ()
+    message (STATUS "Checking for term-colors library - found")
+    set (HAVE_TERMCOLORS_H YES)
+  endif ()
+endif ()
+
 # Look for cppcheck
 if (ENABLE_CPPCHECK)
   find_program (CPPCHECK_COMMAND cppcheck DOC "Path to cppcheck.")

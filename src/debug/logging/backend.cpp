@@ -24,8 +24,10 @@
 #include <string>
 #include <ctime>
 
+#ifdef HAVE_TERMCOLORS_H
 #include <term-colors/termcolors.h>
 using namespace termcolors;
+#endif
 
 namespace hummstrumm
 {
@@ -71,6 +73,7 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
   // Print out.
   // Format: [ 2012-06-14T02:09:18Z ] /whatever/file.cpp(52)
   //         Message here.
+#ifdef HAVE_TERMCOLORS_H
   if (printColor)
     {
       auto colorEnd   = foreground_color (color::reset);
@@ -96,9 +99,12 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
     }
   else
     {
+#endif
       out << "[ " << tbuffer << " ]" << " " << file << "(" << line << ")\n\t"
           << message << std::endl;
+#ifdef HAVE_TERMCOLORS_H
     }
+#endif
 }
 
 
