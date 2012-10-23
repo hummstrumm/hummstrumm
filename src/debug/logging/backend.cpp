@@ -24,6 +24,9 @@
 #include <string>
 #include <ctime>
 
+#include <term-colors/termcolors.h>
+using namespace termcolors;
+
 namespace hummstrumm
 {
 namespace engine
@@ -68,35 +71,34 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
   // Print out.
   // Format: [ 2012-06-14T02:09:18Z ] /whatever/file.cpp(52)
   //         Message here.
-  std::string colorStart, colorEnd;
-  std::string boldStart, boldEnd;
   if (printColor)
     {
-      boldStart = "\033[1m";
-      boldEnd   = "\033[22m";
-      colorEnd  = "\033[0m";
-      
+      auto colorEnd   = foreground_color (color::reset);
+      auto colorStart = colorEnd; // by default, change below:
       switch (level)
         {
         case hummstrumm::engine::debug::logging::Level::success:
-          colorStart = "\033[34m";
+          colorStart = foreground_color (color::blue);
           break;
 
         case hummstrumm::engine::debug::logging::Level::warning:
-          colorStart = "\033[33m";
+          colorStart = foreground_color (color::yellow);
           break;
 
-		case hummstrumm::engine::debug::logging::Level::error:
-          colorStart = "\033[31m";
+        case hummstrumm::engine::debug::logging::Level::error:
+          colorStart = foreground_color (color::red);
           break;
         }
-    }
-  
-  out << colorStart << boldStart << "[ " << tbuffer << " ]" << boldEnd
-      << " " << file << "(" << line << ")\n\t" << colorEnd
-      << message << std::endl;
 
-  // Eventually allow for different colors, if terminal allows it.
+      out << colorStart << bright << "[ " << tbuffer << " ]" << normal
+          << " " << file << "(" << line << ")\n\t" << colorEnd
+          << message << std::endl;
+    }
+  else
+    {
+      out << "[ " << tbuffer << " ]" << " " << file << "(" << line << ")\n\t"
+          << message << std::endl;
+    }
 }
 
 

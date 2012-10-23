@@ -292,6 +292,7 @@ set (hummstrummengine_SRCS
 
 # Set include dirs
 set (hummstrummengine_INCLUDE include/
+                              lib/
                               ${CMAKE_CURRENT_BINARY_DIR}/include/
                               ${OPENGL_INCLUDE_DIR})
 
