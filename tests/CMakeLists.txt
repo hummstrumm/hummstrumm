@@ -18,8 +18,6 @@ if (NOT IS_BUILDING_UNIT_TESTS)
   return ()
 endif ()
 
-enable_testing ()
-
 set (hummstrummengine_INCLUDE ../include/
   ${hummstrummengine_BINARY_DIR}/include
   ${CPPUNIT_INCLUDE_DIR}

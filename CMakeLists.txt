@@ -37,6 +37,8 @@ include (Uninstall)
 
 include (CheckPackages)
 
+include (CTest)
+
 # Use some flags across the entire project:
 if (HUMMSTRUMM_ENGINE_COMPILER_CLANG OR HUMMSTRUMM_ENGINE_COMPILER_GCC)
   set (CMAKE_CXX_FLAGS_DEBUG "-pedantic -Wall -g -ggdb -Wfatal-errors")
