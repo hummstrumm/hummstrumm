@@ -37,6 +37,7 @@ include (Uninstall)
 
 include (CheckPackages)
 
+include (CppCheck)
 include (CTest)
 
 # Use some flags across the entire project:
