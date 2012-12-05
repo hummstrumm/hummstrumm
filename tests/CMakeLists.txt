@@ -48,6 +48,7 @@ if (HUMMSTRUMM_ENGINE_COMPILER_GCC)
 endif (HUMMSTRUMM_ENGINE_COMPILER_GCC)
 
 include_directories (${hummstrummengine_INCLUDE})
+include_directories (${CMAKE_SOURCE_DIR}/lib)
 #if (HUMMSTRUMM_WINDOWSYSTEM_X11)
 #  include_directories (${X11_X11_INCLUDE_PATH})
 #endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
@@ -63,6 +64,10 @@ add_test(NAME test_engine_date COMMAND test_engine_date)
 add_executable(test_engine_math math.cpp)
 target_link_libraries(test_engine_math ${hummstrummengine_LIBS})
 add_test (NAME test_engine_math COMMAND test_engine_math)
+
+add_executable(test_math_quaternion math/quaternion.cpp)
+target_link_libraries(test_math_quaternion ${hummstrummengine_LIBS})
+add_test (NAME test_math_quaternion COMMAND test_math_quaternion)
 
 add_executable(test_engine_timing timing.cpp)
 target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
