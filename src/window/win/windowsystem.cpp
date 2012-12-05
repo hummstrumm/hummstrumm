@@ -451,7 +451,7 @@ WindowSystem::InitializeWGLExtensions()
    *
    */
   PIXELFORMATDESCRIPTOR pfd;
-  int pixelFormat = 0;
+  int pixelFormat;
 
   DWORD flags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_GENERIC_ACCELERATED;
   pfd.nSize           =  sizeof(PIXELFORMATDESCRIPTOR);
@@ -545,7 +545,7 @@ WindowSystem::GetNextEvent()
 
   if (msgQueue.size() > 0)
   {
-    EventMsg eMsg = EventMsg();
+    EventMsg eMsg;
     eMsg = msgQueue.front();
     switch (eMsg.msg)
     {

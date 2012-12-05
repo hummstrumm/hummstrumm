@@ -167,14 +167,15 @@ WindowSystem::DestroyPbuffer()
 void
 WindowSystem::CreatePbuffer(WindowVisualInfo &param)
 {
-  XVisualInfo *vi = NULL;
-  GLXFBConfig *fbconfig = NULL;
-  const int* attribList = NULL;
   int nelements;
 
   // Create offscreen rendering and share it with the window context
   if (param.useOffScreenRendering)
   {
+    XVisualInfo *vi;
+    GLXFBConfig *fbconfig;
+    const int* attribList;
+    
     core::Engine::GetEngine ()->GetLog ()
       << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "Creating pixel buffer for offscreen rendering" << std::flush;
@@ -346,10 +347,10 @@ void
 WindowSystem::CreateWindow(WindowVisualInfo &windowParameters)
 {
   XSetWindowAttributes winAttr; 
-  XVisualInfo *vi = NULL;
-  GLXFBConfig *fbconfig = NULL;
+  XVisualInfo *vi;
+  GLXFBConfig *fbconfig;
   int nelements;
-  const int* attribList = NULL;
+  const int* attribList;
 
   attribList = windowParameters.GetPixelFormatAttributes(false);
   if (attribList == NULL)
@@ -534,10 +535,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
 {
   if (param.useFullscreen)
   {
-    long atomsSize;
-    Atom *atoms;
     XWindowAttributes xwa;
-    bool netWMFullscreen = false;
 
     int resID = IsResolutionSupported(param.width, param.height);
 
@@ -550,17 +548,21 @@ WindowSystem::SetMode(WindowVisualInfo &param)
 
     XRRSetScreenConfig(dpy, screenConfigInformation, root, resID, RR_Rotate_0, CurrentTime);
 
-    // The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the window 
-    // should fill the entire screen and have no window decorations. Additionally 
-    // the Window Manager is responsible for restoring the original geometry after 
-    // a switch from fullscreen back to normal window. For example, a presentation 
-    // program would use this hint." 
+    // The EWMH spec says that "_NET_WM_STATE_FULLSCREEN indicates that the
+    // window should fill the entire screen and have no window
+    // decorations. Additionally the Window Manager is responsible for restoring
+    // the original geometry after a switch from fullscreen back to normal
+    // window. For example, a presentation program would use this hint." 
 
-    // As some window managers still support the old MWN_HINTS we will try that to
-    // disable any window decorations
+    // As some window managers still support the old MWN_HINTS we will try that
+    // to disable any window decorations
 
     if (IsNetWMCompliant())
     {
+      long atomsSize;
+      Atom *atoms;
+      bool netWMFullscreen = false;
+
       Atom netSupported = XInternAtom(dpy,"_NET_SUPPORTED", False);
       Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False);
       Atom fullScreen = XInternAtom(dpy,"_NET_WM_STATE_FULLSCREEN", False);
@@ -726,8 +728,8 @@ WindowSystem::GetXProperty(const Window &win, Atom property, Atom property_type,
 
   if (xa_ret_type != property_type)
   {
-    return NULL;
     XFree(data);
+    return NULL;
   }
   
   if (format == 32)
