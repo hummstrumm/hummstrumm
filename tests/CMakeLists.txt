@@ -20,10 +20,8 @@ endif ()
 
 set (hummstrummengine_INCLUDE ../include/
   ${hummstrummengine_BINARY_DIR}/include
-  ${CPPUNIT_INCLUDE_DIR}
   ${OPENGL_INCLUDE_DIR})
 set (hummstrummengine_LIBS hummstrummengine
-  ${CPPUNIT_LIBRARIES}
   ${OPENGL_LIBRARIES})
 if (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST)
   list (APPEND hummstrummengine_LIBS ${Boost_LIBRARIES})
@@ -53,38 +51,50 @@ include_directories (${CMAKE_SOURCE_DIR}/lib)
 #  include_directories (${X11_X11_INCLUDE_PATH})
 #endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
-add_executable(test_engine_log log.cpp)
-target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
-add_test (NAME test_engine_log COMMAND test_engine_log)
 
-add_executable(test_engine_date date.cpp)
-target_link_libraries(test_engine_date ${hummstrummengine_LIBS})
-add_test(NAME test_engine_date COMMAND test_engine_date)
+# Wraps up the machinery needed to add a test that uses TAP output
+# (like a cipra unit test).
+function(tap_test file_path)
+  string(REPLACE "/" "_" file_path_no_dirs ${file_path})
+  get_filename_component(test_name ${file_path_no_dirs} NAME_WE)
+  add_executable("test_${test_name}" ${file_path})
+  target_link_libraries("test_${test_name}" ${hummstrummengine_LIBS})
+  add_test(NAME "test_${test_name}"
+    COMMAND prove -vo --trap --normalize
+    "${CMAKE_CURRENT_BINARY_DIR}/test_${test_name}")
+endfunction()
 
-add_executable(test_engine_math math.cpp)
-target_link_libraries(test_engine_math ${hummstrummengine_LIBS})
-add_test (NAME test_engine_math COMMAND test_engine_math)
 
-add_executable(test_math_quaternion math/quaternion.cpp)
-target_link_libraries(test_math_quaternion ${hummstrummengine_LIBS})
-add_test (NAME test_math_quaternion COMMAND test_math_quaternion)
+# add_executable(test_engine_log log.cpp)
+# target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
+# add_test (NAME test_engine_log COMMAND test_engine_log)
 
-add_executable(test_engine_timing timing.cpp)
-target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
-add_test (NAME test_engine_timing COMMAND test_engine_timing)
+tap_test(date/timezone.cpp)
+tap_test(date/duration.cpp)
+tap_test(date/date.cpp)
 
-add_executable(test_engine_system system.cpp)
-target_link_libraries(test_engine_system ${hummstrummengine_LIBS})
-add_test (NAME test_engine_system COMMAND test_engine_system)
+# add_executable(test_engine_math math.cpp)
+# target_link_libraries(test_engine_math ${hummstrummengine_LIBS})
+# add_test (NAME test_engine_math COMMAND test_engine_math)
 
-add_executable(test_engine_systemprint systemprint.cpp)
-target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
-add_test (NAME test_engine_systemprint COMMAND test_engine_systemprint)
+tap_test(math/quaternion.cpp)
 
-add_executable(test_engine_geometry geometry.cpp)
-target_link_libraries(test_engine_geometry ${hummstrummengine_LIBS})
-add_test (NAME test_engine_geometry COMMAND test_engine_geometry)
+# add_executable(test_engine_timing timing.cpp)
+# target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
+# add_test (NAME test_engine_timing COMMAND test_engine_timing)
 
-add_executable(test_engine_window window-new.cpp)
-target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
-add_test (NAME test_engine_window COMMAND test_engine_window)
+# add_executable(test_engine_system system.cpp)
+# target_link_libraries(test_engine_system ${hummstrummengine_LIBS})
+# add_test (NAME test_engine_system COMMAND test_engine_system)
+
+# add_executable(test_engine_systemprint systemprint.cpp)
+# target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
+# add_test (NAME test_engine_systemprint COMMAND test_engine_systemprint)
+
+# add_executable(test_engine_geometry geometry.cpp)
+# target_link_libraries(test_engine_geometry ${hummstrummengine_LIBS})
+# add_test (NAME test_engine_geometry COMMAND test_engine_geometry)
+
+# add_executable(test_engine_window window-new.cpp)
+# target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
+# add_test (NAME test_engine_window COMMAND test_engine_window)
