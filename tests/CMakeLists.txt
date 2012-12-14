@@ -65,10 +65,6 @@ function(tap_test file_path)
 endfunction()
 
 
-# add_executable(test_engine_log log.cpp)
-# target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
-# add_test (NAME test_engine_log COMMAND test_engine_log)
-
 tap_test(date/timezone.cpp)
 tap_test(date/duration.cpp)
 tap_test(date/date.cpp)
@@ -81,14 +77,20 @@ tap_test(geometry/boundingsphere.cpp)
 tap_test(system/endianness.cpp)
 tap_test(system/clock.cpp)
 
-# add_executable(test_engine_timing timing.cpp)
-# target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
-# add_test (NAME test_engine_timing COMMAND test_engine_timing)
 
-# add_executable(test_engine_systemprint systemprint.cpp)
-# target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
-# add_test (NAME test_engine_systemprint COMMAND test_engine_systemprint)
+# non-TAP tests
+add_executable(test_engine_log log.cpp)
+target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
+add_test (NAME test_engine_log COMMAND test_engine_log)
 
-# add_executable(test_engine_window window-new.cpp)
-# target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
-# add_test (NAME test_engine_window COMMAND test_engine_window)
+add_executable(test_engine_timing timing.cpp)
+target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
+add_test (NAME test_engine_timing COMMAND test_engine_timing)
+
+add_executable(test_engine_systemprint systemprint.cpp)
+target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
+add_test (NAME test_engine_systemprint COMMAND test_engine_systemprint)
+
+add_executable(test_engine_window window-new.cpp)
+target_link_libraries(test_engine_window ${hummstrummengine_LIBS})
+add_test (NAME test_engine_window COMMAND test_engine_window)
