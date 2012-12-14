@@ -78,9 +78,9 @@ configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
 
 if (ENABLE_UNIT_TESTS)
-  find_package (CPPUnit)
-  if (NOT CPPUNIT_FOUND)
-    message ("CPPUnit was not found on this system.  Unit tests will be disabled.")
+  if (NOT PERL_FOUND)
+    message (WARNING "Perl not found on the system.  The Perl ``prove'' "
+      "command is required for unit testing.")
     set (IS_BUILDING_UNIT_TESTS OFF)
   else ()
     set (IS_BUILDING_UNIT_TESTS ON)
