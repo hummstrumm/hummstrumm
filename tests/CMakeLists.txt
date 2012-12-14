@@ -78,14 +78,12 @@ tap_test(math/vector.cpp)
 tap_test(geometry/plane.cpp)
 tap_test(geometry/segment.cpp)
 tap_test(geometry/boundingsphere.cpp)
+tap_test(system/endianness.cpp)
+tap_test(system/clock.cpp)
 
 # add_executable(test_engine_timing timing.cpp)
 # target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
 # add_test (NAME test_engine_timing COMMAND test_engine_timing)
-
-# add_executable(test_engine_system system.cpp)
-# target_link_libraries(test_engine_system ${hummstrummengine_LIBS})
-# add_test (NAME test_engine_system COMMAND test_engine_system)
 
 # add_executable(test_engine_systemprint systemprint.cpp)
 # target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
