@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,11 +34,11 @@ main ()
       test () override
       {
         plan (63);
-        
+
         TestMultiplication ();
         TestLogExpPow ();
       }
-      
+
       void
       TestMultiplication ()
       {
@@ -65,10 +65,10 @@ main ()
         ok ([&]() { return std::abs (0 - qExpected.v.coord.z)  < 0.01; },
             "(q1*q2) vector part z");
       }
-      
+
       void
       TestLogExpPow ()
-      { 
+      {
         float exponent = 2;
         auto q0 = new_ok<Quaternion<float>> (4, 1, 2, 3 ),
           q1 = new_ok<Quaternion<float>> (1, 0, 0, 0 ),
@@ -179,7 +179,7 @@ main ()
             "ln e^q0 vector part y");
         ok ([&]() { return std::abs (-2.03776 - qExpected.v.coord.z)  < 0.01; },
             "ln e^q0 vector part z");
-        
+
         qExpected = QuatPow (q0, q0);
         ok ([&]() { return std::abs (-53.8975 - qExpected.w) < 0.01; },
             "q0^q0 scalar part");

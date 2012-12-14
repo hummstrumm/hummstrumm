@@ -72,12 +72,9 @@ endfunction()
 tap_test(date/timezone.cpp)
 tap_test(date/duration.cpp)
 tap_test(date/date.cpp)
-
-# add_executable(test_engine_math math.cpp)
-# target_link_libraries(test_engine_math ${hummstrummengine_LIBS})
-# add_test (NAME test_engine_math COMMAND test_engine_math)
-
 tap_test(math/quaternion.cpp)
+tap_test(math/matrix.cpp)
+tap_test(math/vector.cpp)
 
 # add_executable(test_engine_timing timing.cpp)
 # target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
