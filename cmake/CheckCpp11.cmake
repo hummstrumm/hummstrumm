@@ -69,7 +69,7 @@ if (NOT ENABLE_BOOST_REGEX)
     message (STATUS "Checking that compiler's regex works")
     file (WRITE
       "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/regex.cpp"
-      "#include <regex>\n#include <string>\nint main() {\nstd::string str {\"Hello world\"};\nstd::regex rx{\"ello\"};\nreturn regex_match (str.begin (), str.end (), rx);\n")
+      "#include <regex>\n#include <string>\nint main() {\nstd::string str {\"Hello world\"};\nstd::regex rx{\"ello\"};\nreturn regex_match (str.begin (), str.end (), rx);\nreturn 0; }\n")
     try_run (regex_check_output regex_check_compiled
       "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp"
       "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/regex.cpp")
