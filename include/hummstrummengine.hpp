@@ -277,7 +277,6 @@ class WindowSystem;
 #endif // #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
 #include "types/inttypes.hpp"
-#include "util/regex.hpp"
 #include "debug/utils.hpp"
 #include "math/simd.hpp"
 #include "util/optimizations.hpp"

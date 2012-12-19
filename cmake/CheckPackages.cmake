@@ -31,6 +31,17 @@ if (ENABLE_TERMCOLORS)
   endif ()
 endif ()
 
+# Look for Boost
+find_package (Boost 1.33.0 REQUIRED COMPONENTS regex)
+if (NOT Boost_FOUND)
+  message (FATAL_ERROR "Failed to find Boost.")
+else ()
+  set (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST ON)
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_REGEX_NO_LIB")
+  include_directories (SYSTEM ${Boost_INCLUDE_DIR})
+  link_directories (${Boost_LIBRARY_DIRS})
+endif ()
+
 # Look for cppcheck
 if (ENABLE_CPPCHECK)
   find_program (CPPCHECK_COMMAND cppcheck DOC "Path to cppcheck.")

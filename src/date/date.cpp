@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <sstream>
 #include <stdexcept>
+#include <boost/regex.hpp>
 using namespace hummstrumm::engine::types;
 
 
@@ -477,14 +478,14 @@ operator>> (std::istream &in, Date &d)
   // Capture groups:
   //   1. Year  2. Month  3. Day
   //   4. Hour  5. Minute  6. Second and Millisecond
-  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::regex r ("(-?\\d{4,6})-"
+  boost::regex r ("(-?\\d{4,6})-"
     "(\\d{2})-"
     "(\\d{2})T"
     "(\\d{2}):"
     "(\\d{2}):"
     "(\\d{2}(?:\\.\\d{1,3})?)"
     "(.*)");
-  HUMMSTRUMM_ENGINE_REGEX_NS_PREFIX::smatch m;
+  boost::smatch m;
                         
   std::locale cLocale ("C");
   std::locale old (in.imbue (cLocale));
@@ -506,7 +507,7 @@ operator>> (std::istream &in, Date &d)
       d = Date (year, month, day, hour, min, sec, msec);
 
       if (m[m.size ()].str ().size () > 0)
-	{
+        {
           Timezone offset;
           std::stringstream ss (m[m.size ()].str ());
           ss >> offset;

@@ -205,7 +205,6 @@ source_group("Header Files\\types" FILES ${types_HEADERS})
 
 #  Util
 set (util_HEADERS include/util/optimizations.hpp)
-set (util_HEADERS include/util/regex.hpp)
 
 source_group("Header Files\\util" FILES ${util_HEADERS})
 
