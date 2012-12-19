@@ -54,11 +54,6 @@ if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
   message ("  * SSE support")
 endif ()
 
-# Are we using Boost::regex?
-if (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST)
-  message ("  * Boost::regex")
-endif ()
-
 message ("")
 message ("This is the ${HUMMSTRUMM_ENGINE_VERSION} release of ${HUMMSTRUMM_ENGINE_NAME}.")
 message ("For a list of changes in this release, see the packaged NEWS file.")
