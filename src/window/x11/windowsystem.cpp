@@ -745,7 +745,6 @@ WindowSystem::GetXProperty(const Window &win, Atom property, Atom property_type,
   ret = new char[size + 1];
   memcpy(ret,data,size);
   ret[size] = '\0';
-  size = size;
   XFree(data);
   return ret;
 }

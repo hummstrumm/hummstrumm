@@ -34,20 +34,20 @@ main (int, char **)
 {
   // Cut down on typing. ^_^
   using namespace debug::logging;
-  using namespace std::tr1;
+  using namespace std;
 
   // Start the engine.
   core::Engine::Configuration params;
   params.logBackends.push_back (
-    shared_ptr<Backend> (new FileBackend (Level::info    |
-                                          Level::success |
-                                          Level::warning |
-                                          Level::error, "test-window.log")));
+    make_shared<FileBackend> (Level::info    |
+                              Level::success |
+                              Level::warning |
+                              Level::error, "test-window.log"));
   params.logBackends.push_back (
-    shared_ptr<Backend> (new ConsoleBackend (Level::info    |
-                                             Level::success |
-                                             Level::warning |
-                                             Level::error)));
+    make_shared<ConsoleBackend> (Level::info    |
+                                 Level::success |
+                                 Level::warning |
+                                 Level::error));
   core::Engine engine (params);
   
   // We want the log to display true/false, not 1/0.

@@ -59,10 +59,9 @@ class Engine
      */
     struct Configuration
     {
-        /// The backends to send log messages to. @todo Take out @c tr1 in C++11
-        std::vector<std::tr1::shared_ptr<
-                      hummstrumm::engine::debug::logging::Backend> >
-          logBackends;
+        /// The backends to send log messages to.
+        std::vector<std::shared_ptr<
+          hummstrumm::engine::debug::logging::Backend>> logBackends;
     };
 
     /**

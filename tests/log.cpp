@@ -18,11 +18,7 @@
 
 #include <iostream>
 #include <fstream>
-#if defined(HAVE_TR1_MEMORY)
-#  include <tr1/memory> // This will change when we switch to C++11.
-#elif defined(HAVE_MEMORY)
-#  include <memory>
-#endif
+#include <memory>
 
 #include "hummstrummengine.hpp"
 using namespace hummstrumm::engine;
@@ -30,19 +26,17 @@ using namespace hummstrumm::engine;
 int
 main ()
 {
-  // Use make_shared<> here soon.
-  typedef std::tr1::shared_ptr<debug::logging::Backend> ptr;
-  ptr console (
-    new debug::logging::ConsoleBackend (debug::logging::Level::warning, true,
+  typedef std::shared_ptr<debug::logging::Backend> ptr;
+  ptr console = std::make_shared<debug::logging::ConsoleBackend> (
+    debug::logging::Level::warning, true,
 #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
-      false));
+      false);
 #else
-      true));
+      true);
 #endif
-  ptr file (
-    new debug::logging::FileBackend (
-      debug::logging::Level::info | debug::logging::Level::warning,
-      "test-the-engine.log"));
+  ptr file = std::make_shared<debug::logging::FileBackend> (
+    debug::logging::Level::info | debug::logging::Level::warning,
+    "test-the-engine.log");
   core::Engine::Configuration params;
   params.logBackends.push_back (console);
   params.logBackends.push_back (file);

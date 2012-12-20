@@ -28,9 +28,9 @@ main ()
   types::int64 freq = 0;
   
   core::Engine::Configuration params;
-  params.logBackends.push_back (std::tr1::shared_ptr<debug::logging::Backend>
-                                (new debug::logging::ConsoleBackend (
-                                  debug::logging::Level::info)));
+  params.logBackends.push_back (
+    std::make_shared<debug::logging::ConsoleBackend> (
+      debug::logging::Level::info));
   core::Engine engine (params);
   std::ostream &log = engine.GetLog ();
 

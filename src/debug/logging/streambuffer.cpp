@@ -23,11 +23,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#if defined(HAVE_TR1_MEMORY)
-#  include <tr1/memory> // This will change when we switch to C++11.
-#elif defined(HAVE_MEMORY)
-#  include <memory>
-#endif
+#include <memory>
 
 using namespace std;
 
@@ -41,7 +37,7 @@ namespace logging
 {
 
 
-StreamBuffer::StreamBuffer (vector<tr1::shared_ptr<Backend> > backends)
+StreamBuffer::StreamBuffer (vector<shared_ptr<Backend>> backends)
   : backends (backends),
     file ("(no file)"),
     line (0),
@@ -56,8 +52,7 @@ StreamBuffer::SendToBackends ()
   time_t t = time (0);
   string message = str ();
   
-  vector<tr1::shared_ptr<Backend> >::iterator i;
-  for (i = backends.begin (); i != backends.end (); ++i)
+  for (auto i = backends.begin (); i != backends.end (); ++i)
     {
       // Funny syntax here: first we dereference the iterator (that's the
       // inner star), and then we dereference the smart pointer that's in

@@ -34,11 +34,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#if defined(HAVE_TR1_MEMORY)
-#  include <tr1/memory> // This will change when we switch to C++11.
-#elif defined(HAVE_MEMORY)
-#  include <memory>
-#endif
+#include <memory>
 
 namespace hummstrumm
 {
@@ -65,9 +61,9 @@ class Backend;
  * for us.  We only override the sync() method, which is called when the user
  * requests a flush (which is when we write to our backends).
  * 
- * @version 0.6
+ * @version 0.7
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date    2012-06-14
+ * @date    2012-12-19
  * @since   0.6
  *
  * @todo We'll want message levels.
@@ -79,12 +75,10 @@ class StreamBuffer : public std::stringbuf
      * Constructs a new StreamBuffer object from given backends.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2012-06-14
+     * @date   2012-12-19
      * @since  0.6
-     *
-     * @todo @c std::tr1::shared_ptr becomes @c std::shared_ptr in C++11.
      */
-    StreamBuffer (std::vector<std::tr1::shared_ptr<Backend> > backends);
+    StreamBuffer (std::vector<std::shared_ptr<Backend>> backends);
     /**
      * Destructs an existing StreamBuffer object.
      *
@@ -166,8 +160,8 @@ class StreamBuffer : public std::stringbuf
     virtual int sync ();
 
   private:
-    /// Send messages to these backends. @todo Take out the @c tr1 part later.
-    std::vector<std::tr1::shared_ptr<Backend> > backends;
+    /// Send messages to these backends.
+    std::vector<std::shared_ptr<Backend>> backends;
     /// The last update of the file name.
     std::string file;
     /// The last update of the line number.

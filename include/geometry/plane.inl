@@ -124,7 +124,7 @@ template <typename T>
 std::ostream &
 operator<< (std::ostream &out, Plane3D<T> plane)
 {
-  if (plane.normal.coord.x || !plane.normal.coord.y && !plane.normal.coord.z)
+  if (plane.normal.coord.x || (!plane.normal.coord.y && !plane.normal.coord.z))
     out << plane.normal.coord.x << "x";
 
   if (plane.normal.coord.y < 0)
