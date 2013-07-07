@@ -31,6 +31,19 @@ if (ENABLE_TERMCOLORS)
   endif ()
 endif ()
 
+if (ENABLE_UNIT_TESTS)
+  message (STATUS "Checking for cipra library")
+  find_file (CIPRA_PATH "cipra.hpp"
+    "${CMAKE_SOURCE_DIR}/lib/cipra/")
+  mark_as_advanced (CIPRA_PATH)
+  if (NOT CIPRA_PATH)
+    message (FATAL_ERROR "Failed to find cipra library.  It is not in your source distribution -- if you are in a git clone, did you update all your submodules?")
+  else ()
+    message (STATUS "Checking for cipra library - found")
+    set (HAVE_CIPRA_H YES)
+  endif ()
+endif ()
+
 # Look for Boost
 find_package (Boost 1.33.0 REQUIRED COMPONENTS regex)
 if (NOT Boost_FOUND)
