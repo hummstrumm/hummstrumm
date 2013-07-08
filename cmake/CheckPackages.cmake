@@ -32,6 +32,9 @@ if (ENABLE_TERMCOLORS)
 endif ()
 
 # Look for Boost
+set(Boost_USE_STATIC_LIBS        ON)
+set(Boost_USE_MULTITHREADED      ON)
+set(Boost_USE_STATIC_RUNTIME    OFF)
 find_package (Boost 1.33.0 REQUIRED COMPONENTS regex)
 if (NOT Boost_FOUND)
   message (FATAL_ERROR "Failed to find Boost.")
