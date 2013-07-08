@@ -51,13 +51,13 @@ class Level
 {
   public:
     /// A simple message.
-    static constexpr unsigned info    = (0x1u << 0);
+    static const unsigned info    = (0x1u << 0);
     /// Alerting of some success.
-    static constexpr unsigned success = (0x1u << 1);
+    static const unsigned success = (0x1u << 1);
     /// Alerting of some non-fatal error.
-    static constexpr unsigned warning = (0x1u << 2);
+    static const unsigned warning = (0x1u << 2);
     /// Alerting of some fatal error.
-    static constexpr unsigned error   = (0x1u << 3);
+    static const unsigned error   = (0x1u << 3);
     
   private:
     Level (); // So we can't create it.
