@@ -15,12 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # This is the CTest script to submit to the dashboard at
-# <http://my.cdash.org/index.php?project=hummstrumm>.
-
-set(CTEST_PROJECT_NAME "hummstrumm")
-set(CTEST_NIGHTLY_START_TIME "00:00:00 EST")
+# <http://hummstrumm.sourceforge.net/cdash>.
+set(CTEST_PROJECT_NAME "Engine")
+set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
 
 set(CTEST_DROP_METHOD "http")
-set(CTEST_DROP_SITE "my.cdash.org")
-set(CTEST_DROP_LOCATION "/submit.php?project=hummstrumm")
+set(CTEST_DROP_SITE "hummstrumm.sourceforge.net")
+set(CTEST_DROP_LOCATION "/cdash/submit.php?project=Engine")
 set(CTEST_DROP_SITE_CDASH TRUE)
