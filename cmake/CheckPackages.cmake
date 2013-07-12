@@ -33,7 +33,7 @@ endif ()
 
 if (ENABLE_UNIT_TESTS)
   message (STATUS "Checking for cipra library")
-  find_file (CIPRA_PATH "cipra.hpp"
+  find_file (CIPRA_PATH "cipra.h"
     "${CMAKE_SOURCE_DIR}/lib/cipra/")
   mark_as_advanced (CIPRA_PATH)
   if (NOT CIPRA_PATH)
