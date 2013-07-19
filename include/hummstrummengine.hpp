@@ -130,7 +130,7 @@ class Profiler;
  */
 namespace logging
 {
-class Level;
+enum class Level : unsigned;;
 class StreamBuffer;
 class Backend;
 class ConsoleBackend;
@@ -315,6 +315,7 @@ class WindowSystem;
 #include "system/processors.inl"
 #include "date/duration.inl"
 #include "date/date.inl"
+#include "debug/logging/level.inl"
 #include "debug/logging/streambuffer.inl"
 #include "debug/logging/backend.inl"
 #include "debug/logging/manip.inl"

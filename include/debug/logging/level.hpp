@@ -44,24 +44,37 @@ namespace logging
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
  * @date    2012-06-15
  * @since   0.6
- *
- * @note You can't instantiate this class.  It only holds constants.
  */
-class Level
+enum class Level : unsigned
 {
-  public:
-    /// A simple message.
-    static constexpr unsigned info    = (0x1u << 0);
-    /// Alerting of some success.
-    static constexpr unsigned success = (0x1u << 1);
-    /// Alerting of some non-fatal error.
-    static constexpr unsigned warning = (0x1u << 2);
-    /// Alerting of some fatal error.
-    static constexpr unsigned error   = (0x1u << 3);
-    
-  private:
-    Level (); // So we can't create it.
+    info    = 0x1u << 0,        /// A simple message.
+    success = 0x1u << 1,        /// Alerting of some success.
+    warning = 0x1u << 2,        /// Alerting of some non-fatal error.
+    error   = 0x1u << 3,        /// Elerting of some fatal error.
+    all = info | success | warning | error, /// All levels
+    none = 0u
 };
+
+/**
+ * Applies a bitwise mask to two Level objects.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2013-07-19
+ * @since  0.7
+ *
+ * @return A Level that represents the bitwise mask of the two arguments.
+ */
+inline Level operator&(const Level &, const Level &);
+/**
+ * Applies a bitwise or to two Level objects.
+ *
+ * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2013-07-19
+ * @since  0.7
+ *
+ * @return A Level that represents the bitwise or of the two arguments.
+ */
+inline Level operator|(const Level &, const Level &);
 
 
 }

@@ -67,8 +67,7 @@ class Backend
      * @param [in] allowedLevels The levels that this backend should print, OR'd
      * together.
      */
-    inline Backend (unsigned allowedLevels =
-                      std::numeric_limits<unsigned>::max ());
+    inline Backend (Level allowedLevels = Level::all);
     /**
      * Destructs a backend.
      *
@@ -98,10 +97,10 @@ class Backend
      * timestamps between backends will be the same for corresponding messages.
      */
     virtual void operator() (std::time_t time, std::string file, unsigned line,
-                             unsigned level, std::string message) = 0;
+                             Level level, std::string message) = 0;
 
   protected:
-    unsigned acceptLevels;
+    Level acceptLevels;
 };
 
 
@@ -134,8 +133,7 @@ class ConsoleBackend : public Backend
      * @param [in] useStderr Whether to use @c stderr or @c stdout .
      * @param [in] printColor Whether to print in color.
      */
-    inline ConsoleBackend (unsigned allowedLevels =
-                             std::numeric_limits<unsigned>::max (),
+    inline ConsoleBackend (Level allowedLevels = Level::all,
                            bool useStderr = true,
                            bool printColor = true);
     /**
@@ -165,7 +163,7 @@ class ConsoleBackend : public Backend
      * @see debug::logging::Backend
      */
     virtual void operator() (std::time_t time, std::string file, unsigned line,
-                             unsigned level, std::string message);
+                             Level level, std::string message);
 
   private:
     bool useStderr;  ///< Should we use @c stderr ?
@@ -199,7 +197,7 @@ class FileBackend : public Backend
      * together. 
      * @param [in,out] file The name of the log file.
      */ 
-    FileBackend (unsigned allowedLevels = std::numeric_limits<unsigned>::max (),
+    FileBackend (Level allowedLevels = Level::all,
                  std::string file = "~/.hummstrummengine.log");
     /**
      * Destructs an existing FileBackend object.  The closing tag of the
@@ -229,7 +227,7 @@ class FileBackend : public Backend
      * @see debug::logging::Backend
      */
     virtual void operator() (std::time_t time, std::string file, unsigned line,
-                             unsigned level, std::string message);
+                             Level level, std::string message);
 
   private:
     std::ofstream fileStream; ///< The file we should print to.

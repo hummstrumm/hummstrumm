@@ -16,8 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_STREAMBUFFER_INL
-#define HUMMSTRUMM_ENGINE_DEBUG_LOGGING_STREAMBUFFER_INL
+#ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_LEVEL_INL
+#define HUMMSTRUMM_ENGINE_DEBUG_LOGGING_LEVEL_INL
+
+#include <type_traits>
 
 namespace hummstrumm
 {
@@ -29,39 +31,18 @@ namespace logging
 {
 
 
-StreamBuffer::~StreamBuffer ()
+inline Level operator&(const Level &a, const Level &b)
 {
+  return static_cast<Level> (
+    static_cast<const std::underlying_type<Level>::type> (a) &
+    static_cast<const std::underlying_type<Level>::type> (b));
 }
 
-void
-StreamBuffer::SetFile (std::string s)
+inline Level operator|(const Level &a, const Level &b)
 {
-  file = s;
-}
-
-void
-StreamBuffer::SetLine (unsigned n)
-{
-  line = n;
-}
-
-void
-StreamBuffer::SetLevel (Level n)
-{
-  level = n;
-}
-
-void
-StreamBuffer::Lock ()
-{
-  lock = true;
-}
-
-bool
-StreamBuffer::IsLocked ()
-  const
-{
-  return lock;
+  return static_cast<Level> (
+    static_cast<const std::underlying_type<Level>::type> (a) |
+    static_cast<const std::underlying_type<Level>::type> (b));
 }
 
 
@@ -70,4 +51,4 @@ StreamBuffer::IsLocked ()
 }
 }
 
-#endif // #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_STREAMBUFFER_INL
+#endif // #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_LEVEL_INL

@@ -157,7 +157,7 @@ struct SetLevel
      * @date   2012-06-15
      * @since  0.6
      */
-    SetLevel (unsigned);
+    SetLevel (Level);
     /**
      * Destructs the manipulator.
      *
@@ -167,7 +167,7 @@ struct SetLevel
      */
     inline ~SetLevel ();
 
-    unsigned level;
+    Level level;
 };
 
 /**

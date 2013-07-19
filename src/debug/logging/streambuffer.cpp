@@ -41,7 +41,7 @@ StreamBuffer::StreamBuffer (vector<shared_ptr<Backend>> backends)
   : backends (backends),
     file ("(no file)"),
     line (0),
-    level (0),
+    level (Level::none),
     lock (false)
 {
 }
@@ -79,7 +79,7 @@ StreamBuffer::sync ()
       str ("");
       file = "(no file)";
       line = 0;
-      level = 0;
+      level = Level::none;
       lock = false;
     }
   catch (...)
