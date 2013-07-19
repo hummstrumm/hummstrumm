@@ -130,7 +130,7 @@ class Profiler;
  */
 namespace logging
 {
-enum class Level : unsigned;;
+enum class Level : unsigned;
 class StreamBuffer;
 class Backend;
 class ConsoleBackend;
