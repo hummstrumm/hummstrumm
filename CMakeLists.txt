@@ -133,8 +133,8 @@ set (debug_HEADERS
 set (debug_SRCS
   src/debug/logging/streambuffer.cpp
   src/debug/logging/backend.cpp
-  src/debug/logging/manip.cpp
-  src/debug/profiler.cpp)
+  src/debug/logging/manip.cpp)
+#  src/debug/profiler.cpp)
 
 source_group("Header Files\\debug" FILES ${debug_HEADERS})
 source_group("Source Files\\debug" FILES ${debug_SRCS})
