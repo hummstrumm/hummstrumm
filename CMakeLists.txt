@@ -129,12 +129,12 @@ set (debug_HEADERS
   include/debug/logging/streambuffer.hpp
   include/debug/logging/streambuffer.inl
   include/debug/profiler.hpp
+  include/debug/profiler.inl
   include/debug/utils.hpp)
 set (debug_SRCS
   src/debug/logging/streambuffer.cpp
   src/debug/logging/backend.cpp
   src/debug/logging/manip.cpp)
-#  src/debug/profiler.cpp)
 
 source_group("Header Files\\debug" FILES ${debug_HEADERS})
 source_group("Source Files\\debug" FILES ${debug_SRCS})

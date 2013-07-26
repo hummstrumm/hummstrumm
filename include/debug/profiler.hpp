@@ -29,47 +29,11 @@
 #define HUMMSTRUMM_ENGINE_DEBUG_PROFILER
 
 #include <chrono>
-#include <ratio>
-#include <string>
 #include <vector>
 #include <iosfwd>
 #include <atomic>
 
-namespace hummstrumm {
-namespace engine {
-namespace debug {
-
-namespace details {
-
-/**
- * Makes a `std::string` from its template parameter that represents the unit
- * suffix of the duration.
- *
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2013-07-16
- * @since  0.7
- *
- * @tparam DurationT The duration type for which to build a unit suffix string.
- * This type must be an instantiation of the `std::chrono::duration` template.
- *
- * @return A string that contains the unit suffix for the given `DurationT`.
- */
-template <typename DurationT>
-std::string getDurationSuffix () /* nothrow */;
-template <>
-inline std::string getDurationSuffix<std::chrono::nanoseconds>() /* nothrow */;
-template <>
-inline std::string getDurationSuffix<std::chrono::microseconds>() /* nothrow */;
-template <>
-inline std::string getDurationSuffix<std::chrono::milliseconds>() /* nothrow */;
-template <>
-inline std::string getDurationSuffix<std::chrono::seconds>() /* nothrow */;
-template <>
-inline std::string getDurationSuffix<std::chrono::minutes>() /* nothrow */;
-template <>
-inline std::string getDurationSuffix<std::chrono::hours>() /* nothrow */;
-
-}
+namespace hummstrumm { namespace engine { namespace debug {
 
 /**
  * A timer that prints out elapsed times to a log.  A `Profiler<ClockT,
@@ -81,7 +45,7 @@ inline std::string getDurationSuffix<std::chrono::hours>() /* nothrow */;
  * a call to the `next()` member function until the next call to the `next()`
  * member functor, a move operation from `*this` or the destructor invocation
  * (whichever happens first).  Statistics of the run durations are calculated
- * and printed.
+ * and printed to the log.
  *
  * @version 0.7
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
@@ -89,8 +53,7 @@ inline std::string getDurationSuffix<std::chrono::hours>() /* nothrow */;
  * @since   0.7
  *
  * @tparam ClockT The type from which to get the tick count.  This type must
- *         satisfy the requirements of the `Clock` concept, and the clock must
- *         be steady (`ClockT::is_steady == true`).
+ *         satisfy the requirements of the `Clock` concept.
  * @tparam DurationT The type in which to print the times measured.  This type
  *         must be an instantiation of the `std::chrono::duration` template.
  *
@@ -176,19 +139,39 @@ class Profiler
     void next ();
 
   private:
+    /**
+     * Returns a `std::stringbuf` which contains a representation of the
+     * duration `d` in the units of `DurationT` followed by a string
+     * representing the units of `DurationT`.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2013-07-25
+     * @since  0.7
+     *
+     * @tparam InDurationT The type of the duration that we are receiving.
+     *
+     * @param [in] d The duration to print.
+     *
+     * @return A `std::stringbuf` that can be printed to a stream.
+     *
+     * @pre `d` is a valid object.
+     */
+    template <typename InDurationT>
+    static std::string printDuration (const InDurationT &d);
+
     /// The start of the current run.
     typename Clock::time_point start;
     /// The times of previous runs.
     std::vector<typename Clock::duration> times;
     /// The log to print to.
-    std::iostream *out;
-    /// The number of profilers that have been created so far.
-    static std::atomic<unsigned> count;
+    std::ostream *out;
+    /// The identifier of the current profiler.
+    unsigned num;
 };
 
 
-}
-}
-}
+}}}
+
+#include "profiler.inl"
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_DEBUG_PROFILER
