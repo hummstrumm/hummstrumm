@@ -66,9 +66,9 @@ class Profiler
 {
   public:
     /// The type that is used to get `time_point`s.
-    using Clock = ClockT;
+    typedef ClockT Clock;
     /// The `std::chrono::duration` used to print the results.
-    using Duration = DurationT;
+    typedef DurationT Duration;
     
     /**
      * Constructs a new `Profiler<ClockT, DurationT>` object using a given log.
@@ -166,7 +166,7 @@ class Profiler
     /// The log to print to.
     std::ostream *out;
     /// The identifier of the current profiler.
-    unsigned num;
+    unsigned long num;
 };
 
 
