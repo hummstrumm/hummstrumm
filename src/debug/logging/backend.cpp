@@ -56,10 +56,10 @@ ConsoleBackend::~ConsoleBackend ()
 
 void
 ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
-                            unsigned level, std::string message)
+                            Level level, std::string message)
 {
   // Should we even print on this level?
-  if (!(level & acceptLevels)) return;
+  if ((level & acceptLevels) == Level::none) return;
   
   // To which stream should we print?
   std::ostream &out = useStderr ? std::cerr : std::cout;
@@ -111,7 +111,7 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::FileBackend implementation
 
-FileBackend::FileBackend (unsigned levels, std::string file)
+FileBackend::FileBackend (Level levels, std::string file)
   : Backend (levels),
     fileStream (file)
 {
@@ -133,10 +133,10 @@ FileBackend::~FileBackend ()
 
 void
 FileBackend::operator() (std::time_t t, std::string file, unsigned line,
-                         unsigned level, std::string message)
+                         Level level, std::string message)
 {
   // Should we even print on this level?
-  if (!(level & acceptLevels)) return;
+  if ((level & acceptLevels) == Level::none) return;
   
   // Get timestamp.  It's guaranteed to be 22 chars, including the terminating
   // nul.  Use std::put_time (std::gmtime (&t), "%Y-%m-%dT%H:%M:%SZ")
@@ -183,4 +183,3 @@ FileBackend::operator() (std::time_t t, std::string file, unsigned line,
 }
 }
 }
-

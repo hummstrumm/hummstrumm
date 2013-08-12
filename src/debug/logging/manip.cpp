@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <type_traits>
 
 namespace hummstrumm
 {
@@ -31,11 +32,12 @@ namespace logging
 {
 
 
-SetLevel::SetLevel (unsigned l)
+SetLevel::SetLevel (Level lev)
 {
+  auto l = static_cast<std::underlying_type<Level>::type> (lev);
   // All levels are powers of two.  Handy check to see if l is a power of two.
   if ((l != 0) && !(l & (l - 1)))
-    level = l;
+    level = lev;
   else
     throw std::invalid_argument
       ("Log level must be one of the predefined constants.");

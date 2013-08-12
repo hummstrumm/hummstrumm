@@ -111,7 +111,7 @@ class StreamBuffer : public std::stringbuf
      * @date   2012-06-15
      * @since  0.6
      */
-    inline void SetLevel (unsigned);
+    inline void SetLevel (Level);
     /**
      * Changes the streambuf's locked state.
      *
@@ -167,7 +167,7 @@ class StreamBuffer : public std::stringbuf
     /// The last update of the line number.
     unsigned line;
     /// The last update of the message level.
-    unsigned level;
+    Level level;
     /// Whether we are locked.
     bool lock;
 };
