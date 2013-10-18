@@ -33,15 +33,7 @@ endif ()
 
 if (ENABLE_UNIT_TESTS)
   message (STATUS "Checking for cipra library")
-  find_file (CIPRA_PATH "cipra.h"
-    "${CMAKE_SOURCE_DIR}/lib/cipra/")
-  mark_as_advanced (CIPRA_PATH)
-  if (NOT CIPRA_PATH)
-    message (FATAL_ERROR "Failed to find cipra library.  It is not in your source distribution -- if you are in a git clone, did you update all your submodules?")
-  else ()
-    message (STATUS "Checking for cipra library - found")
-    set (HAVE_CIPRA_H YES)
-  endif ()
+  find_package(cipra 1.2.1 REQUIRED)
 endif ()
 
 # Look for Boost
