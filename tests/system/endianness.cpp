@@ -20,7 +20,7 @@
 #  define CIPRA_CXX_ABI
 #endif
 #define CIPRA_USE_VARIADIC_TEMPLATES
-#include <cipra/cipra.h>
+#include <cipra/cipra.hpp>
 
 #include "hummstrummengine.hpp"
 using namespace hummstrumm::engine::system;
