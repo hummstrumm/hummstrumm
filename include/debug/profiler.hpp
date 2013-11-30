@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ * Copyright (C) 2013, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,112 +17,161 @@
  */
 
 /**
- * Defines the Profiler class.
+ * Defines the Profiler class template.
  *
  * @file   debug/profiler.hpp
- * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date   2010-03-15
+ * @author Patrick Michael Niedzielski <PatrickNiedzielski@gmail.com>
+ * @date   2013-07-16
  * @see    Profiler
  */
 
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_PROFILER
 #define HUMMSTRUMM_ENGINE_DEBUG_PROFILER
 
-namespace hummstrumm
-{
-namespace engine
-{
-namespace debug
-{
+#include <chrono>
+#include <vector>
+#include <iosfwd>
+#include <atomic>
+
+namespace hummstrumm { namespace engine { namespace debug {
 
 /**
- * Provides a method by which a segment of code can be timed, and that length
- * of time logged to the engine log.  This profiler has up to nanosecond
- * precision, depending on the precision of the hardware high-resolution timer.
- *
- * This class uses scoping for starting and stopping the profile.  A Profiler
- * object will write its output at the end of the block.  Furthermore, you can
- * use the Iterate() method to restart the profiler, averaging the last time
- * with any previous iterations and saving the lowest time (this can be useful
- * in measuring performance of a loop, for instance, by calling Iterate() at the
- * end of the loop).
+ * A timer that prints out elapsed times to a log.  A `Profiler<ClockT,
+ * DurationT>` divides its lifetime into "runs" whose time durations are
+ * recorded and outputted to the log.  The first "run" is defined as the period
+ * of time from the constructor invocation until the first call to the`next()`
+ * member function, a move operation from `*this`, or the destructor invocation
+ * (whichever happens first).  Subsequent "runs" are defined as the period from
+ * a call to the `next()` member function until the next call to the `next()`
+ * member functor, a move operation from `*this` or the destructor invocation
+ * (whichever happens first).  Statistics of the run durations are calculated
+ * and printed to the log.
  *
  * @version 0.7
  * @author  Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
- * @date    2012-06-23
- * @since   0.2
+ * @date    2013-07-16
+ * @since   0.7
+ *
+ * @tparam ClockT The type from which to get the tick count.  This type must
+ *         satisfy the requirements of the `Clock` concept.
+ * @tparam DurationT The type in which to print the times measured.  This type
+ *         must be an instantiation of the `std::chrono::duration` template.
+ *
+ * @invariant The log stream stored within `*this` will not be a `nullptr`.
+ * A valid `Profiler<ClockT, DurationT>` is always in a run.
  */
+template <typename ClockT = std::chrono::high_resolution_clock,
+          typename DurationT = typename ClockT::duration>
 class Profiler
-{ 
+{
   public:
+    /// The type that is used to get `time_point`s.
+    typedef ClockT Clock;
+    /// The `std::chrono::duration` used to print the results.
+    typedef DurationT Duration;
+    
     /**
-     * The unit of measure in which to report times from the profiler.
+     * Constructs a new `Profiler<ClockT, DurationT>` object using a given log.
+     * This constructor starts the internal timer for the `Profiler<ClockT,
+     * DurationT>`.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-06-14
-     * @since  0.3
+     * @date   2013-07-16
+     * @since 0.7
+     *
+     * @param [in] log A stream that will be used as a log.
+     *
+     * @pre `log` is a valid object guaranteed to outlive `*this`, either until
+     * `~Profiler<ClockT, DurationT>` is called on `*this` or until `*this` is
+     * moved from.
+     *
+     * @post `*this` is a valid object on which any operation can be performed.
      */
-    enum Units
-    {
-      REPORT_IN_SECONDS,      ///< Report in seconds      (decimal)
-      REPORT_IN_MILLISECONDS, ///< Report in milliseconds (integer)
-      REPORT_IN_MICROSECONDS  ///< Report in microseconds (integer)
-    };
-
+    explicit Profiler (std::ostream &outputLog);
     /**
-     * Starts a profiler.  This profiler will output a log message with the
-     * debug name to help in identifying the profiling information.  It will
-     * also take the current timestamp with the high-resolution timer, which
-     * will be used in finding the length of time spent in the block.
+     * Constructs a new `Profiler<ClockT, DurationT>` object by moving from
+     * another existing `Profiler<ClockT, DurationT>` object.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2012-06-23
-     * @since  0.2
+     * @date   2013-07-16
+     * @since  0.7
      *
-     * @param [in] debugName A name for the profiler to identify it in the log.
-     * @param [in] reportIn The unit in which to report the final times.
+     * @param [in,out] rhs An object from which to move construct `*this`.
+     *
+     * @pre `rhs` is a valid object.  The log that was used in the construction
+     * of `rhs` is guaranteed to outlive `*this`, either until
+     * `~Profiler<ClockT, DurationT>` is called on `*this` or until `*this` is
+     * moved from.
+     *
+     * @post `*this` is a valid object on which any operation can be performed.
+     * `rhs` is no longer a valid object; the only operations that can be
+     * performed on it are to move assign something to it or to run the
+     * destructor.  The effect of performing any other operations on `rhs` is
+     * undefined.
      */
-    Profiler (std::string debugName, Units reportIn = REPORT_IN_MILLISECONDS);
+    Profiler (Profiler<Clock, Duration> &&rhs);
     /**
-     * Stops the profiler.  The profiler will compare the current time with the
-     * time taken when it was created and output a log message with the
-     * difference.
+     * Destructs an existing `Profiler<ClockT, DurationT>` object.  If `*this`
+     * is a valid object, this destructor finishes this run of the timer, prints
+     * out the last run's data to the log, and then prints out statistics about
+     * all runs.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2012-06-23
-     * @since  0.2
+     * @date   2013-07-16
+     * @since  0.7
+     *
+     * @post `*this` no longer exists, and the only operations that may be
+     * performed on it if it is still in scope are reinitialization using a
+     * constructor.
      */
     ~Profiler ();
 
     /**
-     * Starts a new run of the profiler.  This updates the various stats for
-     * times of the profiler.
+     * Finishes this run of the timer, prints out the last run's data to the
+     * log, and the starts a new run.
      *
      * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
-     * @date   2010-06-14
-     * @since  0.3
+     * @date   2013-07-16
+     * @since  0.7
+     *
+     * @pre `*this` is a valid object.
      */
-    void Iterate () /* noexcept */;
+    void next ();
 
   private:
-    /// The starting time for this run.
-    hummstrumm::engine::types::int64 startTime;
-    /// A name for use in a log.
-    std::string debugName;
-    /// The fastest run.
-    hummstrumm::engine::types::uint64 lowestTime;
-    /// The average time of runs.
-    hummstrumm::engine::types::uint64 averageTime;
-    /// The running total of runs (pun completely intended).
-    hummstrumm::engine::types::uint64 numberOfRuns;
-    /// The unit in which to report the times.
-    Units reportInUnit;
+    /**
+     * Returns a `std::stringbuf` which contains a representation of the
+     * duration `d` in the units of `DurationT` followed by a string
+     * representing the units of `DurationT`.
+     *
+     * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
+     * @date   2013-07-25
+     * @since  0.7
+     *
+     * @tparam InDurationT The type of the duration that we are receiving.
+     *
+     * @param [in] d The duration to print.
+     *
+     * @return A `std::stringbuf` that can be printed to a stream.
+     *
+     * @pre `d` is a valid object.
+     */
+    template <typename InDurationT>
+    static std::string printDuration (const InDurationT &d);
 
+    /// The start of the current run.
+    typename Clock::time_point start;
+    /// The times of previous runs.
+    std::vector<typename Clock::duration> times;
+    /// The log to print to.
+    std::ostream *out;
+    /// The identifier of the current profiler.
+    unsigned long num;
 };
 
 
-}
-}
-}
+}}}
+
+#include "profiler.inl"
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_DEBUG_PROFILER

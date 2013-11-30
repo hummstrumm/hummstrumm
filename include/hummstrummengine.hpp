@@ -124,7 +124,7 @@ namespace engine
  */
 namespace debug
 {
-class Profiler;
+template <typename ClockT, typename DurationT> class Profiler;
 /**
  * The namespace for classes that help logging.
  */
