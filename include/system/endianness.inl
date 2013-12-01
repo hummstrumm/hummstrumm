@@ -49,8 +49,9 @@ Endianness::SwitchEndian (const T memory)
 
   data = memory;
 
-  register int i = 0;
-  register int j = sizeof (T) - 1;
+  // TODO: use <algorithm> for this
+  int i = 0;
+  int j = sizeof (T) - 1;
   while (i < j)
     {
       unsigned char temp = bytes[i];
