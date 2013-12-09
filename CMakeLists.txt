@@ -42,9 +42,9 @@ include (CTest)
 
 # Use some flags across the entire project:
 if (HUMMSTRUMM_ENGINE_COMPILER_CLANG OR HUMMSTRUMM_ENGINE_COMPILER_GCC)
-  set (CMAKE_CXX_FLAGS_DEBUG "-pedantic -Wall -g -ggdb -Wfatal-errors")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wstrict-overflow=5")
 endif ()
-if (HUMMSTRUMM_ENGNIE_COMPILER_MSVC)
+if (HUMMSTRUMM_ENGINE_COMPILER_MSVC)
   # Seems like CMAKE_CXX_FLAGS already sets "/W3" by default
   string (REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
   set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W4")
