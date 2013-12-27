@@ -73,17 +73,12 @@ tap_test(geometry/plane.cpp)
 tap_test(geometry/segment.cpp)
 tap_test(geometry/boundingsphere.cpp)
 tap_test(system/endianness.cpp)
-tap_test(system/clock.cpp)
 
 
 # non-TAP tests
 add_executable(test_engine_log log.cpp)
 target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
 add_test (NAME test_engine_log COMMAND test_engine_log)
-
-add_executable(test_engine_timing timing.cpp)
-target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
-add_test (NAME test_engine_timing COMMAND test_engine_timing)
 
 add_executable(test_engine_systemprint systemprint.cpp)
 target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})

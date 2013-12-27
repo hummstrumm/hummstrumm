@@ -168,8 +168,6 @@ source_group("Source Files\\math" FILES ${math_SRCS})
 
 #  System
 set (system_HEADERS
-  include/system/clock.hpp
-  include/system/clock.inl
   include/system/endianness.hpp
   include/system/endianness.inl
   include/system/memory.hpp
@@ -207,8 +205,7 @@ if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
   list (APPEND window_SRCS
         src/system/windows/processors.cpp
         src/system/windows/memory.cpp
-        src/system/windows/platform.cpp
-        src/system/windows/clock.cpp)
+        src/system/windows/platform.cpp)
 endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
 
 if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
@@ -225,7 +222,6 @@ endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
 if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
   list (APPEND window_SRCS
         src/system/posix/platform.cpp
-        src/system/posix/clock.cpp
         src/system/posix/processors.cpp
         src/system/posix/memory.cpp)
 endif ()

@@ -187,7 +187,6 @@ class Platform;
 class Endianness;
 class Processors;
 class Memory;
-class Clock;
 }
 
 /**
@@ -267,7 +266,6 @@ class WindowSystem;
 #include "system/endianness.hpp"
 #include "system/processors.hpp"
 #include "system/memory.hpp"
-#include "system/clock.hpp"
 #include "debug/logging/level.hpp"
 #include "debug/logging/streambuffer.hpp"
 #include "debug/logging/backend.hpp"
@@ -289,7 +287,6 @@ class WindowSystem;
 #include "core/engine.hpp"
 // Template and Inline implementations now...
 #include "system/endianness.inl"
-#include "system/clock.inl"
 #include "system/memory.inl"
 #include "system/platform.inl"
 #include "system/processors.inl"
