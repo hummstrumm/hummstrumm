@@ -65,9 +65,6 @@ function(tap_test file_path)
 endfunction()
 
 
-tap_test(date/timezone.cpp)
-tap_test(date/duration.cpp)
-tap_test(date/date.cpp)
 tap_test(debug/profiler.cpp)
 tap_test(math/quaternion.cpp)
 tap_test(math/matrix.cpp)

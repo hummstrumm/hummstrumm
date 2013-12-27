@@ -104,21 +104,6 @@ set (core_SRCS src/core/engine.cpp)
 source_group("Header Files\\core" FILES ${core_HEADERS})
 source_group("Source Files\\core" FILES ${core_SRCS})
 
-#  Date
-set (date_HEADERS
-  include/date/date.hpp
-  include/date/date.inl
-  include/date/duration.hpp
-  include/date/duration.inl
-  include/date/timezone.hpp)
-set (date_SRCS
-  src/date/timezone.cpp
-  src/date/duration.cpp
-  src/date/date.cpp)
-
-source_group("Header Files\\date" FILES ${date_HEADERS})
-source_group("Source Files\\date" FILES ${date_SRCS})
-
 #  Debug
 set (debug_HEADERS
   include/debug/logging/backend.hpp
@@ -276,8 +261,6 @@ set (hummstrummengine_SRCS
   ${util_HEADERS}
   ${core_HEADERS}
   ${core_SRCS}
-  ${date_HEADERS}
-  ${date_SRCS}
   ${debug_HEADERS}
   ${debug_SRCS}
   ${events_HEADERS}
