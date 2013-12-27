@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
 #include "hummstrummengine.hpp"
 
 #if defined(HAVE_TR1_MEMORY)
-#  include <tr1/memory> // This will change when we switch to C++11.
+#include <tr1/memory> // This will change when we switch to C++11.
 #elif defined(HAVE_MEMORY)
-#  include <memory>
+#include <memory>
 #endif
 #include <iostream>
 
@@ -34,14 +34,11 @@ namespace engine
 namespace core
 {
 
+Engine *Engine::theEngine = 0;
 
-Engine *
-Engine::theEngine = 0;
-
-Engine::Engine (const Engine::Configuration params)
-  try
-  : logStreamBuffer (params.logBackends),
-    log (&logStreamBuffer)
+Engine::Engine (const Engine::Configuration params) try
+    : logStreamBuffer (params.logBackends),
+      log (&logStreamBuffer)
 {
   log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "Humm and Strumm Game Engine is initializing..." << std::flush;
@@ -49,90 +46,66 @@ Engine::Engine (const Engine::Configuration params)
   theEngine = this;
 
   // Get system attributes.
-  platform   = new system::Platform;
+  platform = new system::Platform;
   processors = new system::Processors;
-  memory     = new system::Memory;
+  memory = new system::Memory;
   endianness = new system::Endianness;
-  clock      = new system::Clock;
 
   log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "Humm and Strumm Game Engine is up and running." << std::flush;
 }
 catch (...)
-  {
-    theEngine = 0;
-    throw;
-  }
-
+{
+  theEngine = 0;
+  throw;
+}
 
 Engine::~Engine ()
 {
   log << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::info)
       << "Humm and Strumm Game Engine is going down." << std::flush;
-  
-  delete this->clock;
+
   delete this->endianness;
   delete this->memory;
   delete this->processors;
   delete this->platform;
 }
 
-
-Engine *
-Engine::GetEngine ()
-  /* noexcept */
+Engine *Engine::GetEngine ()
+/* noexcept */
 {
   return theEngine;
 }
 
-
-std::ostream &
-Engine::GetLog ()
-  /* noexcept */
+std::ostream &Engine::GetLog ()
+/* noexcept */
 {
   return this->log;
 }
 
-
-hummstrumm::engine::system::Platform *
-Engine::GetPlatform ()
-  /* noexcept */
+hummstrumm::engine::system::Platform *Engine::GetPlatform ()
+/* noexcept */
 {
   return this->platform;
 }
 
-
-hummstrumm::engine::system::Processors *
-Engine::GetProcessors ()
-  /* noexcept */
+hummstrumm::engine::system::Processors *Engine::GetProcessors ()
+/* noexcept */
 {
   return this->processors;
 }
 
-
-hummstrumm::engine::system::Memory *
-Engine::GetMemory ()
-  /* noexcept */
+hummstrumm::engine::system::Memory *Engine::GetMemory ()
+/* noexcept */
 {
   return this->memory;
 }
 
-
-hummstrumm::engine::system::Endianness *
-Engine::GetEndianness ()
-  /* noexcept */
+hummstrumm::engine::system::Endianness *Engine::GetEndianness ()
+/* noexcept */
 {
   return this->endianness;
 }
-
-hummstrumm::engine::system::Clock *
-Engine::GetClock ()
-  /* noexcept */
-{
-  return this->clock;
-}
-
-
 }
 }
 }

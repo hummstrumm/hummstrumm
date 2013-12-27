@@ -104,21 +104,6 @@ set (core_SRCS src/core/engine.cpp)
 source_group("Header Files\\core" FILES ${core_HEADERS})
 source_group("Source Files\\core" FILES ${core_SRCS})
 
-#  Date
-set (date_HEADERS
-  include/date/date.hpp
-  include/date/date.inl
-  include/date/duration.hpp
-  include/date/duration.inl
-  include/date/timezone.hpp)
-set (date_SRCS
-  src/date/timezone.cpp
-  src/date/duration.cpp
-  src/date/date.cpp)
-
-source_group("Header Files\\date" FILES ${date_HEADERS})
-source_group("Source Files\\date" FILES ${date_SRCS})
-
 #  Debug
 set (debug_HEADERS
   include/debug/logging/backend.hpp
@@ -183,8 +168,6 @@ source_group("Source Files\\math" FILES ${math_SRCS})
 
 #  System
 set (system_HEADERS
-  include/system/clock.hpp
-  include/system/clock.inl
   include/system/endianness.hpp
   include/system/endianness.inl
   include/system/memory.hpp
@@ -222,8 +205,7 @@ if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
   list (APPEND window_SRCS
         src/system/windows/processors.cpp
         src/system/windows/memory.cpp
-        src/system/windows/platform.cpp
-        src/system/windows/clock.cpp)
+        src/system/windows/platform.cpp)
 endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
 
 if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
@@ -240,7 +222,6 @@ endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
 if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
   list (APPEND window_SRCS
         src/system/posix/platform.cpp
-        src/system/posix/clock.cpp
         src/system/posix/processors.cpp
         src/system/posix/memory.cpp)
 endif ()
@@ -276,8 +257,6 @@ set (hummstrummengine_SRCS
   ${util_HEADERS}
   ${core_HEADERS}
   ${core_SRCS}
-  ${date_HEADERS}
-  ${date_SRCS}
   ${debug_HEADERS}
   ${debug_SRCS}
   ${events_HEADERS}

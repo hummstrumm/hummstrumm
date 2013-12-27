@@ -65,9 +65,6 @@ function(tap_test file_path)
 endfunction()
 
 
-tap_test(date/timezone.cpp)
-tap_test(date/duration.cpp)
-tap_test(date/date.cpp)
 tap_test(debug/profiler.cpp)
 tap_test(math/quaternion.cpp)
 tap_test(math/matrix.cpp)
@@ -76,17 +73,12 @@ tap_test(geometry/plane.cpp)
 tap_test(geometry/segment.cpp)
 tap_test(geometry/boundingsphere.cpp)
 tap_test(system/endianness.cpp)
-tap_test(system/clock.cpp)
 
 
 # non-TAP tests
 add_executable(test_engine_log log.cpp)
 target_link_libraries(test_engine_log ${hummstrummengine_LIBS})
 add_test (NAME test_engine_log COMMAND test_engine_log)
-
-add_executable(test_engine_timing timing.cpp)
-target_link_libraries(test_engine_timing ${hummstrummengine_LIBS})
-add_test (NAME test_engine_timing COMMAND test_engine_timing)
 
 add_executable(test_engine_systemprint systemprint.cpp)
 target_link_libraries(test_engine_systemprint ${hummstrummengine_LIBS})
