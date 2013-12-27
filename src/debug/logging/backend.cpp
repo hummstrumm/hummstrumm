@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,29 +38,23 @@ namespace debug
 namespace logging
 {
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::Backend implementation
 
-Backend::~Backend ()
-{
-}
-
+Backend::~Backend () {}
 
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::ConsoleBackend implementation
 
-ConsoleBackend::~ConsoleBackend ()
-{
-}
+ConsoleBackend::~ConsoleBackend () {}
 
-void
-ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
-                            Level level, std::string message)
+void ConsoleBackend::operator()(std::time_t t, std::string file, unsigned line,
+                                Level level, std::string message)
 {
   // Should we even print on this level?
-  if ((level & acceptLevels) == Level::none) return;
-  
+  if ((level & acceptLevels) == Level::none)
+    return;
+
   // To which stream should we print?
   std::ostream &out = useStderr ? std::cerr : std::cout;
 
@@ -70,13 +64,13 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
   char tbuffer[22];
   std::strftime (tbuffer, 22, "%Y-%m-%dT%H:%M:%SZ", std::gmtime (&t));
 
-  // Print out.
-  // Format: [ 2012-06-14T02:09:18Z ] /whatever/file.cpp(52)
-  //         Message here.
+// Print out.
+// Format: [ 2012-06-14T02:09:18Z ] /whatever/file.cpp(52)
+//         Message here.
 #ifdef HAVE_TERMCOLORS_H
   if (printColor)
     {
-      auto colorEnd   = foreground_color (color::reset);
+      auto colorEnd = foreground_color (color::reset);
       auto colorStart = colorEnd; // by default, change below:
       switch (level)
         {
@@ -91,29 +85,31 @@ ConsoleBackend::operator() (std::time_t t, std::string file, unsigned line,
         case hummstrumm::engine::debug::logging::Level::error:
           colorStart = foreground_color (color::red);
           break;
+
+        default:
+          // keep default
+          break;
         }
 
-      out << colorStart << bright << "[ " << tbuffer << " ]" << normal
-          << " " << file << "(" << line << ")\n\t" << colorEnd
-          << message << std::endl;
+      out << colorStart << bright << "[ " << tbuffer << " ]" << normal << " "
+          << file << "(" << line << ")\n\t" << colorEnd << message
+          << std::endl;
     }
   else
     {
 #endif
-      out << "[ " << tbuffer << " ]" << " " << file << "(" << line << ")\n\t"
-          << message << std::endl;
+      out << "[ " << tbuffer << " ]"
+          << " " << file << "(" << line << ")\n\t" << message << std::endl;
 #ifdef HAVE_TERMCOLORS_H
     }
 #endif
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrumm::engine::debug::logging::FileBackend implementation
 
 FileBackend::FileBackend (Level levels, std::string file)
-  : Backend (levels),
-    fileStream (file)
+    : Backend (levels), fileStream (file)
 {
   // Get timestamp.  It's guaranteed to be 22 chars, including the terminating
   // nul.  Use std::put_time (std::gmtime (&t), "%Y-%m-%dT%H:%M:%SZ")
@@ -121,23 +117,20 @@ FileBackend::FileBackend (Level levels, std::string file)
   std::time_t t = std::time (0);
   char tbuffer[22];
   std::strftime (tbuffer, 22, "%Y-%m-%dT%H:%M:%SZ", std::gmtime (&t));
-  
+
   fileStream << "<?xml version=\"1.1\" encoding=\"utf-8\"?>\n\n"
              << "<log timestamp=\"" << tbuffer << "\">" << std::endl;
 }
 
-FileBackend::~FileBackend ()
-{
-  fileStream << "</log>" << std::endl;
-}
+FileBackend::~FileBackend () { fileStream << "</log>" << std::endl; }
 
-void
-FileBackend::operator() (std::time_t t, std::string file, unsigned line,
-                         Level level, std::string message)
+void FileBackend::operator()(std::time_t t, std::string file, unsigned line,
+                             Level level, std::string message)
 {
   // Should we even print on this level?
-  if ((level & acceptLevels) == Level::none) return;
-  
+  if ((level & acceptLevels) == Level::none)
+    return;
+
   // Get timestamp.  It's guaranteed to be 22 chars, including the terminating
   // nul.  Use std::put_time (std::gmtime (&t), "%Y-%m-%dT%H:%M:%SZ")
   // eventually.
@@ -151,7 +144,7 @@ FileBackend::operator() (std::time_t t, std::string file, unsigned line,
     case Level::info:
       lname = "info";
       break;
-      
+
     case Level::success:
       lname = "success";
       break;
@@ -168,17 +161,12 @@ FileBackend::operator() (std::time_t t, std::string file, unsigned line,
       lname = "none";
       break;
     }
-  
+
   // XML format.  See schema for details.  Outputs <message> element.
-  fileStream << "<message timestamp=\"" << tbuffer
-             << "\" file=\"" << file
-             << "\" line=\"" << line
-             << "\" level=\"" << lname << "\">\n"
-             << message << "\n</message>"
-             << std::endl;
+  fileStream << "<message timestamp=\"" << tbuffer << "\" file=\"" << file
+             << "\" line=\"" << line << "\" level=\"" << lname << "\">\n"
+             << message << "\n</message>" << std::endl;
 }
-
-
 }
 }
 }
