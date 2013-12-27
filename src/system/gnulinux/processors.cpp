@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 #include <vector>
 #include <unistd.h>
 
-
 namespace hummstrumm
 {
 namespace engine
@@ -32,28 +31,27 @@ namespace engine
 namespace system
 {
 
-
 Processors::Processors ()
-  /* noexcept */
-  : numberOfProcessors (0),
-    processorStrings (),
-    sseSupport (false),
-    sse2Support (false),
-    sse3Support (false),
-    sse41Support (false),
-    sse42Support (false)
+    /* noexcept */
+    : numberOfProcessors (0),
+      processorStrings (),
+      sseSupport (false),
+      sse2Support (false),
+      sse3Support (false),
+      sse41Support (false),
+      sse42Support (false)
 {
   // We get our info from /proc/cpuinfo
   std::ifstream cpuinfo ("/proc/cpuinfo");
-  
+
   // Our current line's text.
   std::string line;
-  
+
   // What strings do we want to look for?
   const std::string processorLabel ("processor");
-  const std::string nameLabel1     ("model");
-  const std::string nameLabel2     ("name");
-  const std::string flagsLabel     ("flags");
+  const std::string nameLabel1 ("model");
+  const std::string nameLabel2 ("name");
+  const std::string flagsLabel ("flags");
 
   // We just need to loop through the file in search of what we want.
   while (cpuinfo >> line)
@@ -82,12 +80,12 @@ Processors::Processors ()
           cpuinfo >> line;   // ignore the colon
           cpuinfo.ignore (); // ignore the space after it, too
           std::getline (cpuinfo, line);
-              
+
           // Now search the string for the proper flags.
           // The flags we are interested in.
-          const std::string sseFlag   ("sse");
-          const std::string sse2Flag  ("sse2");
-          const std::string sse3Flag  ("pni");
+          const std::string sseFlag ("sse");
+          const std::string sse2Flag ("sse2");
+          const std::string sse3Flag ("pni");
           const std::string sse41Flag ("sse4_1");
           const std::string sse42Flag ("sse4_2");
 
@@ -104,10 +102,10 @@ Processors::Processors ()
 
           continue;
         }
-      
+
       std::getline (cpuinfo, line); // Next line
     }
-  
+
   // Make sure we got a processor.
   if (numberOfProcessors == 0)
     {
@@ -116,7 +114,7 @@ Processors::Processors ()
       numberOfProcessors = sysconf (_SC_NPROCESSORS_ONLN);
       // Set all strings to Unknown.
       processorStrings.clear ();
-      for (unsigned i = 0; i < numberOfProcessors; ++i)
+      for (int i = 0; i < numberOfProcessors; ++i)
         {
           processorStrings.push_back (std::string ("Unknown"));
         }
@@ -124,27 +122,25 @@ Processors::Processors ()
     }
 
   // Make sure that we have as many names as processors.
-  if (numberOfProcessors > processorStrings.size ())
+  if (numberOfProcessors > static_cast<int>(processorStrings.size ()))
     {
       // We have more processors than names?  Just set the rest to unknown.
-      for (std::vector<std::string>::size_type i = processorStrings.size ();
-           i < numberOfProcessors; ++i)
+      for (auto i = processorStrings.size ();
+           static_cast<int>(i) < numberOfProcessors; ++i)
         {
           processorStrings.push_back (std::string ("Unknown"));
         }
     }
-  else if (numberOfProcessors < processorStrings.size ())
+  else if (numberOfProcessors < static_cast<int>(processorStrings.size ()))
     {
       // We have more names than processors?  Just pop off the last ones.
-      for (std::vector<std::string>::size_type i = processorStrings.size ();
-           i > numberOfProcessors; --i)
+      for (auto i = processorStrings.size ();
+           static_cast<int>(i) > numberOfProcessors; --i)
         {
           processorStrings.pop_back ();
         }
     }
 }
-
-
 }
 }
 }

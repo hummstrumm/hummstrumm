@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 #ifndef HUMMSTRUMM_ENGINE_SYSTEM_PROCESSORS_INL
 #define HUMMSTRUMM_ENGINE_SYSTEM_PROCESSORS_INL
 
-
 namespace hummstrumm
 {
 namespace engine
@@ -27,63 +26,25 @@ namespace engine
 namespace system
 {
 
+int Processors::GetNumberOfProcessors () const /* noexcept */
+{ return numberOfProcessors; }
 
-unsigned
-Processors::GetNumberOfProcessors ()
-  const /* noexcept */
-{
-  return numberOfProcessors;
-}
+std::string Processors::GetProcessorName (int index) const /* noexcept */
+{ return processorStrings[index]; }
 
+bool Processors::HaveSseSupport () const /* noexcept */ { return sseSupport; }
 
-std::string
-Processors::GetProcessorName (int index)
-  const /* noexcept */
-{
-  return processorStrings[index];
-}
+bool Processors::HaveSse2Support () const /* noexcept */
+{ return sse2Support; }
 
+bool Processors::HaveSse3Support () const /* noexcept */
+{ return sse3Support; }
 
-bool
-Processors::HaveSseSupport ()
-  const /* noexcept */
-{
-  return sseSupport;
-}
+bool Processors::HaveSse41Support () const /* noexcept */
+{ return sse41Support; }
 
-
-bool
-Processors::HaveSse2Support ()
-  const /* noexcept */
-{
-  return sse2Support;
-}
-
-
-bool
-Processors::HaveSse3Support ()
-  const /* noexcept */
-{
-  return sse3Support;
-}
-
-
-bool
-Processors::HaveSse41Support ()
-  const /* noexcept */
-{
-  return sse41Support;
-}
-
-
-bool
-Processors::HaveSse42Support ()
-  const /* noexcept */
-{
-  return sse42Support;
-}
-
-
+bool Processors::HaveSse42Support () const /* noexcept */
+{ return sse42Support; }
 }
 }
 }
