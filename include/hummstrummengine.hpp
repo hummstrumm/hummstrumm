@@ -143,20 +143,6 @@ struct SetLine;
 }
 
 /**
- * The namespace for the math classes of the game engine.
- */
-namespace math
-{
-template <typename T> class Vector2D;
-template <typename T> class Vector3D;
-template <typename T> class Vector4D;
-template <typename T> class Matrix2D;
-template <typename T> class Matrix3D;
-template <typename T> class Matrix4D;
-template <typename T> class Quaternion;
-}
-
-/**
  * The namespace for the geometry classes of the game engine.
  */
 namespace geometry
@@ -260,7 +246,6 @@ class WindowSystem;
 
 #include "types/inttypes.hpp"
 #include "debug/utils.hpp"
-#include "math/simd.hpp"
 #include "util/optimizations.hpp"
 #include "system/platform.hpp"
 #include "system/endianness.hpp"
@@ -272,14 +257,11 @@ class WindowSystem;
 #include "debug/logging/manip.hpp"
 #include "debug/profiler.hpp"
 #include "math/mathutils.hpp"
-#include "math/vector.hpp"
-#include "math/matrix.hpp"
-#include "math/quaternion.hpp"
-#include "geometry/geomutils.hpp"
-#include "geometry/plane.hpp"
-#include "geometry/segment.hpp"
-#include "geometry/boundingbox.hpp"
-#include "geometry/boundingsphere.hpp"
+//#include "geometry/geomutils.hpp"
+//#include "geometry/plane.hpp"
+//#include "geometry/segment.hpp"
+//#include "geometry/boundingbox.hpp"
+//#include "geometry/boundingsphere.hpp"
 #include "events/windowevents.hpp"
 #include "window/windowvisualinfo.hpp"
 #include "window/windowsystem.hpp"
@@ -294,14 +276,11 @@ class WindowSystem;
 #include "debug/logging/streambuffer.inl"
 #include "debug/logging/backend.inl"
 #include "debug/logging/manip.inl"
-#include "geometry/boundingbox.inl"
-#include "geometry/boundingsphere.inl"
-#include "geometry/plane.inl"
-#include "geometry/segment.inl"
+//#include "geometry/boundingbox.inl"
+//#include "geometry/boundingsphere.inl"
+//#include "geometry/plane.inl"
+//#include "geometry/segment.inl"
 #include "math/mathutils.inl"
-#include "math/matrix.inl"
-#include "math/quaternion.inl"
-#include "math/vector.inl"
 
 #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 #pragma warning(pop)

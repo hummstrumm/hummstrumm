@@ -148,20 +148,8 @@ source_group("Header Files\\geometry" FILES ${geometry_HEADERS})
 #  Math
 set (math_HEADERS
   include/math/mathutils.hpp
-  include/math/mathutils.inl
-  include/math/matrix.hpp
-  include/math/matrix.inl
-  include/math/quaternion.hpp
-  include/math/quaternion.inl
-  include/math/simd.hpp
-  include/math/vector.hpp
-  include/math/vector.inl)
+  include/math/mathutils.inl)
 set (math_SRCS src/math/mathutils.cpp)
-
-if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
-  list (APPEND math_SRCS
-        src/math/vector.cpp)
-endif (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
 
 source_group("Header Files\\math" FILES ${math_HEADERS})
 source_group("Source Files\\math" FILES ${math_SRCS})
@@ -261,7 +249,7 @@ set (hummstrummengine_SRCS
   ${debug_SRCS}
   ${events_HEADERS}
   ${events_SRCS}
-  ${geometry_HEADERS}
+  #${geometry_HEADERS}
   ${math_HEADERS}
   ${math_SRCS}
   ${system_HEADERS}
