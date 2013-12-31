@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2013, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -263,7 +263,8 @@ set (hummstrummengine_SRCS
 set (hummstrummengine_INCLUDE include/
                               lib/
                               ${CMAKE_CURRENT_BINARY_DIR}/include/
-                              ${OPENGL_INCLUDE_DIR})
+                              ${OPENGL_INCLUDE_DIR}
+                              ${EIGEN3_INCLUDE_DIR})
 
 include_directories (${hummstrummengine_INCLUDE})
 if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)

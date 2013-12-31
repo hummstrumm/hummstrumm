@@ -21,7 +21,7 @@ libdir=${exec_prefix}/@HUMMSTRUMM_ENGINE_INSTALL_LIBRARIES@
 
 Name: hummstrummengine
 Description: The game engine of the Humm and Strumm video game.
-Requires: x11, gl, glu
+Requires: x11, gl, glu, eigen3
 Version: @HUMMSTRUMM_VERSION@
 Libs: -L${libdir} -lhummstrummengine
 Libs.private: -lrt
