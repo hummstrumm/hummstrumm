@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2012, 2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ set (HUMMSTRUMM_ENGINE_NAME "The Humm and Strumm Engine")
 set (HUMMSTRUMM_ENGINE_NAME_SHORT "hummstrummengine")
 set (HUMMSTRUMM_ENGINE_VENDOR "The Humm and Strumm Project")
 set (HUMMSTRUMM_ENGINE_DESCRIPTION "A FOSS 3D game engine.")
-set (HUMMSTRUMM_ENGINE_WEBSITE "http://hummstrumm.blogspot.com/")
-set (HUMMSTRUMM_ENGINE_CONTACT "hummstrumm-user@googlegroups.com")
+set (HUMMSTRUMM_ENGINE_WEBSITE "http://hummstrumm.sourceforge.net/")
+set (HUMMSTRUMM_ENGINE_CONTACT "hummstrumm-discuss@lists.sourceforge.net")
 
 # These will be generated automatically from the above information.
 set (HUMMSTRUMM_ENGINE_VERSION
