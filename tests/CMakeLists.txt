@@ -67,9 +67,6 @@ endfunction()
 
 
 tap_test(debug/profiler.cpp)
-#tap_test(geometry/plane.cpp)
-#tap_test(geometry/segment.cpp)
-#tap_test(geometry/boundingsphere.cpp)
 tap_test(system/endianness.cpp)
 
 

@@ -131,29 +131,6 @@ set (events_SRCS src/events/windowevents.cpp)
 source_group("Header Files\\events" FILES ${events_HEADERS})
 source_group("Source Files\\events" FILES ${events_SRCS})
 
-#  Geometry
-set (geometry_HEADERS
-  include/geometry/boundingbox.hpp
-  include/geometry/boundingbox.inl
-  include/geometry/boundingsphere.hpp
-  include/geometry/boundingsphere.inl
-  include/geometry/geomutils.hpp
-  include/geometry/plane.hpp
-  include/geometry/plane.inl
-  include/geometry/segment.hpp
-  include/geometry/segment.inl)
-
-source_group("Header Files\\geometry" FILES ${geometry_HEADERS})
-
-#  Math
-set (math_HEADERS
-  include/math/mathutils.hpp
-  include/math/mathutils.inl)
-set (math_SRCS src/math/mathutils.cpp)
-
-source_group("Header Files\\math" FILES ${math_HEADERS})
-source_group("Source Files\\math" FILES ${math_SRCS})
-
 #  System
 set (system_HEADERS
   include/system/endianness.hpp
@@ -249,9 +226,6 @@ set (hummstrummengine_SRCS
   ${debug_SRCS}
   ${events_HEADERS}
   ${events_SRCS}
-  #${geometry_HEADERS}
-  ${math_HEADERS}
-  ${math_SRCS}
   ${system_HEADERS}
   ${system_SRCS}
   ${types_HEADERS}
