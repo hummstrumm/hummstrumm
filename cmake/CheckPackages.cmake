@@ -17,7 +17,7 @@
 # CheckPackages.cmake -- Look for any libraries and programs we can (perhaps
 # optionally) use.
 
-if (ENABLE_UNIT_TESTS)
+if (WITH_UNIT_TESTS)
   message (STATUS "Checking for cipra library")
   find_package(cipra 1.2.1 REQUIRED)
 endif ()

@@ -27,7 +27,7 @@ cmake_minimum_required (VERSION 2.8)
 set (CMAKE_MODULE_PATH
   ${hummstrummengine_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
-include (Flags)
+include (Configuration)
 include (Defaults)
 include (CompilerChecks)
 include (CheckClone)
@@ -77,7 +77,7 @@ endif (HUMMSTRUMM_ENGINE_USE_SSE)
 configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
 
-if (ENABLE_UNIT_TESTS)
+if (WITH_UNIT_TESTS)
   if (NOT PERL_FOUND)
     message (WARNING "Perl not found on the system.  The Perl ``prove'' "
       "command is required for unit testing.")
