@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2013, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -90,3 +90,5 @@ endif ()
 if (NOT OPENGL_GLU_FOUND)
   message (FATAL_ERROR "Failed to find GLU required development files.")
 endif ()
+
+find_package(Eigen3 REQUIRED)

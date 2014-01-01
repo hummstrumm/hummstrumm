@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2013, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -131,41 +131,6 @@ set (events_SRCS src/events/windowevents.cpp)
 source_group("Header Files\\events" FILES ${events_HEADERS})
 source_group("Source Files\\events" FILES ${events_SRCS})
 
-#  Geometry
-set (geometry_HEADERS
-  include/geometry/boundingbox.hpp
-  include/geometry/boundingbox.inl
-  include/geometry/boundingsphere.hpp
-  include/geometry/boundingsphere.inl
-  include/geometry/geomutils.hpp
-  include/geometry/plane.hpp
-  include/geometry/plane.inl
-  include/geometry/segment.hpp
-  include/geometry/segment.inl)
-
-source_group("Header Files\\geometry" FILES ${geometry_HEADERS})
-
-#  Math
-set (math_HEADERS
-  include/math/mathutils.hpp
-  include/math/mathutils.inl
-  include/math/matrix.hpp
-  include/math/matrix.inl
-  include/math/quaternion.hpp
-  include/math/quaternion.inl
-  include/math/simd.hpp
-  include/math/vector.hpp
-  include/math/vector.inl)
-set (math_SRCS src/math/mathutils.cpp)
-
-if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
-  list (APPEND math_SRCS
-        src/math/vector.cpp)
-endif (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
-
-source_group("Header Files\\math" FILES ${math_HEADERS})
-source_group("Source Files\\math" FILES ${math_SRCS})
-
 #  System
 set (system_HEADERS
   include/system/endianness.hpp
@@ -261,9 +226,6 @@ set (hummstrummengine_SRCS
   ${debug_SRCS}
   ${events_HEADERS}
   ${events_SRCS}
-  ${geometry_HEADERS}
-  ${math_HEADERS}
-  ${math_SRCS}
   ${system_HEADERS}
   ${system_SRCS}
   ${types_HEADERS}
@@ -275,7 +237,8 @@ set (hummstrummengine_SRCS
 set (hummstrummengine_INCLUDE include/
                               lib/
                               ${CMAKE_CURRENT_BINARY_DIR}/include/
-                              ${OPENGL_INCLUDE_DIR})
+                              ${OPENGL_INCLUDE_DIR}
+                              ${EIGEN3_INCLUDE_DIR})
 
 include_directories (${hummstrummengine_INCLUDE})
 if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
