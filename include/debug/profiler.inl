@@ -36,7 +36,7 @@ namespace debug {
 namespace detail {
 
 /**
- * Returns the count of `Profiler` objects of any any type, and increments that
+ * Returns the count of `Profiler` objects of any type, and increments that
  * count.
  *
  * @author Patrick M. Niedzielski <PatrickNiedzielski@gmail.com>
