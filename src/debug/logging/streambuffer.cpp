@@ -27,12 +27,9 @@
 
 using namespace std;
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 
 StreamBuffer::StreamBuffer (vector<shared_ptr<Backend>> backends)

@@ -20,10 +20,8 @@
 #define HUMMSTRUMM_ENGINE_SYSTEM_ENDIANNESS_INL
 
 
-namespace hummstrummengine
-{
-namespace system
-{
+namespace hummstrummengine {
+namespace system {
 
 
 Endianness::Endian

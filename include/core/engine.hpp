@@ -28,10 +28,8 @@
 #ifndef HUMMSTRUMM_ENGINE_CORE_ENGINE
 #define HUMMSTRUMM_ENGINE_CORE_ENGINE
 
-namespace hummstrummengine
-{
-namespace core
-{
+namespace hummstrummengine {
+namespace core {
 
 /**
  * The class that manages the basic structure of the engine.  This class

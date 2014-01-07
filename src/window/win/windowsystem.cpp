@@ -22,10 +22,8 @@
 
 using namespace hummstrummengine;
 
-namespace hummstrummengine
-{
-namespace window
-{
+namespace hummstrummengine {
+namespace window {
 
 WindowSystem::WindowSystem()
 {

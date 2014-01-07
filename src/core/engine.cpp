@@ -27,10 +27,8 @@
 
 using namespace hummstrummengine;
 
-namespace hummstrummengine
-{
-namespace core
-{
+namespace hummstrummengine {
+namespace core {
 
 Engine *Engine::theEngine = 0;
 
@@ -104,5 +102,6 @@ hummstrummengine::system::Endianness *Engine::GetEndianness ()
 {
   return this->endianness;
 }
+
 }
 }

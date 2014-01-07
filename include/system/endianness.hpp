@@ -30,10 +30,8 @@
 #define HUMMSTRUMM_ENGINE_SYSTEM_ENDIANNESS
 
 
-namespace hummstrummengine
-{
-namespace system
-{
+namespace hummstrummengine {
+namespace system {
 
 /**
  * Provides information about the system's byte order as well as conversion

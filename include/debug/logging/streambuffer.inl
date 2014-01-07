@@ -19,12 +19,9 @@
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_STREAMBUFFER_INL
 #define HUMMSTRUMM_ENGINE_DEBUG_LOGGING_STREAMBUFFER_INL
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 
 StreamBuffer::~StreamBuffer ()

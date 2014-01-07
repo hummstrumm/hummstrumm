@@ -22,12 +22,9 @@
 #include <stdexcept>
 #include <type_traits>
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 
 SetLevel::SetLevel (Level lev)
@@ -85,7 +82,6 @@ operator<< (std::ostream &out, const LockType)
     }
   return out;
 }
-
 
 }
 }

@@ -27,10 +27,8 @@
 #ifndef HUMMSTRUMM_ENGINE_EVENTS
 #define HUMMSTRUMM_ENGINE_EVENTS
 
-namespace hummstrummengine
-{
-namespace events
-{
+namespace hummstrummengine {
+namespace events {
 
 /**
  * The class for representing events from the window system.  This is the
@@ -240,6 +238,5 @@ class MouseEvents: public WindowEvents
 
 }
 }
-
 
 #endif

@@ -18,10 +18,8 @@
 
 #include "hummstrummengine.hpp"
 
-namespace hummstrummengine
-{
-namespace events
-{
+namespace hummstrummengine {
+namespace events {
 
 WindowEvents::WindowEvents() { type = WindowEvents::NONE; }
 
@@ -72,4 +70,3 @@ MouseEvents::~MouseEvents() { }
 
 }
 }
-

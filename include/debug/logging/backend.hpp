@@ -35,12 +35,9 @@
 #include <fstream>
 #include <limits>
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 /**
  * An abstract base class for the functors that output logged messages to some

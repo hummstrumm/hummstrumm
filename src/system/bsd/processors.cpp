@@ -27,11 +27,8 @@
 #include "cpuid.h"
 #endif
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 Processors::Processors ()
   /* noexcept */
@@ -117,7 +114,6 @@ Processors::Processors ()
   delete [] name;
 #endif // #ifdef HAVE_CPUID_H
 }
-
 
 }
 }

@@ -27,10 +27,8 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_UTILS
 #define HUMMSTRUMM_ENGINE_MATH_UTILS
 
-namespace hummstrummengine
-{
-namespace math
-{
+namespace hummstrummengine {
+namespace math {
 
 
 /// The mathematical constant \f$\pi\f$.

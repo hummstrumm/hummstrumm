@@ -18,17 +18,13 @@
 
 #include "hummstrummengine.hpp"
 
-namespace hummstrummengine
-{
-namespace math
-{
-
+namespace hummstrummengine {
+namespace math {
 
 const double PI = 3.1415927410125732421875;
 const double HALF_PI = 1.57079637050628662109375;
 const double DEG_TO_RAD = PI / 180.0;
 const double RAD_TO_DEG = 180.0 / PI;
-
 
 }
 }

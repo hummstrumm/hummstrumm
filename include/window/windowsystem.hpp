@@ -36,10 +36,8 @@
 #endif
 
 
-namespace hummstrummengine
-{
-namespace window
-{
+namespace hummstrummengine {
+namespace window {
 
 enum Context
 {
@@ -377,4 +375,5 @@ class WindowSystem
 
 }
 }
+
 #endif

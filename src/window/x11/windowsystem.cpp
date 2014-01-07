@@ -22,10 +22,8 @@
 #include <stdexcept>
 using namespace std;
 
-namespace hummstrummengine
-{
-namespace window
-{
+namespace hummstrummengine {
+namespace window {
 
 enum netWMStates
 {

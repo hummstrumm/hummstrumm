@@ -24,11 +24,8 @@
 #include <vector>
 
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 Processors::Processors ()
   /* noexcept */
@@ -44,7 +41,6 @@ Processors::Processors ()
   // one processor with unknown name.
   processorStrings.push_back (std::string ("Unknown"));
 }
-
 
 }
 }

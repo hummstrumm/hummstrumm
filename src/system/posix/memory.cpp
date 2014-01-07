@@ -18,11 +18,8 @@
 
 #include "hummstrummengine.hpp"
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 void
 Memory::Update ()
@@ -31,7 +28,6 @@ Memory::Update ()
   // There no way of telling on POSIX how much memory there is.  If you want
   // this, implement it on a platform-by-platform basis.
 }
-
 
 }
 }

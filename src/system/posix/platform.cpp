@@ -21,11 +21,8 @@
 #include <string>
 #include <sys/utsname.h>
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 Platform::Platform ()
   /* noexcept */
@@ -45,7 +42,6 @@ Platform::Platform ()
              systemName.machine;         // x86_64
     }
 }
-
 
 }
 }

@@ -22,11 +22,8 @@
 #include <windows.h>
 #include <intrin.h>
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 Processors::Processors ()
   /* noexcept */
@@ -106,7 +103,6 @@ Processors::Processors ()
   sse2Support  = (cpuInfo[3] & (1 << 26)) != 0;
   sseSupport   = (cpuInfo[3] & (1 << 25)) != 0;
 }
-
 
 }
 }

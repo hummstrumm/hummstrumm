@@ -24,11 +24,8 @@
 #include <vm/vm_param.h>
 #include <sys/vmmeter.h>
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 void
 Memory::Update ()
@@ -77,7 +74,6 @@ Memory::Update ()
   freeMemory = inactive + cache + unused;
   freeMemory *= 1024;
 }
-
 
 }
 }

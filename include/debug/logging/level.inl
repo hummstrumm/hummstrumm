@@ -21,12 +21,9 @@
 
 #include <type_traits>
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 
 inline Level operator&(const Level &a, const Level &b)

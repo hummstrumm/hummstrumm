@@ -107,8 +107,7 @@
 /**
  * The namespace for the Humm and Strumm game engine.
  */
-namespace hummstrummengine
-{
+namespace hummstrummengine {
 
 /**
  * The namespace for the classes which aid in the debugging of the

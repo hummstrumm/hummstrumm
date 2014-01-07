@@ -36,12 +36,9 @@
 #include <vector>
 #include <memory>
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 // Forward declare for safety.
 class Backend;

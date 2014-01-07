@@ -32,10 +32,8 @@
 #include "wglext.h"
 #endif
 
-namespace hummstrummengine
-{
-namespace window
-{
+namespace hummstrummengine {
+namespace window {
 
 /**
  * Window parameters to be used in the hummstrumm window system.
@@ -242,4 +240,5 @@ class WindowVisualInfo
 
 }
 }
+
 #endif

@@ -33,10 +33,8 @@
 #include <vector>
 #include <string>
 
-namespace hummstrummengine
-{
-namespace system
-{
+namespace hummstrummengine {
+namespace system {
 
 /**
  * Provides information about the system's processors.  Currently, it provides

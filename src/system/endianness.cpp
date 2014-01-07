@@ -18,11 +18,8 @@
 
 #include "hummstrummengine.hpp"
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 Endianness::Endianness ()
   /* noexcept */
@@ -122,7 +119,6 @@ Endianness::SwitchEndian (const hummstrummengine::types::int64 memory)
           ((memory & 0x000000000000FF00) >> 40) |
           ((memory & 0x00000000000000FF) >> 56));
 }
-
 
 }
 }

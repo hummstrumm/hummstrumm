@@ -24,10 +24,8 @@
 #include <vector>
 #include <unistd.h>
 
-namespace hummstrummengine
-{
-namespace system
-{
+namespace hummstrummengine {
+namespace system {
 
 Processors::Processors ()
     /* noexcept */
@@ -139,5 +137,6 @@ Processors::Processors ()
         }
     }
 }
+
 }
 }

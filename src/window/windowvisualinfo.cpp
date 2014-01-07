@@ -19,10 +19,8 @@
 #include "hummstrummengine.hpp"
 #include <cstring>
 
-namespace hummstrummengine
-{
-namespace window
-{
+namespace hummstrummengine {
+namespace window {
 
 #define ATTRIB_MAX 56
 #define ATTRIB_ADD1(a, arr)                                                                \
@@ -283,7 +281,6 @@ WindowVisualInfo::GetQueryAttributes (int& sz) const
   sz = idx;
   return queryAttrib;
 }
-
 
 }
 }

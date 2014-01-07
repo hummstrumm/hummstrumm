@@ -20,11 +20,8 @@
 
 #include <windows.h>
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 void
 Memory::Update ()
@@ -41,7 +38,6 @@ Memory::Update ()
   // Find the total amount of free memory.
   freeMemory = static_cast<int> (memoryStatus.ullAvailPhys / 1024);
 }
-
 
 }
 }

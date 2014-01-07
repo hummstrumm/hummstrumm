@@ -21,10 +21,8 @@
 
 #include <cmath>
 
-namespace hummstrummengine
-{
-namespace math
-{
+namespace hummstrummengine {
+namespace math {
 
 
 template <typename T>

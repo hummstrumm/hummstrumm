@@ -21,11 +21,8 @@
 #include <string>
 #include <windows.h>
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 Platform::Platform ()
   /* noexcept */
@@ -87,7 +84,6 @@ Platform::Platform ()
 
   name = s;
 }
-
 
 }
 }

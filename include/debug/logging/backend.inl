@@ -19,12 +19,9 @@
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_BACKEND_INL
 #define HUMMSTRUMM_ENGINE_DEBUG_LOGGING_BACKEND_INL
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 
 ////////////////////////////////////////////////////////////////////////////////

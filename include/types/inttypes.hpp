@@ -34,10 +34,8 @@
 #  include <inttypes.h>
 #endif
 
-namespace hummstrummengine
-{
-namespace types
-{
+namespace hummstrummengine {
+namespace types {
 
 /**
  * A cross-platform, 16-bit, signed integer.

@@ -28,12 +28,9 @@
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_LEVEL
 #define HUMMSTRUMM_ENGINE_DEBUG_LOGGING_LEVEL
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 /**
  * Holds constants representing message levels.

@@ -31,12 +31,9 @@
 #include <iostream>
 #include <string>
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 
 /**

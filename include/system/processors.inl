@@ -19,10 +19,8 @@
 #ifndef HUMMSTRUMM_ENGINE_SYSTEM_PROCESSORS_INL
 #define HUMMSTRUMM_ENGINE_SYSTEM_PROCESSORS_INL
 
-namespace hummstrummengine
-{
-namespace system
-{
+namespace hummstrummengine {
+namespace system {
 
 int Processors::GetNumberOfProcessors () const /* noexcept */
 { return numberOfProcessors; }
@@ -43,6 +41,7 @@ bool Processors::HaveSse41Support () const /* noexcept */
 
 bool Processors::HaveSse42Support () const /* noexcept */
 { return sse42Support; }
+
 }
 }
 

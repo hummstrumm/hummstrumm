@@ -29,12 +29,9 @@
 using namespace termcolors;
 #endif
 
-namespace hummstrummengine
-{
-namespace debug
-{
-namespace logging
-{
+namespace hummstrummengine {
+namespace debug {
+namespace logging {
 
 ////////////////////////////////////////////////////////////////////////////////
 // hummstrummengine::debug::logging::Backend implementation
@@ -165,6 +162,7 @@ void FileBackend::operator()(std::time_t t, std::string file, unsigned line,
              << "\" line=\"" << line << "\" level=\"" << lname << "\">\n"
              << message << "\n</message>" << std::endl;
 }
+
 }
 }
 }

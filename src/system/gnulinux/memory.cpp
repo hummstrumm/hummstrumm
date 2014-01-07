@@ -21,11 +21,8 @@
 #include <fstream>
 #include <string>
 
-namespace hummstrummengine
-{
-namespace system
-{
-
+namespace hummstrummengine {
+namespace system {
 
 void
 Memory::Update ()
@@ -64,7 +61,6 @@ Memory::Update ()
       std::getline (meminfo, label); // Next line.
     }
 }
-
 
 }
 }
