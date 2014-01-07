@@ -80,11 +80,11 @@ class Profiler
      * @date   2013-07-16
      * @since 0.7
      *
-     * @param [in] log A stream that will be used as a log.
+     * @param [in] outputLog A stream that will be used as a log.
      *
-     * @pre `log` is a valid object guaranteed to outlive `*this`, either until
-     * `~Profiler<ClockT, DurationT>` is called on `*this` or until `*this` is
-     * moved from.
+     * @pre `outputLog` is a valid object guaranteed to outlive `*this`, either
+     * until `~Profiler<ClockT, DurationT>` is called on `*this` or until
+     * `*this` is moved from.
      *
      * @post `*this` is a valid object on which any operation can be performed.
      */
