@@ -27,9 +27,7 @@
 #include "cpuid.h"
 #endif
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -121,6 +119,5 @@ Processors::Processors ()
 }
 
 
-}
 }
 }

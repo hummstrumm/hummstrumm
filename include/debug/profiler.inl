@@ -30,7 +30,8 @@
 #include <sstream>
 #include <utility>
 
-namespace hummstrumm { namespace engine { namespace debug {
+namespace hummstrummengine {
+namespace debug {
 
 namespace detail {
 
@@ -208,6 +209,7 @@ Profiler<ClockT, DurationT>::printDuration (const InDurationT &d)
   return ss.str ();
 }
 
-}}}
+}
+}
 
 #endif // #ifndef HUMMSTRUMM_ENGINE_DEBUG_PROFILER_INL

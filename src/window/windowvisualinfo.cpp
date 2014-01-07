@@ -19,9 +19,7 @@
 #include "hummstrummengine.hpp"
 #include <cstring>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace window
 {
@@ -287,6 +285,5 @@ WindowVisualInfo::GetQueryAttributes (int& sz) const
 }
 
 
-}
 }
 }

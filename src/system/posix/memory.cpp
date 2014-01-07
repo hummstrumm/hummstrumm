@@ -18,9 +18,7 @@
 
 #include "hummstrummengine.hpp"
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -35,6 +33,5 @@ Memory::Update ()
 }
 
 
-}
 }
 }

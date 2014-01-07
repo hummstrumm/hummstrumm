@@ -20,9 +20,7 @@
 #define HUMMSTRUMM_ENGINE_SYSTEM_PLATFORM_INL
 
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -36,7 +34,6 @@ Platform::GetName ()
 }
 
 
-}
 }
 }
 

@@ -21,7 +21,7 @@
 #include <memory>
 
 #include "hummstrummengine.hpp"
-using namespace hummstrumm::engine;
+using namespace hummstrummengine;
 
 int
 main ()

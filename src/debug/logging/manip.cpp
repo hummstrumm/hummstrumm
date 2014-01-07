@@ -22,9 +22,7 @@
 #include <stdexcept>
 #include <type_traits>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -89,7 +87,6 @@ operator<< (std::ostream &out, const LockType)
 }
 
 
-}
 }
 }
 }

@@ -27,9 +27,7 @@
 
 using namespace std;
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -92,7 +90,6 @@ StreamBuffer::sync ()
   return 0;
 }
 
-}
 }
 }
 }

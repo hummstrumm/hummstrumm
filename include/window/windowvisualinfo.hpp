@@ -32,9 +32,7 @@
 #include "wglext.h"
 #endif
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace window
 {
@@ -242,7 +240,6 @@ class WindowVisualInfo
     int* contextAttributes;
 };
 
-}
 }
 }
 #endif

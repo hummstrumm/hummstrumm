@@ -22,9 +22,7 @@
 #include <iostream>
 #include <string>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -57,7 +55,6 @@ SetLevel::~SetLevel ()
 }
 
 
-}
 }
 }
 }

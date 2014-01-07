@@ -29,9 +29,7 @@
 using namespace termcolors;
 #endif
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -39,12 +37,12 @@ namespace logging
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-// hummstrumm::engine::debug::logging::Backend implementation
+// hummstrummengine::debug::logging::Backend implementation
 
 Backend::~Backend () {}
 
 ////////////////////////////////////////////////////////////////////////////////
-// hummstrumm::engine::debug::logging::ConsoleBackend implementation
+// hummstrummengine::debug::logging::ConsoleBackend implementation
 
 ConsoleBackend::~ConsoleBackend () {}
 
@@ -74,15 +72,15 @@ void ConsoleBackend::operator()(std::time_t t, std::string file, unsigned line,
       auto colorStart = colorEnd; // by default, change below:
       switch (level)
         {
-        case hummstrumm::engine::debug::logging::Level::success:
+        case hummstrummengine::debug::logging::Level::success:
           colorStart = foreground_color (color::blue);
           break;
 
-        case hummstrumm::engine::debug::logging::Level::warning:
+        case hummstrummengine::debug::logging::Level::warning:
           colorStart = foreground_color (color::yellow);
           break;
 
-        case hummstrumm::engine::debug::logging::Level::error:
+        case hummstrummengine::debug::logging::Level::error:
           colorStart = foreground_color (color::red);
           break;
 
@@ -106,7 +104,7 @@ void ConsoleBackend::operator()(std::time_t t, std::string file, unsigned line,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// hummstrumm::engine::debug::logging::FileBackend implementation
+// hummstrummengine::debug::logging::FileBackend implementation
 
 FileBackend::FileBackend (Level levels, std::string file)
     : Backend (levels), fileStream (file)
@@ -166,7 +164,6 @@ void FileBackend::operator()(std::time_t t, std::string file, unsigned line,
   fileStream << "<message timestamp=\"" << tbuffer << "\" file=\"" << file
              << "\" line=\"" << line << "\" level=\"" << lname << "\">\n"
              << message << "\n</message>" << std::endl;
-}
 }
 }
 }

@@ -17,7 +17,7 @@
  */
 
 #include "hummstrummengine.hpp"
-using namespace hummstrumm::engine;
+using namespace hummstrummengine;
  
 #include <iomanip>
 #include <cstdlib>

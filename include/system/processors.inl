@@ -19,9 +19,7 @@
 #ifndef HUMMSTRUMM_ENGINE_SYSTEM_PROCESSORS_INL
 #define HUMMSTRUMM_ENGINE_SYSTEM_PROCESSORS_INL
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -45,7 +43,6 @@ bool Processors::HaveSse41Support () const /* noexcept */
 
 bool Processors::HaveSse42Support () const /* noexcept */
 { return sse42Support; }
-}
 }
 }
 

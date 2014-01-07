@@ -35,9 +35,7 @@
 #include <fstream>
 #include <limits>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -233,7 +231,6 @@ class FileBackend : public Backend
     std::ofstream fileStream; ///< The file we should print to.
 };
 
-}
 }
 }
 }

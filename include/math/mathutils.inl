@@ -21,9 +21,7 @@
 
 #include <cmath>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace math
 {
@@ -57,7 +55,6 @@ round (double num)
 #endif
 
 
-}
 }
 }
 

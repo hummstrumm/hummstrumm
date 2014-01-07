@@ -28,9 +28,7 @@
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_LEVEL
 #define HUMMSTRUMM_ENGINE_DEBUG_LOGGING_LEVEL
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -77,7 +75,6 @@ inline Level operator&(const Level &, const Level &);
 inline Level operator|(const Level &, const Level &);
 
 
-}
 }
 }
 }

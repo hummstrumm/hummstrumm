@@ -20,7 +20,7 @@
 
 #include <memory>
 
-using namespace hummstrumm::engine;
+using namespace hummstrummengine;
 
 int
 main ()

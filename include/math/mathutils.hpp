@@ -27,9 +27,7 @@
 #ifndef HUMMSTRUMM_ENGINE_MATH_UTILS
 #define HUMMSTRUMM_ENGINE_MATH_UTILS
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace math
 {
@@ -102,7 +100,6 @@ inline double round (double) /* noexcept */;
 #endif
 
 
-}
 }
 }
 

@@ -25,11 +25,9 @@
 #endif
 #include <iostream>
 
-using namespace hummstrumm::engine;
+using namespace hummstrummengine;
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace core
 {
@@ -83,29 +81,28 @@ std::ostream &Engine::GetLog ()
   return this->log;
 }
 
-hummstrumm::engine::system::Platform *Engine::GetPlatform ()
+hummstrummengine::system::Platform *Engine::GetPlatform ()
 /* noexcept */
 {
   return this->platform;
 }
 
-hummstrumm::engine::system::Processors *Engine::GetProcessors ()
+hummstrummengine::system::Processors *Engine::GetProcessors ()
 /* noexcept */
 {
   return this->processors;
 }
 
-hummstrumm::engine::system::Memory *Engine::GetMemory ()
+hummstrummengine::system::Memory *Engine::GetMemory ()
 /* noexcept */
 {
   return this->memory;
 }
 
-hummstrumm::engine::system::Endianness *Engine::GetEndianness ()
+hummstrummengine::system::Endianness *Engine::GetEndianness ()
 /* noexcept */
 {
   return this->endianness;
-}
 }
 }
 }

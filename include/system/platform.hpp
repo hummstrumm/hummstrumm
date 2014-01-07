@@ -31,9 +31,7 @@
 #include <string>
 
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -80,7 +78,6 @@ class Platform
 };
 
 
-}
 }
 }
 

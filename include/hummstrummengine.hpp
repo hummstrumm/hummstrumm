@@ -104,20 +104,10 @@
 
 #include <string>
 
-// The extensive namespace hierarchy in the game engine.
-
 /**
- * The namespace for all of the Humm and Strumm project.  This namespace
- * contains both the engine and the game code.
+ * The namespace for the Humm and Strumm game engine.
  */
-namespace hummstrumm
-{
-
-/**
- * The namespace for the game engine.  This namespace contains the subsystems
- * that the engine needs.
- */
-namespace engine
+namespace hummstrummengine
 {
 
 /**
@@ -213,7 +203,6 @@ namespace window
 {
 class WindowVisualInfo;
 class WindowSystem;
-}
 }
 }
 

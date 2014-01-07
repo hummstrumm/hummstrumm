@@ -20,9 +20,7 @@
 #define HUMMSTRUMM_ENGINE_SYSTEM_MEMORY_INL
 
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -51,7 +49,6 @@ Memory::GetFreeMemory ()
 }
 
 
-}
 }
 }
 

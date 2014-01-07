@@ -22,9 +22,7 @@
 #include <windows.h>
 #include <intrin.h>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -110,6 +108,5 @@ Processors::Processors ()
 }
 
 
-}
 }
 }

@@ -21,9 +21,7 @@
 #include <fstream>
 #include <string>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -68,6 +66,5 @@ Memory::Update ()
 }
 
 
-}
 }
 }

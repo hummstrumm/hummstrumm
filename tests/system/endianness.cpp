@@ -23,7 +23,7 @@
 #include <cipra/cipra.hpp>
 
 #include "hummstrummengine.hpp"
-using namespace hummstrumm::engine::system;
+using namespace hummstrummengine::system;
 
 int
 main ()

@@ -18,9 +18,7 @@
 
 #include "hummstrummengine.hpp"
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace math
 {
@@ -32,6 +30,5 @@ const double DEG_TO_RAD = PI / 180.0;
 const double RAD_TO_DEG = 180.0 / PI;
 
 
-}
 }
 }

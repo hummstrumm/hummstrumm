@@ -30,9 +30,7 @@
 #define HUMMSTRUMM_ENGINE_SYSTEM_ENDIANNESS
 
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -168,7 +166,6 @@ class Endianness
 };
 
 
-}
 }
 }
 

@@ -21,9 +21,7 @@
 #include <string>
 #include <sys/utsname.h>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -49,6 +47,5 @@ Platform::Platform ()
 }
 
 
-}
 }
 }

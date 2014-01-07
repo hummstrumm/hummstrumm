@@ -33,9 +33,7 @@
 #include <vector>
 #include <string>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -161,7 +159,6 @@ private:
   bool sse41Support; ///< Whether we have SSE 4.1.
   bool sse42Support; ///< Whether we have SSE 4.2.
 };
-}
 }
 }
 

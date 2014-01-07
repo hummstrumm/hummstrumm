@@ -36,9 +36,7 @@
 #include <vector>
 #include <memory>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -173,7 +171,6 @@ class StreamBuffer : public std::stringbuf
 };
 
 
-}
 }
 }
 }

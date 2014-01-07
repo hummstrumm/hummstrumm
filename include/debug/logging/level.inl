@@ -21,9 +21,7 @@
 
 #include <type_traits>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -46,7 +44,6 @@ inline Level operator|(const Level &a, const Level &b)
 }
 
 
-}
 }
 }
 }

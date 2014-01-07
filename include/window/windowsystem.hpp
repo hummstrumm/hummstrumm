@@ -36,9 +36,7 @@
 #endif
 
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace window
 {
@@ -103,7 +101,7 @@ class WindowSystem
      *
      * @return A window event. 
      */
-    hummstrumm::engine::events::WindowEvents* GetNextEvent();
+    hummstrummengine::events::WindowEvents* GetNextEvent();
 
     /**
      * The number of events waiting to be processed. 
@@ -340,7 +338,7 @@ class WindowSystem
      *
      * @return The description of the error code.
      */
-    hummstrumm::engine::types::String GetErrorMessage(hummstrumm::engine::types::String premsg,
+    hummstrummengine::types::String GetErrorMessage(hummstrummengine::types::String premsg,
       DWORD code);
      
     /**
@@ -377,7 +375,6 @@ class WindowSystem
     #endif
 };
 
-}
 }
 }
 #endif

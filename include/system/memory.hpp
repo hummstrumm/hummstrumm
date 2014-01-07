@@ -31,9 +31,7 @@
 
 #include <cstdlib>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -105,7 +103,6 @@ class Memory
 };
 
 
-}
 }
 }
 

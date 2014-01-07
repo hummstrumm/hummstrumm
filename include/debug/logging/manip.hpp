@@ -31,9 +31,7 @@
 #include <iostream>
 #include <string>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -215,15 +213,15 @@ extern const LockType Lock;
  */
 std::ostream &operator<< (std::ostream &, const SetFile);
 /**
- * @copydoc hummstrumm::engine::debug::logging::operator<<(std::ostream &, const SetFile)
+ * @copydoc hummstrummengine::debug::logging::operator<<(std::ostream &, const SetFile)
  */
 std::ostream &operator<< (std::ostream &, const SetLine);
 /**
- * @copydoc hummstrumm::engine::debug::logging::operator<<(std::ostream &, const SetFile)
+ * @copydoc hummstrummengine::debug::logging::operator<<(std::ostream &, const SetFile)
  */
 std::ostream &operator<< (std::ostream &, const SetLevel);
 /**
- * @copydoc hummstrumm::engine::debug::logging::operator<<(std::ostream &, const SetFile)
+ * @copydoc hummstrummengine::debug::logging::operator<<(std::ostream &, const SetFile)
  */
 std::ostream &operator<< (std::ostream &, const LockType);
 
@@ -248,14 +246,13 @@ std::ostream &operator<< (std::ostream &, const LockType);
  * default macros @c __FILE__ and @c __LEVEL__ .
  */
 #define HUMMSTRUMM_ENGINE_SET_LOGGING(level)				\
-  hummstrumm::engine::debug::logging::Lock <<                           \
-  hummstrumm::engine::debug::logging::SetFile (__FILE__) <<             \
-  hummstrumm::engine::debug::logging::SetLine (__LINE__) <<             \
-  hummstrumm::engine::debug::logging::SetLevel (                        \
-    hummstrumm::engine::debug::logging::level)
+  hummstrummengine::debug::logging::Lock <<                           \
+  hummstrummengine::debug::logging::SetFile (__FILE__) <<             \
+  hummstrummengine::debug::logging::SetLine (__LINE__) <<             \
+  hummstrummengine::debug::logging::SetLevel (                        \
+    hummstrummengine::debug::logging::level)
 
 
-}
 }
 }
 }

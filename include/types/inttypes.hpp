@@ -34,9 +34,7 @@
 #  include <inttypes.h>
 #endif
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace types
 {
@@ -148,7 +146,6 @@ typedef unsigned uintNatural;
 
 
 
-}
 }
 }
 

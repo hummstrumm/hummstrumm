@@ -24,9 +24,7 @@
 #include <vector>
 
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -48,6 +46,5 @@ Processors::Processors ()
 }
 
 
-}
 }
 }

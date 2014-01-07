@@ -22,9 +22,7 @@
 #include <stdexcept>
 using namespace std;
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace window
 {
@@ -656,7 +654,7 @@ WindowSystem::SetMode(WindowVisualInfo &param)
   }
 }
 
-hummstrumm::engine::events::WindowEvents*
+hummstrummengine::events::WindowEvents*
 WindowSystem::GetNextEvent()
 {
   XEvent event;
@@ -666,38 +664,38 @@ WindowSystem::GetNextEvent()
   switch (event.type)
   {
     case DestroyNotify:
-      return new hummstrumm::engine::events::StructureEvents(
-        hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
+      return new hummstrummengine::events::StructureEvents(
+        hummstrummengine::events::WindowEvents::WINDOW_CLOSE);
 
     case ClientMessage:
       if (event.xclient.message_type == wndProtocols &&
           event.xclient.data.l[0] == wndDelete)
       {
-        return new hummstrumm::engine::events::StructureEvents(
-          hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
+        return new hummstrummengine::events::StructureEvents(
+          hummstrummengine::events::WindowEvents::WINDOW_CLOSE);
       }
       break;
 
     case FocusIn:
-      return new hummstrumm::engine::events::StructureEvents(
-        hummstrumm::engine::events::WindowEvents::WINDOW_ACTIVE);
+      return new hummstrummengine::events::StructureEvents(
+        hummstrummengine::events::WindowEvents::WINDOW_ACTIVE);
  
     case FocusOut:
-      return new hummstrumm::engine::events::StructureEvents(
-        hummstrumm::engine::events::WindowEvents::WINDOW_INACTIVE);
+      return new hummstrummengine::events::StructureEvents(
+        hummstrummengine::events::WindowEvents::WINDOW_INACTIVE);
 
     case Expose:
       break;
 
     case ConfigureNotify:
-        return new hummstrumm::engine::events::StructureEvents(
-          hummstrumm::engine::events::WindowEvents::WINDOW_RESIZE, 
+        return new hummstrummengine::events::StructureEvents(
+          hummstrummengine::events::WindowEvents::WINDOW_RESIZE, 
           event.xconfigurerequest.width,
           event.xconfigurerequest.height);
     default:
       break;
   }
-  return new hummstrumm::engine::events::WindowEvents();
+  return new hummstrummengine::events::WindowEvents();
 }
 
 int
@@ -764,5 +762,3 @@ WindowSystem::IsNetWMCompliant() const
 
 }
 }
-}
-

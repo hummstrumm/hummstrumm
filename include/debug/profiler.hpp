@@ -33,7 +33,8 @@
 #include <iosfwd>
 #include <atomic>
 
-namespace hummstrumm { namespace engine { namespace debug {
+namespace hummstrummengine {
+namespace debug {
 
 /**
  * A timer that prints out elapsed times to a log.  A `Profiler<ClockT,
@@ -170,7 +171,8 @@ class Profiler
 };
 
 
-}}}
+}
+}
 
 #include "profiler.inl"
 

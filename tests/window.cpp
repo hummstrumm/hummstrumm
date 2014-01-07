@@ -22,11 +22,11 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-using namespace hummstrumm::engine;
-using namespace hummstrumm::engine::window;
-using namespace hummstrumm::engine::system;
-using namespace hummstrumm::engine::types;
-using namespace hummstrumm::engine::events;
+using namespace hummstrummengine;
+using namespace hummstrummengine::window;
+using namespace hummstrummengine::system;
+using namespace hummstrummengine::types;
+using namespace hummstrummengine::events;
 using std::boolalpha;
 
 static GLfloat rotQuad = 0.0f;
@@ -300,7 +300,7 @@ runTest(int n)
 
   if (isTesting)
   {
-    start = hummstrumm::engine::core::Engine::
+    start = hummstrummengine::core::Engine::
       GetEngine ()->GetClock ()->GetHighResolutionCount();
     std::cout << "Test #" << n << std::endl;
     showParameters(param, "Requested parameters");
@@ -322,7 +322,7 @@ runTest(int n)
 void
 checkTestIsOver()
 {
-  int64 end = hummstrumm::engine::core::Engine::
+  int64 end = hummstrummengine::core::Engine::
     GetEngine ()->GetClock ()->GetHighResolutionCount();
 
   if ( (end - start) > TIME_FOR_EACH_TEST )
@@ -429,7 +429,7 @@ main()
           checkTestIsOver();
         }
     }
-  catch (hummstrumm::engine::error::WindowSystem &e)
+  catch (hummstrummengine::error::WindowSystem &e)
     {
       log << HUMMSTRUMM_SET_LOGGING (Level::error)
           << "Test #" << currentTest << " failed: " << e.GetText () << "\n"

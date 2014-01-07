@@ -27,9 +27,7 @@
 #ifndef HUMMSTRUMM_ENGINE_EVENTS
 #define HUMMSTRUMM_ENGINE_EVENTS
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace events
 {
@@ -240,7 +238,6 @@ class MouseEvents: public WindowEvents
     virtual ~MouseEvents();
 };
 
-}
 }
 }
 

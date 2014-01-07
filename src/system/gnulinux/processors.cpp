@@ -24,9 +24,7 @@
 #include <vector>
 #include <unistd.h>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -140,7 +138,6 @@ Processors::Processors ()
           processorStrings.pop_back ();
         }
     }
-}
 }
 }
 }

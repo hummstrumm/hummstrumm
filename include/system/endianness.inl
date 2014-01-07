@@ -20,9 +20,7 @@
 #define HUMMSTRUMM_ENGINE_SYSTEM_ENDIANNESS_INL
 
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -129,7 +127,6 @@ Endianness::ConvertSystemToLittle (const T systemEndian)
 }
 
 
-}
 }
 }
 

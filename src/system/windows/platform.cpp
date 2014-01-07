@@ -21,9 +21,7 @@
 #include <string>
 #include <windows.h>
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace system
 {
@@ -91,6 +89,5 @@ Platform::Platform ()
 }
 
 
-}
 }
 }

@@ -26,7 +26,7 @@
 #include <cipra/cipra.hpp>
 
 #include "debug/profiler.hpp"
-using namespace hummstrumm::engine::debug;
+using namespace hummstrummengine::debug;
 
 // Mock returns 0 on first call to now(), 1 on all later calls.
 struct SteadyClockMock

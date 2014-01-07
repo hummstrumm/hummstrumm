@@ -19,9 +19,7 @@
 #ifndef HUMMSTRUMM_ENGINE_DEBUG_LOGGING_BACKEND_INL
 #define HUMMSTRUMM_ENGINE_DEBUG_LOGGING_BACKEND_INL
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace debug
 {
@@ -30,7 +28,7 @@ namespace logging
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// hummstrumm::engine::debug::logging::Backend implementation
+// hummstrummengine::debug::logging::Backend implementation
 
 Backend::Backend (Level levels)
   : acceptLevels (levels)
@@ -39,7 +37,7 @@ Backend::Backend (Level levels)
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// hummstrumm::engine::debug::logging::ConsoleBackend implementation
+// hummstrummengine::debug::logging::ConsoleBackend implementation
 
 ConsoleBackend::ConsoleBackend (Level levels, bool useStderr,
                                 bool printColor)
@@ -50,7 +48,6 @@ ConsoleBackend::ConsoleBackend (Level levels, bool useStderr,
 }
 
 
-}
 }
 }
 }

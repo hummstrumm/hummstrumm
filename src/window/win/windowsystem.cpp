@@ -20,11 +20,9 @@
 
 #include <strsafe.h>
 
-using namespace hummstrumm::engine;
+using namespace hummstrummengine;
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace window
 {
@@ -38,7 +36,7 @@ WindowSystem::WindowSystem()
   if (moduleHandle == NULL)
   {
     error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage("GetModuleHandle: ",error);
+    hummstrummengine::types::String errMsg = GetErrorMessage("GetModuleHandle: ",error);
     throw std::runtime_error (errMsg.c_str ());
   }
   InitializeWGLExtensions();
@@ -62,7 +60,7 @@ WindowSystem::DestroyWindow()
     if (!noLongerCurrent)
     {
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
       core::Engine::GetEngine ()->GetLog ()
         << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
@@ -71,7 +69,7 @@ WindowSystem::DestroyWindow()
     if (!ctxDeleted)
     {
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("wglDeleteContext: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("wglDeleteContext: ",error);
       core::Engine::GetEngine ()->GetLog ()
         << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
@@ -84,7 +82,7 @@ WindowSystem::DestroyWindow()
   {
       deviceContext = NULL;
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("ReleaseDC: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("ReleaseDC: ",error);
       core::Engine::GetEngine ()->GetLog ()
         << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
@@ -95,7 +93,7 @@ WindowSystem::DestroyWindow()
   {
       windowHandle = NULL;
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("DestroyWindow: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("DestroyWindow: ",error);
       core::Engine::GetEngine ()->GetLog ()
         << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
@@ -106,7 +104,7 @@ WindowSystem::DestroyWindow()
   {
       moduleHandle = NULL; 
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("UnregisteredClass: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("UnregisteredClass: ",error);
       core::Engine::GetEngine ()->GetLog ()
         << HUMMSTRUMM_ENGINE_SET_LOGGING (Level::warning)
         << errMsg << std::flush;
@@ -140,7 +138,7 @@ void
   if (classAtom == NULL)
   {
     error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage ("RegisterClass: ",error);
+    hummstrummengine::types::String errMsg = GetErrorMessage ("RegisterClass: ",error);
     throw std::runtime_error (errMsg.c_str ());
   }
   SetMode(windowParameters);
@@ -178,7 +176,7 @@ void
   if (windowHandle == NULL)
   {
     error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage("CreateWindowEx: ",error);
+    hummstrummengine::types::String errMsg = GetErrorMessage("CreateWindowEx: ",error);
     throw std::runtime_error (errMsg.c_str ());
   }
 
@@ -187,7 +185,7 @@ void
   if (deviceContext == NULL)
   {
     error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage("GetDC: ", error);
+    hummstrummengine::types::String errMsg = GetErrorMessage("GetDC: ", error);
     throw std::runtime_error (errMsg.c_str ());
   }
 
@@ -271,7 +269,7 @@ void
     if (pixelFormat == 0)
     {
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("ChoosePixelFormat: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("ChoosePixelFormat: ",error);
       throw std::runtime_error (errMsg.c_str());
     }
 
@@ -279,7 +277,7 @@ void
     if (ret == 0)
     {
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("DescribePixelFormat: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("DescribePixelFormat: ",error);
       throw std::runtime_error (errMsg.c_str ());
     }
     
@@ -302,7 +300,7 @@ void
   if (!isPixelFormatSet)
   {
     error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage("SetPixelFormat: ",error);
+    hummstrummengine::types::String errMsg = GetErrorMessage("SetPixelFormat: ",error);
     throw std::runtime_error (errMsg.c_str ());
   }
 
@@ -313,7 +311,7 @@ void
     if (renderingContext == NULL)
     {
       DWORD error = GetLastError();
-      hummstrumm::engine::types::String errMsg;
+      hummstrummengine::types::String errMsg;
       switch (error)
       {
         case ERROR_INVALID_VERSION_ARB:
@@ -335,7 +333,7 @@ void
     if (renderingContext == NULL)
     {
       error = GetLastError();
-      hummstrumm::engine::types::String errMsg = GetErrorMessage("wglCreateContext: ",error);
+      hummstrummengine::types::String errMsg = GetErrorMessage("wglCreateContext: ",error);
       throw std::runtime_error (errMsg.c_str ());
     }
   }
@@ -344,7 +342,7 @@ void
   if (!isCurrent)
   {
     error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
+    hummstrummengine::types::String errMsg = GetErrorMessage("wglMakeCurrent: ",error);
     throw std::runtime_error (errMsg.c_str ());
   }
 
@@ -354,7 +352,7 @@ void
     if (!ret)
     {
       DWORD error = GetLastError();
-      hummstrumm::engine::types::String errMsg;
+      hummstrummengine::types::String errMsg;
       switch (error)
       {
         case ERROR_INVALID_DATA:
@@ -384,7 +382,7 @@ WindowSystem::SwapBuffers()
   if (!ret)
   {
     error = GetLastError();
-    hummstrumm::engine::types::String errMsg = GetErrorMessage("SwapBuffers: ",error);
+    hummstrummengine::types::String errMsg = GetErrorMessage("SwapBuffers: ",error);
     throw std::runtime_error (errMsg.c_str ());
   }
 }
@@ -538,7 +536,7 @@ WindowSystem::InitializeWGLExtensions()
   ::DestroyWindow (windowHandle); 
 }
 
-hummstrumm::engine::events::WindowEvents*
+hummstrummengine::events::WindowEvents*
 WindowSystem::GetNextEvent()
 {
   MSG msg = { };
@@ -552,8 +550,8 @@ WindowSystem::GetNextEvent()
       case WM_SIZE:
       {
         msgQueue.pop();
-        return new hummstrumm::engine::events::StructureEvents (
-          hummstrumm::engine::events::WindowEvents::WINDOW_RESIZE, 
+        return new hummstrummengine::events::StructureEvents (
+          hummstrummengine::events::WindowEvents::WINDOW_RESIZE, 
           LOWORD(eMsg.lparam),HIWORD(eMsg.lparam));
       }
       break;
@@ -564,13 +562,13 @@ WindowSystem::GetNextEvent()
         DWORD state = LOWORD(eMsg.wparam);
         if (state == 0)
         {
-          return new hummstrumm::engine::events::StructureEvents (
-            hummstrumm::engine::events::WindowEvents::WINDOW_INACTIVE);
+          return new hummstrummengine::events::StructureEvents (
+            hummstrummengine::events::WindowEvents::WINDOW_INACTIVE);
         }
         else
         {
-          return new hummstrumm::engine::events::StructureEvents (
-            hummstrumm::engine::events::WindowEvents::WINDOW_ACTIVE);
+          return new hummstrummengine::events::StructureEvents (
+            hummstrummengine::events::WindowEvents::WINDOW_ACTIVE);
         }
       }
       break;
@@ -587,8 +585,8 @@ WindowSystem::GetNextEvent()
   {
     case WM_QUIT:
     {
-      return new hummstrumm::engine::events::StructureEvents(
-        hummstrumm::engine::events::WindowEvents::WINDOW_CLOSE);
+      return new hummstrummengine::events::StructureEvents(
+        hummstrummengine::events::WindowEvents::WINDOW_CLOSE);
     }
 
     default:
@@ -599,7 +597,7 @@ WindowSystem::GetNextEvent()
     break;
   }
   
-  return new hummstrumm::engine::events::WindowEvents();
+  return new hummstrummengine::events::WindowEvents();
 }
 
 void
@@ -621,8 +619,8 @@ WindowSystem::GetPendingEventsCount() const
   return HIWORD(queueStatus) + msgQueue.size();
 }
 
-hummstrumm::engine::types::String
-WindowSystem::GetErrorMessage(hummstrumm::engine::types::String premsg, DWORD code)
+hummstrummengine::types::String
+WindowSystem::GetErrorMessage(hummstrummengine::types::String premsg, DWORD code)
 {
 
   LPVOID lpMsgBuf;
@@ -730,5 +728,3 @@ WindowSystem::ProcessWindowMessages(HWND hWnd, UINT uMsg,
 
 }
 }
-}
-

@@ -28,9 +28,7 @@
 #ifndef HUMMSTRUMM_ENGINE_CORE_ENGINE
 #define HUMMSTRUMM_ENGINE_CORE_ENGINE
 
-namespace hummstrumm
-{
-namespace engine
+namespace hummstrummengine
 {
 namespace core
 {
@@ -60,7 +58,7 @@ public:
   struct Configuration
   {
     /// The backends to send log messages to.
-    std::vector<std::shared_ptr<hummstrumm::engine::debug::logging::Backend> >
+    std::vector<std::shared_ptr<hummstrummengine::debug::logging::Backend> >
     logBackends;
   };
 
@@ -115,7 +113,7 @@ public:
    *
    * @return The Platform object.
    */
-  hummstrumm::engine::system::Platform *GetPlatform ()
+  hummstrummengine::system::Platform *GetPlatform ()
       /* noexcept */;
   /**
    * Returns the Processors.
@@ -126,7 +124,7 @@ public:
    *
    * @return The Processors object.
    */
-  hummstrumm::engine::system::Processors *GetProcessors ()
+  hummstrummengine::system::Processors *GetProcessors ()
       /* noexcept */;
   /**
    * Returns the Memory.
@@ -137,7 +135,7 @@ public:
    *
    * @return The Memory object.
    */
-  hummstrumm::engine::system::Memory *GetMemory ()
+  hummstrummengine::system::Memory *GetMemory ()
       /* noexcept */;
   /**
    * Returns the Endianness.
@@ -148,28 +146,27 @@ public:
    *
    * @return The Endianness object.
    */
-  hummstrumm::engine::system::Endianness *GetEndianness ()
+  hummstrummengine::system::Endianness *GetEndianness ()
       /* noexcept */;
 
 private:
   /// The engine-wide log's streambuf, so we can control when it is
   /// initialized and deconstructed.
-  hummstrumm::engine::debug::logging::StreamBuffer logStreamBuffer;
+  hummstrummengine::debug::logging::StreamBuffer logStreamBuffer;
   /// The engine-wide log.
   std::ostream log;
   /// Platform information.
-  hummstrumm::engine::system::Platform *platform;
+  hummstrummengine::system::Platform *platform;
   /// Processor information.
-  hummstrumm::engine::system::Processors *processors;
+  hummstrummengine::system::Processors *processors;
   /// Memory information.
-  hummstrumm::engine::system::Memory *memory;
+  hummstrummengine::system::Memory *memory;
   /// Endianness information.
-  hummstrumm::engine::system::Endianness *endianness;
+  hummstrummengine::system::Endianness *endianness;
 
   /// The global engine pointer.
   static Engine *theEngine;
 };
-}
 }
 }
 
