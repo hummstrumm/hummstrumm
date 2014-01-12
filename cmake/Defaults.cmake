@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2012, 2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,47 +16,30 @@
 
 # Defaults.cmake -- Sets several nice useful defaults for the build system.
 
-#  We only need Debug and Release build types.
-if (CMAKE_CONFIGURATION_TYPES)
-  set (CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING
-    "We only need two configuration types at the moment." FORCE)
-endif (CMAKE_CONFIGURATION_TYPES)
-
-# Force a selection of a build type.  It's rather important that we have one.
+# Select RelWithDebInfo as the default build.
 if (NOT CMAKE_BUILD_TYPE)
-  if (NOT HUMMSTRUMM_ENGINE_IN_CLONE)
-    set (CMAKE_BUILD_TYPE Release CACHE STRING
-      "Choose the type of build, options are: Debug Release."
-      FORCE)
-     else (NOT HUMMSTRUMM_ENGINE_IN_CLONE)
-    set (CMAKE_BUILD_TYPE Debug CACHE STRING
-      "Choose the type of build, options are: Debug Release."
-      FORCE)
-  endif (NOT HUMMSTRUMM_ENGINE_IN_CLONE)
+  set (CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
+    "Default to using RelWithDebInfo as the build type." FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
-# Gotta set some flags
-
-# Whenever possible, use the include files in the source, instead of ones on the
-# system.
+# Prioritize include files in the source over ones on the system.
 set (CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
-
-# So we can include files in the current directory (sometimes useful)
+# So we can include files in the current directory (sometimes useful).
 set (CMAKE_INCLUDE_CURRENT_DIR ON)
-
 # Pretty Makefiles.
 set (CMAKE_COLOR_MAKEFILE ON)
-
 # Don't be verbose.
 set (CMAKE_VERBOSE_MAKEFILE OFF)
 
-# Add debug definitions.
-# Use -DCMAKE_BUILD_TYPE=Debug with the cmake command to use them.
-if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR
-    CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-set (HUMMSTRUMM_ENGINE_DEBUG ON)
-endif(CMAKE_BUILD_TYPE STREQUAL "Debug" OR
-  CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+# Use some flags across the entire project:
+if (HUMMSTRUMM_ENGINE_COMPILER_CLANG OR
+    HUMMSTRUMM_ENGINE_COMPILER_GCC)
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wstrict-overflow=5")
+elseif (HUMMSTRUMM_ENGINE_COMPILER_MSVC)
+  # Seems like CMAKE_CXX_FLAGS already sets "/W3" by default
+  string (REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+  set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W4")
+endif ()
 
 # For some reason, this is not marked as advanced.  It really ought to be.
 mark_as_advanced (MAKE_PROGRAM)
