@@ -24,8 +24,7 @@
 project (hummstrummengine)
 cmake_minimum_required (VERSION 2.8)
 
-set (CMAKE_MODULE_PATH
-  ${hummstrummengine_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+list (INSERT CMAKE_MODULE_PATH 0 ${hummstrummengine_SOURCE_DIR}/cmake)
 
 include (Version)
 include (Configuration)
