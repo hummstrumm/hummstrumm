@@ -37,7 +37,9 @@ if (ENABLE_UNIT_TESTS)
 endif ()
 
 # Look for Boost
-#set(Boost_USE_STATIC_LIBS        ON)
+if(HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
+  set(Boost_USE_STATIC_LIBS ON)
+endif()
 set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME    OFF)
 find_package (Boost 1.33.0 REQUIRED COMPONENTS regex)
