@@ -86,7 +86,7 @@ template <>
 inline std::string
 getDurationSuffix<std::chrono::microseconds>() /* nothrow */
 {
-#ifdef MSVC
+#ifdef _MSC_VER
   return "\x00B5s";             // non standard, but MSVC doesn't have u8""
 #else
   return u8"\x00B5s";
