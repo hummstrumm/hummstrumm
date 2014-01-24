@@ -47,7 +47,7 @@ if (HUMMSTRUMM_ENGINE_COMPILER_GCC)
 endif (HUMMSTRUMM_ENGINE_COMPILER_GCC)
 
 include_directories (${hummstrummengine_INCLUDE})
-include_directories (${cipra_INCLUDE})
+include_directories (${CIPRA_INCLUDE_DIR})
 #if (HUMMSTRUMM_WINDOWSYSTEM_X11)
 #  include_directories (${X11_X11_INCLUDE_PATH})
 #endif (HUMMSTRUMM_WINDOWSYSTEM_X11)

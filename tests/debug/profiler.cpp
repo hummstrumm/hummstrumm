@@ -23,7 +23,7 @@
 #define CIPRA_CXX_ABI
 #endif
 #define CIPRA_USE_VARIADIC_TEMPLATES
-#include <cipra/cipra.hpp>
+#include <cipra.hpp>
 
 #include "debug/profiler.hpp"
 using namespace hummstrummengine::debug;
