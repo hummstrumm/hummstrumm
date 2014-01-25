@@ -62,7 +62,7 @@ function(tap_test file_path)
   target_link_libraries("test_${test_name}" ${hummstrummengine_LIBS})
   add_test(NAME "test_${test_name}"
     COMMAND prove -vo --trap --normalize
-    "${CMAKE_CURRENT_BINARY_DIR}/test_${test_name}")
+    $<TARGET_FILE:test_${test_name}>)
 endfunction()
 
 
