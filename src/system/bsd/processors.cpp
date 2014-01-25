@@ -103,9 +103,16 @@ Processors::Processors ()
           // determine.
           unsigned int regA, regB, regC, regD;
           __get_cpuid (0x00000001, &regA, &regB, &regC, &regD);
- 
+
+          // Clang's name for the bits may change in the future, see
+          // <http://lists.freebsd.org/pipermail/svn-src-all/2013-July/072373.html>
+#if defined(__clang__)
+          sse42Support = regC & bit_SSE42;
+          sse41Support = regC & bit_SSE41;
+#else
           sse42Support = regC & bit_SSE4_2;
           sse41Support = regC & bit_SSE4_1;
+#endif
           sse3Support  = regC & bit_SSE3;
           sse2Support  = regD & bit_SSE2;
           sseSupport   = regD & bit_SSE;
