@@ -52,6 +52,8 @@ include_directories (${CIPRA_INCLUDE_DIR})
 #  include_directories (${X11_X11_INCLUDE_PATH})
 #endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
+# Find prove's path.  Because Perl is installed, it should be easy.
+find_program(PROVE_COMMAND prove)
 
 # Wraps up the machinery needed to add a test that uses TAP output
 # (like a cipra unit test).
@@ -61,7 +63,7 @@ function(tap_test file_path)
   add_executable("test_${test_name}" ${file_path})
   target_link_libraries("test_${test_name}" ${hummstrummengine_LIBS})
   add_test(NAME "test_${test_name}"
-    COMMAND prove -vo --trap --normalize
+    COMMAND ${PROVE_COMMAND} -vo --trap --normalize
     $<TARGET_FILE:test_${test_name}>)
 endfunction()
 
