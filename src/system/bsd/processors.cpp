@@ -18,9 +18,6 @@
 
 #include "hummstrummengine.hpp"
 
-// This could be useful later:
-// <http://www.koders.com/c/fid43214AC6EBD2CFFB339A4283E46B634666E05C22.aspx?s=vtt>
-
 #include <cstdlib>
 #include <sys/sysctl.h>
 #ifdef HAVE_CPUID_H
@@ -42,13 +39,12 @@ Processors::Processors ()
 {
   int mib[2];
   std::size_t length;
-  char *name;
 
   // Find the number of processors installed.
   mib[0] = CTL_HW;
   mib[1] = HW_NCPU;
   length = sizeof numberOfProcessors;
-  sysctl (mib, 2, &numberOfProcessors, &length, 0, 0);
+  if (0 != sysctl (mib, 2, &numberOfProcessors, &length, 0, 0))
   if (!numberOfProcessors)
     {
       // Well...we didn't find any processors.  We know there has to be at
@@ -63,26 +59,20 @@ Processors::Processors ()
   mib[0] = CTL_HW;
   mib[1] = HW_MODEL;
   sysctl (mib, 2, NULL, &length, NULL, 0);
-  name = new char [length];
-  sysctl (mib, 2, name, &length, NULL, 0);
+  std::string name{};
+  name.reserve (length);
 
-  // Set the name of the processors.
-  if (!name)
+  // Try to get the name of the processors.  If there is something wrong, just
+  // set the processor name to "Unknown".
+  if (0 != sysctl (mib, 2, name.c_str (), &length, NULL, 0))
     {
-      // Whatever.  Just set the strings to Unknown.
-      for (int i = 0; i < numberOfProcessors; ++i)
-        {
-          processorStrings.push_back (std::string ("Unknown"));
-        }
+      name = "Unknown";
     }
-  else
+
+  // Set all the processor names to the value we got.
+  for (int i = 0; i < numberOfProcessors; ++i)
     {
-      // Set all the processor names to the value we got.
-      for (int i = 0; i < numberOfProcessors; ++i)
-        {
-          processorStrings.push_back (std::string (name));
-        }
-      delete [] name;
+      processorStrings.push_back (name);
     }
 
 #ifdef HAVE_CPUID_H
@@ -90,14 +80,13 @@ Processors::Processors ()
   mib[0] = CTL_HW;
   mib[1] = HW_MACHINE;
   sysctl (mib, 2, NULL, &length, NULL, 0);
-  name = new char [length];
-  sysctl (mib, 2, name, &length, NULL, 0);
+  name.reserve (length);
 
-  // Look for processors that could have SSE.
-  if (name)
+  // Try to figure out the type of processor.  If we can't, then we can assume
+  // we don't have any SSE support.
+  if (0 == sysctl (mib, 2, name.c_str (), &length, NULL, 0))
     {
-      if (std::string (name) == "amd64" ||
-          std::string (name) == "i386")
+      if (name == "amd64" || name == "i386")
         {
           // These processors could have SSE.  Use a compiler intrinsic to
           // determine.
@@ -118,7 +107,6 @@ Processors::Processors ()
           sseSupport   = regD & bit_SSE;
         }
     }
-  delete [] name;
 #endif // #ifdef HAVE_CPUID_H
 }
 
