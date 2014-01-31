@@ -45,6 +45,7 @@ Processors::Processors ()
   mib[1] = HW_NCPU;
   length = sizeof numberOfProcessors;
   if (0 != sysctl (mib, 2, &numberOfProcessors, &length, 0, 0))
+  if (!numberOfProcessors)
     {
       // Well...we didn't find any processors.  We know there has to be at
       // least one, because we are running.  Create one, and set its name to
