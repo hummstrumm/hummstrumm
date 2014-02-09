@@ -132,6 +132,22 @@ struct SetLine;
 }
 
 /**
+ * The namespace for general utility classes that aren't very tightly coupled to
+ * the engine.
+ */
+namespace util
+{
+/**
+ * The namespace for outputting text to the terminal in color.  This currently
+ * only works on ANSI terminals.
+ */
+namespace termcolors
+{
+enum class Color;
+}
+}
+
+/**
  * The namespace for the geometry classes of the game engine.
  */
 namespace geometry
@@ -235,6 +251,7 @@ class WindowSystem;
 #include "types/inttypes.hpp"
 #include "debug/utils.hpp"
 #include "util/optimizations.hpp"
+#include "util/termcolors.hpp"
 #include "system/platform.hpp"
 #include "system/endianness.hpp"
 #include "system/processors.hpp"
@@ -256,6 +273,7 @@ class WindowSystem;
 // This has to go last.
 #include "core/engine.hpp"
 // Template and Inline implementations now...
+#include "util/termcolors.inl"
 #include "system/endianness.inl"
 #include "system/memory.inl"
 #include "system/platform.inl"

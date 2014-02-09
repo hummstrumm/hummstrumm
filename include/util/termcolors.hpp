@@ -63,14 +63,13 @@ namespace detail {
 
 struct ForegroundImpl
 {
-  explicit ForegroundImpl(Color c);
+  inline explicit ForegroundImpl(Color c);
   Color newColor;
 };
 
 template <typename CharT, class Traits = std::char_traits<CharT>>
-std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>&,
-           const ForegroundImpl&);
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>&, const ForegroundImpl&);
 
 }
 
@@ -86,21 +85,20 @@ operator<<(std::basic_ostream<CharT, Traits>&,
  *
  * @todo Make this work on Windows.  Will probably require a redesign.
  */
-detail::ForegroundImpl
+inline detail::ForegroundImpl
 foreground(Color c);
 
 namespace detail {
 
 struct BackgroundImpl
 {
-  explicit BackgroundImpl(Color c);
+  inline explicit BackgroundImpl(Color c);
   Color newColor;
 };
 
 template <typename CharT, class Traits = std::char_traits<CharT>>
-std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>&,
-           const BackgroundImpl&);
+inline std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>&, const BackgroundImpl&);
 
 }
 
@@ -116,7 +114,7 @@ operator<<(std::basic_ostream<CharT, Traits>&,
  *
  * @todo Make this work on Windows.  Will probably require a redesign.
  */
-detail::BackgroundImpl
+inline detail::BackgroundImpl
 background(Color c);
 
 /**
@@ -129,7 +127,7 @@ background(Color c);
  * @since  0.7
  */
 template <typename CharT, class Traits = std::char_traits<CharT>>
-std::basic_ostream<CharT, Traits>&
+inline std::basic_ostream<CharT, Traits>&
 bright(std::basic_ostream<CharT, Traits>&);
 /**
  * Use the normal variant for foreground and background colors.  The result of
@@ -143,7 +141,7 @@ bright(std::basic_ostream<CharT, Traits>&);
  * @since  0.7
  */
 template <typename CharT, class Traits = std::char_traits<CharT>>
-std::basic_ostream<CharT, Traits>&
+inline std::basic_ostream<CharT, Traits>&
 normal(std::basic_ostream<CharT, Traits>&);
 
 /**
@@ -152,7 +150,7 @@ normal(std::basic_ostream<CharT, Traits>&);
  * undefined.
  */
 template <typename CharT, class Traits = std::char_traits<CharT>>
-std::basic_ostream<CharT, Traits>&
+inline std::basic_ostream<CharT, Traits>&
 reset(std::basic_ostream<CharT, Traits>&);
 
 }
