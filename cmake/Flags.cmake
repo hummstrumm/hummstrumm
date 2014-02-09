@@ -18,6 +18,3 @@
 
 set (ENABLE_UNIT_TESTS ON CACHE BOOL
   "Build unit tests?")
-
-set (ENABLE_TERMCOLORS ON CACHE BOOL
-  "Use distributed term-colors library for cross-platform terminal colors in the log.")

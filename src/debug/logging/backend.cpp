@@ -24,10 +24,7 @@
 #include <string>
 #include <ctime>
 
-#ifdef HAVE_TERMCOLORS_H
-#include <term-colors/termcolors.h>
-using namespace termcolors;
-#endif
+using namespace hummstrummengine::util::termcolors;
 
 namespace hummstrummengine {
 namespace debug {
@@ -62,23 +59,22 @@ void ConsoleBackend::operator()(std::time_t t, std::string file, unsigned line,
 // Print out.
 // Format: [ 2012-06-14T02:09:18Z ] /whatever/file.cpp(52)
 //         Message here.
-#ifdef HAVE_TERMCOLORS_H
   if (printColor)
     {
-      auto colorEnd = foreground_color (color::reset);
+      auto colorEnd = foreground (Color::reset);
       auto colorStart = colorEnd; // by default, change below:
       switch (level)
         {
         case hummstrummengine::debug::logging::Level::success:
-          colorStart = foreground_color (color::blue);
+          colorStart = foreground (Color::blue);
           break;
 
         case hummstrummengine::debug::logging::Level::warning:
-          colorStart = foreground_color (color::yellow);
+          colorStart = foreground (Color::yellow);
           break;
 
         case hummstrummengine::debug::logging::Level::error:
-          colorStart = foreground_color (color::red);
+          colorStart = foreground (Color::red);
           break;
 
         default:
@@ -92,12 +88,9 @@ void ConsoleBackend::operator()(std::time_t t, std::string file, unsigned line,
     }
   else
     {
-#endif
       out << "[ " << tbuffer << " ]"
           << " " << file << "(" << line << ")\n\t" << message << std::endl;
-#ifdef HAVE_TERMCOLORS_H
     }
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

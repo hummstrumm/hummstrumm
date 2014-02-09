@@ -152,7 +152,10 @@ set (types_HEADERS include/types/inttypes.hpp)
 source_group("Header Files\\types" FILES ${types_HEADERS})
 
 #  Util
-set (util_HEADERS include/util/optimizations.hpp)
+set (util_HEADERS
+  include/util/optimizations.hpp
+  include/util/termcolors.hpp
+  include/util/termcolors.inl)
 
 source_group("Header Files\\util" FILES ${util_HEADERS})
 
