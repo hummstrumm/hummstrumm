@@ -82,7 +82,7 @@ endif ()
 
 # Source Groups
 #  Root
-set (root_HEADERS include/config.h.in ${CMAKE_BINARY_DIR}/include/config.h include/hummstrummengine.hpp)
+set (root_HEADERS include/config.h.in include/hummstrummengine.hpp)
 
 source_group("Header Files" FILES ${root_HEADERS})
 
@@ -95,23 +95,30 @@ source_group("Source Files\\core" FILES ${core_SRCS})
 
 #  Debug
 set (debug_HEADERS
-  include/debug/logging/backend.hpp
-  include/debug/logging/backend.inl
-  include/debug/logging/level.hpp
-  include/debug/logging/manip.hpp
-  include/debug/logging/manip.inl
-  include/debug/logging/streambuffer.hpp
-  include/debug/logging/streambuffer.inl
   include/debug/profiler.hpp
-  include/debug/profiler.inl
   include/debug/utils.hpp)
 set (debug_SRCS
+  include/debug/profiler.inl)
+
+source_group("Header Files\\debug" FILES ${debug_HEADERS})
+source_group("Source Files\\debug" FILES ${debug_SRCS})
+
+#  Debug/Logging
+set (debug_logging_HEADERS
+  include/debug/logging/backend.hpp
+  include/debug/logging/level.hpp
+  include/debug/logging/manip.hpp
+  include/debug/logging/streambuffer.hpp)
+set (debug_logging_SRCS
+  include/debug/logging/backend.inl
+  include/debug/logging/manip.inl
+  include/debug/logging/streambuffer.inl
   src/debug/logging/streambuffer.cpp
   src/debug/logging/backend.cpp
   src/debug/logging/manip.cpp)
 
-source_group("Header Files\\debug" FILES ${debug_HEADERS})
-source_group("Source Files\\debug" FILES ${debug_SRCS})
+source_group("Header Files\\debug\\logging" FILES ${debug_logging_HEADERS})
+source_group("Source Files\\debug\\logging" FILES ${debug_logging_SRCS})
 
 #  Events
 set (events_HEADERS include/events/windowevents.hpp)
@@ -123,14 +130,15 @@ source_group("Source Files\\events" FILES ${events_SRCS})
 #  System
 set (system_HEADERS
   include/system/endianness.hpp
-  include/system/endianness.inl
   include/system/memory.hpp
-  include/system/memory.inl
   include/system/platform.hpp
+  include/system/processors.hpp)
+set (system_SRCS
+  src/system/endianness.cpp
+  include/system/endianness.inl
+  include/system/memory.inl
   include/system/platform.inl
-  include/system/processors.hpp
   include/system/processors.inl)
-set (system_SRCS  src/system/endianness.cpp)
 
 source_group("Header Files\\system" FILES ${system_HEADERS})
 source_group("Source Files\\system" FILES ${system_SRCS})
@@ -143,10 +151,12 @@ source_group("Header Files\\types" FILES ${types_HEADERS})
 #  Util
 set (util_HEADERS
   include/util/optimizations.hpp
-  include/util/termcolors.hpp
+  include/util/termcolors.hpp)
+set (util_SRCS
   include/util/termcolors.inl)
 
 source_group("Header Files\\util" FILES ${util_HEADERS})
+source_group("Source Files\\util" FILES ${util_SRCS})
 
 #  Window
 set (window_HEADERS
@@ -212,10 +222,13 @@ source_group("Source Files\\window" FILES ${window_SRCS})
 set (hummstrummengine_SRCS
   ${root_HEADERS}
   ${util_HEADERS}
+  ${util_SRCS}
   ${core_HEADERS}
   ${core_SRCS}
   ${debug_HEADERS}
   ${debug_SRCS}
+  ${debug_logging_HEADERS}
+  ${debug_logging_SRCS}
   ${events_HEADERS}
   ${events_SRCS}
   ${system_HEADERS}
