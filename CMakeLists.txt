@@ -39,6 +39,7 @@ include (CheckPackages)
 include (CppCheck)
 include (CTest)
 include (PkgConfig)
+include (SourceGroups)
 
 configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
@@ -58,162 +59,58 @@ else ()
 endif ()
 
 # Source Groups
-#  Root
 set (root_HEADERS include/config.h.in include/hummstrummengine.hpp)
-
 source_group("Header Files" FILES ${root_HEADERS})
+set(hummstrummengine_SRCS ${root_HEADERS})
 
-#  Core
-set (core_HEADERS include/core/engine.hpp)
-set (core_SRCS src/core/engine.cpp)
+make_source_group ("core" "engine.cpp" "engine.hpp" "")
+make_source_group ("debug" "" "profiler.hpp;utils.hpp" "profiler.inl")
+make_source_group ("debug/logging"
+  "streambuffer.cpp;backend.cpp;manip.cpp"
+  "backend.hpp;level.hpp;manip.hpp;streambuffer.hpp"
+  "backend.inl;manip.inl;streambuffer.inl")
+make_source_group ("events" "windowevents.cpp" "windowevents.hpp" "")
+make_source_group("system"
+  "endianness.cpp"
+  "endianness.hpp;memory.hpp;platform.hpp;processors.hpp"
+  "endianness.inl;memory.inl;platform.inl;processors.inl")
+make_source_group("types" "" "inttypes.hpp" "")
+make_source_group("util" "" "optimizations.hpp;termcolors.hpp" "termcolors.inl")
+make_source_group("window"
+  "windowvisualinfo.cpp"
+  "glext.h;glxext.h;wglext.h;windowsystem.hpp;windowvisualinfo.hpp" "")
 
-source_group("Header Files\\core" FILES ${core_HEADERS})
-source_group("Source Files\\core" FILES ${core_SRCS})
-
-#  Debug
-set (debug_HEADERS
-  include/debug/profiler.hpp
-  include/debug/utils.hpp)
-set (debug_SRCS
-  include/debug/profiler.inl)
-
-source_group("Header Files\\debug" FILES ${debug_HEADERS})
-source_group("Source Files\\debug" FILES ${debug_SRCS})
-
-#  Debug/Logging
-set (debug_logging_HEADERS
-  include/debug/logging/backend.hpp
-  include/debug/logging/level.hpp
-  include/debug/logging/manip.hpp
-  include/debug/logging/streambuffer.hpp)
-set (debug_logging_SRCS
-  include/debug/logging/backend.inl
-  include/debug/logging/manip.inl
-  include/debug/logging/streambuffer.inl
-  src/debug/logging/streambuffer.cpp
-  src/debug/logging/backend.cpp
-  src/debug/logging/manip.cpp)
-
-source_group("Header Files\\debug\\logging" FILES ${debug_logging_HEADERS})
-source_group("Source Files\\debug\\logging" FILES ${debug_logging_SRCS})
-
-#  Events
-set (events_HEADERS include/events/windowevents.hpp)
-set (events_SRCS src/events/windowevents.cpp)
-
-source_group("Header Files\\events" FILES ${events_HEADERS})
-source_group("Source Files\\events" FILES ${events_SRCS})
-
-#  System
-set (system_HEADERS
-  include/system/endianness.hpp
-  include/system/memory.hpp
-  include/system/platform.hpp
-  include/system/processors.hpp)
-set (system_SRCS
-  src/system/endianness.cpp
-  include/system/endianness.inl
-  include/system/memory.inl
-  include/system/platform.inl
-  include/system/processors.inl)
-
-source_group("Header Files\\system" FILES ${system_HEADERS})
-source_group("Source Files\\system" FILES ${system_SRCS})
-
-#  Types
-set (types_HEADERS include/types/inttypes.hpp)
-
-source_group("Header Files\\types" FILES ${types_HEADERS})
-
-#  Util
-set (util_HEADERS
-  include/util/optimizations.hpp
-  include/util/termcolors.hpp)
-set (util_SRCS
-  include/util/termcolors.inl)
-
-source_group("Header Files\\util" FILES ${util_HEADERS})
-source_group("Source Files\\util" FILES ${util_SRCS})
-
-#  Window
-set (window_HEADERS
-  include/window/glext.h
-  include/window/glxext.h
-  include/window/wglext.h
-  include/window/windowsystem.hpp
-  include/window/windowvisualinfo.hpp)
-set (window_SRCS src/window/windowvisualinfo.cpp)
-
-#  Windows-Only Source Files
+# System specific files
 if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
-  list (APPEND window_SRCS
-        src/system/windows/processors.cpp
-        src/system/windows/memory.cpp
-        src/system/windows/platform.cpp)
-endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
-
-if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
-  list (APPEND window_SRCS
-        src/window/x11/windowsystem.cpp)
-endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
-
-if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
-  list (APPEND window_SRCS
-        src/window/win/windowsystem.cpp)
-endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
-
-# POSIX Source Files
-if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
-  list (APPEND window_SRCS
-        src/system/posix/platform.cpp
-        src/system/posix/processors.cpp
-        src/system/posix/memory.cpp)
+  make_source_group("system"
+    "windows/processors.cpp;windows/memory.cpp;windows/platform.cpp" "" "")
 endif ()
 
-# GNU/Linux-only Source Files
+if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
+  make_source_group("system" "posix/platform.cpp" "" "")
+  if (NOT HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX AND
+      NOT HUMMSTRUMM_ENGINE_PLATFORM_BSD)
+    make_source_group("system" "posix/processors.cpp;posix/memory.cpp" "" "")
+  endif()
+endif ()
+
 if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
-  # We override the POSIX version.
-  list (REMOVE_ITEM window_SRCS
-        src/system/posix/processors.cpp
-        src/system/posix/memory.cpp)
-  list (APPEND window_SRCS
-        src/system/gnulinux/processors.cpp
-        src/system/gnulinux/memory.cpp)
-endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
+  make_source_group("system"
+    "gnulinux/processors.cpp;gnulinux/memory.cpp" "" "")
+endif()
 
-# *BSD-only Source Files
 if (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
-  # We override the POSIX version.
-  list (REMOVE_ITEM window_SRCS
-        src/system/posix/processors.cpp
-        src/system/posix/memory.cpp)
-  list (APPEND window_SRCS
-        src/system/bsd/processors.cpp
-        src/system/bsd/memory.cpp)
-endif (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
+  make_source_group("system" "bsd/processors.cpp;bsd/memory.cpp" "" "")
+endif()
 
-source_group("Header Files\\window" FILES ${window_HEADERS})
-source_group("Source Files\\window" FILES ${window_SRCS})
+# Window System specific files
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+  make_source_group("window" "x11/windowsystem.cpp" "" "")
+endif()
 
-
-set (hummstrummengine_SRCS
-  ${root_HEADERS}
-  ${util_HEADERS}
-  ${util_SRCS}
-  ${core_HEADERS}
-  ${core_SRCS}
-  ${debug_HEADERS}
-  ${debug_SRCS}
-  ${debug_logging_HEADERS}
-  ${debug_logging_SRCS}
-  ${events_HEADERS}
-  ${events_SRCS}
-  ${system_HEADERS}
-  ${system_SRCS}
-  ${types_HEADERS}
-  ${util_HEADERS}
-  ${window_HEADERS}
-  ${window_SRCS})
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
+  make_source_group("window" "win/windowsystem.cpp" "" "")
+endif()
 
 # Set include dirs
 set (hummstrummengine_INCLUDE include/
