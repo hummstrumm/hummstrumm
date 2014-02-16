@@ -43,6 +43,9 @@ if (WITH_CPPCHECK)
   find_package(cppcheck REQUIRED)
 endif ()
 
+# Look for Intel TBB
+find_package(TBB REQUIRED)
+
 # Find Perl 5
 find_package (Perl 5)
 if (PERL_FOUND)
