@@ -186,8 +186,5 @@ detected configuration.
   * **uninstall**: Remove installed components.  Note that this will
     not remove all created directories.
   * **dist**: Create distribution packages for the engine.
-  * **changelog**: Generate a ChangeLog from the Git log.
   * **tag-release**: Tag a release in your local Git repository.
     Requires your PGP public key and Git.
-  * **dist-upload**: Upload distribution files to Google Code.
-    Requires an access to the project's Google Code page.

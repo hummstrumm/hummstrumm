@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2013, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # CheckPackages.cmake -- Look for any libraries and programs we can (perhaps
 # optionally) use.
 
-if (ENABLE_UNIT_TESTS)
+if (WITH_UNIT_TESTS)
   message (STATUS "Checking for cipra library")
   find_package(cipra 1.2.1 REQUIRED)
 endif ()
@@ -39,15 +39,8 @@ else ()
 endif ()
 
 # Look for cppcheck
-if (ENABLE_CPPCHECK)
-  find_program (CPPCHECK_COMMAND cppcheck DOC "Path to cppcheck.")
-  mark_as_advanced(cppcheck_DIR)
-endif ()
-
-# Look for valgrind
-if (ENABLE_VALGRIND)
-  find_program (VALGRIND_COMMAND valgrind DOC "Path to valgrind.")
-  mark_as_advanced(valgrind_DIR)
+if (WITH_CPPCHECK)
+  find_package(cppcheck REQUIRED)
 endif ()
 
 # Find Perl 5

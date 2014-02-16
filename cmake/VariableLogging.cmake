@@ -49,9 +49,8 @@ if (HUMMSTRUMM_ENGINE_BUILD_DOCS)
   message ("  * HTML documentation")
 endif ()
 
-# Do we have SSE support?
-if (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT)
-  message ("  * SSE support")
+if (WITH_CPPCHECK)
+  message ("  * CppCheck static analysis")
 endif ()
 
 message ("")

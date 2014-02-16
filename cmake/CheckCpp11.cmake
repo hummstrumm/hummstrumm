@@ -18,15 +18,13 @@
 
 include (CheckCXXCompilerFlag)
 include (CheckCXXSourceCompiles)
-include (CheckCXXSymbolExists)
-include (CheckIncludeFileCXX)
 
 message (STATUS "Checking that compiler supports C++11")
   set (HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT OFF)
 
 check_cxx_source_compiles ("#if __cplusplus < 201103L\n#error C++11 not supported\n#endif int main() { return 0; }\n" check_cpp11_compiles_with_no_flags)
 
-if (check_cpp11_no_flags OR MSVC_VERSION GREATER 1699)
+if (check_cpp11_no_flags OR MSVC_VERSION GREATER 1799)
   set (HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT ON)
   message (STATUS "Checking that compiler supports C++11 - supported")
 else ()
@@ -51,11 +49,3 @@ if (NOT HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT)
   message (STATUS "Checking that compiler supports C++11 - not supported")
   message (FATAL_ERROR "A compiler that supports C++11 is required.")
 endif ()
-
-# Check for specific features:
-#   std::round -- MSVC doesn't yet implement it.
-check_include_file_cxx (cmath HAVE_CMATH)
-if (NOT HAVE_CMATH)
-  message (FATAL_ERROR "Your compiler claims to be C++11 compliant, but it can't find the standard header <cmath>.  Your installation is very abnormal, incomplete, or incompatible.")
-endif ()
-check_cxx_source_compiles ("#include <cmath>\nint main() { return (int)std::round (0.3); }\n" HAVE_STD_ROUND)

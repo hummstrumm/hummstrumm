@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,4 +22,9 @@ include (CheckCpp11)
 
 check_include_file_cxx (cpuid.h HAVE_CPUID_H)
 check_include_file_cxx (unistd.h HAVE_UNISTD_H)
-check_include_file_cxx (memory HAVE_MEMORY)
+
+if (HUMMSTRUMM_ENGINE_COMPILER_CLANG OR HUMMSTRUMM_ENGINE_COMPILER_GCC)
+  add_definitions("-msse")
+  #      add_definitions("-msse4.1")
+  #      add_definitions("-msse4.2")
+endif ()

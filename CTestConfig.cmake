@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # This is the CTest script to submit to the dashboard at
 # <http://hummstrumm.sourceforge.net/cdash>.
 set(CTEST_PROJECT_NAME "Engine")
-set(CTEST_NIGHTLY_START_TIME "01:00:00 UTC")
+set(CTEST_NIGHTLY_START_TIME "00:00:00 EST")
 
 set(CTEST_DROP_METHOD "http")
 set(CTEST_DROP_SITE "hummstrumm.sourceforge.net")

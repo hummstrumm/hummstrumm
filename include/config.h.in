@@ -26,10 +26,6 @@
 // Compiler Checks
 #cmakedefine HAVE_UNISTD_H
 #cmakedefine HAVE_CPUID_H
-#cmakedefine HAVE_TR1_MEMORY
-#cmakedefine HAVE_MEMORY
-#cmakedefine HAVE_STD_ROUND
-#cmakedefine HAVE_TERMCOLORS_H
 
 // Platforms
 #cmakedefine HUMMSTRUMM_ENGINE_PLATFORM_POSIX
@@ -49,8 +45,6 @@
 #cmakedefine HUMMSTRUMM_ENGINE_COMPILER_GENERIC
 
 #cmakedefine HUMMSTRUMM_ENGINE_REGEX_USE_BOOST
-
-#cmakedefine HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT
 
 // Debug mode?
 #cmakedefine HUMMSTRUMM_ENGINE_DEBUG

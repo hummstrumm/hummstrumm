@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2013, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,14 +24,12 @@
 project (hummstrummengine)
 cmake_minimum_required (VERSION 2.8)
 
-set (CMAKE_MODULE_PATH
-  ${hummstrummengine_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+list (INSERT CMAKE_MODULE_PATH 0 ${hummstrummengine_SOURCE_DIR}/cmake)
 
-include (Flags)
-include (Defaults)
-include (CompilerChecks)
-include (CheckClone)
 include (Version)
+include (Configuration)
+include (CompilerChecks)
+include (Defaults)
 include (Platform)
 include (Uninstall)
 
@@ -39,45 +37,15 @@ include (CheckPackages)
 
 include (CppCheck)
 include (CTest)
+include (PkgConfig)
+include (SourceGroups)
 
-# Use some flags across the entire project:
-if (HUMMSTRUMM_ENGINE_COMPILER_CLANG OR HUMMSTRUMM_ENGINE_COMPILER_GCC)
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wstrict-overflow=5")
-endif ()
-if (HUMMSTRUMM_ENGINE_COMPILER_MSVC)
-  # Seems like CMAKE_CXX_FLAGS already sets "/W3" by default
-  string (REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-  set (CMAKE_CXX_FLAGS_DEBUG "/Od /Zi /W4")
-endif ()
-
-# Test for SIMD
-set (HUMMSTRUMM_ENGINE_USE_SSE ON CACHE BOOL
-     "Whether to build the engine with SSE support or not.")
-set (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT OFF)
-
-if (HUMMSTRUMM_ENGINE_USE_SSE)
-  try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
-           ${CMAKE_BINARY_DIR}
-           ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE.c
-           CMAKE_FLAGS
-           COMPILE_DEFINITIONS ${HUMMSTRUMM_ENGINE_REQUIRED_DEFINITIONS}
-           COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
-  #message (STATUS ${COMPILE_OUTPUT_VAR})
-  if (${RUN_RESULT_VAR})
-    set (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT ON)
-    set (HUMMSTRUMM_ENGINE_DOXYGEN_MACROS "${HUMMSTRUMM_ENGINE_DOXYGEN_MACROS} HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT=")
-    if (HUMMSTRUMM_ENGINE_COMPILER_CLANG OR HUMMSTRUMM_ENGINE_COMPILER_GCC)
-      add_definitions("-msse")
-#      add_definitions("-msse4.1")
-#      add_definitions("-msse4.2")
-    endif ()
-  endif (${RUN_RESULT_VAR})
-endif (HUMMSTRUMM_ENGINE_USE_SSE)
+include (Dist)
 
 configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
 
-if (ENABLE_UNIT_TESTS)
+if (WITH_UNIT_TESTS)
   if (NOT PERL_FOUND)
     message (WARNING "Perl not found on the system.  The Perl ``prove'' "
       "command is required for unit testing.")
@@ -92,149 +60,58 @@ else ()
 endif ()
 
 # Source Groups
-#  Root
-set (root_HEADERS include/config.h.in ${CMAKE_BINARY_DIR}/include/config.h include/hummstrummengine.hpp)
-
+set (root_HEADERS include/config.h.in include/hummstrummengine.hpp)
 source_group("Header Files" FILES ${root_HEADERS})
+set(hummstrummengine_SRCS ${root_HEADERS})
 
-#  Core
-set (core_HEADERS include/core/engine.hpp)
-set (core_SRCS src/core/engine.cpp)
+make_source_group ("core" "engine.cpp" "engine.hpp" "")
+make_source_group ("debug" "" "profiler.hpp;utils.hpp" "profiler.inl")
+make_source_group ("debug/logging"
+  "streambuffer.cpp;backend.cpp;manip.cpp"
+  "backend.hpp;level.hpp;manip.hpp;streambuffer.hpp"
+  "backend.inl;manip.inl;streambuffer.inl")
+make_source_group ("events" "windowevents.cpp" "windowevents.hpp" "")
+make_source_group("system"
+  "endianness.cpp"
+  "endianness.hpp;memory.hpp;platform.hpp;processors.hpp"
+  "endianness.inl;memory.inl;platform.inl;processors.inl")
+make_source_group("types" "" "inttypes.hpp" "")
+make_source_group("util" "" "optimizations.hpp;termcolors.hpp" "termcolors.inl")
+make_source_group("window"
+  "windowvisualinfo.cpp"
+  "glext.h;glxext.h;wglext.h;windowsystem.hpp;windowvisualinfo.hpp" "")
 
-source_group("Header Files\\core" FILES ${core_HEADERS})
-source_group("Source Files\\core" FILES ${core_SRCS})
-
-#  Debug
-set (debug_HEADERS
-  include/debug/logging/backend.hpp
-  include/debug/logging/backend.inl
-  include/debug/logging/level.hpp
-  include/debug/logging/manip.hpp
-  include/debug/logging/manip.inl
-  include/debug/logging/streambuffer.hpp
-  include/debug/logging/streambuffer.inl
-  include/debug/profiler.hpp
-  include/debug/profiler.inl
-  include/debug/utils.hpp)
-set (debug_SRCS
-  src/debug/logging/streambuffer.cpp
-  src/debug/logging/backend.cpp
-  src/debug/logging/manip.cpp)
-
-source_group("Header Files\\debug" FILES ${debug_HEADERS})
-source_group("Source Files\\debug" FILES ${debug_SRCS})
-
-#  Events
-set (events_HEADERS include/events/windowevents.hpp)
-set (events_SRCS src/events/windowevents.cpp)
-
-source_group("Header Files\\events" FILES ${events_HEADERS})
-source_group("Source Files\\events" FILES ${events_SRCS})
-
-#  System
-set (system_HEADERS
-  include/system/endianness.hpp
-  include/system/endianness.inl
-  include/system/memory.hpp
-  include/system/memory.inl
-  include/system/platform.hpp
-  include/system/platform.inl
-  include/system/processors.hpp
-  include/system/processors.inl)
-set (system_SRCS  src/system/endianness.cpp)
-
-source_group("Header Files\\system" FILES ${system_HEADERS})
-source_group("Source Files\\system" FILES ${system_SRCS})
-
-#  Types
-set (types_HEADERS include/types/inttypes.hpp)
-
-source_group("Header Files\\types" FILES ${types_HEADERS})
-
-#  Util
-set (util_HEADERS
-  include/util/optimizations.hpp
-  include/util/termcolors.hpp
-  include/util/termcolors.inl)
-
-source_group("Header Files\\util" FILES ${util_HEADERS})
-
-#  Window
-set (window_HEADERS
-  include/window/glext.h
-  include/window/glxext.h
-  include/window/wglext.h
-  include/window/windowsystem.hpp
-  include/window/windowvisualinfo.hpp)
-set (window_SRCS src/window/windowvisualinfo.cpp)
-
-#  Windows-Only Source Files
+# System specific files
 if (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
-  list (APPEND window_SRCS
-        src/system/windows/processors.cpp
-        src/system/windows/memory.cpp
-        src/system/windows/platform.cpp)
-endif (HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
-
-if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
-  list (APPEND window_SRCS
-        src/window/x11/windowsystem.cpp)
-endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
-
-if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
-  list (APPEND window_SRCS
-        src/window/win/windowsystem.cpp)
-endif (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
-
-# POSIX Source Files
-if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
-  list (APPEND window_SRCS
-        src/system/posix/platform.cpp
-        src/system/posix/processors.cpp
-        src/system/posix/memory.cpp)
+  make_source_group("system"
+    "windows/processors.cpp;windows/memory.cpp;windows/platform.cpp" "" "")
 endif ()
 
-# GNU/Linux-only Source Files
+if (HUMMSTRUMM_ENGINE_PLATFORM_POSIX)
+  make_source_group("system" "posix/platform.cpp" "" "")
+  if (NOT HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX AND
+      NOT HUMMSTRUMM_ENGINE_PLATFORM_BSD)
+    make_source_group("system" "posix/processors.cpp;posix/memory.cpp" "" "")
+  endif()
+endif ()
+
 if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
-  # We override the POSIX version.
-  list (REMOVE_ITEM window_SRCS
-        src/system/posix/processors.cpp
-        src/system/posix/memory.cpp)
-  list (APPEND window_SRCS
-        src/system/gnulinux/processors.cpp
-        src/system/gnulinux/memory.cpp)
-endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX)
+  make_source_group("system"
+    "gnulinux/processors.cpp;gnulinux/memory.cpp" "" "")
+endif()
 
-# *BSD-only Source Files
 if (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
-  # We override the POSIX version.
-  list (REMOVE_ITEM window_SRCS
-        src/system/posix/processors.cpp
-        src/system/posix/memory.cpp)
-  list (APPEND window_SRCS
-        src/system/bsd/processors.cpp
-        src/system/bsd/memory.cpp)
-endif (HUMMSTRUMM_ENGINE_PLATFORM_BSD)
+  make_source_group("system" "bsd/processors.cpp;bsd/memory.cpp" "" "")
+endif()
 
-source_group("Header Files\\window" FILES ${window_HEADERS})
-source_group("Source Files\\window" FILES ${window_SRCS})
+# Window System specific files
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
+  make_source_group("window" "x11/windowsystem.cpp" "" "")
+endif()
 
-
-set (hummstrummengine_SRCS
-  ${root_HEADERS}
-  ${util_HEADERS}
-  ${core_HEADERS}
-  ${core_SRCS}
-  ${debug_HEADERS}
-  ${debug_SRCS}
-  ${events_HEADERS}
-  ${events_SRCS}
-  ${system_HEADERS}
-  ${system_SRCS}
-  ${types_HEADERS}
-  ${util_HEADERS}
-  ${window_HEADERS}
-  ${window_SRCS})
+if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS)
+  make_source_group("window" "win/windowsystem.cpp" "" "")
+endif()
 
 # Set include dirs
 set (hummstrummengine_INCLUDE include/
@@ -285,27 +162,8 @@ install (DIRECTORY include/
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS}
          FILES_MATCHING PATTERN "*.h"
                         PATTERN "*.hpp"
-                        PATTERN "*.inl"
-                        REGEX "/*[.]svn" EXCLUDE)
+                        PATTERN "*.inl")
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
-
-set (HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME hummstrummengine-${HUMMSTRUMM_ENGINE_VERSION}.pc)
-
-if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
-  if ($ENV{PKG_CONFIG_PATH})
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
-             DESTINATION $ENV{PKG_CONFIG_PATH})
-  else ()
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
-             DESTINATION lib/pkgconfig)
-    message (STATUS "Be sure to set your $PKG_CONFIG_PATH variable to ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig if pkg-config can't find the Humm and Strumm engine.")
-  endif ($ENV{PKG_CONFIG_PATH})
-endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
-
-
-configure_file (${CMAKE_SOURCE_DIR}/hummstrummengine.pc.in
-                ${CMAKE_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
-                @ONLY)
 
 include (VariableLogging)
