@@ -38,6 +38,7 @@ include (CheckPackages)
 
 include (CppCheck)
 include (CTest)
+include (PkgConfig)
 
 configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
@@ -267,23 +268,5 @@ install (DIRECTORY include/
                         REGEX "/*[.]svn" EXCLUDE)
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
-
-set (HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME hummstrummengine-${HUMMSTRUMM_ENGINE_VERSION}.pc)
-
-if (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
-  if ($ENV{PKG_CONFIG_PATH})
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
-             DESTINATION $ENV{PKG_CONFIG_PATH})
-  else ()
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
-             DESTINATION lib/pkgconfig)
-    message (STATUS "Be sure to set your $PKG_CONFIG_PATH variable to ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig if pkg-config can't find the Humm and Strumm engine.")
-  endif ($ENV{PKG_CONFIG_PATH})
-endif (HUMMSTRUMM_ENGINE_PLATFORM_GNULINUX OR HUMMSTRUMM_ENGINE_PLATFORM_BSD)
-
-
-configure_file (${CMAKE_SOURCE_DIR}/hummstrummengine.pc.in
-                ${CMAKE_BINARY_DIR}/${HUMMSTRUMM_ENGINE_PKGCONFIG_FILENAME}
-                @ONLY)
 
 include (VariableLogging)
