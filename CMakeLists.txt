@@ -39,30 +39,6 @@ include (CheckPackages)
 include (CppCheck)
 include (CTest)
 
-# Test for SIMD
-set (HUMMSTRUMM_ENGINE_USE_SSE ON CACHE BOOL
-     "Whether to build the engine with SSE support or not.")
-set (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT OFF)
-
-if (HUMMSTRUMM_ENGINE_USE_SSE)
-  try_run (RUN_RESULT_VAR COMPILE_RESULT_VAR
-           ${CMAKE_BINARY_DIR}
-           ${CMAKE_CURRENT_SOURCE_DIR}/cmake/system/detectSSE.c
-           CMAKE_FLAGS
-           COMPILE_DEFINITIONS ${HUMMSTRUMM_ENGINE_REQUIRED_DEFINITIONS}
-           COMPILE_OUTPUT_VARIABLE COMPILE_OUTPUT_VAR)
-  #message (STATUS ${COMPILE_OUTPUT_VAR})
-  if (${RUN_RESULT_VAR})
-    set (HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT ON)
-    set (HUMMSTRUMM_ENGINE_DOXYGEN_MACROS "${HUMMSTRUMM_ENGINE_DOXYGEN_MACROS} HUMMSTRUMM_ENGINE_HAVE_SSE_SUPPORT=")
-    if (HUMMSTRUMM_ENGINE_COMPILER_CLANG OR HUMMSTRUMM_ENGINE_COMPILER_GCC)
-      add_definitions("-msse")
-#      add_definitions("-msse4.1")
-#      add_definitions("-msse4.2")
-    endif ()
-  endif (${RUN_RESULT_VAR})
-endif (HUMMSTRUMM_ENGINE_USE_SSE)
-
 configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
 
