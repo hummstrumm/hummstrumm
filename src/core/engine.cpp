@@ -18,11 +18,7 @@
 
 #include "hummstrummengine.hpp"
 
-#if defined(HAVE_TR1_MEMORY)
-#include <tr1/memory> // This will change when we switch to C++11.
-#elif defined(HAVE_MEMORY)
 #include <memory>
-#endif
 #include <iostream>
 
 using namespace hummstrummengine;
