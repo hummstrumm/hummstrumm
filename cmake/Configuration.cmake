@@ -17,5 +17,4 @@
 # Configuration.cmake -- Flags that the user can turn on or off.
 
 
-set (WITH_UNIT_TESTS ON CACHE BOOL
-  "Build unit tests?")
+set (WITH_UNIT_TESTS ON CACHE BOOL "Build unit tests?")
