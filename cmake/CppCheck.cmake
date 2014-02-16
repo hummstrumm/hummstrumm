@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # CppCheck.cmake -- Add a target to run cppcheck on the source code if
-# ENABLE_CPPCHECK is true.
+# WITH_CPPCHECK is true.
 
-if (ENABLE_CPPCHECK)
+if (WITH_CPPCHECK)
   # The command to run cppcheck is stored in CPPCHECK_COMMAND.  See
   # ``CheckPackages.cmake'' for its definition.
 
@@ -28,7 +28,7 @@ if (ENABLE_CPPCHECK)
   endif()
 
   add_custom_target(cppcheck
-    COMMAND ${CPPCHECK_COMMAND} ${output_template}
-    --enable=style,performance,portability
-    ${CMAKE_SOURCE_DIR}/src)
+    COMMAND ${CPPCHECK_EXECUTABLE} ${output_template}
+    "--enable=style,performance,portability" ${CPPCHECK_QUIET_ARG}
+    ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/tests)
 endif ()
