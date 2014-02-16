@@ -188,5 +188,3 @@ detected configuration.
   * **dist**: Create distribution packages for the engine.
   * **tag-release**: Tag a release in your local Git repository.
     Requires your PGP public key and Git.
-  * **dist-upload**: Upload distribution files to Google Code.
-    Requires an access to the project's Google Code page.
