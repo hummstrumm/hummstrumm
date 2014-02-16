@@ -24,7 +24,7 @@ message (STATUS "Checking that compiler supports C++11")
 
 check_cxx_source_compiles ("#if __cplusplus < 201103L\n#error C++11 not supported\n#endif int main() { return 0; }\n" check_cpp11_compiles_with_no_flags)
 
-if (check_cpp11_no_flags OR MSVC_VERSION GREATER 1699)
+if (check_cpp11_no_flags OR MSVC_VERSION GREATER 1799)
   set (HUMMSTRUMM_ENGINE_HAVE_CPP11_SUPPORT ON)
   message (STATUS "Checking that compiler supports C++11 - supported")
 else ()
