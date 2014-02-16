@@ -1,5 +1,5 @@
 # Humm and Strumm Engine
-# Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+# Copyright (C) 2008-2014, the people listed in the AUTHORS file. 
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,17 +19,9 @@
 
 include (CPackSetup)
 
-include (MakeChangeLog)
-
 # TARGET: dist
 # Create the specified distributable packages.
-add_custom_target(dist
-  COMMAND ${CMAKE_COMMAND} -E copy
-    ${hummstrummengine_BINARY_DIR}/ChangeLog
-    ${hummstrummengine_SOURCE_DIR}/ChangeLog
-  COMMAND ${CMAKE_MAKE_PROGRAM} package_source
-  COMMAND ${CMAKE_COMMAND} -E remove ${hummstrummengine_SOURCE_DIR}/ChangeLog)
-add_dependencies (dist changelog)
+add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 set_property (DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
   ${hummstrummengine_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.tar.gz
   ${hummstrummengine_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME}.zip)

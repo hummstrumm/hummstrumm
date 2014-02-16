@@ -132,9 +132,7 @@ software.
 
 ## Release Notes
 The file `NEWS` contains important changes that may affect the user of
-the software.  To see individual changes, build the `changelog` target
-to generate a ChangeLog file (this requires both Git and Perl to be
-installed).
+the software.
 
 ## Credits
 Please see the files `AUTHORS` and `THANKS` for all the people that

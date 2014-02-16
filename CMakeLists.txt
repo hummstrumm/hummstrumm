@@ -30,7 +30,6 @@ include (Version)
 include (Configuration)
 include (CompilerChecks)
 include (Defaults)
-include (CheckClone)
 include (Platform)
 include (Uninstall)
 
