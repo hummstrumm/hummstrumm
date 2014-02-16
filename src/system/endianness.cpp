@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file. 
+ * Copyright (C) 2008-2012, 2014, the people listed in the AUTHORS file. 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 
 #include "hummstrummengine.hpp"
 
+#include <cstdint>
+
 namespace hummstrummengine {
 namespace system {
 
@@ -27,8 +29,8 @@ Endianness::Endianness ()
   // These two have the same memory.
   union
   {
-      hummstrummengine::types::uint32 value32;
-      unsigned char                     values8[4];
+      std::uint32_t value32;
+      std::uint8_t  values8[4];
   };
 
   // Set all but the last byte to 1.
@@ -48,8 +50,8 @@ Endianness::Endianness ()
 
 
 template <>
-hummstrummengine::types::uint16
-Endianness::SwitchEndian (const hummstrummengine::types::uint16 memory)
+std::uint16_t
+Endianness::SwitchEndian (std::uint16_t memory)
   const /* noexcept */
 {
   return (((memory >> 8)) | (memory << 8));
@@ -57,8 +59,8 @@ Endianness::SwitchEndian (const hummstrummengine::types::uint16 memory)
 
 
 template <>
-hummstrummengine::types::int16
-Endianness::SwitchEndian (const hummstrummengine::types::int16 memory)
+std::int16_t
+Endianness::SwitchEndian (std::int16_t memory)
   const /* noexcept */
 {
     return (((memory >> 8)) | (memory << 8));
@@ -66,8 +68,8 @@ Endianness::SwitchEndian (const hummstrummengine::types::int16 memory)
 
 
 template <>
-hummstrummengine::types::uint32
-Endianness::SwitchEndian (const hummstrummengine::types::uint32 memory)
+std::uint32_t
+Endianness::SwitchEndian (std::uint32_t memory)
   const /* noexcept */
 {
   return (((memory & 0x000000FF) << 24) |
@@ -78,8 +80,8 @@ Endianness::SwitchEndian (const hummstrummengine::types::uint32 memory)
 
 
 template <>
-hummstrummengine::types::int32
-Endianness::SwitchEndian (const hummstrummengine::types::int32 memory)
+std::int32_t
+Endianness::SwitchEndian (std::int32_t memory)
   const /* noexcept */
 {
   return (((memory & 0x000000FF) << 24) |
@@ -90,8 +92,8 @@ Endianness::SwitchEndian (const hummstrummengine::types::int32 memory)
 
 
 template <>
-hummstrummengine::types::uint64
-Endianness::SwitchEndian (const hummstrummengine::types::uint64 memory)
+std::uint64_t
+Endianness::SwitchEndian (std::uint64_t memory)
   const /* noexcept */
 {
   return (((memory & 0xFF00000000000000) << 56) |
@@ -106,8 +108,8 @@ Endianness::SwitchEndian (const hummstrummengine::types::uint64 memory)
 
 
 template <>
-hummstrummengine::types::int64
-Endianness::SwitchEndian (const hummstrummengine::types::int64 memory)
+std::int64_t
+Endianness::SwitchEndian (std::int64_t memory)
   const /* noexcept */
 {
   return (((memory & 0xFF00000000000000) << 56) |

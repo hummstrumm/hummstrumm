@@ -75,7 +75,6 @@ make_source_group("system"
   "endianness.cpp"
   "endianness.hpp;memory.hpp;platform.hpp;processors.hpp"
   "endianness.inl;memory.inl;platform.inl;processors.inl")
-make_source_group("types" "" "inttypes.hpp" "")
 make_source_group("util" "" "optimizations.hpp;termcolors.hpp" "termcolors.inl")
 make_source_group("window"
   "windowvisualinfo.cpp"

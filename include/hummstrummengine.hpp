@@ -1,6 +1,6 @@
 // -*- mode: c++; c-file-style: hummstrumm -*-
 /* Humm and Strumm Engine
- * Copyright (C) 2008-2012, the people listed in the AUTHORS file.
+ * Copyright (C) 2008-2012, 2014, the people listed in the AUTHORS file.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -181,17 +181,6 @@ class Memory;
 }
 
 /**
- * The namespace for the basic type classes of the game engine.  This
- * namespace contains type wrapper classes to integrate basic C++ types
- * with the Object/Type system, extended types based on the basic types,
- * and measure types, that support units.
- */
-namespace types
-{
-typedef std::string String;
-}
-
-/**
  * The namespace for input/output streams.  This namespace contains memory,
  * terminal, file, string, and null streams buffers and stream classes.
  */
@@ -248,7 +237,6 @@ class WindowSystem;
   while (0)
 #endif // #ifdef HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS
 
-#include "types/inttypes.hpp"
 #include "debug/utils.hpp"
 #include "util/optimizations.hpp"
 #include "util/termcolors.hpp"
