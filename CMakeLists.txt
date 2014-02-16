@@ -264,8 +264,7 @@ install (DIRECTORY include/
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS}
          FILES_MATCHING PATTERN "*.h"
                         PATTERN "*.hpp"
-                        PATTERN "*.inl"
-                        REGEX "/*[.]svn" EXCLUDE)
+                        PATTERN "*.inl")
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/include/config.h
          DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_HEADERS})
 
