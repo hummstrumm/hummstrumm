@@ -19,6 +19,8 @@
 #ifndef HUMMSTRUMM_ENGINE_WINDOW_SYSTEM
 #define HUMMSTRUMM_ENGINE_WINDOW_SYSTEM
 
+#include <string>
+
 #ifdef HUMMSTRUMM_ENGINE_WINDOWSYSTEM_WINDOWS
 #include <windows.h>
 #include <queue>
@@ -336,8 +338,7 @@ class WindowSystem
      *
      * @return The description of the error code.
      */
-    hummstrummengine::types::String GetErrorMessage(hummstrummengine::types::String premsg,
-      DWORD code);
+    std::string GetErrorMessage(std::string premsg, DWORD code);
      
     /**
      * Process messages sent to the window.
