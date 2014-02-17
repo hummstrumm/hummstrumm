@@ -33,25 +33,41 @@ BackgroundImpl::BackgroundImpl(Color c)
   : newColor{c}
 {}
 
+#ifndef _WIN32
 template <typename CharT, class Traits>
 std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& out, const ForegroundImpl& c)
 {
-#ifndef _WIN32
   out << "\033[" << 30 + static_cast<int>(c.newColor) << 'm';
-#endif
   return out;
 }
+#else
+// noop
+template <typename CharT, class Traits>
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& out, const ForegroundImpl&)
+{
+  return out;
+}
+#endif
 
+#ifndef _WIN32
 template <typename CharT, class Traits>
 std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& out, const BackgroundImpl& c)
 {
-#ifndef _WIN32
   out << "\033[" << 40 + static_cast<int>(c.newColor) << 'm';
-#endif
   return out;
 }
+#else
+// noop
+template <typename CharT, class Traits>
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& out, const BackgroundImpl&)
+{
+  return out;
+}
+#endif
 
 }
 
