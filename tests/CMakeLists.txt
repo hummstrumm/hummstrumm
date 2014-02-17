@@ -21,9 +21,11 @@ endif ()
 set (hummstrummengine_INCLUDE ../include/
   ${hummstrummengine_BINARY_DIR}/include
   ${OPENGL_INCLUDE_DIR}
-  ${EIGEN3_INCLUDE_DIR})
+  ${EIGEN3_INCLUDE_DIR}
+  ${TBB_INCLUDE_DIRS})
 set (hummstrummengine_LIBS hummstrummengine
-  ${OPENGL_LIBRARIES})
+  ${OPENGL_LIBRARIES}
+  ${TBB_LIBRARIES})
 if (HUMMSTRUMM_ENGINE_REGEX_USE_BOOST)
   list (APPEND hummstrummengine_LIBS ${Boost_LIBRARIES})
 endif ()

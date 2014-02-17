@@ -117,7 +117,8 @@ set (hummstrummengine_INCLUDE include/
                               lib/
                               ${CMAKE_CURRENT_BINARY_DIR}/include/
                               ${OPENGL_INCLUDE_DIR}
-                              ${EIGEN3_INCLUDE_DIR})
+                              ${EIGEN3_INCLUDE_DIR}
+			      ${TBB_INCLUDE_DIRS})
 
 include_directories (${hummstrummengine_INCLUDE})
 if (HUMMSTRUMM_ENGINE_WINDOWSYSTEM_X11)
