@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-if (NOT IS_BUILDING_UNIT_TESTS)
+if (NOT WITH_UNIT_TESTS)
   return ()
 endif ()
 
@@ -54,9 +54,6 @@ include_directories (${CIPRA_INCLUDE_DIR})
 #  include_directories (${X11_X11_INCLUDE_PATH})
 #endif (HUMMSTRUMM_WINDOWSYSTEM_X11)
 
-# Find prove's path.  Because Perl is installed, it should be easy.
-find_program(PROVE_COMMAND prove)
-
 # Wraps up the machinery needed to add a test that uses TAP output
 # (like a cipra unit test).
 function(tap_test file_path)
@@ -64,9 +61,9 @@ function(tap_test file_path)
   get_filename_component(test_name ${file_path_no_dirs} NAME_WE)
   add_executable("test_${test_name}" ${file_path})
   target_link_libraries("test_${test_name}" ${hummstrummengine_LIBS})
-  add_test(NAME "test_${test_name}"
-    COMMAND ${PROVE_COMMAND} -vo --trap --normalize
-    $<TARGET_FILE:test_${test_name}>)
+  add_test(test_${test_name} test_${test_name})
+  set_tests_properties(test_${test_name} PROPERTIES
+    FAIL_REGULAR_EXPRESSIONS "not ok")
 endfunction()
 
 

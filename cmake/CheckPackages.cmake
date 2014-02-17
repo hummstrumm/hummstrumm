@@ -46,12 +46,6 @@ endif ()
 # Look for Intel TBB
 find_package(TBB REQUIRED)
 
-# Find Perl 5
-find_package (Perl 5)
-if (PERL_FOUND)
-  message (STATUS "Found Perl 5: ${PERL_EXECUTABLE}")
-endif ()
-
 # Find Git
 find_package (Git)
 

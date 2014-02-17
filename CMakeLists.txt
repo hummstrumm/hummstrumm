@@ -46,17 +46,8 @@ configure_file (${CMAKE_SOURCE_DIR}/include/config.h.in
                 ${CMAKE_BINARY_DIR}/include/config.h @ONLY)
 
 if (WITH_UNIT_TESTS)
-  if (NOT PERL_FOUND)
-    message (WARNING "Perl not found on the system.  The Perl ``prove'' "
-      "command is required for unit testing.")
-    set (IS_BUILDING_UNIT_TESTS OFF)
-  else ()
-    set (IS_BUILDING_UNIT_TESTS ON)
-    enable_testing ()
-    add_subdirectory (tests)
-  endif ()
-else ()
-  set (IS_BUILDING_UNIT_TESTS ON)
+  enable_testing ()
+  add_subdirectory (tests)
 endif ()
 
 # Source Groups
