@@ -4,187 +4,84 @@ To the extent possible under law, the people who associated CC0 with
 this file have waived all copyright and related or neighboring rights
 to this file.
 
-The Humm and Strumm Engine is a Free Software multithreaded 3D game
-engine written in the C++11 programming language.  The engine was
-developed under both GNU/Linux and Windows and has tested support for
-FreeBSD, but should be portable to any other POSIX system with OpenGL
-and X11 support.  The engine has only been tested on x86 and x86_64
-processors.
+_This guide assumes you are using the command line CMake tool and a
+make-style build tool (GNU make, BSD make, or Microsoft nmake)._
 
-Due to the cross-platform nature of the Humm and Strumm Engine, a
-cross-platform solution similar to the GNU Autotools was chosen:
-CMake.  CMake allows you to use your favorite IDE to build the
-engine, or to take a traditional approach using GNU `make` or your
-system's equivalent.  In terms of Autotools, CMake replaces the
-`./configure` script, detecting your system's environment and
-configuring the software to build and run most effectively.  CMake is
-available freely at [the CMake website][cmake-website].
+Once you've downloaded a release tarball from our website or cloned
+from our git repository, you can use the following guide to build and
+install the engine.
 
-Because of the wide varieties of platforms that CMake can target, we
-are going to assume that you are building the engine for `make`
-program (GNU make, BSD make, Microsoft nmake, etc) from a terminal.
-We will assume that you can build from your IDE once the project file
-is configured.
+## Prerequisites
 
-[cmake-website]: http://www.cmake.org/
+In order to build the engine, you will need:
 
-## Clone or Unpack the Engine Source Code
+  * A C++11 compiler. We test the engine on MSVC 2013, GCC 4.8.2,
+    Clang 3.3, and Clang 3.4. Any other compiler that supports C++11
+    fully enough should work as well.
+  * CMake 2.8 or later Build System
+  * Eigen 3 Linear Algebra Library
+  * Boost 1.33.0 or later Portable C++ Libraries
+  * Intel TBB 4.2
 
-If you have not done so yet, fetch the source code release that you
-will use to build.  The official release tarball or zip file can be
-found on [our download page][download-page].  Unpack the archive (on a
-POSIX system, you can do that by running the command
-`tar xvzf hummstrummengine-xx.xx.xx.tar.gz`, where the `xx.xx.xx` is
-replaced with the proper version information).
+To build and run unit tests, you will also need:
 
-You can alternatively clone the project's Git repository.  You will
-need to have a Git client installed on your system to do this.  If you
-are using the Git command line client, you can clone the repository
-into a new directory called `hummstrummengine` with the following
-command:
+  * cipra 1.x Unit Testing Framework
 
-    $ git clone http://code.google.com/p/hummstrumm/ hummstrummengine
+To build API documentation, you will need:
 
-If you use a different client, check its documentation for the proper
-way to clone the repository.
+  * Doxygen 1.8.2 or later
+  * LaTeX (optional)
 
-[download-page]: http://code.google.com/p/hummstrumm/wiki/Installation
+## Quickstart
 
-## Configuring the Engine
+The following series of commands will build and install the engine,
+assuming your current working directory is the root of the source
+tree.
 
-Once you have acquired the engine source, you can begin to configure
-the engine.
+### With make
 
-Open a terminal, and change directories into the `build` directory in
-the source tree you just created.
-
-    $ cd hummstrummengine/build
-
-This directory will contain all files that are generated during both
-the configuration and the build.  It is safe to delete the files in
-this directory at any time to reset your build environment to a clean,
-pre-configuration state.
-
-    $ rm -rf *
-
-The basic command for configuring the Humm and Strumm Engine to build
-on your system is by running
-
-    $ cmake ..
-
-This will generate build files for the default build program on your
-system.  On POSIX systems, this tends to be equivalent of `make`.  On
-Windows systems, this will likely be your IDE.  Usually, this is what
-you want.  If you want to select a different build program (in CMake
-terminology, that's a different *Generator*), you can use the `-G`
-flag, as follows:
-
-    $ cmake -G "generator_name" ..
-
-If you want to follow along with the rest of the tutorial, make sure
-that your generator is set to one compatible with standard `make`
-(ex., Unix Makefiles or NMake Makefiles).  To see a list of available
-generators on your system, type
-
-    $ cmake -h
-
-If you get any errors, make sure your dependencies are installed
-properly, or ask for help from a developer (see the README file for
-details).
-
-## Advanced Configuration
-
-The above instructions will select the default configuration flags for
-the engine.  If you want to have more control, you can set the values
-of these flags manually by adding `-D` command line flags to the above
-commands.
-
-    $ cmake -Dflag_name=value [ -Dflag_name2=value2  [ ... ] ] ..
-
-The Humm and Strumm Engine build system currently supports the
-following flags:
-
-  * **`ENABLE_UNIT_TESTS`**: *(default: ON)* Whether to build the unit
-    tests for engine components.  This is a good way to verify that
-    the engine functions properly on your system, but can take a while
-    to compile and to complete.
-  * **`ENABLE_BOOST_REGEX`**: *(default: OFF)* Whether to prefer the
-    Boost::regex library over the standard C++11 `<regex>` header from
-    your compiler.  Note that some compilers (GCC and many Clang
-    installations) have a broken `<regex>` implementation.  Even if
-    this flag is not set, the build system will fall back to
-    Boost::regex for such broken implementations.
-
-CMake also provides some standard flags.  Here are some important
-ones:
-
-  * **`CMAKE_INSTALL_PREFIX`**: Where to install the engine.  On POSIX
-      systems, this tends to be `/usr/local` by default.  On Windows,
-      it is a directory within your `Program Files`.
-  * **`CMAKE_BUILD_TYPE`**: The build configuration to use if building
-      from a generator that does not support changing them.  Possible
-      configurations are *Debug*, *Release*, *MinSizeRel*, and
-      *RelWithDebInfo*.  IDEs often support changing these on the
-      fly.
-  * **`CMAKE_C_COMPILER`** and **`CMAKE_CXX_COMPILER`**: The path to
-      the compiler you wish to use.
-
-To see all standard flags, run the command
-
-    $ cmake --help-variable-list
-
-Additionally, some modules provide additional flags that you can set
-to aid CMake in finding dependencies installed in a non-standard
-path.  The build system will list these if a dependency cannot be
-found.
-
-## Alternative CMake Interfaces
-
-The `cmake` command interface is not the only interface that CMake
-provides.  Depending on your system, you may have additional options
-available to you.  We will briefly go over them here.  Consult
-appropriate documentation for a comprehensive set of instructions for
-using them.
-
-The `cmake` command has an interactive mode which will prompt you for
-all flags that the Humm and Strumm Engine build system recognizes.  To
-invoke this mode, use the command
-
-    $ cmake -i ..
-
-in your `build/` directory.
-
-Some systems have an ncurses interface to CMake, available by typing
-
-    $ ccmake ..
-
-On systems that support the Qt GUI library (such as Microsoft Windows
-or GNU/Linux), you may also have a true GUI interface that is similar
-to the `ccmake` ncurses interface.  You can either start this from
-your desktop environment or by running
-
-    $ cmake-gui ..
-
-in a shell in your `build/` directory.
-
-## Building with GNU Make (or similar software)
-
-Once you have generated the configuration for the engine, you can
-build the engine by running your `make` program (replace the following
-command with the proper executable).
-
+    $ cd build/
+    $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/in/ ..
     $ make
+    $ make test # to run unit tests (optional)
+    $ sudo make install
 
-Generated Makefiles support the following special targets.  Not all of
-these targets may be available on your system, depending on your
-detected configuration.
+### With nmake
 
-  * **help**: List all available targets.
-  * **test**: Run automated tests if they have been enabled.
-  * **install**: Install the engine to the configured directory.  May
-    make sure you have the appropriate permissions.
-  * **uninstall**: Remove installed components.  Note that this will
-    not remove all created directories.
-  * **dist**: Create distribution packages for the engine.
-  * **tag-release**: Tag a release in your local Git repository.
-    Requires your PGP public key and Git.
+    $ CD build/
+    $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/install/in -G"NMake Makefiles" ..
+    $ nmake
+    $ nmake test REM to run unit tests (optional)
+    $ make install
+
+## Makefile targets
+
+  * `all` (default): Builds the engine, and accompanying unit tests if
+    `WITH_UNIT_TESTS` is enabled.
+  * `test`: Runs the unit tests after they have been built if
+    `WITH_UNIT_TESTS` is enabled.
+  * `doc`: Builds the doxygen documentation.
+  * `cppcheck`: Runs cppcheck on the source code.
+  * `install`: Installs the engine to your system.
+  * `uninstall`: Uninstalls the engine from your system.  Due to the
+    way CMake works, we may leave a few empty directories behind.
+
+## Optional Flags
+
+When running the `cmake` command above, you can add additional flags
+to the command line that will configure how the engine is built.  We
+support the following flags to cmake:
+
+  * `WITH_UNIT_TESTS` (default = `ON`): Builds the accompanying unit
+    tests and allows you to run them.  Turn them off if you don't want
+    to install cipra.
+  * `WITH_CPPCHECK` (default = `OFF`): Adds a target `cppcheck` that
+    allows you to run our source code through the cppcheck tool.
+  * `CMAKE_INSTALL_PREFIX` (default is system dependent): Specifies
+    the path to install the engine to.
+  * `CMAKE_BUILD_TYPE` (default = `RelWithDebInfo`): Controls what
+    compiler flags will be used when building the engine. One of
+    `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`.
+
+To use one of these flags, add the string `-Dflagname=value` to the
+`cmake` command when you run it.

@@ -4,30 +4,14 @@ To the extent possible under law, the people who associated CC0 with
 this file have waived all copyright and related or neighboring rights
 to this file.
 
-## Contributors
-The Humm and Strumm Engine was written those listed in the `AUTHORS`
-file.  Many people further contributed to the engine by reporting
-problems, suggesting various improvements or submitting actual code.
-Here is a list of these people.
+## Thanks
+In addition to our development team, we would like to thank the
+following people or groups for their contributions to the Humm and
+Strumm Project:
 
-  * **Person name `<Person email>`**: Contribution detail.
+  * untitaker (Markus Unterwaditzer) for packaging us in the AUR
+  * gallaecio (Adrian Chaves Fernandez) for packaging us in the Chakra Project
+  * Sourceforge for providing our project hosting
 
-## Special Thanks
-
-In addition to the above people who made direct contributions to the
-engine source code, we would like to thank the developers and
-contributors of the libraries we use.  Without their free software, we
-would not be able to complete this engine.  You can find a list of the
-libraries in the lib/ subdirectory.
-
-We would also like to thank Google for so generously providing the
-following services free of charge for us to use:
-
-  * Google  Code
-  * Google  Groups
-  * Google  Calendar
-  * Blogger
-  * Google  Sites
-
-Without these services from Google, the Humm and Strumm Engine would
-not exist.
+If you would like to help out, either has a developer or otherwise,
+please get in touch with us.
