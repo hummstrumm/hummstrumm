@@ -1,6 +1,0 @@
-[submodule "lib/term-colors"]
-	path = lib/term-colors
-	url = git://gitorious.org/patrickniedzielski/term-colors.git
-[submodule "lib/cipra"]
-	path = lib/cipra
-	url = git://gitorious.org/patrickniedzielski/cipra.git
