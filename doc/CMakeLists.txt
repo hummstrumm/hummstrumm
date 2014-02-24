@@ -14,12 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-find_package (Doxygen)
-if (DOXYGEN_FOUND)
+if (WITH_DOXYGEN)
   configure_file (${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
                   ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
 
-  add_custom_target (doc
+  add_custom_target (doc ALL
                      ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                      COMMENT "Generating API documentation with Doxygen"
@@ -36,6 +35,4 @@ if (DOXYGEN_FOUND)
   install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html
            DESTINATION ${HUMMSTRUMM_ENGINE_INSTALL_DOC}
            OPTIONAL)
-else ()
-  message (STATUS "If you want to build API documentation for the engine, install Doxygen")
-endif (DOXYGEN_FOUND)
+endif ()

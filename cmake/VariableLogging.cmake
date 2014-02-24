@@ -45,8 +45,8 @@ if (WITH_UNIT_TESTS)
 endif ()
 
 # Are we generating documentation?
-if (HUMMSTRUMM_ENGINE_BUILD_DOCS)
-  message ("  * HTML documentation")
+if (WITH_DOXYGEN)
+  message ("  * API documentation")
 endif ()
 
 if (WITH_CPPCHECK)

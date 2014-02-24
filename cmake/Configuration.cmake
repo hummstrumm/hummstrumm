@@ -20,3 +20,5 @@
 set (WITH_UNIT_TESTS ON CACHE BOOL "Build unit tests?")
 
 set (WITH_CPPCHECK OFF CACHE BOOL "Run source checks with CppCheck?")
+
+set (WITH_DOXYGEN ON CACHE BOOL "Build doxygen documentation?")

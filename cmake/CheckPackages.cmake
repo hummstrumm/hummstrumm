@@ -22,6 +22,10 @@ if (WITH_UNIT_TESTS)
   find_package(cipra 1.2.1 REQUIRED)
 endif ()
 
+if (WITH_DOXYGEN)
+  find_package (Doxygen REQUIRED)
+endif ()
+
 # Look for Boost
 if(HUMMSTRUMM_ENGINE_PLATFORM_WINDOWS)
   set(Boost_USE_STATIC_LIBS ON)
