@@ -23,13 +23,6 @@ if (WITH_DOXYGEN)
                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                      COMMENT "Generating API documentation with Doxygen"
                      VERBATIM)
-  add_custom_command (TARGET doc
-                      POST_BUILD
-                      COMMAND ${CMAKE_COMMAND}
-                      ARGS -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/images
-                           ${CMAKE_CURRENT_BINARY_DIR}/html/images
-                      COMMENT "Copying images to html/images"
-                      VERBATIM)
 
   # Install documentation, if it is made.
   install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html
