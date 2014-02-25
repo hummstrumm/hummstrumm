@@ -266,7 +266,7 @@ SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
 # Configuration options related to external references
 #---------------------------------------------------------------------------
-TAGFILES               = "@CMAKE_CURRENT_SOURCE_DIR@/libstdc++.tag = http://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen"
+TAGFILES               = 
 GENERATE_TAGFILE       =
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = NO
