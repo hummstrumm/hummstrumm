@@ -25,3 +25,20 @@ This documentation is intended to give a comprehensive specification for the
 Humm and Strumm Engine's API.  It is not suited to learning how to use that API
 from the ground up.  It should instead be used as a reference for the behavior
 of each part of the API.
+
+# Additional Resources                                      {#links}
+In addition to this API documentation, you may find the following documentation
+resources useful as well:
+
+  * [C++ Coding Standards for the Humm and Strumm Project](http://sourceforge.net/p/hummstrumm/wiki/C%2B%2B%20Coding%20Standards/)
+
+The following external links to project resources may be useful as well.
+
+  * [Project Home](http://hummstrumm.sourceforge.net/)
+  - [Mailing Lists](http://sourceforge.net/p/hummstrumm/mailman/)
+  - [IRC Channel](https://webchat.freenode.net/?channels=hummstrumm)
+  - [Nightly Build Dashboard](http://hummstrumm.sourceforge.net/cdash/)
+  - [Development Wiki](http://sourceforge.net/p/hummstrumm/wiki/)
+  - [Git Repository](http://sourceforge.net/p/hummstrumm/code/)
+  - [Issue Tracker](http://sourceforge.net/p/hummstrumm/tickets/)
+  - [Sourceforge Project](http://sourceforge.net/projects/hummstrumm/)
