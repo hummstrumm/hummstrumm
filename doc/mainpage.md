@@ -26,6 +26,10 @@ Humm and Strumm Engine's API.  It is not suited to learning how to use that API
 from the ground up.  It should instead be used as a reference for the behavior
 of each part of the API.
 
+A list of conventions that are used in this documentation can be found on the
+@ref conventions page.  It is recommended that you read that page before
+continuing on.
+
 # Additional Resources                                      {#links}
 In addition to this API documentation, you may find the following documentation
 resources useful as well:
